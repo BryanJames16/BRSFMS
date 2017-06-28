@@ -42,7 +42,7 @@
 @endsection
 
 @section('modal-form-body')
-	{!!Form::open(['url'=>'/service-type/store', 'method' => 'POST', 'id' => 'frm-add'])!!}
+	{!!Form::open(['id' => 'frm-add'])!!}
 
 	@if (count($errors) > 0)
 	    <div class="alert alert-danger">
@@ -63,7 +63,7 @@
 	<div ng-controller="serviceTypeController">
 		<div class="form-group row">
 			<label class="col-md-3 label-control" for="eventRegInput1">*Names</label>
-			<label>[[service.typename]]</label>
+			<!-- <label>[[service.typename]]</label> -->
 			<div class="col-md-9">
 				{!! Form::text('typeName', null, ['id' => 'name', 
 													'class' => 'form-control', 
@@ -114,6 +114,37 @@
 		</div>
 	</div>
 
+	<script>
+		$('#frm-add').submit(function(event) {
+			$.ajax({
+				//url: "/service-type/store",
+				type: "post",
+				data: $('frm-add').serialize(), 
+				dataType: 'json',
+				success: function ( _response ){
+					swal("Successful", 
+							"Service type has been added!", 
+							"success");
+					console.log("Success");
+					event.preventDefault();
+				}, 
+				error: function(xhr, status, error) {
+					var err = eval("(" + xhr.responseText + ")");
+					swal("ERROR", 
+							"Error has been caught:\n" + err.Message, 
+							"error");
+					console.log("Error found: " + err.Message);
+					event.preventDefault();
+				}
+			})
+			.done(function( _data ) {
+				console.log(data);
+				event.preventDefault();
+			});
+
+			event.preventDefault();
+		});
+	</script>
 @endsection
 
 @section('modal-form-action')
@@ -124,7 +155,13 @@
 @endsection
 
 @section('modal-controller')
-	
+	<script>
+		var app = angular.module("maintenanceApp", []);
+		app.controller("serviceTypeController", ["$scope", function($scope) {
+			
+		}]);
+		
+	</script>
 @endsection
 
 @section('table-head-list')

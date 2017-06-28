@@ -40,8 +40,8 @@ class ServiceTypeController extends Controller
                                                'status'=>$stat]);
 
 
-            return back();
-        }
+        return back();
+    }
 
     public function getEdit(Request $r) {
         

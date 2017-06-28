@@ -29,7 +29,7 @@
 
 		<!-- Site icon tags -->
 		<link rel="shortcut icon" type="image/x-icon" href="{{ URL::asset('/system-assets/ico/favicon.ico') }}" />
-		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/facivon-32.png') }}" />
+		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/favicon-32.png') }}" />
 
 		<!-- Apple Devices META tags -->
 		<meta name="apple-mobile-web-app-capable" content="yes" />
