@@ -1,0 +1,364 @@
+<!-- Parent Template -->
+@extends('master.base_maintenance')
+
+<!-- Title of the Page -->
+@section('title')
+	Document
+@endsection
+
+<!-- Set All JavaScript Settings -->
+@section('js-setting')
+
+	<!-- Set the Selected Tab in Navbar -->
+	<script type="text/javascript">
+		setSelectedTab(DOCUMENT);
+	</script>
+@endsection
+
+<!-- Adds the Content to the Main Page -->
+@section('inside-content-header')
+	<h2 class="content-header-title">Document</h2>
+@endsection
+
+
+	
+@section('inside-breadcrumb')
+	<li class="breadcrumb-item">Document</li>
+	<li class="breadcrumb-item"><a href="#">Document</a></li>
+@endsection
+
+@section('main-card-title')
+	Document
+@endsection
+
+@section('modal-card-title')
+	Add Document
+@endsection
+
+@section('modal-card-desc')
+	Name of the Document.
+@endsection
+
+@section('modal-form-body')
+	{!!Form::open(['url'=>'document/store', 'method' => 'POST', 'id' => 'frm-add'])!!}
+	{{ csrf_field() }}
+	
+	@if (count($errors) > 0)
+	    <div class="alert alert-danger">
+	        <ul>
+	            @foreach ($errors->all() as $error)
+	                <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	    </div>
+
+	    <script type="text/javascript">
+	    	$(document).ready(function () {
+		        $('#iconModal').modal('show');
+		    });
+	    </script>
+	@endif
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
+		<div class="col-md-9">
+			{!!Form::text('documentID',null,['id'=>'id','class'=>'form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required','minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('documentName',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required','minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+		<div class="col-md-9">
+			{!!Form::text('desc',null,['id'=>'desc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
+		<div class="col-md-9">
+			<select class ='form-control border-info selectBox' name='type'>
+				<option value='Legal Document'>Legal Document</option>
+				<option value='Clearance'>Clearance</option>
+				<option value='Certification'>Certification</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
+		<div class="col-md-9">
+			{!!Form::number('documentPrice',null,['id'=>'price','class'=>'form-control', 'maxlength'=>'10', 'minlength'=>'1', 'step'=>'0.01'])!!}
+		</div>	
+	</div>
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" value="active" name="stat" checked="" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" value="inactive" name="stat"  class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('modal-form-action')
+<input type="submit" class="btn btn-success" value="Add" name="btnAdd">
+<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+</button>
+
+{!!Form::close()!!}
+
+@endsection
+
+@section('table-head-list')
+	<th>ID</th>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Type</th>
+	<th>Price</th>
+	<th>Status</th>
+	<th>Actions</th>
+@endsection
+
+@section('table-body-list')
+	@foreach($documents as $document)
+		<tr>
+			<td>{{ $document -> documentID }}</td>
+			<td>{{ $document -> documentName }}</td>
+			<td>{{ $document -> documentDescription }}</td>
+			<td>{{ $document -> documentType }}</td>
+			<td>₱{{ $document -> documentPrice }}</td>
+			
+			@if ($document -> status == 1)
+				<td>Active</td>
+			@else
+				<td>Inactive</td>
+			@endif
+			
+			<td>
+				
+				{!!Form::open(['url'=>'document/delete', 'method' => 'POST', 'id' => $document -> primeID ])!!}					
+				{{ csrf_field() }}
+
+					{!!Form::hidden('primeID',$document->primeID,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+					<input type='hidden' name='documentName' value='{{ $document -> documentName }}' />
+					<input type='hidden' name='documentDescription' value='{{ $document -> documentDescription }}' />
+					<input type='hidden' name='documentType' value='{{ $document -> documentType }}' />
+					<input type='hidden' name='documentPrice' value='{{ $document -> documentPrice }}' />
+					<input type='hidden' name='status' value='{{ $document -> status }}' />
+					
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $document -> primeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $document -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					</div>
+				{!!Form::close()!!}
+			</td>
+		</tr>
+	@endforeach
+@endsection
+
+@section('ajax-modal')
+	<script>
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/document/getEdit') }}",
+				data: {primeID:id},
+				success:function(data)
+				{
+					console.log(data);
+					var frm = $('#frm-update');
+					frm.find('#name').val(data.documentName);
+					frm.find('#desc').val(data.documentDescription);
+					frm.find('#type').val(data.documentType);
+					frm.find('#price').val(data.documentPrice);
+					frm.find('#document_ID').val(data.documentID);
+					frm.find('#primeID').val(data.primeID);
+					
+					if(data.status==1)
+					{
+						$("#active").attr('checked', 'checked');
+					}
+					else
+					{
+						$("#inactive").attr('checked', 'checked');
+					}
+					$('#modalEdit').modal('show');
+					
+				}
+			})
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+
+	$(document).on('click', '.delete', function(e) {
+
+		var id = $(this).val();
+
+		$.ajax({
+				type: 'get',
+				url: "{{ url('document/getEdit') }}",
+				data: {primeID:id},
+				success:function(data)
+				{
+					console.log(data);
+					swal({
+						  title: "Are you sure you want to delete " + data.documentName +  "?",
+						  text: "",
+						  type: "warning",
+						  showCancelButton: true,
+						  confirmButtonColor: "#DD6B55",
+						  confirmButtonText: "DELETE",
+						  closeOnConfirm: false
+						},
+						function()
+						{
+
+							swal("Successfull", data.documentName + " is deleted!", "success");
+							document.getElementById(data.primeID).submit();
+						});				
+				}
+			})
+
+	
+		
+	});
+	</script>
+	
+@endsection
+
+@section('edit-modal-title')
+	Edit Document
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing facility type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'/document/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+	{{ csrf_field() }}
+@endsection
+
+
+@section('edit-modal-body')
+
+	
+	{!! Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly']) !!}
+
+	@if (count($errors) > 0)
+		    <div class="alert alert-danger">
+		        <ul>
+		            @foreach ($errors->all() as $error)
+		                <li>{{ $error }}</li>
+		            @endforeach
+		        </ul>
+		    </div>
+
+		    <script type="text/javascript">
+		    	$(document).ready(function () {
+			        $('#modalEdit').modal('show');
+			    });
+		    </script>
+	@endif
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
+		<div class="col-md-9">
+			{!!Form::text('document_ID',null,['id'=>'document_ID','class'=>'form-control', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$'])!!}
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('documentName',null,['id'=>'name','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+		<div class="col-md-9">
+			{!!Form::text('desc',null,['id'=>'desc','class'=>'form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
+		<div class="col-md-9">
+			{{ Form::select('type', ['Legal Document'=>'Legal Document','Clearance'=>'Clearance','Certification'=>'Certification'], null, ['id'=>'type', 'class' => 'form-control border-info selectBox']) }}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
+		<div class="col-md-9">
+			{!!Form::number('documentPrice',null,['id'=>'price','class'=>'form-control', 'maxlength'=>'8', 'minlength'=>'1', 'step'=>'0.01'])!!}
+		</div>	
+	</div>
+
+
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="stat" value="1" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="stat" value="0" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+	</button>
+	
+@endsection

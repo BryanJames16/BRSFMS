@@ -1,0 +1,222 @@
++--------+-----------+----------------------------------------------------+-------------------------------+-------------------------------------------------------------+--------------+
+| Domain | Method    | URI                                                | Name                          | Action                                                      | Middleware   |
++--------+-----------+----------------------------------------------------+-------------------------------+-------------------------------------------------------------+--------------+
+|        | GET|HEAD  | /                                                  |                               | Closure                                                     | web          |
+|        | GET|HEAD  | api/user                                           |                               | Closure                                                     | api,auth:api |
+|        | POST      | barangay                                           | barangay.store                | App\Http\Controllers\BarangayController@store               | web          |
+|        | GET|HEAD  | barangay                                           | barangay.index                | App\Http\Controllers\BarangayController@index               | web          |
+|        | GET|HEAD  | barangay/create                                    | barangay.create               | App\Http\Controllers\BarangayController@create              | web          |
+|        | POST      | barangay/delete                                    |                               | App\Http\Controllers\BarangayController@delete              | web          |
+|        | GET|HEAD  | barangay/getEdit                                   |                               | App\Http\Controllers\BarangayController@getEdit             | web          |
+|        | POST      | barangay/store                                     |                               | App\Http\Controllers\BarangayController@store               | web          |
+|        | POST      | barangay/update                                    |                               | App\Http\Controllers\BarangayController@edit                | web          |
+|        | DELETE    | barangay/{barangay}                                | barangay.destroy              | App\Http\Controllers\BarangayController@destroy             | web          |
+|        | PUT|PATCH | barangay/{barangay}                                | barangay.update               | App\Http\Controllers\BarangayController@update              | web          |
+|        | GET|HEAD  | barangay/{barangay}                                | barangay.show                 | App\Http\Controllers\BarangayController@show                | web          |
+|        | GET|HEAD  | barangay/{barangay}/edit                           | barangay.edit                 | App\Http\Controllers\BarangayController@edit                | web          |
+|        | GET|HEAD  | base-maintenance                                   |                               | Closure                                                     | web          |
+|        | POST      | business                                           | business.store                | App\Http\Controllers\BusinessController@store               | web          |
+|        | GET|HEAD  | business                                           | business.index                | App\Http\Controllers\BusinessController@index               | web          |
+|        | GET|HEAD  | business-category                                  | business-category.index       | App\Http\Controllers\BusinessCategoryController@index       | web          |
+|        | POST      | business-category                                  | business-category.store       | App\Http\Controllers\BusinessCategoryController@store       | web          |
+|        | GET|HEAD  | business-category/create                           | business-category.create      | App\Http\Controllers\BusinessCategoryController@create      | web          |
+|        | POST      | business-category/delete                           |                               | App\Http\Controllers\BusinessCategoryController@delete      | web          |
+|        | GET|HEAD  | business-category/getEdit                          |                               | App\Http\Controllers\BusinessCategoryController@getEdit     | web          |
+|        | POST      | business-category/store                            |                               | App\Http\Controllers\BusinessCategoryController@store       | web          |
+|        | POST      | business-category/update                           |                               | App\Http\Controllers\BusinessCategoryController@edit        | web          |
+|        | DELETE    | business-category/{business_category}              | business-category.destroy     | App\Http\Controllers\BusinessCategoryController@destroy     | web          |
+|        | GET|HEAD  | business-category/{business_category}              | business-category.show        | App\Http\Controllers\BusinessCategoryController@show        | web          |
+|        | PUT|PATCH | business-category/{business_category}              | business-category.update      | App\Http\Controllers\BusinessCategoryController@update      | web          |
+|        | GET|HEAD  | business-category/{business_category}/edit         | business-category.edit        | App\Http\Controllers\BusinessCategoryController@edit        | web          |
+|        | GET|HEAD  | business/create                                    | business.create               | App\Http\Controllers\BusinessController@create              | web          |
+|        | POST      | business/delete                                    |                               | App\Http\Controllers\BusinessController@delete              | web          |
+|        | GET|HEAD  | business/getEdit                                   |                               | App\Http\Controllers\BusinessController@getEdit             | web          |
+|        | POST      | business/store                                     |                               | App\Http\Controllers\BusinessController@store               | web          |
+|        | POST      | business/update                                    |                               | App\Http\Controllers\BusinessController@edit                | web          |
+|        | GET|HEAD  | business/{business}                                | business.show                 | App\Http\Controllers\BusinessController@show                | web          |
+|        | PUT|PATCH | business/{business}                                | business.update               | App\Http\Controllers\BusinessController@update              | web          |
+|        | DELETE    | business/{business}                                | business.destroy              | App\Http\Controllers\BusinessController@destroy             | web          |
+|        | GET|HEAD  | business/{business}/edit                           | business.edit                 | App\Http\Controllers\BusinessController@edit                | web          |
+|        | POST      | city                                               | city.store                    | App\Http\Controllers\CityController@store                   | web          |
+|        | GET|HEAD  | city                                               | city.index                    | App\Http\Controllers\CityController@index                   | web          |
+|        | GET|HEAD  | city/create                                        | city.create                   | App\Http\Controllers\CityController@create                  | web          |
+|        | POST      | city/delete                                        |                               | App\Http\Controllers\CityController@delete                  | web          |
+|        | GET|HEAD  | city/getEdit                                       |                               | App\Http\Controllers\CityController@getEdit                 | web          |
+|        | POST      | city/store                                         |                               | App\Http\Controllers\CityController@store                   | web          |
+|        | POST      | city/update                                        |                               | App\Http\Controllers\CityController@edit                    | web          |
+|        | DELETE    | city/{city}                                        | city.destroy                  | App\Http\Controllers\CityController@destroy                 | web          |
+|        | PUT|PATCH | city/{city}                                        | city.update                   | App\Http\Controllers\CityController@update                  | web          |
+|        | GET|HEAD  | city/{city}                                        | city.show                     | App\Http\Controllers\CityController@show                    | web          |
+|        | GET|HEAD  | city/{city}/edit                                   | city.edit                     | App\Http\Controllers\CityController@edit                    | web          |
+|        | GET|HEAD  | dashboard                                          |                               | Closure                                                     | web          |
+|        | GET|HEAD  | document                                           | document.index                | App\Http\Controllers\DocumentController@index               | web          |
+|        | POST      | document                                           | document.store                | App\Http\Controllers\DocumentController@store               | web          |
+|        | GET|HEAD  | document-request                                   |                               | Closure                                                     | web          |
+|        | GET|HEAD  | document/create                                    | document.create               | App\Http\Controllers\DocumentController@create              | web          |
+|        | POST      | document/delete                                    |                               | App\Http\Controllers\DocumentController@delete              | web          |
+|        | GET|HEAD  | document/getEdit                                   |                               | App\Http\Controllers\DocumentController@getEdit             | web          |
+|        | POST      | document/store                                     |                               | App\Http\Controllers\DocumentController@store               | web          |
+|        | POST      | document/update                                    |                               | App\Http\Controllers\DocumentController@edit                | web          |
+|        | PUT|PATCH | document/{document}                                | document.update               | App\Http\Controllers\DocumentController@update              | web          |
+|        | DELETE    | document/{document}                                | document.destroy              | App\Http\Controllers\DocumentController@destroy             | web          |
+|        | GET|HEAD  | document/{document}                                | document.show                 | App\Http\Controllers\DocumentController@show                | web          |
+|        | GET|HEAD  | document/{document}/edit                           | document.edit                 | App\Http\Controllers\DocumentController@edit                | web          |
+|        | GET|HEAD  | facility                                           | facility.index                | App\Http\Controllers\FacilityController@index               | web          |
+|        | POST      | facility                                           | facility.store                | App\Http\Controllers\FacilityController@store               | web          |
+|        | POST      | facility-reservation                               | facility-reservation.store    | App\Http\Controllers\ReservationController@store            | web          |
+|        | GET|HEAD  | facility-reservation                               | facility-reservation.index    | App\Http\Controllers\ReservationController@index            | web          |
+|        | GET|HEAD  | facility-reservation/create                        | facility-reservation.create   | App\Http\Controllers\ReservationController@create           | web          |
+|        | POST      | facility-reservation/delete                        |                               | App\Http\Controllers\ReservationController@delete           | web          |
+|        | GET|HEAD  | facility-reservation/getEdit                       |                               | App\Http\Controllers\ReservationController@getEdit          | web          |
+|        | POST      | facility-reservation/update                        |                               | App\Http\Controllers\ReservationController@update           | web          |
+|        | GET|HEAD  | facility-reservation/{facility_reservation}        | facility-reservation.show     | App\Http\Controllers\ReservationController@show             | web          |
+|        | DELETE    | facility-reservation/{facility_reservation}        | facility-reservation.destroy  | App\Http\Controllers\ReservationController@destroy          | web          |
+|        | PUT|PATCH | facility-reservation/{facility_reservation}        | facility-reservation.update   | App\Http\Controllers\ReservationController@update           | web          |
+|        | GET|HEAD  | facility-reservation/{facility_reservation}/edit   | facility-reservation.edit     | App\Http\Controllers\ReservationController@edit             | web          |
+|        | POST      | facility-type                                      | facility-type.store           | App\Http\Controllers\FacilityTypeController@store           | web          |
+|        | GET|HEAD  | facility-type                                      | facility-type.index           | App\Http\Controllers\FacilityTypeController@index           | web          |
+|        | GET|HEAD  | facility-type/create                               | facility-type.create          | App\Http\Controllers\FacilityTypeController@create          | web          |
+|        | POST      | facility-type/delete                               |                               | App\Http\Controllers\FacilityTypeController@delete          | web          |
+|        | GET|HEAD  | facility-type/getEdit                              |                               | App\Http\Controllers\FacilityTypeController@getEdit         | web          |
+|        | POST      | facility-type/store                                |                               | App\Http\Controllers\FacilityTypeController@store           | web          |
+|        | POST      | facility-type/update                               |                               | App\Http\Controllers\FacilityTypeController@edit            | web          |
+|        | PUT|PATCH | facility-type/{facility_type}                      | facility-type.update          | App\Http\Controllers\FacilityTypeController@update          | web          |
+|        | DELETE    | facility-type/{facility_type}                      | facility-type.destroy         | App\Http\Controllers\FacilityTypeController@destroy         | web          |
+|        | GET|HEAD  | facility-type/{facility_type}                      | facility-type.show            | App\Http\Controllers\FacilityTypeController@show            | web          |
+|        | GET|HEAD  | facility-type/{facility_type}/edit                 | facility-type.edit            | App\Http\Controllers\FacilityTypeController@edit            | web          |
+|        | GET|HEAD  | facility/create                                    | facility.create               | App\Http\Controllers\FacilityController@create              | web          |
+|        | POST      | facility/delete                                    |                               | App\Http\Controllers\FacilityController@delete              | web          |
+|        | GET|HEAD  | facility/getEdit                                   |                               | App\Http\Controllers\FacilityController@getEdit             | web          |
+|        | POST      | facility/store                                     |                               | App\Http\Controllers\FacilityController@store               | web          |
+|        | POST      | facility/update                                    |                               | App\Http\Controllers\FacilityController@edit                | web          |
+|        | DELETE    | facility/{facility}                                | facility.destroy              | App\Http\Controllers\FacilityController@destroy             | web          |
+|        | PUT|PATCH | facility/{facility}                                | facility.update               | App\Http\Controllers\FacilityController@update              | web          |
+|        | GET|HEAD  | facility/{facility}                                | facility.show                 | App\Http\Controllers\FacilityController@show                | web          |
+|        | GET|HEAD  | facility/{facility}/edit                           | facility.edit                 | App\Http\Controllers\FacilityController@edit                | web          |
+|        | GET|HEAD  | file-case                                          |                               | Closure                                                     | web          |
+|        | GET|HEAD  | home                                               |                               | Closure                                                     | web          |
+|        | POST      | house                                              | house.store                   | App\Http\Controllers\HouseController@store                  | web          |
+|        | GET|HEAD  | house                                              | house.index                   | App\Http\Controllers\HouseController@index                  | web          |
+|        | GET|HEAD  | house/create                                       | house.create                  | App\Http\Controllers\HouseController@create                 | web          |
+|        | POST      | house/delete                                       |                               | App\Http\Controllers\HouseController@delete                 | web          |
+|        | GET|HEAD  | house/getEdit                                      |                               | App\Http\Controllers\HouseController@getEdit                | web          |
+|        | POST      | house/store                                        |                               | App\Http\Controllers\HouseController@store                  | web          |
+|        | POST      | house/update                                       |                               | App\Http\Controllers\HouseController@edit                   | web          |
+|        | DELETE    | house/{house}                                      | house.destroy                 | App\Http\Controllers\HouseController@destroy                | web          |
+|        | GET|HEAD  | house/{house}                                      | house.show                    | App\Http\Controllers\HouseController@show                   | web          |
+|        | PUT|PATCH | house/{house}                                      | house.update                  | App\Http\Controllers\HouseController@update                 | web          |
+|        | GET|HEAD  | house/{house}/edit                                 | house.edit                    | App\Http\Controllers\HouseController@edit                   | web          |
+|        | GET|HEAD  | incident-report                                    |                               | Closure                                                     | web          |
+|        | GET|HEAD  | login                                              |                               | Closure                                                     | web          |
+|        | GET|HEAD  | lot                                                | lot.index                     | App\Http\Controllers\LotController@index                    | web          |
+|        | POST      | lot                                                | lot.store                     | App\Http\Controllers\LotController@store                    | web          |
+|        | GET|HEAD  | lot/create                                         | lot.create                    | App\Http\Controllers\LotController@create                   | web          |
+|        | POST      | lot/delete                                         |                               | App\Http\Controllers\LotController@delete                   | web          |
+|        | GET|HEAD  | lot/dropdown                                       |                               | App\Http\Controllers\LotController@dropdown                 | web          |
+|        | GET|HEAD  | lot/getEdit                                        |                               | App\Http\Controllers\LotController@getEdit                  | web          |
+|        | POST      | lot/getStreet                                      |                               | App\Http\Controllers\LotController@getStreet                | web          |
+|        | POST      | lot/store                                          |                               | App\Http\Controllers\LotController@store                    | web          |
+|        | POST      | lot/update                                         |                               | App\Http\Controllers\LotController@edit                     | web          |
+|        | DELETE    | lot/{lot}                                          | lot.destroy                   | App\Http\Controllers\LotController@destroy                  | web          |
+|        | GET|HEAD  | lot/{lot}                                          | lot.show                      | App\Http\Controllers\LotController@show                     | web          |
+|        | PUT|PATCH | lot/{lot}                                          | lot.update                    | App\Http\Controllers\LotController@update                   | web          |
+|        | GET|HEAD  | lot/{lot}/edit                                     | lot.edit                      | App\Http\Controllers\LotController@edit                     | web          |
+|        | GET|HEAD  | master                                             |                               | Closure                                                     | web          |
+|        | GET|HEAD  | municipality                                       | municipality.index            | App\Http\Controllers\MunicipalityController@index           | web          |
+|        | POST      | municipality                                       | municipality.store            | App\Http\Controllers\MunicipalityController@store           | web          |
+|        | GET|HEAD  | municipality/create                                | municipality.create           | App\Http\Controllers\MunicipalityController@create          | web          |
+|        | POST      | municipality/delete                                |                               | App\Http\Controllers\MunicipalityController@delete          | web          |
+|        | GET|HEAD  | municipality/getEdit                               |                               | App\Http\Controllers\MunicipalityController@getEdit         | web          |
+|        | POST      | municipality/store                                 |                               | App\Http\Controllers\MunicipalityController@store           | web          |
+|        | POST      | municipality/update                                |                               | App\Http\Controllers\MunicipalityController@edit            | web          |
+|        | GET|HEAD  | municipality/{municipality}                        | municipality.show             | App\Http\Controllers\MunicipalityController@show            | web          |
+|        | PUT|PATCH | municipality/{municipality}                        | municipality.update           | App\Http\Controllers\MunicipalityController@update          | web          |
+|        | DELETE    | municipality/{municipality}                        | municipality.destroy          | App\Http\Controllers\MunicipalityController@destroy         | web          |
+|        | GET|HEAD  | municipality/{municipality}/edit                   | municipality.edit             | App\Http\Controllers\MunicipalityController@edit            | web          |
+|        | GET|HEAD  | person                                             | person.index                  | App\Http\Controllers\PeopleController@index                 | web          |
+|        | POST      | person                                             | person.store                  | App\Http\Controllers\PeopleController@store                 | web          |
+|        | GET|HEAD  | person/create                                      | person.create                 | App\Http\Controllers\PeopleController@create                | web          |
+|        | POST      | person/delete                                      |                               | App\Http\Controllers\PeopleController@delete                | web          |
+|        | GET|HEAD  | person/getEdit                                     |                               | App\Http\Controllers\PeopleController@getEdit               | web          |
+|        | POST      | person/store                                       |                               | App\Http\Controllers\PeopleController@store                 | web          |
+|        | POST      | person/update                                      |                               | App\Http\Controllers\PeopleController@edit                  | web          |
+|        | PUT|PATCH | person/{person}                                    | person.update                 | App\Http\Controllers\PeopleController@update                | web          |
+|        | DELETE    | person/{person}                                    | person.destroy                | App\Http\Controllers\PeopleController@destroy               | web          |
+|        | GET|HEAD  | person/{person}                                    | person.show                   | App\Http\Controllers\PeopleController@show                  | web          |
+|        | GET|HEAD  | person/{person}/edit                               | person.edit                   | App\Http\Controllers\PeopleController@edit                  | web          |
+|        | POST      | province                                           | province.store                | App\Http\Controllers\ProvinceController@store               | web          |
+|        | GET|HEAD  | province                                           | province.index                | App\Http\Controllers\ProvinceController@index               | web          |
+|        | GET|HEAD  | province/create                                    | province.create               | App\Http\Controllers\ProvinceController@create              | web          |
+|        | POST      | province/delete                                    |                               | App\Http\Controllers\ProvinceController@delete              | web          |
+|        | GET|HEAD  | province/getEdit                                   |                               | App\Http\Controllers\ProvinceController@getEdit             | web          |
+|        | POST      | province/store                                     |                               | App\Http\Controllers\ProvinceController@store               | web          |
+|        | POST      | province/update                                    |                               | App\Http\Controllers\ProvinceController@edit                | web          |
+|        | GET|HEAD  | province/{province}                                | province.show                 | App\Http\Controllers\ProvinceController@show                | web          |
+|        | DELETE    | province/{province}                                | province.destroy              | App\Http\Controllers\ProvinceController@destroy             | web          |
+|        | PUT|PATCH | province/{province}                                | province.update               | App\Http\Controllers\ProvinceController@update              | web          |
+|        | GET|HEAD  | province/{province}/edit                           | province.edit                 | App\Http\Controllers\ProvinceController@edit                | web          |
+|        | GET|HEAD  | request                                            |                               | Closure                                                     | web          |
+|        | POST      | reservation                                        | reservation.store             | App\Http\Controllers\ReservationController@populate@store   | web          |
+|        | GET|HEAD  | reservation                                        | reservation.index             | App\Http\Controllers\ReservationController@populate@index   | web          |
+|        | GET|HEAD  | reservation/create                                 | reservation.create            | App\Http\Controllers\ReservationController@populate@create  | web          |
+|        | POST      | reservation/store                                  |                               | App\Http\Controllers\ReservationController@store            | web          |
+|        | GET|HEAD  | reservation/{reservation}                          | reservation.show              | App\Http\Controllers\ReservationController@populate@show    | web          |
+|        | DELETE    | reservation/{reservation}                          | reservation.destroy           | App\Http\Controllers\ReservationController@populate@destroy | web          |
+|        | PUT|PATCH | reservation/{reservation}                          | reservation.update            | App\Http\Controllers\ReservationController@populate@update  | web          |
+|        | GET|HEAD  | reservation/{reservation}/edit                     | reservation.edit              | App\Http\Controllers\ReservationController@populate@edit    | web          |
+|        | GET|HEAD  | resident                                           |                               | Closure                                                     | web          |
+|        | POST      | resident-registration                              | resident-registration.store   | App\Http\Controllers\ResidentRegistrationController@store   | web          |
+|        | GET|HEAD  | resident-registration                              | resident-registration.index   | App\Http\Controllers\ResidentRegistrationController@index   | web          |
+|        | GET|HEAD  | resident-registration/create                       | resident-registration.create  | App\Http\Controllers\ResidentRegistrationController@create  | web          |
+|        | GET|HEAD  | resident-registration/{resident_registration}      | resident-registration.show    | App\Http\Controllers\ResidentRegistrationController@show    | web          |
+|        | PUT|PATCH | resident-registration/{resident_registration}      | resident-registration.update  | App\Http\Controllers\ResidentRegistrationController@update  | web          |
+|        | DELETE    | resident-registration/{resident_registration}      | resident-registration.destroy | App\Http\Controllers\ResidentRegistrationController@destroy | web          |
+|        | GET|HEAD  | resident-registration/{resident_registration}/edit | resident-registration.edit    | App\Http\Controllers\ResidentRegistrationController@edit    | web          |
+|        | GET|HEAD  | resreg                                             |                               | Closure                                                     | web          |
+|        | GET|HEAD  | service                                            | service.index                 | App\Http\Controllers\ServiceController@index                | web          |
+|        | POST      | service                                            | service.store                 | App\Http\Controllers\ServiceController@store                | web          |
+|        | GET|HEAD  | service-sponsorship                                |                               | Closure                                                     | web          |
+|        | GET|HEAD  | service-type                                       | service-type.index            | App\Http\Controllers\ServiceTypeController@index            | web          |
+|        | POST      | service-type                                       | service-type.store            | App\Http\Controllers\ServiceTypeController@store            | web          |
+|        | GET|HEAD  | service-type/create                                | service-type.create           | App\Http\Controllers\ServiceTypeController@create           | web          |
+|        | POST      | service-type/delete                                |                               | App\Http\Controllers\ServiceTypeController@delete           | web          |
+|        | GET|HEAD  | service-type/getEdit                               |                               | App\Http\Controllers\ServiceTypeController@getEdit          | web          |
+|        | POST      | service-type/store                                 |                               | App\Http\Controllers\ServiceTypeController@store            | web          |
+|        | POST      | service-type/update                                |                               | App\Http\Controllers\ServiceTypeController@edit             | web          |
+|        | GET|HEAD  | service-type/{service_type}                        | service-type.show             | App\Http\Controllers\ServiceTypeController@show             | web          |
+|        | PUT|PATCH | service-type/{service_type}                        | service-type.update           | App\Http\Controllers\ServiceTypeController@update           | web          |
+|        | DELETE    | service-type/{service_type}                        | service-type.destroy          | App\Http\Controllers\ServiceTypeController@destroy          | web          |
+|        | GET|HEAD  | service-type/{service_type}/edit                   | service-type.edit             | App\Http\Controllers\ServiceTypeController@edit             | web          |
+|        | GET|HEAD  | service/create                                     | service.create                | App\Http\Controllers\ServiceController@create               | web          |
+|        | POST      | service/delete                                     |                               | App\Http\Controllers\ServiceController@delete               | web          |
+|        | GET|HEAD  | service/getEdit                                    |                               | App\Http\Controllers\ServiceController@getEdit              | web          |
+|        | POST      | service/store                                      |                               | App\Http\Controllers\ServiceController@store                | web          |
+|        | POST      | service/update                                     |                               | App\Http\Controllers\ServiceController@edit                 | web          |
+|        | GET|HEAD  | service/{service}                                  | service.show                  | App\Http\Controllers\ServiceController@show                 | web          |
+|        | DELETE    | service/{service}                                  | service.destroy               | App\Http\Controllers\ServiceController@destroy              | web          |
+|        | PUT|PATCH | service/{service}                                  | service.update                | App\Http\Controllers\ServiceController@update               | web          |
+|        | GET|HEAD  | service/{service}/edit                             | service.edit                  | App\Http\Controllers\ServiceController@edit                 | web          |
+|        | GET|HEAD  | sponsors                                           |                               | Closure                                                     | web          |
+|        | GET|HEAD  | street                                             | street.index                  | App\Http\Controllers\StreetController@index                 | web          |
+|        | POST      | street                                             | street.store                  | App\Http\Controllers\StreetController@store                 | web          |
+|        | GET|HEAD  | street/create                                      | street.create                 | App\Http\Controllers\StreetController@create                | web          |
+|        | POST      | street/delete                                      |                               | App\Http\Controllers\StreetController@delete                | web          |
+|        | GET|HEAD  | street/getEdit                                     |                               | App\Http\Controllers\StreetController@getEdit               | web          |
+|        | POST      | street/store                                       |                               | App\Http\Controllers\StreetController@store                 | web          |
+|        | POST      | street/update                                      |                               | App\Http\Controllers\StreetController@edit                  | web          |
+|        | GET|HEAD  | street/{street}                                    | street.show                   | App\Http\Controllers\StreetController@show                  | web          |
+|        | PUT|PATCH | street/{street}                                    | street.update                 | App\Http\Controllers\StreetController@update                | web          |
+|        | DELETE    | street/{street}                                    | street.destroy                | App\Http\Controllers\StreetController@destroy               | web          |
+|        | GET|HEAD  | street/{street}/edit                               | street.edit                   | App\Http\Controllers\StreetController@edit                  | web          |
+|        | POST      | unit                                               | unit.store                    | App\Http\Controllers\UnitController@store                   | web          |
+|        | GET|HEAD  | unit                                               | unit.index                    | App\Http\Controllers\UnitController@index                   | web          |
+|        | GET|HEAD  | unit/create                                        | unit.create                   | App\Http\Controllers\UnitController@create                  | web          |
+|        | POST      | unit/delete                                        |                               | App\Http\Controllers\UnitController@delete                  | web          |
+|        | GET|HEAD  | unit/getEdit                                       |                               | App\Http\Controllers\UnitController@getEdit                 | web          |
+|        | POST      | unit/store                                         |                               | App\Http\Controllers\UnitController@store                   | web          |
+|        | POST      | unit/update                                        |                               | App\Http\Controllers\UnitController@edit                    | web          |
+|        | DELETE    | unit/{unit}                                        | unit.destroy                  | App\Http\Controllers\UnitController@destroy                 | web          |
+|        | GET|HEAD  | unit/{unit}                                        | unit.show                     | App\Http\Controllers\UnitController@show                    | web          |
+|        | PUT|PATCH | unit/{unit}                                        | unit.update                   | App\Http\Controllers\UnitController@update                  | web          |
+|        | GET|HEAD  | unit/{unit}/edit                                   | unit.edit                     | App\Http\Controllers\UnitController@edit                    | web          |
++--------+-----------+----------------------------------------------------+-------------------------------+-------------------------------------------------------------+--------------+

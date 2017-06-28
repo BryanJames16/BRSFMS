@@ -1,0 +1,276 @@
+<!-- Parent Template -->
+@extends('master.base_maintenance')
+
+<!-- Title of the Page -->
+@section('title')
+	Facility Type
+@endsection
+
+<!-- Set All JavaScript Settings -->
+@section('js-setting')
+
+	<!-- Set the Selected Tab in Navbar -->
+	<script type="text/javascript">
+		setSelectedTab(FACILITY_TYPE);
+	</script>
+@endsection
+
+<!-- Adds the Content to the Main Page -->
+@section('inside-content-header')
+	<h2 class="content-header-title">Facility Type</h2>
+@endsection
+
+
+	
+@section('inside-breadcrumb')
+	<li class="breadcrumb-item">Facility</li>
+	<li class="breadcrumb-item"><a href="#">Facility Type</a></li>
+
+
+@endsection
+
+@section('main-card-title')
+	Facility Type
+@endsection
+
+@section('modal-card-title')
+	Add Facility Type
+@endsection
+
+@section('modal-card-desc')
+	Type of the Facility.
+@endsection
+
+@section('modal-form-body')
+
+	@if (count($errors) > 0)
+	    <div class="alert alert-danger">
+	        <ul>
+	            @foreach ($errors->all() as $error)
+	                <li>{{ $error }}</li>
+	            @endforeach
+	        </ul>
+	    </div>
+
+	    <script type="text/javascript">
+	    	$(document).ready(function () {
+		        $('#iconModal').modal('show');
+		    });
+	    </script>
+	@endif
+		
+
+	{!!Form::open(['url'=>'/facility-type/store', 'method' => 'POST', 'id' => 'frm-add'])!!}
+
+		{{ csrf_field() }}
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('typeName',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Covered Court', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'required', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_ \']+$'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" value="active" name="stat" checked="" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" value="inactive" name="stat"  class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('modal-form-action')
+<input type="submit" class="btn btn-success" value="Add" name="btnAdd">
+<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+</button>
+
+{!!Form::close()!!}
+
+@endsection
+
+@section('table-head-list')
+	<th>ID</th>
+	<th>Name</th>
+	<th>Status</th>
+	<th>Actions</th>
+@endsection
+
+@section('table-body-list')
+	@foreach($facilityTypes as $facilityType)
+		<tr>
+			<td>{{ $facilityType -> typeID }}</td>
+			<td>{{ $facilityType -> typeName }}</td>
+			@if ($facilityType -> status == 1)
+				<td>Active</td>
+			@else
+				<td>Inactive</td>
+			@endif
+			
+			<td>
+				{!!Form::open(['url'=>'facility-type/delete', 'method' => 'POST', 'id' => $facilityType -> typeID ])!!}					
+				{{ csrf_field() }}
+					<input type='hidden' name='typeID' value='{{ $facilityType -> typeID }}' />
+					<input type='hidden' name='typeName' value='{{ $facilityType -> typeName }}' />
+					<input type='hidden' name='status' value='{{ $facilityType -> status }}' />
+					<div class="btn-group" role="group" aria-label="Basic example">
+					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $facilityType -> typeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $facilityType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					</div>
+				{!!Form::close()!!}
+			</td>
+		</tr>
+	@endforeach
+@endsection
+
+@section('ajax-modal')
+	<script>
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/facility-type/getEdit') }}",
+				data: {typeID:id},
+				success:function(data)
+				{
+					console.log(data);
+					var frm = $('#frm-update');
+					frm.find('#typeName').val(data.typeName);
+					frm.find('#type_ID').val(data.typeID);
+
+					if(data.status==1)
+					{
+						$("#active").attr('checked', 'checked');
+					}
+					else
+					{
+						$("#inactive").attr('checked', 'checked');
+					}
+
+					
+					$('#modalEdit').modal('show');
+				}
+			})
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+
+	$(document).on('click', '.delete', function(e) {
+
+		var id = $(this).val();
+
+		$.ajax({
+				type: 'get',
+				url: "{{ url('facility-type/getEdit') }}",
+				data: {typeID:id},
+				success:function(data)
+				{
+					console.log(data);
+					swal({
+						  title: "Are you sure you want to delete " + data.typeName + "?",
+						  text: "",
+						  type: "warning",
+						  showCancelButton: true,
+						  confirmButtonColor: "#DD6B55",
+						  confirmButtonText: "DELETE",
+						  closeOnConfirm: false
+						},
+						function(){
+
+						  swal("Successfull", data.typeName + " is deleted!", "success");
+						  document.getElementById(data.typeID).submit();
+						});				
+				}
+			})
+
+	
+		
+	});
+	</script>
+	
+@endsection
+
+@section('edit-modal-title')
+	Edit Facility Type
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing facility type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'facility-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+	{{ csrf_field() }}
+@endsection
+
+
+@section('edit-modal-body')
+
+	
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">ID</label>
+		<div class="col-md-9">
+			{!!Form::text('type_ID',null,['id'=>'type_ID','class'=>'form-control', 'maxlength'=>'30', 'readonly', 'minlength'=>'1'])!!}
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('typeName',null,['id'=>'typeName','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'4', 'pattern'=>'^[a-zA-Z0-9\' ]+$'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="stat" value="1" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="stat" value="0" class="custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+	</button>
+	
+@endsection
+	
