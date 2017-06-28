@@ -38,6 +38,20 @@
 
 		<!-- Begin Top Framework JS -->
 		<script src="{{ URL::asset('/js/angular.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-animate.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-aria.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-cookies.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-loader.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-message-format.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-messages.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-mocks.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-parse-ext.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-resource.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-route.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-sanitize.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-scenario.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/js/angular-touch.min.js') }}" type="text/javascript"></script>
+
 		<script src="{{ URL::asset('/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
 		@yield('top-framework-js')
 		<!-- End Top Framework JS -->

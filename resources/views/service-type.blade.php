@@ -60,37 +60,56 @@
 	    </script>
 	@endif
 
-	
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
-		<div class="col-md-9">
-			{!!Form::text('typeName',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Health', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])!!}
-		</div>	
+	<div ng-controller="serviceTypeController">
+		<div class="form-group row">
+			<label class="col-md-3 label-control" for="eventRegInput1">*Names</label>
+			<label>[[service.typename]]</label>
+			<div class="col-md-9">
+				{!! Form::text('typeName', null, ['id' => 'name', 
+													'class' => 'form-control', 
+													'ng-model' => 'service.typename', 
+													'placeholder' => 'eg.Health', 
+													'maxlength' => '20', 'required', 
+													'data-toggle' => 'tooltip', 
+													'data-trigger' => 'focus', 
+													'data-placement' => 'top', 
+													'data-title' => 'Maximum of 20 characters', 
+													'minlength' => '5', 
+													'pattern' => '^[a-zA-Z0-9-_ ]+$']) !!}
+			</div>	
 
-	</div>
+		</div>
 
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
-		<div class="col-md-9">
-			{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-		</div>	
+		<div class="form-group row">
+			<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+			<div class="col-md-9">
+				{!! Form::textarea('desc', null, ['id'=>'desc', 
+													'class' => 'form-control', 
+													'ng-model' => 'service.desc', 
+													'maxlength' => '500',
+													'data-toggle' => 'tooltip',
+													'data-trigger' => 'focus',
+													'data-placement' => 'top',
+													'data-title' => 'Maximum of 500 characters']) !!}
+			</div>	
 
-	</div>
+		</div>
 
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" value="active" name="stat" checked="" class="custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" value="inactive" name="stat"  class="custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
+		<div class="form-group row last">
+			<label class="col-md-3 label-control">*Status</label>
+			<div class="col-md-9">
+				<div class="input-group col-md-9">
+					<label class="inline custom-control custom-radio">
+						<input type="radio" value="active" name="stat" checked="" class="custom-control-input" ng-model="service.status">
+						<span class="custom-control-indicator"></span>
+						<span class="custom-control-description ml-0">Active</span>
+					</label>
+					<label class="inline custom-control custom-radio">
+						<input type="radio" value="inactive" name="stat"  class="custom-control-input" ng-model="service.status">
+						<span class="custom-control-indicator"></span>
+						<span class="custom-control-description ml-0">Inactive</span>
+					</label>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -98,12 +117,14 @@
 @endsection
 
 @section('modal-form-action')
-<input type="submit" class="btn btn-success" value="Add" name="btnAdd">
-<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
-</button>
+	<input type="submit" class="btn btn-success" value="Add" name="btnAdd">
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
-{!!Form::close()!!}
+	{!! Form::close() !!}
+@endsection
 
+@section('modal-controller')
+	
 @endsection
 
 @section('table-head-list')
@@ -160,7 +181,7 @@
 				data: {typeID:id},
 				success:function(data)
 				{
-					console.log(data);
+					//console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#type_name').val(data.typeName);
 					frm.find('#type_desc').val(data.typeDesc);
@@ -196,7 +217,7 @@
 				data: {typeID:id},
 				success:function(data)
 				{
-					console.log(data);
+					//console.log(data);
 					swal({
 						  title: "Are you sure you want to delete " + data.typeName + "?",
 						  text: "",

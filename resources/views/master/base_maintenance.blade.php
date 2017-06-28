@@ -10,7 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
-
 @endsection
 
 <!-- Adds the Content to the Main Page -->
@@ -61,7 +60,7 @@
 												</button>
 												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('modal-card-title')</h4>
 											</div>
-											<div class="modal-body">
+											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
 													<div class="card-text">
 														
@@ -71,9 +70,12 @@
 
 													<div class="form-actions center">
 														@yield('modal-form-action')
-													</div>													
+													</div>					
+													@yield('inside-modal-controller')								
 												</div>
 											</div>
+
+											@yield('modal-controller')
 
 											<!-- End of Modal Body -->
 
