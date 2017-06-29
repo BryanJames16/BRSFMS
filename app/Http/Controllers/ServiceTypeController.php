@@ -19,28 +19,40 @@ class ServiceTypeController extends Controller
     }
 
     public function store(Request $r) {
-
-        $this->validate($r, [
-            
-            'typeName' => 'required|unique:servicetypes|max:20',
+        try {
+            $this->validate($r, [
+                'typeName' => 'required|unique:servicetypes|max:20',
             ]);
+            
+            if($r->input('status') == "active")
+            {
+                $stat = 1;
+            }
+            else if($r->input('status') == "inactive")
+            {
+                $stat = 0;
+            }
+            else
+            {
 
-        if($_POST['stat']=="active")
-        {
-            $stat = 1;
-        }
-        else if($_POST['stat']=="inactive")
-        {
-            $stat = 0;
-        }
+            }
 
-        $aah = ServiceType::insert(['typeName'=>trim($r->typeName),
-                                               'archive'=>0,
-                                               'typeDesc'=>$r->desc,
-                                               'status'=>$stat]);
+            $aah = ServiceType::insert(['typeName'=>trim($r -> typeName),
+                                                'archive' => 0,
+                                                'typeDesc' => $r -> typeDesc,
+                                                'status' => $stat]);
+        } catch (Exception $exp) {
+            // echo "<script>console.log('Exception Caught!\\n' + " . $exp . ");</script>";
+        }
 
 
         return back();
+    }
+
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(ServiceType::where("archive", "!=", "1")->get());
+        }
     }
 
     public function getEdit(Request $r) {

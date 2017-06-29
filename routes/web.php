@@ -31,6 +31,7 @@ Route::get('/facilitytyperead','FacilityTypesController@readByAjax');
 Route::post('/postfacilitytype','FacilityTypesController@postJquery');
 
 //Service Type
+Route::get('/service-type/refresh','ServiceTypeController@refresh');
 Route::get('/service-type/getEdit', 'ServiceTypeController@getEdit');
 Route::post('/service-type/store', 'ServiceTypeController@store');
 Route::post('/service-type/update','ServiceTypeController@edit');

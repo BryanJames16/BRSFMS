@@ -60,7 +60,7 @@
 	    </script>
 	@endif
 
-	<div ng-controller="serviceTypeController">
+	<div>
 		<div class="form-group row">
 			<label class="col-md-3 label-control" for="eventRegInput1">*Names</label>
 			<!-- <label>[[service.typename]]</label> -->
@@ -83,7 +83,7 @@
 		<div class="form-group row">
 			<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 			<div class="col-md-9">
-				{!! Form::textarea('desc', null, ['id'=>'desc', 
+				{!! Form::textarea('desc', null, ['id' => 'desc', 
 													'class' => 'form-control', 
 													'ng-model' => 'service.desc', 
 													'maxlength' => '500',
@@ -95,17 +95,19 @@
 
 		</div>
 
+		<input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
+
 		<div class="form-group row last">
 			<label class="col-md-3 label-control">*Status</label>
 			<div class="col-md-9">
 				<div class="input-group col-md-9">
 					<label class="inline custom-control custom-radio">
-						<input type="radio" value="active" name="stat" checked="" class="custom-control-input" ng-model="service.status">
+						<input type="radio" value="active" name="stat" class="tstat custom-control-input" ng-model="service.status">
 						<span class="custom-control-indicator"></span>
 						<span class="custom-control-description ml-0">Active</span>
 					</label>
 					<label class="inline custom-control custom-radio">
-						<input type="radio" value="inactive" name="stat"  class="custom-control-input" ng-model="service.status">
+						<input type="radio" value="inactive" name="stat" class="tstat custom-control-input" ng-model="service.status">
 						<span class="custom-control-indicator"></span>
 						<span class="custom-control-description ml-0">Inactive</span>
 					</label>
@@ -116,33 +118,78 @@
 
 	<script>
 		$('#frm-add').submit(function(event) {
+			event.preventDefault();
+
 			$.ajax({
-				//url: "/service-type/store",
-				type: "post",
-				data: $('frm-add').serialize(), 
-				dataType: 'json',
+				url: "{{ url('/service-type/store') }}",
+				type: "POST",
+				data: {"_token": $('#csrf-token').val(), 
+						"typeName": $("#name").val(), 
+						"typeDesc": $("#desc").val(), 
+						"status": $(".tstat:checked").val()
+				}, 
 				success: function ( _response ){
+					//$("#modal-dismis").click();
+					$("#iconModal").modal('hide');
+					//$("#iconModal").dialog('close');
+					$('body').removeClass('modal-open');
+					$('.modal-backdrop').remove();
+					//$("#iconModal").removeClass("modal").addClass("modal modal-backdrop");
+					//$('#iconModal').fadeOut('fast');
+					
+					$.ajax({
+						url: "{{ url('/service-type/refresh') }}",
+						type: "GET", 
+						datatype: "json", 
+						success: function(data) {
+							$("#table-container").find("tr:gt(0)").remove();
+							data = $.parseJSON(data);
+							
+							for (var index in data) {
+								var statusText = "";
+								if (data[index].status == 0) {
+									statusText = "Active";
+								}
+								else {
+									statusText = "Inactive";
+								}
+
+								$("#table-container").append("<tr>" + 
+											"<td>" + data[index].typeID + "</td>" + 
+											"<td>" + data[index].typeName + "</td>" + 
+											"<td>" + data[index].typeDesc + "</td>" + 
+											"<td>" + statusText + "</td>" + 
+											"<td>" + 
+											"<form method='POST' id='" + data[index].typeID + "' action='/service-type/delete' accept-charset='UTF-8'])!!}" + 
+											//"{!! csrf_field() !!}" + 
+											"</form>" + 
+											"</td>" + 
+											"</tr>"
+								);
+							}
+						}
+					});
+					
 					swal("Successful", 
 							"Service type has been added!", 
 							"success");
-					console.log("Success");
-					event.preventDefault();
+					//console.log("Success");
+					// $("html").html($("html", _response).html());
 				}, 
 				error: function(xhr, status, error) {
-					var err = eval("(" + xhr.responseText + ")");
+					var err = xhr.responseText;
 					swal("ERROR", 
 							"Error has been caught:\n" + err.Message, 
 							"error");
-					console.log("Error found: " + err.Message);
-					event.preventDefault();
+					console.log("Error found: " + error + "\n" + 
+								"Status: " + status + "\n" +
+								"XHR: " + xhr + "\n" + 
+								"Token: " + $('#csrf-token').val() + "\n" + 
+								"TypeName: " + $("#name").val() + "\n" + 
+								"TypeDesc: " + $("#desc").val() + "\n" + 
+								"Status: " + $(".tstat:checked").val());
 				}
-			})
-			.done(function( _data ) {
-				console.log(data);
-				event.preventDefault();
 			});
-
-			event.preventDefault();
 		});
 	</script>
 @endsection

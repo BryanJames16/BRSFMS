@@ -17,6 +17,7 @@
 		<meta name="description" content="Barangay Management System" />
 		<meta name="keywords" content="admin, barangay management, barangay management admin" />
 		<meta name="author" content="Barangay Management System" />
+		<meta name="csrf-token" value="{{ csrf_token() }}">
 
 		<!-- Page Title -->
 		<title>@yield('title')</title>
