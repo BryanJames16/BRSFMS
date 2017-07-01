@@ -117,6 +117,52 @@
 	</div>
 
 	<script>
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/service-type/refresh') }}",
+				type: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+							
+					for (var index in data) {
+						var statusText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						$("#table-container").append('<tr>' + 
+									'<td>' + data[index].typeID + '</td>' + 
+									'<td>' + data[index].typeName + '</td>' + 
+									'<td>' + data[index].typeDesc + '</td>' + 
+									'<td>' + statusText + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
+											'<input type="hidden" name="typeID" value="' + data[index].typeID + '" />' + 
+											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
+											'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
+											'<input type="hidden" name="status" value="' + statusText + '" />' + 
+											'<div class="btn-group" role="group" aria-label="Basic example">' + 
+												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
+												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+											'</div>' + 
+										'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}
+			});
+		};
+
 		$('#frm-add').submit(function(event) {
 			event.preventDefault();
 
@@ -129,65 +175,23 @@
 						"status": $(".tstat:checked").val()
 				}, 
 				success: function ( _response ){
-					//$("#modal-dismis").click();
 					$("#iconModal").modal('hide');
-					//$("#iconModal").dialog('close');
-					$('body').removeClass('modal-open');
-					$('.modal-backdrop').remove();
-					//$("#iconModal").removeClass("modal").addClass("modal modal-backdrop");
-					//$('#iconModal').fadeOut('fast');
 					
-					$.ajax({
-						url: "{{ url('/service-type/refresh') }}",
-						type: "GET", 
-						datatype: "json", 
-						success: function(data) {
-							$("#table-container").find("tr:gt(0)").remove();
-							data = $.parseJSON(data);
-							
-							for (var index in data) {
-								var statusText = "";
-								if (data[index].status == 0) {
-									statusText = "Active";
-								}
-								else {
-									statusText = "Inactive";
-								}
-
-								$("#table-container").append("<tr>" + 
-											"<td>" + data[index].typeID + "</td>" + 
-											"<td>" + data[index].typeName + "</td>" + 
-											"<td>" + data[index].typeDesc + "</td>" + 
-											"<td>" + statusText + "</td>" + 
-											"<td>" + 
-											"<form method='POST' id='" + data[index].typeID + "' action='/service-type/delete' accept-charset='UTF-8'])!!}" + 
-											//"{!! csrf_field() !!}" + 
-											"</form>" + 
-											"</td>" + 
-											"</tr>"
-								);
-							}
-						}
-					});
+					refreshTable();
 					
 					swal("Successful", 
 							"Service type has been added!", 
 							"success");
-					//console.log("Success");
-					// $("html").html($("html", _response).html());
 				}, 
-				error: function(xhr, status, error) {
-					var err = xhr.responseText;
-					swal("ERROR", 
-							"Error has been caught:\n" + err.Message, 
-							"error");
-					console.log("Error found: " + error + "\n" + 
-								"Status: " + status + "\n" +
-								"XHR: " + xhr + "\n" + 
-								"Token: " + $('#csrf-token').val() + "\n" + 
-								"TypeName: " + $("#name").val() + "\n" + 
-								"TypeDesc: " + $("#desc").val() + "\n" + 
-								"Status: " + $(".tstat:checked").val());
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
 				}
 			});
 		});
@@ -202,13 +206,7 @@
 @endsection
 
 @section('modal-controller')
-	<script>
-		var app = angular.module("maintenanceApp", []);
-		app.controller("serviceTypeController", ["$scope", function($scope) {
-			
-		}]);
-		
-	</script>
+	
 @endsection
 
 @section('table-head-list')
@@ -232,17 +230,16 @@
 			@endif
 			
 			<td>
-				{!!Form::open(['url'=>'service-type/delete', 'method' => 'POST', 'id' => $serviceType -> typeID ])!!}					
-				{{ csrf_field() }}
+				{!! Form::open(['url'=>'service-type/delete', 'method' => 'POST', 'id' => $serviceType -> typeID ]) !!}
 					<input type='hidden' name='typeID' value='{{ $serviceType -> typeID }}' />
 					<input type='hidden' name='typeName' value='{{ $serviceType -> typeName }}' />
 					<input type='hidden' name='typeDesc' value='{{ $serviceType -> typeDesc }}' />
 					<input type='hidden' name='status' value='{{ $serviceType -> status }}' />
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $serviceType -> typeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $serviceType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					<div class="btn-group" role="group" aria-label="Basic example">
+						<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $serviceType -> typeID }}'><i class="icon-android-create"></i></button>
+						<button class='btn btn-icon btn-round btn-danger delete' value='{{ $serviceType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 					</div>
-				{!!Form::close()!!}
+				{!! Form::close() !!}
 			</td>
 		</tr>
 	@endforeach
@@ -265,11 +262,10 @@
 				data: {typeID:id},
 				success:function(data)
 				{
-					//console.log(data);
 					var frm = $('#frm-update');
-					frm.find('#type_name').val(data.typeName);
-					frm.find('#type_desc').val(data.typeDesc);
-					frm.find('#type_ID').val(data.typeID);
+					frm.find('#typeName').val(data.typeName);
+					frm.find('#typeDesc').val(data.typeDesc);
+					frm.find('#typeID').val(data.typeID);
 
 					if(data.status==1)
 					{
@@ -292,8 +288,14 @@
 	<script type="text/javascript">
 
 	$(document).on('click', '.delete', function(e) {
-
+		e.preventDefault();
 		var id = $(this).val();
+
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
 
 		$.ajax({
 				type: 'get',
@@ -301,7 +303,6 @@
 				data: {typeID:id},
 				success:function(data)
 				{
-					//console.log(data);
 					swal({
 						  title: "Are you sure you want to delete " + data.typeName + "?",
 						  text: "",
@@ -312,12 +313,22 @@
 						  closeOnConfirm: false
 						},
 						function(){
-
-						  swal("Successfull", data.typeName + " is deleted!", "success");
-						  document.getElementById(data.typeID).submit();
+						  $.ajax({
+							  type: "post", 
+							  url: "{{ url('service-type/delete') }}", 
+							  data: {
+							  			typeID: id},
+							  success: function(data) { 
+									swal("Success", "Successfully deleted!", "success");
+									refreshTable();
+							  }, 
+							  error: function(data) {
+									swal("Error", "Failed!", "error");
+							  }
+						  });
 						});				
 				}
-			})
+			});
 
 	
 		
@@ -345,7 +356,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{!!Form::text('type_ID',null,['id'=>'type_ID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+			{!!Form::text('type_ID',null,['id'=>'typeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
 		</div>	
 
 	</div>
@@ -354,7 +365,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{!!Form::text('typeName',null,['id'=>'type_name','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
+			{!! Form::text('typeName',null,['id'=>'typeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
 		</div>	
 
 	</div>
@@ -362,7 +373,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{!!Form::textarea('type_desc',null,['id'=>'type_desc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+			{!!Form::textarea('typeDesc',null,['id'=>'typeDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
 		</div>	
 
 	</div>
@@ -389,8 +400,44 @@
 
 @section('edit-modal-action')
 	
-	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
+	{!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
 	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 	</button>
 	
+	<script>
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/service-type/update') }}",
+				type: "POST",
+				data: {"_token": $('#csrf-token').val(), 
+						"typeID": $("#typeID").val(), 
+						"typeName": $("#typeName").val(), 
+						"typeDesc": $("#typeDesc").val(), 
+						"status": $(".tstat:checked").val()
+				}, 
+				success: function ( _response ){
+					$("#iconModal").modal('hide');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Service type has been added!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+	</script>
+
 @endsection

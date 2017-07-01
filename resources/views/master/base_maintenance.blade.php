@@ -44,7 +44,7 @@
 						<div class="card-block card-dashboard">
 							<p align="right">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#iconModal" style="width:130px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal"  style="width:130px; font-size:13px">
 									<i class="icon-edit2"></i> ADD  
 								</button>
 
@@ -65,7 +65,7 @@
 													<div class="card-text">
 														
 													</div>
-
+													@yield('modal-controller')
 													@yield('modal-form-body')
 
 													<div class="form-actions center">
@@ -75,7 +75,7 @@
 												</div>
 											</div>
 
-											@yield('modal-controller')
+											
 
 											<!-- End of Modal Body -->
 

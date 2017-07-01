@@ -68,12 +68,26 @@ class ServiceTypeController extends Controller
     public function edit(Request $r)
     {
 
-        $type = ServiceType::find($r->input('type_ID'));
+        if($r->input('status') == "active")
+        {
+            $stat = 0;
+        }
+        else if($r->input('status') == "inactive")
+        {
+            $stat = 1;
+        }
+        else
+        {
+
+        }        
+
+        $type = ServiceType::find($r->input('typeID'));
         $type->typeName = $r->input('typeName');
-        $type->typeDesc = $r->input('type_desc');
-        $type->status = $r->input('stat');
+        $type->typeDesc = $r->input('typeDesc');
+        $type->status = $stat;
         $type->save();
-        return redirect('service-type');
+
+        return back();
     }
 
     public function delete(Request $r)
@@ -82,6 +96,7 @@ class ServiceTypeController extends Controller
         $type = ServiceType::find($r->input('typeID'));
         $type->archive = true;
         $type->save();
-        return redirect('service-type');
+        //return redirect('service-type');
+        return back();
     }
 }
