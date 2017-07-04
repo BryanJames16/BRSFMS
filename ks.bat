@@ -27,7 +27,7 @@ IF %1==localhost (
     START php artisan serv --port=80
     GOTO END
 )
-IF %1==lh (
+IF %1==lh ( 
     ECHO Starting localhost server...
     START php artisan serv --port=80
     GOTO END
