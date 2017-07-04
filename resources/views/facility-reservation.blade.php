@@ -422,10 +422,7 @@
 											<div class="modal-body">
 												<div class="card-block">
 													{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-														
-														<fieldset>
 															<div class="row">
-
 																<div class="col-md-6">
 																	<div class="form-group">
 																		<label for="firstName1">Reservation Name :</label>
@@ -433,14 +430,12 @@
 																		{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
 																	</div>
 																</div>
-
 																<div class="col-md-6">
 																	<div class="form-group">
 																		<label for="firstName1">Reservee :</label>
 																		{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
 																	</div>
 																</div>
-
 																<div class="col-md-6">
 																	<div class="form-group">
 																		<label for="firstName1">Facility :</label>
@@ -448,10 +443,7 @@
 																	</div>
 																</div>
 															</div>
-
 															<div class="row">
-																
-
 																<div class="col-md-6">
 																	<div class="form-group">
 																		<label for="firstName1">Reservation Description :</label>
@@ -487,10 +479,6 @@
 																	</div>
 																</div>
 															</div>
-														</fieldset>
-														
-												
-
 													<div class="form-actions center">
 
 															<button type="submit" class="btn btn-success mr-1">Reschedule</button>
@@ -574,35 +562,27 @@
 											</div>
 											<div class="modal-body">
 												{!!Form::open(['url'=>'/reservation/store', 'method' => 'POST'])!!}
-													
-													<fieldset>
 														<div class="row">
-
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="firstName1">Reservation Name :</label>
 																	{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
 																</div>
 															</div>
-
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="firstName1">Reservee :</label>
-																	{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+																	{{ Form::select('peoplePrimeID', $people, null, ['id'=>'reserveeCbo', 'class' => 'form-control border-info selectBox']) }}
 																</div>
 															</div>
-
+														</div>
+														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="firstName1">Facility :</label>
 																	{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
 																</div>
 															</div>
-														</div>
-
-														<div class="row">
-															
-
 															<div class="col-md-6">
 																<div class="form-group">
 																	<label for="firstName1">Reservation Description :</label>
@@ -610,31 +590,31 @@
 
 																</div>
 															</div>
-
-															<div class="col-md-6">
+														</div>
+														<div class="row">
+															<div class="col-md-4">
 																<div class="form-group">
 																	<label for="firstName1">Date :</label>
-																	<div class='input-group'>
-
-																			{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
-
-																			<label for="firstName1">Start Time :</label>
-																			{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-
-																			<label for="firstName1">End Time :</label>
-																			{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+																	{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
 																	</div>
 																</div>
 															</div>
-
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="firstName1">Start Time :</label>
+																	{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+																</div>
+															</div>
+															<div class="col-md-4">
+																<div class="form-group">
+																	<label for="firstName1">End Time :</label>
+																	{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+																</div>
+															</div>
 														</div>
-
-													</fieldset>
-													<div class="form-actions center">
-														{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
-													</div>	
-													
-													
+														<div class="form-actions center">
+															{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
+														</div>	
 												{!!Form::close()!!}
 											</div>
 
@@ -766,4 +746,47 @@
 
 @section('page-level-js')
 	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
+	<script>
+		var refreshCbo = function() {
+			$.ajax({
+				url: "{{ url('/reservation/updatecbo') }}", 
+				type: "GET", 
+				success: function(data){
+					$("#reserveeCbo").empty();
+					var reserveeData = "";
+					data = $.parseJSON(data);
+					for (var index in data) {
+						var name = "";
+						reserveeData += data[index].lastName + ", ";
+						reserveeData += data[index].firstName + " ";
+						if (data[index].middleName != "") {
+							reserveeData += " " + data[index].middleName;
+						}
+
+						console.log("First Name: " + data[index].firstName);
+						console.log("Last Name: " + data[index].lastName);
+
+						$("#reserveeCbo").append(
+							'<option value="' + data[index].peoplePrimeID + '">' + reserveeData + '</option>'
+						);
+
+						reserveeData = "";
+					}
+				}, 
+				error: function(data){
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					console.log("Error: " +  bnhy,message);
+				}
+			});
+
+			console.log("done loading...");
+		}
+
+		refreshCbo();
+	</script>
 @endsection
