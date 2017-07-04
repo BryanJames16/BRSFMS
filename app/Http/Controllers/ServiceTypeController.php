@@ -62,7 +62,6 @@ class ServiceTypeController extends Controller
             return response(ServiceType::find($r->typeID));
         }
 
-
     }
 
     public function edit(Request $r)

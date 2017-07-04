@@ -30,7 +30,7 @@
 
 		<!-- Site icon tags -->
 		<link rel="shortcut icon" type="image/x-icon" href="{{ URL::asset('/system-assets/ico/favicon.ico') }}" />
-		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/facivon-32.png') }}" />
+		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/favicon-32.png') }}" />
 
 		<!-- Apple Devices META tags -->
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -273,13 +273,6 @@
 						<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-ellipsis"></i>
 					</li>
 					
-
-					<li class="nav-item" id="individual-id">
-						<a href="/person">
-							<i class="icon-user"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Person</span>
-						</a>
-					</li>
 					<li class="nav-item" id="document-id">
 						<a href="/document">
 							<i class="icon-file2"></i>
@@ -371,7 +364,7 @@
 					<li class="nav-item" id="resident-application-id">
 						<a href="/resident">
 							<i class="icon-user"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
+							<span data-i18n="nav.dash.main" class="menu-title">Person</span>
 						</a>
 					</li>
 					<li class="nav-item" id="facility-reservation-id">

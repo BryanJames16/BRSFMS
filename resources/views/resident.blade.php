@@ -16,7 +16,6 @@
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
-
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
 		setSelectedTab(RESIDENT_APPLICATION);
@@ -41,9 +40,10 @@
 	<section id="multi-column">
 		<div class="row">
 			<div class="col-xs-14">
+
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Current Resident</h4>
+						<h4 class="card-title">Person Management</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -55,110 +55,110 @@
 
 					<div class="card-body collapse in">
 						<div class="card-block card-dashboard">
-							<p align="right">
+							<p align="center">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-outline-info btn-lg"   style="width:130px; font-size:13px" id="btnAddModal">
-									<i class="icon-edit2"></i> REGISTER<br>RESIDENT  
+									<i class="icon-edit2"></i> REGISTER<br />PERSON  
 								</button>
 							</p>
 						</div>
-					</div>
+						<div class="card-body">
+							<div class="card-block">
+								<ul class="nav nav-tabs nav-justified nav-top-border no-hover-bg nav-justified">
+									<li class="nav-item">
+										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#all" aria-controls="active3" aria-expanded="true">All Person</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#resident" aria-controls="link3" aria-expanded="false">Residents</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="lin-tab3" data-toggle="tab" href="#outsider" aria-controls="linkOpt3">Outsiders</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="linkOpt-tab3" data-toggle="tab" href="#family" aria-controls="linkOpt3">Families
+										</a>
+									</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
+										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-All">
+											<thead>
+												<tr>
+													<th>Person ID</th>
+													<th>Person Name</th>
+													<th>Contact #</th>
+													<th>Gender</th>
+													<th>Resident</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
 
-					<table class="table table-striped table-bordered datacol-column-filtering" id="table-container">
-                    	<thead>
-                    		<tr>
-								<th>Resident ID</th>
-								<th>Resident Name</th>
-								<th>Contact #</th>
-								<th>Gender</th>
-								<th>Civil Status</th>
-								<th>Resident Type</th>
-								<th>Actions</th>
-							</tr>
-                    	</thead>
+											<tbody>
+												<tr>
 
-	                	<tbody>
-	                		<tr>
-	                			<td>001</td>
-	                			<td>Calipay, Rowel Tenacio</td>
-	                			<td>09235618634</td>
-	                			<td>MALE</td>
-	                			<td>Married</td>
-	                			<td>Permanent Resident</td>
-	                			<td>
-	                				<button class='btn btn-icon btn-round btn-success normal'  type='button'>Edit</button>
-             						<button class='btn btn-icon btn-round btn-info normal'  type='button'>Add family</button>
-	                			</td>
-	                		</tr>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 
-	                		<tr>
-	                			<td>002</td>
-	                			<td>Renato, Jenny Tagum</td>
-	                			<td>09134426789</td>
-	                			<td>FEMALE</td>
-	                			<td>Single</td>
-	                			<td>Transient Resident</td>
-	                			<td>
-	                				<button class='btn btn-icon btn-round btn-success normal'  type='button'></i>Edit</button>
-             						<button class='btn btn-icon btn-round btn-info normal'  type='button'>Add family</button>
-	                			</td>
-	                		</tr>
-	                	</tbody>
-	                </table>
-				</div>
+									<div class="tab-pane fade" id="resident" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-Resident">
+											<thead>
+												<tr>
+													<th>Resident ID</th>
+													<th>Resident Name</th>
+													<th>Contact #</th>
+													<th>Address</th>
+													<th>Resident Type</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
 
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Current Family</h4>
-						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-						<div class="heading-elements">
-							<ul class="list-inline mb-0">
-								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
-								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-							</ul>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+
+									<div class="tab-pane fade" id="outsider" role="tabpanel" aria-labelledby="lin-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-Outside">
+											<thead>
+												<tr>
+													<th>Person ID</th>
+													<th>Person Name</th>
+													<th>Contact #</th>
+													<th>Address</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+
+									<div class="tab-pane fade" id="family" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-Outside">
+											<thead>
+												<tr>
+													<th>Family ID</th>
+													<th>Family Name</th>
+													<th>Family Head</th>
+													<th>Family Size</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+													
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<div class="card-body collapse in">
-						<div class="card-block card-dashboard">
-						</div>
-					</div>
-
-					<table class="table table-striped table-bordered datacol-column-filtering" id="table-container">
-                    	<thead>
-                    		<tr>
-								<tg>Family ID</th>
-								<th>Family Name</th>
-								<th>Members</th>
-								<th>Head</th>
-								<th>Actions</th>
-							</tr>
-                    	</thead>
-
-	                	<tbody>
-	                		<tr>
-	                			<td>FAM-03</td>
-	                			<td>Calipay</td>
-	                			<td>5</td>
-	                			<td>Calipay, Rowel Tenacio</td>
-	                			<td>
-	                				<button class='btn btn-icon btn-round btn-success normal'  type='button'></i>Edit</button>
-	                				<button class='btn btn-icon btn-round btn-danger normal'  type='button'>Delete</button>
-	                			</td>
-	                		</tr>
-
-	                		<tr>
-	                			<td>FAM-06</td>
-	                			<td>Renato</td>
-	                			<td>15</td>
-	                			<td>Renato, Jenny Tagum</td>
-	                			<td>
-	                				<button class='btn btn-icon btn-round btn-success normal'  type='button'></i>Edit</button>
-	                				<button class='btn btn-icon btn-round btn-danger normal'  type='button'>Delete</button>
-	                			</td>
-	                		</tr>
-	                	</tbody>
-	                </table>
 				</div>
 			</div>
 		</div>
@@ -416,7 +416,7 @@
 @endsection
 
 @section('page-vendor-js')
-	<<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
@@ -429,10 +429,16 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatables-colreorder.js') }}" type="text/javascript"></script>
+	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
 	
 @endsection
 
