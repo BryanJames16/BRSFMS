@@ -20,13 +20,9 @@
 	<h2 class="content-header-title">Service Type</h2>
 @endsection
 
-
-	
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Service</li>
 	<li class="breadcrumb-item"><a href="#">Service Type</a></li>
-
-
 @endsection
 
 @section('main-card-title')
@@ -316,8 +312,7 @@
 						  $.ajax({
 							  type: "post", 
 							  url: "{{ url('service-type/delete') }}", 
-							  data: {
-							  			typeID: id},
+							  data: {typeID: id},
 							  success: function(data) { 
 									swal("Success", "Successfully deleted!", "success");
 									refreshTable();
@@ -423,7 +418,7 @@
 					refreshTable();
 					
 					swal("Successful", 
-							"Service type has been added!", 
+							"Service type has been updated!", 
 							"success");
 				}, 
 				error: function(error) {

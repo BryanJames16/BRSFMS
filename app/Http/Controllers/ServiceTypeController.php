@@ -23,19 +23,6 @@ class ServiceTypeController extends Controller
             $this->validate($r, [
                 'typeName' => 'required|unique:servicetypes|max:20',
             ]);
-            
-            if($r->input('status') == "active")
-            {
-                $stat = 1;
-            }
-            else if($r->input('status') == "inactive")
-            {
-                $stat = 0;
-            }
-            else
-            {
-
-            }
 
             $aah = ServiceType::insert(['typeName'=>trim($r -> typeName),
                                                 'archive' => 0,
@@ -96,7 +83,7 @@ class ServiceTypeController extends Controller
         $type = ServiceType::find($r->input('typeID'));
         $type->archive = true;
         $type->save();
-        //return redirect('service-type');
+        
         return back();
     }
 }

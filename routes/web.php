@@ -38,6 +38,7 @@ Route::post('/service-type/update','ServiceTypeController@edit');
 Route::post('/service-type/delete','ServiceTypeController@delete');
 
 //Service
+Route::get('/service/refresh','ServiceController@refresh');
 Route::get('/service/getEdit', 'ServiceController@getEdit');
 Route::post('/service/store', 'ServiceController@store');
 Route::post('/service/update','ServiceController@edit');
