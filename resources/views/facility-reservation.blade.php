@@ -28,7 +28,7 @@
 
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(CASEFILE);
+		setSelectedTab(FACILITY_RESERVATION);
 	</script>
 @endsection
 
@@ -67,7 +67,7 @@
 							
 							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#iconModal" style="width:160px; font-size:13px" onclick="location.href='/reservation';">
+								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> Facility Reservation  
 								</button>
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#calendarModal" style="width:160px; font-size:13px">
@@ -102,13 +102,10 @@
 
 										<thead>
 				                    		<tr>
-												<th>Reservation Name</th>
+												<th>Name</th>
 												<th>Reserved Facility</th>
 												<th>Reserved By</th>
-												<th>Description</th>
-												<th>Date</th>
-												<th>Start</th>
-												<th>End</th>
+												<th>Date and Time</th>
 												<th>Status</th>
 												<th>Actions</th>
 											</tr>
@@ -126,14 +123,13 @@
 				                    			<td>{{ $reservation -> reservationName }}</td>
 				                    			<td>{{ $reservation -> facilityName }}</td>
 				                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-				                    			<td>{{ $reservation -> reservationDescription }}</td>
-				                    			<td>{{ $reservation -> dateReserved }}</td>
-				                    			<td>{{ date('g:i a',strtotime($reservation -> reservationStart)) }}</td>
-				                    			<td>{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+				                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+				  
 				                    			<td>{{ $reservation -> status }}</td>
 				                    			<td>
 				                    				@if($reservation -> status  == 'Pending')
 				                    				<div class="btn-group" role="group" aria-label="Basic example">
+														<button class='btn btn-icon btn-round btn-primary normal view' data-toggle="tooltip" data-placement="top" data-original-title="View Details"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-ios-eye"></i></button>
 														<button class='btn btn-icon btn-round btn-success normal edit' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-android-clipboard"></i></button>
 														<button class='btn btn-icon btn-round btn-danger delete' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
 													</div>
@@ -159,13 +155,10 @@
 
 								<thead>
 		                    		<tr>
-										<th>Reservation Name</th>
+										<th>Name</th>
 										<th>Reserved Facility</th>
 										<th>Reserved By</th>
-										<th>Description</th>
-										<th>Date</th>
-										<th>Start</th>
-										<th>End</th>
+										<th>Date and Time</th>
 										<th>Status</th>
 										<th>Actions</th>
 									</tr>
@@ -184,10 +177,7 @@
 				                    			<td>{{ $reservation -> reservationName }}</td>
 				                    			<td>{{ $reservation -> facilityName }}</td>
 				                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-				                    			<td>{{ $reservation -> reservationDescription }}</td>
-				                    			<td>{{ $reservation -> dateReserved }}</td>
-				                    			<td>{{ date('g:i a',strtotime($reservation -> reservationStart)) }}</td>
-				                    			<td>{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+				                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 				                    			<td>{{ $reservation -> status }}</td>
 				                    			<td>
 				                    				<div class="btn-group" role="group" aria-label="Basic example">
@@ -215,13 +205,10 @@
 
 											<thead>
 					                    		<tr>
-													<th>Reservation Name</th>
+													<th>Name</th>
 													<th>Reserved Facility</th>
 													<th>Reserved By</th>
-													<th>Description</th>
-													<th>Date</th>
-													<th>Start</th>
-													<th>End</th>
+													<th>Date and Time</th>
 													<th>Status</th>
 													<th>Actions</th>
 												</tr>
@@ -240,10 +227,7 @@
 							                    			<td>{{ $reservation -> reservationName }}</td>
 							                    			<td>{{ $reservation -> facilityName }}</td>
 							                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-							                    			<td>{{ $reservation -> reservationDescription }}</td>
-							                    			<td>{{ $reservation -> dateReserved }}</td>
-							                    			<td>{{ date('g:i a',strtotime($reservation -> reservationStart)) }}</td>
-				                    						<td>{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+							                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 							                    			<td>{{ $reservation -> status }}</td>
 							                    			<td>N/A
 							                    			</td>
@@ -269,13 +253,10 @@
 
 													<thead>
 							                    		<tr>
-															<th>Reservation Name</th>
+															<th>Name</th>
 															<th>Reserved Facility</th>
 															<th>Reserved By</th>
-															<th>Description</th>
 															<th>Date</th>
-															<th>Start</th>
-															<th>End</th>
 															<th>Status</th>
 															<th>Actions</th>
 														</tr>
@@ -294,10 +275,7 @@
 									                    			<td>{{ $reservation -> reservationName }}</td>
 									                    			<td>{{ $reservation -> facilityName }}</td>
 									                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-									                    			<td>{{ $reservation -> reservationDescription }}</td>
-									                    			<td>{{ $reservation -> dateReserved }}</td>
-									                    			<td>{{ date('g:i a',strtotime($reservation -> reservationStart)) }}</td>
-				                    								<td>{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+									                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 									                    			<td>{{ $reservation -> status }}</td>
 									                    			<td>N/A
 									                    			</td>
@@ -318,41 +296,78 @@
 						</div>
 					</div>
 		<script>
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
+			$(document).on('click', '.edit', function(e) {
+				var id = $(this).val();
 
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
+				$.ajaxSetup({
+			        headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			        }
+				});
+
+				$.ajax({
+					type: 'get',
+					url: "{{ url('/facility-reservation/getEdit') }}",
+					data: {primeID:id},
+					success:function(data)
+					{
+						console.log(data);
+						var frm = $('#frm-update');
+						frm.find('#name').val(data.reservationName);
+						frm.find('#desc').val(data.reservationDescription);
+						frm.find('#facilityPrimeID').val(data.facilityPrimeID);
+						frm.find('#primeID').val(data.primeID);
+						frm.find('#peoplePrimeID').val(data.peoplePrimeID);
+						frm.find('#date').val(data.dateReserved);
+						frm.find('#startTime').val(data.reservationStart);
+						frm.find('#endTime').val(data.reservationEnd);
+						
+						
+						$('#rescheduleModal').modal('show');
+						
+					}
+				})
+
 			});
 
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/facility-reservation/getEdit') }}",
-				data: {primeID:id},
-				success:function(data)
-				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#name').val(data.reservationName);
-					frm.find('#desc').val(data.reservationDescription);
-					frm.find('#facilityPrimeID').val(data.facilityPrimeID);
-					frm.find('#primeID').val(data.primeID);
-					frm.find('#peoplePrimeID').val(data.peoplePrimeID);
-					frm.find('#date').val(data.dateReserved);
-					frm.find('#startTime').val(data.reservationStart);
-					frm.find('#endTime').val(data.reservationEnd);
-					
-					
-					$('#rescheduleModal').modal('show');
-					
-				}
-			})
+		</script>
 
-		});
+		<script>
+			$(document).on('click', '.view', function(e) {
+				var id = $(this).val();
 
-	</script>
+				$.ajaxSetup({
+			        headers: {
+			            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			        }
+				});
+
+				$.ajax({
+					type: 'get',
+					url: "{{ url('/facility-reservation/getEdit') }}",
+					data: {primeID:id},
+					success:function(data)
+					{
+						console.log(data);
+						var frm = $('#frm-update');
+						frm.find('#name').val(data.reservationName);
+						frm.find('#desc').val(data.reservationDescription);
+						frm.find('#facilityPrimeID').val(data.facilityPrimeID);
+						frm.find('#primeID').val(data.primeID);
+						frm.find('#peoplePrimeID').val(data.peoplePrimeID);
+						frm.find('#date').val(data.dateReserved);
+						frm.find('#startTime').val(data.reservationStart);
+						frm.find('#endTime').val(data.reservationEnd);
+						
+						
+						$('#viewModal').modal('show');
+						
+					}
+				})
+
+			});
+
+		</script>
 
 	<script type="text/javascript">
 
@@ -535,6 +550,193 @@
 												</div>
 											
 												</div>
+											</div>
+
+											<!-- End of Modal Body -->
+
+										</div>
+									</div>
+								</div> <!-- End of Modal -->
+
+
+
+									<!--                         RESERVE FACILITY                         -->
+
+						<!-- Modal -->
+								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
+											</div>
+											<div class="modal-body">
+												{!!Form::open(['url'=>'/reservation/store', 'method' => 'POST'])!!}
+													
+													<fieldset>
+														<div class="row">
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="firstName1">Reservation Name :</label>
+																	{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
+																</div>
+															</div>
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="firstName1">Reservee :</label>
+																	{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+																</div>
+															</div>
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="firstName1">Facility :</label>
+																	{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
+																</div>
+															</div>
+														</div>
+
+														<div class="row">
+															
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="firstName1">Reservation Description :</label>
+																	{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+
+																</div>
+															</div>
+
+															<div class="col-md-6">
+																<div class="form-group">
+																	<label for="firstName1">Date :</label>
+																	<div class='input-group'>
+
+																			{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
+
+																			<label for="firstName1">Start Time :</label>
+																			{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+
+																			<label for="firstName1">End Time :</label>
+																			{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+																	</div>
+																</div>
+															</div>
+
+														</div>
+
+													</fieldset>
+													<div class="form-actions center">
+														{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
+													</div>	
+													
+													
+												{!!Form::close()!!}
+											</div>
+
+											<!-- End of Modal Body -->
+
+										</div>
+									</div>
+								</div> <!-- End of Modal -->
+
+
+
+
+								<!--                          VIEW MODAL                        -->
+
+							<!-- Modal -->
+								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
+											</div>
+											<div class="modal-body">
+												{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
+														
+														<fieldset>
+															<div class="row">
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Reservation Name :</label>
+																		{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
+																		{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
+																	</div>
+																</div>
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Reservee :</label>
+																		{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+																	</div>
+																</div>
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Facility :</label>
+																		{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
+																	</div>
+																</div>
+															</div>
+
+															<div class="row">
+																
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Reservation Description :</label>
+																		{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+
+																	</div>
+																</div>
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Date :</label>
+																		<div class='input-group'>
+																				{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+
+															<div class="row">
+																
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">Start Time :</label>
+																				{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+																	</div>
+																</div>
+
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="firstName1">End Time :</label>
+																				{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+																	</div>
+																</div>
+															</div>
+														</fieldset>
+														
+												
+
+													<div class="form-actions center">
+
+															<button type="submit" class="btn btn-success mr-1">Reschedule</button>
+															<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+														
+													</div>
+													{!!Form::close()!!}
 											</div>
 
 											<!-- End of Modal Body -->

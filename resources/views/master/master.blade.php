@@ -373,22 +373,16 @@
 							<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
 						</a>
 					</li>
-					<li class="nav-item">
-						<a href="/file-case">
-							<i class="icon-folder2"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Case</span>
+					<li class="nav-item" id="facility-reservation-id">
+						<a href="/facility-reservation">
+							<i class="icon-ios-cog-outline"></i>
+							<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a href="/document-request">
 							<i class="icon-file-text2"></i>
 							<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
-						</a>
-					</li>
-					<li class="nav-item" id="facility-reservation-id">
-						<a href="/facility-reservation">
-							<i class="icon-ios-cog-outline"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
 						</a>
 					</li>
 					<li class="nav-item" id="service-sponsorship-id">
