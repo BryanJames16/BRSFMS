@@ -64,7 +64,6 @@
 
 					<div class="card-body collapse in">
 						<div class="card-block card-dashboard">
-							
 							<p align="center">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
@@ -73,9 +72,7 @@
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#calendarModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> View Calendar  
 								</button>
-							</p>
-							
-								
+							</p>	
 						</div>
 						<div class="card-body">
 							<div class="card-block">
@@ -148,26 +145,22 @@
 
 									</div>
 									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-									
+										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Reserved Facility</th>
+													<th>Reserved By</th>
+													<th>Date and Time</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>	
+											<tbody>
 
-												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+												@foreach($reservations as $reservation)
 
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>Reserved Facility</th>
-												<th>Reserved By</th>
-												<th>Date and Time</th>
-												<th>Status</th>
-												<th>Actions</th>
-											</tr>
-										</thead>
-
-										<tbody>
-
-											@foreach($reservations as $reservation)
-
-											@if($reservation -> status  == 'Pending')
+												@if($reservation -> status  == 'Pending')
 													<tr>
 														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
 														{{ csrf_field() }}
@@ -186,114 +179,87 @@
 														</td>
 														{!!Form::close()!!}
 													</tr>
-											@endif
+												@endif
 
-											@endforeach
+												@endforeach
 
 											
-										</tbody>
-
-									</table>
+											</tbody>
+										</table>
 
 									</div>
 									<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
-									
-
-
-												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
-
-													<thead>
-														<tr>
-															<th>Name</th>
-															<th>Reserved Facility</th>
-															<th>Reserved By</th>
-															<th>Date and Time</th>
-															<th>Status</th>
-															<th>Actions</th>
-														</tr>
-													</thead>
-
-													<tbody>
-
-														@foreach($reservations as $reservation)
-
-														@if($reservation -> status  == 'Rescheduled')
-																<tr>
-																	{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
-																	{{ csrf_field() }}
-
-																	<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-																	<td>{{ $reservation -> reservationName }}</td>
-																	<td>{{ $reservation -> facilityName }}</td>
-																	<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-																	<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-																	<td>{{ $reservation -> status }}</td>
-																	<td>N/A
-																	</td>
-																	{!!Form::close()!!}
-																</tr>
-														@endif
-
-														@endforeach
-
-														
-													</tbody>
-
-												</table>
-
-
-
+										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Reserved Facility</th>
+													<th>Reserved By</th>
+													<th>Date and Time</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach($reservations as $reservation)
+												@if($reservation -> status  == 'Rescheduled')
+												<tr>
+													{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+													{{ csrf_field() }}
+													<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+													<td>{{ $reservation -> reservationName }}</td>
+													<td>{{ $reservation -> facilityName }}</td>
+													<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+													<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+													<td>{{ $reservation -> status }}</td>
+													<td>N/A
+													</td>
+													{!!Form::close()!!}
+												</tr>
+												@endif
+												@endforeach
+											</tbody>
+										</table>
 									</div>
 									<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
-									
-
-										
-												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
-
-															<thead>
-																<tr>
-																	<th>Name</th>
-																	<th>Reserved Facility</th>
-																	<th>Reserved By</th>
-																	<th>Date</th>
-																	<th>Status</th>
-																	<th>Actions</th>
-																</tr>
-															</thead>
-
-															<tbody>
-
-																@foreach($reservations as $reservation)
-
-																@if($reservation -> status  == 'Cancelled')
-																		<tr>
-																			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
-																			{{ csrf_field() }}
-
-																			<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-																			<td>{{ $reservation -> reservationName }}</td>
-																			<td>{{ $reservation -> facilityName }}</td>
-																			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-																			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-																			<td>{{ $reservation -> status }}</td>
-																			<td>N/A
-																			</td>
-																			{!!Form::close()!!}
-																		</tr>
-																@endif
-
-																@endforeach
-
-																
-															</tbody>
-
-														</table>
-
-
-
+										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Reserved Facility</th>
+													<th>Reserved By</th>
+													<th>Date</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach($reservations as $reservation)
+												@if($reservation -> status  == 'Cancelled')
+													<tr>
+														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+														{{ csrf_field() }}
+														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+														<td>{{ $reservation -> reservationName }}</td>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+														<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ $reservation -> status }}</td>
+														<td>N/A
+														</td>
+														{!!Form::close()!!}
+													</tr>
+												@endif
+												@endforeach
+											</tbody>
+										</table>
 									</div>
 								</div>
+							</div>
+						</div>
 					</div>
+				</div>
+
 		<script>
 			$(document).on('click', '.edit', function(e) {
 				var id = $(this).val();
@@ -368,14 +334,10 @@
 
 		</script>
 
-	<script type="text/javascript">
+		<script>
 
-	$(document).on('click', '.delete', function(e) {
-
-		
-		var id = $(this).val();
-
-		$.ajax({
+			$(document).on('click', '.delete', function(e) {
+				var id = $(this).val();
 				type: 'get',
 				url: "{{ url('facility-reservation/getEdit') }}",
 				data: {primeID:id},
@@ -398,17 +360,9 @@
 						  document.getElementById(data.primeID).submit();
 						});				
 				}
-			})
-
-	
-		
-	});
-	</script>
-						</div>
-					</div>
-				</div>
-
-				<!-- Modal -->
+			});
+		</script>
+										<!-- Reschedule Modal -->
 								<div class="modal fade text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -496,7 +450,7 @@
 
 
 
-								<!-- Modal -->
+										<!-- Calendar Modal -->
 								<div class="modal fade text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-xl modal-dialog" role="document">
 										<div class="modal-content">
@@ -547,9 +501,9 @@
 
 
 
-									<!--                         RESERVE FACILITY                         -->
+										<!--RESERVE FACILITY -->
 
-						<!-- Modal -->
+										<!--Add Modal -->
 								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -626,7 +580,7 @@
 
 
 
-								<!--                          VIEW MODAL                        -->
+										<!-- VIEW MODAL -->
 
 							<!-- Modal -->
 								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">

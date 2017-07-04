@@ -2,11 +2,17 @@
 
 @section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
+	<!--
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	-->
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/select.dataTables.min.css') }}" />
+	<script src="{{ URL::asset('/robust-assets/js/components/extensions/fullcalendar.js') }}" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 @endsection
 
 <!-- Title of the Page -->
@@ -81,7 +87,7 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-All">
+										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
 											<thead>
 												<tr>
 													<th>Person ID</th>
@@ -416,28 +422,19 @@
 @endsection
 
 @section('page-vendor-js')
-	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
-
-	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
-	
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
+	
+	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-level-js')
-	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatables-colreorder.js') }}" type="text/javascript"></script>
 	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
 	
 @endsection
