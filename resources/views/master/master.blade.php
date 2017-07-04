@@ -527,6 +527,10 @@
 		@yield('js-setting')
 		<!-- End Post Scripts -->
 
+		<!-- Begin Page Actions -->
+		@yield('page-action')
+		<!-- End Page Actions -->
+
 	</body>
 
 </html>

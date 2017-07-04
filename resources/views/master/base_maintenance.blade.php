@@ -183,7 +183,13 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
-	@endsection
+
+	<script>
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+	</script>
+@endsection
 
 @section('page-level-js')
 	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>

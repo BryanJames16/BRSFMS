@@ -13,13 +13,15 @@ class ReservationController extends Controller
     public function populate()
     {
         return view('reservation',
-        ['facilities'=>Facility::where([['status', 1],['archive', 0]])->pluck('facilityName', 'primeID')],
-        ['people'=>Person::where([['status', 1],['archive', 0]])->pluck('lastName', 'peoplePrimeID')]
+                        ['facilities' => 
+                                Facility::where([['status', 1], 
+                                                ['archive', 0]])
+                                                ->pluck('facilityName', 'primeID')],
+                        ['people'=>Person::where([['status', 1], 
+                                                ['archive', 0]]) 
+                                                ->get()]
 
         );
-
-    
-    
     }
 
    public function index() {
