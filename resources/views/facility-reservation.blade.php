@@ -76,32 +76,84 @@
 							</p>
 							
 								
-				</div>
-				<div class="card-body">
-					<div class="card-block">
+						</div>
+						<div class="card-body">
+							<div class="card-block">
+								<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
+									<li class="nav-item">
+										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#all" aria-controls="active3" aria-expanded="true">All</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#pending" aria-controls="link3" aria-expanded="false">Pending</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="lin-tab3" data-toggle="tab" href="#rescheduled" aria-controls="linkOpt3">Rescheduled</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="linkOpt-tab3" data-toggle="tab" href="#cancelled" aria-controls="linkOpt3">Cancelled</a>
+									</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
+
+
+												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Reserved Facility</th>
+														<th>Reserved By</th>
+														<th>Date and Time</th>
+														<th>Status</th>
+														<th>Actions</th>
+													</tr>
+												</thead>
+
+												<tbody>
+
+													@foreach($reservations as $reservation)
+
+													<tr>
+														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ])!!}					
+														{{ csrf_field() }}
+
+														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+														<td>{{ $reservation -> reservationName }}</td>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+														<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 						
-						<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
-							<li class="nav-item">
-								<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#all" aria-controls="active3" aria-expanded="true">All</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="link-tab3" data-toggle="tab" href="#pending" aria-controls="link3" aria-expanded="false">Pending</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="lin-tab3" data-toggle="tab" href="#rescheduled" aria-controls="linkOpt3">Rescheduled</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="linkOpt-tab3" data-toggle="tab" href="#cancelled" aria-controls="linkOpt3">Cancelled</a>
-							</li>
-						</ul>
-						<div class="tab-content px-1 pt-1">
-							<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
+														<td>{{ $reservation -> status }}</td>
+														<td>
+															@if($reservation -> status  == 'Pending')
+															<div class="btn-group" role="group" aria-label="Basic example">
+																<button class='btn btn-icon btn-round btn-primary normal view' data-toggle="tooltip" data-placement="top" data-original-title="View Details"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-ios-eye"></i></button>
+																<button class='btn btn-icon btn-round btn-success normal edit' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-android-clipboard"></i></button>
+																<button class='btn btn-icon btn-round btn-danger delete' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
+															</div>
+															@else
+															N/A
+															@endif
+														</td>
+														{!!Form::close()!!}
+													</tr>
 
+													@endforeach
 
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+													
+												</tbody>
+
+											</table>
+
+									</div>
+									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+									
+
+												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
 
 										<thead>
-				                    		<tr>
+											<tr>
 												<th>Name</th>
 												<th>Reserved Facility</th>
 												<th>Reserved By</th>
@@ -109,191 +161,138 @@
 												<th>Status</th>
 												<th>Actions</th>
 											</tr>
-				                    	</thead>
+										</thead>
 
-				                    	<tbody>
+										<tbody>
 
-				                    		@foreach($reservations as $reservation)
+											@foreach($reservations as $reservation)
 
-				                    		<tr>
-				                    			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ])!!}					
-												{{ csrf_field() }}
+											@if($reservation -> status  == 'Pending')
+													<tr>
+														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+														{{ csrf_field() }}
 
-												<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-				                    			<td>{{ $reservation -> reservationName }}</td>
-				                    			<td>{{ $reservation -> facilityName }}</td>
-				                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-				                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-				  
-				                    			<td>{{ $reservation -> status }}</td>
-				                    			<td>
-				                    				@if($reservation -> status  == 'Pending')
-				                    				<div class="btn-group" role="group" aria-label="Basic example">
-														<button class='btn btn-icon btn-round btn-primary normal view' data-toggle="tooltip" data-placement="top" data-original-title="View Details"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-ios-eye"></i></button>
-														<button class='btn btn-icon btn-round btn-success normal edit' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-android-clipboard"></i></button>
-														<button class='btn btn-icon btn-round btn-danger delete' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
-													</div>
-													@else
-													N/A
-													@endif
-				                    			</td>
-				                    			{!!Form::close()!!}
-				                    		</tr>
+														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+														<td>{{ $reservation -> reservationName }}</td>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+														<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ $reservation -> status }}</td>
+														<td>
+															<div class="btn-group" role="group" aria-label="Basic example">
+																<button class='btn btn-icon btn-round btn-success normal ' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}' data-toggle='modal' data-target='#rescheduleModal'><i class="icon-android-clipboard"></i></button>
+																<button class='btn btn-icon btn-round btn-danger ' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
+															</div>
+														</td>
+														{!!Form::close()!!}
+													</tr>
+											@endif
 
-				                    		@endforeach
+											@endforeach
 
-					                		
-					                	</tbody>
+											
+										</tbody>
 
 									</table>
 
-							</div>
-							<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-							
-
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
-
-								<thead>
-		                    		<tr>
-										<th>Name</th>
-										<th>Reserved Facility</th>
-										<th>Reserved By</th>
-										<th>Date and Time</th>
-										<th>Status</th>
-										<th>Actions</th>
-									</tr>
-		                    	</thead>
-
-		                    	<tbody>
-
-		                    		@foreach($reservations as $reservation)
-
-		                    		@if($reservation -> status  == 'Pending')
-				                    		<tr>
-				                    			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
-												{{ csrf_field() }}
-
-												<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-				                    			<td>{{ $reservation -> reservationName }}</td>
-				                    			<td>{{ $reservation -> facilityName }}</td>
-				                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-				                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-				                    			<td>{{ $reservation -> status }}</td>
-				                    			<td>
-				                    				<div class="btn-group" role="group" aria-label="Basic example">
-														<button class='btn btn-icon btn-round btn-success normal ' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}' data-toggle='modal' data-target='#rescheduleModal'><i class="icon-android-clipboard"></i></button>
-														<button class='btn btn-icon btn-round btn-danger ' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
-													</div>
-				                    			</td>
-				                    			{!!Form::close()!!}
-				                    		</tr>
-				                    @endif
-
-		                    		@endforeach
-
-			                		
-			                	</tbody>
-
-							</table>
-
-							</div>
-							<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
-							
+									</div>
+									<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
+									
 
 
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
-
-											<thead>
-					                    		<tr>
-													<th>Name</th>
-													<th>Reserved Facility</th>
-													<th>Reserved By</th>
-													<th>Date and Time</th>
-													<th>Status</th>
-													<th>Actions</th>
-												</tr>
-					                    	</thead>
-
-					                    	<tbody>
-
-					                    		@foreach($reservations as $reservation)
-
-					                    		@if($reservation -> status  == 'Rescheduled')
-							                    		<tr>
-							                    			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
-															{{ csrf_field() }}
-
-															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-							                    			<td>{{ $reservation -> reservationName }}</td>
-							                    			<td>{{ $reservation -> facilityName }}</td>
-							                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-							                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-							                    			<td>{{ $reservation -> status }}</td>
-							                    			<td>N/A
-							                    			</td>
-							                    			{!!Form::close()!!}
-							                    		</tr>
-							                    @endif
-
-					                    		@endforeach
-
-						                		
-						                	</tbody>
-
-										</table>
-
-
-
-							</div>
-							<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
-							
-
-								
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
 
 													<thead>
-							                    		<tr>
+														<tr>
 															<th>Name</th>
 															<th>Reserved Facility</th>
 															<th>Reserved By</th>
-															<th>Date</th>
+															<th>Date and Time</th>
 															<th>Status</th>
 															<th>Actions</th>
 														</tr>
-							                    	</thead>
+													</thead>
 
-							                    	<tbody>
+													<tbody>
 
-							                    		@foreach($reservations as $reservation)
+														@foreach($reservations as $reservation)
 
-							                    		@if($reservation -> status  == 'Cancelled')
-									                    		<tr>
-									                    			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+														@if($reservation -> status  == 'Rescheduled')
+																<tr>
+																	{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
 																	{{ csrf_field() }}
 
 																	<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-									                    			<td>{{ $reservation -> reservationName }}</td>
-									                    			<td>{{ $reservation -> facilityName }}</td>
-									                    			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-									                    			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-									                    			<td>{{ $reservation -> status }}</td>
-									                    			<td>N/A
-									                    			</td>
-									                    			{!!Form::close()!!}
-									                    		</tr>
-									                    @endif
+																	<td>{{ $reservation -> reservationName }}</td>
+																	<td>{{ $reservation -> facilityName }}</td>
+																	<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+																	<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+																	<td>{{ $reservation -> status }}</td>
+																	<td>N/A
+																	</td>
+																	{!!Form::close()!!}
+																</tr>
+														@endif
 
-							                    		@endforeach
+														@endforeach
 
-								                		
-								                	</tbody>
+														
+													</tbody>
 
 												</table>
 
 
 
-							</div>
-						</div>
+									</div>
+									<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
+									
+
+										
+												<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+
+															<thead>
+																<tr>
+																	<th>Name</th>
+																	<th>Reserved Facility</th>
+																	<th>Reserved By</th>
+																	<th>Date</th>
+																	<th>Status</th>
+																	<th>Actions</th>
+																</tr>
+															</thead>
+
+															<tbody>
+
+																@foreach($reservations as $reservation)
+
+																@if($reservation -> status  == 'Cancelled')
+																		<tr>
+																			{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+																			{{ csrf_field() }}
+
+																			<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+																			<td>{{ $reservation -> reservationName }}</td>
+																			<td>{{ $reservation -> facilityName }}</td>
+																			<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+																			<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+																			<td>{{ $reservation -> status }}</td>
+																			<td>N/A
+																			</td>
+																			{!!Form::close()!!}
+																		</tr>
+																@endif
+
+																@endforeach
+
+																
+															</tbody>
+
+														</table>
+
+
+
+									</div>
+								</div>
 					</div>
 		<script>
 			$(document).on('click', '.edit', function(e) {

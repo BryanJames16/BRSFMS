@@ -10,8 +10,6 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 @endsection
 
-
-
 <!-- Title of the Page -->
 @section('title')
 	Resident Application
