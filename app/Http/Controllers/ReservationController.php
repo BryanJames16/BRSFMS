@@ -24,8 +24,12 @@ class ReservationController extends Controller
         );
     }
 
-    public function updateCombobox() {
-        
+    public function updateCombobox(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Person::where("archive", "!=", "1") 
+                                        ->where("status", "!=", "0")
+                                        -> get());
+        }
     }
 
    public function index() {

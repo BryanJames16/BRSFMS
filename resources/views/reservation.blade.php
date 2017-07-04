@@ -19,7 +19,7 @@
 
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(FILECASE);
+		setSelectedTab(FACILITY_RESERVATION);
 	</script>
 @endsection
 
@@ -75,16 +75,6 @@
 											<select id="reserveeCbo" class="form-control border-info selectBox">
 												
 											</select>
-
-											<script>
-												$.ajax({
-													url: "{{ url('/reservation/updatecbo') }}", 
-													type: "GET", 
-													data: {}, 
-													
-
-												});
-											</script>
 										</div>
 									</div>
 
@@ -154,4 +144,48 @@
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
+
+	<script>
+		var refreshCbo = function() {
+			$.ajax({
+				url: "{{ url('/reservation/updatecbo') }}", 
+				type: "GET", 
+				success: function(data){
+					$("#reserveeCbo").empty();
+					var reserveeData = "";
+					data = $.parseJSON(data);
+					for (var index in data) {
+						var name = "";
+						reserveeData += data[index].lastName + ", ";
+						reserveeData += data[index].firstName + " ";
+						if (data[index].middleName != "") {
+							reserveeData += " " + data[index].middleName;
+						}
+
+						console.log("First Name: " + data[index].firstName);
+						console.log("Last Name: " + data[index].lastName);
+
+						$("#reserveeCbo").append(
+							'<option value="' + data[index].peoplePrimeID + '">' + reserveeData + '</option>'
+						);
+
+						reserveeData = "";
+					}
+				}, 
+				error: function(data){
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					console.log("Error: " +  bnhy,message);
+				}
+			});
+
+			console.log("done loading...");
+		}
+
+		refreshCbo();
+	</script>
 @endsection

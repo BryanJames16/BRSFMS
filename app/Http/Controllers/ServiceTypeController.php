@@ -24,6 +24,19 @@ class ServiceTypeController extends Controller
                 'typeName' => 'required|unique:servicetypes|max:20',
             ]);
 
+            if($r->input('status') == "active")
+            {
+                $stat = 0;
+            }
+            else if($r->input('status') == "inactive")
+            {
+                $stat = 1;
+            }
+            else
+            {
+
+            }        
+
             $aah = ServiceType::insert(['typeName'=>trim($r -> typeName),
                                                 'archive' => 0,
                                                 'typeDesc' => $r -> typeDesc,
