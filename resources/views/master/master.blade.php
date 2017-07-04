@@ -375,7 +375,7 @@
 						</a>
 					</li>
 					<li class="nav-item" id="facility-reservation-id">
-						<a href="/facility-reservation">
+						<a href="/reservation">
 							<i class="icon-ios-cog-outline"></i>
 							<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
 						</a>
