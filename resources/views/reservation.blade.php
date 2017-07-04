@@ -72,7 +72,19 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label for="firstName1">Reservee :</label>
-											{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+											<select id="reserveeCbo" class="form-control border-info selectBox">
+												
+											</select>
+
+											<script>
+												$.ajax({
+													url: "{{ url('/reservation/updatecbo') }}", 
+													type: "GET", 
+													data: {}, 
+													
+
+												});
+											</script>
 										</div>
 									</div>
 

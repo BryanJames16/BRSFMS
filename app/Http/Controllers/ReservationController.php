@@ -24,6 +24,10 @@ class ReservationController extends Controller
         );
     }
 
+    public function updateCombobox() {
+        
+    }
+
    public function index() {
  
         $reservations= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'people.lastName','people.firstName','people.middleName') 

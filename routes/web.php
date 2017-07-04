@@ -150,9 +150,7 @@ Route::get('/resident', function() {
 	return view('resident');
 });
 
-Route::get('/reservation', function() {
-	return view('reservation');
-});
+Route::get('/reservation/updatecbo', 'ReservationController@updateCombobox');
 
 Route::get('/sponsors', function() {
 	return view('sponsors');
