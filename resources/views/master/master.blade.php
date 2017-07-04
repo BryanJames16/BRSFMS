@@ -17,7 +17,6 @@
 		<meta name="description" content="Barangay Management System" />
 		<meta name="keywords" content="admin, barangay management, barangay management admin" />
 		<meta name="author" content="Barangay Management System" />
-		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<!-- Page Title -->
 		<title>@yield('title')</title>
@@ -30,7 +29,7 @@
 
 		<!-- Site icon tags -->
 		<link rel="shortcut icon" type="image/x-icon" href="{{ URL::asset('/system-assets/ico/favicon.ico') }}" />
-		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/favicon-32.png') }}" />
+		<link rel="shortcut icon" type="image/png" href="{{ URL::asset('/system-assets/ico/facivon-32.png') }}" />
 
 		<!-- Apple Devices META tags -->
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -38,21 +37,6 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
 		<!-- Begin Top Framework JS -->
-		<script src="{{ URL::asset('/js/angular.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-animate.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-aria.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-cookies.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-loader.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-message-format.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-messages.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-mocks.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-parse-ext.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-resource.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-route.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-sanitize.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-scenario.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/angular-touch.min.js') }}" type="text/javascript"></script>
-
 		<script src="{{ URL::asset('/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
 		@yield('top-framework-js')
 		<!-- End Top Framework JS -->
@@ -103,7 +87,7 @@
 
 	</head>
 
-	<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns" ng-app="">
+	<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns">
 
 
 		<!-- START NAVBAR -->
@@ -548,10 +532,6 @@
 		<!-- Begin Post Scripts -->
 		@yield('js-setting')
 		<!-- End Post Scripts -->
-
-		<!-- Begin Page Actions -->
-		@yield('page-action')
-		<!-- End Page Actions -->
 
 	</body>
 
