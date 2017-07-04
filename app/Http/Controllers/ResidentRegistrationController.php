@@ -14,7 +14,7 @@ class ResidentRegistrationController extends Controller
     public function index() {
  
         
-	return view('resident-registration',
+	return view('resident',
 		['barangays'=>Barangay::where([['status', 1],['archive', 0]])->pluck('barangayName', 'barangayID')],
 		['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
 		['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]

@@ -146,9 +146,6 @@ Route::get('/document-request', function() {
 
 
 
-Route::get('/resident', function() {
-	return view('resident');
-});
 
 Route::get('/reservation/updatecbo', 'ReservationController@updateCombobox');
 
@@ -210,7 +207,7 @@ Route::resource('/street', 'StreetController');
 Route::resource('/lot', 'LotController');
 Route::resource('/unit', 'UnitController');
 Route::resource('/house', 'HouseController');
-Route::resource('/resident-registration', 'ResidentRegistrationController');
+Route::resource('/resident', 'ResidentRegistrationController');
 
 Route::get('/jquery','JqueryController@jquery');
 Route::post('/postJquery','JqueryController@postJquery');
