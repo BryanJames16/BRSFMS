@@ -86,14 +86,22 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		@yield('post-meta')
 
+		<style>
+			.navBGSomething {
+				background-color: #DF5E6A;
+				background-image: url("{{ URL::asset('/system-assets/images/header/pattern.png') }}");
+			}
+		</style>
+
 	</head>
 
 	<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns">
-
+	
 
 		<!-- START NAVBAR -->
-		<nav class="header-navbar navbar navbar-with-menu navbar-brand-center navbar-fixed-top navbar-dark bg-red bg-darken-4 navbar-shadow">
-			<div class="navbar-wrapper ">
+		<nav class="header-navbar navbar navbar-with-menu navbar-brand-center navbar-fixed-top navBGSomething">
+			<!-- <img src="{{ URL::asset('/system-assets/images/header/pattern.png') }}"/> -->
+			<div class="navbar-wrapper">
 				<!-- NAVBAR HEADER -->
 				<div class="navbar-header">
 					<ul class="nav navbar-nav">
@@ -104,7 +112,7 @@
 						</li>
 						<li class="nav-item">
 							<a href="/home" class="navbar-brand nav-link">
-								<img alt="branding logo" src="{{ URL::asset('/system-assets/images/logo/logov3.png') }}" data-expand="{{URL::asset('system-assets/images/logo/logov3.png') }}" data-collapse="{{URL::asset('system-assets/images/logo/logov3.png') }}" class="brand-logo" length="30px" width="160px" />
+								<img alt="branding logo" src="{{ URL::asset('/system-assets/images/logo/brgy.png') }}" data-expand="{{URL::asset('system-assets/images/logo/brgy.png') }}" data-collapse="{{URL::asset('system-assets/images/logo/brgy.png') }}" class="brand-logo" width="500px" />
 							</a>
 						</li>
 						<li class="nav-item hidden-md-up float-xs-right">
@@ -121,19 +129,19 @@
 						<ul class="nav navbar-nav">
 							<li class="nav-item hidden-sm-down">
 								<a class="nav-link nav-menu-main menu-toggle hidden-xs">
-									<i class="icon-menu5"></i>
+									<i class="icon-menu5" style="color:white"></i>
 								</a>
 							</li>
 							<li class="nav-item hidden-sm-down">
 								<a href="#" class="nav-link nav-link-expand">
-									<i class="ficon icon-expand2"></i>
+									<i class="ficon icon-expand2" style="color:white"></i>
 								</a>
 							</li>
 						</ul>
 						<ul class="nav navbar-nav float-xs-right">
 							<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
-									<i class="ficon icon-bell4"></i>
+									<i class="ficon icon-bell4" style="color:white"></i>
 									<span class="tag tag-pill tag-default tag-danger tag-default tag-up" id="notif-count">2</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
@@ -147,7 +155,7 @@
 										<a href="javascript:void(0)" class="list-group-item">
 											<div class="media">
 												<div class="media-left valign-middle">
-													<i class="icon-cart3 icon-bg-circle bg-cyan"></i>
+													<i class="icon-cart3 icon-bg-circle bg-cyan" style="color:white"></i>
 												</div>
 												<div class="media-body">
 													<h6 class="media-heading">New legal document request!</h6>
@@ -185,7 +193,7 @@
 							</li>
 							<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
-									<i class="ficon icon-mail6"></i>
+									<i class="ficon icon-mail6" style="color:white"></i>
 									<span class="tag tag-pill tag-default tag-info tag-default tag-up" id="message-count">4</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
@@ -218,11 +226,11 @@
 								</ul>
 							</li>
 							<li class="dropdown dropdown-user nav-item">
-								<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link">
+								<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link" style="color:white">
 									<span class="avatar avatar-online">
 										<img src="./robust-assets/images/portrait/small/avatar-s-10.png" alt="avatar" /><i></i>
 									</span>
-									<span class="user-name">John Doe</span>
+									<span class="user-name" style="color:white">John Doe</span>
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="#" class="dropdown-item">
@@ -273,6 +281,13 @@
 						<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-ellipsis"></i>
 					</li>
 					
+
+					<li class="nav-item" id="individual-id">
+						<a href="/person">
+							<i class="icon-user"></i>
+							<span data-i18n="nav.dash.main" class="menu-title">Person</span>
+						</a>
+					</li>
 					<li class="nav-item" id="document-id">
 						<a href="/document">
 							<i class="icon-file2"></i>
@@ -364,7 +379,7 @@
 					<li class="nav-item" id="resident-application-id">
 						<a href="/resident">
 							<i class="icon-user"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Person</span>
+							<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
 						</a>
 					</li>
 					<li class="nav-item" id="facility-reservation-id">
