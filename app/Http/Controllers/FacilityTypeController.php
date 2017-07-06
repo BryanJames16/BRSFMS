@@ -18,20 +18,26 @@ class FacilityTypeController extends Controller
     	return view('facility-type') -> with('facilityTypes', $facilityTypes);
     }
 
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Document::where("archive", "!=", "1") -> get());
+        }
+    }
+
     public function store(Request $r) {
 
         $this->validate($r, [
-        
-        'typeName' => 'required|unique:facilitytypes|max:30',
+            'typeName' => 'required|unique:facilitytypes|max:30',
         ]);
 
-        if($_POST['stat']=="active")
-        {
+        if($r -> input('status') =="active") {
             $stat = 1;
         }
-        else if($_POST['stat']=="inactive")
-        {
+        else if($r -> input('status') =="inactive") {
             $stat = 0;
+        }
+        else {
+
         }
 
 
@@ -42,13 +48,12 @@ class FacilityTypeController extends Controller
 
             return back();
         
-        }
+    }
 
     public function getEdit(Request $r) {
     	
         if($r->ajax())
         {
-            //echo "<script>alert('entered')<
             return response(FacilityType::find($r->typeID));
         }
 

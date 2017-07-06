@@ -340,7 +340,7 @@
 							
 							<li class=" nav-item">
 								<a href="#">
-									<i class="icon-location22"></i>
+									<i class="icon-android-walk"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
 								</a>
 								<ul class="menu-content">

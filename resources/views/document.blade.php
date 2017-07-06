@@ -444,7 +444,7 @@
 										for (datum in data) {
 											message += data[datum];
 										}
-
+										
 										swal("Error", "Cannot fetch table data!\n" + message, "error");
 										console.log("Error: Cannot refresh table!\n" + message);
 									}
@@ -482,10 +482,6 @@
 									'<td>' + 
 										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<input type="hidden" name="serviceName" value="' + data[index].documentName + '" />' + 
-											'<input type="hidden" name="serviceDesc" value="' + data[index].documentDescription + '" />' + 
-											'<input type="hidden" name="typeName" value="' + data[index].documentType + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
 											'<div class="btn-group" role="group" aria-label="Basic example">' + 
 												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
 												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
