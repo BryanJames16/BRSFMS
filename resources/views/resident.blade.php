@@ -50,6 +50,8 @@
 
 @section('content-body')
 	
+	
+
 	<section id="multi-column">
 		<div class="row">
 			<div class="col-xs-14">
@@ -70,11 +72,9 @@
 							<p align="center">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
-									<i class="icon-edit2"></i> Resident Registration  
+									<i class="icon-edit2"></i>Register  
 								</button>
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#calendarModal" style="width:160px; font-size:13px">
-									<i class="icon-edit2"></i> View Calendar  
-								</button>
+								
 							</p>	
 						</div>
 						<div class="card-body">
@@ -369,58 +369,9 @@
 
 
 
-										<!-- Calendar Modal -->
-								<div class="modal fade text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-xl modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Calendar</h4>
-											</div>
-											<div class="modal-body">
-												<div class="card-block">
-											
-												<div class="card-body collapse in">
-													<div class="card-block card-dashboard">
-													<section id="basic-examples">
-														<div class="row">
-															<div class="col-xs-12">
-																<div class="card">
-																	<div class="card-header">
-																		<h4 class="card-title">Reservations Events</h4>
-																		<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-																		<div class="heading-elements">
-																			<ul class="list-inline mb-0">
-																				<li><a data-action="reload"><i class="icon-reload"></i></a></li>
-																				<li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
-																			</ul>
-																		</div>
-																	</div>
+										
 
-																	<div class="card-body collapse in">
-																		<div id='fc-bg-events'></div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</section>
-													</div>
-												</div>
-											
-												</div>
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-
-
-										<!--RESERVE FACILITY -->
+										<!--REGISTER RESIDENT -->
 
 										<!--Add Modal -->
 								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
@@ -430,62 +381,212 @@
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Register Resident</h4>
 											</div>
 											<div class="modal-body">
-												{!!Form::open(['url'=>'/reservation/store', 'method' => 'POST'])!!}
-														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="firstName1">Reservation Name :</label>
-																	{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="firstName1">Reservee :</label>
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="firstName1">Facility :</label>
-																</div>
-															</div>
-															<div class="col-md-6">
-																<div class="form-group">
-																	<label for="firstName1">Reservation Description :</label>
-																	{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+												<div class="card-body collapse in">
+													<div class="card-block">
+															{!!Form::open(['url'=>'', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])!!}
 
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-4">
-																<div class="form-group">
-																	<label for="firstName1">Date :</label>
-																	{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
+															{{ csrf_field() }}
+
+															<h6>Name</h6>
+															<fieldset>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="firstName1">First Name :</label>
+																			<input type="text" class="form-control" id="firstName" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="firstName1">Middle Name :</label>
+																			<input type="text" class="form-control" id="middleName" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="firstName1">Last Name :</label>
+																			<input type="text" class="form-control" id="lastName" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="firstName1">Suffix :</label>
+																			<input type="text" class="form-control" id="suffix" />
+																		</div>
 																	</div>
 																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="form-group">
-																	<label for="firstName1">Start Time :</label>
-																	{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Gender : </label>
+																			<select name="gender" id="gender" class="form-control">
+																				<option value="male">MALE</option>
+																				<option value="female">FEMALE</option>
+																			</select>
+																		</div>
+																	</div>
 																</div>
-															</div>
-															<div class="col-md-4">
-																<div class="form-group">
-																	<label for="firstName1">End Time :</label>
-																	{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+															</fieldset>
+
+															<h6>Additional Vital Info</h6>
+															<fieldset>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Birth Date : </label>
+																			<input type="date" class="form-control" id="birthDate" />
+																		</div>
+																	</div>
 																</div>
-															</div>
-														</div>
-														<div class="form-actions center">
-															{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
-														</div>	
-												{!!Form::close()!!}
+
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Civil Status : </label>
+																			<select class="form-control">
+																				<option>Married</option>
+																				<option>Single</option>
+																				<option>Widowed</option>
+																				<option>Divorced</option>
+																			</select>
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Senior Citizen ID : </label>
+																			<input type="text" class="form-control" id="firstName1" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Disabilities : </label>
+																			<input type="textarea" class="form-control" id="firstName1" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Contact Number : </label>
+																			<input type="text" class="form-control" id="contactNumber" />
+																		</div>
+																	</div>
+																</div>
+
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="emailAddress1">Resident Type : </label>
+																			<select class="form-control">
+																				<option>Transient Resident</option>
+																				<option>Official Resident</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</fieldset>
+
+															<h6>Address</h6>
+															<fieldset>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Province : </label>
+																			<input type="text" class="form-control" id="firstName1" />
+																		</div>
+																	</div>
+																	
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Municipality : </label>
+																			<input type="text" class="form-control" id="firstName1" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">City : </label>
+																			<input type="text" class="form-control" id="firstName1" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Barangay : </label>
+																			{{ Form::select('barangayID', $barangays, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Street : </label>
+																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Lot : </label>
+																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">House : </label>
+																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Unit : </label>
+																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+																		</div>
+																	</div>
+																</div>
+															</fieldset>
+
+															<h6>Resident Background</h6>
+															<fieldset>
+																<div class="row">
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Current Work : </label>
+																			<input type="text" class="form-control" id="work" />
+																		</div>
+																	</div>
+
+																	<div class="col-md-6">
+																		<div class="form-group">
+																			<label for="address">Monthly Salary: </label>
+																			<select class="form-control">
+																				<option value ="1">₱0-₱10,000</option>
+																				<option value="2">₱10,001-₱50,000</option>
+																				<option value="3">₱50,001-₱100,000</option>
+																				<option value="4">₱100,001 and above</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+															</fieldset>
+
+															<h6>Summary</h6>
+															<fieldset>
+																
+															</fieldset>
+														{!!Form::close()!!}
+
+													</div>
+												</div>
 											</div>
 
 											<!-- End of Modal Body -->
@@ -618,6 +719,6 @@
 @section('page-level-js')
 	
 		<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
-	
+		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 @endsection
 
