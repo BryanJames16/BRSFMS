@@ -87,19 +87,20 @@
 		@yield('post-meta')
 
 		<style>
-			.navBGSomething {
+			.navbar-preset-style {
 				background-color: #DF5E6A;
 				background-image: url("{{ URL::asset('/system-assets/images/header/pattern.png') }}");
+				min-height: "100px";
 			}
 		</style>
 
 	</head>
 
-	<body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns">
+	<body data-open="click" data-menu="vertical-content-menu" data-col="2-columns" class="vertical-layout vertical-content-menu 2-columns menu-expanded">
 	
 
 		<!-- START NAVBAR -->
-		<nav class="header-navbar navbar navbar-with-menu navbar-brand-center navbar-fixed-top navBGSomething">
+		<nav class="header-navbar navbar navbar-with-menu navbar-brand-center navbar-fixed-top navbar-shadow navbar-border navbar-hide-on-scroll headroom headroom--top headroom--not-bottom navbar-preset-style">
 			<!-- <img src="{{ URL::asset('/system-assets/images/header/pattern.png') }}"/> -->
 			<div class="navbar-wrapper">
 				<!-- NAVBAR HEADER -->
@@ -256,233 +257,237 @@
 		</nav>
 		<!-- END NAVBAR -->
 
-		<!-- Start of Main Menu -->
-		<div class="main-menu menu-dark bg-grey bg-darken-4 menu-fixed menu-shadow">
-			<!-- BEGIN Main Menu Header -->
-			<div class="main-menu-header">
-				<input type="text" placeholder="Search" class="menu-search form-control round" />
-			</div>
-			<!-- END Main Menu Header -->
-
-			<!-- BEGIN Main Menu Content -->
-			<div class="main-menu-content">
-				<ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main bg-grey bg-darken-4">
-					<li class="nav-item" id="dashboard-id">
-						<a href="/home">
-							<i class="icon-home3"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Dashboard</span>
-						</a>
-					</li>
-
-					<br />
-
-					<li class="navigation-header">
-						<span data-i18n="nav.category.layouts">Maintenance</span>
-						<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-ellipsis"></i>
-					</li>
-					
-
-					<li class="nav-item" id="individual-id">
-						<a href="/person">
-							<i class="icon-user"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Person</span>
-						</a>
-					</li>
-					<li class="nav-item" id="document-id">
-						<a href="/document">
-							<i class="icon-file2"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Document</span>
-						</a>
-					</li>
-					<li class=" nav-item">
-						<a href="#">
-							<i class="icon-office"></i>
-							<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
-						</a>
-						<ul class="menu-content">
-							<li id="facility-type-id">
-								<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-									Facility Type
-								</a>
-							</li>
-							<li id="facility-id">
-								<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
-									Facility
-								</a>
-							</li>
-						</ul>
-					</li>
-					
-					
-					<li class=" nav-item">
-						<a href="#">
-							<i class="icon-cogs"></i>
-							<span data-i18n="nav.navbars.main" class="menu-title">Service</span>
-						</a>
-						<ul class="menu-content">
-							<li id="service-type-id">
-								<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">Service Type</a>
-							</li>
-							<li id="services-id">
-								<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">Service</a>
-							</li>
-						</ul>
-					</li>
-					
-					
-					<li class=" nav-item">
-						<a href="#">
-							<i class="icon-location22"></i>
-							<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
-						</a>
-						<ul class="menu-content">
-							<li id="business-category-id">
-								<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">Business Category</a>
-							</li>
-							<li id="business-id">
-								<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">Business</a>
-							</li>
-						</ul>
-					</li>				
-					<li class=" nav-item">
-						<a href="#">
-							<i class="icon-location22"></i>
-							<span data-i18n="nav.navbars.main" class="menu-title">Address</span>
-						</a>
-						<ul class="menu-content">
-							
-								
-							<li id="barangay-id">
-								<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">Barangay</a>
-							</li>
-							<li id="street-id">
-								<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">Street</a>
-							</li>
-							<li id="lot-id">
-								<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">Lot</a>
-							</li>
-							<li id="unit-id">
-								<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">Unit</a>
-							</li>
-							<li id="house-number-id">
-								<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">House Number</a>
-							</li>
-						</ul>
-					</li>
-
-					<br />
-
-					<li class=" navigation-header">
-						<span data-i18n="nav.category.layouts">Transaction</span>
-						<i data-toggle="tooltip" data-placement="right" data-original-title="Transaction" class="icon-ellipsis icon-ellipsis"></i>
-					</li>
-					<li class="nav-item" id="resident-application-id">
-						<a href="/resident">
-							<i class="icon-user"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
-						</a>
-					</li>
-					<li class="nav-item" id="facility-reservation-id">
-						<a href="/reservation">
-							<i class="icon-ios-cog-outline"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="/document-request">
-							<i class="icon-file-text2"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
-						</a>
-					</li>
-					<li class="nav-item" id="service-sponsorship-id">
-						<a href="/sponsors">
-							<i class="icon-ios-body-outline"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
-						</a>
-					</li>
-					<li class=" nav-item" id="incident-report-id">
-						<a href="/incident-report">
-							<i class="icon-location4"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Incident Report</span>
-						</a>
-					</li>
-
-					<br />
-
-					
-					<li class=" nav-item">
-						<a href="#">
-							<i class="icon-location22"></i>
-							<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
-						</a>
-						<ul class="menu-content">
-							
-								
-							<li id="barangay-id">
-								<a href="/legal-case" data-i18n="nav.navbars.nav_dark" class="menu-item">Legal Case</a>
-							</li>
-							<li id="street-id">
-								<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">Rendered Services</a>
-							</li>
-							<li id="lot-id">
-								<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">Reservation of Facilities</a>
-							</li>
-							<li id="unit-id">
-								<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Registered Residents</a>
-							</li>
-							<li id="house-number-id">
-								<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">Senior Citizens</a>
-							</li>
-							<li id="house-number-id">
-								<a href="/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">PWD</a>
-							</li>
-							<li id="house-number-id">
-								<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Employed Residents</a>
-							</li>
-						</ul>
-					</li>
-
-					<br />
-
-
-					<li class="nav-item" id="query-id">
-						<a href="/queries">
-							<i class="icon-question"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Query</span>
-						</a>
-					</li>
-
-				
-
-					<li class="nav-item" id="utilities-id">
-						<a href="/utilities">
-							<i class="icon-wrench3"></i>
-							<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
-						</a>
-					</li>
-
-					<br />
-
-					<span data-i18n="nav.dash.main" class="menu-title">
-						&nbsp&nbsp&nbsp&nbsp Barangay Management System 
-					</span>
-
-					<br />
-					<br />
-				</ul>
-			</div>
-			<!-- END Main Menu Content -->
-		</div>
-		<!-- End of Main Menu -->
-
 		<!-- Start of Content -->
 		<div class="robust-content content container-fluid">
 			<div class="content-wrapper">
 				<div class="content-header row">
-					<div class="breadcrumb-wrapper col-xs-12">
-						@yield('breadcrumb')
-					</div>
+					
 				</div>
+
+				<!-- Start of Main Menu -->
+				<div class="main-menu menu-light menu-border menu-shadow navbar-border menu-accordion">
+					<!-- BEGIN Main Menu Header -->
+					<div class="main-menu-header">
+						<input type="text" placeholder="Search" class="menu-search form-control round" />
+					</div>
+					<!-- END Main Menu Header -->
+
+					<!-- BEGIN Main Menu Content -->
+					<div class="main-menu-content">
+						<ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main ">
+							<li class="nav-item" id="dashboard-id">
+								<a href="/home">
+									<i class="icon-home3"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Dashboard</span>
+								</a>
+							</li>
+
+							<br />
+
+							<li class="navigation-header">
+								<span data-i18n="nav.category.layouts">Maintenance</span>
+								<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-ellipsis"></i>
+							</li>
+							
+
+							<li class="nav-item" id="individual-id">
+								<a href="/person">
+									<i class="icon-user"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Person</span>
+								</a>
+							</li>
+							<li class="nav-item" id="document-id">
+								<a href="/document">
+									<i class="icon-file2"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Document</span>
+								</a>
+							</li>
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-office"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
+								</a>
+								<ul class="menu-content">
+									<li id="facility-type-id">
+										<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											Facility Type
+										</a>
+									</li>
+									<li id="facility-id">
+										<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											Facility
+										</a>
+									</li>
+								</ul>
+							</li>
+							
+							
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-cogs"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Service</span>
+								</a>
+								<ul class="menu-content">
+									<li id="service-type-id">
+										<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">Service Type</a>
+									</li>
+									<li id="services-id">
+										<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">Service</a>
+									</li>
+								</ul>
+							</li>
+							
+							
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-location22"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
+								</a>
+								<ul class="menu-content">
+									<li id="business-category-id">
+										<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">Business Category</a>
+									</li>
+									<li id="business-id">
+										<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">Business</a>
+									</li>
+								</ul>
+							</li>				
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-location22"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Address</span>
+								</a>
+								<ul class="menu-content">
+									
+										
+									<li id="barangay-id">
+										<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">Barangay</a>
+									</li>
+									<li id="street-id">
+										<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">Street</a>
+									</li>
+									<li id="lot-id">
+										<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">Lot</a>
+									</li>
+									<li id="unit-id">
+										<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">Unit</a>
+									</li>
+									<li id="house-number-id">
+										<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">House Number</a>
+									</li>
+								</ul>
+							</li>
+
+							<br />
+
+							<li class=" navigation-header">
+								<span data-i18n="nav.category.layouts">Transaction</span>
+								<i data-toggle="tooltip" data-placement="right" data-original-title="Transaction" class="icon-ellipsis icon-ellipsis"></i>
+							</li>
+							<li class="nav-item" id="resident-application-id">
+								<a href="/resident">
+									<i class="icon-user"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
+								</a>
+							</li>
+							<li class="nav-item" id="facility-reservation-id">
+								<a href="/reservation">
+									<i class="icon-ios-cog-outline"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/document-request">
+									<i class="icon-file-text2"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
+								</a>
+							</li>
+							<li class="nav-item" id="service-sponsorship-id">
+								<a href="/sponsors">
+									<i class="icon-ios-body-outline"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
+								</a>
+							</li>
+							<li class=" nav-item" id="incident-report-id">
+								<a href="/incident-report">
+									<i class="icon-location4"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Incident Report</span>
+								</a>
+							</li>
+
+							<br />
+
+							
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-location22"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
+								</a>
+								<ul class="menu-content">
+									
+										
+									<li id="barangay-id">
+										<a href="/legal-case" data-i18n="nav.navbars.nav_dark" class="menu-item">Legal Case</a>
+									</li>
+									<li id="street-id">
+										<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">Rendered Services</a>
+									</li>
+									<li id="lot-id">
+										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">Reservation of Facilities</a>
+									</li>
+									<li id="unit-id">
+										<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Registered Residents</a>
+									</li>
+									<li id="house-number-id">
+										<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">Senior Citizens</a>
+									</li>
+									<li id="house-number-id">
+										<a href="/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">PWD</a>
+									</li>
+									<li id="house-number-id">
+										<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Employed Residents</a>
+									</li>
+								</ul>
+							</li>
+
+							<br />
+
+
+							<li class="nav-item" id="query-id">
+								<a href="/queries">
+									<i class="icon-question"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Query</span>
+								</a>
+							</li>
+
+						
+
+							<li class="nav-item" id="utilities-id">
+								<a href="/utilities">
+									<i class="icon-wrench3"></i>
+									<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
+								</a>
+							</li>
+
+							<br />
+
+							<span data-i18n="nav.dash.main" class="menu-title">
+								&nbsp&nbsp&nbsp&nbsp Barangay Management System 
+							</span>
+
+							<br />
+							<br />
+						</ul>
+					</div>
+					<!-- END Main Menu Content -->
+				</div>
+				<!-- End of Main Menu -->
+
+				<!-- 
+				<div class="breadcrumb-wrapper col-xs-12">
+					@yield('breadcrumb')
+				</div>
+				-->
 
 				<div class="content-body">
 					@yield('content-body')

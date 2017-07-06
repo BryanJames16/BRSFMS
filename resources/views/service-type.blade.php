@@ -59,7 +59,6 @@
 	<div>
 		<div class="form-group row">
 			<label class="col-md-3 label-control" for="eventRegInput1">*Names</label>
-			<!-- <label>[[service.typename]]</label> -->
 			<div class="col-md-9">
 				{!! Form::text('typeName', null, ['id' => 'name', 
 													'class' => 'form-control', 
@@ -172,6 +171,7 @@
 				}, 
 				success: function ( _response ){
 					$("#iconModal").modal('hide');
+					$("#frm-add").trigger("reset");
 					
 					refreshTable();
 					
