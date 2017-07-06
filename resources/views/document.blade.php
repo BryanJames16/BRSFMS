@@ -177,83 +177,6 @@
 @endsection
 
 @section('ajax-modal')
-	<script>
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
-
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/document/getEdit') }}",
-				data: {primeID:id},
-				success:function(data)
-				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#name').val(data.documentName);
-					frm.find('#desc').val(data.documentDescription);
-					frm.find('#type').val(data.documentType);
-					frm.find('#price').val(data.documentPrice);
-					frm.find('#document_ID').val(data.documentID);
-					frm.find('#primeID').val(data.primeID);
-					
-					if(data.status==1)
-					{
-						$("#active").attr('checked', 'checked');
-					}
-					else
-					{
-						$("#inactive").attr('checked', 'checked');
-					}
-					$('#modalEdit').modal('show');
-					
-				}
-			})
-
-		});
-
-	</script>
-
-	<script type="text/javascript">
-
-	$(document).on('click', '.delete', function(e) {
-
-		var id = $(this).val();
-
-		$.ajax({
-				type: 'get',
-				url: "{{ url('document/getEdit') }}",
-				data: {primeID:id},
-				success:function(data)
-				{
-					console.log(data);
-					swal({
-						  title: "Are you sure you want to delete " + data.documentName +  "?",
-						  text: "",
-						  type: "warning",
-						  showCancelButton: true,
-						  confirmButtonColor: "#DD6B55",
-						  confirmButtonText: "DELETE",
-						  closeOnConfirm: false
-						},
-						function()
-						{
-
-							swal("Successfull", data.documentName + " is deleted!", "success");
-							document.getElementById(data.primeID).submit();
-						});				
-				}
-			})
-
-	
-		
-	});
-	</script>
 	
 @endsection
 
@@ -319,7 +242,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
 		<div class="col-md-9">
-			{{ Form::select('type', ['Legal Document'=>'Legal Document','Clearance'=>'Clearance','Certification'=>'Certification'], null, ['id'=>'eDocumentType', 'class' => 'form-control border-info selectBox']) }}
+			{{ Form::select('type', ['Legal Document'=>'Legal Document','Clearance'=>'Clearance','Certification'=>'Certification'], null, ['id'=>'edDocumentType', 'class' => 'form-control border-info selectBox']) }}
 		</div>	
 
 	</div>
@@ -419,8 +342,8 @@
 					frm.find('#eDocumentName').val(data.documentName);
 					frm.find('#eDocumentDescription').val(data.documentDescription);
 					frm.find('#eDocumentPrice').val(data.documentPrice);
-					frm.find('#eDocumentType option:contains(' + data.aDocumentType + ')').attr('selected', 'selected');
-					frm.find('#eprimeID').val(data.primeID);
+					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
+					frm.find('#ePrimeID').val(data.primeID);
 					
 					console.log("Data Status: " + data.status);
 
@@ -445,6 +368,46 @@
 				}
 			})
 
+		});
+
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+			var frm = $('#frm-update');
+
+			console.log("Description is: " + $("#eDocumentDescription").val());
+
+			$.ajax({
+				url: "{{ url('/document/update') }}",
+				type: "POST",
+				data: {"primeID": $("#ePrimeID").val(), 
+						"documentID": $("#eDocumentID").val(), 
+						"documentName": $("#eDocumentName").val(), 
+						"documentDescription": $("#eDocumentDescription").val(), 
+						"documentType": $("#edDocumentType :selected").text(), 
+						"documentPrice": $("#eDocumentPrice").val(), 
+						"status": $(".eStatus:checked").val() 
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Service has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
 		});
 
 		$(document).on('click', '.delete', function(e) {

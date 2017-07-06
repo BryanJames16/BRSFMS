@@ -67,10 +67,10 @@ class DocumentController extends Controller
 
         $document = Document::find($r->input('primeID'));
         $document->documentName = $r->input('documentName');
-        $document->documentDescription = $r->input('desc');
-        $document->documentType = $r->input('type');
+        $document->documentDescription = $r->input('documentDescription');
+        $document->documentType = $r->input('documentType');
         $document->documentPrice = $r->input('documentPrice');
-        $document->status = $r->input('stat');
+        $document->status = $r->input('status');
         $document->save();
         return redirect('document');
     }
