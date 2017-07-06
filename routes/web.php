@@ -64,6 +64,7 @@ Route::post('/person/delete','PeopleController@delete');
 
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
+Route::get('/document/refresh', 'DocumentController@refresh');
 Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');

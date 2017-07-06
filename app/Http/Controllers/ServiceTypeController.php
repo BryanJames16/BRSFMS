@@ -24,16 +24,13 @@ class ServiceTypeController extends Controller
                 'typeName' => 'required|unique:servicetypes|max:20',
             ]);
 
-            if($r->input('status') == "active")
-            {
+            if($r->input('status') == "active") {
                 $stat = 1;
             }
-            else if($r->input('status') == "inactive")
-            {
+            else if($r->input('status') == "inactive") {
                 $stat = 0;
             }
-            else
-            {
+            else {
 
             }        
 
@@ -41,7 +38,8 @@ class ServiceTypeController extends Controller
                                                 'archive' => 0,
                                                 'typeDesc' => $r -> typeDesc,
                                                 'status' => $stat]);
-        } catch (Exception $exp) {
+        } 
+        catch (Exception $exp) {
             // echo "<script>console.log('Exception Caught!\\n' + " . $exp . ");</script>";
         }
 
@@ -65,26 +63,11 @@ class ServiceTypeController extends Controller
     }
 
     public function edit(Request $r)
-    {
-        $stat = 0;
-
-        if($r->input('status') == "active")
-        {
-            $stat = 1;
-        }
-        else if($r->input('status') == "inactive")
-        {
-            $stat = 0;
-        }
-        else
-        {
-
-        }        
-
+    { 
         $type = ServiceType::find($r->input('typeID'));
         $type->typeName = $r->input('typeName');
         $type->typeDesc = $r->input('typeDesc');
-        $type->status = $stat;
+        $type->status = $r->input('status');
         $type->save();
 
         return back();

@@ -129,7 +129,7 @@
 					<div id="navbar-mobile" class="collapse navbar-toggleable-sm">
 						<ul class="nav navbar-nav">
 							<li class="nav-item hidden-sm-down">
-								<a class="nav-link nav-menu-main menu-toggle hidden-xs">
+								<a class="nav-link nav-menu-main menu-toggle hidden-xs is-active">
 									<i class="icon-menu5" style="color:white"></i>
 								</a>
 							</li>

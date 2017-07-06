@@ -378,12 +378,12 @@
 		<div class="col-md-9">
 			<div class="input-group col-md-9">
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="stat" value="1" class="custom-control-input" >
+					<input type="radio" id='active' name="etstat" value="1" class="etstat custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Active</span>
 				</label>
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="stat" value="0" class="custom-control-input" >
+					<input type="radio" id='inactive' name="etstat" value="0" class="etstat custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Inactive</span>
 				</label>
@@ -410,10 +410,12 @@
 						"typeID": $("#typeID").val(), 
 						"typeName": $("#typeName").val(), 
 						"typeDesc": $("#typeDesc").val(), 
-						"status": $(".tstat:checked").val()
+						"status": $(".etstat:checked").val()
 				}, 
 				success: function ( _response ){
-					$("#iconModal").modal('hide');
+					console.log("etstatval: " + $(".etstat:checked").val());
+					$("#modalEdit").modal('hide');
+					$("#frm-update").trigger('reset');
 					
 					refreshTable();
 					
