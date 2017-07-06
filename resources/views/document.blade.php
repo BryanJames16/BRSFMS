@@ -415,23 +415,23 @@
 				{
 					console.log(data);
 					var frm = $('#frm-update');
-					frm.find('#eDocumentName').val(data.serviceDocumentName);
+					frm.find("#eDocumentID").val(data.documentID);
+					frm.find('#eDocumentName').val(data.documentName);
 					frm.find('#eDocumentDescription').val(data.documentDescription);
 					frm.find('#eDocumentPrice').val(data.documentPrice);
-					frm.find('#eDocumentType').val(data.documentType);
-					frm.find('#primeID').val(data.primeID);
+					frm.find('#eDocumentType option:contains(' + data.aDocumentType + ')').attr('selected', 'selected');
+					frm.find('#eprimeID').val(data.primeID);
 					
-					if(data.status == 1)
-					{
+					console.log("Data Status: " + data.status);
+
+					if(data.status == 1) {
 						$("#eActive").attr('checked', 'checked');
 					}
-					else
-					{
+					else {
 						$("#eInactive").attr('checked', 'checked');
 					}
 
 					$('#modalEdit').modal('show');
-					
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -452,14 +452,13 @@
 			var id = $(this).val();
 
 			$.ajax({
-					type: 'get',
-					url: "{{ url('/service/getEdit') }}",
-					data: {primeID:id},
-					success:function(data)
-					{
+					type: 'GET',
+					url: "{{ url('/document/getEdit') }}",
+					data: {"primeID": id},
+					success:function(data) {
 						console.log(data);
 						swal({
-							title: "Are you sure you want to delete " + data.serviceName + "?",
+							title: "Are you sure you want to delete " + data.documentName + "?",
 							text: "",
 							type: "warning",
 							showCancelButton: true,
@@ -470,7 +469,7 @@
 							function() {
 								$.ajax({
 									type: "post",
-									url: "{{ url('/service/delete') }}", 
+									url: "{{ url('/document/delete') }}", 
 									data: {primeID:id}, 
 									success: function(data) {
 										refreshTable();
