@@ -175,7 +175,7 @@
 			<td>{{ $service -> serviceDesc }}</td>
 			<td>{{ $service -> typeName }}</td>
 			
-			@if ($service -> status == 0)
+			@if ($service -> status == 1)
 				<td>Active</td>
 			@else
 				<td>Inactive</td>
@@ -202,7 +202,6 @@
 	<script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).val();
-			console.log("ID Value: " + id);
 
 			$.ajax({
 				type: 'get',
@@ -218,7 +217,7 @@
 					frm.find('#typeID').val(data.typeID);
 					frm.find('#primeID').val(data.primeID);
 					
-					if(data.status == 0)
+					if(data.status == 1)
 					{
 						$("#active").attr('checked', 'checked');
 					}
@@ -358,12 +357,12 @@
 		<div class="col-md-9">
 			<div class="input-group col-md-9">
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="status" value="0" class="estat custom-control-input" >
+					<input type="radio" id='active' name="status" value="1" class="estat custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Active</span>
 				</label>
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="status" value="1" class="estat custom-control-input" >
+					<input type="radio" id='inactive' name="status" value="0" class="estat custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Inactive</span>
 				</label>
@@ -443,7 +442,7 @@
 
 					for (index in data) {
 						var statusText = "";
-						if (data[index].status == 0) {
+						if (data[index].status == 1) {
 							statusText = "Active";
 						}
 						else {

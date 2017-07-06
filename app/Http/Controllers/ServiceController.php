@@ -34,11 +34,11 @@ class ServiceController extends Controller
 
         if($r->input('status') == "active")
         {
-            $stat = 0;
+            $stat = 1;
         }
         else if($r->input('status') == "inactive")
         {
-            $stat = 1;
+            $stat = 0;
         }
         else
         {
