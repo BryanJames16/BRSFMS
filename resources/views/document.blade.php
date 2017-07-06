@@ -166,10 +166,9 @@
 					<input type='hidden' name='documentPrice' value='{{ $document -> documentPrice }}' />
 					<input type='hidden' name='status' value='{{ $document -> status }}' />
 					
-					<div class="btn-group" role="group" aria-label="Basic example">
-					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $document -> primeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $document -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					</div>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $document -> primeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $document -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					
 				{{Form::close()}}
 			</td>
 		</tr>
