@@ -392,7 +392,7 @@
 							</li>
 							<li class="nav-item" id="facility-reservation-id">
 								<a href="/reservation">
-									<i class="icon-ios-cog-outline"></i>
+									<i class="icon-android-calendar"></i>
 									<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
 								</a>
 							</li>
@@ -404,7 +404,7 @@
 							</li>
 							<li class="nav-item" id="service-sponsorship-id">
 								<a href="/sponsors">
-									<i class="icon-ios-body-outline"></i>
+									<i class="icon-android-hand"></i>
 									<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
 								</a>
 							</li>
@@ -420,7 +420,7 @@
 							
 							<li class=" nav-item">
 								<a href="#">
-									<i class="icon-location22"></i>
+									<i class="icon-podium"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
 								</a>
 								<ul class="menu-content">
