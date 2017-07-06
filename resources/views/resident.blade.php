@@ -283,94 +283,7 @@
 				}
 			});
 		</script>
-										<!-- Reschedule Modal -->
-								<div class="modal fade text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
-											</div>
-											<div class="modal-body">
-												<div class="card-block">
-													{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservation Name :</label>
-																		{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
-																		{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservee :</label>
-																	</div>
-																</div>
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Facility :</label>
-																	</div>
-																</div>
-															</div>
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservation Description :</label>
-																		{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Date :</label>
-																		<div class='input-group'>
-																				{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
-																		</div>
-																	</div>
-																</div>
-
-															</div>
-
-															<div class="row">
-																
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Start Time :</label>
-																				{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">End Time :</label>
-																				{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
-																	</div>
-																</div>
-															</div>
-													<div class="form-actions center">
-
-															<button type="submit" class="btn btn-success mr-1">Reschedule</button>
-															<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-														
-													</div>
-													{!!Form::close()!!}													
-												</div>
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-
-
 										
-
 										<!--REGISTER RESIDENT -->
 
 										<!--Add Modal -->
@@ -598,102 +511,7 @@
 
 
 
-										<!-- VIEW MODAL -->
-
-							<!-- Modal -->
-								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
-											</div>
-											<div class="modal-body">
-												{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-														
-														<fieldset>
-															<div class="row">
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservation Name :</label>
-																		{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
-																		{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservee :</label>
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Facility :</label>
-																	</div>
-																</div>
-															</div>
-
-															<div class="row">
-																
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Reservation Description :</label>
-																		{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Date :</label>
-																		<div class='input-group'>
-																				{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
-																		</div>
-																	</div>
-																</div>
-
-															</div>
-
-															<div class="row">
-																
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">Start Time :</label>
-																				{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-																	</div>
-																</div>
-
-																<div class="col-md-6">
-																	<div class="form-group">
-																		<label for="firstName1">End Time :</label>
-																				{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
-																	</div>
-																</div>
-															</div>
-														</fieldset>
-														
-												
-
-													<div class="form-actions center">
-
-															<button type="submit" class="btn btn-success mr-1">Reschedule</button>
-															<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-														
-													</div>
-													{!!Form::close()!!}
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
+										
 				
 			</div>
 		</div>
@@ -719,6 +537,5 @@
 @section('page-level-js')
 	
 		<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 @endsection
 
