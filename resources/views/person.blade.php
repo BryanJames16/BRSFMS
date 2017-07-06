@@ -25,8 +25,6 @@
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Person</li>
 	<li class="breadcrumb-item"><a href="#">Person</a></li>
-
-
 @endsection
 
 @section('main-card-title')
