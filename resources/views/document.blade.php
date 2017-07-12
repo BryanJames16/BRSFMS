@@ -156,8 +156,7 @@
 			
 			<td>
 				
-				{{Form::open(['url'=>'document/delete', 'method' => 'POST', 'id' => $document -> primeID ])}}					
-				{{ csrf_field() }}
+				{{Form::open(['url'=>'document/delete', 'method' => 'POST', 'id' => $document -> primeID ])}}
 
 					{{Form::hidden('primeID',$document->primeID,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
 					<input type='hidden' name='documentName' value='{{ $document -> documentName }}' />

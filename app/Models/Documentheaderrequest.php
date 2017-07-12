@@ -23,6 +23,4 @@ class Documentheaderrequest extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

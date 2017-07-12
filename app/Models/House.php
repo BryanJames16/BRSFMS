@@ -23,6 +23,4 @@ class House extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

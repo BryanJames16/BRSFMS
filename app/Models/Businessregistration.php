@@ -23,6 +23,4 @@ class Businessregistration extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

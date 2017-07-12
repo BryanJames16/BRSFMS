@@ -23,6 +23,4 @@ class Street extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

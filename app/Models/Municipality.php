@@ -23,6 +23,4 @@ class Municipality extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

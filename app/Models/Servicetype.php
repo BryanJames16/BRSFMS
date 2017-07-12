@@ -23,6 +23,4 @@ class Servicetype extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

@@ -16,9 +16,6 @@ class Address extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'city',
-        'municipality',
-        'province',
         'lotID',
         'houseID',
         'unitID',
@@ -27,6 +24,4 @@ class Address extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

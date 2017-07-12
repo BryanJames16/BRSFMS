@@ -22,6 +22,4 @@ class Familyregistration extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

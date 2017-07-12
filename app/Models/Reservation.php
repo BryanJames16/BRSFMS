@@ -16,15 +16,15 @@ class Reservation extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'reservationsStart',
+        'reservationName',
+        'reservationDescription',
+        'reservationStart',
         'reservationEnd',
         'dateReserved',
-        'status',
         'peoplePrimeID',
-        'facilityPrimeID'
+        'facilityPrimeID',
+        'status'
     ];
 
     protected $guarded = [];
-
-        
 }

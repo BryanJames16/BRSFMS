@@ -99,6 +99,7 @@
 	<th>Name</th>
 	<th>Status</th>
 	<th>Actions</th>
+	<th>Extras</th>
 @endsection
 
 @section('table-body-list')
@@ -202,6 +203,11 @@
 
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
+		});
+
+		$(document).ready(function () {
+			var dt = $("#table-container").DataTable();
+			dt.column(4).visible(false);
 		});
 
 		$("#frm-add").submit(function(event) {

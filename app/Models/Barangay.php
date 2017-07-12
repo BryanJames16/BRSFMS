@@ -23,5 +23,4 @@ class Barangay extends Model
 
     protected $guarded = [];
 
-        
 }

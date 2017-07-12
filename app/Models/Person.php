@@ -23,13 +23,10 @@ class Person extends Model
         'suffix',
         'contactNumber',
         'gender',
-        'birthDate',
         'status',
         'archive'
     ];
 
     protected $guarded = [];
 
-
-        
 }

@@ -11,11 +11,19 @@ class Resident extends Model
 {
     protected $table = 'residents';
 
-    protected $primaryKey = 'peoplePrimeID';
+    protected $primaryKey = 'residentPrimeID';
 
 	public $timestamps = false;
 
     protected $fillable = [
+        'residentID',
+        'firstName',
+        'middleName',
+        'lastName',
+        'suffix',
+        'contactNumber',
+        'gender',
+        'birthDate',
         'civilStatus',
         'seniorCitizenID',
         'disabilities',
@@ -24,6 +32,4 @@ class Resident extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

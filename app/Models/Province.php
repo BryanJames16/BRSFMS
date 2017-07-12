@@ -23,6 +23,4 @@ class Province extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

@@ -8,54 +8,64 @@ TITLE KickStart
 SET placedir="%~dp0"
 SET gitdir=C:\Program Files\Git\bin
 SET gitx="%gitdir%\git.exe"
+SET PHPX=php.exe
+
+:: Set location directories
+IF EXIST C:\xamppp\php\php.exe (
+    SET PHPX=C:\xamppp\php\php.exe
+) ELSE (
+    SET PHPX=C:\xampp\php\php.exe
+)
 
 :: Start Laravel Server
 IF %1==laravel (
     ECHO Starting laravel server...
-    START php artisan serv
+    START %PHPX% artisan serve
     GOTO END
 )
 IF %1==lv (
     ECHO Starting laravel server...
-    START php artisan serv
+    START %PHPX% artisan serve
     GOTO END
 )
 
 :: Start Laravel on Localhost
 IF %1==localhost (
     ECHO Starting localhost server...
-    START php artisan serv --port=80
+    START %PHPX% artisan serv --port=80
     GOTO END
 )
 IF %1==lh ( 
     ECHO Starting localhost server...
-    START php artisan serv --port=80
+    START %PHPX% artisan serve --port=80
     GOTO END
 )
 
 :: Start Dumping routes
 IF %1==routedump (
-    ECHO Dumping PHP Route List...
-    php > routelist.txt artisan route:list
+    ECHO Dumping %PHPX% Route List...
+    %PHPX% > routelist.txt artisan route:list
     GOTO END
 )
 IF %1==rdump (
-    ECHO Dumping PHP Route List...
-    php > routelist.txt artisan route:list
+    ECHO Dumping %PHPX% Route List...
+    %PHPX% > routelist.txt artisan route:list
     GOTO END
 )
 
+:: Status Manipulation
 if %1==down (
     ECHO Setting the server down...
-    php artisan down
+    %PHPX% artisan down
     GOTO END
 )
 if %1==up (
     ECHO Setting the server up...
-    php artisan up
+    %PHPX% artisan up
     GOTO END
 )
 
+:: Git Manipulation
 IF %1==git (
     IF %2==init (
         ECHO Initializing Git...
@@ -81,6 +91,13 @@ IF %1==git (
         ECHO Pulling changes from GitHub...
         %gitx% pull origin master
         GOTO GITCOMOK
+    )
+)
+
+:: Artisan Commands
+if %1==build (
+    if %2==models (
+        %PHPX% artisan make:models
     )
 )
 

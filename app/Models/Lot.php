@@ -23,6 +23,4 @@ class Lot extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

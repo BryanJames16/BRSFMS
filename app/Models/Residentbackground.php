@@ -24,6 +24,4 @@ class Residentbackground extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

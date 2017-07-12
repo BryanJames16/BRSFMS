@@ -24,6 +24,4 @@ class Familymember extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

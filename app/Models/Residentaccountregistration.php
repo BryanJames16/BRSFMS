@@ -21,6 +21,4 @@ class Residentaccountregistration extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

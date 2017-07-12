@@ -45,7 +45,6 @@
 		<!-- Custom Styles -->
 		
 		<!-- Begin Vendor StyleSheet -->
-		<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
 		@yield('vendor-style')
 		<!-- End Vendor StyleSheet -->
 
@@ -56,29 +55,26 @@
 		<!-- End Font Icons -->
 
 		<!-- Begin Plugins CSS -->
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
 		@yield('plugin')
 		<!-- End Plugins CSS -->
 
 		<!-- Begin Vendor Plugins CSS -->
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
 		@yield('vendor-plugin')
 		<!-- End Vendor Plugins CSS -->
 
 		<!-- Begin Robust CSS -->
-		<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
 		@yield('template-css')
 		<!-- End Robust CSS -->
 
 		<!-- Begin Page Level CSS -->
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/components/weather-icons/climacons.min.css') }}" />
+		@yield('page-level-css')
 		<!-- End Page Level CSS -->
 
+		<!-- General CSS -->
+		@yiels('general-css')
+		<!-- End General CSS -->
+
 		<!-- Begin Custom CSS -->
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
-		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 		@yield('custom-css')
 		<!-- End Custom CSS -->
 
@@ -507,34 +503,18 @@
 		<!-- End Framework JS -->
 
 		<!-- Begin Vendor JS -->
-		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
 		@yield('vendor-js')
 		<!-- End Vendor JS -->
 
 		<!-- Begin Page Vendor JS -->
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 		@yield('page-vendor-js')
 		<!-- End Page Vendor JS -->
 
 		<!-- Begin Robust JS -->
-		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 		@yield('template-js')
 		<!-- End Robust JS -->
 
 		<!-- Begin Page Level JS -->
-		<script src="{{ URL::asset('/robust-assets/js/components/extensions/sweet-alerts.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/sweetalert.min.js') }}" type="text/javascript"></script>
 		@yield('page-level-js')
 		<!-- End Page Level JS -->
 
@@ -545,6 +525,10 @@
 		<!-- Begin Post Scripts -->
 		@yield('js-setting')
 		<!-- End Post Scripts -->
+
+		<!-- General Javacript -->
+		@yield('general-js')
+		<!-- End General Javascript -->
 
 		<!-- Begin Page Actions -->
 		@yield('page-action')

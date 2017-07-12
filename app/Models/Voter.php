@@ -24,6 +24,4 @@ class Voter extends Model
     ];
 
     protected $guarded = [];
-
-        
 }

@@ -123,7 +123,6 @@ Route::post('/house/delete','HouseController@delete');
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
 Route::post('/reservation/store', 'ReservationController@store');
 Route::post('/facility-reservation/update', 'ReservationController@update');
-//Route::post('/house/update','HouseController@edit');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 
 
@@ -216,4 +215,8 @@ Route::post('/postJquery','JqueryController@postJquery');
 Route::get('/readByAjax','JqueryController@readByAjax');
 Route::get('/getEditAjax','JqueryController@getEditAjax');
 Route::post('/updateByAjax','JqueryController@updateByAjax');
+
+Route::get('/base-maintenance', function () {
+	return view('master.base_maintenance');
+});
 
