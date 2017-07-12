@@ -280,170 +280,165 @@
 
 							<br />
 
-							<li class="navigation-header">
-								<span data-i18n="nav.category.layouts">Maintenance</span>
-								<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-book"></i>
-							</li>
-							
-
-							<li class="nav-item" id="individual-id">
-								<a href="/person">
-									<i class="icon-user"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Person</span>
-								</a>
-							</li>
-							<li class="nav-item" id="document-id">
-								<a href="/document">
-									<i class="icon-file-text2"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Document</span>
-								</a>
-							</li>
-							<li class=" nav-item">
-								<a href="#">
-									<i class="icon-office"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
-								</a>
-								<ul class="menu-content">
-									<li id="facility-type-id">										
-										<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-drawer"></i>
-											Facility Type
-										</a>
-									</li>
-									<li id="facility-id">
-										<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-library"></i>
-											Facility
-										</a>
-									</li>
-								</ul>
-							</li>
-							
-							
-							<li class=" nav-item">
-								<a href="#">
-									<i class="icon-cogs"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Service</span>
-								</a>
-								<ul class="menu-content">
-									<li id="service-type-id">
-										<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-drawer"></i>
-											Service Type
-										</a>
-									</li>
-									<li id="services-id">
-										<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-aperture"></i>
-											Service
-										</a>
-									</li>
-								</ul>
-							</li>
-							
-							
-							<li class=" nav-item">
-								<a href="#">
-									<i class="icon-android-car"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
-								</a>
-								<ul class="menu-content">
-									<li id="business-category-id">
-										<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-drawer"></i>
-											Business Category
-										</a>
-									</li>
-									<li id="business-id">
-										<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-truck"></i>
-											Business
-										</a>
-									</li>
-								</ul>
-							</li>				
-							<li class=" nav-item">
-								<a href="#">
-									<i class="icon-location22"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Address</span>
-								</a>
-								<ul class="menu-content">
-									
-										
-									<li id="barangay-id">
-										<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-compass22"></i>
-											Barangay
-										</a>
-									</li>
-									<li id="street-id">
-										<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-road"></i>
-											Street
-										</a>
-									</li>
-									<li id="lot-id">
-										<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-enlarge"></i>
-											Lot
-										</a>
-									</li>
-									<li id="unit-id">
-										<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-compass2"></i>
-											Unit
-										</a>
-									</li>
-									<li id="house-number-id">
-										<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-pushpin"></i>
-											House Number
-										</a>
-									</li>
-								</ul>
-							</li>
-
-							<br />
-
-							<li class=" navigation-header">
-								<span data-i18n="nav.category.layouts">Transaction</span>
-								<i data-toggle="tooltip" data-placement="right" data-original-title="Transaction" class="icon-ellipsis icon-stack"></i>
-							</li>
-							<li class="nav-item" id="resident-application-id">
-								<a href="/resident">
-									<i class="icon-user-tie"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
-								</a>
-							</li>
-							<li class="nav-item" id="facility-reservation-id">
-								<a href="/reservation">
-									<i class="icon-android-calendar"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
-								</a>
-							</li>
 							<li class="nav-item">
-								<a href="/document-request">
-									<i class="icon-file-text2"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
+								<a href="#">
+									<i class="icon-book"></i>
+									<span data-i18n="nav.navbars.main" class="menu-tittle">Maintenance</span>
 								</a>
-							</li>
-							<li class="nav-item" id="service-sponsorship-id">
-								<a href="/sponsors">
-									<i class="icon-android-hand"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
-								</a>
-							</li>
-							<li class=" nav-item" id="incident-report-id">
-								<a href="/incident-report">
-									<i class="icon-location4"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Incident Report</span>
-								</a>
+								<ul class="menu-content">
+									<li id="individual-id">
+										<a href="/person">
+											<i class="icon-user"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Person</span>
+										</a>
+									</li>
+									<li id="document-id">
+										<a href="/document">
+											<i class="icon-file-text2"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Document</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<i class="icon-office"></i>
+											<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
+										</a>
+										<ul class="menu-content">
+											<li id="facility-type-id">										
+												<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Facility Type
+												</a>
+											</li>
+											<li id="facility-id">
+												<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-library"></i>
+													Facility
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="#">
+											<i class="icon-cogs"></i>
+											<span data-i18n="nav.navbars.main" class="menu-title">Service</span>
+										</a>
+										<ul class="menu-content">
+											<li id="service-type-id">
+												<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Service Type
+												</a>
+											</li>
+											<li id="services-id">
+												<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-aperture"></i>
+													Service
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="#">
+											<i class="icon-android-car"></i>
+											<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
+										</a>
+										<ul class="menu-content">
+											<li id="business-category-id">
+												<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Business Category
+												</a>
+											</li>
+											<li id="business-id">
+												<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-truck"></i>
+													Business
+												</a>
+											</li>
+										</ul>
+									</li>				
+									<li>
+										<a href="#">
+											<i class="icon-location22"></i>
+											<span data-i18n="nav.navbars.main" class="menu-title">Address</span>
+										</a>
+										<ul class="menu-content">
+											<li id="barangay-id">
+												<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-compass22"></i>
+													Barangay
+												</a>
+											</li>
+											<li id="street-id">
+												<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-road"></i>
+													Street
+												</a>
+											</li>
+											<li id="lot-id">
+												<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-enlarge"></i>
+													Lot
+												</a>
+											</li>
+											<li id="unit-id">
+												<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-compass2"></i>
+													Unit
+												</a>
+											</li>
+											<li id="house-number-id">
+												<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-pushpin"></i>
+													House Number
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
 							</li>
 
-							<br />
-
-							
 							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-stack"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Transaction</span>
+								</a>
+								<ul class="menu-content">
+									<li id="resident-application-id">
+										<a href="/resident">
+											<i class="icon-user-tie"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
+										</a>
+									</li>
+									<li id="facility-reservation-id">
+										<a href="/reservation">
+											<i class="icon-android-calendar"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
+										</a>
+									</li>
+									<li>
+										<a href="/document-request">
+											<i class="icon-file-text2"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
+										</a>
+									</li>
+									<li id="service-sponsorship-id">
+										<a href="/sponsors">
+											<i class="icon-android-hand"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
+										</a>
+									</li>
+									<li id="incident-report-id">
+										<a href="/incident-report">
+											<i class="icon-location4"></i>
+											<span data-i18n="nav.dash.main" class="menu-title">Incident Report</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
 								<a href="#">
 									<i class="icon-podium"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
@@ -487,9 +482,6 @@
 									</li>
 								</ul>
 							</li>
-
-							<br />
-
 
 							<li class="nav-item" id="query-id">
 								<a href="/queries">
