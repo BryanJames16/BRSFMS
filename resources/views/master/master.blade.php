@@ -71,7 +71,7 @@
 		<!-- End Page Level CSS -->
 
 		<!-- General CSS -->
-		@yiels('general-css')
+		@yield('general-css')
 		<!-- End General CSS -->
 
 		<!-- Begin Custom CSS -->

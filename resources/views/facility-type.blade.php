@@ -99,7 +99,7 @@
 	<th>Name</th>
 	<th>Status</th>
 	<th>Actions</th>
-	<th>Extras</th>
+	<th></th>
 @endsection
 
 @section('table-body-list')
@@ -206,8 +206,13 @@
 		});
 
 		$(document).ready(function () {
-			var dt = $("#table-container").DataTable();
-			dt.column(4).visible(false);
+			try {
+				var dt = $("#table-container").DataTable();
+				dt.column(4).visible(false);
+			}
+			catch (ex) {
+				console.log("DataTable error: \n" + ex);
+			}
 		});
 
 		$("#frm-add").submit(function(event) {
