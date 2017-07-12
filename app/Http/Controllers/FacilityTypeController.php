@@ -20,7 +20,7 @@ class FacilityTypeController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(Document::where("archive", "!=", "1") -> get());
+            return json_encode(FacilityType::where("archive", "!=", "1") -> get());
         }
     }
 

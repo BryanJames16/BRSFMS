@@ -99,7 +99,7 @@
 	<th>Name</th>
 	<th>Status</th>
 	<th>Actions</th>
-	<th></th>
+	<th>Extras</th>
 @endsection
 
 @section('table-body-list')
@@ -201,10 +201,6 @@
 		    }
 		});
 
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-
 		$(document).ready(function () {
 			try {
 				var dt = $("#table-container").DataTable();
@@ -291,6 +287,10 @@
 				}
 			});
 		};
+
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
 	</script>
 @endsection
 	

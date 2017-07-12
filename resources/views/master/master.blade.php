@@ -282,7 +282,7 @@
 
 							<li class="navigation-header">
 								<span data-i18n="nav.category.layouts">Maintenance</span>
-								<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-ellipsis"></i>
+								<i data-toggle="tooltip" data-placement="right" data-original-title="Maintenance" class="icon-ellipsis icon-book"></i>
 							</li>
 							
 
@@ -294,7 +294,7 @@
 							</li>
 							<li class="nav-item" id="document-id">
 								<a href="/document">
-									<i class="icon-file2"></i>
+									<i class="icon-file-text2"></i>
 									<span data-i18n="nav.dash.main" class="menu-title">Document</span>
 								</a>
 							</li>
@@ -304,13 +304,15 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
 								</a>
 								<ul class="menu-content">
-									<li id="facility-type-id">
+									<li id="facility-type-id">										
 										<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-drawer"></i>
 											Facility Type
 										</a>
 									</li>
 									<li id="facility-id">
 										<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-library"></i>
 											Facility
 										</a>
 									</li>
@@ -325,10 +327,16 @@
 								</a>
 								<ul class="menu-content">
 									<li id="service-type-id">
-										<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">Service Type</a>
+										<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-drawer"></i>
+											Service Type
+										</a>
 									</li>
 									<li id="services-id">
-										<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">Service</a>
+										<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-aperture"></i>
+											Service
+										</a>
 									</li>
 								</ul>
 							</li>
@@ -336,15 +344,21 @@
 							
 							<li class=" nav-item">
 								<a href="#">
-									<i class="icon-android-walk"></i>
+									<i class="icon-android-car"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
 								</a>
 								<ul class="menu-content">
 									<li id="business-category-id">
-										<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">Business Category</a>
+										<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-drawer"></i>
+											Business Category
+										</a>
 									</li>
 									<li id="business-id">
-										<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">Business</a>
+										<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-truck"></i>
+											Business
+										</a>
 									</li>
 								</ul>
 							</li>				
@@ -357,19 +371,34 @@
 									
 										
 									<li id="barangay-id">
-										<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">Barangay</a>
+										<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-compass22"></i>
+											Barangay
+										</a>
 									</li>
 									<li id="street-id">
-										<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">Street</a>
+										<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-road"></i>
+											Street
+										</a>
 									</li>
 									<li id="lot-id">
-										<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">Lot</a>
+										<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-enlarge"></i>
+											Lot
+										</a>
 									</li>
 									<li id="unit-id">
-										<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">Unit</a>
+										<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-compass2"></i>
+											Unit
+										</a>
 									</li>
 									<li id="house-number-id">
-										<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">House Number</a>
+										<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-pushpin"></i>
+											House Number
+										</a>
 									</li>
 								</ul>
 							</li>
@@ -378,11 +407,11 @@
 
 							<li class=" navigation-header">
 								<span data-i18n="nav.category.layouts">Transaction</span>
-								<i data-toggle="tooltip" data-placement="right" data-original-title="Transaction" class="icon-ellipsis icon-ellipsis"></i>
+								<i data-toggle="tooltip" data-placement="right" data-original-title="Transaction" class="icon-ellipsis icon-stack"></i>
 							</li>
 							<li class="nav-item" id="resident-application-id">
 								<a href="/resident">
-									<i class="icon-user"></i>
+									<i class="icon-user-tie"></i>
 									<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
 								</a>
 							</li>
@@ -420,28 +449,41 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
 								</a>
 								<ul class="menu-content">
-									
-										
-									<li id="barangay-id">
-										<a href="/legal-case" data-i18n="nav.navbars.nav_dark" class="menu-item">Legal Case</a>
-									</li>
 									<li id="street-id">
-										<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">Rendered Services</a>
+										<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-lifebuoy"></i>
+											Rendered Services
+										</a>
 									</li>
 									<li id="lot-id">
-										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">Reservation of Facilities</a>
+										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-calendar3"></i>
+											Reservation of Facilities
+										</a>
 									</li>
 									<li id="unit-id">
-										<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Registered Residents</a>
+										<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-user-check"></i>
+											Registered Residents
+										</a>
 									</li>
 									<li id="house-number-id">
-										<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">Senior Citizens</a>
+										<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-android-contact"></i>
+											Senior Citizens
+										</a>
 									</li>
 									<li id="house-number-id">
-										<a href="/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">PWD</a>
+										<a href="/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-android-bicycle"></i>
+											PWD
+										</a>
 									</li>
 									<li id="house-number-id">
-										<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">Employed Residents</a>
+										<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-price-tags"></i>
+											Employed Residents
+										</a>
 									</li>
 								</ul>
 							</li>
@@ -464,14 +506,15 @@
 									<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
 								</a>
 							</li>
-
+	
 							<br />
 
 							<span data-i18n="nav.dash.main" class="menu-title">
-								&nbsp&nbsp&nbsp&nbsp Barangay Management System 
+								<center>
+									<i class="icon-ellipsis"></i>
+								</center>
 							</span>
 
-							<br />
 							<br />
 						</ul>
 					</div>
