@@ -98,6 +98,7 @@ IF %1==git (
 if %1==build (
     if %2==models (
         %PHPX% artisan make:models
+        GOTO GITCOMOK
     )
 )
 
