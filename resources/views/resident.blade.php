@@ -3,7 +3,9 @@
 @section('vendor-plugin')
 
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
-<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />	
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
+<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+<link rel="stylesheet" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />	
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
 <!--
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" /><link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
@@ -16,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedHeader.dataTables.min.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 
-	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
@@ -370,7 +372,11 @@
 
 @section('page-vendor-js')
 
+
 		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}"></script>
+
+
 		<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.responsive.min.js') }}" type="text/javascript"></script>
@@ -382,6 +388,8 @@
 @endsection
 
 @section('page-level-js')
+
+		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}"></script>
 		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 		<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 		<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-responsive.js') }}" type="text/javascript"></script>
