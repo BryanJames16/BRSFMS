@@ -118,11 +118,12 @@
 					<input type='hidden' name='typeID' value='{{ $facilityType -> typeID }}' />
 					<input type='hidden' name='typeName' value='{{ $facilityType -> typeName }}' />
 					<input type='hidden' name='status' value='{{ $facilityType -> status }}' />
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $facilityType -> typeID }}'><i class="icon-android-create"></i></button>
-						<button class='btn btn-icon btn-round btn-danger delete' value='{{ $facilityType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					</div>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $facilityType -> typeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $facilityType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{{Form::close()}}
+			</td>
+
+			<td>
 			</td>
 		</tr>
 	@endforeach
@@ -146,9 +147,6 @@
 
 
 @section('edit-modal-body')
-
-	
-
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">ID</label>
 		<div class="col-md-9">
@@ -163,7 +161,6 @@
 		<div class="col-md-9">
 			{{Form::text('typeName',null,['id'=>'eTypeName','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'4', 'pattern'=>'^[a-zA-Z0-9\' ]+$'])}}
 		</div>	
-
 	</div>
 
 	<div class="form-group row last">
@@ -171,12 +168,12 @@
 		<div class="col-md-9">
 			<div class="input-group col-md-9">
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="stat" value="1" class="eStatus custom-control-input" >
+					<input type="radio" id='eActive' name="stat" value="1" class="eStatus custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Active</span>
 				</label>
 				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="stat" value="0" class="eStatus custom-control-input" >
+					<input type="radio" id='eInactive' name="stat" value="0" class="eStatus custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Inactive</span>
 				</label>
@@ -239,6 +236,87 @@
 			});
 		});
 
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajax({
+				type: 'GET',
+				url: "{{ url('/facility-type/getEdit') }}", 
+				data: {"primeID": id}, 
+				success:function(data)
+				{
+					console.log("Data is: " + data);
+					var frm = $('#frm-update');
+					frm.find("#eTypeID").val(data.typeID);
+					frm.find('#eTypeName').val(data.typeName);
+
+					if(data.status == 1) {
+						$("#eActive").attr('checked', 'checked');
+					}
+					else {
+						$("#eInactive").attr('checked', 'checked');
+					}
+
+					$('#modalEdit').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$(document).on('click', '.delete', function(e) {
+
+			var id = $(this).val();
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/facility-type/getEdit') }}",
+					data: {"primeID": id},
+					success:function(data) {
+						console.log(data);
+						swal({
+							title: "Are you sure you want to delete " + data.typeName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "post",
+									url: "{{ url('/facility-type/delete') }}", 
+									data: {"primeID": id}, 
+									success: function(data) {
+										refreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(data) {
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							});				
+					}
+			})
+		});
+
 		var refreshTable = function() {
 			$.ajax({
 				url: "{{ url('/facility-type/refresh') }}", 
@@ -264,10 +342,8 @@
 									'<td>' + 
 										'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="primeID" value="' + data[index].typeID + '" />' + 
-											'<div class="btn-group" role="group" aria-label="Basic example">' + 
-												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
-												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-											'</div>' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
 								'</tr>'

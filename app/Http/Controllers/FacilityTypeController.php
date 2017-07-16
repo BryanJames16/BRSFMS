@@ -37,34 +37,23 @@ class FacilityTypeController extends Controller
             $stat = 0;
         }
         else {
-
+            console.error("Invalid status type detected!");
         }
-
 
         $aah = FacilityType::insert(['typeName'=>trim($r->typeName),
                                                'archive'=>0,
                                                'status'=>$stat]);
-
-
-            return back();
+        return back();
         
     }
 
     public function getEdit(Request $r) {
-    	
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return response(FacilityType::find($r->typeID));
         }
-
-
     }
 
-    public function edit(Request $r)
-    {
-
-        
-
+    public function edit(Request $r) {
         $this->validate($r, [
             'typeName' => ['required', 'unique:facilitytypes', 'max:30', Rule::unique('facilitytypes')->ignore($r->type_ID, 'typeID')],
         ]);
@@ -76,9 +65,7 @@ class FacilityTypeController extends Controller
         return redirect('facility-type');
     }
 
-    public function delete(Request $r)
-    {
-
+    public function delete(Request $r) {
         $type = FacilityType::find($r->input('typeID'));
         $type->archive = true;
         $type->save();

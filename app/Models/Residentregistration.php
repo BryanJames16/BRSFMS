@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Residentregistration
  */
-class Residentregistration extends Model
+class ResidentRegistration extends Model
 {
     protected $table = 'residentregistrations';
 

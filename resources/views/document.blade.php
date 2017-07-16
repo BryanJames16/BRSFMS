@@ -289,10 +289,6 @@
 		    }
 		});
 
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-
 		$("#frm-add").submit(function(event) {
 			event.preventDefault();
 
@@ -480,10 +476,8 @@
 									'<td>' + 
 										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<div class="btn-group" role="group" aria-label="Basic example">' + 
-												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-											'</div>' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
 								'</tr>'
