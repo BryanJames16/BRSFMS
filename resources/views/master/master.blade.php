@@ -283,19 +283,19 @@
 							<li class="nav-item">
 								<a href="#">
 									<i class="icon-book"></i>
-									<span data-i18n="nav.navbars.main" class="menu-tittle">Maintenance</span>
+									<span data-i18n="nav.navbars.main" class="menu-title">Maintenance</span>
 								</a>
 								<ul class="menu-content">
 									<li id="document-id">
 										<a href="/document">
 											<i class="icon-file-text2"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Document</span>
+											<span>Document</span>
 										</a>
 									</li>
 									<li>
 										<a href="#">
 											<i class="icon-office"></i>
-											<span data-i18n="nav.navbars.main" class="menu-title">Facility</span>
+											<span>Facility</span>
 										</a>
 										<ul class="menu-content">
 											<li id="facility-type-id">										
@@ -315,7 +315,7 @@
 									<li>
 										<a href="#">
 											<i class="icon-cogs"></i>
-											<span data-i18n="nav.navbars.main" class="menu-title">Service</span>
+											<span>Service</span>
 										</a>
 										<ul class="menu-content">
 											<li id="service-type-id">
@@ -335,7 +335,7 @@
 									<li>
 										<a href="#">
 											<i class="icon-android-car"></i>
-											<span data-i18n="nav.navbars.main" class="menu-title">Business</span>
+											<span>Business</span>
 										</a>
 										<ul class="menu-content">
 											<li id="business-category-id">
@@ -355,15 +355,9 @@
 									<li>
 										<a href="#">
 											<i class="icon-location22"></i>
-											<span data-i18n="nav.navbars.main" class="menu-title">Address</span>
+											<span>Address</span>
 										</a>
 										<ul class="menu-content">
-											<li id="barangay-id">
-												<a href="/barangay" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-compass22"></i>
-													Barangay
-												</a>
-											</li>
 											<li id="street-id">
 												<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-road"></i>
@@ -400,33 +394,33 @@
 								</a>
 								<ul class="menu-content">
 									<li id="resident-application-id">
-										<a href="/resident">
+										<a href="/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-user-tie"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Resident</span>
+											<span>Resident</span>
 										</a>
 									</li>
 									<li id="facility-reservation-id">
-										<a href="/reservation">
+										<a href="/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Facility Reservation</span>
+											<span>Facility Reservation</span>
 										</a>
 									</li>
 									<li>
-										<a href="/document-request">
+										<a href="/document-request" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-file-text2"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Document Request</span>
+											<span>Document Request</span>
 										</a>
 									</li>
 									<li id="service-sponsorship-id">
 										<a href="/sponsors">
-											<i class="icon-android-hand"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Service Sponsorship</span>
+											<i class="icon-android-hand" data-i18n="nav.navbars.nav_light" class="menu-item"></i>
+											<span>Service Sponsorship</span>
 										</a>
 									</li>
 									<li id="incident-report-id">
-										<a href="/incident-report">
+										<a href="/incident-report" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-location4"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Incident Report</span>
+											<span>Incident Report</span>
 										</a>
 									</li>
 								</ul>
