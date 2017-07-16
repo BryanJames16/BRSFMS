@@ -55,10 +55,10 @@ Route::post('/business/update','BusinessController@edit');
 Route::post('/business/delete','BusinessController@delete');
 
 //Person
-Route::get('/person/getEdit', 'PeopleController@getEdit');
-Route::post('/person/store', 'PeopleController@store');
-Route::post('/person/update','PeopleController@edit');
-Route::post('/person/delete','PeopleController@delete');
+Route::get('/resident/getEdit', 'ResidentController@getEdit');
+Route::post('/resident/store', 'ResidentController@store');
+Route::post('/resident/update','ResidentController@edit');
+Route::post('/resident/delete','ResidentController@delete');
 
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
@@ -205,7 +205,7 @@ Route::resource('/street', 'StreetController');
 Route::resource('/lot', 'LotController');
 Route::resource('/unit', 'UnitController');
 Route::resource('/house', 'HouseController');
-Route::resource('/resident', 'ResidentRegistrationController');
+Route::resource('/resident', 'ResidentController');
 
 Route::get('/jquery','JqueryController@jquery');
 Route::post('/postJquery','JqueryController@postJquery');

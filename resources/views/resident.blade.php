@@ -110,7 +110,62 @@
 
 								<!-- Resident Tab -->
 
+									<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Name</th>
+												<th>Birthdate</th>
+												<th>Gender</th>
+												<th>Type</th>
+												<th>Status</th>
+												<th>Actions</th>
+											</tr>
+										</thead>
 
+										<tbody>
+											@foreach($residents as $resident)
+												<tr>
+													<td>{{ $resident -> residentID }}</td>
+													<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
+													<td>{{ $resident -> birthdate }}</td>
+													<td>{{ $resident -> gender }}</td>
+													<td>{{ $resident -> residentType }}</td>
+													
+													@if ($resident -> status == 1)
+														<td>Active</td>
+													@else
+														<td>Inactive</td>
+													@endif
+													
+													<td>
+														
+														{{Form::open(['url'=>'resident/delete', 'method' => 'POST', 'id' => $resident -> residentPrimeID ])}}
+
+															{{Form::hidden('residentPrimeID',$resident->residentPrimeID,['id'=>'residentPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
+															<input type='hidden' name='residentID' value='{{ $resident -> residentID }}' />
+															<input type='hidden' name='firstName' value='{{ $resident -> firstName }}' />
+															<input type='hidden' name='lastName' value='{{ $resident -> lastName }}' />
+															<input type='hidden' name='middleName' value='{{ $resident -> middleName }}' />
+															<input type='hidden' name='gender' value='{{ $resident -> gender }}' />
+															<input type='hidden' name='civilStatus' value='{{ $resident -> civilStatus }}' />
+															<input type='hidden' name='birthdate' value='{{ $resident -> birthdate }}' />
+															<input type='hidden' name='suffix' value='{{ $resident -> suffix }}' />
+															<input type='hidden' name='contactNumber' value='{{ $resident -> contactNumber }}' />
+															<input type='hidden' name='seniorCitizenID' value='{{ $resident -> seniorCitizenID }}' />
+															<input type='hidden' name='disabilities' value='{{ $resident -> disabilities }}' />
+															<input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
+															<input type='hidden' name='status' value='{{ $resident -> status }}' />
+															
+															<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $resident -> residentPrimeID }}'><i class="icon-android-create"></i></button>
+															<button class='btn btn-icon btn-square btn-danger delete' value='{{ $resident -> residentPrimeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+															
+														{{Form::close()}}
+													</td>
+												</tr>
+											@endforeach
+										</tbody>
+									</table>
 								<!-- End of Resident Tab -->
 
 							</div>
@@ -257,26 +312,6 @@
 															<h6>Address</h6>
 															<fieldset>
 																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Province : </label>
-																			<input type="text" class="form-control" id="firstName1" />
-																		</div>
-																	</div>
-																	
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Municipality : </label>
-																			<input type="text" class="form-control" id="firstName1" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">City : </label>
-																			<input type="text" class="form-control" id="firstName1" />
-																		</div>
-																	</div>
 
 																	<div class="col-md-6">
 																		<div class="form-group">
@@ -368,6 +403,229 @@
 				$("#iconModal").modal('show');
 			});
 		</script>
+		<script>
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		$("#frm-add").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/resident/store') }}", 
+				method: "POST", 
+				data: {
+					"residentID": $("#residentID").val(), 
+					"lastName": $("#lastName").val(), 
+					"middleName": $("#middleName").val(), 
+					"firstName": $("#firstName").val(), 
+					"suffix": $("#suffix").val(),
+					"contactNumber": $("#contactNumber").val(),  
+					"gender": $("#gender :selected").val(), 
+					"birthdate": $("#birthdate").val(), 
+					"civilStatus": $("#civilStatus").val(), 
+					"seniorCitizenID": $("#seniorCitizenID").val(), 
+					"disabilities": $("#disabilities").val(), 
+					"residentType": $("#residentType :selected").text(), 
+					"status": $(".astatus:checked").val()
+				}, 
+				success: function(data) {
+					$("#iconModal").modal("hide");
+					refreshTable();
+					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/document/getEdit') }}", 
+				data: {"primeID":id}, 
+				success:function(data)
+				{
+					console.log(data);
+					var frm = $('#frm-update');
+					frm.find("#eDocumentID").val(data.documentID);
+					frm.find('#eDocumentName').val(data.documentName);
+					frm.find('#eDocumentDescription').val(data.documentDescription);
+					frm.find('#eDocumentPrice').val(data.documentPrice);
+					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
+					frm.find('#ePrimeID').val(data.primeID);
+					
+					console.log("Data Status: " + data.status);
+
+					if(data.status == 1) {
+						$("#eActive").attr('checked', 'checked');
+					}
+					else {
+						$("#eInactive").attr('checked', 'checked');
+					}
+
+					$('#modalEdit').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+			var frm = $('#frm-update');
+
+			console.log("Description is: " + $("#eDocumentDescription").val());
+
+			$.ajax({
+				url: "{{ url('/document/update') }}",
+				type: "POST",
+				data: {"primeID": $("#ePrimeID").val(), 
+						"documentID": $("#eDocumentID").val(), 
+						"documentName": $("#eDocumentName").val(), 
+						"documentDescription": $("#eDocumentDescription").val(), 
+						"documentType": $("#edDocumentType :selected").text(), 
+						"documentPrice": $("#eDocumentPrice").val(), 
+						"status": $(".eStatus:checked").val() 
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Service has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$(document).on('click', '.delete', function(e) {
+
+			var id = $(this).val();
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/document/getEdit') }}",
+					data: {"primeID": id},
+					success:function(data) {
+						console.log(data);
+						swal({
+							title: "Are you sure you want to delete " + data.documentName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "post",
+									url: "{{ url('/document/delete') }}", 
+									data: {primeID:id}, 
+									success: function(data) {
+										refreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(data) {
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							});				
+					}
+			})
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/document/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						var statusText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						$("#table-container").append('<tr>' + 
+									'<td>' + data[index].documentID + '</td>' + 
+									'<td>' + data[index].documentName + '</td>' + 
+									'<td>' + data[index].documentDescription + '</td>' + 
+									'<td>' + data[index].documentType + '</td>' + 
+									'<td>&#8369; ' + data[index].documentPrice + '</td>' + 
+									'<td>' + statusText + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+										'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+	</script>
 @endsection
 
 @section('page-vendor-js')
