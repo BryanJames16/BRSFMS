@@ -286,12 +286,6 @@
 									<span data-i18n="nav.navbars.main" class="menu-tittle">Maintenance</span>
 								</a>
 								<ul class="menu-content">
-									<li id="individual-id">
-										<a href="/person">
-											<i class="icon-user"></i>
-											<span data-i18n="nav.dash.main" class="menu-title">Person</span>
-										</a>
-									</li>
 									<li id="document-id">
 										<a href="/document">
 											<i class="icon-file-text2"></i>

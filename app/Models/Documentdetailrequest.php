@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Documentdetailrequest
  */
-class Documentdetailrequest extends Model
+class DocumentDetailRequest extends Model
 {
     protected $table = 'documentdetailrequests';
 

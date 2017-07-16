@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Generaladdress
  */
-class Generaladdress extends Model
+class GeneralAddress extends Model
 {
     protected $table = 'generaladdresses';
 

@@ -16,6 +16,7 @@
 
 //Facility
 Route::get('/facility/getEdit', 'FacilityController@getEdit');
+Route::get('/facility/refresh', 'FacilityController@refresh');
 Route::post('/facility/store', 'FacilityController@store');
 Route::post('/facility/update','FacilityController@edit');
 Route::post('/facility/delete','FacilityController@delete');
@@ -26,10 +27,6 @@ Route::get('/facility-type/refresh', 'FacilityTypeController@refresh');
 Route::post('/facility-type/store', 'FacilityTypeController@store');
 Route::post('/facility-type/update','FacilityTypeController@edit');
 Route::post('/facility-type/delete','FacilityTypeController@delete');
-
-Route::get('/facilitytype','FacilityTypesController@jquery');
-Route::get('/facilitytyperead','FacilityTypesController@readByAjax');
-Route::post('/postfacilitytype','FacilityTypesController@postJquery');
 
 //Service Type
 Route::get('/service-type/refresh','ServiceTypeController@refresh');
