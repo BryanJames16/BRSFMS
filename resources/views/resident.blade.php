@@ -201,7 +201,7 @@
 											<div class="modal-body">
 												<div class="card-body collapse in">
 													<div class="card-block">
-															{!!Form::open(['url'=>'', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])!!}
+															{!!Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])!!}
 
 															{{ csrf_field() }}
 
@@ -432,7 +432,7 @@
 					"status": $(".astatus:checked").val()
 				}, 
 				success: function(data) {
-					$("#iconModal").modal("hide");
+					$("#addModal").modal("hide");
 					refreshTable();
 					$("#frm-add").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
@@ -578,7 +578,7 @@
 
 		var refreshTable = function() {
 			$.ajax({
-				url: "{{ url('/document/refresh') }}", 
+				url: "{{ url('/resident/refresh') }}", 
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
@@ -595,17 +595,17 @@
 						}
 
 						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].documentID + '</td>' + 
-									'<td>' + data[index].documentName + '</td>' + 
-									'<td>' + data[index].documentDescription + '</td>' + 
-									'<td>' + data[index].documentType + '</td>' + 
-									'<td>&#8369; ' + data[index].documentPrice + '</td>' + 
+									'<td>' + data[index].residentID + '</td>' + 
+									'<td>' + data[index].firstName + data[index].middleName + data[index].lastName + '</td>' + 
+									'<td>' + data[index].birthdate + '</td>' + 
+									'<td>' + data[index].gender + '</td>' + 
+									'<td>' + data[index].residentType + '</td>' + 
 									'<td>' + statusText + '</td>' + 
 									'<td>' + 
-										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].residentPrimeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].residentPrimeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
 								'</tr>'

@@ -21,6 +21,12 @@ class ResidentController extends Controller
 
     }
 
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Resident::where("status", "!=", "0") -> get());
+        }
+    }
+
 	public function store(Request $r) {
 
         $this->validate($r, [
