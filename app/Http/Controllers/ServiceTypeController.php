@@ -64,6 +64,11 @@ class ServiceTypeController extends Controller
 
     public function edit(Request $r)
     { 
+
+        $this->validate($r, [
+                'typeName' => 'required|unique:servicetypes|max:20',
+            ]);
+            
         $type = ServiceType::find($r->input('typeID'));
         $type->typeName = $r->input('typeName');
         $type->typeDesc = $r->input('typeDesc');

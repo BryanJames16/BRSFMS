@@ -103,7 +103,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Day Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityDayPrice',null,['id'=>'dayPrice','class'=>'form-control', 'placeholder'=>'eg.100', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
+			{!!Form::number('facilityDayPrice',null,['id'=>'dayPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.100', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
 		</div>	
 
 	</div>
@@ -111,7 +111,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Night Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityNightPrice',null,['id'=>'nightPrice','class'=>'form-control', 'placeholder'=>'eg.150', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
+			{!!Form::number('facilityNightPrice',null,['id'=>'nightPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.150', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
 		</div>	
 
 	</div>
@@ -334,7 +334,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Day Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityDayPrice',null,['id'=>'facilityDayPrice','class'=>'form-control', 'placeholder'=>'eg.100', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
+			{!!Form::number('facilityDayPrice',null,['id'=>'facilityDayPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.100', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
 		</div>	
 
 	</div>
@@ -342,7 +342,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Night Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityNightPrice',null,['id'=>'facilityNightPrice','class'=>'form-control', 'placeholder'=>'eg.150', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
+			{!!Form::number('facilityNightPrice',null,['id'=>'facilityNightPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.150', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
 		</div>	
 
 	</div>

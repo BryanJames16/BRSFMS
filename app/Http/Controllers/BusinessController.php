@@ -59,8 +59,13 @@ class BusinessController extends Controller
     public function edit(Request $r)
     {
 
+        $this->validate($r, [
+            
+            'businessName' => 'required|unique:businesses|max:30',
+            ]);
+
         $business = Business::find($r->input('businessPrimeID'));
-        $business->businessName = $r->input('business_name');
+        $business->businessName = $r->input('businessName');
         $business->businessDesc = $r->input('business_desc');
         $business->businessType = $r->input('type');
         $business->categoryPrimeID = $r->input('categoryPrimeID');
