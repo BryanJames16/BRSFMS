@@ -209,7 +209,7 @@
 				data: {"primeID":id}, 
 				success:function(data)
 				{
-					console.log(data);
+					
 					var frm = $('#frm-update');
 					frm.find('#serviceName').val(data.serviceName);
 					frm.find('#serviceDesc').val(data.serviceDesc);

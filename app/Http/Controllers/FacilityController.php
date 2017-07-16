@@ -19,7 +19,21 @@ class FacilityController extends Controller
         return view('facility',['types'=>FacilityType::where([['status', 1],['archive', 0]])->pluck('typeName', 'typeID')]) -> with('facilities', $facilities);
     }
 
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            $facilities = \DB::table('facilities') ->select('primeID', 'facilityID', 'facilityName', 
+                                                                'facilityDesc', 'typeName', 'facilityDayPrice', 
+                                                                'facilityNightPrice', 'facilities.status', 'facilitytypes.typeID') 
+                                        ->join('FacilityTypes', 'Facilities.facilityTypeID', '=', 'FacilityTypes.typeID')
+                                        ->where('Facilities.archive', '=', 0) 
+                                        ->get();
+            return json_encode($facilities);
+        }
+    }
+
     public function store(Request $r) {
+
+        $stat = 0;
 
         $this->validate($r, [
             
@@ -28,21 +42,25 @@ class FacilityController extends Controller
             'facilityNightPrice' => 'required|numeric',
             'facilityDayPrice' => 'required|numeric',
 
-            ]);
+        ]);
 
-        if($_POST['stat']=="active")
+        if($r->input('status') == "active")
         {
             $stat = 1;
         }
-        else if($_POST['stat']=="inactive")
+        else if($r->input('status') == "inactive")
         {
             $stat = 0;
+        }
+        else
+        {
+
         }
 
         $aah = Facility::insert(['facilityID'=>trim($r->facilityID),
                                             'facilityName'=>trim($r->facilityName),
-                                            'facilityDesc'=>trim($r->desc),
-                                            'facilityTypeID'=>$r->typeID,
+                                            'facilityDesc'=>trim($r->facilityDesc),
+                                            'facilityTypeID'=>$r->facilityType,
                                             'facilityNightPrice'=>$r->facilityNightPrice,
                                             'facilityDayPrice'=>$r->facilityDayPrice,
                                                'archive'=>0,
@@ -51,19 +69,12 @@ class FacilityController extends Controller
         }
 
     public function getEdit(Request $r) {
-        
-        if($r->ajax())
-        {
-            return response(Facility::find($r->primeID));
+        if($r->ajax()) {
+            return response(Facility::find($r->input('primeID')));
         }
-
-
     }
 
-    public function edit(Request $r)
-    {
-
-
+    public function edit(Request $r) {
         $facility = Facility::find($r->input('primeID'));
         $facility->facilityName = $r->input('facilityName');
         $facility->facilityDesc = $r->input('facility_desc');
@@ -75,9 +86,7 @@ class FacilityController extends Controller
         return redirect('facility');
     }
 
-    public function delete(Request $r)
-    {
-
+    public function delete(Request $r) {
         $facility = Facility::find($r->input('primeID'));
         $facility->archive = true;
         $facility->save();

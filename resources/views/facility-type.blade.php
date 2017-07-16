@@ -114,7 +114,7 @@
 			@endif
 			
 			<td>
-				{{Form::open(['url'=>'facility-type/delete', 'method' => 'POST', 'id' => $facilityType -> typeID ])}}
+				{{Form::open(['url'=>'/facility-type/delete', 'method' => 'POST', 'id' => $facilityType -> typeID ])}}
 					<input type='hidden' name='typeID' value='{{ $facilityType -> typeID }}' />
 					<input type='hidden' name='typeName' value='{{ $facilityType -> typeName }}' />
 					<input type='hidden' name='status' value='{{ $facilityType -> status }}' />
@@ -127,10 +127,6 @@
 			</td>
 		</tr>
 	@endforeach
-@endsection
-
-@section('ajax-modal')
-	
 @endsection
 
 @section('edit-modal-title')
@@ -197,7 +193,7 @@
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
-
+		
 		$(document).ready(function () {
 			try {
 				var dt = $("#table-container").DataTable();
@@ -245,7 +241,7 @@
 				data: {"primeID": id}, 
 				success:function(data)
 				{
-					console.log("Data is: " + data);
+					console.log("Data is: \n" + data);
 					var frm = $('#frm-update');
 					frm.find("#eTypeID").val(data.typeID);
 					frm.find('#eTypeName').val(data.typeName);
@@ -346,6 +342,7 @@
 											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
+									'<td></td>' + 
 								'</tr>'
 						);
 					}

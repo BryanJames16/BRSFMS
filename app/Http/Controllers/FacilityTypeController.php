@@ -48,9 +48,9 @@ class FacilityTypeController extends Controller
     }
 
     public function getEdit(Request $r) {
-        if($r->ajax()) {
-            return response(FacilityType::find($r->typeID));
-        }
+        $somevar = FacilityType::find($r -> input('typeID'));
+        echo "SOmevar value: " . $somevar . "\n";
+        return response($somevar);
     }
 
     public function edit(Request $r) {
