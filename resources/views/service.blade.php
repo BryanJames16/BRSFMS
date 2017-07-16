@@ -188,10 +188,8 @@
 					<input type='hidden' id='serviceDesc' value='{{ $service -> serviceDesc }}' />
 					<input type='hidden' id='typeID' value='{{ $service -> typeID }}' />
 					<input type='hidden' id='status' value='{{ $service -> status }}' />
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $service -> primeID }}'><i class="icon-android-create"></i></button>
-						<button class='btn btn-icon btn-round btn-danger delete' value='{{ $service -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					</div>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $service -> primeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $service -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{!! Form::close() !!}
 			</td>
 		</tr>
@@ -204,7 +202,7 @@
 			var id = $(this).val();
 
 			$.ajax({
-				type: 'get',
+				type: 'GET',
 				url: "{{ url('/service/getEdit') }}", 
 				data: {"primeID":id}, 
 				success:function(data)
@@ -462,10 +460,8 @@
 											'<input type="hidden" name="serviceDesc" value="' + data[index].serviceDesc + '" />' + 
 											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
 											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<div class="btn-group" role="group" aria-label="Basic example">' + 
-												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-											'</div>' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
 								'</tr>'
