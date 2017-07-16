@@ -96,7 +96,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
 		<div class="col-md-9">
-			{{Form::number('documentPrice',null,['id'=>'documentPrice','class'=>'form-control', 'maxlength'=>'10', 'minlength'=>'1', 'step'=>'0.01'])}}
+			{{Form::number('documentPrice',null,['id'=>'documentPrice','class'=>'form-control','min'=>'0', 'maxlength'=>'10', 'minlength'=>'1', 'step'=>'0.01'])}}
 		</div>	
 	</div>
 
@@ -248,7 +248,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
 		<div class="col-md-9">
-			{{Form::number('documentPrice',null,['id'=>'eDocumentPrice','class'=>'form-control', 'maxlength'=>'8', 'minlength'=>'1', 'step'=>'0.01'])}}
+			{{Form::number('documentPrice',null,['id'=>'eDocumentPrice','class'=>'form-control','min'=>'0', 'maxlength'=>'8', 'minlength'=>'1', 'step'=>'0.01'])}}
 		</div>	
 	</div>
 

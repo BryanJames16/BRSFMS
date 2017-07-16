@@ -208,7 +208,7 @@
 				{
 					console.log(data);
 					var frm = $('#frm-update');
-					frm.find('#business_name').val(data.businessName);
+					frm.find('#businessName').val(data.businessName);
 					frm.find('#business_desc').val(data.businessDesc);
 					frm.find('#business_ID').val(data.businessID);
 					frm.find('#categoryPrimeID').val(data.categoryPrimeID);
@@ -300,7 +300,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{!!Form::text('business_name',null,['id'=>'business_name','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'5'])!!}
+			{!!Form::text('businessName',null,['id'=>'businessName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'5'])!!}
 		</div>	
 
 	</div>

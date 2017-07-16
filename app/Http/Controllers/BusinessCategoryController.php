@@ -55,8 +55,13 @@ class BusinessCategoryController extends Controller
     public function edit(Request $r)
     {
 
+        $this->validate($r, [
+            
+            'categoryName' => 'required|unique:businesscategories|max:30',
+            ]);
+
         $category = BusinessCategory::find($r->input('category_ID'));
-        $category->categoryName = $r->input('category_name');
+        $category->categoryName = $r->input('categoryName');
         $category->categoryDesc = $r->input('category_desc');
         $category->status = $r->input('stat');
         $category->save();

@@ -168,7 +168,7 @@
 				{
 					console.log(data);
 					var frm = $('#frm-update');
-					frm.find('#category_name').val(data.categoryName);
+					frm.find('#categoryName').val(data.categoryName);
 					frm.find('#category_desc').val(data.categoryDesc);
 					frm.find('#category_ID').val(data.categoryPrimeID);
 
@@ -258,7 +258,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1"*>Name</label>
 		<div class="col-md-9">
-			{!!Form::text('category_name',null,['id'=>'category_name','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
+			{!!Form::text('categoryName',null,['id'=>'categoryName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
 		</div>	
 
 	</div>
