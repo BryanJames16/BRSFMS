@@ -25,8 +25,6 @@
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Business</li>
 	<li class="breadcrumb-item"><a href="#">Business Category</a></li>
-
-
 @endsection
 
 @section('main-card-title')
@@ -42,10 +40,6 @@
 @endsection
 
 @section('modal-form-body')
-
-	
-		
-
 	{!!Form::open(['url'=>'/business-category/store', 'method' => 'POST', 'id' => 'frm-add'])!!}
 
 		{{ csrf_field() }}
