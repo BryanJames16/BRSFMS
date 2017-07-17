@@ -145,10 +145,8 @@
 											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
 											'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
 											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<div class="btn-group" role="group" aria-label="Basic example">' + 
-												'<button class="btn btn-icon btn-round btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
-												'<button class="btn btn-icon btn-round btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-											'</div>' + 
+											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
+											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
 									'</td>' + 
 								'</tr>'
@@ -231,10 +229,8 @@
 					<input type='hidden' name='typeName' value='{{ $serviceType -> typeName }}' />
 					<input type='hidden' name='typeDesc' value='{{ $serviceType -> typeDesc }}' />
 					<input type='hidden' name='status' value='{{ $serviceType -> status }}' />
-					<div class="btn-group" role="group" aria-label="Basic example">
-						<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $serviceType -> typeID }}'><i class="icon-android-create"></i></button>
-						<button class='btn btn-icon btn-round btn-danger delete' value='{{ $serviceType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					</div>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $serviceType -> typeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $serviceType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{!! Form::close() !!}
 			</td>
 		</tr>

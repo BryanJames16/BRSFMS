@@ -95,11 +95,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Day Price</label>
 		<div class="col-md-9">
-<<<<<<< HEAD
-			{!!Form::number('facilityDayPrice',null,['id'=>'dayPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.100', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
-=======
 			{{Form::number('facilityDayPrice',null,['id'=>'aDayPrice','class'=>'form-control', 'placeholder'=>'eg.100', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])}}
->>>>>>> ba05e3adae2220167e77f1bac4f1acc5c37f5cc7
 		</div>	
 
 	</div>
@@ -107,11 +103,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Night Price</label>
 		<div class="col-md-9">
-<<<<<<< HEAD
-			{!!Form::number('facilityNightPrice',null,['id'=>'nightPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.150', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])!!}
-=======
 			{{Form::number('facilityNightPrice',null,['id'=>'aNightPrice','class'=>'form-control', 'placeholder'=>'eg.150', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])}}
->>>>>>> ba05e3adae2220167e77f1bac4f1acc5c37f5cc7
 		</div>	
 
 	</div>	
@@ -200,13 +192,13 @@
 @section('edit-modal-body')
 
 	
-	{{Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
+	{{Form::hidden('ePrimeID',null,['id'=>'ePrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
 
 
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('facilityID',null,['id'=>'eFacilityID','class'=>'form-control', 'maxlength'=>'30', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])}}
+			{{Form::text('eFacilityID',null,['id'=>'eFacilityID','class'=>'form-control', 'maxlength'=>'30', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])}}
 		</div>	
 
 	</div>
@@ -214,7 +206,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('facilityName',null,['id'=>'eFacilityName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'5'])}}
+			{{Form::text('eFacilityName',null,['id'=>'eFacilityName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'5'])}}
 		</div>	
 
 	</div>
@@ -222,7 +214,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{Form::textarea('facility_desc',null,['id'=>'eFacilityDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
+			{{Form::textarea('eFacilityDesc',null,['id'=>'eFacilityDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
 		</div>	
 
 	</div>
@@ -240,7 +232,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Day Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityDayPrice',null,['id'=>'facilityDayPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.100', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
+			{{Form::number('eDayPrice',null,['id'=>'eDayPrice','class'=>'form-control', 'placeholder'=>'eg.100', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])}}
 		</div>	
 
 	</div>
@@ -248,7 +240,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Night Price</label>
 		<div class="col-md-9">
-			{!!Form::number('facilityNightPrice',null,['id'=>'facilityNightPrice','class'=>'form-control','min'=>'0', 'placeholder'=>'eg.150', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])!!}
+			{{Form::number('eNightPrice',null,['id'=>'eNightPrice','class'=>'form-control', 'placeholder'=>'eg.150', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required'])}}
 		</div>	
 
 	</div>
@@ -370,17 +362,18 @@
 
 			var frm = $('#frm-update');
 
-			console.log("Description is: " + $("#eDocumentDescription").val());
+			console.log("Facility Name is: " + $("#eFacilityName").val());
 
 			$.ajax({
 				url: "{{ url('/facility/update') }}",
 				type: "POST",
 				data: {"primeID": $("#ePrimeID").val(), 
-						"facilityID": $("#eDocumentID").val(), 
-						"facilityName": $("#eDocumentName").val(), 
-						"facilityDesc": $("#eDocumentDescription").val(), 
-						"facilityTypeID": $("#edDocumentType :selected").text(), 
-						"documentPrice": $("#eDocumentPrice").val(), 
+						"facilityID": $("#eFacilityID").val(), 
+						"facilityName": $("#eFacilityName").val(), 
+						"facilityDesc": $("#eFacilityDesc").val(), 
+						"facilityTypeID": $("#eTypeID").val(), 
+						"facilityDayPrice": $("#eDayPrice").val(), 
+						"facilityNightPrice": $("#eNightPrice").val(), 
 						"status": $(".eStatus:checked").val() 
 				}, 
 				success: function ( _response ){

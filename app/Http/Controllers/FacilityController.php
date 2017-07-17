@@ -76,12 +76,21 @@ class FacilityController extends Controller
 
     public function edit(Request $r) {
         $facility = Facility::find($r->input('primeID'));
-        $facility->facilityName = $r->input('facilityName');
-        $facility->facilityDesc = $r->input('facility_desc');
-        $facility->facilityTypeID = $r->input('typeID');
-        $facility->facilityDayPrice = $r->input('facilityDayPrice');
-        $facility->facilityNightPrice = $r->input('facilityNightPrice');
-        $facility->status = $r->input('stat');
+
+        if (is_null($facility)) {
+            echo "Facility is null!";
+        }
+        else {
+            echo "Facility is not null!";
+
+            $facility->facilityName = $r->input('facilityName');
+            $facility->facilityDesc = $r->input('facilityDesc');
+            $facility->facilityTypeID = $r->input('facilityTypeID');
+            $facility->facilityDayPrice = $r->input('facilityDayPrice');
+            $facility->facilityNightPrice = $r->input('facilityNightPrice');
+            $facility->status = $r->input('status');
+        }
+
         $facility->save();
         return redirect('facility');
     }

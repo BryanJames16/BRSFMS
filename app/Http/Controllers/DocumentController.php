@@ -63,8 +63,6 @@ class DocumentController extends Controller
     }
 
     public function edit(Request $r) {
-
-
         $document = Document::find($r->input('primeID'));
         $document->documentName = $r->input('documentName');
         $document->documentDescription = $r->input('documentDescription');
