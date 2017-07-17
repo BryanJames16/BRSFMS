@@ -156,6 +156,7 @@
 															<input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
 															<input type='hidden' name='status' value='{{ $resident -> status }}' />
 															
+															<button class='btn btn-icon btn-square btn-info normal view'  type='button' value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i></button>
 															<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $resident -> residentPrimeID }}'><i class="icon-android-create"></i></button>
 															<button class='btn btn-icon btn-square btn-danger delete' value='{{ $resident -> residentPrimeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 															
