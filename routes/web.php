@@ -182,7 +182,10 @@ Route::get('/dashboard', function () {
 });
 
 Route::get('/login', 'SessionsController@create');
+
 Route::get('/register', 'RegisterController@create');
+Route::post('/register', 'RegisterController@store');
+
 Route::get('/logout','SessionsController@destroy');
 Route::post('/login','SessionsController@store');
 

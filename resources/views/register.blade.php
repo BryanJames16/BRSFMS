@@ -58,8 +58,8 @@
 			<div class="card-body collapse in">	
 				<div class="card-block">
 
-					<form class="form-horizontal form-simple" action="index.html" novalidate="" />
-          {{ csrf_field }}
+					<form class="form-horizontal form-simple" method="post" action="/register" novalidate="" />
+  
 						<fieldset class="form-group has-feedback has-icon-left mb-1">
 							<input type="text" class="form-control form-control-lg input-lg" id="name" name="name" placeholder="User Name" />
 							<div class="form-control-position">
