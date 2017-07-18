@@ -61,7 +61,7 @@
 			</div>
 		<div class="card-body collapse in">
 			<div class="card-block">
-				<form class="form-horizontal" action="dashboard" novalidate="" />
+				<form class="form-horizontal" method="post" action="/login" novalidate="" />
 					<fieldset class="form-group has-feedback has-icon-left">
 						<input type="text" class="form-control input-lg" id="user-name" placeholder="Your Username" tabindex="1" required="" data-validation-required-message="Please enter your username." />
 						<div class="form-control-position">

@@ -168,7 +168,7 @@ Route::get('/base-maintenance', function () {
 });
 
 Route::get('/home', function () {
-	return view('dashboard');
+	return view('home');
 });
 
 Route::get('/resreg', function() {
@@ -183,7 +183,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/login', 'SessionsController@create');
 Route::get('/register', 'RegisterController@create');
-
+Route::get('/logout','SessionsController@destroy');
+Route::post('/login','SessionsController@store');
 
 
 Route::resource('/facility', 'FacilityController');
