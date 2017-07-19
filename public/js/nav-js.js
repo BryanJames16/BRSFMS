@@ -30,6 +30,7 @@ var UTILITIES 					= 	"utilities-id";
 var BUSINESS_CATEGORY 			= 	"business-category-id";
 var BUSINESS 					= 	"business-id";
 var DOCUMENT 					= 	"document-id";
+var BUILDING 					= 	"building-id";
 
 
 function setSelectedTab(selectedTab) {
