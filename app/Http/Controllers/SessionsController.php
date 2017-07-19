@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Servicetype;
 use \App\User;
 use Illuminate\Support\Facades\Auth;
+use Input;
 
 class SessionsController extends Controller
 {
@@ -18,10 +19,16 @@ class SessionsController extends Controller
         return view('login');
     }
 
-    public function store(){
-        if(Auth::attempt(['email' => $email, 'password' => $password])){
-            return redirect('dasboard');
-        }
+    public function store(Request $r){
+        
+        $user = array(
+            'email' => $r->input('email'),
+            'password' => $r->input('password')
+        );
+
+        echo"<script>console.log($r->('password'));</script>";
+        
+
 
         
     }
