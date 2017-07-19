@@ -26,7 +26,6 @@ class SessionsController extends Controller
             'password' => $r->input('password')
         );
         
-
         if(Auth::attempt($user)){
             return redirect('dashboard');
         }
