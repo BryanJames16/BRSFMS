@@ -77,15 +77,110 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		@yield('post-meta')
 
+		<style>
+			.navbar-preset-style {
+				background-color: #DF5E6A;
+				background-image: url("{{ URL::asset('/system-assets/images/header/pattern.png') }}");
+				min-height: "100px";
+			}
+
+			.navbar-link-style {
+				color: #FFFFFF;
+			}
+		</style>
+
     </head>
 
-    <body data-open="click" data-menu="vertical-menu" data-col="1-column" class="vertical-layout vertical-menu 1-column bg-cyan bg-lighten-2">
-        <div class="navbar-wrapper">
-            <div class="navbar-header">
-                <ul class="nav navbar-nav">
-                    
-                </ul>
-            </div>
+    <body data-open="click" data-menu="vertical-menu" data-col="1-column" class="vertical-layout vertical-menu 1-column bg-red bg-lighten-4 bg-lighten-2">
+        
+		<!-- START NAVBAR -->
+		<nav class="header-navbar navbar navbar-with-menu navbar-fixed-top navbar-shadow navbar-border navbar-hide-on-scroll headroom headroom--top headroom--not-bottom navbar-preset-style">
+			<div class="navbar-wrapper">
+        		<div class="navbar-header">
+          			<ul class="nav navbar-nav">
+						<li class="nav-item mobile-menu hidden-md-up float-xs-left">
+							<a class="nav-link nav-menu-main menu-toggle hidden-xs">
+								<i class="icon-menu5 font-large-1"></i>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/dashboard" class="navbar-brand nav-link">
+								<img alt="branding logo" src="{{ URL::asset('/system-assets/images/logo/brgy.png') }}" data-expand="{{URL::asset('system-assets/images/logo/brgy.png') }}" data-collapse="{{URL::asset('system-assets/images/logo/brgy.png') }}" class="brand-logo" width="500px" />
+							</a>
+						</li>
+						<li class="nav-item hidden-md-up float-xs-right">
+							<a data-toggle="collapse" data-target="#navbar-mobile" class="nav-link open-navbar-container">
+								<i class="icon-ellipsis pe-2x fa-rotate-90"></i>
+							</a>
+						</li>
+					</ul>
+        		</div>
+				<div class="navbar-container content">
+					<div id="navbar-mobile" class="collapse navbar-toggleable-sm">
+						<ul class="nav navbar-nav float-xs-right">
+							<li class="nav-item">
+								<a href="javascript:history.back()" class="nav-link mr-2 nav-link-label navbar-link-style">
+									<i class="ficon icon-reply4"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+
+		<!-- PAGE CONTENT -->
+		<div class="robust-content content container-fluid">
+			<div class="content-wrapper">
+        		<div class="content-header row">
+        	</div>
+        	<div class="content-body">
+				<section class="col-sm-5 offset-sm-1 col-md-6 offset-md-3 col-lg-4 offset-lg-4 box-shadow-2">
+					<div class="card border-grey border-lighten-3 px-2 my-0 row">
+						<div class="card-header no-border pb-1">
+							<div class="card-block">
+								<h2 class="error-code text-xs-center mb-2">@yield('error-code')</h2>
+								<h3 class="text-uppercase text-xs-center">@yield('error-name')</h3>
+							</div>
+						</div>
+					<div class="card-body collapse in px-2">
+						<fieldset class="row py-2">
+							<div class="input-group col-xs-12">
+								<input type="text" class="form-control form-control-lg input-lg border-grey border-lighten-1 " placeholder="Search..." aria-describedby="button-addon2" />
+								<span class="input-group-btn" id="button-addon2">
+									<button class="btn btn-lg btn-secondary border-grey border-lighten-1" type="button">
+										<i class="icon-ios-search-strong"></i>
+									</button>
+								</span>
+							</div>
+						</fieldset>
+						<div class="row py-2">
+							<div class="col-xs-12">
+							<a href="./dashboard" class="btn btn-success btn-block btn-lg">
+								<i class="icon-home3"></i> Back to Home
+							</a>
+						</div>
+					</div>
+        		</div>
+				<div class="card-footer no-border pb-1">
+					<div class="text-xs-center">
+						Barangay Resident, Services, and Facilities Management System
+					</div>
+				</div>
+			</div>
+				</section>
+
         </div>
+      </div>
+    </div>
+		<!-- END PAGE CONTENT -->
+
+		<!-- SCRIPTS -->
+		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/components/forms/form-login-register.js') }}" type="text/javascript"></script>
+		<!-- END SCRIPTS -->
     </body>
 </html>

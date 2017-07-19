@@ -1,13 +1,13 @@
 @extends("master.errormaster")
 
 @section('title')
-    Error 503: Service Unavailable
+    Error 403: Access Forbidden
 @endsection
 
 @section('error-code')
-    503
+    403
 @endsection
 
 @section('error-name')
-    Service Unavailable
+    Access Forbidden
 @endsection
