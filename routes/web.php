@@ -197,7 +197,9 @@ Route::post('/register', 'RegisterController@store');
 
 Route::get('/logout','SessionsController@destroy');
 
-
+Route::get('/unmt', function() {
+	return view('errors.unmt');
+});
 
 Route::resource('/facility', 'FacilityController');
 Route::resource('/reservation', 'ReservationController@populate');
