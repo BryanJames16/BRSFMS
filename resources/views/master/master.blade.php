@@ -205,7 +205,7 @@
 											<div class="media">
 												<div class="media-left">
 													<span class="avatar avatar-sm avatar-online rounded-circle">
-														<img src="./robust-assets/images/portrait/small/avatar-s-1.png" alt="avatar" /><i></i>
+														<img src="./robust-assets/images/portrait/small/marty-mcfly.png" alt="avatar" /><i></i>
 													</span>
 												</div>
 												<div class="media-body">
@@ -229,7 +229,7 @@
 									@if(Auth::check())
 										<span class="user-name" style="color:white">{{ Auth::user()->name }}</span>
 										<span class="avatar avatar-online">
-										<img src="./robust-assets/images/portrait/small/avatar-s-10.png" alt="avatar" /><i></i>
+										<img src="./robust-assets/images/portrait/small/marty-mcfly.png" alt="avatar" /><i></i>
 									</span>
 									@endif
 								</a>
