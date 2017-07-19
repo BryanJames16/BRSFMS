@@ -26,11 +26,7 @@ class SessionsController extends Controller
             'password' => $r->input('password')
         );
 
-        echo"<script>console.log($r->('password'));</script>";
-        
-
-
-        
+        // echo"<script>console.log($r->('password'));</script>";
     }
 
 }
