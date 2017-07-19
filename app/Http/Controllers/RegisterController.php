@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use \App\User;
 
 class RegisterController extends Controller
 {
@@ -21,8 +21,8 @@ class RegisterController extends Controller
 
         $user = User::create(request(['name', 'email', 'password']));
 
-        auth()->login($user);
+       
 
-        return redirect()->home();
+        return redirect('login');
     }
 }
