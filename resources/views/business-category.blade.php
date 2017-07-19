@@ -8,7 +8,6 @@
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
-
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
 		setSelectedTab(BUSINESS_CATEGORY);
@@ -19,8 +18,6 @@
 @section('inside-content-header')
 	<h2 class="content-header-title">Business Category</h2>
 @endsection
-
-
 	
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Business</li>
@@ -41,25 +38,21 @@
 
 @section('modal-form-body')
 	{!!Form::open(['url'=>'/business-category/store', 'method' => 'POST', 'id' => 'frm-add'])!!}
-
-		{{ csrf_field() }}
-
-
 		@if (count($errors) > 0)
-	    <div class="alert alert-danger">
-	        <ul>
-	            @foreach ($errors->all() as $error)
-	                <li>{{ $error }}</li>
-	            @endforeach
-	        </ul>
-	    </div>
+			<div class="alert alert-danger">
+				<ul>
+					@foreach ($errors->all() as $error)
+						<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			</div>
 
-	    <script type="text/javascript">
-	    	$(document).ready(function () {
-		        $('#iconModal').modal('show');
-		    });
-	    </script>
-	@endif
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$('#iconModal').modal('show');
+				});
+			</script>
+		@endif
 
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
