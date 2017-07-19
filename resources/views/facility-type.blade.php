@@ -239,9 +239,8 @@
 				type: 'GET',
 				url: "{{ url('/facility-type/getEdit') }}", 
 				data: {"primeID": id}, 
-				success:function(data)
+				success: function(data)
 				{
-					console.log("Data is: \n" + data);
 					var frm = $('#frm-update');
 					frm.find("#eTypeID").val(data.typeID);
 					frm.find('#eTypeName').val(data.typeName);
