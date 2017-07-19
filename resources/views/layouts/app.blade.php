@@ -11,7 +11,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+    <link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
 
     <!-- Scripts -->
     <script>
@@ -82,6 +84,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+    <script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
 </body>
 </html>

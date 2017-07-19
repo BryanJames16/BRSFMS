@@ -168,7 +168,7 @@ Route::get('/base-maintenance', function () {
 });
 
 Route::get('/home', function () {
-	return view('dashboard');
+	return view('home');
 });
 
 Route::get('/resreg', function() {
@@ -181,9 +181,21 @@ Route::get('/dashboard', function () {
 	return view('dashboard');
 });
 
-Route::get('/login', function () {
-	return view('login');
+/*
+Route::get('login', function(){
+	return view('auth/login');
 });
+Route::get('register', function(){
+	return view('auth/register');
+});
+*/
+Route::get('/login', 'SessionsController@create');
+Route::post('/login','SessionsController@store');
+
+Route::get('/register', 'RegisterController@create');
+Route::post('/register', 'RegisterController@store');
+
+Route::get('/logout','SessionsController@destroy');
 
 
 
