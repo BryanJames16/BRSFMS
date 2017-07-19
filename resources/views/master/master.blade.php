@@ -247,7 +247,7 @@
 										<i class="icon-calendar5"></i> Calender
 									</a>
 									<div class="dropdown-divider"></div>
-									<a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+									<a href="/logout" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
 								</div>
 							</li>
 						</ul>
