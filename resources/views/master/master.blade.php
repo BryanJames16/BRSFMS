@@ -336,6 +336,12 @@
 											</li>
 										</ul>
 									</li>
+									<li id="building-id">
+										<a href="/building">
+											<i class="icon-file-text2"></i>
+											<span>Building</span>
+										</a>
+									</li>
 									<li>
 										<a href="#">
 											<i class="icon-android-car"></i>

@@ -28,6 +28,13 @@ Route::post('/facility-type/store', 'FacilityTypeController@store');
 Route::post('/facility-type/update','FacilityTypeController@edit');
 Route::post('/facility-type/delete','FacilityTypeController@delete');
 
+//Building
+Route::get('/building/refresh','BuildingController@refresh');
+Route::get('/building/getEdit', 'BuildingController@getEdit');
+Route::post('/building/store', 'BuildingController@store');
+Route::post('/building/update','BuildingController@edit');
+Route::post('/building/delete','BuildingController@delete');
+
 //Service Type
 Route::get('/service-type/refresh','ServiceTypeController@refresh');
 Route::get('/service-type/getEdit', 'ServiceTypeController@getEdit');
@@ -220,12 +227,8 @@ Route::resource('/lot', 'LotController');
 Route::resource('/unit', 'UnitController');
 Route::resource('/house', 'HouseController');
 Route::resource('/resident', 'ResidentController');
+Route::resource('/building', 'BuildingController');
 
-Route::get('/jquery','JqueryController@jquery');
-Route::post('/postJquery','JqueryController@postJquery');
-Route::get('/readByAjax','JqueryController@readByAjax');
-Route::get('/getEditAjax','JqueryController@getEditAjax');
-Route::post('/updateByAjax','JqueryController@updateByAjax');
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');

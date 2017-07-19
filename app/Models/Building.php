@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Building extends Model
 {
-    protected $table = 'building';
+    protected $table = 'buildings';
 
     protected $primaryKey = 'buildingID';
 
@@ -18,9 +18,12 @@ class Building extends Model
     protected $fillable = [
         'buildingCode',
         'buildingName',
-        'buildingType'
+        'buildingType',
+        'status',
+        'archive'
     ];
 
     protected $guarded = [];
+
 
 }
