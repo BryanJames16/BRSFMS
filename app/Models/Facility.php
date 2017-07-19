@@ -27,4 +27,5 @@ class Facility extends Model
     ];
 
     protected $guarded = [];
+
 }

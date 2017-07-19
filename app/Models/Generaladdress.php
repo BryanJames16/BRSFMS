@@ -18,11 +18,12 @@ class GeneralAddress extends Model
     protected $fillable = [
         'addressID',
         'addressType',
-        'status',
-        'archive',
         'residentPrimeID',
         'facilitiesPrimeID',
-        'businessPrimeID'
+        'businessPrimeID',
+        'houseID',
+        'unitID',
+        'streetID'
     ];
 
     protected $guarded = [];

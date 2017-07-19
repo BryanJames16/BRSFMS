@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Servicetype
  */
-class ServiceType extends Model
+class Servicetype extends Model
 {
     protected $table = 'servicetypes';
 

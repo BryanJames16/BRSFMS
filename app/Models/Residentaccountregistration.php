@@ -21,4 +21,10 @@ class ResidentAccountRegistration extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

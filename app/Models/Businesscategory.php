@@ -23,4 +23,5 @@ class BusinessCategory extends Model
     ];
 
     protected $guarded = [];
+
 }

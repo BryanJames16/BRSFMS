@@ -20,7 +20,8 @@ class Unit extends Model
         'lotID',
         'status',
         'archive',
-        'houseID'
+        'houseID',
+        'buildingID'
     ];
 
     protected $guarded = [];
