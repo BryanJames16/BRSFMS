@@ -362,8 +362,6 @@
 
 			var frm = $('#frm-update');
 
-			console.log("Facility Name is: " + $("#eFacilityName").val());
-
 			$.ajax({
 				url: "{{ url('/facility/update') }}",
 				type: "POST",
