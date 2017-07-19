@@ -224,10 +224,14 @@
 							</li>
 							<li class="dropdown dropdown-user nav-item">
 								<a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link" style="color:white">
-									<span class="avatar avatar-online">
+									
+
+									@if(Auth::check())
+										<span class="user-name" style="color:white">{{ Auth::user()->name }}</span>
+										<span class="avatar avatar-online">
 										<img src="./robust-assets/images/portrait/small/avatar-s-10.png" alt="avatar" /><i></i>
 									</span>
-									<span class="user-name" style="color:white">John Doe</span>
+									@endif
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="#" class="dropdown-item">

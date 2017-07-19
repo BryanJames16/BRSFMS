@@ -181,13 +181,20 @@ Route::get('/dashboard', function () {
 	return view('dashboard');
 });
 
-Route::get('/login', 'SessionsController@create');
+Route::get('login', function(){
+	return view('auth/login');
+});
+Route::get('register', function(){
+	return view('auth/register');
+});
+//Route::get('/login', 'SessionsController@create');
+//Route::post('/login','SessionsController@store');
 
-Route::get('/register', 'RegisterController@create');
-Route::post('/register', 'RegisterController@store');
+//Route::get('/register', 'RegisterController@create');
+//Route::post('/register', 'RegisterController@store');
 
-Route::get('/logout','SessionsController@destroy');
-Route::post('/login','SessionsController@store');
+//Route::get('/logout','SessionsController@destroy');
+
 
 
 Route::resource('/facility', 'FacilityController');

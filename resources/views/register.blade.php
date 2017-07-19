@@ -18,14 +18,14 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" /> 
+    <link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
     <!-- BEGIN VENDOR CSS-->
     <!-- BEGIN Font icons-->
     <link rel="stylesheet" type="text/css" href="./robust-assets/fonts/icomoon.css" />
     <link rel="stylesheet" type="text/css" href="./robust-assets/fonts/flag-icon-css/css/flag-icon.min.css" />
     <!-- END Font icons-->
     <!-- BEGIN Plugins CSS-->
-    <link rel="stylesheet" type="text/css" href="./robust-assets/css/plugins/sliders/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
     <!-- END Plugins CSS-->
     
     <!-- BEGIN Vendor CSS-->

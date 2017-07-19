@@ -61,16 +61,20 @@
 			</div>
 		<div class="card-body collapse in">
 			<div class="card-block">
+
+
 				<form class="form-horizontal" method="post" action="/login" novalidate="" />
+
+        {{ csrf_field() }}
 					<fieldset class="form-group has-feedback has-icon-left">
-						<input type="text" class="form-control input-lg" id="user-name" placeholder="Your Username" tabindex="1" required="" data-validation-required-message="Please enter your username." />
+						<input type="text" class="form-control input-lg" id="email" name="email" placeholder="Your Email" tabindex="1" required="" data-validation-required-message="Please enter your email." />
 						<div class="form-control-position">
 						    <i class="icon-head"></i>
 						</div>
 						<div class="help-block font-small-3"></div>
 					</fieldset>
 					<fieldset class="form-group has-feedback has-icon-left">
-						<input type="password" class="form-control input-lg" id="password" placeholder="Enter Password" tabindex="2" required="" data-validation-required-message="Please enter valid passwords." />
+						<input type="password" class="form-control input-lg" id="password" name="password" placeholder="Enter Password" tabindex="2" required="" data-validation-required-message="Please enter valid passwords." />
 						<div class="form-control-position">
 						    <i class="icon-key3"></i>
 						</div>
@@ -87,6 +91,8 @@
 					</fieldset>
 					<button type="submit" class="btn btn-danger btn-block btn-lg"><i class="icon-unlock2"></i> Login</button>
 				</form>
+
+
 			</div>
 		</div>
 	</div>
