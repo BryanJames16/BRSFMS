@@ -19,7 +19,11 @@ class RegisterController extends Controller
             'password' => 'required'
         ]);
 
-        $user = User::create(request(['name', 'email', 'password']));
+        $user = User::create([
+            'name' => request('name'), 
+            'email' => request('email'), 
+            'password' => bcrypt(request('password')) 
+            ]);
 
         auth()->login($user);
 
