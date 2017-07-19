@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Servicetype;
 use \App\User;
 use Illuminate\Support\Facades\Auth;
-use Input;
+use Illuminate\Support\Facades\Input;
 
 class SessionsController extends Controller
 {
@@ -25,10 +25,14 @@ class SessionsController extends Controller
             'email' => $r->input('email'),
             'password' => $r->input('password')
         );
-
-        echo"<script>console.log($r->('password'));</script>";
         
 
+        if(Auth::attempt($user)){
+            return redirect('dashboard');
+        }
+        else{
+            return back();
+        }
 
         
     }
