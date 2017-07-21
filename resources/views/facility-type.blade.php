@@ -344,6 +344,8 @@
 									'<td></td>' + 
 								'</tr>'
 						);
+
+						$.ajax.reload();
 					}
 				}, 
 				error: function(data) {

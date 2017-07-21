@@ -51,7 +51,7 @@
       <div class="content-wrapper">
         <div class="content-header row">
         </div>
-        <div class="content-body"><section class="col-md-4 offset-md-4 col-xs-8 offset-xs-2 box-shadow-2 p-0">
+        <div class="content-body"><section class="col-md-4 offset-md-4 col-xs-8 offset-xs-2 box-shadow-2 p-0 center">
 	<div class="card border-grey border-lighten-3 px-2 py-2 row mb-0">
 		<div class="card-header no-border">
 			<div class="card-title text-xs-center">
