@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Resident;
-use \App\Models\Barangay;
 use \App\Models\Lot;
 use \App\Models\Street;
 
@@ -14,8 +13,7 @@ class ResidentController extends Controller
     	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthdate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
     												-> get();
 
-    	return view('resident',['barangays'=>Barangay::where([['status', 1],['archive', 0]])->pluck('barangayName', 'barangayID')],
-		['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
+    	return view('resident',['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
 		['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]) -> with('residents', $residents);
 
 

@@ -56,7 +56,7 @@
 		<div class="card-header no-border">
 			<div class="card-title text-xs-center">
 				<img src="./robust-assets/ico/brgy_logo.png" alt="branding logo" style="width:100px"/>
-				<br/><br/><p> BRGY. 629 RESIDENT, SERVICES AND FACILITY MANAGEMENT SYSTEM </p>
+				<br/><br/><p> BRGY RESIDENT, SERVICES AND FACILITY MANAGEMENT SYSTEM </p>
 			</div>
 			</div>
 		<div class="card-body collapse in">
@@ -89,7 +89,12 @@
 						</div>
 						<div class="col-md-6 col-xs-12 text-xs-center text-md-right"><a href="./recover-password.html" class="card-link">Forgot Password?</a></div>
 					</fieldset>
-					<button type="submit" class="btn btn-danger btn-block btn-lg"><i class="icon-unlock2"></i> Login</button>
+					<button type="submit" class="btn btn-danger btn-block btn-lg"><i class="icon-unlock2"></i> Login</button></br>
+          <p class="card-subtitle line-on-side text-muted text-xs-center font-small-3 mx-2 my-1">
+          <span> OR </span>
+          </p>
+          </br>
+          <a href="/register" class="btn btn-primary btn-block btn-lg"><i class="icon-head"></i> Sign Up</a>
 				</form>
 
 

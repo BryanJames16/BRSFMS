@@ -51,7 +51,8 @@
 		<div class="card border-grey border-lighten-3 px-2 py-2 m-0">
 			<div class="card-header no-border">
 				<div class="card-title text-xs-center">
-					<img src="./robust-assets/images/logo/robust-logo-dark.png" alt="branding logo" />
+        <img src="./robust-assets/ico/brgy_logo.png" alt="branding logo" style="width:100px"/>
+				<br/><br/><p> BRGY RESIDENT, SERVICES AND FACILITY MANAGEMENT SYSTEM </p>
 				</div>
 				<h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3 pt-2"><span>Create Account</span></h6>
 			</div>
@@ -83,7 +84,7 @@
 					</form>
 
 				</div>
-				<p class="text-xs-center">Already have an account ? <a href="./login-simple.html" class="card-link">Login</a></p>
+				<p class="text-xs-center">Already have an account ? <a href="/login" class="card-link">Login</a></p>
 			</div>
 		</div>
 	</div>
