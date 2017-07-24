@@ -61,7 +61,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('documentID',null,['id'=>'documentID','class'=>'form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required','minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('documentID',null,['id'=>'documentID','class'=>'long-press form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required','minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -69,7 +69,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'documentName','class'=>'form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required','minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{Form::text('documentName',null,['id'=>'documentName','class'=>'long-press form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required','minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
 		</div>	
 
 	</div>
@@ -77,7 +77,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{Form::text('desc',null,['id'=>'documentDescription','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
+			{{Form::text('desc',null,['id'=>'documentDescription','class'=>'long-press form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
 		</div>	
 
 	</div>
@@ -215,7 +215,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('document_ID',null,['id'=>'eDocumentID','class'=>'form-control', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('document_ID',null,['id'=>'eDocumentID','class'=>'long-press form-control', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -224,7 +224,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'eDocumentName','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{Form::text('documentName',null,['id'=>'eDocumentName','class'=>'long-press form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
 		</div>	
 
 	</div>
@@ -232,7 +232,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{Form::text('desc',null,['id'=>'eDocumentDescription','class'=>'form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])}}
+			{{Form::text('desc',null,['id'=>'eDocumentDescription','class'=>'long-press form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])}}
 		</div>	
 
 	</div>
