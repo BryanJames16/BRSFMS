@@ -61,7 +61,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('documentID',null,['id'=>'documentID','class'=>'long-press form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required','minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('documentID',null,['id'=>'documentID','class'=>'long-press form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'readonly', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -69,7 +69,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'documentName','class'=>'long-press form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required','minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{Form::text('documentName',null,['id'=>'documentName','class'=>'long-press form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
 		</div>	
 
 	</div>
@@ -79,7 +79,23 @@
 		<div class="col-md-9">
 			{{Form::text('desc',null,['id'=>'documentDescription','class'=>'long-press form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
 		</div>	
+	</div>
 
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Content</label>
+		<div class="col-md-9">
+			{{ Form::textarea('content', 
+								null, 
+								['id' => 'aDocumentContent', 
+									'class' => 'long-press form-control', 
+									'maxlength' => '500', 
+									'data-toggle' => 'tooltip', 
+									'data-trigger' => 'focus', 
+									'data-placement' => 'top', 
+									'data-title' => 'Maximum of 500 characters', 
+									'required', 
+									'rows' => '10']) }}
+		</div>	
 	</div>
 
 	<div class="form-group row">
@@ -234,7 +250,23 @@
 		<div class="col-md-9">
 			{{Form::text('desc',null,['id'=>'eDocumentDescription','class'=>'long-press form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])}}
 		</div>	
+	</div>
 
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Content</label>
+		<div class="col-md-9">
+			{{ Form::textarea('content', 
+								null, 
+								['id' => 'eDocumentContent', 
+									'class' => 'long-press form-control', 
+									'maxlength' => '500', 
+									'data-toggle' => 'tooltip', 
+									'data-trigger' => 'focus', 
+									'data-placement' => 'top', 
+									'data-title' => 'Maximum of 500 characters', 
+									'required', 
+									'rows' => '10']) }}
+		</div>	
 	</div>
 
 	<div class="form-group row">
@@ -277,7 +309,7 @@
 @section('edit-modal-action')
 	
 	{{ Form::submit('Edit', ['class'=>'btn btn-success']) }}
-		<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 	
 @endsection
 
@@ -299,6 +331,7 @@
 					"documentID": $("#documentID").val(), 
 					"documentName": $("#documentName").val(), 
 					"documentDescription": $("#documentDescription").val(), 
+					"documentContent": $("#aDocumentContent").val(), 
 					"documentType": $("#aDocumentType :selected").text(), 
 					"documentPrice": $("#documentPrice").val(), 
 					"status": $(".astatus:checked").val()
@@ -335,6 +368,7 @@
 					frm.find("#eDocumentID").val(data.documentID);
 					frm.find('#eDocumentName').val(data.documentName);
 					frm.find('#eDocumentDescription').val(data.documentDescription);
+					frm.find("#eDocumentContent").val(data.documentContent);
 					frm.find('#eDocumentPrice').val(data.documentPrice);
 					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
 					frm.find('#ePrimeID').val(data.primeID);
@@ -378,6 +412,7 @@
 						"documentID": $("#eDocumentID").val(), 
 						"documentName": $("#eDocumentName").val(), 
 						"documentDescription": $("#eDocumentDescription").val(), 
+						"documentContent": $("#eDocumentContent").val(), 
 						"documentType": $("#edDocumentType :selected").text(), 
 						"documentPrice": $("#eDocumentPrice").val(), 
 						"status": $(".eStatus:checked").val() 
@@ -497,5 +532,31 @@
 				}
 			});
 		};
+
+		$("#btnAddModal").bind('click', function() {
+			$.ajax({
+				url: "{{ url('/document/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#documentID").val(data);
+					}
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		});
 	</script>
 @endsection

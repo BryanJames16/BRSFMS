@@ -1,8 +1,3 @@
-<!-- PHP Includes --> 
-<?php 
-	include(app_path() . '/includes/pktool.php');
-?>
-
 <!-- Parent Template -->
 @extends('master.master')
 
@@ -28,6 +23,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 @endsection
 
 @section('template-css')
@@ -224,7 +221,11 @@
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
 
-	<script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
+
+	<script type="text/javascript">
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
 		});
@@ -237,4 +238,5 @@
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 @endsection

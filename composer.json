@@ -20,11 +20,15 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database", 
+            "app/includes"
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        }, 
+        "files": [
+            "app/includes/pktool.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

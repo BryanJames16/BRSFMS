@@ -41,7 +41,7 @@
 	 *			StaticCounter::smart_next( "2015-25486-MN-0", SmartMove::$NUMBER );
 	 *		
 	 *		Again, if you really want to use Static Counter, you go and just pass the data that you need 
-	 *		to increment 'StaticCounter::smart_next( "2015-25486-MN-0" )'. By defailt it will increment 
+	 *		to increment 'StaticCounter::smart_next( "2015-25486-MN-0" )'. By default it will increment 
 	 *		the smart last number.
 	*/
 	

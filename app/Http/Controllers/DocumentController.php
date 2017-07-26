@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use \App\Models\Document;
 use \Illuminate\Validation\Rule;
 
+require_once(app_path() . '/includes/pktool.php');
+
+use StaticCounter;
+use SmartMove;
+
 class DocumentController extends Controller
 {
     public function index() {
@@ -30,6 +35,7 @@ class DocumentController extends Controller
             'documentID' => 'required|unique:documents|max:20',
             'documentName' => 'required',
             'documentPrice' => 'required|numeric',
+            'documentContent' => 'required',
         ]);
         
 
@@ -46,6 +52,7 @@ class DocumentController extends Controller
         $aah = Document::insert(['documentID'=>trim($r -> input('documentID')),
                                             'documentName' => trim($r -> input('documentName')),
                                             'documentDescription' => trim($r -> input('documentDescription')),
+                                            'documentContent' => trim($r -> input('documentContent')), 
                                             'documentType' => $r -> input('documentType'),
                                             'documentPrice' => $r -> input('documentPrice'),
                                                'archive' => 0,
@@ -56,9 +63,22 @@ class DocumentController extends Controller
         }
 
     public function getEdit(Request $r) {
-    	
         if($r->ajax()) {
             return response(Document::find($r->primeID));
+        }
+    }
+
+    public function nextPK(Request $r) {
+        if ($r->ajax()) {
+            $data = Document::all()->last();
+            
+            if (is_null($data)) {
+                
+            } 
+            else {
+                $nextValue = StaticCounter::smart_next($data->documentID, SmartMove::$NUMBER);
+                return response($nextValue);
+            }
         }
     }
 

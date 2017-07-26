@@ -70,6 +70,7 @@ Route::post('/resident/delete','ResidentController@delete');
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
 Route::get('/document/refresh', 'DocumentController@refresh');
+Route::get('/document/nextPK', 'DocumentController@nextPK');
 Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');
