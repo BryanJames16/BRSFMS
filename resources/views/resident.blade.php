@@ -205,7 +205,7 @@
 											<div class="modal-body">
 												<div class="card-body collapse in">
 													<div class="card-block">
-															{!!Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])!!}
+															{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])}}
 
 															{{ csrf_field() }}
 
@@ -377,7 +377,7 @@
 															<fieldset>
 																
 															</fieldset>
-														{!!Form::close()!!}
+														{{Form::close()}}
 
 													</div>
 												</div>
