@@ -344,7 +344,7 @@
 												<!--  WIZARD STEPS 
 															{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])}}
 
-															{{ csrf_field() }}
+															
 
 															<h6>Name</h6>
 															<fieldset>
