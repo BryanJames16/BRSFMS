@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Facilitytype
  */
-class FacilityType extends Model
+class Facilitytype extends Model
 {
     protected $table = 'facilitytypes';
 
@@ -22,4 +22,10 @@ class FacilityType extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

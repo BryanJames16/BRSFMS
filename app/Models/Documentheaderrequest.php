@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Documentheaderrequest
  */
-class DocumentHeaderRequest extends Model
+class Documentheaderrequest extends Model
 {
     protected $table = 'documentheaderrequests';
 
@@ -23,4 +23,10 @@ class DocumentHeaderRequest extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

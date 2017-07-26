@@ -22,4 +22,10 @@ class Family extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Residentbackground
  */
-class ResidentBackground extends Model
+class Residentbackground extends Model
 {
     protected $table = 'residentbackgrounds';
 
@@ -24,4 +24,10 @@ class ResidentBackground extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Documentdetailrequest
  */
-class DocumentDetailRequest extends Model
+class Documentdetailrequest extends Model
 {
     protected $table = 'documentdetailrequests';
 
@@ -21,4 +21,10 @@ class DocumentDetailRequest extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

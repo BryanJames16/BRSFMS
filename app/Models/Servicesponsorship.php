@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Servicesponsorship
  */
-class ServiceSponsorship extends Model
+class Servicesponsorship extends Model
 {
     protected $table = 'servicesponsorships';
 
@@ -24,4 +24,10 @@ class ServiceSponsorship extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

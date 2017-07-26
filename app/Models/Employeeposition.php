@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Employeeposition
  */
-class EmployeePosition extends Model
+class Employeeposition extends Model
 {
     protected $table = 'employeeposition';
 
@@ -25,4 +25,10 @@ class EmployeePosition extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }

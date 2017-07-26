@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Businesscategory
  */
-class BusinessCategory extends Model
+class Businesscategory extends Model
 {
     protected $table = 'businesscategories';
 
@@ -23,5 +23,10 @@ class BusinessCategory extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
 
 }

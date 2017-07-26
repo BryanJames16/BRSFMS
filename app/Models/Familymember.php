@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Familymember
  */
-class FamilyMember extends Model
+class Familymember extends Model
 {
     protected $table = 'familymembers';
 
@@ -24,4 +24,10 @@ class FamilyMember extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
+
+
 }
