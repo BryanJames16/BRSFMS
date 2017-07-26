@@ -221,30 +221,34 @@
 														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
-																<label for="userinput1">Fist Name</label>
-																<input type="text" id="userinput1" class="form-control border-primary" placeholder="Marc Joseph" name="firstName" />
+																<label for="userinput1">ID</label>
+																{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
-																<label for="userinput2">Middle Name</label>
-																<input type="text" id="userinput2" class="form-control border-primary" placeholder="Mendoza" name="middleName" />
+																<label for="userinput2">First Name</label>
+																{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
 															</div>
 														</div>
 														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Middle Name</label>
+																{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Last Name</label>
-																<input type="text" id="userinput3" class="form-control border-primary" placeholder="Fuellas" name="lastName" />
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Suffix</label>
-																<input type="text" id="userinput4" class="form-control border-primary" placeholder="ex. Sr." name="suffix" />
+																{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
 															</div>
 														</div>
 														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Suffix</label>
+																{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
+															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Gender</label>
 																<select name="gender" id="gender" class="form-control">
-																	<option value="male">MALE</option>
-																	<option value="female">FEMALE</option>
+																	<option value="M">MALE</option>
+																	<option value="F">FEMALE</option>
 																</select>
 															</div>
 														</div>
@@ -253,7 +257,7 @@
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput1">Birth Date</label>
-																<input type="date" class="form-control" id="birthDate" />
+																{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput2">Civil Status</label>
@@ -268,17 +272,17 @@
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Senior Citizen ID</label>
-																<input type="text" id="userinput3" class="form-control border-primary" placeholder="" name="seniorCitizenID" />
+																{!! Form::text('seniorCitizenID', null, ['id' => 'seniorCitizenID','class' => 'form-control border-primary']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Disabilities</label>
-																<input type="text" id="userinput4" class="form-control border-primary" placeholder="ex. HIV" name="disabilities" />
+																{!! Form::text('disabilities', null, ['id' => 'disabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
 															</div>
 														</div>
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Contact Number</label>
-																<input type="text" id="userinput3" class="form-control border-primary" placeholder="09123456789" name="contactNumber" />
+																{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Resident Type</label>
@@ -597,7 +601,6 @@
 					"residentType": $("#residentType :selected").text()
 				}, 
 				success: function(data) {
-					console.log(data);
 					$("#addModal").modal("hide");
 					refreshTable();
 					$("#frm-add").trigger("reset");

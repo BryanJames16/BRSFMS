@@ -27,21 +27,13 @@ class ResidentController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(Resident::where("status", "!=", "0") -> get());
+            return json_encode(Resident::where("status", "=", "1") -> get());
         }
     }
 
 	public function store(Request $r) {
-
-        $this->validate($r, [
-            'residentID' => 'required|unique:documents|max:20'
-        ]);
         
-
-        
-            $stat = 0;
-        
-
+        $stat = 1;
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
                                             'firstName' => trim($r -> input('firstName')),
                                             'middleName' => trim($r -> input('middleName')),

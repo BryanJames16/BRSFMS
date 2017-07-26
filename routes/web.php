@@ -61,11 +61,12 @@ Route::post('/business/store', 'BusinessController@store');
 Route::post('/business/update','BusinessController@edit');
 Route::post('/business/delete','BusinessController@delete');
 
-//Person
+//Resident
 Route::get('/resident/getEdit', 'ResidentController@getEdit');
 Route::post('/resident/store', 'ResidentController@store');
 Route::post('/resident/update','ResidentController@edit');
 Route::post('/resident/delete','ResidentController@delete');
+Route::get('/resident/refresh','ResidentController@refresh');
 
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
