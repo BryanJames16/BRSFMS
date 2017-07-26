@@ -3,7 +3,7 @@
 	 * @file: pktool-v1.0.php
 	 * @version: 1.5
 	 * @author: Bryan Philip Buenavides, Moira Kelly Del Mundo, Gaberielle Espino, 
-	 				Marc Joseph Fuellas, Bryan James Ilaga.
+	 *			Marc Joseph Fuellas, Bryan James Ilaga.
 	 * @license: GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
 	 * @copyright: 2016 - 2017 (c) All Rights Reserved
 	*/
@@ -25,7 +25,7 @@
 	 *			SmartMove::$SMART -> Smartly increments the string
 	 *		
 	 *		If you want to save the incremented value to the local instance you may want to use:
-	 *			SmartSave::SAVE
+	 *			SmartSave::$SAVE
 	 *		Or use:
 	 *			SmartSave::$NO_SAVE (default)
 	 *		to discard changes.
@@ -41,7 +41,7 @@
 	 *			StaticCounter::smart_next( "2015-25486-MN-0", SmartMove::$NUMBER );
 	 *		
 	 *		Again, if you really want to use Static Counter, you go and just pass the data that you need 
-	 *		to increment 'StaticCounter::smart_next( "2015-25486-MN-0" )'. By defailt it will increment 
+	 *		to increment 'StaticCounter::smart_next( "2015-25486-MN-0" )'. By default it will increment 
 	 *		the smart last number.
 	*/
 	
@@ -551,6 +551,9 @@
 		} // static function smart_next( $data = "NULL", $move = 1 )
 	} // class StaticCounter
 	
+	/** Class for generating primary key
+     *  This class generates primary key based on time
+	 */
 	class PrimaryKey
 	{
 		static function generatePK() {
