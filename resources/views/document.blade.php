@@ -146,7 +146,6 @@
 @endsection
 
 @section('table-head-list')
-	<th>ID</th>
 	<th>Name</th>
 	<th>Description</th>
 	<th>Type</th>
@@ -158,7 +157,6 @@
 @section('table-body-list')
 	@foreach($documents as $document)
 		<tr>
-			<td>{{ $document -> documentID }}</td>
 			<td>{{ $document -> documentName }}</td>
 			<td>{{ $document -> documentDescription }}</td>
 			<td>{{ $document -> documentType }}</td>
@@ -502,7 +500,6 @@
 						}
 
 						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].documentID + '</td>' + 
 									'<td>' + data[index].documentName + '</td>' + 
 									'<td>' + data[index].documentDescription + '</td>' + 
 									'<td>' + data[index].documentType + '</td>' + 
