@@ -132,8 +132,14 @@
 													<td>{{ $resident -> residentID }}</td>
 													<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
 													<td>{{ $resident -> birthdate }}</td>
-													<td>{{ $resident -> gender }}</td>
-													<td>{{ $resident -> residentType }}</td>
+
+													@if ($resident -> gender == 'M')
+														<td>Male</td>
+													@else
+														<td>Female</td>
+													@endif
+													
+													<td>{{ $resident -> residentType }} Resident</td>
 													
 													@if ($resident -> status == 1)
 														<td>Active</td>
@@ -202,9 +208,140 @@
 												</button>
 												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Register Resident</h4>
 											</div>
+
+											<!-- START MODAL BODY -->
 											<div class="modal-body">
-												<div class="card-body collapse in">
-													<div class="card-block">
+												
+
+												{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'form'])}}
+
+													{{ csrf_field() }}
+
+													<div class="form-body">
+														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput1">Fist Name</label>
+																<input type="text" id="userinput1" class="form-control border-primary" placeholder="Marc Joseph" name="firstName" />
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput2">Middle Name</label>
+																<input type="text" id="userinput2" class="form-control border-primary" placeholder="Mendoza" name="middleName" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Last Name</label>
+																<input type="text" id="userinput3" class="form-control border-primary" placeholder="Fuellas" name="lastName" />
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Suffix</label>
+																<input type="text" id="userinput4" class="form-control border-primary" placeholder="ex. Sr." name="suffix" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Gender</label>
+																<select name="gender" id="gender" class="form-control">
+																	<option value="male">MALE</option>
+																	<option value="female">FEMALE</option>
+																</select>
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput1">Birth Date</label>
+																<input type="date" class="form-control" id="birthDate" />
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput2">Civil Status</label>
+																<select name="civilStatus" id="civilStatus" class="form-control">
+																	<option>Married</option>
+																	<option>Single</option>
+																	<option>Widowed</option>
+																	<option>Divorced</option>
+																</select>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Senior Citizen ID</label>
+																<input type="text" id="userinput3" class="form-control border-primary" placeholder="" name="seniorCitizenID" />
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Disabilities</label>
+																<input type="text" id="userinput4" class="form-control border-primary" placeholder="ex. HIV" name="disabilities" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Contact Number</label>
+																<input type="text" id="userinput3" class="form-control border-primary" placeholder="09123456789" name="contactNumber" />
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Resident Type</label>
+																<select name="residentType" class="form-control">
+																	<option value="Transient">Transient Resident</option>
+																	<option value="Official">Official Resident</option>
+																</select>
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Street</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Lot</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">House</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Unit</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
+														<div class="row">
+															<div class="form-group col-xs-12 mb-2">
+																<label for="userinput5">Current Work</label>
+																<input class="form-control border-primary" type="text" id="userinput5" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-xs-12 mb-2">
+																<label for="userinput6">Monthly Salary</label>
+																<select class="form-control">
+																	<option value ="1">₱0-₱10,000</option>
+																	<option value="2">₱10,001-₱50,000</option>
+																	<option value="3">₱50,001-₱100,000</option>
+																	<option value="4">₱100,001 and above</option>
+																</select>
+															</div>
+														</div>
+
+
+													<div class="form-actions right">
+														<button type="button" class="btn btn-warning mr-1">
+															<i class="icon-cross2"></i> Cancel
+														</button>
+														<button type="submit" class="btn btn-primary">
+															<i class="icon-check2"></i> Save
+														</button>
+													</div>
+												{{Form::close()}}
+
+												<!--  WIZARD STEPS 
 															{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])}}
 
 															{{ csrf_field() }}
@@ -378,9 +515,8 @@
 																
 															</fieldset>
 														{{Form::close()}}
+													-->
 
-													</div>
-												</div>
 											</div>
 
 											<!-- End of Modal Body -->
@@ -389,6 +525,36 @@
 									</div>
 								</div> <!-- End of Modal -->
 
+
+								<!--View RESIDENT -->
+
+										<!--Viiew Modal -->
+								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
+											</div>
+
+											<!-- START MODAL BODY -->
+											<div class="modal-body">
+												
+
+
+												
+
+											</div>
+
+											<!-- End of Modal Body -->
+
+										</div>
+									</div>
+								</div> <!-- End of Modal -->
+
+								
 
 
 
@@ -427,10 +593,10 @@
 					"civilStatus": $("#civilStatus").val(), 
 					"seniorCitizenID": $("#seniorCitizenID").val(), 
 					"disabilities": $("#disabilities").val(), 
-					"residentType": $("#residentType :selected").text(), 
-					"status": $(".astatus:checked").val()
+					"residentType": $("#residentType :selected").text()
 				}, 
 				success: function(data) {
+					console.log(data);
 					$("#addModal").modal("hide");
 					refreshTable();
 					$("#frm-add").trigger("reset");
@@ -448,13 +614,39 @@
 			});
 		});
 
+		$(document).on('click', '.view', function(e) {
+			var id = $(this).val();
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getEdit') }}", 
+				data: {"residentPrimeID":id}, 
+				success:function(data)
+				{
+					console.log(data);
+					$('#viewModal').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).val();
 
 			$.ajax({
 				type: 'get',
 				url: "{{ url('/document/getEdit') }}", 
-				data: {"primeID":id}, 
+				data: {"residentPrimeID":id}, 
 				success:function(data)
 				{
 					console.log(data);
@@ -537,12 +729,12 @@
 
 			$.ajax({
 					type: 'GET',
-					url: "{{ url('/document/getEdit') }}",
-					data: {"primeID": id},
+					url: "{{ url('/resident/getEdit') }}",
+					data: {"residentPrimeID": id},
 					success:function(data) {
 						console.log(data);
 						swal({
-							title: "Are you sure you want to delete " + data.documentName + "?",
+							title: "Are you sure you want to delete " + data.firstName + "?",
 							text: "",
 							type: "warning",
 							showCancelButton: true,
@@ -553,8 +745,8 @@
 							function() {
 								$.ajax({
 									type: "post",
-									url: "{{ url('/document/delete') }}", 
-									data: {primeID:id}, 
+									url: "{{ url('/resident/delete') }}", 
+									data: {residentPrimeID:id}, 
 									success: function(data) {
 										refreshTable();
 										swal("Successfull", "Entry is deleted!", "success");
@@ -625,9 +817,6 @@
 			});
 		};
 
-		$("#frm-add").submit(function() {
-			console.log("hello world");
-		});
 	</script>
 @endsection
 

@@ -39,7 +39,7 @@ class ResidentController extends Controller
             $stat = 0;
         }
         else {
-
+            $stat = 0;
         }
 
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
@@ -59,5 +59,14 @@ class ResidentController extends Controller
 
             return back();
         }
+
+        public function getEdit(Request $r) {
+        
+        if($r->ajax())
+        {
+            return response(Resident::find($r->input('residentPrimeID')));
+        }
+
+    }
 }
 
