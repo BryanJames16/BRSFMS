@@ -142,9 +142,10 @@
 													<td>{{ $resident -> residentType }} Resident</td>
 													
 													@if ($resident -> status == 1)
-														<td>Active</td>
+														
+														<td><span class="tag tag-default tag-success">Active</span></td>
 													@else
-														<td>Inactive</td>
+														<td><span class="tag tag-default tag-danger">Inactive</span></td>
 													@endif
 													
 													<td>
@@ -166,37 +167,29 @@
 															<input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
 															<input type='hidden' name='status' value='{{ $resident -> status }}' />
 															
-															<button class='btn btn-icon btn-square btn-info normal view'  type='button' value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i></button>
-															<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $resident -> residentPrimeID }}'><i class="icon-android-create"></i></button>
-															<button class='btn btn-icon btn-square btn-danger delete' value='{{ $resident -> residentPrimeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-															
+															<span class="dropdown">
+																<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																	<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
+																	<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Edit</a>
+																	<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+																</span>
+															</span>
 														{{Form::close()}}
 													</td>
 												</tr>
 											@endforeach
 										</tbody>
 									</table>
+
+
+
+
 								<!-- End of Resident Tab -->
 
-							</div>
-							<div class="tab-pane fade" id="tab12" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
-
-								<!-- Family Tab -->
-
-								<!-- End of Family Tab -->
-
-							</div>
-						</div>
 
 
-						<!-- END OF CONTENT -->
-
-
-					</div>
-				</div>
-		
-										
-										<!--REGISTER RESIDENT -->
+								<!--REGISTER RESIDENT -->
 
 										<!--Add Modal -->
 								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
@@ -344,8 +337,510 @@
 														</button>
 													</div>
 												{{Form::close()}}
+											</div>
 
-												<!--  WIZARD STEPS 
+											<!-- End of Modal Body -->
+
+										</div>
+									</div>
+								</div> <!-- End of Modal -->
+
+							</div>
+							<div class="tab-pane fade" id="tab12" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
+
+								<!-- Family Tab -->
+
+								<!-- End of Family Tab -->
+
+							</div>
+						</div>
+
+
+						<!-- END OF CONTENT -->
+
+
+					</div>
+				</div>
+		
+											<!--View RESIDENT -->
+
+											<!--Viiew Modal -->
+									<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
+												</div>
+
+												<!-- START MODAL BODY -->
+												<div class="modal-body">
+													
+												</div>
+
+												<!-- End of Modal Body -->
+
+											</div>
+										</div>
+									</div> <!-- End of Modal -->
+
+										<!--UPDATE RESIDENT -->
+
+											<!--Update Modal -->
+									<div class="modal fade text-xs-left" id="editModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+													<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Resident</h4>
+												</div>
+
+												<!-- START MODAL BODY -->
+												<div class="modal-body">
+													
+													{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-update', 'class'=>'form'])}}
+
+													
+
+													<div class="form-body">
+														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput1">ID</label>
+																{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput2">First Name</label>
+																{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Middle Name</label>
+																{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Last Name</label>
+																{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Suffix</label>
+																{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Gender</label>
+																<select name="gender" id="gender" class="form-control">
+																	<option value="M">MALE</option>
+																	<option value="F">FEMALE</option>
+																</select>
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput1">Birth Date</label>
+																{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput2">Civil Status</label>
+																<select name="civilStatus" id="civilStatus" class="form-control">
+																	<option>Married</option>
+																	<option>Single</option>
+																	<option>Widowed</option>
+																	<option>Divorced</option>
+																</select>
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Senior Citizen ID</label>
+																{!! Form::text('seniorCitizenID', null, ['id' => 'seniorCitizenID','class' => 'form-control border-primary']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Disabilities</label>
+																{!! Form::text('disabilities', null, ['id' => 'disabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Contact Number</label>
+																{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Resident Type</label>
+																<select name="residentType" class="form-control">
+																	<option value="Transient">Transient Resident</option>
+																	<option value="Official">Official Resident</option>
+																</select>
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">Street</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Lot</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput3">House</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+															<div class="form-group col-md-6 mb-2">
+																<label for="userinput4">Unit</label>
+																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+															</div>
+														</div>
+
+														<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
+														<div class="row">
+															<div class="form-group col-xs-12 mb-2">
+																<label for="userinput5">Current Work</label>
+																<input class="form-control border-primary" type="text" id="userinput5" />
+															</div>
+														</div>
+														<div class="row">
+															<div class="form-group col-xs-12 mb-2">
+																<label for="userinput6">Monthly Salary</label>
+																<select class="form-control">
+																	<option value ="1">₱0-₱10,000</option>
+																	<option value="2">₱10,001-₱50,000</option>
+																	<option value="3">₱50,001-₱100,000</option>
+																	<option value="4">₱100,001 and above</option>
+																</select>
+															</div>
+														</div>
+
+
+													<div class="form-actions right">
+														<button type="button" class="btn btn-warning mr-1">
+															<i class="icon-cross2"></i> Cancel
+														</button>
+														<button type="submit" class="btn btn-primary">
+															<i class="icon-check2"></i> Save
+														</button>
+													</div>
+												{{Form::close()}}
+												</div>
+
+												<!-- End of Modal Body -->
+
+											</div>
+										</div>
+									</div> <!-- End of Modal -->
+
+
+										
+			</div>
+		</div>
+	</section>
+		<script>
+			$("#btnAddModal").on('click', function() {
+				$("#iconModal").modal('show');
+			});
+		</script>
+	<script>
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		$("#frm-add").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/resident/store') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"residentID": $("#residentID").val(), 
+					"lastName": $("#lastName").val(), 
+					"middleName": $("#middleName").val(), 
+					"firstName": $("#firstName").val(), 
+					"suffix": $("#suffix").val(),
+					"contactNumber": $("#contactNumber").val(),  
+					"gender": $("#gender :selected").val(), 
+					"birthDate": $("#birthDate").val(), 
+					"civilStatus": $("#civilStatus").val(), 
+					"seniorCitizenID": $("#seniorCitizenID").val(), 
+					"disabilities": $("#disabilities").val(), 
+					"residentType": $("#residentType :selected").text()
+				}, 
+				success: function(data) {
+					$("#addModal").modal("hide");
+					refreshTable();
+					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$(document).on('click', '.view', function(e) {
+			var id = $(this).data('value');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getEdit') }}", 
+				data: {"residentPrimeID":id}, 
+				success:function(data)
+				{
+					console.log(data);
+					$('#viewModal').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).data('value');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getEdit') }}", 
+				data: {"residentPrimeID":id}, 
+				success:function(data)
+				{
+					console.log(data);
+
+					var frm = $('#frm-update');
+
+					frm.find('#residentID').val(data.residentID);
+					frm.find('#firstName').val(data.firstName);
+					frm.find('#middleName').val(data.middleName);
+					frm.find('#lastName').val(data.lastName);
+					frm.find('#suffix').val(data.suffix);
+					$('#editModal').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+			var frm = $('#frm-update');
+
+			console.log("Description is: " + $("#eDocumentDescription").val());
+
+			$.ajax({
+				url: "{{ url('/document/update') }}",
+				type: "POST",
+				data: {"primeID": $("#ePrimeID").val(), 
+						"documentID": $("#eDocumentID").val(), 
+						"documentName": $("#eDocumentName").val(), 
+						"documentDescription": $("#eDocumentDescription").val(), 
+						"documentType": $("#edDocumentType :selected").text(), 
+						"documentPrice": $("#eDocumentPrice").val(), 
+						"status": $(".eStatus:checked").val() 
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Service has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$(document).on('click', '.delete', function(e) {
+
+			var id = $(this).data('value');
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/resident/getEdit') }}",
+					data: {"residentPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						swal({
+							title: "Are you sure you want to delete " + data.firstName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "post",
+									url: "{{ url('/resident/delete') }}", 
+									data: {"_token": "{{ csrf_token() }}",
+									residentPrimeID:id}, 
+									success: function(data) {
+										refreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(data) {
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							});				
+					}
+			})
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/resident/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						var statusText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						$("#table-container").append('<tr>' + 
+									'<td>' + data[index].residentID + '</td>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName + '</td>' + 
+									'<td>' + data[index].birthDate + '</td>' + 
+
+					
+
+									'<td>' + data[index].gender + '</td>' + 
+									
+									'<td>' + data[index].residentType + '</td>' + 
+									'<td>' + statusText + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
+
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+													'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].residentPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
+													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' + 
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+	</script>
+@endsection
+
+@section('page-vendor-js')
+		<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+		
+		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+
+		<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
+		
+
+		
+@endsection
+
+@section('page-level-js')
+		<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+@endsection
+
+<!--  WIZARD STEPS 
 															{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])}}
 
 															
@@ -520,341 +1015,3 @@
 															</fieldset>
 														{{Form::close()}}
 													-->
-
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-
-								<!--View RESIDENT -->
-
-										<!--Viiew Modal -->
-								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
-											</div>
-
-											<!-- START MODAL BODY -->
-											<div class="modal-body">
-												
-
-
-												
-
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-								
-
-
-
-										
-				
-			</div>
-		</div>
-	</section>
-		<script>
-			$("#btnAddModal").on('click', function() {
-				$("#iconModal").modal('show');
-			});
-		</script>
-	<script>
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
-
-		$("#frm-add").submit(function(event) {
-			event.preventDefault();
-
-			$.ajax({
-				url: "{{ url('/resident/store') }}", 
-				method: "POST", 
-				data: {
-					"_token": "{{ csrf_token() }}", 
-					"residentID": $("#residentID").val(), 
-					"lastName": $("#lastName").val(), 
-					"middleName": $("#middleName").val(), 
-					"firstName": $("#firstName").val(), 
-					"suffix": $("#suffix").val(),
-					"contactNumber": $("#contactNumber").val(),  
-					"gender": $("#gender :selected").val(), 
-					"birthDate": $("#birthDate").val(), 
-					"civilStatus": $("#civilStatus").val(), 
-					"seniorCitizenID": $("#seniorCitizenID").val(), 
-					"disabilities": $("#disabilities").val(), 
-					"residentType": $("#residentType :selected").text()
-				}, 
-				success: function(data) {
-					$("#addModal").modal("hide");
-					refreshTable();
-					$("#frm-add").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-
-		$(document).on('click', '.view', function(e) {
-			var id = $(this).val();
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
-				success:function(data)
-				{
-					console.log(data);
-					$('#viewModal').modal('show');
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/document/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
-				success:function(data)
-				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find("#eDocumentID").val(data.documentID);
-					frm.find('#eDocumentName').val(data.documentName);
-					frm.find('#eDocumentDescription').val(data.documentDescription);
-					frm.find('#eDocumentPrice').val(data.documentPrice);
-					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
-					frm.find('#ePrimeID').val(data.primeID);
-					
-					console.log("Data Status: " + data.status);
-
-					if(data.status == 1) {
-						$("#eActive").attr('checked', 'checked');
-					}
-					else {
-						$("#eInactive").attr('checked', 'checked');
-					}
-
-					$('#modalEdit').modal('show');
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		$("#frm-update").submit(function(event) {
-			event.preventDefault();
-
-			var frm = $('#frm-update');
-
-			console.log("Description is: " + $("#eDocumentDescription").val());
-
-			$.ajax({
-				url: "{{ url('/document/update') }}",
-				type: "POST",
-				data: {"primeID": $("#ePrimeID").val(), 
-						"documentID": $("#eDocumentID").val(), 
-						"documentName": $("#eDocumentName").val(), 
-						"documentDescription": $("#eDocumentDescription").val(), 
-						"documentType": $("#edDocumentType :selected").text(), 
-						"documentPrice": $("#eDocumentPrice").val(), 
-						"status": $(".eStatus:checked").val() 
-				}, 
-				success: function ( _response ){
-					$("#modalEdit").modal('hide');
-					
-					refreshTable();
-					
-					swal("Successful", 
-							"Service has been updated!", 
-							"success");
-				}, 
-				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-
-		$(document).on('click', '.delete', function(e) {
-
-			var id = $(this).val();
-
-			$.ajax({
-					type: 'GET',
-					url: "{{ url('/resident/getEdit') }}",
-					data: {"residentPrimeID": id},
-					success:function(data) {
-						console.log(data);
-						swal({
-							title: "Are you sure you want to delete " + data.firstName + "?",
-							text: "",
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#DD6B55",
-							confirmButtonText: "DELETE",
-							closeOnConfirm: false
-							},
-							function() {
-								$.ajax({
-									type: "post",
-									url: "{{ url('/resident/delete') }}", 
-									data: {residentPrimeID:id}, 
-									success: function(data) {
-										refreshTable();
-										swal("Successfull", "Entry is deleted!", "success");
-									}, 
-									error: function(data) {
-										var message = "Error: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
-										}
-										
-										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
-									}
-								});
-							});				
-					}
-			})
-		});
-
-		var refreshTable = function() {
-			$.ajax({
-				url: "{{ url('/resident/refresh') }}", 
-				method: "GET", 
-				datatype: "json", 
-				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-						var statusText = "";
-						if (data[index].status == 1) {
-							statusText = "Active";
-						}
-						else {
-							statusText = "Inactive";
-						}
-
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].residentID + '</td>' + 
-									'<td>' + data[index].firstName + data[index].middleName + data[index].lastName + '</td>' + 
-									'<td>' + data[index].birthDate + '</td>' + 
-									'<td>' + data[index].gender + '</td>' + 
-									'<td>' + data[index].residentType + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].residentPrimeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].residentPrimeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
-					}
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		};
-
-	</script>
-@endsection
-
-@section('page-vendor-js')
-		<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-		
-		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
-
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
-		
-
-		
-@endsection
-
-@section('page-level-js')
-		<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
-@endsection
-

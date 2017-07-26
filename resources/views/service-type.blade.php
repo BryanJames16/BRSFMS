@@ -145,9 +145,14 @@
 											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
 											'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
 											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].typeID + '"><i class="icon-pen3"></i> Edit</a>' +
+													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].typeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' +
+											'</form>' + 
 									'</td>' + 
 								'</tr>'
 						);
@@ -229,8 +234,15 @@
 					<input type='hidden' name='typeName' value='{{ $serviceType -> typeName }}' />
 					<input type='hidden' name='typeDesc' value='{{ $serviceType -> typeDesc }}' />
 					<input type='hidden' name='status' value='{{ $serviceType -> status }}' />
-					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $serviceType -> typeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $serviceType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					<span class="dropdown">
+						<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+						<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+							<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $serviceType -> typeID }}'><i class="icon-pen3"></i> Edit</a>
+							<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $serviceType -> typeID }}'><i class="icon-trash4"></i> Delete</a>
+						</span>
+					</span>
+					
+					
 				{!! Form::close() !!}
 			</td>
 		</tr>
@@ -240,7 +252,7 @@
 @section('ajax-modal')
 	<script>
 		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
+			var id = $(this).data("value");
 
 			$.ajaxSetup({
 		        headers: {
@@ -254,6 +266,7 @@
 				data: {typeID:id},
 				success:function(data)
 				{
+					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#typeName').val(data.typeName);
 					frm.find('#typeDesc').val(data.typeDesc);
@@ -281,7 +294,7 @@
 
 	$(document).on('click', '.delete', function(e) {
 		e.preventDefault();
-		var id = $(this).val();
+		var id = $(this).data("value");
 
 		$.ajaxSetup({
 		    headers: {

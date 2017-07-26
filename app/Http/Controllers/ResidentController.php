@@ -17,7 +17,8 @@ class ResidentController extends Controller
 
     public function index() {
     	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
-    												-> get();
+    												-> where('status','1')
+                                                    -> get();
 
     	return view('resident',['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
 		['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]) -> with('residents', $residents);
@@ -25,13 +26,16 @@ class ResidentController extends Controller
 
     }
 
-    public function refresh(Request $r) {
-        if ($r -> ajax()) {
+    public function refresh(Request $r) 
+    {
+        if ($r -> ajax()) 
+        {
             return json_encode(Resident::where("status", "=", "1") -> get());
         }
     }
 
-	public function store(Request $r) {
+	public function store(Request $r) 
+    {
         
         $stat = 1;
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
@@ -50,15 +54,25 @@ class ResidentController extends Controller
 
 
             return back();
-        }
+    }
 
-        public function getEdit(Request $r) {
+    public function getEdit(Request $r) {
         
         if($r->ajax())
         {
             return response(Resident::find($r->input('residentPrimeID')));
         }
 
+    }
+
+    public function delete(Request $r)
+    {
+
+        $type = Resident::find($r->input('residentPrimeID'));
+        $type->status = 0;
+        $type->save();
+        
+        return back();
     }
 }
 
