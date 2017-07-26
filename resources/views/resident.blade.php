@@ -131,7 +131,7 @@
 												<tr>
 													<td>{{ $resident -> residentID }}</td>
 													<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
-													<td>{{ $resident -> birthdate }}</td>
+													<td>{{ $resident -> birthDate }}</td>
 
 													@if ($resident -> gender == 'M')
 														<td>Male</td>
@@ -158,7 +158,7 @@
 															<input type='hidden' name='middleName' value='{{ $resident -> middleName }}' />
 															<input type='hidden' name='gender' value='{{ $resident -> gender }}' />
 															<input type='hidden' name='civilStatus' value='{{ $resident -> civilStatus }}' />
-															<input type='hidden' name='birthdate' value='{{ $resident -> birthdate }}' />
+															<input type='hidden' name='birthDate' value='{{ $resident -> birthDate }}' />
 															<input type='hidden' name='suffix' value='{{ $resident -> suffix }}' />
 															<input type='hidden' name='contactNumber' value='{{ $resident -> contactNumber }}' />
 															<input type='hidden' name='seniorCitizenID' value='{{ $resident -> seniorCitizenID }}' />
@@ -215,7 +215,7 @@
 
 												{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'form'])}}
 
-													{{ csrf_field() }}
+													
 
 													<div class="form-body">
 														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
@@ -589,7 +589,7 @@
 					"suffix": $("#suffix").val(),
 					"contactNumber": $("#contactNumber").val(),  
 					"gender": $("#gender :selected").val(), 
-					"birthdate": $("#birthdate").val(), 
+					"birthDate": $("#birthDate").val(), 
 					"civilStatus": $("#civilStatus").val(), 
 					"seniorCitizenID": $("#seniorCitizenID").val(), 
 					"disabilities": $("#disabilities").val(), 
@@ -788,7 +788,7 @@
 						$("#table-container").append('<tr>' + 
 									'<td>' + data[index].residentID + '</td>' + 
 									'<td>' + data[index].firstName + data[index].middleName + data[index].lastName + '</td>' + 
-									'<td>' + data[index].birthdate + '</td>' + 
+									'<td>' + data[index].birthDate + '</td>' + 
 									'<td>' + data[index].gender + '</td>' + 
 									'<td>' + data[index].residentType + '</td>' + 
 									'<td>' + statusText + '</td>' + 

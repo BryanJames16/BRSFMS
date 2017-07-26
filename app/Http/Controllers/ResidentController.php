@@ -10,7 +10,7 @@ use \App\Models\Street;
 class ResidentController extends Controller
 {
     public function index() {
-    	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthdate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
     												-> get();
 
     	return view('resident',['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
@@ -32,15 +32,9 @@ class ResidentController extends Controller
         ]);
         
 
-        if($r -> input('status') == "active") {
-            $stat = 1;
-        }
-        else if($r -> input('status') == "inactive") {
+        
             $stat = 0;
-        }
-        else {
-            $stat = 0;
-        }
+        
 
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
                                             'firstName' => trim($r -> input('firstName')),
@@ -49,7 +43,7 @@ class ResidentController extends Controller
                                             'suffix' => $r -> input('suffix'),
 											'contactNumber' => $r -> input('contactNumber'),
                                             'gender' => $r -> input('gender'),
-											'birthdate' => $r -> input('birthdate'),
+											'birthDate' => $r -> input('birthDate'),
 											'civilStatus' => $r -> input('civilStatus'),
 											'seniorCitizenID' => $r -> input('seniorCitizenID'),
 											'disabilities' => $r -> input('disabilities'),
