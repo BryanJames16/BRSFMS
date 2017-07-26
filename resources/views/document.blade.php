@@ -179,6 +179,7 @@
 					<input type='hidden' name='documentPrice' value='{{ $document -> documentPrice }}' />
 					<input type='hidden' name='status' value='{{ $document -> status }}' />
 					
+					<button class='btn btn-icon btn-square btn-primary normal view' type='button' value='{{ $document -> primeID }}'><i class="icon-eye3"></i></button>
 					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $document -> primeID }}'><i class="icon-android-create"></i></button>
 					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $document -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 					
@@ -189,7 +190,29 @@
 @endsection
 
 @section('ajax-modal')
-	
+	<div class="modal animated bounceIn text-xs-left" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('modal-card-title')</h4>
+				</div>
+				<div ng-app="maintenanceApp" class="modal-body">
+					<div class="card-block">
+						<div class="card-text">
+							
+						</div>
+
+						<div class="form-actions center">
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+						</div>												
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 @endsection
 
 @section('edit-modal-title')
@@ -206,8 +229,6 @@
 
 
 @section('edit-modal-body')
-
-	
 	{{ Form::hidden('primeID',null,['id'=>'ePrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly']) }}
 
 	@if (count($errors) > 0)
@@ -481,6 +502,11 @@
 			})
 		});
 
+		$(document).on('click', '.view', function() {
+			var id = $(this).val();
+			$("#pdfModal").modal('show');
+		})
+
 		var refreshTable = function() {
 			$.ajax({
 				url: "{{ url('/document/refresh') }}", 
@@ -508,6 +534,7 @@
 									'<td>' + 
 										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
+											'<button class="btn btn-icon btn-square btn-primary normal view" type="button" value="' + data[index].primeID + '"><i class="icon-eye3"></i></button>' + 
 											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
 											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
