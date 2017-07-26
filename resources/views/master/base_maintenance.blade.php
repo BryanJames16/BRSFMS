@@ -1,3 +1,8 @@
+<!-- PHP Includes --> 
+<?php 
+	include(app_path() . '/includes/pktool.php');
+?>
+
 <!-- Parent Template -->
 @extends('master.master')
 
