@@ -582,6 +582,7 @@
 				url: "{{ url('/resident/store') }}", 
 				method: "POST", 
 				data: {
+					"_token": "{{ csrf_token() }}", 
 					"residentID": $("#residentID").val(), 
 					"lastName": $("#lastName").val(), 
 					"middleName": $("#middleName").val(), 
