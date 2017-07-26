@@ -23,9 +23,6 @@ class Residentregistration extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
 
 
 }

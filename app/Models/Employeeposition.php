@@ -26,9 +26,5 @@ class Employeeposition extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }

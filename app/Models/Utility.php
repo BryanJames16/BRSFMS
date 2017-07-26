@@ -34,9 +34,5 @@ class Utility extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }
