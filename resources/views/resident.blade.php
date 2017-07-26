@@ -624,6 +624,10 @@
 				}
 			});
 		};
+
+		$("#frm-add").submit(function() {
+			console.log("hello world");
+		});
 	</script>
 @endsection
 
