@@ -67,7 +67,7 @@
 									<i class="icon-edit2"></i> Request Document 
 								</button>
 
-								<!-- Ruest Modal -->
+								<!-- Request Modal -->
 								<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -80,11 +80,67 @@
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
 													<div class="card-text">
-														
+														{{ Form::open(['method' => 'POST', 'id' => 'frmReq']) }}
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Request ID</label>
+															<div class="col-md-9">
+																{{ Form::text('requestID', 
+																				null, 
+																				['id' => 'requestID', 
+																					'class' => 'long-press form-control', 
+																					'placeholder' => 'eg.REQ_001', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'readonly', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Requestor Name</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="aRequestor">
+
+																</select>
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Document</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="aDocument">
+
+																</select>
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Quantity</label>
+															<div class="col-md-3">
+																{{ Form::number('requestQuantity', 
+																					null, 
+																					['id' => 'requestQuantity', 
+																						'class' => 'form-control', 
+																						'min' => '1', 
+																						'max' => '8', 
+																						'maxlength' => '10', 
+																						'minlength' => '1', 
+																						'step' => '1']) }}
+															</div>	
+														</div>
 													</div>
 
 													<div class="form-actions center">
-														
+														<input type="submit" class="btn btn-success" value="Request Document" name="btnRequest">
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+
+														{{ Form::close() }}
 													</div>					
 																				
 												</div>
@@ -142,7 +198,7 @@
 	                    		<tbody>
 	                    			@foreach($requests as $request)
 									<tr>
-										<td>{{ $request -> firstName }} {{ substr($request -> middleName,1) }} {{ $request -> lastName }}</td> 
+										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
 										<td>{{ $request -> requestDate }} </td>
 										<td>{{ $request -> documentName }} </td>
 										<td>{{ $request -> quantity }}</td>
@@ -190,15 +246,13 @@
 													
 												
 												</div>
-													<div class="form-body">
-														@yield('edit-modal-body')
-													</div>
-
-													<div class="form-actions center">
-														@yield('edit-modal-action')
+												<div class="form-body">
 														
-													</div>
-													{!!Form::close()!!}
+												</div>
+
+												<div class="form-actions center">
+														
+												</div>
 											</div>
 										</div>
 									</div>
@@ -243,12 +297,6 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
-
-	<script type="text/javascript">
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-	</script>
 @endsection
 
 @section('template-js')
@@ -256,6 +304,132 @@
 @endsection
 
 @section('page-level-js')
+	<script type='text/javascript'>
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+
+			$.ajax({
+				url: "{{ url('/document-request/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#requestID").val(data);
+					}
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+			$.ajax({
+				url: "{{ url('/document-request/getRequestor') }}", 
+				method: "GET", 
+				success: function(data) {
+					$("#aRequestor").html("");
+
+					for (datum in data) {
+						$("#aRequestor").append(
+							"<option value=" + data[datum].residentPrimeID + ">" + 
+								data[datum].lastName + ", " + 
+								data[datum].firstName + " " + 
+								data[datum].middleName + " " + 
+								data[datum].suffix + 
+							"</option>"
+						);
+					}
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+			$.ajax({
+				url: "{{ url('/document-request/getDocument') }}", 
+				method: "GET", 
+				success: function(data) {
+					$("#aDocument").html("");
+
+					for (datum in data) {
+						$("#aDocument").append(
+							"<option value=" + data[datum].primeID + ">" + 
+								data[datum].documentName + 
+							"</option>"
+						);
+					}
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		});
+
+		$("#frmReq").submit(function (event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/document-request/store') }}", 
+				method: "POST", 
+				data: {
+					"requestID": $("#requestID").val(), 
+					"peoplePrimeID": $("#aRequestor").val(), 
+					"documentPrimeID": $("#aDocument").val(),
+					"quantity": $("#requestQuantity").val()
+				}, 
+				success: function(data) {
+					$("#iconModal").modal("hide");
+					refreshTable();
+					$("#frmReq").trigger('reset');
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		});
+
+		var refreshTable = function() {
+
+		}
+	</script>
+
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>

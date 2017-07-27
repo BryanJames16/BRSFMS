@@ -77,12 +77,14 @@ Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');
 
 //Document Request
-Route::get('/document-request/getEdit', 'DocumentController@getEdit');
-Route::get('/document-request/refresh', 'DocumentController@refresh');
-Route::get('/document-request/nextPK', 'DocumentController@nextPK');
-Route::get('/document-request/view', 'DocumentController@view');
-Route::post('/document-request/store', 'DocumentController@store');
-Route::post('/document-request/update','DocumentController@edit');
+Route::get('/document-request/getEdit', 'DocumentRequestController@getEdit');
+Route::get('/document-request/refresh', 'DocumentRequestController@refresh');
+Route::get('/document-request/nextPK', 'DocumentRequestController@nextPK');
+Route::get('/document-request/view', 'DocumentRequestController@view');
+Route::get('/document-request/getRequestor', 'DocumentRequestController@getRequestor');
+Route::get('/document-request/getDocument', 'DocumentRequestController@getDocument');
+Route::post('/document-request/store', 'DocumentRequestController@store');
+Route::post('/document-request/update','DocumentRequestController@edit');
 
 //Province
 Route::get('/province/getEdit', 'ProvinceController@getEdit');

@@ -59,8 +59,8 @@ class DocumentController extends Controller
                                                'status' => $stat]);
 
 
-            return back();
-        }
+        return back();
+    }
 
     public function getEdit(Request $r) {
         if($r->ajax()) {
