@@ -430,7 +430,6 @@
 				data: {"primeID":id}, 
 				success:function(data)
 				{
-					console.log(data);
 					var frm = $('#frm-update');
 					frm.find("#eDocumentID").val(data.documentID);
 					frm.find('#eDocumentName').val(data.documentName);
@@ -439,8 +438,6 @@
 					frm.find('#eDocumentPrice').val(data.documentPrice);
 					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
 					frm.find('#ePrimeID').val(data.primeID);
-					
-					console.log("Data Status: " + data.status);
 
 					if(data.status == 1) {
 						$("#eActive").attr('checked', 'checked');
@@ -459,7 +456,6 @@
 					}
 
 					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
 				}
 			})
 
@@ -469,8 +465,6 @@
 			event.preventDefault();
 
 			var frm = $('#frm-update');
-
-			console.log("Description is: " + $("#eDocumentDescription").val());
 
 			$.ajax({
 				url: "{{ url('/document/update') }}",
@@ -541,7 +535,6 @@
 										}
 										
 										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
 									}
 								});
 							});				
@@ -574,14 +567,12 @@
 					}
 					
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 
 			
 
 			$("#pdfModal").modal('show');
-			console.log("done");
 			
 			$("#lookContainer").html(
 				"<p align='left' class='fileNumber'>&nbsp;&nbsp;" + documentID + "</p><br>" + 
@@ -658,7 +649,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -670,22 +661,20 @@
 							statusText = "Inactive";
 						}
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].documentName + '</td>' + 
-									'<td>' + data[index].documentDescription + '</td>' + 
-									'<td>' + data[index].documentType + '</td>' + 
-									'<td>&#8369; ' + data[index].documentPrice + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<button class="btn btn-icon btn-square btn-primary normal view" type="button" value="' + data[index].primeID + '"><i class="icon-eye3"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].documentName, 
+								data[index].documentDescription, 
+								data[index].documentType, 
+								"&#8369; " + data[index].documentPrice,
+								statusText,
+								'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
+									'<button class="btn btn-icon btn-square btn-primary normal view" type="button" value="' + data[index].primeID + '"><i class="icon-eye3"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+								'</form>'
+							]).draw(false);
 					}
 				}, 
 				error: function(data) {
@@ -697,7 +686,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		};
@@ -708,10 +696,9 @@
 				method: "GET", 
 				success: function(data) {
 					if (data == null) {
-						console.log("Reponse is null!");
+						// Get primary key format from utilities
 					}
 					else {
-						console.log(data);
 						$("#documentID").val(data);
 					}
 				}, 
@@ -723,7 +710,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		});

@@ -567,6 +567,7 @@
 		@yield('page-action')
 		<!-- End Page Actions -->
 
+		@include('master.blockmaster')
 	</body>
 
 </html>

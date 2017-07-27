@@ -61,7 +61,7 @@ class DocumentRequestController extends Controller
     }
 
     public function view() {
-
+        
     }
 
     public function nextPK(Request $r) {
