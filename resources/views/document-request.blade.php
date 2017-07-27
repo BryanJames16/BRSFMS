@@ -1,5 +1,21 @@
+<!-- Parent Template -->
 @extends('master.master')
 
+<!-- Page Initiatives -->
+@section('title')
+	Document Request
+@endsection
+
+<!-- Preset -->
+@section('vendor-style')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+@endsection
+
+@section('plugin')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
+@endsection
+
+<!-- CSS Styles -->
 @section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
@@ -7,189 +23,28 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 @endsection
 
-<!-- Title of the Page -->
-@section('title')
-	Document Requests
+@section('template-css')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 @endsection
 
-@section('js-setting')
-
-	<!-- Set the Selected Tab in Navbar -->
-	<script type="text/javascript">
-		setSelectedTab(CASEFILE);
+@section('page-action')
+	<script>
+		setSelectedTab(DOCUMENT_REQUEST);
 	</script>
 @endsection
 
-@section('content-header')
-	<div class="content-header-left col-md-6 col-xs-12">
-		<h2 class="content-header-titlemb-0">Document Requests </h2>
-		<p class="text-muted mb-0">All transactions regarding document requests</p>
-	</div>
-@endsection
-
-@section('breadcrumb')
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">Transaction</li>
-		<li class="breadcrumb-item"><a href="#">Document</a></li>
-	</ol>
-@endsection
-
 @section('content-body')
-
-						<!-- Modal -->
-								<div class="modal fade text-xs-left" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Residents</h4>
-											</div>
-											<div class="modal-body">
-												<div class="card-block">
-													<div class="card-text">
-														
-													</div>
-
-													<table class="table table-striped table-bordered datacol-column-filtering" id="table-container">
-								                    	<thead>
-								                    		<tr>
-																<th>Resident Name</th>
-																<th>Gender</th>
-																<th>Action</th>
-															</tr>
-								                    	</thead>
-
-									                	<tbody>
-									                		<tr>
-									                			<td>Marc Joseph Fuellas</td>
-									                			<td>Male</td>
-								             					<td>
-								             						<button class='btn btn-icon btn-round btn-success normal'  type='button' data-target="#iconModal" data-toggle="modal" data-dismiss="modal">Add</button>
-								             						
-								             					</td>
-									                		</tr>
-
-									                		<tr>
-									                			<td>James Reid</td>
-									                			<td>Male</td>
-									                			<td><button class='btn btn-icon btn-round btn-success normal'  type='button' data-target="#iconModal" data-toggle="modal" data-dismiss="modal">Add</button>
-								             					</td>
-									                		</tr>
-									                	</tbody>
-									                </table>
-
-															
-
-												</div>
-
-													<div class="form-actions center">
-														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
-														</button>
-													</div>													
-												</div>
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-
-
-
-						<!-- Modal -->
-								<div class="modal fade text-xs-left" id="iconModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Document Request</h4>
-											</div>
-											<div class="modal-body">
-												<div class="card-block">
-													<div class="card-text">
-														
-													</div>
-
-													<div class="form-group row">
-														
-														<label class="col-md-3 label-control" for="eventRegInput1">Resident Name</label>
-														<div class="col-md-9">
-															<input type="text" class="form-control" id="firstName1" />
-																<button type="button" class="btn" data-dismiss="modal" data-toggle="modal" data-target="#searchModal">Search resident</button>
-														
-														</div>	
-													</div>
-
-													<div cl
-
-													ass="form-group row">
-														<label class="col-md-3 label-control" for="eventRegInput1">Document</label>
-														<div class="col-md-9">
-															<select class="form-control">
-																<option>Certificate of Indigency</option>
-																<option>Barangay Clearance</option>
-															</select>
-														</div>	
-													</div>
-
-													<div class="form-group row">
-														<label class="col-md-3 label-control" for="eventRegInput1">Quantity</label>
-														<div class="col-md-9">
-															<input type="number" class="form-control" id="firstName1" />
-														</div>	
-													</div>
-														<button type="button" class="btn btn-success mr-1">Add</button>
-
-													<table class="table table-striped table-bordered	" id="table-container">
-								                    	<thead>
-								                    		<tr>
-																<th>Document</th>
-																<th>Quantity</th>
-																<th>Action</th>
-															</tr>
-								                    	</thead>
-
-									                	<tbody>
-									                		<tr>
-									                			<td>Barangay Clearance</td>
-									                			<td>5</td>
-								             					<td>
-								             						<button class='btn btn-icon btn-round btn-danger normal'  type='button'><i class="icon-android-cancel"></i>Remove</button>
-
-								             					</td>
-									                		</tr>
-
-									                		
-									                	</tbody>
-									                </table>
-															
-
-												</div>
-
-													<div class="form-actions center">
-														<button type="button" data-dismiss="modal" class="btn btn-success mr-1">Request</button>
-														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
-														</button>
-													</div>													
-												</div>
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
-									</div>
-								</div> <!-- End of Modal -->
-
-
-
 	<section id="multi-column">
 		<div class="row">
 			<div class="col-xs-14">
@@ -204,74 +59,178 @@
 							</ul>
 						</div>
 					</div>
-
 					<div class="card-body collapse in">
 						<div class="card-block card-dashboard">
-							<p align="right">
+							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#iconModal" style="width:130px; font-size:13px">
-									<i class="icon-edit2"></i> REQUEST<br>DOCUMENT  
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal"  style="width:160px; font-size:13px">
+									<i class="icon-edit2"></i> Request Document 
 								</button>
-							</p>
+
+								<!-- Ruest Modal -->
+								<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Request a Document</h4>
+											</div>
+											<div ng-app="maintenanceApp" class="modal-body">
+												<div class="card-block">
+													<div class="card-text">
+														
+													</div>
+
+													<div class="form-actions center">
+														
+													</div>					
+																				
+												</div>
+											</div>
+											<!-- End of Modal Body -->
+										</div>
+									</div>
+								</div> 
+								<!-- End of Modal -->
+                    		</p>
+
+							<!-- View Modal -->
+                    		<div class="modal fade text-xs-left" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('view-modal-card-title')</h4>
+										</div>
+										<div class="modal-body">
+											<div class="card-block">
+												<div class="card-text">
+													
+												</div>
+
+												
+
+												<div class="form-actions center">
+													@yield('view-modal-form-action')
+												</div>													
+											</div>
+										</div>
+
+										<!-- End of Modal Body -->
+
+									</div>
+								</div>
+							</div> 
+							<!-- End of Modal -->
+
+							<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+                    			<thead>
+                    				<tr>
+										<td>Requestor Name</td>
+										<td>Request Date</td>
+										<td>Quantity</td>
+										<td>Status</td>
+										<td>Actions</td>
+									</tr>
+                    			</thead>
+
+	                    		<tbody>
+	                    			
+	                    		</tbody>
+	                    	</table>
+
+	                    	@yield('ajax-modal')
+
+	                    	<div class="modal fade text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog" id="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>@yield('edit-modal-title')</h4>
+										</div>
+
+										<div class="modal-body">
+											<div class="card-block">
+
+												@yield('ajax-edit-form')
+
+												<div class="card-text">
+													
+												
+												</div>
+													<div class="form-body">
+														@yield('edit-modal-body')
+													</div>
+
+													<div class="form-actions center">
+														@yield('edit-modal-action')
+														
+													</div>
+													{!!Form::close()!!}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<table class="table table-striped table-bordered datacol-column-filtering" id="table-container">
-                    	<thead>
-                    		<tr>
-								<th>Request ID</th>
-								<th>Requested By</th>
-								<th>Date</th>
-								<th>Status</th>
-								<th>Actions</th>
-							</tr>
-                    	</thead>
-
-	                	<tbody>
-	                		<tr>
-	                			<td>REQ-0F0</td>
-	                			<td>Calipay, George Castro</td>
-	                			<td>March 8, 2017</td>
-	                			<td>Pending</td>
-             					<td>
-             						<button class='btn btn-icon btn-round btn-primary normal'  type='button'><i class="icon-ios-eye"></i>View</button>
-             						<button class='btn btn-icon btn-round btn-success normal'  type='button'><i class="icon-android-done"></i>Approve</button>
-             						<button class='btn btn-icon btn-round btn-danger normal'  type='button'><i class="icon-android-cancel"></i>Reject</button>
-
-             					</td>
-	                		</tr>
-
-	                		<tr>
-	                			<td>REQ-0ED</td>
-	                			<td>Carpa, Mae Jin</td>
-	                			<td>February, 20, 2014</td>
-	                			<td>Pending</td>
-	                			<td>
-	                				<button class='btn btn-icon btn-round btn-primary normal'  type='button'><i class="icon-ios-eye"></i>View</button>
-             						<button class='btn btn-icon btn-round btn-success normal'  type='button'><i class="icon-android-done"></i>Approve</button>
-             						<button class='btn btn-icon btn-round btn-danger normal'  type='button'><i class="icon-android-cancel"></i>Reject</button>
-
-             					</td>
-	                		</tr>
-	                	</tbody>
-	                </table>
 				</div>
 			</div>
 		</div>
 	</section>
 @endsection
 
+<!-- Javascript Resources -->
+@section('vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+@endsection
+
 @section('page-vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.fixedColumns.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.responsive.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.colReorder.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+	</script>
+@endsection
+
+@section('template-js')
+	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 @endsection
 
 @section('page-level-js')
-	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatables-colreorder.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection

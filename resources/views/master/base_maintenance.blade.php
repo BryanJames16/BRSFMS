@@ -29,9 +29,6 @@
 
 @section('template-css')
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
-@endsection
-
-@section('custom-css')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 @endsection
@@ -239,4 +236,5 @@
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection

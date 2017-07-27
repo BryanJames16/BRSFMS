@@ -409,16 +409,16 @@
 											<span>Resident</span>
 										</a>
 									</li>
+									<li id="document-request-id">
+										<a href="/document-request" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-file-text2"></i>
+											<span>Document Request</span>
+										</a>
+									</li>
 									<li id="facility-reservation-id">
 										<a href="/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
 											<span>Facility Reservation</span>
-										</a>
-									</li>
-									<li>
-										<a href="/document-request" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-file-text2"></i>
-											<span>Document Request</span>
 										</a>
 									</li>
 									<li id="service-sponsorship-id">
