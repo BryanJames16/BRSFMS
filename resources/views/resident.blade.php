@@ -1,10 +1,16 @@
 @extends('master.master')
 
-@section('vendor-plugin')
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+<!-- Preset -->
+@section('vendor-style')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+@endsection
 
+@section('plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
+@endsection
 
+<!-- CSS Styles -->
+@section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
@@ -14,19 +20,16 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
-	
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />	
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
 
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
+@endsection
 
+@section('template-css')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
-
-	
-
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
-
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 @endsection
 
 
@@ -38,35 +41,12 @@
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
-	
-<!-- Set the Selected Tab in Navbar -->
-<script type="text/javascript">
+	<script type="text/javascript">
 		setSelectedTab(RESIDENT_APPLICATION);
 	</script>
 @endsection
 
-@section('content-header')
-	
-<div class="content-header-left col-md-6 col-xs-12">
-	<h2 class="content-header-titlemb-0">Resident </h2>
-	<p class="text-muted mb-0">All transactions regarding resident</p>
-</div>
-@endsection
-
-@section('breadcrumb')
-	
-<ol class="breadcrumb">
-	<li class="breadcrumb-item">Transaction</li>
-	<li class="breadcrumb-item">
-		<a href="#">Resident</a>
-	</li>
-</ol>
-@endsection
-
 @section('content-body')
-	
-	
-
 	<section id="multi-column">
 		<div class="row">
 			<div class="col-xs-14">
@@ -89,12 +69,10 @@
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Register  
 								</button>
-								
 							</p>	
 						</div>
 
 						<!-- TAB COMPONENT -->
-
 						<ul class="nav nav-tabs nav-underline no-hover-bg nav-justified">
 							<li class="nav-item">
 								<a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="tab11" href="#tab11" aria-expanded="false">Resident</a>
@@ -103,88 +81,81 @@
 								<a class="nav-link" id="base-tab12" data-toggle="tab" aria-controls="tab12" href="#tab12" aria-expanded="true">Family</a>
 							</li>
 						</ul>
-						
 						<!-- END OF TAB COMPONENT -->
 
 						<!-- CONTENT -->
-
 						<div class="tab-content px-1 pt-1">
 							<div role="tabpanel" class="tab-pane fade active in" id="tab11" aria-labelledby="active-tab32" aria-expanded="true">
 
 								<!-- Resident Tab -->
+								<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Birthdate</th>
+											<th>Gender</th>
+											<th>Type</th>
+											<th>Status</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
 
-									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-										<thead>
+									<tbody>
+										@foreach($residents as $resident)
 											<tr>
-												<th>ID</th>
-												<th>Name</th>
-												<th>Birthdate</th>
-												<th>Gender</th>
-												<th>Type</th>
-												<th>Status</th>
-												<th>Actions</th>
-											</tr>
-										</thead>
+												<td>{{ $resident -> residentID }}</td>
+												<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
+												<td>{{ $resident -> birthDate }}</td>
 
-										<tbody>
-											@foreach($residents as $resident)
-												<tr>
-													<td>{{ $resident -> residentID }}</td>
-													<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
-													<td>{{ $resident -> birthDate }}</td>
+												@if ($resident -> gender == 'M')
+													<td>Male</td>
+												@else
+													<td>Female</td>
+												@endif
+												
+												<td>{{ $resident -> residentType }} Resident</td>
+												
+												@if ($resident -> status == 1)
+													
+													<td><span class="tag tag-default tag-success">Active</span></td>
+												@else
+													<td><span class="tag tag-default tag-danger">Inactive</span></td>
+												@endif
+												
+												<td>
+													
+													{{Form::open(['url'=>'resident/delete', 'method' => 'POST', 'id' => $resident -> residentPrimeID ])}}
 
-													@if ($resident -> gender == 'M')
-														<td>Male</td>
-													@else
-														<td>Female</td>
-													@endif
-													
-													<td>{{ $resident -> residentType }} Resident</td>
-													
-													@if ($resident -> status == 1)
+														{{Form::hidden('residentPrimeID',$resident->residentPrimeID,['id'=>'residentPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
+														<input type='hidden' name='residentID' value='{{ $resident -> residentID }}' />
+														<input type='hidden' name='firstName' value='{{ $resident -> firstName }}' />
+														<input type='hidden' name='lastName' value='{{ $resident -> lastName }}' />
+														<input type='hidden' name='middleName' value='{{ $resident -> middleName }}' />
+														<input type='hidden' name='gender' value='{{ $resident -> gender }}' />
+														<input type='hidden' name='civilStatus' value='{{ $resident -> civilStatus }}' />
+														<input type='hidden' name='birthDate' value='{{ $resident -> birthDate }}' />
+														<input type='hidden' name='suffix' value='{{ $resident -> suffix }}' />
+														<input type='hidden' name='contactNumber' value='{{ $resident -> contactNumber }}' />
+														<input type='hidden' name='seniorCitizenID' value='{{ $resident -> seniorCitizenID }}' />
+														<input type='hidden' name='disabilities' value='{{ $resident -> disabilities }}' />
+														<input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
+														<input type='hidden' name='status' value='{{ $resident -> status }}' />
 														
-														<td><span class="tag tag-default tag-success">Active</span></td>
-													@else
-														<td><span class="tag tag-default tag-danger">Inactive</span></td>
-													@endif
-													
-													<td>
-														
-														{{Form::open(['url'=>'resident/delete', 'method' => 'POST', 'id' => $resident -> residentPrimeID ])}}
-
-															{{Form::hidden('residentPrimeID',$resident->residentPrimeID,['id'=>'residentPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
-															<input type='hidden' name='residentID' value='{{ $resident -> residentID }}' />
-															<input type='hidden' name='firstName' value='{{ $resident -> firstName }}' />
-															<input type='hidden' name='lastName' value='{{ $resident -> lastName }}' />
-															<input type='hidden' name='middleName' value='{{ $resident -> middleName }}' />
-															<input type='hidden' name='gender' value='{{ $resident -> gender }}' />
-															<input type='hidden' name='civilStatus' value='{{ $resident -> civilStatus }}' />
-															<input type='hidden' name='birthDate' value='{{ $resident -> birthDate }}' />
-															<input type='hidden' name='suffix' value='{{ $resident -> suffix }}' />
-															<input type='hidden' name='contactNumber' value='{{ $resident -> contactNumber }}' />
-															<input type='hidden' name='seniorCitizenID' value='{{ $resident -> seniorCitizenID }}' />
-															<input type='hidden' name='disabilities' value='{{ $resident -> disabilities }}' />
-															<input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
-															<input type='hidden' name='status' value='{{ $resident -> status }}' />
-															
-															<span class="dropdown">
-																<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-																<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-																	<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-																	<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Edit</a>
-																	<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
-																</span>
+														<span class="dropdown">
+															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
+																<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Edit</a>
+																<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
 															</span>
-														{{Form::close()}}
-													</td>
-												</tr>
-											@endforeach
-										</tbody>
-									</table>
-
-
-
-
+														</span>
+													{{Form::close()}}
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 								<!-- End of Resident Tab -->
 
 							</div>
@@ -200,363 +171,359 @@
 
 							</div>
 						</div>
-
-
 						<!-- END OF CONTENT -->
 
 						<!--REGISTER RESIDENT -->
 
-										<!--Add Modal -->
-								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Register Resident</h4>
-											</div>
-
-											<!-- START MODAL BODY -->
-											<div class="modal-body">
-												
-
-												{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'form'])}}
-
-													
-
-													<div class="form-body">
-														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput1">ID</label>
-																{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput2">First Name</label>
-																{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Middle Name</label>
-																{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Last Name</label>
-																{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Suffix</label>
-																{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Gender</label>
-																<select name="gender" id="gender" class="form-control">
-																	<option value="M">MALE</option>
-																	<option value="F">FEMALE</option>
-																</select>
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput1">Birth Date</label>
-																{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput2">Civil Status</label>
-																<select name="civilStatus" id="civilStatus" class="form-control">
-																	<option>Married</option>
-																	<option>Single</option>
-																	<option>Widowed</option>
-																	<option>Divorced</option>
-																</select>
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Senior Citizen ID</label>
-																{!! Form::text('seniorCitizenID', null, ['id' => 'seniorCitizenID','class' => 'form-control border-primary']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Disabilities</label>
-																{!! Form::text('disabilities', null, ['id' => 'disabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Contact Number</label>
-																{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Resident Type</label>
-																<select id="residentType" name="residentType" class="form-control">
-																	<option value="Transient">Transient Resident</option>
-																	<option value="Official">Official Resident</option>
-																</select>
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Street</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Lot</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">House</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Unit</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
-														<div class="row">
-															<div class="form-group col-xs-12 mb-2">
-																<label for="userinput5">Current Work</label>
-																<input class="form-control border-primary" type="text" id="userinput5" />
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-xs-12 mb-2">
-																<label for="userinput6">Monthly Salary</label>
-																<select class="form-control">
-																	<option value ="1">₱0-₱10,000</option>
-																	<option value="2">₱10,001-₱50,000</option>
-																	<option value="3">₱50,001-₱100,000</option>
-																	<option value="4">₱100,001 and above</option>
-																</select>
-															</div>
-														</div>
-
-
-													<div class="form-actions right">
-														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
-															<i class="icon-cross2"></i> Cancel
-														</button>
-														<button type="submit" class="btn btn-primary">
-															<i class="icon-check2"></i> Save
-														</button>
-													</div>
-												{{Form::close()}}
-											</div>
-
-											<!-- End of Modal Body -->
-
-										</div>
+						<!--Add Modal -->
+						<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Register Resident</h4>
 									</div>
-								</div> 
-								
-								<!-- End of Modal -->
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body">
+										
+
+										{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'form'])}}
+
+											
+
+											<div class="form-body">
+												<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput1">ID</label>
+														{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput2">First Name</label>
+														{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Middle Name</label>
+														{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Last Name</label>
+														{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Suffix</label>
+														{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Gender</label>
+														<select name="gender" id="gender" class="form-control">
+															<option value="M">MALE</option>
+															<option value="F">FEMALE</option>
+														</select>
+													</div>
+												</div>
+
+												<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput1">Birth Date</label>
+														{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput2">Civil Status</label>
+														<select name="civilStatus" id="civilStatus" class="form-control">
+															<option>Married</option>
+															<option>Single</option>
+															<option>Widowed</option>
+															<option>Divorced</option>
+														</select>
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Senior Citizen ID</label>
+														{!! Form::text('seniorCitizenID', null, ['id' => 'seniorCitizenID','class' => 'form-control border-primary']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Disabilities</label>
+														{!! Form::text('disabilities', null, ['id' => 'disabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Contact Number</label>
+														{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Resident Type</label>
+														<select id="residentType" name="residentType" class="form-control">
+															<option value="Transient">Transient Resident</option>
+															<option value="Official">Official Resident</option>
+														</select>
+													</div>
+												</div>
+
+												<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Street</label>
+														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Lot</label>
+														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">House</label>
+														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+													</div>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Unit</label>
+														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+													</div>
+												</div>
+
+												<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
+												<div class="row">
+													<div class="form-group col-xs-12 mb-2">
+														<label for="userinput5">Current Work</label>
+														<input class="form-control border-primary" type="text" id="userinput5" />
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-xs-12 mb-2">
+														<label for="userinput6">Monthly Salary</label>
+														<select class="form-control">
+															<option value ="1">₱0-₱10,000</option>
+															<option value="2">₱10,001-₱50,000</option>
+															<option value="3">₱50,001-₱100,000</option>
+															<option value="4">₱100,001 and above</option>
+														</select>
+													</div>
+												</div>
 
 
+											<div class="form-actions right">
+												<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+													<i class="icon-cross2"></i> Cancel
+												</button>
+												<button type="submit" class="btn btn-primary">
+													<i class="icon-check2"></i> Save
+												</button>
+											</div>
+										{{Form::close()}}
+									</div>
+
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
 					</div>
 				</div>
 		
-											<!--View RESIDENT -->
+				<!--View RESIDENT -->
 
-											<!--Viiew Modal -->
-									<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-													<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
-												</div>
+				<!--Viiew Modal -->
+				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
+							</div>
 
-												<!-- START MODAL BODY -->
-												<div class="modal-body">
-													
-												</div>
+							<!-- START MODAL BODY -->
+							<div class="modal-body">
+								
+							</div>
 
-												<!-- End of Modal Body -->
+							<!-- End of Modal Body -->
 
-											</div>
-										</div>
-									</div> <!-- End of Modal -->
+						</div>
+					</div>
+				</div> 
+				<!-- End of Modal -->
 
-										<!--UPDATE RESIDENT -->
+				<!--UPDATE RESIDENT -->
 
-											<!--Update Modal -->
-									<div class="modal fade text-xs-left" id="editModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-													<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Resident</h4>
-												</div>
+				<!--Update Modal -->
+				<div class="modal fade text-xs-left" id="editModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Resident</h4>
+							</div>
 
-												<!-- START MODAL BODY -->
-												<div class="modal-body">
-													
-													{{Form::open(['url'=>'resident/update', 'method' => 'POST', 'id' => 'frm-update', 'class'=>'form'])}}
+							<!-- START MODAL BODY -->
+							<div class="modal-body">
+								
+								{{Form::open(['url'=>'resident/update', 'method' => 'POST', 'id' => 'frm-update', 'class'=>'form'])}}
 
-													
+								
 
-													<div class="form-body">
-														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
-														<div class="row">
-															
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput1">ID</label>
-																{!! Form::hidden('residentPrimeID', null, ['id' => 'eresidentPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
-																{!! Form::text('residentID', null, ['id' => 'eresidentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput2">First Name</label>
-																{!! Form::text('firstName', null, ['id' => 'efirstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Middle Name</label>
-																{!! Form::text('middleName', null, ['id' => 'emiddleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Last Name</label>
-																{!! Form::text('lastName', null, ['id' => 'elastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Suffix</label>
-																{!! Form::text('suffix', null, ['id' => 'esuffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Gender</label>
-																<select name="gender" id="egender" class="form-control">
-																	<option value="M">MALE</option>
-																	<option value="F">FEMALE</option>
-																</select>
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput1">Birth Date</label>
-																{!! Form::date('birthDate', null, ['id' => 'ebirthDate','class' => 'form-control']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput2">Civil Status</label>
-																<select name="civilStatus" id="ecivilStatus" class="form-control">
-																	<option>Married</option>
-																	<option>Single</option>
-																	<option>Widowed</option>
-																	<option>Divorced</option>
-																</select>
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Senior Citizen ID</label>
-																{!! Form::text('seniorCitizenID', null, ['id' => 'eseniorCitizenID','class' => 'form-control border-primary']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Disabilities</label>
-																{!! Form::text('disabilities', null, ['id' => 'edisabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Contact Number</label>
-																{!! Form::text('contactNumber', null, ['id' => 'econtactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Resident Type</label>
-																<select id="eresidentType" name="residentType" class="form-control">
-																	<option value="Transient">Transient Resident</option>
-																	<option value="Official">Official Resident</option>
-																</select>
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">Street</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Lot</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput3">House</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-															<div class="form-group col-md-6 mb-2">
-																<label for="userinput4">Unit</label>
-																{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-															</div>
-														</div>
-
-														<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
-														<div class="row">
-															<div class="form-group col-xs-12 mb-2">
-																<label for="userinput5">Current Work</label>
-																<input class="form-control border-primary" type="text" id="userinput5" />
-															</div>
-														</div>
-														<div class="row">
-															<div class="form-group col-xs-12 mb-2">
-																<label for="userinput6">Monthly Salary</label>
-																<select class="form-control">
-																	<option value ="1">₱0-₱10,000</option>
-																	<option value="2">₱10,001-₱50,000</option>
-																	<option value="3">₱50,001-₱100,000</option>
-																	<option value="4">₱100,001 and above</option>
-																</select>
-															</div>
-														</div>
-
-
-													<div class="form-actions right">
-														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
-															<i class="icon-cross2"></i> Cancel
-														</button>
-														<button type="submit" class="btn btn-primary">
-															<i class="icon-check2"></i> Save
-														</button>
-													</div>
-												{{Form::close()}}
-												</div>
-
-												<!-- End of Modal Body -->
-
-											</div>
-										</div>
-									</div> <!-- End of Modal -->
-
-
+								<div class="form-body">
+									<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
+									<div class="row">
 										
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput1">ID</label>
+											{!! Form::hidden('residentPrimeID', null, ['id' => 'eresidentPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+											{!! Form::text('residentID', null, ['id' => 'eresidentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput2">First Name</label>
+											{!! Form::text('firstName', null, ['id' => 'efirstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Middle Name</label>
+											{!! Form::text('middleName', null, ['id' => 'emiddleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Last Name</label>
+											{!! Form::text('lastName', null, ['id' => 'elastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Suffix</label>
+											{!! Form::text('suffix', null, ['id' => 'esuffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Gender</label>
+											<select name="gender" id="egender" class="form-control">
+												<option value="M">MALE</option>
+												<option value="F">FEMALE</option>
+											</select>
+										</div>
+									</div>
+
+									<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput1">Birth Date</label>
+											{!! Form::date('birthDate', null, ['id' => 'ebirthDate','class' => 'form-control']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput2">Civil Status</label>
+											<select name="civilStatus" id="ecivilStatus" class="form-control">
+												<option>Married</option>
+												<option>Single</option>
+												<option>Widowed</option>
+												<option>Divorced</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Senior Citizen ID</label>
+											{!! Form::text('seniorCitizenID', null, ['id' => 'eseniorCitizenID','class' => 'form-control border-primary']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Disabilities</label>
+											{!! Form::text('disabilities', null, ['id' => 'edisabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Contact Number</label>
+											{!! Form::text('contactNumber', null, ['id' => 'econtactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Resident Type</label>
+											<select id="eresidentType" name="residentType" class="form-control">
+												<option value="Transient">Transient Resident</option>
+												<option value="Official">Official Resident</option>
+											</select>
+										</div>
+									</div>
+
+									<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Street</label>
+											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Lot</label>
+											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">House</label>
+											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Unit</label>
+											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+										</div>
+									</div>
+
+									<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
+									<div class="row">
+										<div class="form-group col-xs-12 mb-2">
+											<label for="userinput5">Current Work</label>
+											<input class="form-control border-primary" type="text" id="userinput5" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-xs-12 mb-2">
+											<label for="userinput6">Monthly Salary</label>
+											<select class="form-control">
+												<option value ="1">₱0-₱10,000</option>
+												<option value="2">₱10,001-₱50,000</option>
+												<option value="3">₱50,001-₱100,000</option>
+												<option value="4">₱100,001 and above</option>
+											</select>
+										</div>
+									</div>
+
+
+								<div class="form-actions right">
+									<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+										<i class="icon-cross2"></i> Cancel
+									</button>
+									<button type="submit" class="btn btn-primary">
+										<i class="icon-check2"></i> Save
+									</button>
+								</div>
+							{{Form::close()}}
+							</div>
+
+							<!-- End of Modal Body -->
+
+						</div>
+					</div>
+				</div> 
+				<!-- End of Modal -->										
 			</div>
 		</div>
 	</section>
-		<script>
-			$("#btnAddModal").on('click', function() {
-				$("#iconModal").modal('show');
-			});
-		</script>
+
+	<script>
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+	</script>
+
 	<script>
 		$.ajaxSetup({
 		    headers: {
@@ -827,38 +794,53 @@
 	</script>
 @endsection
 
+<!-- Javascript Resources -->
+@section('vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+@endsection
+
 @section('page-vendor-js')
-		<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-		
-		<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
 
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
-		
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 
-		
+	<script type="text/javascript">
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+	</script>
+@endsection
+
+@section('template-js')
+	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 @endsection
 
 @section('page-level-js')
-		<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-		<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection
 
 <!--  WIZARD STEPS 
@@ -1035,4 +1017,4 @@
 																
 															</fieldset>
 														{{Form::close()}}
-													-->
+-->
