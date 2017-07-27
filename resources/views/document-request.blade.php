@@ -132,6 +132,7 @@
                     				<tr>
 										<td>Requestor Name</td>
 										<td>Request Date</td>
+										<td>Document</td>
 										<td>Quantity</td>
 										<td>Status</td>
 										<td>Actions</td>
@@ -139,7 +140,32 @@
                     			</thead>
 
 	                    		<tbody>
-	                    			
+	                    			@foreach($requests as $request)
+									<tr>
+										<td>{{ $request -> firstName }} {{ substr($request -> middleName,1) }} {{ $request -> lastName }}</td> 
+										<td>{{ $request -> requestDate }} </td>
+										<td>{{ $request -> documentName }} </td>
+										<td>{{ $request -> quantity }}</td>
+
+										@if ($request -> status == "Pending")
+											<td><span class="tag round tag-default tag-info">Pending</span></td>
+										@elseif($request -> status == "Cancelled") 
+											<td><span class="tag round tag-default tag-danger">Cancelled</span></td>
+										@else 
+											<td><span class="tag round tag-default tag-success">Approved</span></td>
+										@endif
+										<td>
+											<span class="dropdown">
+												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+													<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $request -> headerPrimeID }}'><i class="icon-eye6"></i> View</a>
+													<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $request -> headerPrimeID }}'><i class="icon-pen3"></i> Sign</a>
+													<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $request -> headerPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+												</span>
+											</span>
+										</td>  
+									</tr>
+									@endforeach
 	                    		</tbody>
 	                    	</table>
 
