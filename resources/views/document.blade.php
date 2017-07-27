@@ -6,6 +6,50 @@
 	Document
 @endsection
 
+@section('custom-css')
+	<style>
+		.filePreview {
+			border: 1px ridge black;
+			width: 8.5in;
+			height: 8.5in;
+		}
+
+		.fileNumber {
+			font-family: "Bookman Old Style";
+			font-size: 10px;
+		}
+
+		.fileHeader {
+			font-family: 'Arial';
+			font-size: 15px;
+			height: 1in;
+			width: 8.5in;
+		}
+
+		.fileTitle {
+			font-family: "Arial";
+			font-size: 35px;
+		}
+
+		.fileContent {
+			font-family: "Arial";
+			font-size: 18px;
+		}
+
+		.dataContentFix {
+			vertical-align: middle;
+		}
+
+		.parIndented {
+			text-indent: 2.0em;
+		}
+
+		.signaturePane {
+			font-size: 17px;
+		}
+	</style>
+@endsection
+
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
 
@@ -190,19 +234,23 @@
 @endsection
 
 @section('ajax-modal')
-	<div class="modal animated bounceIn text-xs-left" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-		<div class="modal-dialog" role="document">
+	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('modal-card-title')</h4>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
 				</div>
 				<div ng-app="maintenanceApp" class="modal-body">
 					<div class="card-block">
-						<div class="card-text">
-							
+						<div class="card-text filePreview">
+							<span>
+								<div class="card-text" id="lookContainer">
+
+								</div>
+							</span>
 						</div>
 
 						<div class="form-actions center">
@@ -503,8 +551,106 @@
 		});
 
 		$(document).on('click', '.view', function() {
-			var id = $(this).val();
+			var primeID = $(this).val();
+			var documentID = "";
+			var documentName = "";
+			var documentContent = "";
+
+
+			$.ajax({
+				type: "GET", 
+				url: "{{ url('/document/getEdit') }}", 
+				data: {"primeID": primeID}, 
+				async: false, 
+				success: function(data) {
+					documentID = data.documentID;
+					documentName = data.documentName;
+					documentContent = data.documentContent;
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+					
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+			
+
 			$("#pdfModal").modal('show');
+			console.log("done");
+			
+			$("#lookContainer").html(
+				"<p align='left' class='fileNumber'>&nbsp;&nbsp;" + documentID + "</p><br>" + 
+				"<div>" +
+					"<table>" +
+						"<tr>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/brgy_logo.png' height='100' width='100'>" + "</center></td>" +  
+						"<td width='432px'>" + 
+							"<center>" + 
+								"<span width='20px'></span>" + 
+								"<p align='center'>" + 
+									"Republic of the Philippines<br>" + 
+									"District VI, City of Manila<br>" + 
+									"<b>BARANGAY 629 - ZONE 63</b><br>" + 
+									"<i>OFFICE OF THE SANGUNIANG BARANGAY</i><br>" + 
+									"Hippodromo Street, Sta. Mesa, Manila<br>" + 
+								"</p>" + 
+							"</center>" + 
+						"</td>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/ManilaSeal.png' height='100' width='100'>" + "</center></td>" +  
+						"</tr>" + 
+					"</table>" + 
+				"</div><br><br><br>" + 
+				"<div class='dataContentFix'>" + 
+					"<table>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" +
+						"<tr height='30%'></tr>" + 
+						"<tr height='70%'>" + 
+							"<td width=20px></td>" + 
+							"<td valign='center'>" + 
+								"<p align='center' valign='middle' class='fileTitle'><b>" + documentName + "</b></p><br><br><br>" + 
+								"<p align='left' class='fileContent'>" + documentContent + "</p><br>" + 
+							"</td>" + 
+							"<td width=20px></td>" + 
+						"</tr>" + 
+					"</table>" + 
+				"</div>" + 
+				"<div>" +
+					"<table>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" + 
+						"<tr>" + 
+							"<td>" + 
+								"<br><br>" + 
+								"<span width='10%'></span>" + 
+								"<p valign='bottom' class='signaturePane'>" + 
+									"{lastname}, {firstname} {middlename}" + 
+								"</p>" + 
+							"</td>" + 
+							"<td>" + 
+								"<p align='right' class='fileContent'>" + 
+									"Respectfully Yours,<br><br>" + 
+								"</p>" + 
+								"<p align='right' class='signaturePane'>" + 
+									"Rolito A. Innocencio<br>" + 
+									"Barangay Chairman<br>" + 
+								"</p>" + 
+							"</td>" + 
+						"</tr>" + 
+					"</table>" +  
+				"</div>"
+			);
 		})
 
 		var refreshTable = function() {
