@@ -17,7 +17,8 @@ class ResidentController extends Controller
 
     public function index() {
     	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
-    												-> get();
+    												-> where('status','1')
+                                                    -> get();
 
     	return view('resident',['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
 		['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]) -> with('residents', $residents);
@@ -25,23 +26,18 @@ class ResidentController extends Controller
 
     }
 
-    public function refresh(Request $r) {
-        if ($r -> ajax()) {
-            return json_encode(Resident::where("status", "!=", "0") -> get());
+    public function refresh(Request $r) 
+    {
+        if ($r -> ajax()) 
+        {
+            return json_encode(Resident::where("status", "=", "1") -> get());
         }
     }
 
-	public function store(Request $r) {
-
-        $this->validate($r, [
-            'residentID' => 'required|unique:documents|max:20'
-        ]);
+	public function store(Request $r) 
+    {
         
-
-        
-            $stat = 0;
-        
-
+        $stat = 1;
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
                                             'firstName' => trim($r -> input('firstName')),
                                             'middleName' => trim($r -> input('middleName')),
@@ -58,15 +54,45 @@ class ResidentController extends Controller
 
 
             return back();
-        }
+    }
 
-        public function getEdit(Request $r) {
+    public function getEdit(Request $r) {
         
         if($r->ajax())
         {
             return response(Resident::find($r->input('residentPrimeID')));
         }
 
+    }
+
+    public function delete(Request $r)
+    {
+
+        $type = Resident::find($r->input('residentPrimeID'));
+        $type->status = 0;
+        $type->save();
+        
+        return back();
+    }
+
+    public function edit(Request $r)
+    { 
+        $type = Resident::find($r->input('residentPrimeID'));
+        $type->residentID = $r->input('residentID');
+        $type->firstName = $r->input('firstName');
+        $type->middleName = $r->input('middleName');
+        $type->lastName = $r->input('lastName');
+        $type->suffix = $r->input('suffix');
+        $type->gender = $r->input('gender');
+        $type->birthDate = $r->input('birthDate');
+        $type->civilStatus = $r->input('civilStatus');
+        $type->seniorCitizenID = $r->input('seniorCitizenID');
+        $type->disabilities = $r->input('disabilities');
+        $type->residentType = $r->input('residentType');
+        $type->contactNumber = $r->input('contactNumber');
+        $type->save();
+
+        return back();
     }
 }
 
