@@ -82,7 +82,7 @@ Route::get('/document-request/refresh', 'DocumentController@refresh');
 Route::get('/document-request/nextPK', 'DocumentController@nextPK');
 Route::get('/document-request/view', 'DocumentController@view');
 Route::post('/document-request/store', 'DocumentController@store');
-Route::post('/document-request/update','DocumentController@update');
+Route::post('/document-request/update','DocumentController@edit');
 
 //Province
 Route::get('/province/getEdit', 'ProvinceController@getEdit');
