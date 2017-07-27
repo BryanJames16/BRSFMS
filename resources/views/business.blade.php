@@ -206,7 +206,6 @@
 				data: {businessPrimeID:id},
 				success:function(data)
 				{
-					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#businessName').val(data.businessName);
 					frm.find('#business_desc').val(data.businessDesc);
@@ -244,7 +243,6 @@
 				data: {businessPrimeID:id},
 				success:function(data)
 				{
-					console.log(data);
 					swal({
 						  title: "Are you sure you want to delete " + data.businessName + "?",
 						  text: "",

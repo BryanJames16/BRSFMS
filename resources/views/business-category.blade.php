@@ -153,7 +153,6 @@
 				data: {categoryPrimeID:id},
 				success:function(data)
 				{
-					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#categoryName').val(data.categoryName);
 					frm.find('#category_desc').val(data.categoryDesc);
@@ -189,7 +188,6 @@
 				data: {categoryPrimeID:id},
 				success:function(data)
 				{
-					console.log(data);
 					swal({
 						  title: "Are you sure you want to delete " + data.categoryName + "?",
 						  text: "",
@@ -202,7 +200,6 @@
 						function(){
 
 						  swal("Successfull", data.categoryName + " is deleted!", "success");
-						  console.log(document.getElementById(data.categoryPrimeID));
 						  document.getElementById(data.categoryPrimeID).submit();
 						});				
 				}

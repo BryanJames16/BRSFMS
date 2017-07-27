@@ -324,7 +324,6 @@
 				data: {"primeID":id}, 
 				success:function(data)
 				{
-					console.log(data);
 					var frm = $('#frm-update');
 					frm.find("#eFacilityID").val(data.facilityID);
 					frm.find('#eFacilityName').val(data.facilityName);
@@ -351,7 +350,6 @@
 					}
 
 					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
 				}
 			})
 
@@ -405,7 +403,6 @@
 					url: "{{ url('/facility/getEdit') }}",
 					data: {"primeID": id},
 					success:function(data) {
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.facilityName + "?",
 							text: "",
@@ -432,7 +429,6 @@
 										}
 										
 										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
 									}
 								});
 							});				
@@ -486,7 +482,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		};

@@ -266,7 +266,6 @@
 				data: {typeID:id},
 				success:function(data)
 				{
-					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#typeName').val(data.typeName);
 					frm.find('#typeDesc').val(data.typeDesc);
@@ -422,7 +421,6 @@
 						"status": $(".etstat:checked").val()
 				}, 
 				success: function ( _response ){
-					console.log("etstatval: " + $(".etstat:checked").val());
 					$("#modalEdit").modal('hide');
 					$("#frm-update").trigger('reset');
 					

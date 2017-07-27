@@ -235,7 +235,6 @@
 					}
 
 					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
 				}
 			})
 
@@ -255,7 +254,6 @@
 					data: {primeID:id},
 					success:function(data)
 					{
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.serviceName + "?",
 							text: "",
@@ -282,7 +280,6 @@
 										}
 
 										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
 									}
 								});
 							});				
@@ -380,8 +377,6 @@
 			event.preventDefault();
 
 			var frm = $('#frm-update');
-			console.log("Service Name: " + frm.find("#serviceName").val() + 
-						"\nStatus: " + frm.find(".estat:checked").val());
 
 			$.ajax({
 				url: "{{ url('/service/update') }}",
@@ -477,7 +472,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		};

@@ -200,7 +200,7 @@
 				dt.column(4).visible(false);
 			}
 			catch (ex) {
-				console.log("DataTable error: \n" + ex);
+				console.err("DataTable error: \n" + ex);
 			}
 		});
 
@@ -262,7 +262,6 @@
 					}
 
 					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
 				}
 			})
 
@@ -277,7 +276,6 @@
 					url: "{{ url('/facility-type/getEdit') }}",
 					data: {"primeID": id},
 					success:function(data) {
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.typeName + "?",
 							text: "",
@@ -304,7 +302,6 @@
 										}
 										
 										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
 									}
 								});
 							});				
@@ -357,7 +354,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		};
