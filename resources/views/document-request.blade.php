@@ -214,9 +214,9 @@
 											<span class="dropdown">
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-													<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $request -> headerPrimeID }}'><i class="icon-eye6"></i> View</a>
-													<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $request -> headerPrimeID }}'><i class="icon-pen3"></i> Sign</a>
-													<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $request -> headerPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-eye6"></i> View</a>
+													<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
+													<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
 												</span>
 											</span>
 										</td>  
@@ -425,6 +425,47 @@
 			});
 		});
 
+		$(".btnDelete").click(function(event) {
+			event.preventDefault();
+			var rowID = $(this).data("value"); 
+
+			console.log("Row ID is: " + rowID);
+
+			swal({
+					title: "Are you sure you want to delete this entry?",
+					text: "",
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: "GO BACK", 
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "CANCEL REQUEST",
+					closeOnConfirm: false
+				}, function() {
+					$.ajax({
+						url: "{{ url('/document-request/delete') }}", 
+						type: "post", 
+						data: {"documentHeaderPrimeID": rowID}, 
+						success: function(data) {
+							refreshTable();
+							swal("Success", "Successfully Cancelled!", "success");
+						}, 
+						error: function(error) {
+							var message = "Error: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
+							console.log("Error: Cannot refresh table!\n" + message);
+						}
+					});
+				}
+			);
+
+			return (false);
+		});
+
 		var refreshTable = function() {
 			$.ajax({
 				url: "{{ url('/document-request/refresh') }}", 
@@ -446,6 +487,17 @@
 							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
 						}
 
+						var buttonText = "<span class='dropdown'>" + 
+											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-eye6'></i> View</a>" + 
+												"<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>" + 
+												"<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash4'></i> Cancel</a>" + 
+											"</span>" + 
+										"</span>";
+													
+													
+
 						$("#table-container").DataTable()
 							.row.add([
 								data[index].firstName + " " + 
@@ -456,7 +508,7 @@
 								data[index].documentName, 
 								data[index].quantity, 
 								statusText,
-								
+								buttonText
 							]).draw(false);
 					}
 				}, 

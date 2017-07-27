@@ -84,7 +84,7 @@ Route::get('/document-request/view', 'DocumentRequestController@view');
 Route::get('/document-request/getRequestor', 'DocumentRequestController@getRequestor');
 Route::get('/document-request/getDocument', 'DocumentRequestController@getDocument');
 Route::post('/document-request/store', 'DocumentRequestController@store');
-Route::post('/document-request/update','DocumentRequestController@edit');
+Route::post('/document-request/delete','DocumentRequestController@delete');
 
 //Province
 Route::get('/province/getEdit', 'ProvinceController@getEdit');

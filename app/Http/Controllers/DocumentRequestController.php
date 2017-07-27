@@ -35,7 +35,8 @@ class DocumentRequestController extends Controller
                                                                'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
                                         ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
                                         ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
-                                        ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID');
+                                        ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                        ->get();
 
         return (json_encode($requests));
     }
@@ -96,7 +97,14 @@ class DocumentRequestController extends Controller
         return (response($documents));
     }
 
-    public function update() {
+    public function delete(Request $r) {
 
+        echo "Passed value is: " . $r -> input('documentHeaderPrimeID');
+
+        $documentRequest = DocumentHeaderRequest::find($r -> input('documentHeaderPrimeID'));
+        $documentRequest -> status = "Cancelled";
+        $documentRequest -> save();
+
+        return redirect('/document-request');
     }
 }

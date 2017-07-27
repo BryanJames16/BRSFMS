@@ -515,7 +515,6 @@
 					url: "{{ url('/document/getEdit') }}",
 					data: {"primeID": id},
 					success:function(data) {
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.documentName + "?",
 							text: "",
