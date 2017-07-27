@@ -20,7 +20,7 @@ class DocumentRequestController extends Controller
     public function index() {
         $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
                                                                'documentdetailrequests.headerPrimeID', 'documents.documentName',
-                                                               'residents.firstName', 'residents.middleName', 'residents.lastName')                 
+                                                               'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
                                         ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
                                         ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
                                         ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
@@ -30,7 +30,14 @@ class DocumentRequestController extends Controller
     }
 
     public function refresh() {
+        $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
+                                                               'documentdetailrequests.headerPrimeID', 'documents.documentName',
+                                                               'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
+                                        ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID');
 
+        return (json_encode($requests));
     }
 
     public function store(Request $r) {

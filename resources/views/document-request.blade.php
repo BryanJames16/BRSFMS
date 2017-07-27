@@ -198,7 +198,7 @@
 	                    		<tbody>
 	                    			@foreach($requests as $request)
 									<tr>
-										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
+										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }} {{ $request -> suffix }}</td> 
 										<td>{{ $request -> requestDate }} </td>
 										<td>{{ $request -> documentName }} </td>
 										<td>{{ $request -> quantity }}</td>
@@ -326,7 +326,7 @@
 						$("#requestID").val(data);
 					}
 				}, 
-				failed: function(data) {
+				error: function(data) {
 					var message = "Error: ";
 					var data = error.responseJSON;
 					for (datum in data) {
@@ -355,7 +355,7 @@
 						);
 					}
 				}, 
-				failed: function(data) {
+				error: function(data) {
 					var message = "Error: ";
 					var data = error.responseJSON;
 					for (datum in data) {
@@ -381,7 +381,7 @@
 						);
 					}
 				}, 
-				failed: function(data) {
+				error: function(data) {
 					var message = "Error: ";
 					var data = error.responseJSON;
 					for (datum in data) {
@@ -412,7 +412,7 @@
 					$("#frmReq").trigger('reset');
 					swal("Success", "Successfully Added!", "success");
 				}, 
-				failed: function(data) {
+				error: function(data) {
 					var message = "Error: ";
 					var data = error.responseJSON;
 					for (datum in data) {
@@ -426,7 +426,51 @@
 		});
 
 		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/document-request/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").DataTable().clear().draw();
+					data = $.parseJSON(data);
 
+					for (index in data) {
+						var statusText = "";
+						if (data[index].status == "Pending") {
+							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
+						}
+						else if (data[index].status == "Cancelled") {
+							statusText = "<span class='tag round tag-default tag-danger'>Cancelled</span>";
+						} 
+						else {
+							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
+						}
+
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].firstName + " " + 
+									data[index].middleName + " " + 
+									data[index].lastName + " " + 
+									data[index].suffix, 
+								data[index].requestDate, 
+								data[index].documentName, 
+								data[index].quantity, 
+								statusText,
+								
+							]).draw(false);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
 		}
 	</script>
 
