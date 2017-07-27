@@ -187,9 +187,24 @@
 
 								<!-- End of Resident Tab -->
 
+							</div>
+							<div class="tab-pane fade" id="tab12" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
+
+								
+
+								<!-- Family Tab -->
+
+								<!-- End of Family Tab -->
+
+								
+
+							</div>
+						</div>
 
 
-								<!--REGISTER RESIDENT -->
+						<!-- END OF CONTENT -->
+
+						<!--REGISTER RESIDENT -->
 
 										<!--Add Modal -->
 								<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
@@ -279,7 +294,7 @@
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Resident Type</label>
-																<select name="residentType" class="form-control">
+																<select id="residentType" name="residentType" class="form-control">
 																	<option value="Transient">Transient Resident</option>
 																	<option value="Official">Official Resident</option>
 																</select>
@@ -329,7 +344,7 @@
 
 
 													<div class="form-actions right">
-														<button type="button" class="btn btn-warning mr-1">
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
 															<i class="icon-cross2"></i> Cancel
 														</button>
 														<button type="submit" class="btn btn-primary">
@@ -343,20 +358,9 @@
 
 										</div>
 									</div>
-								</div> <!-- End of Modal -->
-
-							</div>
-							<div class="tab-pane fade" id="tab12" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
-
-								<!-- Family Tab -->
-
-								<!-- End of Family Tab -->
-
-							</div>
-						</div>
-
-
-						<!-- END OF CONTENT -->
+								</div> 
+								
+								<!-- End of Modal -->
 
 
 					</div>
@@ -402,40 +406,42 @@
 												<!-- START MODAL BODY -->
 												<div class="modal-body">
 													
-													{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-update', 'class'=>'form'])}}
+													{{Form::open(['url'=>'resident/update', 'method' => 'POST', 'id' => 'frm-update', 'class'=>'form'])}}
 
 													
 
 													<div class="form-body">
 														<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
 														<div class="row">
+															
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput1">ID</label>
-																{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+																{!! Form::hidden('residentPrimeID', null, ['id' => 'eresidentPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+																{!! Form::text('residentID', null, ['id' => 'eresidentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput2">First Name</label>
-																{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
+																{!! Form::text('firstName', null, ['id' => 'efirstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
 															</div>
 														</div>
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Middle Name</label>
-																{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+																{!! Form::text('middleName', null, ['id' => 'emiddleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Last Name</label>
-																{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
+																{!! Form::text('lastName', null, ['id' => 'elastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
 															</div>
 														</div>
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Suffix</label>
-																{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
+																{!! Form::text('suffix', null, ['id' => 'esuffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Gender</label>
-																<select name="gender" id="gender" class="form-control">
+																<select name="gender" id="egender" class="form-control">
 																	<option value="M">MALE</option>
 																	<option value="F">FEMALE</option>
 																</select>
@@ -446,11 +452,11 @@
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput1">Birth Date</label>
-																{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
+																{!! Form::date('birthDate', null, ['id' => 'ebirthDate','class' => 'form-control']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput2">Civil Status</label>
-																<select name="civilStatus" id="civilStatus" class="form-control">
+																<select name="civilStatus" id="ecivilStatus" class="form-control">
 																	<option>Married</option>
 																	<option>Single</option>
 																	<option>Widowed</option>
@@ -461,21 +467,21 @@
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Senior Citizen ID</label>
-																{!! Form::text('seniorCitizenID', null, ['id' => 'seniorCitizenID','class' => 'form-control border-primary']) !!}
+																{!! Form::text('seniorCitizenID', null, ['id' => 'eseniorCitizenID','class' => 'form-control border-primary']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Disabilities</label>
-																{!! Form::text('disabilities', null, ['id' => 'disabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
+																{!! Form::text('disabilities', null, ['id' => 'edisabilities','class' => 'form-control border-primary', 'placeholder'=> 'ex. HIV']) !!}
 															</div>
 														</div>
 														<div class="row">
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput3">Contact Number</label>
-																{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
+																{!! Form::text('contactNumber', null, ['id' => 'econtactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
 															</div>
 															<div class="form-group col-md-6 mb-2">
 																<label for="userinput4">Resident Type</label>
-																<select name="residentType" class="form-control">
+																<select id="eresidentType" name="residentType" class="form-control">
 																	<option value="Transient">Transient Resident</option>
 																	<option value="Official">Official Resident</option>
 																</select>
@@ -525,7 +531,7 @@
 
 
 													<div class="form-actions right">
-														<button type="button" class="btn btn-warning mr-1">
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
 															<i class="icon-cross2"></i> Cancel
 														</button>
 														<button type="submit" class="btn btn-primary">
@@ -577,7 +583,7 @@
 					"civilStatus": $("#civilStatus").val(), 
 					"seniorCitizenID": $("#seniorCitizenID").val(), 
 					"disabilities": $("#disabilities").val(), 
-					"residentType": $("#residentType :selected").text()
+					"residentType": $("#residentType").val()
 				}, 
 				success: function(data) {
 					$("#addModal").modal("hide");
@@ -636,11 +642,19 @@
 
 					var frm = $('#frm-update');
 
-					frm.find('#residentID').val(data.residentID);
-					frm.find('#firstName').val(data.firstName);
-					frm.find('#middleName').val(data.middleName);
-					frm.find('#lastName').val(data.lastName);
-					frm.find('#suffix').val(data.suffix);
+					frm.find('#eresidentPrimeID').val(data.residentPrimeID);
+					frm.find('#eresidentID').val(data.residentID);
+					frm.find('#efirstName').val(data.firstName);
+					frm.find('#emiddleName').val(data.middleName);
+					frm.find('#elastName').val(data.lastName);
+					frm.find('#esuffix').val(data.suffix);
+					frm.find('#egender').val(data.gender);
+					frm.find('#ebirthDate').val(data.birthDate);
+					frm.find('#ecivilStatus').val(data.civilStatus);
+					frm.find('#eseniorCitizenID').val(data.seniorCitizenID);
+					frm.find('#edisabilities').val(data.disabilities);
+					frm.find('#eresidentType').val(data.residentType);
+					frm.find('#econtactNumber').val(data.contactNumber);
 					$('#editModal').modal('show');
 				}, 
 				error: function(data) {
@@ -659,29 +673,36 @@
 
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
-
+			
 			var frm = $('#frm-update');
 
-			console.log("Description is: " + $("#eDocumentDescription").val());
+			console.log("Prime ID: " + $("#eresidentPrimeID").val());
 
 			$.ajax({
-				url: "{{ url('/document/update') }}",
+				url: "{{ url('/resident/update') }}",
 				type: "POST",
-				data: {"primeID": $("#ePrimeID").val(), 
-						"documentID": $("#eDocumentID").val(), 
-						"documentName": $("#eDocumentName").val(), 
-						"documentDescription": $("#eDocumentDescription").val(), 
-						"documentType": $("#edDocumentType :selected").text(), 
-						"documentPrice": $("#eDocumentPrice").val(), 
-						"status": $(".eStatus:checked").val() 
+				data: {	"_token": "{{ csrf_token() }}",
+						"residentPrimeID": $("#eresidentPrimeID").val(), 
+						"residentID": $("#eresidentID").val(), 
+						"firstName": $("#efirstName").val(), 
+						"middleName": $("#emiddleName").val(),
+						"lastName": $("#elastName").val(),
+						"suffix": $("#esuffix").val(), 
+						"gender": $("#egender").val(),
+						"birthDate": $("#ebirthDate").val(),
+						"civilStatus": $("#ecivilStatus").val(),
+						"seniorCitizenID": $("#eseniorCitizenID").val(),
+						"diabilities": $("#edisabilities").val(),
+						"residentType": $("#eresidentType").val(),
+						"contactNumber": $("#econtactNumber").val() 
 				}, 
 				success: function ( _response ){
-					$("#modalEdit").modal('hide');
+					$("#editModal").modal('hide');
 					
 					refreshTable();
 					
 					swal("Successful", 
-							"Service has been updated!", 
+							"Resident has been updated!", 
 							"success");
 				}, 
 				error: function(error) {

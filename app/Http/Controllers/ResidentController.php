@@ -74,5 +74,25 @@ class ResidentController extends Controller
         
         return back();
     }
+
+    public function edit(Request $r)
+    { 
+        $type = Resident::find($r->input('residentPrimeID'));
+        $type->residentID = $r->input('residentID');
+        $type->firstName = $r->input('firstName');
+        $type->middleName = $r->input('middleName');
+        $type->lastName = $r->input('lastName');
+        $type->suffix = $r->input('suffix');
+        $type->gender = $r->input('gender');
+        $type->birthDate = $r->input('birthDate');
+        $type->civilStatus = $r->input('civilStatus');
+        $type->seniorCitizenID = $r->input('seniorCitizenID');
+        $type->disabilities = $r->input('disabilities');
+        $type->residentType = $r->input('residentType');
+        $type->contactNumber = $r->input('contactNumber');
+        $type->save();
+
+        return back();
+    }
 }
 
