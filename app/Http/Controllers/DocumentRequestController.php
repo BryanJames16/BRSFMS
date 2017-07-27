@@ -14,6 +14,8 @@ use SmartMove;
 class DocumentRequestController extends Controller 
 {
     public function index() {
+        
+
         return view('document-request');
     }
 
@@ -34,6 +36,6 @@ class DocumentRequestController extends Controller
     }
 
     public function update() {
-        
+
     }
 }

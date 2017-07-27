@@ -75,6 +75,14 @@ Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');
 
+//Document Request
+Route::get('/document-request/getEdit', 'DocumentController@getEdit');
+Route::get('/document-request/refresh', 'DocumentController@refresh');
+Route::get('/document-request/nextPK', 'DocumentController@nextPK');
+Route::get('/document-request/view', 'DocumentController@view');
+Route::post('/document-request/store', 'DocumentController@store');
+Route::post('/document-request/update','DocumentController@update');
+
 //Province
 Route::get('/province/getEdit', 'ProvinceController@getEdit');
 Route::post('/province/store', 'ProvinceController@store');
@@ -219,6 +227,7 @@ Route::resource('/service-type', 'ServiceTypeController');
 Route::resource('/service', 'ServiceController');
 Route::resource('/person', 'PeopleController');
 Route::resource('/document', 'DocumentController');
+Route::resource('/document-request', 'DocumentRequestController');
 Route::resource('/province', 'ProvinceController');
 Route::resource('/municipality', 'MunicipalityController');
 Route::resource('/city', 'CityController');
