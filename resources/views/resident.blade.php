@@ -336,7 +336,7 @@
 
 				<!--Viiew Modal -->
 				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-					<div class="modal-dialog" role="document">
+					<div class="modal-dialog " role="document">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -346,10 +346,38 @@
 							</div>
 
 							<!-- START MODAL BODY -->
-							<div class="modal-body">
-								
+							<div class="modal-body" width='100%'>
+								<table width='100%'>
+									<thead>
+										<tr>
+											<td></td>
+											<td></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<span width='20px'></span>
+												<div id='viewName'>
+												</div>
+												<br>
+												<div id='viewBirth'>
+												</div>
+												<br>
+												<div id='viewContact'>
+												</div>
+												<br>
+												<div id='viewAddtl'>
+												</div>
+											</td>
+											<td align='right'>
+												<img src='{{ URL::asset("/system-assets/images/portrait/Office-Customer.png") }}'>
+												<span width='20px'></span>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
-
 							<!-- End of Modal Body -->
 
 						</div>
@@ -518,7 +546,42 @@
 		</div>
 	</section>
 
-	<script>
+	
+@endsection
+
+<!-- Javascript Resources -->
+@section('vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+@endsection
+
+@section('page-vendor-js')
+	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
+
+	<script type="text/javascript">
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
 		});
@@ -579,7 +642,20 @@
 				data: {"residentPrimeID":id}, 
 				success:function(data)
 				{
-					console.log(data);
+					$('#viewName').html("<b>" + 
+						data.lastName + ", " + data.firstName + " " + 
+						data.middleName + " " + data.suffix + 
+						"</b>"
+					);
+					
+					$('#viewBirth').html(data.birthDate);
+					$('#viewContact').html(data.contactNumber);
+					$('#viewAddtl').html(
+						data.gender + "<br>" + 
+						data.civilStatus + "<br>" + 
+						data.residentType + "<br>"
+					);
+
 					$('#viewModal').modal('show');
 				}, 
 				error: function(data) {
@@ -794,45 +870,6 @@
 	</script>
 @endsection
 
-<!-- Javascript Resources -->
-@section('vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
-@endsection
-
-@section('page-vendor-js')
-	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
-
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
-
-	<script type="text/javascript">
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-	</script>
-@endsection
-
 @section('template-js')
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 @endsection
@@ -842,179 +879,3 @@
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection
-
-<!--  WIZARD STEPS 
-															{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'number-tab-steps wizard-notification'])}}
-
-															
-
-															<h6>Name</h6>
-															<fieldset>
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="firstName1">First Name :</label>
-																			<input type="text" class="form-control" id="firstName" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="firstName1">Middle Name :</label>
-																			<input type="text" class="form-control" id="middleName" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="firstName1">Last Name :</label>
-																			<input type="text" class="form-control" id="lastName" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="firstName1">Suffix :</label>
-																			<input type="text" class="form-control" id="suffix" />
-																		</div>
-																	</div>
-																</div>
-
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Gender : </label>
-																			<select name="gender" id="gender" class="form-control">
-																				<option value="male">MALE</option>
-																				<option value="female">FEMALE</option>
-																			</select>
-																		</div>
-																	</div>
-																</div>
-															</fieldset>
-
-															<h6>Additional Vital Info</h6>
-															<fieldset>
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Birth Date : </label>
-																			<input type="date" class="form-control" id="birthDate" />
-																		</div>
-																	</div>
-																</div>
-
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Civil Status : </label>
-																			<select class="form-control">
-																				<option>Married</option>
-																				<option>Single</option>
-																				<option>Widowed</option>
-																				<option>Divorced</option>
-																			</select>
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Senior Citizen ID : </label>
-																			<input type="text" class="form-control" id="firstName1" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Disabilities : </label>
-																			<input type="textarea" class="form-control" id="firstName1" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Contact Number : </label>
-																			<input type="text" class="form-control" id="contactNumber" />
-																		</div>
-																	</div>
-																</div>
-
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="emailAddress1">Resident Type : </label>
-																			<select class="form-control">
-																				<option>Transient Resident</option>
-																				<option>Official Resident</option>
-																			</select>
-																		</div>
-																	</div>
-																</div>
-															</fieldset>
-
-															<h6>Address</h6>
-															<fieldset>
-																<div class="row">
-
-																	
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Street : </label>
-																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Lot : </label>
-																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">House : </label>
-																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Unit : </label>
-																			{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
-																		</div>
-																	</div>
-																</div>
-															</fieldset>
-
-															<h6>Resident Background</h6>
-															<fieldset>
-																<div class="row">
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Current Work : </label>
-																			<input type="text" class="form-control" id="work" />
-																		</div>
-																	</div>
-
-																	<div class="col-md-6">
-																		<div class="form-group">
-																			<label for="address">Monthly Salary: </label>
-																			<select class="form-control">
-																				<option value ="1">₱0-₱10,000</option>
-																				<option value="2">₱10,001-₱50,000</option>
-																				<option value="3">₱50,001-₱100,000</option>
-																				<option value="4">₱100,001 and above</option>
-																			</select>
-																		</div>
-																	</div>
-																</div>
-															</fieldset>
-
-															<h6>Summary</h6>
-															<fieldset>
-																
-															</fieldset>
-														{{Form::close()}}
--->
