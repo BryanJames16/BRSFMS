@@ -2,7 +2,7 @@
     var RELEASE = "RELEASE";
     var DEBUG = "DEBUG";
 
-    var workType = RELEASE;
+    var workType = DEBUG;
 
     $(document).ready(function() {
         if (workType == RELEASE) {
