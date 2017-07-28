@@ -71,7 +71,7 @@
 						<div class="card-block card-dashboard">
 							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Register Resident  
 								</button>
 								<button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#familyModal" style="width:160px; font-size:13px">
@@ -398,7 +398,10 @@
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput1">ID</label>
-														{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+														{!! Form::text('residentID', null, ['id' => 'residentID',
+																							'class' => 'form-control border-primary',
+																							 'placeholder'=> 'RES_001',
+																							 'readonly']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput2">First Name</label>
@@ -824,7 +827,7 @@
 
 	<script type="text/javascript">
 		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
+			$("#addModal").modal('show');
 
 			$.ajax({
 				url: "{{ url('/resident/nextPK') }}", 
