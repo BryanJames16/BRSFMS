@@ -41,7 +41,7 @@
 		.filePreview {
 			border: 1px ridge black;
 			width: 8.5in;
-			height: 8.5in;
+			height: 11in;
 		}
 
 		.fileNumber {
@@ -76,6 +76,12 @@
 
 		.signaturePane {
 			font-size: 17px;
+		}
+
+		.bpage {
+			background-color: white;
+			left: -20%;
+			position: absolute;
 		}
 	</style>
 @endsection
@@ -267,6 +273,10 @@
 	                    		</tbody>
 	                    	</table>
 
+							<div class="bpage" id="lookContainer">
+
+							</div>
+
 	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
@@ -278,10 +288,42 @@
 										</div>
 										<div ng-app="maintenanceApp" class="modal-body">
 											<div class="card-block">
-												<div class="card-text filePreview">
+												<div class="card-text">
 													<span>
-														<div class="card-text" id="lookContainer">
+														<div class="card-text">
+															<div id="imgPlaceholder">
 
+															</div>
+														</div>
+													</span>
+												</div>
+
+												<div class="form-actions center">
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+												</div>												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
+										</div>
+										<div ng-app="maintenanceApp" class="modal-body">
+											<div class="card-block">
+												<div class="card-text">
+													<span>
+														<div class="card-text">
+															<div id="imgContainer">
+
+															</div>
 														</div>
 													</span>
 												</div>
@@ -573,7 +615,7 @@
 						"</tr>" + 
 					"</table>" + 
 				"</div>" + 
-				"<div>" +
+				"<div height='100%'>" +
 					"<table width='100%'>" + 
 						"<th>" + 
 							"<td></td>" + 
@@ -599,6 +641,69 @@
 					"</table>" +  
 				"</div>"
 			);
+
+			
+			var element = $("#lookContainer");
+			var getCanvas;
+			var g_dataUrl;
+
+			//$("#lookContainer").parentNode.style.overflow = 'visible';
+			/*
+			setTimeout(function() {
+				html2canvas(element, {
+					onrendered: function(canvas) {
+						//$("#lookContainer").parentNode.style.overflow = 'hidden';
+						var dataUrl = canvas.toDataURL();
+						
+						window.open(dataUrl, "toDataURL() image", "width=1000, height=1000");
+						
+						//$("#lookContainer").html(canvas);
+						//getCanvas = canvas;
+
+						//document.body.appendChild(canvas);
+						//$("#lookContainer").html(canvas);
+						//document.body.removeChild(canvas);
+					}
+				});
+			}, 8000);
+			*/
+			$("#lookContainer").width("816").height("1056");
+			html2canvas(element, {
+				width: 816, 
+				height: 1056,
+				onrendered: function(canvas) {
+					//$("#lookContainer").parentNode.style.overflow = 'hidden';
+					//var dataUrl = canvas.toDataURL();
+					getCanvas = canvas;
+					g_dataUrl = canvas.toDataURL('image/png');
+					
+					//window.open(dataUrl, "toDataURL() image", "width=816px, height=1056px");
+					
+					$("#imgPlaceholder").html(canvas);
+
+					var pdfDoc = new jsPDF('p', 'mm', 'letter');
+
+					pdfDoc.setProperties({
+						title: documentID + documentName, 
+						subject: documentName, 
+						author: "Barangay Resident, Services, and Facilities Managemet System", 
+						keyword: documentName,
+						creator: "Barangay Resident, Services, and Facilities Managemet System"
+					});
+					pdfDoc.setTextColor(100);
+					pdfDoc.text(20, 20, 'This is gray.');
+					pdfDoc.addImage(g_dataUrl, 'PNG', 0, 0, 800, 1000);
+					pdfDoc.output('dataurlnewwindow');
+
+					//document.body.appendChild(canvas);
+					//$("#lookContainer").html(canvas);
+					//document.body.removeChild(canvas);
+				}
+			});
+			
+			//$("#lookContainer").width("0").height("0");
+			//element.html("");
+			//element.html(canvas);
 		});
 
 		var refreshTable = function() {
@@ -663,4 +768,6 @@
 
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
 @endsection
