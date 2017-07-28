@@ -6,6 +6,9 @@
 @endsection
 
 @section('plugin')
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />
 	
@@ -256,14 +259,24 @@
 											<div class="row">
 												<div class="form-group col-xs-12">
 													<select class="select2 form-control" style="width: 50%">
+													
 														<optgroup label="Male">
-															<option value="AK" />Fuellas, Marc Joseph
-															<option value="HI" />Illaga, Bryan James
-															<option value="HI" />Buenavides, Bryan
+														@foreach($residents as $resident)
+															@if($resident -> gender == 'M')
+															{
+																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
+															}
+															@endif
+														@endforeach
 														</optgroup>
 														<optgroup label="Female">
-															<option value="CA" />Del Mundo, Moira Kelly
-															<option value="NV" />Espino Gabe
+														@foreach($residents as $resident)
+															@if($resident -> gender == 'F')
+															{
+																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
+															}
+															@endif
+														@endforeach
 														</optgroup>
 													</select>
 												</div>
@@ -812,6 +825,32 @@
 	<script type="text/javascript">
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
+
+			$.ajax({
+				url: "{{ url('/resident/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#residentID").val(data);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+
 		});
 	</script>
 

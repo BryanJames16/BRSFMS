@@ -11,6 +11,11 @@ use \App\Models\Street;
 use \App\Models\Family;
 use \App\Models\Familymember;
 
+require_once(app_path() . "/includes/pktool.php");
+
+use StaticCounter;
+use SmartMove;
+
 class ResidentController extends Controller
 {
 
@@ -86,6 +91,20 @@ class ResidentController extends Controller
 
 
             return back();
+    }
+
+    public function nextPK(Request $r) {
+        if ($r->ajax()) {
+            $data = Resident::all()->last();
+            
+            if (is_null($data)) {
+                
+            } 
+            else {
+                $nextValue = StaticCounter::smart_next($data->residentID, SmartMove::$NUMBER);
+                return response($nextValue);
+            }
+        }
     }
 
     public function getEdit(Request $r) {

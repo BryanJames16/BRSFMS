@@ -67,6 +67,7 @@ Route::post('/resident/store', 'ResidentController@store');
 Route::post('/resident/update','ResidentController@edit');
 Route::post('/resident/delete','ResidentController@delete');
 Route::get('/resident/refresh','ResidentController@refresh');
+Route::get('/resident/nextPK','ResidentController@nextPK');
 
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
