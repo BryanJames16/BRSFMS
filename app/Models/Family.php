@@ -17,11 +17,17 @@ class Family extends Model
 
     protected $fillable = [
         'familyID',
-        'status',
+        'familyHeadID',
+        'familyName',
+        'familyRegistrationDate',
         'archive'
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }

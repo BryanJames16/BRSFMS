@@ -16,14 +16,17 @@ class Familymember extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'memberRelation',
+        'familyPrimeID',
         'peoplePrimeID',
-        'status',
-        'archive',
-        'familyPrimeID'
+        'memberRelation',
+        'archive'
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }
