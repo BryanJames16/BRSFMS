@@ -457,11 +457,9 @@
 			});
 		});
 
-		$(".btnDelete").click(function(event) {
+		$(document).on('click', '.btnDelete', function(event) {
 			event.preventDefault();
 			var rowID = $(this).data("value"); 
-
-			console.log("Row ID is: " + rowID);
 
 			swal({
 					title: "Are you sure you want to delete this entry?",
