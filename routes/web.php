@@ -69,6 +69,10 @@ Route::post('/resident/delete','ResidentController@delete');
 Route::get('/resident/refresh','ResidentController@refresh');
 Route::get('/resident/nextPK','ResidentController@nextPK');
 
+//Family
+Route::get('/family/familyNextPK','ResidentController@familyNextPK');
+Route::post('/family/familyStore', 'ResidentController@familyStore');
+
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');
 Route::get('/document/refresh', 'DocumentController@refresh');

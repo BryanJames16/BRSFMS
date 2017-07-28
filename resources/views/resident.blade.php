@@ -74,7 +74,7 @@
 								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Register Resident  
 								</button>
-								<button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#familyModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-success btn-lg" id="btnFamilyModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Add Family  
 								</button>
 							</p>	
@@ -217,9 +217,9 @@
 						</div>
 						<!-- END OF CONTENT -->
 
-						<!--MEMBER -->
+						<!--Family -->
 
-						<!--Member Modal -->
+						<!--Family Add Modal -->
 						<div class="modal fade text-xs-left" id="familyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog " role="document">
 								<div class="modal-content">
@@ -232,21 +232,21 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										<form class="form" />
+										{{Form::open(['url'=>'family/familyStore', 'method' => 'POST', 'id' => 'frm-familyAdd', 'class'=>'form'])}}
 							
 
 										<div class="form-body">
 											<div class="row">
 												<div class="form-group col-xs-12 mb-2">
 													<label for="eventInput1">Family ID</label>
-													<input type="text" id="eventInput1" class="form-control" placeholder="FAM_001" name="fullname" />
+													<input type="text" id="familyID" class="form-control" placeholder="FAM_001" name="familyID" readonly />
 												</div>
 											</div>
 
 											<div class="row">
 												<div class="form-group col-xs-12 mb-2">
 													<label for="eventInput2">Family Name</label>
-													<input type="text" id="eventInput2" class="form-control" placeholder="Fuellas Family" name="title" />
+													<input type="text" id="familyName" class="form-control" placeholder="Fuellas Family" name="familyName" />
 												</div>
 											</div>
 
@@ -258,7 +258,7 @@
 
 											<div class="row">
 												<div class="form-group col-xs-12">
-													<select class="select2 form-control" style="width: 50%">
+													<select class="select2 form-control" id="familyHeadID" name="familyHeadID" style="width: 50%">
 													
 														<optgroup label="Male">
 														@foreach($residents as $resident)
@@ -291,7 +291,7 @@
 												<i class="icon-check2"></i> Save
 											</button>
 										</div>
-									</form>
+									{{Form::close()}}
 									</div>
 									<!-- End of Modal Body -->
 
@@ -857,6 +857,38 @@
 		});
 	</script>
 
+	<script type="text/javascript">
+		$("#btnFamilyModal").on('click', function() {
+			$("#familyModal").modal('show');
+
+			$.ajax({
+				url: "{{ url('/family/familyNextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#familyID").val(data);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+
+		});
+	</script>
+
 	<script>
 		$.ajaxSetup({
 		    headers: {
@@ -889,6 +921,36 @@
 					$("#addModal").modal("hide");
 					refreshTable();
 					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$("#frm-familyAdd").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/family/familyStore') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"familyID": $("#familyID").val(), 
+					"familyHeadID": $("#familyHeadID").val(), 
+					"familyName": $("#familyName").val()
+				}, 
+				success: function(data) {
+					$("#familyModal").modal("hide");
+					refreshTable();
+					$("#frm-familyAdd").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
 				error: function(error) {

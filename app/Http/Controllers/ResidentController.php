@@ -10,6 +10,7 @@ use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
 use \App\Models\Familymember;
+use Carbon\Carbon;
 
 require_once(app_path() . "/includes/pktool.php");
 
@@ -93,6 +94,18 @@ class ResidentController extends Controller
             return back();
     }
 
+    public function familyStore(Request $r) 
+    {
+        $aah = Family::insert(['familyID'=>trim($r -> input('familyID')),
+                                            'familyHeadID' => $r -> input('familyHeadID'),
+                                            'familyName' => $r -> input('familyName'),
+                                            'familyRegistrationDate' => Carbon::now(),
+											   'archive' => 0]);
+
+
+            return back();
+    }
+
     public function nextPK(Request $r) {
         if ($r->ajax()) {
             $data = Resident::all()->last();
@@ -102,6 +115,20 @@ class ResidentController extends Controller
             } 
             else {
                 $nextValue = StaticCounter::smart_next($data->residentID, SmartMove::$NUMBER);
+                return response($nextValue);
+            }
+        }
+    }
+
+    public function familyNextPK(Request $r) {
+        if ($r->ajax()) {
+            $data = Family::all()->last();
+            
+            if (is_null($data)) {
+                
+            } 
+            else {
+                $nextValue = StaticCounter::smart_next($data->familyID, SmartMove::$NUMBER);
                 return response($nextValue);
             }
         }
