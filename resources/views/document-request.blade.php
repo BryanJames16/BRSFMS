@@ -80,7 +80,7 @@
 
 		.bpage {
 			background-color: white;
-			left: -20%;
+			left: 20%;
 			position: absolute;
 		}
 	</style>
@@ -263,8 +263,28 @@
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-eye6"></i> View</a>
-													<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
-													<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+
+													@if($request -> status == "Cancelled" || $request -> status == "Approved")
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+															<i class="icon-pen3 grey"></i> 
+															<span style="color: grey;">
+																Sign
+															</span>
+														</a>
+													@else
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
+													@endif	
+
+													@if($request -> status == "Cancelled" || $request -> status == "Approved")
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+															<i class="icon-trash4 grey"></i> 
+															<span style="color: grey;">
+																Cancel
+															</span>
+														</a>
+													@else
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+													@endif
 												</span>
 											</span>
 										</td>  
@@ -272,10 +292,6 @@
 									@endforeach
 	                    		</tbody>
 	                    	</table>
-
-							<div class="bpage" id="lookContainer">
-
-							</div>
 
 	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
@@ -341,6 +357,10 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="bpage" id="lookContainer">
+
+		</div>
 	</section>
 @endsection
 
@@ -393,10 +413,9 @@
 				method: "GET", 
 				success: function(data) {
 					if (data == null) {
-						console.log("Reponse is null!");
+						// Fetch PK from utilities
 					}
 					else {
-						console.log(data);
 						$("#requestID").val(data);
 					}
 				}, 
@@ -408,7 +427,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 
@@ -437,7 +455,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 
@@ -463,7 +480,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		});
@@ -494,7 +510,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		});
@@ -529,7 +544,6 @@
 							}
 
 							swal("Error", "Cannot fetch table data!\n" + message, "error");
-							console.log("Error: Cannot refresh table!\n" + message);
 						}
 					});
 				}
@@ -572,8 +586,6 @@
 			});
 
 			$("#pdfModal").modal("show");
-
-			console.log("value of document id: " + documentID);
 
 			$("#lookContainer").html(
 				"<p align='left' class='fileNumber'>&nbsp;&nbsp;" + documentID + "</p><br>" + 
@@ -644,44 +656,17 @@
 
 			
 			var element = $("#lookContainer");
-			var getCanvas;
-			var g_dataUrl;
 
-			//$("#lookContainer").parentNode.style.overflow = 'visible';
-			/*
-			setTimeout(function() {
-				html2canvas(element, {
-					onrendered: function(canvas) {
-						//$("#lookContainer").parentNode.style.overflow = 'hidden';
-						var dataUrl = canvas.toDataURL();
-						
-						window.open(dataUrl, "toDataURL() image", "width=1000, height=1000");
-						
-						//$("#lookContainer").html(canvas);
-						//getCanvas = canvas;
-
-						//document.body.appendChild(canvas);
-						//$("#lookContainer").html(canvas);
-						//document.body.removeChild(canvas);
-					}
-				});
-			}, 8000);
-			*/
 			$("#lookContainer").width("816").height("1056");
 			html2canvas(element, {
 				width: 816, 
 				height: 1056,
 				onrendered: function(canvas) {
-					//$("#lookContainer").parentNode.style.overflow = 'hidden';
-					//var dataUrl = canvas.toDataURL();
-					getCanvas = canvas;
-					g_dataUrl = canvas.toDataURL('image/png');
-					
-					//window.open(dataUrl, "toDataURL() image", "width=816px, height=1056px");
+					var imgData = canvas.toDataURL('image/png');
 					
 					$("#imgPlaceholder").html(canvas);
 
-					var pdfDoc = new jsPDF('p', 'mm', 'letter');
+					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
 
 					pdfDoc.setProperties({
 						title: documentID + documentName, 
@@ -690,20 +675,22 @@
 						keyword: documentName,
 						creator: "Barangay Resident, Services, and Facilities Managemet System"
 					});
-					pdfDoc.setTextColor(100);
-					pdfDoc.text(20, 20, 'This is gray.');
-					pdfDoc.addImage(g_dataUrl, 'PNG', 0, 0, 800, 1000);
-					pdfDoc.output('dataurlnewwindow');
+					pdfDoc.addImage(imgData, 'png', 0, 0);
+					var pdfUrl = pdfDoc.output('datauristring');
 
-					//document.body.appendChild(canvas);
-					//$("#lookContainer").html(canvas);
-					//document.body.removeChild(canvas);
+					/*
+					$("#imgPlaceholder").html(
+						'<iframe type="application/pdf" src="' + pdfUrl + '" width="100%" height="500px">' + 
+						'</iframe>'
+					);
+					*/
 				}
 			});
 			
-			//$("#lookContainer").width("0").height("0");
-			//element.html("");
-			//element.html(canvas);
+			setTimeout(function () {
+				$("#lookContainer").width("0").height("0");
+				element.html("");
+			}, 5000);
 		});
 
 		var refreshTable = function() {
@@ -717,22 +704,51 @@
 
 					for (index in data) {
 						var statusText = "";
+						var buttonEditText = "";
+						var buttonDelText = "";
+
 						if (data[index].status == "Pending") {
 							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
+							buttonEditText = "<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>";
+							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash'></i> Cancel</a>";
 						}
 						else if (data[index].status == "Cancelled") {
 							statusText = "<span class='tag round tag-default tag-danger'>Cancelled</span>";
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-pen3 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Sign" + 
+												"</span>" + 
+											"</a>";
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-trash4 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Cancel" + 
+												"</span>" + 
+											"</a>";
 						} 
 						else {
 							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-pen3 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Sign" + 
+												"</span>" + 
+											"</a>";
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-trash4 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Cancel" + 
+												"</span>" + 
+											"</a>";
 						}
 
 						var buttonText = "<span class='dropdown'>" + 
 											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
 												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-eye6'></i> View</a>" + 
-												"<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>" + 
-												"<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash4'></i> Cancel</a>" + 
+												buttonEditText + 
+												buttonDelText + 
 											"</span>" + 
 										"</span>";
 													
@@ -760,7 +776,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		}
