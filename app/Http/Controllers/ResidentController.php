@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Resident;
 use \App\Models\Lot;
+use \App\Models\House;
+use \App\Models\Unit;
 use \App\Models\Street;
+use \App\Models\Family;
+use \App\Models\Familymember;
 
 class ResidentController extends Controller
 {
@@ -19,9 +23,37 @@ class ResidentController extends Controller
     	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
     												-> where('status','1')
                                                     -> get();
+        
+        $streetss = Street::select('streetID','streetName', 'status')
+    												-> where('archive','0')
+                                                    -> get();
+        $houses = House::select('houseID','houseCode', 'status')
+    												-> where('archive','0')
+                                                    -> get();
+        $lots = Lot::select('lotID','lotCode', 'status')
+    												-> where('archive','0')
+                                                    -> get();
+        $units = Unit::select('unitID','unitCode', 'status')
+    												-> where('archive','0')
+                                                    -> get();
+       
+        $families= \DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
+                                                    'familyRegistrationDate', 'archive','residents.firstName',
+                                                     'residents.middleName','residents.lastName') 
+                                        ->join('residents', 'families.familyHeadID', '=', 'residents.residentPrimeID')
+                                        ->where('families.archive', '=', 0) 
+                                        ->get();
+        
 
-    	return view('resident',['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
-		['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]) -> with('residents', $residents);
+    	return view('resident',
+                                ['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
+		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
+                                -> with('residents', $residents)
+                                -> with('streetss', $streetss)
+                                -> with('houses', $houses)
+                                -> with('units', $units)
+                                -> with('lots', $lots)
+                                -> with('families',$families);
 
 
     }
