@@ -391,6 +391,8 @@
 		$("#frm-add").submit(function(event) {
 			event.preventDefault();
 
+			var concatenated = $("#aDocumentContent").val().replace(/\r\n|\r|\n/g, "<br>");
+
 			$.ajax({
 				url: "{{ url('/document/store') }}", 
 				method: "POST", 
@@ -398,7 +400,7 @@
 					"documentID": $("#documentID").val(), 
 					"documentName": $("#documentName").val(), 
 					"documentDescription": $("#documentDescription").val(), 
-					"documentContent": $("#aDocumentContent").val(), 
+					"documentContent": concatenated, 
 					"documentType": $("#aDocumentType :selected").text(), 
 					"documentPrice": $("#documentPrice").val(), 
 					"status": $(".astatus:checked").val()
@@ -438,6 +440,10 @@
 					frm.find('#eDocumentPrice').val(data.documentPrice);
 					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
 					frm.find('#ePrimeID').val(data.primeID);
+
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br\s?\/?>/g, "\n"));
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br\/?>/g, "\n"));
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br>/g, "\n"));
 
 					if(data.status == 1) {
 						$("#eActive").attr('checked', 'checked');
