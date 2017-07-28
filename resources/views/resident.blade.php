@@ -174,7 +174,7 @@
 
 								<!-- Family Tab -->
 
-									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-familyContainer">
 										<thead>
 											<tr>
 												<th>ID</th>
@@ -189,6 +189,11 @@
 										<tbody>
 											@foreach($families as $family)
 												<tr>
+
+													{{Form::open(['url'=>'family/delete', 'method' => 'POST', 'id' => $family -> familyPrimeID ])}}
+
+														{{Form::hidden('familyPrimeID',$family->familyPrimeID,['id'=>'familyPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
+
 													<td>{{ $family -> familyID }}</td>
 													<td>{{ $family -> familyName }}</td>
 													<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
@@ -198,12 +203,13 @@
 														<span class="dropdown">
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-																<a href="#" class="dropdown-item viewMember" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-																<a href="#" class="dropdown-item editMember" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Add/Remove members</a>
-																<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+																<a href="#" class="dropdown-item viewMember" name="btnView" data-value='{{ $family -> familyPrimeID }}'><i class="icon-eye6"></i> View</a>
+																<a href="#" class="dropdown-item editMember" name="btnEdit" data-value='{{ $family -> familyPrimeID }}'><i class="icon-pen3"></i> Add/Remove members</a>
+																<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value='{{ $family -> familyPrimeID }}'><i class="icon-trash4"></i> Delete</a>
 															</span>
 														</span>
 													</td>
+													{{Form::close()}}
 												</tr>
 											@endforeach
 										</tbody>
@@ -232,7 +238,7 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										{{Form::open(['url'=>'family/familyStore', 'method' => 'POST', 'id' => 'frm-familyAdd', 'class'=>'form'])}}
+										{{Form::open(['url'=>'family/store', 'method' => 'POST', 'id' => 'frm-familyAdd', 'class'=>'form'])}}
 							
 
 										<div class="form-body">
@@ -304,7 +310,7 @@
 
 						<!--Member Modal -->
 						<div class="modal fade text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-dialog " role="document">
+							<div class="modal-sm modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -328,7 +334,7 @@
 
 						<!--Add/Remove Member Modal -->
 						<div class="modal fade text-xs-left" id="editMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-dialog " role="document">
+							<div class="modal-lg modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -339,7 +345,33 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										
+										<div id="famName">
+
+
+										</div>
+										<div id="headName">
+
+										</div>
+										<div>
+											<p>MEMBERS:</p>
+										</div>
+
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-MemberContainer">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Gender</th>
+													<th>Relation</th>
+													<th>Birthdate</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												
+											</tbody>
+										</table>
+
 									</div>
 									<!-- End of Modal Body -->
 
@@ -352,18 +384,39 @@
 
 						<!--VIEW Member Modal -->
 						<div class="modal fade text-xs-left" id="viewMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-dialog " role="document">
+							<div class="modal-xl modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View  Family</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Family</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
+									
+										<div class="col-xl-3 col-md-6 col-xs-12">
+											<div class="card">
+												<div class="text-xs-center">
+													<div class="card-block">
+														<img src="./robust-assets/images/portrait/medium/avatar-m-4.png" class="rounded-circle  height-150" alt="Card image" />
+													</div>
+													<div class="card-block">
+														<h4 class="card-title">Michelle Howard</h4>
+														<h6 class="card-subtitle text-muted">Managing Director</h6>
+													</div>
+													<div class="text-xs-center">
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"><span class="icon-facebook3"></span></a>
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter"><span class="icon-twitter3"></span></a>
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"><span class="icon-linkedin3 font-medium-4"></span></a>
+													</div>
+												</div>
+											</div>
+										</div>
+
 										
+
 									</div>
 									<!-- End of Modal Body -->
 
@@ -862,7 +915,7 @@
 			$("#familyModal").modal('show');
 
 			$.ajax({
-				url: "{{ url('/family/familyNextPK') }}", 
+				url: "{{ url('/family/nextPK') }}", 
 				method: "GET", 
 				success: function(data) {
 					if (data == null) {
@@ -920,6 +973,7 @@
 				success: function(data) {
 					$("#addModal").modal("hide");
 					refreshTable();
+					familyRefreshTable();
 					$("#frm-add").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
@@ -939,7 +993,7 @@
 			event.preventDefault();
 
 			$.ajax({
-				url: "{{ url('/family/familyStore') }}", 
+				url: "{{ url('/family/store') }}", 
 				method: "POST", 
 				data: {
 					"_token": "{{ csrf_token() }}", 
@@ -950,6 +1004,7 @@
 				success: function(data) {
 					$("#familyModal").modal("hide");
 					refreshTable();
+					familyRefreshTable();
 					$("#frm-familyAdd").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
@@ -1034,10 +1089,49 @@
 
 			$.ajax({
 				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
+				url: "{{ url('/family/getMembers') }}", 
+				data: {"familyPrimeID":id}, 
 				success:function(data)
 				{
+					$("#table-MemberContainer").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data)
+					{
+						$("#famName").html(
+							"<p>Family Name: " + data[index].familyName + "</p>"
+						);
+
+						$("#headName").html(
+							"<p>Head: " + data[index].familyName + "</p>" 
+							
+						);
+
+						$("#table-MemberContainer").append('<tr>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
+									'<td>' + data[index].gender + '</td>' + 
+									'<td>' + data[index].memberRelation + '</td>' + 
+									'<td>' + data[index].birthDate + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
+
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+													'<a href="#" class="dropdown-item editM" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' + 
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+
+					
+					
+					
 					$('#editMember').modal('show');
 				}, 
 				error: function(data) {
@@ -1059,10 +1153,12 @@
 
 			$.ajax({
 				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
+				url: "{{ url('/family/getEdit') }}", 
+				data: {"familyPrimeID":id}, 
 				success:function(data)
 				{
+					
+
 					$('#viewMember').modal('show');
 				}, 
 				error: function(data) {
@@ -1149,6 +1245,7 @@
 				success: function ( _response ){
 					$("#editModal").modal('hide');
 					
+					familyRefreshTable();
 					refreshTable();
 					
 					swal("Successful", 
@@ -1195,6 +1292,53 @@
 									residentPrimeID:id}, 
 									success: function(data) {
 										refreshTable();
+										familyRefreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(data) {
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							});				
+					}
+			})
+		});
+
+		$(document).on('click', '.deleteMember', function(e) {
+
+			var id = $(this).data('value');
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/family/getEdit') }}",
+					data: {"familyPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						swal({
+							title: "Are you sure you want to delete " + data.familyName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "post",
+									url: "{{ url('/family/delete') }}", 
+									data: {"_token": "{{ csrf_token() }}",
+									familyPrimeID:id}, 
+									success: function(data) {
+										refreshTable();
+										familyRefreshTable();
 										swal("Successfull", "Entry is deleted!", "success");
 									}, 
 									error: function(data) {
@@ -1261,8 +1405,79 @@
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
 													'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item add" name="btnMember" data-value="' + data[index].residentPrimeID+ '"><i class="icon-outbox"></i> Add to Family</a>' +
 													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].residentPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' + 
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+		var familyRefreshTable = function() {
+			$.ajax({
+				url: "{{ url('/family/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-familyContainer").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						var statusText = "";
+						var genderText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						if (data[index].gender == 'M')
+						{
+							genderText = "Male";
+						}
+						else
+						{
+							genderText = "Female";
+						}
+
+
+						$("#table-familyContainer").append('<tr>' + 
+									'<td>' + data[index].familyID + '</td>' + 
+									'<td>' + data[index].familyName + '</td>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
+									'<td>' + '2</td>' + 
+
+					
+
+									'<td>' + data[index].familyRegistrationDate + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
+
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+													'<a href="#" class="dropdown-item viewMember" name="btnView" data-value="' + data[index].familyPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item editMember" name="btnEdit" data-value="' + data[index].familyPrimeID + '"><i class="icon-pen3"></i> Add/Remove members</a>' +
+													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
 											'</form>' + 
