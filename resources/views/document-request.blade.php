@@ -11,10 +11,6 @@
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
 @endsection
 
-@section('plugin')
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
-@endsection
-
 <!-- CSS Styles -->
 @section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
@@ -24,18 +20,61 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
-
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
-
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 @endsection
 
 @section('template-css')
-	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
+@endsection
+
+@section('custom-css')
+	<style>
+		.filePreview {
+			border: 1px ridge black;
+			width: 8.5in;
+			height: 11in;
+		}
+
+		.fileNumber {
+			font-family: "Bookman Old Style";
+			font-size: 10px;
+		}
+
+		.fileHeader {
+			font-family: 'Arial';
+			font-size: 15px;
+			height: 1in;
+			width: 8.5in;
+		}
+
+		.fileTitle {
+			font-family: "Arial";
+			font-size: 35px;
+		}
+
+		.fileContent {
+			font-family: "Arial";
+			font-size: 18px;
+		}
+
+		.dataContentFix {
+			vertical-align: middle;
+		}
+
+		.parIndented {
+			text-indent: 2.0em;
+		}
+
+		.signaturePane {
+			font-size: 17px;
+		}
+
+		.bpage {
+			background-color: white;
+			left: 20%;
+			position: absolute;
+		}
+	</style>
 @endsection
 
 @section('page-action')
@@ -88,7 +127,7 @@
 																{{ Form::text('requestID', 
 																				null, 
 																				['id' => 'requestID', 
-																					'class' => 'long-press form-control', 
+																					'class' => 'form-control', 
 																					'placeholder' => 'eg.REQ_001', 
 																					'maxlength' => '20', 
 																					'data-toggle' => 'tooltip', 
@@ -215,8 +254,28 @@
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-eye6"></i> View</a>
-													<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
-													<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+
+													@if($request -> status == "Cancelled" || $request -> status == "Approved")
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+															<i class="icon-pen3 grey"></i> 
+															<span style="color: grey;">
+																Sign
+															</span>
+														</a>
+													@else
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
+													@endif	
+
+													@if($request -> status == "Cancelled" || $request -> status == "Approved")
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+															<i class="icon-trash4 grey"></i> 
+															<span style="color: grey;">
+																Cancel
+															</span>
+														</a>
+													@else
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+													@endif
 												</span>
 											</span>
 										</td>  
@@ -225,34 +284,60 @@
 	                    		</tbody>
 	                    	</table>
 
-	                    	@yield('ajax-modal')
-
-	                    	<div class="modal fade text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-								<div class="modal-dialog" id="modal-dialog" role="document">
+	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>@yield('edit-modal-title')</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
 										</div>
-
-										<div class="modal-body">
+										<div ng-app="maintenanceApp" class="modal-body">
 											<div class="card-block">
-
-												@yield('ajax-edit-form')
-
 												<div class="card-text">
-													
-												
-												</div>
-												<div class="form-body">
-														
+													<span>
+														<div class="card-text">
+															<div id="imgPlaceholder">
+
+															</div>
+														</div>
+													</span>
 												</div>
 
 												<div class="form-actions center">
-														
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+												</div>												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
+										</div>
+										<div ng-app="maintenanceApp" class="modal-body">
+											<div class="card-block">
+												<div class="card-text">
+													<span>
+														<div class="card-text">
+															<div id="imgContainer">
+
+															</div>
+														</div>
+													</span>
 												</div>
+
+												<div class="form-actions center">
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+												</div>												
 											</div>
 										</div>
 									</div>
@@ -262,6 +347,10 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div class="bpage" id="lookContainer">
+
 		</div>
 	</section>
 @endsection
@@ -274,11 +363,9 @@
 @section('page-vendor-js')
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/unslider-min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
@@ -291,12 +378,7 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
-
-	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.mousewheel.js') }}" type="text/javascript"></script>
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('template-js')
@@ -319,10 +401,9 @@
 				method: "GET", 
 				success: function(data) {
 					if (data == null) {
-						console.log("Reponse is null!");
+						// Fetch PK from utilities
 					}
 					else {
-						console.log(data);
 						$("#requestID").val(data);
 					}
 				}, 
@@ -334,7 +415,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 
@@ -363,7 +443,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 
@@ -389,7 +468,6 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		});
@@ -420,16 +498,13 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		});
 
-		$(".btnDelete").click(function(event) {
+		$(document).on('click', '.btnDelete', function(event) {
 			event.preventDefault();
 			var rowID = $(this).data("value"); 
-
-			console.log("Row ID is: " + rowID);
 
 			swal({
 					title: "Are you sure you want to delete this entry?",
@@ -457,13 +532,153 @@
 							}
 
 							swal("Error", "Cannot fetch table data!\n" + message, "error");
-							console.log("Error: Cannot refresh table!\n" + message);
 						}
 					});
 				}
 			);
 
 			return (false);
+		});
+
+		$(document).on('click', '.btnView', function(event) {
+			event.preventDefault();
+
+			var documentHeaderPrimeID = $(this).data("value");
+
+			var documentID = "";
+			var documentName = "";
+			var documentContent = "";
+			var requestorName = "";
+
+
+			$.ajax({
+				type: "GET", 
+				url: "{{ url('/document-request/view') }}", 
+				data: { "documentHeaderPrimeID": documentHeaderPrimeID }, 
+				async: false, 
+				success: function(data) {
+					documentID = data.documentID;
+					documentName = data.documentName;
+					documentContent = data.documentContent;
+					requestorName = data.requestorName;
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+					
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+
+			$("#pdfModal").modal("show");
+
+			$("#lookContainer").html(
+				"<p align='left' class='fileNumber'>&nbsp;&nbsp;" + documentID + "</p><br>" + 
+				"<div>" +
+					"<table>" +
+						"<tr>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/brgy_logo.png' height='100' width='100'>" + "</center></td>" +  
+						"<td width='432px'>" + 
+							"<center>" + 
+								"<span width='20px'></span>" + 
+								"<p align='center'>" + 
+									"Republic of the Philippines<br>" + 
+									"District VI, City of Manila<br>" + 
+									"<b>BARANGAY 629 - ZONE 63</b><br>" + 
+									"<i>OFFICE OF THE SANGUNIANG BARANGAY</i><br>" + 
+									"Hippodromo Street, Sta. Mesa, Manila<br>" + 
+								"</p>" + 
+							"</center>" + 
+						"</td>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/ManilaSeal.png' height='100' width='100'>" + "</center></td>" +  
+						"</tr>" + 
+					"</table>" + 
+				"</div><br><br><br>" + 
+				"<div class='dataContentFix'>" + 
+					"<table>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" +
+						"<tr height='30%'></tr>" + 
+						"<tr height='70%'>" + 
+							"<td width=20px></td>" + 
+							"<td valign='center'>" + 
+								"<p align='center' valign='middle' class='fileTitle'><b>" + documentName + "</b></p><br><br><br>" + 
+								"<p align='left' class='fileContent'>" + documentContent + "</p><br>" + 
+							"</td>" + 
+							"<td width=20px></td>" + 
+						"</tr>" + 
+					"</table>" + 
+				"</div>" + 
+				"<div height='100%'>" +
+					"<table width='100%'>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" + 
+						"<tr>" + 
+							"<td>" + 
+								"<br><br>" + 
+								"<p valign='bottom' align='center' class='signaturePane'>" + 
+									requestorName + 
+								"</p>" + 
+							"</td>" + 
+							"<td>" + 
+								"<p align='center' class='fileContent'>" + 
+									"Respectfully Yours,<br><br>" + 
+								"</p>" + 
+								"<p align='center' class='signaturePane'>" + 
+									"Rolito A. Innocencio<br>" + 
+									"Barangay Chairman<br>" +  
+								"</p>" + 
+							"</td>" + 
+						"</tr>" + 
+					"</table>" +  
+				"</div>"
+			);
+
+			
+			var element = $("#lookContainer");
+
+			$("#lookContainer").width("816").height("1056");
+			html2canvas(element, {
+				width: 816, 
+				height: 1056,
+				onrendered: function(canvas) {
+					var imgData = canvas.toDataURL('image/png');
+					
+					$("#imgPlaceholder").html(canvas);
+
+					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
+
+					pdfDoc.setProperties({
+						title: documentID + documentName, 
+						subject: documentName, 
+						author: "Barangay Resident, Services, and Facilities Managemet System", 
+						keyword: documentName,
+						creator: "Barangay Resident, Services, and Facilities Managemet System"
+					});
+					pdfDoc.addImage(imgData, 'png', 0, 0);
+					var pdfUrl = pdfDoc.output('datauristring');
+
+					/*
+					$("#imgPlaceholder").html(
+						'<iframe type="application/pdf" src="' + pdfUrl + '" width="100%" height="500px">' + 
+						'</iframe>'
+					);
+					*/
+				}
+			});
+			
+			setTimeout(function () {
+				$("#lookContainer").width("0").height("0");
+				element.html("");
+			}, 5000);
 		});
 
 		var refreshTable = function() {
@@ -477,22 +692,51 @@
 
 					for (index in data) {
 						var statusText = "";
+						var buttonEditText = "";
+						var buttonDelText = "";
+
 						if (data[index].status == "Pending") {
 							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
+							buttonEditText = "<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>";
+							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash'></i> Cancel</a>";
 						}
 						else if (data[index].status == "Cancelled") {
 							statusText = "<span class='tag round tag-default tag-danger'>Cancelled</span>";
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-pen3 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Sign" + 
+												"</span>" + 
+											"</a>";
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-trash4 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Cancel" + 
+												"</span>" + 
+											"</a>";
 						} 
 						else {
 							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-pen3 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Sign" + 
+												"</span>" + 
+											"</a>";
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+												"<i class='icon-trash4 grey'></i>" +  
+												"<span style='color: grey;'>" + 
+													"Cancel" + 
+												"</span>" + 
+											"</a>";
 						}
 
 						var buttonText = "<span class='dropdown'>" + 
 											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
 												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-eye6'></i> View</a>" + 
-												"<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>" + 
-												"<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash4'></i> Cancel</a>" + 
+												buttonEditText + 
+												buttonDelText + 
 											"</span>" + 
 										"</span>";
 													
@@ -520,13 +764,13 @@
 					}
 
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
 		}
 	</script>
 
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
 @endsection

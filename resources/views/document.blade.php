@@ -105,7 +105,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('documentID',null,['id'=>'documentID','class'=>'long-press form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'readonly', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('documentID',null,['id'=>'documentID','class'=>' form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'readonly', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -113,7 +113,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'documentName','class'=>'long-press form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{Form::text('documentName',null,['id'=>'documentName','class'=>' form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
 		</div>	
 
 	</div>
@@ -121,7 +121,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{Form::text('desc',null,['id'=>'documentDescription','class'=>'long-press form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
+			{{Form::text('desc',null,['id'=>'documentDescription','class'=>' form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])}}
 		</div>	
 	</div>
 
@@ -131,7 +131,7 @@
 			{{ Form::textarea('content', 
 								null, 
 								['id' => 'aDocumentContent', 
-									'class' => 'long-press form-control', 
+									'class' => ' form-control', 
 									'maxlength' => '500', 
 									'data-toggle' => 'tooltip', 
 									'data-trigger' => 'focus', 
@@ -298,7 +298,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('document_ID',null,['id'=>'eDocumentID','class'=>'long-press form-control', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('document_ID',null,['id'=>'eDocumentID','class'=>' form-control', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'readonly', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -307,7 +307,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'eDocumentName','class'=>'long-press form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{Form::text('documentName',null,['id'=>'eDocumentName','class'=>' form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
 		</div>	
 
 	</div>
@@ -315,7 +315,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{Form::text('desc',null,['id'=>'eDocumentDescription','class'=>'long-press form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])}}
+			{{Form::text('desc',null,['id'=>'eDocumentDescription','class'=>' form-control','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'maxlength'=>'500'])}}
 		</div>	
 	</div>
 
@@ -325,7 +325,7 @@
 			{{ Form::textarea('content', 
 								null, 
 								['id' => 'eDocumentContent', 
-									'class' => 'long-press form-control', 
+									'class' => ' form-control', 
 									'maxlength' => '500', 
 									'data-toggle' => 'tooltip', 
 									'data-trigger' => 'focus', 
@@ -391,6 +391,8 @@
 		$("#frm-add").submit(function(event) {
 			event.preventDefault();
 
+			var concatenated = $("#aDocumentContent").val().replace(/\r\n|\r|\n/g, "<br>");
+
 			$.ajax({
 				url: "{{ url('/document/store') }}", 
 				method: "POST", 
@@ -398,7 +400,7 @@
 					"documentID": $("#documentID").val(), 
 					"documentName": $("#documentName").val(), 
 					"documentDescription": $("#documentDescription").val(), 
-					"documentContent": $("#aDocumentContent").val(), 
+					"documentContent": concatenated, 
 					"documentType": $("#aDocumentType :selected").text(), 
 					"documentPrice": $("#documentPrice").val(), 
 					"status": $(".astatus:checked").val()
@@ -438,6 +440,10 @@
 					frm.find('#eDocumentPrice').val(data.documentPrice);
 					frm.find('#edDocumentType option:contains(' + data.documentType + ')').attr('selected', 'selected');
 					frm.find('#ePrimeID').val(data.primeID);
+
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br\s?\/?>/g, "\n"));
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br\/?>/g, "\n"));
+					$("#eDocumentContent").val($("#eDocumentContent").val().replace(/<br>/g, "\n"));
 
 					if(data.status == 1) {
 						$("#eActive").attr('checked', 'checked');
@@ -615,7 +621,7 @@
 					"</table>" + 
 				"</div>" + 
 				"<div>" +
-					"<table>" + 
+					"<table width='100%'>" + 
 						"<th>" + 
 							"<td></td>" + 
 							"<td></td>" + 
@@ -623,18 +629,17 @@
 						"<tr>" + 
 							"<td>" + 
 								"<br><br>" + 
-								"<span width='10%'></span>" + 
-								"<p valign='bottom' class='signaturePane'>" + 
+								"<p valign='bottom' align='center' class='signaturePane'>" + 
 									"{lastname}, {firstname} {middlename}" + 
 								"</p>" + 
 							"</td>" + 
 							"<td>" + 
-								"<p align='right' class='fileContent'>" + 
+								"<p align='center' class='fileContent'>" + 
 									"Respectfully Yours,<br><br>" + 
 								"</p>" + 
-								"<p align='right' class='signaturePane'>" + 
+								"<p align='center' class='signaturePane'>" + 
 									"Rolito A. Innocencio<br>" + 
-									"Barangay Chairman<br>" + 
+									"Barangay Chairman<br>" +  
 								"</p>" + 
 							"</td>" + 
 						"</tr>" + 
@@ -668,7 +673,7 @@
 								data[index].documentType, 
 								"&#8369; " + data[index].documentPrice,
 								statusText,
-								'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+								'<form method="POST" id=' + data[index].primeID + ' accept-charset="UTF-8"])' + 
 									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
 									'<button class="btn btn-icon btn-square btn-primary normal view" type="button" value="' + data[index].primeID + '"><i class="icon-eye3"></i></button>' + 
 									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
