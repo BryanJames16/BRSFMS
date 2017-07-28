@@ -15,11 +15,15 @@ class LotController extends Controller
                                         ->leftJoin('STREETS', 'LOTS.streetID', '=', 'STREETS.streetID')
                                         ->where('lots.archive', '=', 0) 
                                         ->get();
-        $streets= \DB::table('streets') ->select('streetID', 'streetName', 'barangayID') 
+        $streets= \DB::table('streets') ->select('streetID', 'streetName') 
                                         ->where([['archive', '=', 0],['status','=','1']]) 
                                         ->get();
         
-        return view('lot',['types'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],['typess'=>Barangay::where([['status', 1],['archive', 0]])->pluck('barangayName', 'barangayID')]) -> with('lots', $lots) -> with('streets', $streets);
+        return view('lot',
+                        ['types'=>Street::where([['status', 1],['archive', 0]])
+                        ->pluck('streetName', 'streetID')])
+                         -> with('lots', $lots) 
+                         -> with('streets', $streets);
     }
 
     public function store(Request $r) {

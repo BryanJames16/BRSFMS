@@ -17,7 +17,6 @@ class Street extends Model
 
     protected $fillable = [
         'streetName',
-        'barangayID',
         'status',
         'archive'
     ];

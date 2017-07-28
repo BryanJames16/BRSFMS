@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Street;
-use \App\Models\Barangay;
 
 class StreetController extends Controller
 {
    public function index() {
  
-        $streets= \DB::table('streets') ->select('streetID', 'streetName', 'barangayName', 'streets.status', 'streets.barangayID') 
-                                        ->leftJoin('BARANGAYS', 'STREETS.barangayID', '=', 'BARANGAYS.barangayID')
-                                        ->where('streets.archive', '=', 0) 
+        $streets= \DB::table('streets') ->select('streetID', 'streetName', 'status') 
+                                        ->where('archive', '=', 0) 
                                         ->get();
         
-        return view('street',['types'=>Barangay::where([['status', 1],['archive', 0]])->pluck('barangayName', 'barangayID')]) -> with('streets', $streets);
+        return view('street') -> with('streets', $streets);
     }
 
     public function store(Request $r) {
@@ -37,7 +35,6 @@ class StreetController extends Controller
 
             
         $aah = Street::insert(['streetName'=>trim($r->streetName),
-                                            'barangayID'=>$r->barangayID,
                                                'archive'=>0,
                                                'status'=>$stat]);
        return back();
@@ -59,7 +56,6 @@ class StreetController extends Controller
 
         $street = Street::find($r->input('streetID'));
         $street->streetName = $r->input('street_name');
-        $street->barangayID = $r->input('barangayID');
         $street->status = $r->input('stat');
         $street->save();
         return redirect('street');

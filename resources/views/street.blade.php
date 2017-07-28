@@ -75,16 +75,6 @@
 
 	</div>
 
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Barangay</label>
-		
-		<div class="col-md-9">
-			
-			{{ Form::select('barangayID', $types, null, ['id'=>'barangayID', 'class' => 'form-control border-info selectBox']) }}
-			
-		</div>	
-	</div>
-
 
 	<div class="form-group row last">
 		<label class="col-md-3 label-control">*Status</label>
@@ -120,7 +110,6 @@
 @section('table-head-list')
 	<th>ID</th>
 	<th>Name</th>
-	<th>Barangay</th>
 	<th>Status</th>
 	<th>Actions</th>
 @endsection
@@ -130,7 +119,6 @@
 		<tr>
 			<td>{{ $street -> streetID }}</td>
 			<td>{{ $street -> streetName }}</td>
-			<td>{{ $street -> barangayName }}</td>
 			
 			@if ($street -> status == 1)
 				<td>Active</td>
@@ -144,7 +132,6 @@
 
 					<input type='hidden' name='streetID' value='{{ $street -> streetID }}' />
 					<input type='hidden' name='streetName' value='{{ $street -> streetName }}' />
-					<input type='hidden' name='barangayID' value='{{ $street -> barangayID }}' />
 					<input type='hidden' name='status' value='{{ $street -> status }}' />
 					
 				<div class="btn-group" role="group" aria-label="Basic example">
@@ -214,7 +201,6 @@
 					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#street_name').val(data.streetName);
-					frm.find('#edit-barangayID').val(data.barangayID);
 					frm.find('#streetID').val(data.streetID);
 					
 					if(data.status==1)
@@ -262,16 +248,6 @@
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
 			{!!Form::text('street_name',null,['id'=>'street_name','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'3'])!!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Barangay</label>
-		<div class="col-md-9">
-			
-			{{ Form::select('barangayID', $types, null, ['id'=>'edit-barangayID', 'class' => 'form-control border-info selectBox']) }}
-			
 		</div>	
 
 	</div>

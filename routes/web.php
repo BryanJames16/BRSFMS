@@ -67,6 +67,15 @@ Route::post('/resident/store', 'ResidentController@store');
 Route::post('/resident/update','ResidentController@edit');
 Route::post('/resident/delete','ResidentController@delete');
 Route::get('/resident/refresh','ResidentController@refresh');
+Route::get('/resident/nextPK','ResidentController@nextPK');
+
+//Family
+Route::get('/family/nextPK','ResidentController@familyNextPK');
+Route::post('/family/store', 'ResidentController@familyStore');
+Route::get('/family/refresh','ResidentController@familyRefresh');
+Route::post('/family/delete','ResidentController@familyDelete');
+Route::get('/family/getEdit', 'ResidentController@familyGetEdit');
+Route::get('/family/getMembers', 'ResidentController@getMembers');
 
 //Document
 Route::get('/document/getEdit', 'DocumentController@getEdit');

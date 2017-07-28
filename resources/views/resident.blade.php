@@ -6,7 +6,12 @@
 @endsection
 
 @section('plugin')
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />
+	
 @endsection
 
 <!-- CSS Styles -->
@@ -66,10 +71,10 @@
 						<div class="card-block card-dashboard">
 							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Register Resident  
 								</button>
-								<button type="button" class="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#familyModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-success btn-lg" id="btnFamilyModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i>Add Family  
 								</button>
 							</p>	
@@ -108,7 +113,7 @@
 										@foreach($residents as $resident)
 											<tr>
 												<td>{{ $resident -> residentID }}</td>
-												<td>{{ $resident -> firstName }} {{ $resident -> middleName }} {{ $resident -> lastName }}</td>
+												<td>{{ $resident -> firstName }} {{ substr($resident -> middleName,0,1)  }}. {{ $resident -> lastName }}</td>
 												<td>{{ $resident -> birthDate }}</td>
 
 												@if ($resident -> gender == 'M')
@@ -169,19 +174,44 @@
 
 								<!-- Family Tab -->
 
-									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-familyContainer">
 										<thead>
 											<tr>
 												<th>ID</th>
 												<th>Name</th>
 												<th>Head</th>
-												<th>Status</th>
+												<th>Members</th>
+												<th>Date Registered</th>
 												<th>Actions</th>
 											</tr>
 										</thead>
 
 										<tbody>
-											
+											@foreach($families as $family)
+												<tr>
+
+													{{Form::open(['url'=>'family/delete', 'method' => 'POST', 'id' => $family -> familyPrimeID ])}}
+
+														{{Form::hidden('familyPrimeID',$family->familyPrimeID,['id'=>'familyPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
+
+													<td>{{ $family -> familyID }}</td>
+													<td>{{ $family -> familyName }}</td>
+													<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
+													<td>2</td>
+													<td>{{ $family -> familyRegistrationDate }}</td>
+													<td>
+														<span class="dropdown">
+															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																<a href="#" class="dropdown-item viewMember" name="btnView" data-value='{{ $family -> familyPrimeID }}'><i class="icon-eye6"></i> View</a>
+																<a href="#" class="dropdown-item editMember" name="btnEdit" data-value='{{ $family -> familyPrimeID }}'><i class="icon-pen3"></i> Add/Remove members</a>
+																<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value='{{ $family -> familyPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+															</span>
+														</span>
+													</td>
+													{{Form::close()}}
+												</tr>
+											@endforeach
 										</tbody>
 									</table>
 
@@ -193,9 +223,9 @@
 						</div>
 						<!-- END OF CONTENT -->
 
-						<!--MEMBER -->
+						<!--Family -->
 
-						<!--Member Modal -->
+						<!--Family Add Modal -->
 						<div class="modal fade text-xs-left" id="familyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog " role="document">
 								<div class="modal-content">
@@ -208,51 +238,66 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										<form class="form" />
+										{{Form::open(['url'=>'family/store', 'method' => 'POST', 'id' => 'frm-familyAdd', 'class'=>'form'])}}
 							
 
-							<div class="form-body">
-	                    		<div class="row">
-	                    			<div class="form-group col-xs-12 mb-2">
-			                            <label for="eventInput1">Family ID</label>
-			                            <input type="text" id="eventInput1" class="form-control" placeholder="FAM_001" name="fullname" />
-			                        </div>
-	                    		</div>
+										<div class="form-body">
+											<div class="row">
+												<div class="form-group col-xs-12 mb-2">
+													<label for="eventInput1">Family ID</label>
+													<input type="text" id="familyID" class="form-control" placeholder="FAM_001" name="familyID" readonly />
+												</div>
+											</div>
 
-	                    		<div class="row">
-	                    			<div class="form-group col-xs-12 mb-2">
-			                            <label for="eventInput2">Family Name</label>
-			                            <input type="text" id="eventInput2" class="form-control" placeholder="Fuellas Family" name="title" />
-			                        </div>
-	                    		</div>
+											<div class="row">
+												<div class="form-group col-xs-12 mb-2">
+													<label for="eventInput2">Family Name</label>
+													<input type="text" id="familyName" class="form-control" placeholder="Fuellas Family" name="familyName" />
+												</div>
+											</div>
 
-	                    		<div class="row">
-	                    			<div class="form-group col-xs-9 mb-2">
-			                            <label for="eventInput3">Family Head</label>
-			                            <select name="gender" id="gender" class="form-control">
-											<option value="M">Fuellas, Marc Joseph M.</option>
-											<option value="F">Illaga, Bryan James</option>
-										</select>
-										
-			                        </div>
-									<div class="form-group col-xs-3">
-										<button type="button" class="btn btn-outline-success btn-lg">
-											<i class="icon-edit2"></i>Search  
-										</button>
-									</div>
-									
-	                    		</div>
-							</div>
+											<div class="row">
+												<div class="form-group col-xs-12">
+													<label for="eventInput3">Family Head</label>								
+												</div>
+											</div>
 
-							<div class="form-actions center">
-	                            <button type="button" class="btn btn-warning mr-1">
-	                            	<i class="icon-cross2"></i> Cancel
-	                            </button>
-	                            <button type="submit" class="btn btn-primary">
-	                                <i class="icon-check2"></i> Save
-	                            </button>
-	                        </div>
-						</form>
+											<div class="row">
+												<div class="form-group col-xs-12">
+													<select class="select2 form-control" id="familyHeadID" name="familyHeadID" style="width: 50%">
+													
+														<optgroup label="Male">
+														@foreach($residents as $resident)
+															@if($resident -> gender == 'M')
+															{
+																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
+															}
+															@endif
+														@endforeach
+														</optgroup>
+														<optgroup label="Female">
+														@foreach($residents as $resident)
+															@if($resident -> gender == 'F')
+															{
+																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
+															}
+															@endif
+														@endforeach
+														</optgroup>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-actions center">
+											<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+												<i class="icon-cross2"></i> Cancel
+											</button>
+											<button type="submit" class="btn btn-primary">
+												<i class="icon-check2"></i> Save
+											</button>
+										</div>
+									{{Form::close()}}
 									</div>
 									<!-- End of Modal Body -->
 
@@ -265,7 +310,7 @@
 
 						<!--Member Modal -->
 						<div class="modal fade text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-dialog " role="document">
+							<div class="modal-sm modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -277,6 +322,101 @@
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
 										
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
+						<!--ADD/REMOVE MEMBER -->
+
+						<!--Add/Remove Member Modal -->
+						<div class="modal fade text-xs-left" id="editMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-lg modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add/Remove Members of the Family</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+										<div id="famName">
+
+
+										</div>
+										<div id="headName">
+
+										</div>
+										<div>
+											<p>MEMBERS:</p>
+										</div>
+
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-MemberContainer">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Gender</th>
+													<th>Relation</th>
+													<th>Birthdate</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												
+											</tbody>
+										</table>
+
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
+						<!--VIEW MEMBER -->
+
+						<!--VIEW Member Modal -->
+						<div class="modal fade text-xs-left" id="viewMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-xl modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Family</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+									
+										<div class="col-xl-3 col-md-6 col-xs-12">
+											<div class="card">
+												<div class="text-xs-center">
+													<div class="card-block">
+														<img src="./robust-assets/images/portrait/medium/avatar-m-4.png" class="rounded-circle  height-150" alt="Card image" />
+													</div>
+													<div class="card-block">
+														<h4 class="card-title">Michelle Howard</h4>
+														<h6 class="card-subtitle text-muted">Managing Director</h6>
+													</div>
+													<div class="text-xs-center">
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"><span class="icon-facebook3"></span></a>
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter"><span class="icon-twitter3"></span></a>
+														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"><span class="icon-linkedin3 font-medium-4"></span></a>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										
+
 									</div>
 									<!-- End of Modal Body -->
 
@@ -311,7 +451,10 @@
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput1">ID</label>
-														{!! Form::text('residentID', null, ['id' => 'residentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+														{!! Form::text('residentID', null, ['id' => 'residentID',
+																							'class' => 'form-control border-primary',
+																							 'placeholder'=> 'RES_001',
+																							 'readonly']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput2">First Name</label>
@@ -386,21 +529,41 @@
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">Street</label>
-														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+														<select name="street" id="street" class="form-control">
+															@foreach($streetss as $street)
+																<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
+															@endforeach
+														</select>
+														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }} -->
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput4">Lot</label>
-														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+														<select name="lot" id="lot" class="form-control">
+															@foreach($lots as $lot)
+																<option value= {{$lot -> lotID}}>{{$lot -> lotCode}}</option>
+															@endforeach
+														</select>
+														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 													</div>
 												</div>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">House</label>
-														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+														<select name="house" id="house" class="form-control">
+															@foreach($houses as $house)
+																<option value= {{$house -> houseID}}>{{$house -> houseCode}}</option>
+															@endforeach
+														</select>
+														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput4">Unit</label>
-														{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+														<select name="unit" id="unit" class="form-control">
+															@foreach($units as $unit)
+																<option value= {{$unit -> unitID}}>{{$unit -> unitCode}}</option>
+															@endforeach
+														</select>
+														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 													</div>
 												</div>
 
@@ -599,21 +762,41 @@
 									<div class="row">
 										<div class="form-group col-md-6 mb-2">
 											<label for="userinput3">Street</label>
-											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+											<select name="street" id="street" class="form-control">
+												@foreach($streetss as $street)
+													<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
+												@endforeach
+											</select>
+											<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }} -->
 										</div>
 										<div class="form-group col-md-6 mb-2">
 											<label for="userinput4">Lot</label>
-											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+											<select name="lot" id="lot" class="form-control">
+												@foreach($lots as $lot)
+													<option value= {{$lot -> lotID}}>{{$lot -> lotCode}}</option>
+												@endforeach
+											</select>
+											<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6 mb-2">
 											<label for="userinput3">House</label>
-											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+											<select name="house" id="house" class="form-control">
+												@foreach($houses as $house)
+													<option value= {{$house -> houseID}}>{{$house -> houseCode}}</option>
+												@endforeach
+											</select>
+											<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 										</div>
 										<div class="form-group col-md-6 mb-2">
 											<label for="userinput4">Unit</label>
-											{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}
+											<select name="unit" id="unit" class="form-control">
+												@foreach($units as $unit)
+													<option value= {{$unit -> unitID}}>{{$unit -> unitCode}}</option>
+												@endforeach
+											</select>
+											<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 										</div>
 									</div>
 
@@ -670,7 +853,7 @@
 
 @section('page-vendor-js')
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
@@ -697,7 +880,65 @@
 
 	<script type="text/javascript">
 		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
+			$("#addModal").modal('show');
+
+			$.ajax({
+				url: "{{ url('/resident/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#residentID").val(data);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+
+		});
+	</script>
+
+	<script type="text/javascript">
+		$("#btnFamilyModal").on('click', function() {
+			$("#familyModal").modal('show');
+
+			$.ajax({
+				url: "{{ url('/family/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						console.log(data);
+						$("#familyID").val(data);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
+
 		});
 	</script>
 
@@ -732,7 +973,39 @@
 				success: function(data) {
 					$("#addModal").modal("hide");
 					refreshTable();
+					familyRefreshTable();
 					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		$("#frm-familyAdd").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/family/store') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"familyID": $("#familyID").val(), 
+					"familyHeadID": $("#familyHeadID").val(), 
+					"familyName": $("#familyName").val()
+				}, 
+				success: function(data) {
+					$("#familyModal").modal("hide");
+					refreshTable();
+					familyRefreshTable();
+					$("#frm-familyAdd").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
 				error: function(error) {
@@ -796,6 +1069,97 @@
 				success:function(data)
 				{
 					$('#memberModal').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$(document).on('click', '.editMember', function(e) {
+			var id = $(this).data('value');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/family/getMembers') }}", 
+				data: {"familyPrimeID":id}, 
+				success:function(data)
+				{
+					$("#table-MemberContainer").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data)
+					{
+						$("#famName").html(
+							"<p>Family Name: " + data[index].familyName + "</p>"
+						);
+
+						$("#headName").html(
+							"<p>Head: " + data[index].familyName + "</p>" 
+							
+						);
+
+						$("#table-MemberContainer").append('<tr>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
+									'<td>' + data[index].gender + '</td>' + 
+									'<td>' + data[index].memberRelation + '</td>' + 
+									'<td>' + data[index].birthDate + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
+
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+													'<a href="#" class="dropdown-item editM" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' + 
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+
+					
+					
+					
+					$('#editMember').modal('show');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
+
+		});
+
+		$(document).on('click', '.viewMember', function(e) {
+			var id = $(this).data('value');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/family/getEdit') }}", 
+				data: {"familyPrimeID":id}, 
+				success:function(data)
+				{
+					
+
+					$('#viewMember').modal('show');
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -881,6 +1245,7 @@
 				success: function ( _response ){
 					$("#editModal").modal('hide');
 					
+					familyRefreshTable();
 					refreshTable();
 					
 					swal("Successful", 
@@ -927,6 +1292,53 @@
 									residentPrimeID:id}, 
 									success: function(data) {
 										refreshTable();
+										familyRefreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(data) {
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							});				
+					}
+			})
+		});
+
+		$(document).on('click', '.deleteMember', function(e) {
+
+			var id = $(this).data('value');
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/family/getEdit') }}",
+					data: {"familyPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						swal({
+							title: "Are you sure you want to delete " + data.familyName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "post",
+									url: "{{ url('/family/delete') }}", 
+									data: {"_token": "{{ csrf_token() }}",
+									familyPrimeID:id}, 
+									success: function(data) {
+										refreshTable();
+										familyRefreshTable();
 										swal("Successfull", "Entry is deleted!", "success");
 									}, 
 									error: function(data) {
@@ -956,6 +1368,7 @@
 
 					for (index in data) {
 						var statusText = "";
+						var genderText = "";
 						if (data[index].status == 1) {
 							statusText = "Active";
 						}
@@ -963,14 +1376,24 @@
 							statusText = "Inactive";
 						}
 
+						if (data[index].gender == 'M')
+						{
+							genderText = "Male";
+						}
+						else
+						{
+							genderText = "Female";
+						}
+
+
 						$("#table-container").append('<tr>' + 
 									'<td>' + data[index].residentID + '</td>' + 
-									'<td>' + data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName + '</td>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
 									'<td>' + data[index].birthDate + '</td>' + 
 
 					
 
-									'<td>' + data[index].gender + '</td>' + 
+									'<td>' + genderText + '</td>' + 
 									
 									'<td>' + data[index].residentType + '</td>' + 
 									'<td>' + statusText + '</td>' + 
@@ -982,8 +1405,79 @@
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
 													'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item add" name="btnMember" data-value="' + data[index].residentPrimeID+ '"><i class="icon-outbox"></i> Add to Family</a>' +
 													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].residentPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' + 
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+		var familyRefreshTable = function() {
+			$.ajax({
+				url: "{{ url('/family/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-familyContainer").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						var statusText = "";
+						var genderText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						if (data[index].gender == 'M')
+						{
+							genderText = "Male";
+						}
+						else
+						{
+							genderText = "Female";
+						}
+
+
+						$("#table-familyContainer").append('<tr>' + 
+									'<td>' + data[index].familyID + '</td>' + 
+									'<td>' + data[index].familyName + '</td>' + 
+									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
+									'<td>' + '2</td>' + 
+
+					
+
+									'<td>' + data[index].familyRegistrationDate + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
+											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
+
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+													'<a href="#" class="dropdown-item viewMember" name="btnView" data-value="' + data[index].familyPrimeID + '"><i class="icon-eye6"></i> View</a>' +
+													'<a href="#" class="dropdown-item editMember" name="btnEdit" data-value="' + data[index].familyPrimeID + '"><i class="icon-pen3"></i> Add/Remove members</a>' +
+													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
 											'</form>' + 
@@ -1010,11 +1504,17 @@
 @endsection
 
 @section('template-js')
+	
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	
 @endsection
 
 @section('page-level-js')
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	
+	
+	
 @endsection
