@@ -1,8 +1,10 @@
--- MySQL dump 10.16  Distrib 10.1.22-MariaDB, for Win32 (AMD64)
+CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `dbbarangay`;
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: localhost    Database: dbBarangay
+-- Host: 127.0.0.1    Database: dbbarangay
 -- ------------------------------------------------------
--- Server version	10.1.22-MariaDB
+-- Server version	5.5.5-10.1.19-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +30,7 @@ CREATE TABLE `buildings` (
   `buildingName` varchar(45) NOT NULL,
   `buildingType` varchar(45) NOT NULL,
   PRIMARY KEY (`buildingID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +39,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
+INSERT INTO `buildings` VALUES (1,'BUILD_001','El Pueblo','Di ko lam');
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +57,7 @@ CREATE TABLE `businesscategories` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`categoryPrimeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,6 +66,7 @@ CREATE TABLE `businesscategories` (
 
 LOCK TABLES `businesscategories` WRITE;
 /*!40000 ALTER TABLE `businesscategories` DISABLE KEYS */;
+INSERT INTO `businesscategories` VALUES (2,'Industrial','',1,0);
 /*!40000 ALTER TABLE `businesscategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +89,7 @@ CREATE TABLE `businesses` (
   PRIMARY KEY (`businessPrimeID`),
   KEY `fk_Businesses_BusinessCategory1_idx` (`categoryPrimeID`),
   CONSTRAINT `fk_Businesses_BusinessCategory1` FOREIGN KEY (`categoryPrimeID`) REFERENCES `businesscategories` (`categoryPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,6 +98,7 @@ CREATE TABLE `businesses` (
 
 LOCK TABLES `businesses` WRITE;
 /*!40000 ALTER TABLE `businesses` DISABLE KEYS */;
+INSERT INTO `businesses` VALUES (2,'BUS_001','Sari Sari Store','','Sole',2,1,0);
 /*!40000 ALTER TABLE `businesses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +149,7 @@ CREATE TABLE `documentdetailrequests` (
   KEY `fk_DocumentDetailRequests_Documents1_idx` (`documentPrimeID`),
   CONSTRAINT `fk_DocumentDetailRequests_DocumentHeaderRequests1` FOREIGN KEY (`headerPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_DocumentDetailRequests_Documents1` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,6 +158,7 @@ CREATE TABLE `documentdetailrequests` (
 
 LOCK TABLES `documentdetailrequests` WRITE;
 /*!40000 ALTER TABLE `documentdetailrequests` DISABLE KEYS */;
+INSERT INTO `documentdetailrequests` VALUES (1,1,2,1),(2,2,2,1),(3,3,2,1),(4,4,2,1),(5,5,2,2);
 /*!40000 ALTER TABLE `documentdetailrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,13 +172,13 @@ DROP TABLE IF EXISTS `documentheaderrequests`;
 CREATE TABLE `documentheaderrequests` (
   `documentHeaderPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `requestID` varchar(20) NOT NULL,
-  `requestDate` datetime NOT NULL,
+  `requestDate` date NOT NULL,
   `status` varchar(20) NOT NULL,
   `peoplePrimeID` int(11) NOT NULL,
   PRIMARY KEY (`documentHeaderPrimeID`),
   KEY `fk_DocumentHeaderRequests_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +187,7 @@ CREATE TABLE `documentheaderrequests` (
 
 LOCK TABLES `documentheaderrequests` WRITE;
 /*!40000 ALTER TABLE `documentheaderrequests` DISABLE KEYS */;
+INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-07-27','Cancelled',1),(2,'REQ_002','2017-07-27','Pending',6),(3,'REQ_003','2017-07-28','Pending',7),(4,'REQ_004','2017-07-29','Pending',1),(5,'REQ_005','2017-07-29','Pending',5);
 /*!40000 ALTER TABLE `documentheaderrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,7 +209,7 @@ CREATE TABLE `documents` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`primeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +218,7 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-INSERT INTO `documents` VALUES (2,'asdfasdf001','asdfasdfsadf','fsdfsdfs','asdfasdfsdfsdf','Legal Document',100,1,1),(3,'asdfasdf002','asdfasdfasdf','fasdfasdf','fasdfasdfsdaf','Legal Document',100,1,1),(4,'DOC-PR1-001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {civilstatus}, and whose signature appears below is presently residing in {housenumber}|{buildingnumber}, {unit}, {lot}, {street}.<br><br>This is to certify that {gender:opt} has no dorigatory record filed and / or pending case against {gender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {gender:opt} requirements.','Legal Document',150,1,0);
+INSERT INTO `documents` VALUES (2,'DOC_001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {scivilstatus}, and whose signature appears below is presently residing in {housenumber}|{buildingnumber}, {unit}, {lot}, {street}.<br><br>This is to certify that {sgender:opt} has no dorigatory record filed and / or pending case against {sgender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {sgender:sopt} requirements.','Certification',100,1,0),(3,'DOC_002','Certificate of Indigency','','This is to chuchu','Certification',100,1,0);
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -293,7 +300,7 @@ CREATE TABLE `facilities` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Facilities_FacilityTypes1_idx` (`facilityTypeID`),
   CONSTRAINT `fk_Facilities_FacilityTypes1` FOREIGN KEY (`facilityTypeID`) REFERENCES `facilitytypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,6 +309,7 @@ CREATE TABLE `facilities` (
 
 LOCK TABLES `facilities` WRITE;
 /*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
+INSERT INTO `facilities` VALUES (6,'FAC_001','Hipodromo Court','',0,0,3,100,150);
 /*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +326,7 @@ CREATE TABLE `facilitytypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,6 +335,7 @@ CREATE TABLE `facilitytypes` (
 
 LOCK TABLES `facilitytypes` WRITE;
 /*!40000 ALTER TABLE `facilitytypes` DISABLE KEYS */;
+INSERT INTO `facilitytypes` VALUES (3,'Covered Court',1,0);
 /*!40000 ALTER TABLE `facilitytypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,10 +349,14 @@ DROP TABLE IF EXISTS `families`;
 CREATE TABLE `families` (
   `familyPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `familyID` varchar(20) NOT NULL,
-  `status` tinyint(1) NOT NULL,
+  `familyHeadID` int(11) NOT NULL,
+  `familyName` varchar(30) DEFAULT NULL,
+  `familyRegistrationDate` date DEFAULT NULL,
   `archive` tinyint(1) NOT NULL,
-  PRIMARY KEY (`familyPrimeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`familyPrimeID`),
+  KEY `familyHeadID_idx` (`familyHeadID`),
+  CONSTRAINT `familyHeadID` FOREIGN KEY (`familyHeadID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -352,6 +365,7 @@ CREATE TABLE `families` (
 
 LOCK TABLES `families` WRITE;
 /*!40000 ALTER TABLE `families` DISABLE KEYS */;
+INSERT INTO `families` VALUES (1,'FAM_001',1,'Fuellas Family','2017-07-28',0),(2,'FAM_002',7,'Paglinawan Family','2017-07-28',0),(3,'FAM_003',5,'Illaga Family','2017-07-28',0),(4,'FAM_004',6,'Del Mundo Family','2017-07-28',0),(5,'FAM_005',16,'Salvador Family','2017-07-28',0),(6,'FAM_006',1,'asdSD','2017-07-28',1),(8,'FAM_007',17,'Aragon Family','2017-07-29',0);
 /*!40000 ALTER TABLE `families` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,17 +378,16 @@ DROP TABLE IF EXISTS `familymembers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `familymembers` (
   `familyMemberPrimeID` int(11) NOT NULL AUTO_INCREMENT,
-  `memberRelation` varchar(45) NOT NULL,
-  `peoplePrimeID` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `archive` tinyint(1) NOT NULL,
   `familyPrimeID` int(11) NOT NULL,
+  `peoplePrimeID` int(11) NOT NULL,
+  `memberRelation` varchar(45) NOT NULL,
+  `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`familyMemberPrimeID`),
   KEY `fk_familyMembers_Residents1_idx` (`peoplePrimeID`),
   KEY `fk_FamilyMembers_Families1_idx` (`familyPrimeID`),
   CONSTRAINT `fk_FamilyMembers_Families1` FOREIGN KEY (`familyPrimeID`) REFERENCES `families` (`familyPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_familyMembers_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,34 +396,8 @@ CREATE TABLE `familymembers` (
 
 LOCK TABLES `familymembers` WRITE;
 /*!40000 ALTER TABLE `familymembers` DISABLE KEYS */;
+INSERT INTO `familymembers` VALUES (1,1,2,'Brother',0),(2,1,5,'Mother',0),(3,2,6,'Cousin',0),(4,2,17,'Brother',0);
 /*!40000 ALTER TABLE `familymembers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `familyregistrations`
---
-
-DROP TABLE IF EXISTS `familyregistrations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `familyregistrations` (
-  `primeID` int(11) NOT NULL AUTO_INCREMENT,
-  `registrationID` varchar(20) NOT NULL,
-  `registrationDate` date NOT NULL,
-  `familyPrimeID` int(11) NOT NULL,
-  PRIMARY KEY (`primeID`),
-  KEY `fk_FamilyRegistrations_Families1_idx` (`familyPrimeID`),
-  CONSTRAINT `fk_FamilyRegistrations_Families1` FOREIGN KEY (`familyPrimeID`) REFERENCES `families` (`familyPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `familyregistrations`
---
-
-LOCK TABLES `familyregistrations` WRITE;
-/*!40000 ALTER TABLE `familyregistrations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `familyregistrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -471,7 +458,7 @@ CREATE TABLE `houses` (
   PRIMARY KEY (`houseID`),
   KEY `fk_Houses_Lots1_idx` (`lotID`),
   CONSTRAINT `fk_Houses_Lots1` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,6 +467,7 @@ CREATE TABLE `houses` (
 
 LOCK TABLES `houses` WRITE;
 /*!40000 ALTER TABLE `houses` DISABLE KEYS */;
+INSERT INTO `houses` VALUES (1,'Kaka',1,1,0);
 /*!40000 ALTER TABLE `houses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,7 +487,7 @@ CREATE TABLE `lots` (
   PRIMARY KEY (`lotID`),
   KEY `fk_Lots_Streets1_idx` (`streetID`),
   CONSTRAINT `fk_Lots_Streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -508,6 +496,7 @@ CREATE TABLE `lots` (
 
 LOCK TABLES `lots` WRITE;
 /*!40000 ALTER TABLE `lots` DISABLE KEYS */;
+INSERT INTO `lots` VALUES (1,'5C',1,1,0),(2,'4C',1,1,0),(3,'10',2,1,0),(4,'20',2,1,0);
 /*!40000 ALTER TABLE `lots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -715,7 +704,7 @@ CREATE TABLE `residents` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`residentPrimeID`),
   KEY `fk_Residents_People1_idx` (`residentPrimeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -724,6 +713,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
+INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -745,7 +735,7 @@ CREATE TABLE `services` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Services_ServiceTypes1_idx` (`typeID`),
   CONSTRAINT `fk_Services_ServiceTypes1` FOREIGN KEY (`typeID`) REFERENCES `servicetypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -754,6 +744,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
+INSERT INTO `services` VALUES (6,'SERV_001','Tuli','',158,1,0);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -802,7 +793,7 @@ CREATE TABLE `servicetypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -811,6 +802,7 @@ CREATE TABLE `servicetypes` (
 
 LOCK TABLES `servicetypes` WRITE;
 /*!40000 ALTER TABLE `servicetypes` DISABLE KEYS */;
+INSERT INTO `servicetypes` VALUES (158,'Health','',1,0),(159,'Skubariwa','',1,0);
 /*!40000 ALTER TABLE `servicetypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -824,11 +816,10 @@ DROP TABLE IF EXISTS `streets`;
 CREATE TABLE `streets` (
   `streetID` int(11) NOT NULL AUTO_INCREMENT,
   `streetName` varchar(30) NOT NULL,
-  `barangayID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`streetID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -837,6 +828,7 @@ CREATE TABLE `streets` (
 
 LOCK TABLES `streets` WRITE;
 /*!40000 ALTER TABLE `streets` DISABLE KEYS */;
+INSERT INTO `streets` VALUES (1,'Teresa',1,0),(2,'Magdalene',1,0);
 /*!40000 ALTER TABLE `streets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -885,7 +877,7 @@ CREATE TABLE `units` (
   CONSTRAINT `fk_Units_Houses1` FOREIGN KEY (`houseID`) REFERENCES `houses` (`houseID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Units_Lots1` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_units_building1` FOREIGN KEY (`buildingID`) REFERENCES `buildings` (`buildingID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -894,6 +886,7 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
+INSERT INTO `units` VALUES (1,'H',1,1,0,1,1);
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -913,7 +906,7 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL,
   `remember_token` tinytext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -922,6 +915,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Skubariwa','skubariwa@gmail.com','$2y$10$o7sbyFDyiHWht0rPcGEVQuPgXNL2ITbTjRViE2n8mwpAsFb0i0HZu','2017-07-26 11:58:18','2017-07-26 11:50:25','4lY6tOQgOOqjFvv4ru5wtp5dzgzO1SF79G3MvP02fiMWku0ISrt8Jt0bznMW'),(2,'asdf','asdf@asdf.com','$2y$10$ZfbiKMOvv769UWE7o3zRLuaD3P5yG2JYfqL4REpOG.ofkD8Pnq1t6','2017-07-29 07:56:48','2017-07-29 07:56:48',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -963,4 +957,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-27 10:49:31
+-- Dump completed on 2017-07-29 20:46:03
