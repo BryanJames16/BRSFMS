@@ -74,6 +74,10 @@
 			left: 20%;
 			position: absolute;
 		}
+
+		#imgPlaceholder {
+			overflow: visible;
+		}
 	</style>
 @endsection
 
@@ -687,6 +691,15 @@
 							"<div id='signContainer' class='signContainer' height='95px' width='185px'>" + 
 							"</div>"
 						);
+						
+						html2canvas($("#imgPlaceholder"), {
+							width: 816, 
+							height: 1056, 
+							onrendered: function(newDraw) {
+								$("#lookContainer").html(newDraw);
+							}, 
+							useCORS: true
+						});
 					});
 
 					/*
@@ -700,7 +713,7 @@
 			
 			setTimeout(function () {
 				$("#lookContainer").width("0").height("0");
-				element.html("");
+				$("#lookContainer").html("");
 			}, 5000);
 
 			
@@ -843,14 +856,15 @@
 			
 			setTimeout(function () {
 				$("#lookContainer").width("0").height("0");
-				element.html("");
+				$("#lookContainer").html("");
 			}, 5000);
 		});
 
 		$(".cancel-view").on('click', function() {
 			$("#imgPlaceholder").css('cursor', 'default');
 			$("#imgPlaceholder").off('click');
-			$("#signContainer").html();
+			$("#signContainer").html("");
+			$("#lookContainer").html("");
 		});
 
 		var refreshTable = function() {
