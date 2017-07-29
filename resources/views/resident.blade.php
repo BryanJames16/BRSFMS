@@ -6,12 +6,10 @@
 @endsection
 
 @section('plugin')
-
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />
-	
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
 @endsection
 
 <!-- CSS Styles -->
@@ -23,11 +21,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
-
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
-
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 @endsection
 
@@ -306,9 +302,9 @@
 						</div> 
 						<!-- End of Modal -->
 
-						<!--MEMBER -->
+						<!--ADD TO FAMILY -->
 
-						<!--Member Modal -->
+						<!--ADD TO FAMILY Modal -->
 						<div class="modal fade text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-sm modal-dialog " role="document">
 								<div class="modal-content">
@@ -529,7 +525,7 @@
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">Street</label>
-														<select name="street" id="street" class="form-control">
+														<select name="street" id="street" class="form-control street">
 															@foreach($streetss as $street)
 																<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
 															@endforeach
@@ -538,7 +534,7 @@
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput4">Lot</label>
-														<select name="lot" id="lot" class="form-control">
+														<select name="lot" id="lot" class="form-control lot">
 															@foreach($lots as $lot)
 																<option value= {{$lot -> lotID}}>{{$lot -> lotCode}}</option>
 															@endforeach
@@ -549,7 +545,7 @@
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">House</label>
-														<select name="house" id="house" class="form-control">
+														<select name="house" id="house" class="form-control house">
 															@foreach($houses as $house)
 																<option value= {{$house -> houseID}}>{{$house -> houseCode}}</option>
 															@endforeach
@@ -558,7 +554,7 @@
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput4">Unit</label>
-														<select name="unit" id="unit" class="form-control">
+														<select name="unit" id="unit" class="form-control unit">
 															@foreach($units as $unit)
 																<option value= {{$unit -> unitID}}>{{$unit -> unitCode}}</option>
 															@endforeach
@@ -878,7 +874,12 @@
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 
+	
+
 	<script type="text/javascript">
+
+		//  RESIDENT NEXT PK
+
 		$("#btnAddModal").on('click', function() {
 			$("#addModal").modal('show');
 
@@ -905,12 +906,15 @@
 					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
-
-
 		});
+
+		//  END OF RESIDENT NEXT PK
 	</script>
 
 	<script type="text/javascript">
+
+		//  FAMILY NEXT PK
+
 		$("#btnFamilyModal").on('click', function() {
 			$("#familyModal").modal('show');
 
@@ -937,9 +941,9 @@
 					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
-
-
 		});
+
+		//  END OF FAMILY NEXT PK
 	</script>
 
 	<script>
@@ -948,6 +952,8 @@
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
+
+		//  SUBMIT ADD RESIDENT
 
 		$("#frm-add").submit(function(event) {
 			event.preventDefault();
@@ -989,6 +995,10 @@
 			});
 		});
 
+		//  END OF SUBMIT ADD RESIDENT
+
+		// SUBMIT ADD FAMILY
+
 		$("#frm-familyAdd").submit(function(event) {
 			event.preventDefault();
 
@@ -1019,6 +1029,10 @@
 				}
 			});
 		});
+
+		// END OF SUBMIT ADD FAMILY
+
+		//  VIEW RESIDENT
 
 		$(document).on('click', '.view', function(e) {
 			var id = $(this).data('value');
@@ -1059,6 +1073,10 @@
 
 		});
 
+		//  END OF VIEW RESIDENT
+
+		//  ADD TO FAMILY
+
 		$(document).on('click', '.add', function(e) {
 			var id = $(this).data('value');
 
@@ -1083,6 +1101,11 @@
 			})
 
 		});
+
+		//  END OF ADD TO FAMILY
+
+
+		//  ADD/REMOVE FAMILY MEMBER
 
 		$(document).on('click', '.editMember', function(e) {
 			var id = $(this).data('value');
@@ -1147,6 +1170,10 @@
 
 		});
 
+		//  END OF ADD/REMOVE FAMILY MEMBER
+
+		//  VIEW FAMILY MEMBERS
+
 		$(document).on('click', '.viewMember', function(e) {
 			var id = $(this).data('value');
 
@@ -1173,6 +1200,10 @@
 			})
 
 		});
+
+		//  END OF VIEW FAMILY MEMBER
+
+		//  EDIT RESIDENT ACTION
 
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).data('value');
@@ -1215,6 +1246,10 @@
 			})
 
 		});
+
+		//  END OF EDIT RESIDENT ACTION
+
+		//  UPDATE RESIDENT
 
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
@@ -1264,6 +1299,10 @@
 			});
 		});
 
+		//  END OF UPDATE RESIDENT
+
+		//  DELETE RESIDENT
+
 		$(document).on('click', '.delete', function(e) {
 
 			var id = $(this).data('value');
@@ -1310,6 +1349,10 @@
 			})
 		});
 
+		//  END OF DELETE RESIDENT
+
+		//  DELETE FAMILY 
+
 		$(document).on('click', '.deleteMember', function(e) {
 
 			var id = $(this).data('value');
@@ -1355,6 +1398,10 @@
 					}
 			})
 		});
+
+		//  END OF DELETE FAMILY
+
+		//  RESIDENT REFRESH TABLE
 
 		var refreshTable = function() {
 			$.ajax({
@@ -1424,6 +1471,11 @@
 			});
 		};
 
+		//END OF RESIDENT REFRESH TABLE
+
+
+		//   FAMILY REFRESH TABLE
+
 		var familyRefreshTable = function() {
 			$.ajax({
 				url: "{{ url('/family/refresh') }}", 
@@ -1489,13 +1541,95 @@
 			});
 		};
 
+		//  END OF FAMILY REFRESH TABLE
+
+		//  STREET ON CHANGE
+
+		$(document).on('change', '.street', function(e) {
+
+			var id = $('#street').val();
+			console.log(id);
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getLot') }}", 
+				data: {"streetID":id},  
+				success: function(data) {
+
+					$('#lot').empty();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+
+						$('#lot').append(
+							'<option value="'+ data[index].lotID +'">' + data[index].lotCode + '</option>'
+						);
+						console.log('Lot Code: ' + data[index].lotCode);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+			
+		});
+
+		// END OF STREET ON CHANGE
+
+		//  LOT ON CHANGE
+
+		$(document).on('change', '.lot', function(e) {
+
+			var id = $('#lot').val();
+			console.log(id);
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getUnit') }}", 
+				data: {"lotID":id},  
+				success: function(data) {
+
+					$('#unit').empty();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+
+						$('#unit').append(
+							'<option value="'+ data[index].unitID +'">' + data[index].unitCode + '</option>'
+						);
+						console.log('House Code: ' + data[index].unitCode);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+			
+		});
+
+		// END OF LOT ON CHANGE
+
 	</script>
 @endsection
 
 @section('template-js')
-	
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
-	
 @endsection
 
 @section('page-level-js')
@@ -1503,7 +1637,4 @@
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
-	
-	
-	
 @endsection

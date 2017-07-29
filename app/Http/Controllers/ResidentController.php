@@ -179,6 +179,50 @@ class ResidentController extends Controller
 
     }
 
+    public function getLot(Request $r) {
+        
+        if($r->ajax())
+        {
+            return json_encode( \DB::table('lots') ->select('lotID','lotCode') 
+                                        ->join('streets', 'lots.streetID', '=', 'streets.streetID')
+                                        ->where('lots.status', '=', 1)
+                                        ->where('lots.archive', '=', 0)
+                                        ->where('lots.streetID', '=', $r->input('streetID'))
+                                        ->get());
+        }
+
+    }
+
+    public function getHouse(Request $r) {
+        
+        if($r->ajax())
+        {
+            return json_encode( \DB::table('houses') ->select('houseID','houseCode') 
+                                        ->join('lots', 'houses.lotID', '=', 'lots.lotID')
+                                        ->where('houses.status', '=', 1)
+                                        ->where('houses.archive', '=', 0)
+                                        ->where('houses.lotID', '=', $r->input('lotID'))
+                                        ->get());
+        }
+
+    }
+
+    public function getUnit(Request $r) {
+        
+        if($r->ajax())
+        {
+            return json_encode( \DB::table('units') ->select('unitID','unitCode') 
+                                        ->join('lots', 'units.lotID', '=', 'units.lotID')
+                                        ->join('houses', 'units.houseID', '=', 'houses.houseID')
+                                        ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
+                                        ->where('units.status', '=', 1)
+                                        ->where('units.archive', '=', 0)
+                                        ->where('units.lotID', '=', $r->input('lotID'))
+                                        ->get());
+        }
+
+    }
+
     public function delete(Request $r)
     {
 

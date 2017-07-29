@@ -49,6 +49,7 @@ Route::post('/service/store', 'ServiceController@store');
 Route::post('/service/update','ServiceController@edit');
 Route::post('/service/delete','ServiceController@delete');
 
+
 //Business Category
 Route::get('/business-category/getEdit', 'BusinessCategoryController@getEdit');
 Route::post('/business-category/store', 'BusinessCategoryController@store');
@@ -68,6 +69,9 @@ Route::post('/resident/update','ResidentController@edit');
 Route::post('/resident/delete','ResidentController@delete');
 Route::get('/resident/refresh','ResidentController@refresh');
 Route::get('/resident/nextPK','ResidentController@nextPK');
+Route::get('/resident/getLot','ResidentController@getLot');
+Route::get('/resident/getHouse','ResidentController@getHouse');
+Route::get('/resident/getUnit','ResidentController@getUnit');
 
 //Family
 Route::get('/family/nextPK','ResidentController@familyNextPK');
@@ -94,6 +98,9 @@ Route::get('/document-request/getRequestor', 'DocumentRequestController@getReque
 Route::get('/document-request/getDocument', 'DocumentRequestController@getDocument');
 Route::post('/document-request/store', 'DocumentRequestController@store');
 Route::post('/document-request/delete','DocumentRequestController@delete');
+
+//Document Approval
+
 
 //Province
 Route::get('/province/getEdit', 'ProvinceController@getEdit');
@@ -151,8 +158,8 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 
 
-Route::get('/incident-report', function() {
-	return view('incident-report');
+Route::get('/business-registration', function() {
+	return view('business-registration');
 });
 
 Route::get('/request', function() {
@@ -181,6 +188,14 @@ Route::get('/sponsors', function() {
 
 Route::get('/service-sponsorship', function() {
 	return view('service-sponsorship');
+});
+
+Route::get('/service-registration', function() {
+	return view('service-registration');
+});
+
+Route::get('/document-approval', function() {
+	return view('document-approval');
 });
 
 Route::get('/', function () {

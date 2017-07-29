@@ -409,28 +409,56 @@
 											<span>Resident</span>
 										</a>
 									</li>
-									<li id="document-request-id">
-										<a href="/document-request" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-file-text2"></i>
-											<span>Document Request</span>
+									<li>
+										<a href="#">
+											<i class="icon-cogs"></i>
+											<span>Document</span>
 										</a>
+										<ul class="menu-content">
+											<li id="document-request-id">
+												<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Document Request
+												</a>
+											</li>
+											<li id="document-approval-id">
+												<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-aperture"></i>
+													Document Approval
+												</a>
+											</li>
+										</ul>
 									</li>
 									<li id="facility-reservation-id">
-										<a href="/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
 											<span>Facility Reservation</span>
 										</a>
 									</li>
-									<li id="service-sponsorship-id">
-										<a href="/sponsors">
-											<i class="icon-android-hand" data-i18n="nav.navbars.nav_light" class="menu-item"></i>
-											<span>Service Sponsorship</span>
+									<li>
+										<a href="#">
+											<i class="icon-cogs"></i>
+											<span>Service</span>
 										</a>
+										<ul class="menu-content">
+											<li id="service-registration-id">
+												<a href="/service-registration" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Service Registration
+												</a>
+											</li>
+											<li id="service-sponsorhip-id">
+												<a href="/service-sponsorship" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-aperture"></i>
+													Service Sponsorship
+												</a>
+											</li>
+										</ul>
 									</li>
-									<li id="incident-report-id">
-										<a href="/incident-report" data-i18n="nav.navbars.nav_light" class="menu-item">
+									<li id="business-registration-id">
+										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-location4"></i>
-											<span>Incident Report</span>
+											<span>Business Registration</span>
 										</a>
 									</li>
 								</ul>

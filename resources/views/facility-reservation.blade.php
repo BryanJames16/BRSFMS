@@ -17,6 +17,13 @@
 
 @section('vendor-style')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+@endsection
+
+@section('template-css')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
 @endsection
 
 <!-- Title of the Page -->
@@ -618,30 +625,45 @@
 	<script>
 		$(document).on('click', '.delete', function(e) {
 			var id = $(this).val();
-			type: 'get',
-			url: "{{ url('facility-reservation/getEdit') }}",
-			data: {primeID:id},
-			success:function(data)
-			{
-				console.log(data);
-				swal({
-						title: "Are you sure you want to cancel " + data.reservationName + "?",
-						text: "",
-						type: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#DD6B55",
-						confirmButtonText: "DELETE",
-						closeOnConfirm: false
-					},
-					function(){
 
-						swal("Successfull", data.reservationName + " is cancelled!", "success");
+			$.ajax({
+
+				type: 'get',
+				url: "{{ url('facility-reservation/getEdit') }}",
+				data: {primeID:id},
+				success:function(data)
+				{
+					console.log(data);
+					swal({
+							title: "Are you sure you want to cancel " + data.reservationName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "DELETE",
+							closeOnConfirm: false
+						},
+						function(){
+
+							swal("Successfull", data.reservationName + " is cancelled!", "success");
+							
+							document.getElementById(data.primeID).submit();
 						
-						document.getElementById(data.primeID).submit();
 					});				
-			}
+				}
+			});
 		});
 	</script>
+@endsection
+
+@section('vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+@endsection
+
+@section('template-js')
+	
+	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	
 @endsection
 
 @section('page-vendor-js')
@@ -659,6 +681,7 @@
 
 @section('page-level-js')
 	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script>
 		var refreshCbo = function() {
 			$.ajax({

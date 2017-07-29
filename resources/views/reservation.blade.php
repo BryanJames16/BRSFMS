@@ -9,6 +9,17 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 @endsection
 
+@section('vendor-style')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+@endsection
+
+@section('template-css')
+	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/app.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
+@endsection
+
 <!-- Title of the Page -->
 @section('title')
 	Facility Reservation
@@ -144,7 +155,7 @@
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
-
+	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script>
 		var refreshCbo = function() {
 			$.ajax({
