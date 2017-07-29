@@ -1093,7 +1093,7 @@
 				data: {"familyPrimeID":id}, 
 				success:function(data)
 				{
-					$("#table-MemberContainer").find("tr:gt(0)").remove();
+					$("#table-MemberContainer").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data)
@@ -1107,12 +1107,13 @@
 							
 						);
 
-						$("#table-MemberContainer").append('<tr>' + 
-									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
-									'<td>' + data[index].gender + '</td>' + 
-									'<td>' + data[index].memberRelation + '</td>' + 
-									'<td>' + data[index].birthDate + '</td>' + 
-									'<td>' + 
+						$("#table-MemberContainer").DataTable()
+								.row.add([ 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
+									data[index].gender,
+									data[index].memberRelation,
+									data[index].birthDate, 
+									
 										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
@@ -1123,10 +1124,8 @@
 													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
-											'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+											'</form>'
+									]).draw(false);
 					}
 
 					
@@ -1363,7 +1362,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -1386,18 +1385,14 @@
 						}
 
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].residentID + '</td>' + 
-									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
-									'<td>' + data[index].birthDate + '</td>' + 
-
-					
-
-									'<td>' + genderText + '</td>' + 
-									
-									'<td>' + data[index].residentType + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
+						$("#table-container").DataTable()
+								.row.add([
+									data[index].residentID, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									data[index].birthDate, 
+									genderText, 
+									data[index].residentType + ' Resident', 
+									statusText,
 										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
@@ -1410,10 +1405,9 @@
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
-											'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+											'</form>'
+									
+								]).draw(false);
 					}
 				}, 
 				error: function(data) {
@@ -1436,7 +1430,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-familyContainer").find("tr:gt(0)").remove();
+					$("#table-familyContainer").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -1459,16 +1453,13 @@
 						}
 
 
-						$("#table-familyContainer").append('<tr>' + 
-									'<td>' + data[index].familyID + '</td>' + 
-									'<td>' + data[index].familyName + '</td>' + 
-									'<td>' + data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName + '</td>' + 
-									'<td>' + '2</td>' + 
-
-					
-
-									'<td>' + data[index].familyRegistrationDate + '</td>' + 
-									'<td>' + 
+						$("#table-familyContainer").DataTable()
+								.row.add([ 
+									data[index].familyID, 
+									data[index].familyName, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									'2',
+									data[index].familyRegistrationDate,
 										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
 
@@ -1480,10 +1471,8 @@
 													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
-											'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+										'</form>'
+						]).draw(false);
 					}
 				}, 
 				error: function(data) {
