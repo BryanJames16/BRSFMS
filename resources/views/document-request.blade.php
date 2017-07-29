@@ -288,7 +288,7 @@
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
 											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
@@ -306,7 +306,7 @@
 												</div>
 
 												<div class="form-actions center">
-													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1" id="cancel-view">Cancel</button>
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 												</div>												
 											</div>
 										</div>
@@ -351,6 +351,12 @@
 
 		<div class="bpage" id="lookContainer">
 
+		</div>
+
+		<div id="fixContainer">
+			<div id="signContainer" class="signContainer" height="95px" width="185px">
+
+			</div>
 		</div>
 	</section>
 @endsection
@@ -666,6 +672,22 @@
 					});
 					pdfDoc.addImage(imgData, 'png', 0, 0);
 					var pdfUrl = pdfDoc.output('datauristring');
+					$("#signContainer").html(
+						'<img id="signPanel" src="{{ URL::asset("/system-assets/images/sign/samplesignature.png") }}" height="95px" width="185px">'
+					);
+
+					$("#imgPlaceholder").click(function(e) {
+						var obj = {
+							left: e.pageX - ($("#signPanel").width() / 2), 
+							top: e.pageY - ($("#signPanel").height() / 2)
+						};
+
+						$("#signContainer").clone().appendTo("#imgPlaceholder").show(0).offset(obj);
+						$("#fixContainer").html(
+							"<div id='signContainer' class='signContainer' height='95px' width='185px'>" + 
+							"</div>"
+						);
+					});
 
 					/*
 					$("#imgPlaceholder").html(
@@ -825,9 +847,10 @@
 			}, 5000);
 		});
 
-		$("#cancel-view").on('click', function() {
+		$(".cancel-view").on('click', function() {
 			$("#imgPlaceholder").css('cursor', 'default');
-			$('#imgPlaceholder').off('click');
+			$("#imgPlaceholder").off('click');
+			$("#signContainer").html();
 		});
 
 		var refreshTable = function() {
