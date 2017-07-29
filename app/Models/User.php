@@ -17,11 +17,15 @@ class User extends Model
         'name',
         'email',
         'password',
-        'remember_token'
+        'remember_token',
+        'firstName',
+        'middleName',
+        'lastName',
+        'suffix',
+        'imagePath'
     ];
 
     protected $guarded = [];
-
 
 
 }

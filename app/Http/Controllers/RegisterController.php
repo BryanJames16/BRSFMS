@@ -16,12 +16,18 @@ class RegisterController extends Controller
         $this->validate(request(),[
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'firstName' => 'required',
+            'lastName' => 'required'
         ]);
 
         $user = User::create([
             'name' => request('name'), 
-            'email' => request('email'), 
+            'email' => request('email'),
+            'firstName' => request('firstName'), 
+            'middleName' => request('middleName'), 
+            'lastName' => request('lastName'), 
+            'suffix' => request('suffix'), 
+            'imagePath' => request('imagePath'),  
             'password' => bcrypt(request('password')) 
             ]);
 
