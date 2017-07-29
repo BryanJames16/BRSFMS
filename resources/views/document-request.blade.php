@@ -845,12 +845,12 @@
 					pdfDoc.addImage(imgData, 'png', 0, 0);
 					var pdfUrl = pdfDoc.output('datauristring');
 
-					/*
+					
 					$("#imgPlaceholder").html(
 						'<iframe type="application/pdf" src="' + pdfUrl + '" width="100%" height="500px">' + 
 						'</iframe>'
 					);
-					*/
+					
 				}
 			});
 			

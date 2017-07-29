@@ -472,6 +472,8 @@
 
 			var frm = $('#frm-update');
 
+			var concatenated = $("#eDocumentContent").val().replace(/\r\n|\r|\n/g, "<br>");
+
 			$.ajax({
 				url: "{{ url('/document/update') }}",
 				type: "POST",
@@ -479,7 +481,7 @@
 						"documentID": $("#eDocumentID").val(), 
 						"documentName": $("#eDocumentName").val(), 
 						"documentDescription": $("#eDocumentDescription").val(), 
-						"documentContent": $("#eDocumentContent").val(), 
+						"documentContent":concatenated, 
 						"documentType": $("#edDocumentType :selected").text(), 
 						"documentPrice": $("#eDocumentPrice").val(), 
 						"status": $(".eStatus:checked").val() 
