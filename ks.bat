@@ -13,6 +13,10 @@ SET tempdir=%~dp0\temp
 SET mariadbdir=C:\xampp\mysql\bin
 SET mariadbx="%mariadbdir%\mysql.exe"
 SET dbsetupdir="%~dp0\database\setup"
+SET dbdumpdir="%~dp0\database\dump"
+SET migratedir="%~dp0\database\migrations"
+
+SET modeldir="%~dp0\app\Models"
 
 SET gitdir=C:\Program Files\Git\bin
 SET gitx="%gitdir%\git.exe"
@@ -103,25 +107,66 @@ IF %1==git (
         %gitx% pull origin master
         GOTO GITCOMOK
     )
+
+    if %2==revert (
+        ECHO Reverting changes...
+        %gitx% revert %3
+        GOTO GITCOMOK
+    )
 )
 
 :: Artisan Commands
 if %1==build (
     if %2==models (
-        %PHPX% artisan make:models
+        ECHO "Wiping models..."
+        DEL %modeldir%\*.php
+        ECHO "Writing new models..."
+        %PHPX% artisan make:models -m
+        GOTO GITCOMOK
+    )
+
+    if %2==migrations (
+        ECHO "Wiping migrations folder..."
+        DEL %migratedir%\*.php
+        ECHO "Writing new migrations..."
+        %PHPX% artisan migrate:generate
+        GOTO GITCOMOK
+    )
+
+    if %2==database (
+        ECHO "Reloading detabase..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbdumpdir%\dbbaranggay_nightly.sql
+
         GOTO GITCOMOK
     )
 
     if %2==integrated (
-        SET PATH = %mariadbdir%
-        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\viewtables.sql > %tempdir%\tablelist.tmp
-        for /F "tokens=*" %%s in (%tempdir%\tablelist.tmp) do (
-            IF !LCOUNT! GEQ 2 (
-                %PHPX%
-            ) 
-            set /a LCOUNT=LCOUNT+1
-        )
-        
+        ECHO "Wiping migrations folder..."
+        DEL %migratedir%\*.php
+        ECHO "Writing new migrations..."
+        %PHPX% artisan migrate:generate
+        ECHO "Wiping models..."
+        DEL %modeldir%\*.php
+        ECHO "Writing new models..."
+        %PHPX% artisan make:models -m
+        GOTO GITCOMOK
+    )
+
+    if %2==sysback (
+        ECHO "Reloading detabase..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbdumpdir%\dbbaranggay_nightly.sql
+
+        ECHO "Wiping migrations folder..."
+        DEL %migratedir%\*.php
+        ECHO "Writing new migrations..."
+        %PHPX% artisan migrate:generate
+
+        ECHO "Wiping models..."
+        DEL %modeldir%\*.php
+        ECHO "Writing new models..."
+        %PHPX% artisan make:models -m
 
         GOTO GITCOMOK
     )

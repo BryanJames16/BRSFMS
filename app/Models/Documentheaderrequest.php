@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Businesscategory
+ * Class Documentheaderrequest
  */
-class Businesscategory extends Model
+class Documentheaderrequest extends Model
 {
-    protected $table = 'businesscategories';
+    protected $table = 'documentheaderrequests';
 
-    protected $primaryKey = 'categoryPrimeID';
+    protected $primaryKey = 'documentHeaderPrimeID';
 
 	public $timestamps = false;
 
     protected $fillable = [
-        'categoryName',
-        'categoryDesc',
+        'requestID',
+        'requestDate',
         'status',
-        'archive'
+        'peoplePrimeID'
     ];
 
     protected $guarded = [];
@@ -28,15 +28,15 @@ class Businesscategory extends Model
 	/**
 	 * @return mixed
 	 */
-	public function getCategoryName() {
-		return $this->categoryName;
+	public function getRequestID() {
+		return $this->requestID;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getCategoryDesc() {
-		return $this->categoryDesc;
+	public function getRequestDate() {
+		return $this->requestDate;
 	}
 
 	/**
@@ -49,8 +49,8 @@ class Businesscategory extends Model
 	/**
 	 * @return mixed
 	 */
-	public function getArchive() {
-		return $this->archive;
+	public function getPeoplePrimeID() {
+		return $this->peoplePrimeID;
 	}
 
 
@@ -59,8 +59,8 @@ class Businesscategory extends Model
 	 * @param $value
 	 * @return $this
 	 */
-	public function setCategoryName($value) {
-		$this->categoryName = $value;
+	public function setRequestID($value) {
+		$this->requestID = $value;
 		return $this;
 	}
 
@@ -68,8 +68,8 @@ class Businesscategory extends Model
 	 * @param $value
 	 * @return $this
 	 */
-	public function setCategoryDesc($value) {
-		$this->categoryDesc = $value;
+	public function setRequestDate($value) {
+		$this->requestDate = $value;
 		return $this;
 	}
 
@@ -86,8 +86,8 @@ class Businesscategory extends Model
 	 * @param $value
 	 * @return $this
 	 */
-	public function setArchive($value) {
-		$this->archive = $value;
+	public function setPeoplePrimeID($value) {
+		$this->peoplePrimeID = $value;
 		return $this;
 	}
 

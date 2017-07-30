@@ -5,30 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Resident
+ * Plass Aerson
  */
-class Resident extends Model
+class Person extends Model
 {
-    protected $table = 'residents';
+    protected $table = 'people';
 
-    protected $primaryKey = 'residentPrimeID';
+    protected $primaryKey = 'peoplePrimeID';
 
 	public $timestamps = false;
 
     protected $fillable = [
-        'residentID',
+        'personID',
         'firstName',
         'middleName',
         'lastName',
         'suffix',
         'contactNumber',
         'gender',
-        'birthDate',
-        'civilStatus',
-        'seniorCitizenID',
-        'disabilities',
-        'residentType',
-        'status'
+        'status',
+        'archive'
     ];
 
     protected $guarded = [];
@@ -37,8 +33,8 @@ class Resident extends Model
 	/**
 	 * @return mixed
 	 */
-	public function getResidentID() {
-		return $this->residentID;
+	public function getPersonID() {
+		return $this->personID;
 	}
 
 	/**
@@ -86,43 +82,15 @@ class Resident extends Model
 	/**
 	 * @return mixed
 	 */
-	public function getBirthDate() {
-		return $this->birthDate;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getCivilStatus() {
-		return $this->civilStatus;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSeniorCitizenID() {
-		return $this->seniorCitizenID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDisabilities() {
-		return $this->disabilities;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getResidentType() {
-		return $this->residentType;
-	}
-
-	/**
-	 * @return mixed
-	 */
 	public function getStatus() {
 		return $this->status;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getArchive() {
+		return $this->archive;
 	}
 
 
@@ -131,8 +99,8 @@ class Resident extends Model
 	 * @param $value
 	 * @return $this
 	 */
-	public function setResidentID($value) {
-		$this->residentID = $value;
+	public function setPersonID($value) {
+		$this->personID = $value;
 		return $this;
 	}
 
@@ -194,53 +162,17 @@ class Resident extends Model
 	 * @param $value
 	 * @return $this
 	 */
-	public function setBirthDate($value) {
-		$this->birthDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCivilStatus($value) {
-		$this->civilStatus = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setSeniorCitizenID($value) {
-		$this->seniorCitizenID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDisabilities($value) {
-		$this->disabilities = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setResidentType($value) {
-		$this->residentType = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
 	public function setStatus($value) {
 		$this->status = $value;
+		return $this;
+	}
+
+	/**
+	 * @param $value
+	 * @return $this
+	 */
+	public function setArchive($value) {
+		$this->archive = $value;
 		return $this;
 	}
 

@@ -22,4 +22,41 @@ class Residentaccountregistration extends Model
 
     protected $guarded = [];
 
+    
+	/**
+	 * @return mixed
+	 */
+	public function getRegistrationDate() {
+		return $this->registrationDate;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAccountPrimeID() {
+		return $this->accountPrimeID;
+	}
+
+
+    
+	/**
+	 * @param $value
+	 * @return $this
+	 */
+	public function setRegistrationDate($value) {
+		$this->registrationDate = $value;
+		return $this;
+	}
+
+	/**
+	 * @param $value
+	 * @return $this
+	 */
+	public function setAccountPrimeID($value) {
+		$this->accountPrimeID = $value;
+		return $this;
+	}
+
+
+
 }
