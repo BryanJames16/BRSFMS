@@ -28,5 +28,9 @@ class Reservation extends Model
 
     protected $guarded = [];
 
+    {{getters}}
+
+    {{setters}}
+
 
 }

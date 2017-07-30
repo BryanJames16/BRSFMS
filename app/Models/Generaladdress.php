@@ -16,17 +16,21 @@ class Generaladdress extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'addressID',
         'addressType',
         'residentPrimeID',
         'facilitiesPrimeID',
         'businessPrimeID',
-        'houseID',
         'unitID',
-        'streetID'
+        'streetID',
+        'lotID',
+        'buildingID'
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }

@@ -5,25 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class House
+ * Class Buildingtype
  */
-class House extends Model
+class Buildingtype extends Model
 {
-    protected $table = 'houses';
+    protected $table = 'buildingtypes';
 
-    protected $primaryKey = 'houseID';
+    protected $primaryKey = 'buildingTypeID';
 
 	public $timestamps = false;
 
     protected $fillable = [
-        'houseCode',
-        'lotID',
+        'buildingTypeName',
         'status',
         'archive'
     ];
 
     protected $guarded = [];
 
+    {{getters}}
+
+    {{setters}}
 
 
 }

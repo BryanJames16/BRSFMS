@@ -27,6 +27,9 @@ class Residentaccount extends Model
 
     protected $guarded = [];
 
+    {{getters}}
+
+    {{setters}}
 
 
 }

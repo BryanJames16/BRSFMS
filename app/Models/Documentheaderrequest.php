@@ -24,5 +24,9 @@ class Documentheaderrequest extends Model
 
     protected $guarded = [];
 
+    {{getters}}
+
+    {{setters}}
+
 
 }

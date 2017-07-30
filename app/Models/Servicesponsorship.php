@@ -25,5 +25,9 @@ class Servicesponsorship extends Model
 
     protected $guarded = [];
 
+    {{getters}}
+
+    {{setters}}
+
 
 }

@@ -16,12 +16,18 @@ class Building extends Model
 	public $timestamps = false;
 
     protected $fillable = [
-        'buildingCode',
+        'lotID',
         'buildingName',
-        'buildingType',
-        'lotID'
+        'buildingTypeID',
+        'status',
+        'archive'
     ];
 
+    protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }

@@ -17,14 +17,16 @@ class Unit extends Model
 
     protected $fillable = [
         'unitCode',
-        'lotID',
         'status',
         'archive',
-        'houseID',
         'buildingID'
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }

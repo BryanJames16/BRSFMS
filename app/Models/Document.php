@@ -19,6 +19,7 @@ class Document extends Model
         'documentID',
         'documentName',
         'documentDescription',
+        'documentContent',
         'documentType',
         'documentPrice',
         'status',
@@ -26,6 +27,10 @@ class Document extends Model
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }

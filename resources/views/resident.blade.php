@@ -527,7 +527,7 @@
 														<label for="userinput3">Address Type</label>
 														<select name="addressType" id="addressType" class="form-control">
 															<option value"Permanent Address">Permanent Address</option>
-															<option value"Permanent Address">Permanent Address</option>
+															<option value"Current Address">Current Address</option>
 														</select>
 													</div>
 													<div class="form-group col-md-6 mb-2">

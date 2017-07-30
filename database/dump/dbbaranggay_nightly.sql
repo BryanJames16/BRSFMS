@@ -27,13 +27,14 @@ DROP TABLE IF EXISTS `buildings`;
 CREATE TABLE `buildings` (
   `buildingID` int(11) NOT NULL AUTO_INCREMENT,
   `lotID` int(11) NOT NULL,
-  `buildingCode` varchar(45) NOT NULL,
   `buildingName` varchar(45) NOT NULL,
-  `buildingType` varchar(45) NOT NULL,
+  `buildingTypeID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`buildingID`),
   KEY `lotID_idx` (`lotID`),
+  KEY `buildingTypeID_idx` (`buildingTypeID`),
+  CONSTRAINT `buildingTypeID` FOREIGN KEY (`buildingTypeID`) REFERENCES `buildingtypes` (`buildingTypeID`) ON UPDATE CASCADE,
   CONSTRAINT `lotID` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -44,8 +45,32 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (1,1,'BUILD_001','El Pueblo','Di ko lam',1,0),(2,1,'BLDG_002','Maui Oasis','asdasd',1,0);
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `buildingtypes`
+--
+
+DROP TABLE IF EXISTS `buildingtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `buildingtypes` (
+  `buildingTypeID` int(11) NOT NULL AUTO_INCREMENT,
+  `buildingTypeName` varchar(45) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `archive` tinyint(4) NOT NULL,
+  PRIMARY KEY (`buildingTypeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `buildingtypes`
+--
+
+LOCK TABLES `buildingtypes` WRITE;
+/*!40000 ALTER TABLE `buildingtypes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `buildingtypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -414,25 +439,24 @@ DROP TABLE IF EXISTS `generaladdresses`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `generaladdresses` (
   `personAddressID` int(11) NOT NULL AUTO_INCREMENT,
-  `addressID` int(11) NOT NULL,
   `addressType` varchar(30) NOT NULL,
   `residentPrimeID` int(11) DEFAULT NULL,
   `facilitiesPrimeID` int(11) DEFAULT NULL,
   `businessPrimeID` int(11) DEFAULT NULL,
-  `houseID` int(11) DEFAULT NULL,
   `unitID` int(11) DEFAULT NULL,
   `streetID` int(11) DEFAULT NULL,
+  `lotID` int(11) DEFAULT NULL,
+  `buildingID` int(11) DEFAULT NULL,
   PRIMARY KEY (`personAddressID`),
   KEY `fk_GeneralAddresses_Facilities1_idx` (`facilitiesPrimeID`),
   KEY `fk_GeneralAddresses_Businesses1_idx` (`businessPrimeID`),
   KEY `fk_GeneralAddresses_Residents1_idx` (`residentPrimeID`),
-  KEY `fk_generaladdresses_houses1_idx` (`houseID`),
   KEY `fk_generaladdresses_units1_idx` (`unitID`),
   KEY `fk_generaladdresses_streets1_idx` (`streetID`),
+  KEY `lotID_idx` (`lotID`),
   CONSTRAINT `fk_GeneralAddresses_Businesses1` FOREIGN KEY (`businessPrimeID`) REFERENCES `businesses` (`businessPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_GeneralAddresses_Facilities1` FOREIGN KEY (`facilitiesPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_GeneralAddresses_Residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_generaladdresses_houses1` FOREIGN KEY (`houseID`) REFERENCES `houses` (`houseID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_units1` FOREIGN KEY (`unitID`) REFERENCES `units` (`unitID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -445,35 +469,6 @@ CREATE TABLE `generaladdresses` (
 LOCK TABLES `generaladdresses` WRITE;
 /*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
 /*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `houses`
---
-
-DROP TABLE IF EXISTS `houses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `houses` (
-  `houseID` int(11) NOT NULL AUTO_INCREMENT,
-  `houseCode` varchar(8) NOT NULL,
-  `lotID` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `archive` tinyint(1) NOT NULL,
-  PRIMARY KEY (`houseID`),
-  KEY `fk_Houses_Lots1_idx` (`lotID`),
-  CONSTRAINT `fk_Houses_Lots1` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `houses`
---
-
-LOCK TABLES `houses` WRITE;
-/*!40000 ALTER TABLE `houses` DISABLE KEYS */;
-INSERT INTO `houses` VALUES (1,'Kaka',1,1,0);
-/*!40000 ALTER TABLE `houses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -870,17 +865,11 @@ DROP TABLE IF EXISTS `units`;
 CREATE TABLE `units` (
   `unitID` int(11) NOT NULL AUTO_INCREMENT,
   `unitCode` varchar(8) NOT NULL,
-  `lotID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
-  `houseID` int(11) DEFAULT NULL,
   `buildingID` int(11) DEFAULT NULL,
   PRIMARY KEY (`unitID`),
-  KEY `fk_Units_Lots1_idx` (`lotID`),
-  KEY `fk_Units_Houses1_idx` (`houseID`),
   KEY `fk_units_building1_idx` (`buildingID`),
-  CONSTRAINT `fk_Units_Houses1` FOREIGN KEY (`houseID`) REFERENCES `houses` (`houseID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Units_Lots1` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_units_building1` FOREIGN KEY (`buildingID`) REFERENCES `buildings` (`buildingID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -891,7 +880,6 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
-INSERT INTO `units` VALUES (1,'H',1,1,0,1,1);
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -967,4 +955,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-30 11:02:48
+-- Dump completed on 2017-07-30 18:28:58

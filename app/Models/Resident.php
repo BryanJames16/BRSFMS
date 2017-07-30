@@ -27,12 +27,15 @@ class Resident extends Model
         'civilStatus',
         'seniorCitizenID',
         'disabilities',
-        'income',
         'residentType',
         'status'
     ];
 
     protected $guarded = [];
+
+    {{getters}}
+
+    {{setters}}
 
 
 }
