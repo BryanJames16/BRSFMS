@@ -19,11 +19,9 @@ class Building extends Model
         'buildingCode',
         'buildingName',
         'buildingType',
-        'status',
-        'archive'
+        'lotID'
     ];
 
-    protected $guarded = [];
 
 
 }

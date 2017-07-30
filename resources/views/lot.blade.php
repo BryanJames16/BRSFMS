@@ -104,12 +104,6 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-	
-	$(document).ready(function(){
-    $('#barangayID').change(function(){
-        document.getElementById('streetID').options.length = 0;
-		var id = this.value; 
 	</script>
 
 

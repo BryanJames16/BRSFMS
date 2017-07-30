@@ -26,11 +26,16 @@ DROP TABLE IF EXISTS `buildings`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `buildings` (
   `buildingID` int(11) NOT NULL AUTO_INCREMENT,
+  `lotID` int(11) NOT NULL,
   `buildingCode` varchar(45) NOT NULL,
   `buildingName` varchar(45) NOT NULL,
   `buildingType` varchar(45) NOT NULL,
-  PRIMARY KEY (`buildingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `status` tinyint(1) NOT NULL,
+  `archive` tinyint(1) NOT NULL,
+  PRIMARY KEY (`buildingID`),
+  KEY `lotID_idx` (`lotID`),
+  CONSTRAINT `lotID` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +44,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (1,'BUILD_001','El Pueblo','Di ko lam');
+INSERT INTO `buildings` VALUES (1,1,'BUILD_001','El Pueblo','Di ko lam',1,0),(2,1,'BLDG_002','Maui Oasis','asdasd',1,0);
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -487,7 +492,7 @@ CREATE TABLE `lots` (
   PRIMARY KEY (`lotID`),
   KEY `fk_Lots_Streets1_idx` (`streetID`),
   CONSTRAINT `fk_Lots_Streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -496,7 +501,7 @@ CREATE TABLE `lots` (
 
 LOCK TABLES `lots` WRITE;
 /*!40000 ALTER TABLE `lots` DISABLE KEYS */;
-INSERT INTO `lots` VALUES (1,'5C',1,1,0),(2,'4C',1,1,0),(3,'10',2,1,0),(4,'20',2,1,0);
+INSERT INTO `lots` VALUES (1,'5C',1,1,0),(2,'4C',1,1,0),(3,'10',2,1,0),(4,'20',2,1,0),(5,'3C',1,1,0);
 /*!40000 ALTER TABLE `lots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -819,7 +824,7 @@ CREATE TABLE `streets` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`streetID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -828,7 +833,7 @@ CREATE TABLE `streets` (
 
 LOCK TABLES `streets` WRITE;
 /*!40000 ALTER TABLE `streets` DISABLE KEYS */;
-INSERT INTO `streets` VALUES (1,'Teresa',1,0),(2,'Magdalene',1,0);
+INSERT INTO `streets` VALUES (1,'Teresa',1,0),(2,'Magdalene',1,0),(3,'Lubiran',1,0);
 /*!40000 ALTER TABLE `streets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -905,8 +910,13 @@ CREATE TABLE `users` (
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
   `remember_token` tinytext,
+  `firstName` varchar(45) NOT NULL,
+  `middleName` varchar(45) DEFAULT NULL,
+  `lastName` varchar(45) NOT NULL,
+  `suffix` varchar(10) DEFAULT NULL,
+  `imagePath` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -915,7 +925,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Skubariwa','skubariwa@gmail.com','$2y$10$o7sbyFDyiHWht0rPcGEVQuPgXNL2ITbTjRViE2n8mwpAsFb0i0HZu','2017-07-26 11:58:18','2017-07-26 11:50:25','4lY6tOQgOOqjFvv4ru5wtp5dzgzO1SF79G3MvP02fiMWku0ISrt8Jt0bznMW'),(2,'asdf','asdf@asdf.com','$2y$10$ZfbiKMOvv769UWE7o3zRLuaD3P5yG2JYfqL4REpOG.ofkD8Pnq1t6','2017-07-29 07:56:48','2017-07-29 07:56:48',NULL);
+INSERT INTO `users` VALUES (1,'Skubariwa','skubariwa@gmail.com','$2y$10$o7sbyFDyiHWht0rPcGEVQuPgXNL2ITbTjRViE2n8mwpAsFb0i0HZu','2017-07-26 11:58:18','2017-07-26 11:50:25','4lY6tOQgOOqjFvv4ru5wtp5dzgzO1SF79G3MvP02fiMWku0ISrt8Jt0bznMW','','','','',''),(2,'asdf','asdf@asdf.com','$2y$10$ZfbiKMOvv769UWE7o3zRLuaD3P5yG2JYfqL4REpOG.ofkD8Pnq1t6','2017-07-29 07:56:48','2017-07-29 07:56:48',NULL,'','','','',''),(3,'skubariwa','f.marcjoseph@yahoo.com','$2y$10$OmVA80gQiDWu8h6.rTD0MelxQEGLRK9K7OvXqVQFgRngfIGrSJ1ju','2017-07-29 14:22:43','2017-07-29 14:21:49','i37DpaM6O0geK2jXtg2tMfGLdE2Kcbzhvub2GQJu8KcZCboFfYwfXKOuiutS','Marc Joseph','Mendoza','Fuellas','','');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -957,4 +967,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-29 20:46:03
+-- Dump completed on 2017-07-30 11:02:48

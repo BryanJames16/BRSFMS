@@ -207,6 +207,20 @@ class ResidentController extends Controller
 
     }
 
+    public function getBuilding(Request $r) {
+        
+        if($r->ajax())
+        {
+            return json_encode( \DB::table('buildings') ->select('buildingID','buildingName') 
+                                        ->join('lots', 'buildings.lotID', '=', 'lots.lotID')
+                                        ->where('buildings.status', '=', 1)
+                                        ->where('buildings.archive', '=', 0)
+                                        ->where('buildings.lotID', '=', $r->input('lotID'))
+                                        ->get());
+        }
+
+    }
+
     public function getUnit(Request $r) {
         
         if($r->ajax())

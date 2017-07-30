@@ -5,17 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Building;
 use \Illuminate\Validation\Rule;
+use \App\Models\Lot;
 
 class BuildingController extends Controller
 {
    public function index() {
-        $buildings = Building::select('buildingID','buildingCode', 'buildingName','buildingType', 'status')
-                                                    -> where([
-                                                                ['archive', '=', 0]
-                                                                ])
+        $buildings = Building::select('buildingID','buildingCode', 'buildingName','buildingType', 'buildings.status', 'lots.lotID','lots.lotCode')
+                                                    ->join('lots', 'buildings.lotID', '=', 'lots.lotID')
+                                                    -> where('buildings.archive', '=', 0)
                                                     -> get();
 
-        return view('building') -> with('buildings', $buildings);
+        return view('building',['lots' => 
+                                    Lot::where([
+                                                        ['status', 1], 
+                                                        ['archive', 0]
+                                                    ]) 
+                                                    -> pluck('lotCode', 'lotID')]) -> with('buildings', $buildings);
     }
 
     public function store(Request $r) {
@@ -37,6 +42,7 @@ class BuildingController extends Controller
             $aah = Building::insert(['buildingName'=>trim($r -> buildingName),
                                                 'buildingCode'=>trim($r -> buildingCode),
                                                 'archive' => 0,
+                                                'lotID' => $r -> lotID,
                                                 'buildingType' => $r -> buildingType,
                                                 'status' => $stat]);
         } 
@@ -50,7 +56,10 @@ class BuildingController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(Building::where("archive", "!=", "1")->get());
+            return json_encode(Building::select('buildingID','buildingCode', 'buildingName','buildingType', 'buildings.status', 'lots.lotID','lots.lotCode')
+                                                    ->join('lots', 'buildings.lotID', '=', 'lots.lotID')
+                                                    -> where('buildings.archive', '=', 0)
+                                                    -> get());
         }
     }
 
@@ -74,6 +83,7 @@ class BuildingController extends Controller
         $building->buildingCode = $r->input('buildingCode');
         $building->buildingName = $r->input('buildingName');
         $building->buildingType = $r->input('buildingType');
+        $building->lotID = $r->input('lotID');
         $building->status = $r->input('status');
         $building->save();
 

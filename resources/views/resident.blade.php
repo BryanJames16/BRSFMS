@@ -524,42 +524,39 @@
 												<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Address Type</label>
+														<select name="addressType" id="addressType" class="form-control">
+															<option value"Permanent Address">Permanent Address</option>
+															<option value"Permanent Address">Permanent Address</option>
+														</select>
+													</div>
+													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">Street</label>
 														<select name="street" id="street" class="form-control street">
 															@foreach($streetss as $street)
 																<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
 															@endforeach
 														</select>
-														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }} -->
-													</div>
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput4">Lot</label>
-														<select name="lot" id="lot" class="form-control lot">
-															@foreach($lots as $lot)
-																<option value= {{$lot -> lotID}}>{{$lot -> lotCode}}</option>
-															@endforeach
-														</select>
-														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
 													</div>
 												</div>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Lot</label>
+														<select name="lot" id="lot" class="form-control lot" disabled></select>
+													</div>
+													<div class="form-group col-md-6 mb-2">
 														<label for="userinput3">House</label>
-														<select name="house" id="house" class="form-control house">
-															@foreach($houses as $house)
-																<option value= {{$house -> houseID}}>{{$house -> houseCode}}</option>
-															@endforeach
-														</select>
-														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
+														<select name="house" id="house" class="form-control house" disabled></select>
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput4">Building</label>
+														<select name="building" id="building" class="form-control building" disabled></select>
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput4">Unit</label>
-														<select name="unit" id="unit" class="form-control unit">
-															@foreach($units as $unit)
-																<option value= {{$unit -> unitID}}>{{$unit -> unitCode}}</option>
-															@endforeach
-														</select>
-														<!--{{ Form::select('barangayID', $streets, null, ['id'=>'barangayID', 'class' => 'form-control']) }}-->
+														<select name="unit" id="unit" class="form-control unit" disabled></select>
 													</div>
 												</div>
 
@@ -883,6 +880,8 @@
 		$("#btnAddModal").on('click', function() {
 			$("#addModal").modal('show');
 
+			
+
 			$.ajax({
 				url: "{{ url('/resident/nextPK') }}", 
 				method: "GET", 
@@ -894,6 +893,14 @@
 						console.log(data);
 						$("#residentID").val(data);
 					}
+
+					lotRefresh();
+					setTimeout(function () {
+						houseRefresh();
+					}, 500);
+					setTimeout(function () {
+						buildingRefresh();
+					}, 500);
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -906,6 +913,8 @@
 					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
+
+			
 		});
 
 		//  END OF RESIDENT NEXT PK
@@ -1547,39 +1556,18 @@
 
 		$(document).on('change', '.street', function(e) {
 
-			var id = $('#street').val();
-			console.log(id);
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getLot') }}", 
-				data: {"streetID":id},  
-				success: function(data) {
-
-					$('#lot').empty();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-
-						$('#lot').append(
-							'<option value="'+ data[index].lotID +'">' + data[index].lotCode + '</option>'
-						);
-						console.log('Lot Code: ' + data[index].lotCode);
-					}
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
 			
+			lotRefresh();
+			setTimeout(function () {
+				houseRefresh();
+			}, 500);
+			setTimeout(function () {
+				buildingRefresh();
+			}, 500);
+			
+			
+			
+
 		});
 
 		// END OF STREET ON CHANGE
@@ -1588,24 +1576,96 @@
 
 		$(document).on('change', '.lot', function(e) {
 
-			var id = $('#lot').val();
-			console.log(id);
+			houseRefresh();
+			setTimeout(function () {
+				buildingRefresh();
+			}, 500);
+			
+		});
+
+		// END OF LOT ON CHANGE
+
+		////////////-------  LOT REFRESH  ----- ////////////////////////
+
+		var lotRefresh = function() {
+
+			var id = $('#street').val();
+			console.log('Lot Refresh');
 
 			$.ajax({
 				type: 'get',
-				url: "{{ url('/resident/getUnit') }}", 
-				data: {"lotID":id},  
+				url: "{{ url('/resident/getLot') }}", 
+				async: 'false',
+				data: {"streetID":id},  
 				success: function(data) {
 
-					$('#unit').empty();
+					var check= false;
+					$('#lot').empty();
 					data = $.parseJSON(data);
 
 					for (index in data) {
-
-						$('#unit').append(
-							'<option value="'+ data[index].unitID +'">' + data[index].unitCode + '</option>'
+						check = true;
+						$('#lot').append(
+							'<option value="'+ data[index].lotID +'">' + data[index].lotCode + '</option>'
 						);
-						console.log('House Code: ' + data[index].unitCode);
+						console.log('Lot Code: ' + data[index].lotCode);
+					}
+
+					if(check){
+						$('#lot').prop('disabled',false);
+					}
+					else{
+						$('#lot').prop('disabled','disabled');
+					}
+
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+		/////////////---------HOUSE REFRESH--------/////////////////
+
+		var houseRefresh = function(){
+
+			var id = $('#lot').val();
+			console.log('House Refresh');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getHouse') }}", 
+				async: 'false',
+				data: {"lotID":id},  
+				success: function(data) {
+
+					var check = true;
+					
+					$('#house').empty();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						check = false;
+						$('#house').append(
+							'<option value="'+ data[index].houseID +'">' + data[index].houseCode + '</option>'
+						);
+						console.log('House Code: ' + data[index].houseCode);
+					}
+
+					if(!check)
+					{
+						$('#house').prop('disabled',false);
+					}
+					else{
+						$('#house').prop('disabled','disabled');
 					}
 				}, 
 				error: function(data) {
@@ -1620,10 +1680,58 @@
 					console.log("Error: Cannot refresh table!\n" + message);
 				}
 			});
-			
-		});
+		};
 
-		// END OF LOT ON CHANGE
+		///////////////----- BUILDING REFRESH ------------////////////
+
+		var buildingRefresh = function(){
+
+			var id = $('#lot').val();
+			console.log('Building Refresh');
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getBuilding') }}", 
+				async: 'false',
+				data: {"lotID":id},  
+				success: function(data) {
+
+					var check = true;
+					
+					$('#building').empty();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						check = false;
+						$('#building').append(
+							'<option value="'+ data[index].buildingID +'">' + data[index].buildingName + '</option>'
+						);
+						console.log('Building Name: ' + data[index].buildingName);
+					}
+
+					if(!check)
+					{
+						$('#building').prop('disabled',false);
+					}
+					else{
+						$('#building').prop('disabled','disabled');
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+
 
 	</script>
 @endsection

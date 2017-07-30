@@ -72,6 +72,7 @@ Route::get('/resident/nextPK','ResidentController@nextPK');
 Route::get('/resident/getLot','ResidentController@getLot');
 Route::get('/resident/getHouse','ResidentController@getHouse');
 Route::get('/resident/getUnit','ResidentController@getUnit');
+Route::get('/resident/getBuilding','ResidentController@getBuilding');
 
 //Family
 Route::get('/family/nextPK','ResidentController@familyNextPK');

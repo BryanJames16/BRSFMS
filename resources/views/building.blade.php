@@ -94,6 +94,16 @@
 		</div>
 
 		<div class="form-group row">
+			<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
+			<div class="col-md-9">
+				
+				{{ Form::select('lotID', $lots, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
+				
+			</div>	
+
+		</div>
+
+		<div class="form-group row">
 			<label class="col-md-3 label-control" for="eventRegInput1">Type</label>
 			<div class="col-md-9">
 				{!! Form::text('buildingType', null, ['id' => 'buildingType', 
@@ -155,6 +165,7 @@
 						$("#table-container").append('<tr>' + 
 									'<td>' + data[index].buildingCode + '</td>' + 
 									'<td>' + data[index].buildingName + '</td>' + 
+									'<td>' + data[index].lotCode + '</td>' + 
 									'<td>' + data[index].buildingType + '</td>' + 
 									'<td>' + statusText + '</td>' + 
 									'<td>' + 
@@ -184,6 +195,7 @@
 				data: {"_token": $('#csrf-token').val(), 
 						"buildingCode": $("#buildingCode").val(), 
                         "buildingName": $("#buildingName").val(), 
+						"lotID": $("#lotID").val(), 
 						"buildingType": $("#buildingType").val(), 
 						"status": $(".tstat:checked").val()
 				}, 
@@ -226,6 +238,7 @@
 @section('table-head-list')
 	<th>Code</th>
 	<th>Name</th>
+	<th>Lot</th>
 	<th>Type</th>
 	<th>Status</th>
 	<th>Actions</th>
@@ -236,6 +249,7 @@
 		<tr>
 			<td>{{ $building -> buildingCode }}</td>
 			<td>{{ $building -> buildingName }}</td>
+			<td>{{ $building -> lotCode }}</td>
 			<td>{{ $building -> buildingType }}</td>
 			@if ($building -> status == 1)
 				<td>Active</td>
@@ -278,6 +292,7 @@
 					var frm = $('#frm-update');
 					frm.find('#buildingCode').val(data.buildingCode);
                     frm.find('#buildingName').val(data.buildingName);
+					frm.find('#lotID').val(data.lotID);
 					frm.find('#buildingType').val(data.buildingType);
 					frm.find('#buildingID').val(data.buildingID);
 
@@ -390,6 +405,16 @@
 		</div>	
 
 	</div>
+
+	<div class="form-group row">
+			<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
+			<div class="col-md-9">
+				
+				{{ Form::select('lotID', $lots, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
+				
+			</div>	
+
+		</div>
 
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Type</label>
