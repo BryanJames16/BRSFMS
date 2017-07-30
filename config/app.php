@@ -181,6 +181,7 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         Iber\Generator\ModelGeneratorProvider::class,
+        Reliese\Coders\CodersServiceProvider::class,
         //Reportico\Reportico\ReporticoServiceProvider::class, 
 
     ],
