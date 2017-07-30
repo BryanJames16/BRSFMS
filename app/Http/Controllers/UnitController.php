@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Unit;
-use \App\Models\Lot;
+use \App\Models\Building;
+
 
 class UnitController extends Controller
 {
    public function index() {
  
-        $units= \DB::table('units') ->select('unitID', 'unitCode', 'lotCode', 'units.status', 'units.unitID') 
-                                        ->leftJoin('lots', 'units.lotID', '=', 'lots.lotID')
+        $units= \DB::table('units') ->select('unitID', 'unitCode', 'units.buildingID', 'units.status', 'units.unitID','buildings.buildingName') 
+                                        ->leftJoin('buildings', 'units.buildingID', '=', 'buildings.buildingID')
                                         ->where('units.archive', '=', 0) 
                                         ->get();
         
-        return view('unit',['types'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')]) -> with('units', $units);
+        return view('unit',['types'=>Building::where([['status', 1],['archive', 0]])->pluck('buildingName', 'buildingID')]) -> with('units', $units);
     }
 
     public function store(Request $r) {
@@ -37,7 +38,7 @@ class UnitController extends Controller
 
             
         $aah = Unit::insert(['unitCode'=>trim($r->unitCode),
-                                            'lotID'=>$r->lotID,
+                                            'buildingID'=>$r->buildingID,
                                                'archive'=>0,
                                                'status'=>$stat]);
        return back();
@@ -59,7 +60,7 @@ class UnitController extends Controller
 
         $unit = Unit::find($r->input('unitID'));
         $unit->unitCode = $r->input('unit_code');
-        $unit->lotID = $r->input('lotID');
+        $unit->buildingID = $r->input('buildingID');
         $unit->status = $r->input('stat');
         $unit->save();
         return redirect('unit');

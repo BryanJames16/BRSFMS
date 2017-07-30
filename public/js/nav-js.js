@@ -1,6 +1,7 @@
 var BARANGAY = "barangay-id";
 var BLOTTER_CASE = "blotter-case-id";
 var BUILDING = "building-id";
+var BUILDING_TYPE = "building-type-id";
 var BUSINESS = "business-id";
 var BUSINESS_CATEGORY = "business-category-id";
 var CITY = "city-id";

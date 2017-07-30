@@ -336,12 +336,6 @@
 											</li>
 										</ul>
 									</li>
-									<li id="building-id">
-										<a href="/building">
-											<i class="icon-file-text2"></i>
-											<span>Building</span>
-										</a>
-									</li>
 									<li>
 										<a href="#">
 											<i class="icon-android-car"></i>
@@ -380,16 +374,30 @@
 													Lot
 												</a>
 											</li>
+											<li>
+												<a href="#">
+													<i class="icon-android-car"></i>
+													<span>Building</span>
+												</a>
+												<ul class="menu-content">
+													<li id="building-type-id">
+														<a href="/building-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+															<i class="icon-drawer"></i>
+															Building Type
+														</a>
+													</li>
+													<li id="building-id">
+														<a href="/building" data-i18n="nav.navbars.nav_dark" class="menu-item">
+															<i class="icon-truck"></i>
+															Building
+														</a>
+													</li>
+												</ul>
+											</li>
 											<li id="unit-id">
 												<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-compass2"></i>
 													Unit
-												</a>
-											</li>
-											<li id="house-number-id">
-												<a href="/house" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-pushpin"></i>
-													House Number
 												</a>
 											</li>
 										</ul>

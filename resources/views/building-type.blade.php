@@ -3,7 +3,7 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Building
+	Building Type
 @endsection
 
 <!-- Set All JavaScript Settings -->
@@ -11,30 +11,30 @@
 
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(BUILDING);
+		setSelectedTab(BUILDING_TYPE);
 	</script>
 @endsection
 
 <!-- Adds the Content to the Main Page -->
 @section('inside-content-header')
-	<h2 class="content-header-title">BUILDING</h2>
+	<h2 class="content-header-title">Building Type</h2>
 @endsection
 
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Building</li>
-	<li class="breadcrumb-item"><a href="#">Building</a></li>
+	<li class="breadcrumb-item"><a href="#">Building Type</a></li>
 @endsection
 
 @section('main-card-title')
-	Building
+	Building Type
 @endsection
 
 @section('modal-card-title')
-	Add Building
+	Add Building Type
 @endsection
 
 @section('modal-card-desc')
-	
+	Type of the Building.
 @endsection
 
 @section('modal-form-body')
@@ -57,15 +57,13 @@
 	@endif
 
 	<div>
-		
-
-        <div class="form-group row">
-			<label class="col-md-3 label-control" for="eventRegInput1">*Names</label>
+		<div class="form-group row">
+			<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 			<div class="col-md-9">
-				{!! Form::text('buildingName', null, ['id' => 'buildingName', 
+				{!! Form::text('buildngTypeName', null, ['id' => 'buildingTypeName', 
 													'class' => 'form-control', 
-													'ng-model' => 'service.typename', 
-													'placeholder' => 'eg.Maui', 
+													'ng-model' => 'building.typename', 
+													'placeholder' => 'eg.House', 
 													'maxlength' => '20', 'required', 
 													'data-toggle' => 'tooltip', 
 													'data-trigger' => 'focus', 
@@ -77,27 +75,6 @@
 
 		</div>
 
-		<div class="form-group row">
-			<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
-			<div class="col-md-9">
-				
-				{{ Form::select('lotID', $lots, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
-				
-			</div>	
-
-		</div>
-
-		<div class="form-group row">
-			<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
-			<div class="col-md-9">
-				
-				{{ Form::select('buildingTypeID', $buildingtypes, null, ['id'=>'buildingTypeID', 'class' => 'form-control border-info selectBox']) }}
-				
-			</div>	
-
-		</div>
-
-		
 
 		<input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
 
@@ -127,7 +104,7 @@
 
 		var refreshTable = function() {
 			$.ajax({
-				url: "{{ url('/building/refresh') }}",
+				url: "{{ url('/building-type/refresh') }}",
 				type: "GET", 
 				datatype: "json", 
 				success: function(data) {
@@ -144,19 +121,22 @@
 						}
 
 						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].buildingName + '</td>' + 
-									'<td>' + data[index].lotCode + '</td>' + 
+									'<td>' + data[index].buildingTypeID + '</td>' + 
 									'<td>' + data[index].buildingTypeName + '</td>' + 
 									'<td>' + statusText + '</td>' + 
 									'<td>' + 
-										'<form method="POST" id="' + data[index].buildingID + '" action="/building/delete" accept-charset="UTF-8"])!!}' + 
-											'<input type="hidden" name="buildingID" value="' + data[index].buildingID + '" />' + 
-                                            '<input type="hidden" name="buildingName" value="' + data[index].buildingName + '" />' + 
-											'<input type="hidden" name="buildingType" value="' + data[index].buildingTypeName + '" />' + 
+										'<form method="POST" id="' + data[index].buildingTypeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
+											'<input type="hidden" name="typeID" value="' + data[index].buildingTypeID + '" />' + 
+											'<input type="hidden" name="typeName" value="' + data[index].buildingTypeName + '" />' + 
 											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].buildingID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].buildingID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].buildingTypeID + '"><i class="icon-pen3"></i> Edit</a>' +
+													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].buildingTypeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' +
+											'</form>' + 
 									'</td>' + 
 								'</tr>'
 						);
@@ -169,12 +149,10 @@
 			event.preventDefault();
 
 			$.ajax({
-				url: "{{ url('/building/store') }}",
+				url: "{{ url('/building-type/store') }}",
 				type: "POST",
 				data: {"_token": $('#csrf-token').val(), 
-                        "buildingName": $("#buildingName").val(), 
-						"lotID": $("#lotID").val(), 
-						"buildingTypeID": $("#buildingTypeID").val(), 
+						"buildingTypeName": $("#buildingTypeName").val(), 
 						"status": $(".tstat:checked").val()
 				}, 
 				success: function ( _response ){
@@ -184,7 +162,7 @@
 					refreshTable();
 					
 					swal("Successful", 
-							"Building has been added!", 
+							"Building type has been added!", 
 							"success");
 				}, 
 				error: function(error) {
@@ -214,33 +192,37 @@
 @endsection
 
 @section('table-head-list')
+	<th>ID</th>
 	<th>Name</th>
-	<th>Lot</th>
-	<th>Type</th>
 	<th>Status</th>
 	<th>Actions</th>
 @endsection
 
 @section('table-body-list')
-	@foreach($buildings as $building)
+	@foreach($buildingTypes as $buildingType)
 		<tr>
-			<td>{{ $building -> buildingName }}</td>
-			<td>{{ $building -> lotCode }}</td>
-			<td>{{ $building -> buildingTypeName }}</td>
-			@if ($building -> status == 1)
+			<td>{{ $buildingType -> buildingTypeID }}</td>
+			<td>{{ $buildingType -> buildingTypeName }}</td>
+			@if ($buildingType -> status == 1)
 				<td>Active</td>
 			@else
 				<td>Inactive</td>
 			@endif
 			
 			<td>
-				{!! Form::open(['url'=>'building/delete', 'method' => 'POST', 'id' => $building -> buildingID ]) !!}
-					<input type='hidden' name='buildingID' value='{{ $building -> buildingID }}' />
-					<input type='hidden' name='buildingName' value='{{ $building -> buildingName }}' />
-					<input type='hidden' name='buildingType' value='{{ $building -> buildingTypeName }}' />
-					<input type='hidden' name='status' value='{{ $building -> status }}' />
-					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $building -> buildingID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $building -> buildingID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+				{!! Form::open(['url'=>'building-type/delete', 'method' => 'POST', 'id' => $buildingType -> buildingTypeID ]) !!}
+					<input type='hidden' name='buildingTypeID' value='{{ $buildingType -> buildingTypeID }}' />
+					<input type='hidden' name='buildingTypeName' value='{{ $buildingType -> buildingTypeName }}' />
+					<input type='hidden' name='status' value='{{ $buildingType -> status }}' />
+					<span class="dropdown">
+						<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+						<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+							<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $buildingType -> buildingTypeID }}'><i class="icon-pen3"></i> Edit</a>
+							<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $buildingType -> buildingTypeID }}'><i class="icon-trash4"></i> Delete</a>
+						</span>
+					</span>
+					
+					
 				{!! Form::close() !!}
 			</td>
 		</tr>
@@ -250,7 +232,7 @@
 @section('ajax-modal')
 	<script>
 		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
+			var id = $(this).data("value");
 
 			$.ajaxSetup({
 		        headers: {
@@ -260,15 +242,13 @@
 
 			$.ajax({
 				type: 'get',
-				url: "{{ url('/building/getEdit') }}",
-				data: {buildingID:id},
+				url: "{{ url('/building-type/getEdit') }}",
+				data: {buildingTypeID:id},
 				success:function(data)
 				{
 					var frm = $('#frm-update');
-                    frm.find('#buildingName').val(data.buildingName);
-					frm.find('#lotID').val(data.lotID);
+					frm.find('#building_TypeName').val(data.buildingTypeName);
 					frm.find('#buildingTypeID').val(data.buildingTypeID);
-					frm.find('#buildingID').val(data.buildingID);
 
 					if(data.status==1)
 					{
@@ -292,7 +272,7 @@
 
 	$(document).on('click', '.delete', function(e) {
 		e.preventDefault();
-		var id = $(this).val();
+		var id = $(this).data("value");
 
 		$.ajaxSetup({
 		    headers: {
@@ -302,12 +282,12 @@
 
 		$.ajax({
 				type: 'get',
-				url: "{{ url('building/getEdit') }}",
-				data: {buildingID:id},
+				url: "{{ url('building-type/getEdit') }}",
+				data: {buildingTypeID:id},
 				success:function(data)
 				{
 					swal({
-						  title: "Are you sure you want to delete " + data.buildingName + "?",
+						  title: "Are you sure you want to delete " + data.buildingTypeName + "?",
 						  text: "",
 						  type: "warning",
 						  showCancelButton: true,
@@ -318,8 +298,8 @@
 						function(){
 						  $.ajax({
 							  type: "post", 
-							  url: "{{ url('building/delete') }}", 
-							  data: {buildingID: id},
+							  url: "{{ url('building-type/delete') }}", 
+							  data: {buildingTypeID: id},
 							  success: function(data) { 
 									swal("Success", "Successfully deleted!", "success");
 									refreshTable();
@@ -340,15 +320,15 @@
 @endsection
 
 @section('edit-modal-title')
-	Edit Building
+	Edit Building Type
 @endsection
 
 @section('edit-modal-desc')
-	Edit existing building data
+	Edit existing building type data
 @endsection
 
 @section('ajax-edit-form')
-	{!!Form::open(['url'=>'building/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+	{!!Form::open(['url'=>'building-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
 	{{ csrf_field() }}
 @endsection
 
@@ -358,35 +338,17 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{!!Form::text('buildingID',null,['id'=>'buildingID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+			{!!Form::text('buildingTypeID',null,['id'=>'buildingTypeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
 		</div>	
 
 	</div>
+
 
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{!! Form::text('buildingName',null,['id'=>'buildingName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
+			{!! Form::text('building_TypeName',null,['id'=>'building_TypeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
 		</div>	
-
-	</div>
-
-	<div class="form-group row">
-			<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
-			<div class="col-md-9">
-				
-				{{ Form::select('lotID', $lots, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
-				
-			</div>	
-
-	</div>
-	<div class="form-group row">
-			<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
-			<div class="col-md-9">
-				
-				{{ Form::select('buildingTypeID', $buildingtypes, null, ['id'=>'buildingTypeID', 'class' => 'form-control border-info selectBox']) }}
-				
-			</div>	
 
 	</div>
 
@@ -420,24 +382,24 @@
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
 
+            console.log($("#building_TypeName").val());
+
 			$.ajax({
-				url: "{{ url('/building/update') }}",
+				url: "{{ url('/building-type/update') }}",
 				type: "POST",
 				data: {"_token": $('#csrf-token').val(), 
-						"buildingID": $("#buildingID").val(), 
-						"buildingName": $("#buildingName").val(), 
 						"buildingTypeID": $("#buildingTypeID").val(), 
+						"buildingTypeName": $("#building_TypeName").val(), 
 						"status": $(".etstat:checked").val()
 				}, 
 				success: function ( _response ){
-					console.log("etstatval: " + $(".etstat:checked").val());
 					$("#modalEdit").modal('hide');
 					$("#frm-update").trigger('reset');
 					
 					refreshTable();
 					
 					swal("Successful", 
-							"Building has been updated!", 
+							"Building type has been updated!", 
 							"success");
 				}, 
 				error: function(error) {

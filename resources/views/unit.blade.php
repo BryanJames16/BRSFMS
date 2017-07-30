@@ -76,11 +76,11 @@
 
 
 	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
+		<label class="col-md-3 label-control" for="eventRegInput1">*Building</label>
 		
 		<div class="col-md-9">
 			
-			{{ Form::select('lotID', $types, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
+			{{ Form::select('buildingID', $types, null, ['id'=>'buildingID', 'class' => 'form-control border-info selectBox']) }}
 			
 		</div>	
 	</div>
@@ -104,13 +104,6 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
-	
-	$(document).ready(function(){
-    $('#barangayID').change(function(){
-        document.getElementById('lotID').options.length = 0;
-		var id = this.value; 
-	</script>
 
 
 
@@ -128,7 +121,7 @@
 @section('table-head-list')
 	<th>ID</th>
 	<th>Unit Number</th>
-	<th>Lot</th>
+	<th>Building</th>
 	<th>Status</th>
 	<th>Actions</th>
 @endsection
@@ -138,7 +131,7 @@
 		<tr>
 			<td>{{ $unit -> unitID }}</td>
 			<td>{{ $unit -> unitCode }}</td>
-			<td>{{ $unit -> lotCode }}</td>
+			<td>{{ $unit -> buildingName }}</td>
 			
 			@if ($unit -> status == 1)
 				<td>Active</td>
@@ -222,7 +215,7 @@
 					console.log(data);
 					var frm = $('#frm-update');
 					frm.find('#unit_code').val(data.unitCode);
-					frm.find('#edit-lotID').val(data.lotID);
+					frm.find('#edit-buildingID').val(data.buildingID);
 					frm.find('#unitID').val(data.unitID);
 
 					
@@ -279,7 +272,7 @@
 		<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
 		<div class="col-md-9">
 			
-			{{ Form::select('lotID', $types, null, ['id'=>'edit-lotID', 'class' => 'form-control border-info selectBox']) }}
+			{{ Form::select('buildingID', $types, null, ['id'=>'edit-buildingID', 'class' => 'form-control border-info selectBox']) }}
 			
 		</div>	
 
