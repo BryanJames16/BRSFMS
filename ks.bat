@@ -5,10 +5,21 @@
 
 @ECHO OFF
 TITLE KickStart
-SET placedir="%~dp0"
+SETLOCAL EnableDelayedExpansion
+
+SET placedir=%~dp0
+SET tempdir=%~dp0\temp
+
+SET mariadbdir=C:\xampp\mysql\bin
+SET mariadbx="%mariadbdir%\mysql.exe"
+SET dbsetupdir="%~dp0\database\setup"
+
 SET gitdir=C:\Program Files\Git\bin
 SET gitx="%gitdir%\git.exe"
-SET PHPX=php.exe
+
+SET PHPX=C:\xampp\php\php.exe
+
+set /a LCOUNT=1
 
 :: Set location directories
 IF EXIST C:\xamppp\php\php.exe (
@@ -98,6 +109,20 @@ IF %1==git (
 if %1==build (
     if %2==models (
         %PHPX% artisan make:models
+        GOTO GITCOMOK
+    )
+
+    if %2==integrated (
+        SET PATH = %mariadbdir%
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\viewtables.sql > %tempdir%\tablelist.tmp
+        for /F "tokens=*" %%s in (%tempdir%\tablelist.tmp) do (
+            IF !LCOUNT! GEQ 2 (
+                %PHPX%
+            ) 
+            set /a LCOUNT=LCOUNT+1
+        )
+        
+
         GOTO GITCOMOK
     )
 )

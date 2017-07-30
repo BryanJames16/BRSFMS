@@ -22,9 +22,5 @@ class Documentdetailrequest extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }

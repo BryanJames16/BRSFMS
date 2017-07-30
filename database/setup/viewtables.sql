@@ -1,0 +1,2 @@
+use dbBarangay;
+SHOW TABLES;
