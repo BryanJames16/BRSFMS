@@ -28,5 +28,4 @@ class Document extends Model
 
     protected $guarded = [];
 
-
 }
