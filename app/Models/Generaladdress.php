@@ -28,9 +28,5 @@ class Generaladdress extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }

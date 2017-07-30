@@ -24,9 +24,5 @@ class Unit extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }

@@ -25,9 +25,7 @@ class Building extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
+    
 
 
 }

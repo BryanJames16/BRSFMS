@@ -23,9 +23,6 @@ class Buildingtype extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
 
 
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Resident;
 use \App\Models\Lot;
-use \App\Models\House;
 use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
@@ -33,9 +32,6 @@ class ResidentController extends Controller
         $streetss = Street::select('streetID','streetName', 'status')
     												-> where('archive','0')
                                                     -> get();
-        $houses = House::select('houseID','houseCode', 'status')
-    												-> where('archive','0')
-                                                    -> get();
         $lots = Lot::select('lotID','lotCode', 'status')
     												-> where('archive','0')
                                                     -> get();
@@ -56,7 +52,6 @@ class ResidentController extends Controller
 		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
                                 -> with('residents', $residents)
                                 -> with('streetss', $streetss)
-                                -> with('houses', $houses)
                                 -> with('units', $units)
                                 -> with('lots', $lots)
                                 -> with('families',$families);
@@ -193,19 +188,6 @@ class ResidentController extends Controller
 
     }
 
-    public function getHouse(Request $r) {
-        
-        if($r->ajax())
-        {
-            return json_encode( \DB::table('houses') ->select('houseID','houseCode') 
-                                        ->join('lots', 'houses.lotID', '=', 'lots.lotID')
-                                        ->where('houses.status', '=', 1)
-                                        ->where('houses.archive', '=', 0)
-                                        ->where('houses.lotID', '=', $r->input('lotID'))
-                                        ->get());
-        }
-
-    }
 
     public function getBuilding(Request $r) {
         
@@ -226,8 +208,6 @@ class ResidentController extends Controller
         if($r->ajax())
         {
             return json_encode( \DB::table('units') ->select('unitID','unitCode') 
-                                        ->join('lots', 'units.lotID', '=', 'units.lotID')
-                                        ->join('houses', 'units.houseID', '=', 'houses.houseID')
                                         ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
                                         ->where('units.status', '=', 1)
                                         ->where('units.archive', '=', 0)

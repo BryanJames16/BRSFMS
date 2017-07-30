@@ -28,9 +28,5 @@ class Facility extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }

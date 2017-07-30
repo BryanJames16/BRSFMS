@@ -24,9 +24,5 @@ class Lot extends Model
 
     protected $guarded = [];
 
-    {{getters}}
-
-    {{setters}}
-
 
 }
