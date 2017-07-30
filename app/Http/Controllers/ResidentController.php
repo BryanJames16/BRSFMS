@@ -211,7 +211,7 @@ class ResidentController extends Controller
                                         ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
                                         ->where('units.status', '=', 1)
                                         ->where('units.archive', '=', 0)
-                                        ->where('units.lotID', '=', $r->input('lotID'))
+                                        ->where('buildings.buildingID', '=', $r->input('buildingID'))
                                         ->get());
         }
 

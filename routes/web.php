@@ -35,6 +35,13 @@ Route::post('/building/store', 'BuildingController@store');
 Route::post('/building/update','BuildingController@edit');
 Route::post('/building/delete','BuildingController@delete');
 
+//Building Type
+Route::get('/building-type/refresh','BuildingTypeController@refresh');
+Route::get('/building-type/getEdit', 'BuildingTypeController@getEdit');
+Route::post('/building-type/store', 'BuildingTypeController@store');
+Route::post('/building-type/update','BuildingTypeController@edit');
+Route::post('/building-type/delete','BuildingTypeController@delete');
+
 //Service Type
 Route::get('/service-type/refresh','ServiceTypeController@refresh');
 Route::get('/service-type/getEdit', 'ServiceTypeController@getEdit');
@@ -266,7 +273,7 @@ Route::resource('/unit', 'UnitController');
 Route::resource('/house', 'HouseController');
 Route::resource('/resident', 'ResidentController');
 Route::resource('/building', 'BuildingController');
-
+Route::resource('/building-type', 'BuildingTypeController');
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');
