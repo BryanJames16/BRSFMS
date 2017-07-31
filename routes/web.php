@@ -274,6 +274,7 @@ Route::resource('/house', 'HouseController');
 Route::resource('/resident', 'ResidentController');
 Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
+Route::resource('/utilities', 'UtilitiesController');
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');
