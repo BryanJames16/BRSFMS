@@ -1,8 +1,10 @@
--- MySQL dump 10.16  Distrib 10.1.19-MariaDB, for Win32 (AMD64)
+CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `dbbarangay`;
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: localhost    Database: localhost
+-- Host: 127.0.0.1    Database: dbbarangay
 -- ------------------------------------------------------
--- Server version	10.1.19-MariaDB
+-- Server version	5.5.5-10.1.19-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -459,7 +461,7 @@ CREATE TABLE `generaladdresses` (
   CONSTRAINT `fk_GeneralAddresses_Residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_units1` FOREIGN KEY (`unitID`) REFERENCES `units` (`unitID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -468,7 +470,7 @@ CREATE TABLE `generaladdresses` (
 
 LOCK TABLES `generaladdresses` WRITE;
 /*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
-INSERT INTO `generaladdresses` VALUES (1,'Current Address',23,NULL,NULL,3,1,2,4),(2,'Current Address',24,NULL,NULL,6,2,4,7);
+INSERT INTO `generaladdresses` VALUES (1,'Current Address',23,NULL,NULL,3,1,2,4),(2,'Permanent Address',24,NULL,NULL,5,2,4,7),(4,'Current Address',26,NULL,NULL,6,2,4,7);
 /*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,6 +501,31 @@ LOCK TABLES `lots` WRITE;
 /*!40000 ALTER TABLE `lots` DISABLE KEYS */;
 INSERT INTO `lots` VALUES (1,'5C',1,1,0),(2,'4C',1,1,0),(3,'10',2,1,0),(4,'20',2,1,0),(5,'3C',1,1,0);
 /*!40000 ALTER TABLE `lots` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (1,'2017_07_31_074140_create_buildings_table',0),(2,'2017_07_31_074140_create_buildingtypes_table',0),(3,'2017_07_31_074140_create_businesscategories_table',0),(4,'2017_07_31_074140_create_businesses_table',0),(5,'2017_07_31_074140_create_businessregistrations_table',0),(6,'2017_07_31_074140_create_documentdetailrequests_table',0),(7,'2017_07_31_074140_create_documentheaderrequests_table',0),(8,'2017_07_31_074140_create_documents_table',0),(9,'2017_07_31_074140_create_employeeposition_table',0),(10,'2017_07_31_074140_create_employees_table',0),(11,'2017_07_31_074140_create_facilities_table',0),(12,'2017_07_31_074140_create_facilitytypes_table',0),(13,'2017_07_31_074140_create_families_table',0),(14,'2017_07_31_074140_create_familymembers_table',0),(15,'2017_07_31_074140_create_generaladdresses_table',0),(16,'2017_07_31_074140_create_lots_table',0),(17,'2017_07_31_074140_create_people_table',0),(18,'2017_07_31_074140_create_reservations_table',0),(19,'2017_07_31_074140_create_residentaccountregistrations_table',0),(20,'2017_07_31_074140_create_residentaccounts_table',0),(21,'2017_07_31_074140_create_residentbackgrounds_table',0),(22,'2017_07_31_074140_create_residentregistrations_table',0),(23,'2017_07_31_074140_create_residents_table',0),(24,'2017_07_31_074140_create_services_table',0),(25,'2017_07_31_074140_create_servicesponsorships_table',0),(26,'2017_07_31_074140_create_servicetypes_table',0),(27,'2017_07_31_074140_create_streets_table',0),(28,'2017_07_31_074140_create_sysutil_table',0),(29,'2017_07_31_074140_create_units_table',0),(30,'2017_07_31_074140_create_users_table',0),(31,'2017_07_31_074140_create_voters_table',0),(32,'2017_07_31_074145_add_foreign_keys_to_buildings_table',0),(33,'2017_07_31_074145_add_foreign_keys_to_businesses_table',0),(34,'2017_07_31_074145_add_foreign_keys_to_businessregistrations_table',0),(35,'2017_07_31_074145_add_foreign_keys_to_documentdetailrequests_table',0),(36,'2017_07_31_074145_add_foreign_keys_to_documentheaderrequests_table',0),(37,'2017_07_31_074145_add_foreign_keys_to_employeeposition_table',0),(38,'2017_07_31_074145_add_foreign_keys_to_facilities_table',0),(39,'2017_07_31_074145_add_foreign_keys_to_families_table',0),(40,'2017_07_31_074145_add_foreign_keys_to_familymembers_table',0),(41,'2017_07_31_074145_add_foreign_keys_to_generaladdresses_table',0),(42,'2017_07_31_074145_add_foreign_keys_to_lots_table',0),(43,'2017_07_31_074145_add_foreign_keys_to_reservations_table',0),(44,'2017_07_31_074145_add_foreign_keys_to_residentaccountregistrations_table',0),(45,'2017_07_31_074145_add_foreign_keys_to_residentaccounts_table',0),(46,'2017_07_31_074145_add_foreign_keys_to_residentbackgrounds_table',0),(47,'2017_07_31_074145_add_foreign_keys_to_residentregistrations_table',0),(48,'2017_07_31_074145_add_foreign_keys_to_services_table',0),(49,'2017_07_31_074145_add_foreign_keys_to_servicesponsorships_table',0),(50,'2017_07_31_074145_add_foreign_keys_to_units_table',0),(51,'2017_07_31_074145_add_foreign_keys_to_voters_table',0);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -634,13 +661,14 @@ CREATE TABLE `residentbackgrounds` (
   `backgroundPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `currentWork` varchar(40) NOT NULL,
   `monthlyIncome` varchar(40) NOT NULL,
+  `dateStarted` date DEFAULT NULL,
   `peoplePrimeID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`backgroundPrimeID`),
   KEY `fk_residentBackgrounds_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_residentBackgrounds_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -649,6 +677,7 @@ CREATE TABLE `residentbackgrounds` (
 
 LOCK TABLES `residentbackgrounds` WRITE;
 /*!40000 ALTER TABLE `residentbackgrounds` DISABLE KEYS */;
+INSERT INTO `residentbackgrounds` VALUES (4,'Safety Officer','₱0-₱10,000','2017-07-31',26,1,0),(5,'None','₱0-₱10,000','2017-07-30',26,1,0);
 /*!40000 ALTER TABLE `residentbackgrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -705,7 +734,7 @@ CREATE TABLE `residents` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`residentPrimeID`),
   KEY `fk_Residents_People1_idx` (`residentPrimeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -714,7 +743,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1),(23,'RES_008','Gail-Anne','Mendoza','Fuellas','','09123456789','F','1997-05-01','Single','','','Official',1),(24,'RES_009','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-09-05','Single','','','Official',1);
+INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1),(23,'RES_008','Gail-Anne','Mendoza','Fuellas','','09123456789','F','1997-05-01','Single','','','Official',1),(24,'RES_009','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-09-05','Single','',NULL,'Official',1),(26,'RES_010','Maria Akizia','Delima','Alvino','','09123456789','F','2002-12-31','Single','','','Official',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -957,4 +986,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-31 15:24:43
+-- Dump completed on 2017-07-31 22:59:18
