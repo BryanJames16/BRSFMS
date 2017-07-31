@@ -751,36 +751,36 @@
 									<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 									<div class="row">
 										<div class="form-group col-md-6 mb-2">
-											<label for="userinput3">Street</label>
-											<select name="street" id="street" class="form-control">
-												@foreach($streetss as $street)
-													<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
-												@endforeach
+											<label for="userinput3">Address Type</label>
+											<select name="addressType" id="eaddressType" class="form-control">
+												<option value"Permanent Address">Permanent Address</option>
+												<option value"Current Address">Current Address</option>
 											</select>
 										</div>
 										<div class="form-group col-md-6 mb-2">
-											<label for="userinput4">Lot</label>
-											<select name="lot" id="lot" class="form-control">
-												@foreach($lots as $lot)
-													<option value= {{$lot -> lotID}}>{{$lot -> lotCode}}</option>
+											<label for="userinput3">Street</label>
+											<select name="street" id="estreet" class="form-control estreet">
+												@foreach($streetss as $street)
+													<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
 												@endforeach
 											</select>
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-md-6 mb-2">
-											<label for="userinput3">House</label>
-											<select name="house" id="house" class="form-control">
-												
-											</select>
+											<label for="userinput4">Lot</label>
+											<select name="lot" id="elot" class="form-control elot" disabled></select>
 										</div>
 										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">Building</label>
+											<select name="building" id="ebuilding" class="form-control ebuilding" disabled></select>
+										</div>
+									</div>
+									<div class="row">
+										
+										<div class="form-group col-md-6 mb-2">
 											<label for="userinput4">Unit</label>
-											<select name="unit" id="unit" class="form-control">
-												@foreach($units as $unit)
-													<option value= {{$unit -> unitID}}>{{$unit -> unitCode}}</option>
-												@endforeach
-											</select>
+											<select name="unit" id="eunit" class="form-control eunit" disabled></select>
 										</div>
 									</div>
 
@@ -976,7 +976,13 @@
 					"civilStatus": $("#civilStatus").val(), 
 					"seniorCitizenID": $("#seniorCitizenID").val(), 
 					"disabilities": $("#disabilities").val(), 
-					"residentType": $("#residentType").val()
+					"residentType": $("#residentType").val(),
+					"streetID": $("#street").val(),
+					"lotID": $("#lot").val(),
+					"buildingID": $("#building").val(),
+					"unitID": $("#unit").val(),
+					"addressType": $("#addressType").val(),
+					
 				}, 
 				success: function(data) {
 					$("#addModal").modal("hide");
@@ -1217,23 +1223,68 @@
 				success:function(data)
 				{
 					console.log(data);
+					data = $.parseJSON(data);
+					var lotid = "";
+					var buildingid = "";
+					var unitid = "";
+					
+					for (index in data)
+					{
+						var frm = $('#frm-update');
+						frm.find('#estreet').val(data[index].streetID);
 
-					var frm = $('#frm-update');
+						elotRefresh();
 
-					frm.find('#eresidentPrimeID').val(data.residentPrimeID);
-					frm.find('#eresidentID').val(data.residentID);
-					frm.find('#efirstName').val(data.firstName);
-					frm.find('#emiddleName').val(data.middleName);
-					frm.find('#elastName').val(data.lastName);
-					frm.find('#esuffix').val(data.suffix);
-					frm.find('#egender').val(data.gender);
-					frm.find('#ebirthDate').val(data.birthDate);
-					frm.find('#ecivilStatus').val(data.civilStatus);
-					frm.find('#eseniorCitizenID').val(data.seniorCitizenID);
-					frm.find('#edisabilities').val(data.disabilities);
-					frm.find('#eresidentType').val(data.residentType);
-					frm.find('#econtactNumber').val(data.contactNumber);
-					$('#editModal').modal('show');
+						frm.find('#eresidentPrimeID').val(data[index].residentPrimeID);
+						frm.find('#eresidentID').val(data[index].residentID);
+						frm.find('#efirstName').val(data[index].firstName);
+						frm.find('#emiddleName').val(data[index].middleName);
+						frm.find('#elastName').val(data[index].lastName);
+						frm.find('#esuffix').val(data[index].suffix);
+						frm.find('#egender').val(data[index].gender);
+						frm.find('#ebirthDate').val(data[index].birthDate);
+						frm.find('#ecivilStatus').val(data[index].civilStatus);
+						frm.find('#eseniorCitizenID').val(data[index].seniorCitizenID);
+						frm.find('#edisabilities').val(data[index].disabilities);
+						frm.find('#eresidentType').val(data[index].residentType);
+						frm.find('#econtactNumber').val(data[index].contactNumber);
+						frm.find('#eaddresstype').val(data[index].addressType);
+						
+						lotid= data[index].lotID;
+						buildingid= data[index].buildingID;
+						unitid= data[index].unitID;
+						
+						
+
+						$('#editModal').modal('show');
+					}
+
+					setTimeout(function () {
+						frm.find('#elot').val(lotid);
+					}, 500);
+					
+					setTimeout(function () {
+						ebuildingRefresh();
+
+						setTimeout(function () {
+							console.log("puntaagad");
+							frm.find('#ebuilding').val(buildingid);
+						}, 1000);
+						
+					}, 500);
+
+					setTimeout(function () {
+						eunitRefresh();
+
+						setTimeout(function () {
+							console.log("hehehe");
+							frm.find('#eunit').val(unitid);
+						}, 1000);
+						
+					}, 2000);
+					
+
+					
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -1545,202 +1596,10 @@
 
 		//  END OF FAMILY REFRESH TABLE
 
-		//  STREET ON CHANGE
-
-		$(document).on('change', '.street', function(e) {
-
-			
-			lotRefresh();
-
-					setTimeout(function () {
-						buildingRefresh();
-					}, 1000);
-
-					setTimeout(function () {
-						unitRefresh();
-					}, 3000);
-			
-			
-			
-
-		});
-
-		// END OF STREET ON CHANGE
-
-		//  LOT ON CHANGE
-
-		$(document).on('change', '.lot', function(e) {
-
-			
-			
-			buildingRefresh();
-			setTimeout(function () {
-				unitRefresh();
-			}, 1000);
-			
-			
-		});
-
-		// END OF LOT ON CHANGE
-
-		//BUILDINGLOT ON CHANGE
-
-		$(document).on('change', '.building', function(e) {
-
-			unitRefresh();
-			
-		});
-
-		// END OF BUILDING ON CHANGE
-
-		////////////-------  LOT REFRESH  ----- ////////////////////////
-
-		var lotRefresh = function() {
-
-			var id = $('#street').val();
-			console.log('Lot Refresh');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getLot') }}", 
-				async: 'false',
-				data: {"streetID":id},  
-				success: function(data) {
-
-					var check= false;
-					$('#lot').empty();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-						check = true;
-						$('#lot').append(
-							'<option value="'+ data[index].lotID +'">' + data[index].lotCode + '</option>'
-						);
-						console.log('Lot Code: ' + data[index].lotCode);
-					}
-
-					if(check){
-						$('#lot').prop('disabled',false);
-					}
-					else{
-						$('#lot').prop('disabled','disabled');
-					}
-
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		};
-
 		
 
-		///////////////----- BUILDING REFRESH ------------////////////
-
-		var buildingRefresh = function(){
-
-			var id = $('#lot').val();
-			console.log('LOT ID: '+ $('#lot').val());
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getBuilding') }}", 
-				async: 'false',
-				data: {"lotID":id},  
-				success: function(data) {
-
-					var check = true;
-					
-					$('#building').empty();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-						check = false;
-						$('#building').append(
-							'<option value="'+ data[index].buildingID +'">' + data[index].buildingName + '</option>'
-						);
-						console.log('Building Name: ' + data[index].buildingName);
-					}
-
-					if(!check)
-					{
-						$('#building').prop('disabled',false);
-					}
-					else{
-						$('#building').prop('disabled','disabled');
-					}
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		};
-
-		///////////////----- UNIT REFRESH ------------////////////
-
-		var unitRefresh = function(){
-
-			var id = $('#building').val();
-			console.log('Building ID: ' + id);
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getUnit') }}", 
-				async: 'false',
-				data: {"buildingID":id},  
-				success: function(data) {
-
-					var check = true;
-					
-					$('#unit').empty();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-						check = false;
-						$('#unit').append(
-							'<option value="'+ data[index].unitID +'">' + data[index].unitCode + '</option>'
-						);
-						console.log('Unit Name: ' + data[index].unitCode);
-					}
-
-					if(!check)
-					{
-						$('#unit').prop('disabled',false);
-					}
-					else{
-						$('#unit').prop('disabled','disabled');
-					}
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		};
-
+		
+		@include('resident-refresh');
 
 	</script>
 @endsection

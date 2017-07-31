@@ -8,6 +8,7 @@ use \App\Models\Lot;
 use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
+use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use Carbon\Carbon;
 
@@ -32,12 +33,6 @@ class ResidentController extends Controller
         $streetss = Street::select('streetID','streetName', 'status')
     												-> where('archive','0')
                                                     -> get();
-        $lots = Lot::select('lotID','lotCode', 'status')
-    												-> where('archive','0')
-                                                    -> get();
-        $units = Unit::select('unitID','unitCode', 'status')
-    												-> where('archive','0')
-                                                    -> get();
        
         $families= \DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
                                                     'familyRegistrationDate', 'archive','residents.firstName',
@@ -52,8 +47,6 @@ class ResidentController extends Controller
 		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
                                 -> with('residents', $residents)
                                 -> with('streetss', $streetss)
-                                -> with('units', $units)
-                                -> with('lots', $lots)
                                 -> with('families',$families);
 
 
@@ -97,6 +90,16 @@ class ResidentController extends Controller
 											'disabilities' => $r -> input('disabilities'),
 											'residentType' => $r -> input('residentType'),
 											   'status' => $stat]);
+
+        $findRet = Resident::all() -> last();
+                                               
+         $aa = Generaladdress::insert(['addressType' => $r -> input('addressType'),
+                                            'residentPrimeID' => $findRet -> residentPrimeID,
+                                            'streetID' => $r -> input('streetID'),
+                                            'lotID' => $r -> input('lotID'),
+											'buildingID' => $r -> input('buildingID'),
+                                            'unitID' => $r -> input('unitID')]);
+
 
 
             return back();
@@ -144,9 +147,22 @@ class ResidentController extends Controller
 
     public function getEdit(Request $r) {
         
+        
+
+
         if($r->ajax())
         {
-            return response(Resident::find($r->input('residentPrimeID')));
+            return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','residentID', 'firstName',
+                                                                'lastName','middleName','suffix', 'status', 
+                                                                'contactNumber', 'gender', 'birthDate',
+                                                                'civilStatus','seniorCitizenID','disabilities',
+                                                                'residentType','generaladdresses.addressType',
+                                                                'generaladdresses.streetID','generaladdresses.lotID',
+                                                                'generaladdresses.unitID','generaladdresses.buildingID') 
+                                        ->join('generaladdresses', 'residents.residentPrimeID', '=', 'generaladdresses.residentPrimeID')
+                                        ->where('residents.status', '=', 1) 
+                                        ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID')) 
+                                        ->get());
         }
 
     }
