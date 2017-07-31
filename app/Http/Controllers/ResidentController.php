@@ -10,6 +10,7 @@ use \App\Models\Street;
 use \App\Models\Family;
 use \App\Models\Generaladdress;
 use \App\Models\Familymember;
+use \App\Models\Residentbackground;
 use Carbon\Carbon;
 
 require_once(app_path() . "/includes/pktool.php");
@@ -76,7 +77,7 @@ class ResidentController extends Controller
 	public function store(Request $r) 
     {
         
-        $stat = 1;
+        
         $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
                                             'firstName' => trim($r -> input('firstName')),
                                             'middleName' => trim($r -> input('middleName')),
@@ -89,16 +90,28 @@ class ResidentController extends Controller
 											'seniorCitizenID' => $r -> input('seniorCitizenID'),
 											'disabilities' => $r -> input('disabilities'),
 											'residentType' => $r -> input('residentType'),
-											   'status' => $stat]);
+											   'status' => 1]);
 
         $findRet = Resident::all() -> last();
                                                
-         $aa = Generaladdress::insert(['addressType' => $r -> input('addressType'),
+        $aa = Generaladdress::insert(['addressType' => $r -> input('addressType'),
                                             'residentPrimeID' => $findRet -> residentPrimeID,
                                             'streetID' => $r -> input('streetID'),
                                             'lotID' => $r -> input('lotID'),
 											'buildingID' => $r -> input('buildingID'),
                                             'unitID' => $r -> input('unitID')]);
+
+        if($r -> input('currentWork')!="")
+        {
+            $aa = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
+                                            'monthlyIncome' => $r -> input('monthlyIncome'),
+                                            'peoplePrimeID' => $findRet -> residentPrimeID,
+                                            'dateStarted' => Carbon::now(),
+                                            'status' => 1,
+                                            'archive' => 0]);
+        }
+                                
+        
 
 
 
@@ -158,7 +171,7 @@ class ResidentController extends Controller
                                                                 'civilStatus','seniorCitizenID','disabilities',
                                                                 'residentType','generaladdresses.addressType',
                                                                 'generaladdresses.streetID','generaladdresses.lotID',
-                                                                'generaladdresses.unitID','generaladdresses.buildingID') 
+                                                                'generaladdresses.unitID','generaladdresses.buildingID','generaladdresses.personAddressID') 
                                         ->join('generaladdresses', 'residents.residentPrimeID', '=', 'generaladdresses.residentPrimeID')
                                         ->where('residents.status', '=', 1) 
                                         ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID')) 
@@ -255,6 +268,8 @@ class ResidentController extends Controller
 
     public function edit(Request $r)
     { 
+        
+
         $type = Resident::find($r->input('residentPrimeID'));
         $type->residentID = $r->input('residentID');
         $type->firstName = $r->input('firstName');
@@ -269,6 +284,15 @@ class ResidentController extends Controller
         $type->residentType = $r->input('residentType');
         $type->contactNumber = $r->input('contactNumber');
         $type->save();
+
+        $address = GeneralAddress::find($r->input('personAddressID'));
+        $address->addressType = $r->input('addressType');
+        $address->streetID = $r->input('streetID');
+        $address->buildingID = $r->input('buildingID');
+        $address->unitID = $r->input('unitID');
+        $address->lotID = $r->input('lotID');
+        $address->save()
+;        
 
         return back();
     }

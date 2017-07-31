@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Plass Aerson
+ * Class Aerson
  */
-class Person extends Model
+class Aerson extends Model
 {
     protected $table = 'people';
 

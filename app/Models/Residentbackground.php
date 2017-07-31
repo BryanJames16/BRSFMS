@@ -18,6 +18,7 @@ class Residentbackground extends Model
     protected $fillable = [
         'currentWork',
         'monthlyIncome',
+        'dateStarted',
         'peoplePrimeID',
         'status',
         'archive'
@@ -38,6 +39,13 @@ class Residentbackground extends Model
 	 */
 	public function getMonthlyIncome() {
 		return $this->monthlyIncome;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDateStarted() {
+		return $this->dateStarted;
 	}
 
 	/**
@@ -78,6 +86,15 @@ class Residentbackground extends Model
 	 */
 	public function setMonthlyIncome($value) {
 		$this->monthlyIncome = $value;
+		return $this;
+	}
+
+	/**
+	 * @param $value
+	 * @return $this
+	 */
+	public function setDateStarted($value) {
+		$this->dateStarted = $value;
 		return $this;
 	}
 

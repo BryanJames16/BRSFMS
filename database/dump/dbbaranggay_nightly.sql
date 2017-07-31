@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `dbbarangay`;
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.19-MariaDB, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: dbbarangay
+-- Host: localhost    Database: localhost
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.19-MariaDB
+-- Server version	10.1.19-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -36,7 +34,7 @@ CREATE TABLE `buildings` (
   KEY `buildingTypeID_idx` (`buildingTypeID`),
   CONSTRAINT `buildingTypeID` FOREIGN KEY (`buildingTypeID`) REFERENCES `buildingtypes` (`buildingTypeID`) ON UPDATE CASCADE,
   CONSTRAINT `lotID` FOREIGN KEY (`lotID`) REFERENCES `lots` (`lotID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,6 +43,7 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
+INSERT INTO `buildings` VALUES (3,1,'El Pueblo',2,1,0),(4,2,'#93 HG',1,1,0),(5,5,'Maui',2,1,0),(6,2,'#32 LM',1,1,0),(7,4,'Illumina',2,1,0);
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +60,7 @@ CREATE TABLE `buildingtypes` (
   `status` tinyint(4) NOT NULL,
   `archive` tinyint(4) NOT NULL,
   PRIMARY KEY (`buildingTypeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +69,7 @@ CREATE TABLE `buildingtypes` (
 
 LOCK TABLES `buildingtypes` WRITE;
 /*!40000 ALTER TABLE `buildingtypes` DISABLE KEYS */;
+INSERT INTO `buildingtypes` VALUES (1,'Houses',1,0),(2,'Condominium',1,0);
 /*!40000 ALTER TABLE `buildingtypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -459,7 +459,7 @@ CREATE TABLE `generaladdresses` (
   CONSTRAINT `fk_GeneralAddresses_Residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_generaladdresses_units1` FOREIGN KEY (`unitID`) REFERENCES `units` (`unitID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -468,6 +468,7 @@ CREATE TABLE `generaladdresses` (
 
 LOCK TABLES `generaladdresses` WRITE;
 /*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
+INSERT INTO `generaladdresses` VALUES (1,'Current Address',23,NULL,NULL,3,1,2,4),(2,'Current Address',24,NULL,NULL,6,2,4,7);
 /*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -704,7 +705,7 @@ CREATE TABLE `residents` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`residentPrimeID`),
   KEY `fk_Residents_People1_idx` (`residentPrimeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -713,7 +714,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1);
+INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1),(23,'RES_008','Gail-Anne','Mendoza','Fuellas','','09123456789','F','1997-05-01','Single','','','Official',1),(24,'RES_009','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-09-05','Single','','','Official',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -871,7 +872,7 @@ CREATE TABLE `units` (
   PRIMARY KEY (`unitID`),
   KEY `fk_units_building1_idx` (`buildingID`),
   CONSTRAINT `fk_units_building1` FOREIGN KEY (`buildingID`) REFERENCES `buildings` (`buildingID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -880,6 +881,7 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
+INSERT INTO `units` VALUES (2,'2',1,0,4),(3,'1',1,0,4),(4,'100',1,0,5),(5,'1A',1,0,7),(6,'2A',1,0,7);
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -955,4 +957,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-30 18:28:58
+-- Dump completed on 2017-07-31 15:24:43

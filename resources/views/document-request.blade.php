@@ -78,6 +78,10 @@
 		#imgPlaceholder {
 			overflow: visible;
 		}
+
+		.signage {
+			cursor: "{{ URL::asset('/system-assets/images/sign/samplesignature.png') }}";
+		}
 	</style>
 @endsection
 
@@ -302,7 +306,7 @@
 												<div class="card-text">
 													<span>
 														<div class="card-text">
-															<div id="imgPlaceholder">
+															<div id="imgPlaceholder" class="signage">
 
 															</div>
 														</div>
@@ -663,7 +667,7 @@
 					var imgData = canvas.toDataURL('image/png');
 					
 					$("#imgPlaceholder").html(canvas);
-					$("#imgPlaceholder").css("cursor", "url('{{ asset('system-assets/images/sign/samplesignature.png') }}'), crosshair");
+					// $("#imgPlaceholder").css("cursor", "url('{{ asset('/system-assets/images/sign/samplesignature.png') }}'), crosshair");
 
 					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
 
@@ -845,11 +849,12 @@
 					pdfDoc.addImage(imgData, 'png', 0, 0);
 					var pdfUrl = pdfDoc.output('datauristring');
 
-					
+					/*
 					$("#imgPlaceholder").html(
 						'<iframe type="application/pdf" src="' + pdfUrl + '" width="100%" height="500px">' + 
 						'</iframe>'
 					);
+					*/
 					
 				}
 			});

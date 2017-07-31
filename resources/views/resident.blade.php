@@ -560,18 +560,18 @@
 												<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
 												<div class="row">
 													<div class="form-group col-xs-12 mb-2">
-														<label for="userinput5">Current Work</label>
-														<input class="form-control border-primary" type="text" id="userinput5" />
+														<label for="userinput5">Current Work (Enter "None" if not applicable)</label>
+														<input class="form-control border-primary" name="work" id="work" type="text" id="userinput5" />
 													</div>
 												</div>
 												<div class="row">
 													<div class="form-group col-xs-12 mb-2">
 														<label for="userinput6">Monthly Salary</label>
-														<select class="form-control">
-															<option value ="1">₱0-₱10,000</option>
-															<option value="2">₱10,001-₱50,000</option>
-															<option value="3">₱50,001-₱100,000</option>
-															<option value="4">₱100,001 and above</option>
+														<select class="form-control" name="salary" id="salary">
+															<option value ="₱0-₱10,000">₱0-₱10,000</option>
+															<option value="₱10,001-₱50,000">₱10,001-₱50,000</option>
+															<option value="₱50,001-₱100,000">₱50,001-₱100,000</option>
+															<option value="₱100,001 and above">₱100,001 and above</option>
 														</select>
 													</div>
 												</div>
@@ -677,6 +677,7 @@
 										<div class="form-group col-md-6 mb-2">
 											<label for="userinput1">ID</label>
 											{!! Form::hidden('residentPrimeID', null, ['id' => 'eresidentPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+											{!! Form::hidden('personAddressID', null, ['id' => 'epersonAddressID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
 											{!! Form::text('residentID', null, ['id' => 'eresidentID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
 										</div>
 										<div class="form-group col-md-6 mb-2">
@@ -787,7 +788,9 @@
 									<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
 									<div class="row">
 										<div class="form-group col-xs-12 mb-2">
-											<label for="userinput5">Current Work</label>
+											{!! Form::hidden('hiddenWork', null, ['id' => 'hiddenWork']) !!}
+											{!! Form::hidden('hiddenIncome', null, ['id' => 'hiddenIncome']) !!}
+											<label for="userinput5">Current Work (Enter "None" if not applicable)</label>
 											<input class="form-control border-primary" type="text" id="userinput5" />
 										</div>
 									</div>
@@ -795,10 +798,10 @@
 										<div class="form-group col-xs-12 mb-2">
 											<label for="userinput6">Monthly Salary</label>
 											<select class="form-control">
-												<option value ="1">₱0-₱10,000</option>
-												<option value="2">₱10,001-₱50,000</option>
-												<option value="3">₱50,001-₱100,000</option>
-												<option value="4">₱100,001 and above</option>
+												<option value ="₱0-₱10,000">₱0-₱10,000</option>
+												<option value=">₱10,001-₱50,000">₱10,001-₱50,000</option>
+												<option value="₱50,001-₱100,000">₱50,001-₱100,000</option>
+												<option value="₱100,001 and above">₱100,001 and above</option>
 											</select>
 										</div>
 									</div>
@@ -982,6 +985,8 @@
 					"buildingID": $("#building").val(),
 					"unitID": $("#unit").val(),
 					"addressType": $("#addressType").val(),
+					"currentWork": $("#work").val(),
+					"monthlyIncome": $("#salary").val(),
 					
 				}, 
 				success: function(data) {
@@ -1232,7 +1237,6 @@
 					{
 						var frm = $('#frm-update');
 						frm.find('#estreet').val(data[index].streetID);
-
 						elotRefresh();
 
 						frm.find('#eresidentPrimeID').val(data[index].residentPrimeID);
@@ -1249,7 +1253,12 @@
 						frm.find('#eresidentType').val(data[index].residentType);
 						frm.find('#econtactNumber').val(data[index].contactNumber);
 						frm.find('#eaddresstype').val(data[index].addressType);
+						frm.find('#epersonAddressID').val(data[index].personAddressID);
+						frm.find('#hiddenWork').val(data[index].currentWork);
+						frm.find('#hiddenIncome').val(data[index].monthlyIncome);
 						
+						console.log(data[index].currentWork);
+
 						lotid= data[index].lotID;
 						buildingid= data[index].buildingID;
 						unitid= data[index].unitID;
@@ -1310,6 +1319,8 @@
 			var frm = $('#frm-update');
 
 			console.log("Prime ID: " + $("#eresidentPrimeID").val());
+			console.log("Street ID: " + $("#estreet").val());
+			
 
 			$.ajax({
 				url: "{{ url('/resident/update') }}",
@@ -1327,7 +1338,15 @@
 						"seniorCitizenID": $("#eseniorCitizenID").val(),
 						"diabilities": $("#edisabilities").val(),
 						"residentType": $("#eresidentType").val(),
-						"contactNumber": $("#econtactNumber").val() 
+						"contactNumber": $("#econtactNumber").val(),
+						"personAddressID": $("#epersonAddressID").val(),
+						"lotID": $("#elot").val(),
+						"streetID": $("#estreet").val(),
+						"unitID": $("#eunit").val(),
+						"buildingID": $("#ebuilding").val(),
+						"addressType": $("#eaddressType").val(),
+
+						
 				}, 
 				success: function ( _response ){
 					$("#editModal").modal('hide');

@@ -156,7 +156,7 @@ if %1==build (
     if %2==sysback (
         ECHO "Reloading detabase..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
-        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbdumpdir%\dbbaranggay_nightly.sql
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
 
         ECHO "Wiping migrations folder..."
         DEL %migratedir%\*.php
