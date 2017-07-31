@@ -21,5 +21,25 @@ class Sysutil extends Model
 
     protected $guarded = [];
 
+    
+	/**
+	 * @return mixed
+	 */
+	public function getBrgyName() {
+		return $this->brgyName;
+	}
+
+
+    
+	/**
+	 * @param $value
+	 * @return $this
+	 */
+	public function setBrgyName($value) {
+		$this->brgyName = $value;
+		return $this;
+	}
+
+
 
 }
