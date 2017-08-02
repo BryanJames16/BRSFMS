@@ -73,11 +73,87 @@ Utilities
 										</tr>
 										<tr>
 											<td>Barangay Logo</td>
-											<td>{{ $utility -> barangay }}</td>
+											<td>{{ $utility -> brgyLogoPath }}</td>
 										</tr>
 										<tr>
 											<td>Province Logo</td>
-											<td></td>
+											<td>{{ $utiltiy -> provLogoPath }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Unique Identifiers</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="card-body collapse in">
+						<div class="card-block card-dashboard">
+							<p align="right">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal"  style="width:130px; font-size:13px">
+									<i class="icon-edit2"></i> Edit Values  
+								</button>
+                    		</p>
+							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+								<thead>
+									<tr>
+										<col width="240">
+										<th>Identifier</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($utilities as $utility)
+										<tr>
+											<td>Document Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Document Approval Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Document Request Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Facility Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Family Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Reservation Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Resident Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Service Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Service Registration Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Sponsor Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
 										</tr>
 									@endforeach
 								</tbody>

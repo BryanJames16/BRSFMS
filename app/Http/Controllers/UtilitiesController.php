@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 class UtilitiesController extends Controller
 {
     public function index() {
-        return view('utilities');
+        $utilities = Utilities::all()->get();
+        return view('utilities') -> with('utilities', $utilities);
     }
 
     public function store() {
