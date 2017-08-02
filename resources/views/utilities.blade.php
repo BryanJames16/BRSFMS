@@ -32,7 +32,7 @@ Utilities
 			<div class="col-xs-14">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Utilities Settings</h4>
+						<h4 class="card-title">Barangay Info</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -49,6 +49,39 @@ Utilities
 									<i class="icon-edit2"></i> Edit Settings  
 								</button>
                     		</p>
+							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+								<thead>
+									<tr>
+										<col width="240">
+										<th>Assets</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($utilities as $utility)
+										<tr>
+											<td>Barangay Name</td>
+											<td>{{ $utility -> barangayName }}</td>
+										</tr>
+										<tr>
+											<td>Chairman Name</td>
+											<td>{{ $utility -> chairmanName }}</td>
+										</tr>
+										<tr>
+											<td>Address</td>
+											<td>{{ $utility -> address }}</td>
+										</tr>
+										<tr>
+											<td>Barangay Logo</td>
+											<td>{{ $utility -> barangay }}</td>
+										</tr>
+										<tr>
+											<td>Province Logo</td>
+											<td></td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
