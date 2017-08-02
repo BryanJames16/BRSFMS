@@ -791,13 +791,13 @@
 											{!! Form::hidden('hiddenWork', null, ['id' => 'hiddenWork']) !!}
 											{!! Form::hidden('hiddenIncome', null, ['id' => 'hiddenIncome']) !!}
 											<label for="userinput5">Current Work (Enter "None" if not applicable)</label>
-											<input class="form-control border-primary" type="text" id="userinput5" />
+											<input class="form-control border-primary" type="text" name="ework" id="ework" />
 										</div>
 									</div>
 									<div class="row">
 										<div class="form-group col-xs-12 mb-2">
 											<label for="userinput6">Monthly Salary</label>
-											<select class="form-control">
+											<select class="form-control" id="esalary" name="esalary">
 												<option value ="₱0-₱10,000">₱0-₱10,000</option>
 												<option value=">₱10,001-₱50,000">₱10,001-₱50,000</option>
 												<option value="₱50,001-₱100,000">₱50,001-₱100,000</option>
@@ -884,7 +884,6 @@
 						console.log("Reponse is null!");
 					}
 					else {
-						console.log(data);
 						$("#residentID").val(data);
 					}
 
@@ -931,7 +930,6 @@
 						console.log("Reponse is null!");
 					}
 					else {
-						console.log(data);
 						$("#familyID").val(data);
 					}
 				}, 
@@ -1235,6 +1233,7 @@
 					
 					for (index in data)
 					{
+						
 						var frm = $('#frm-update');
 						frm.find('#estreet').val(data[index].streetID);
 						elotRefresh();
@@ -1256,8 +1255,9 @@
 						frm.find('#epersonAddressID').val(data[index].personAddressID);
 						frm.find('#hiddenWork').val(data[index].currentWork);
 						frm.find('#hiddenIncome').val(data[index].monthlyIncome);
+						frm.find('#ework').val(data[index].currentWork);
+						frm.find('#esalary').val(data[index].monthlyIncome);
 						
-						console.log(data[index].currentWork);
 
 						lotid= data[index].lotID;
 						buildingid= data[index].buildingID;
@@ -1266,6 +1266,7 @@
 						
 
 						$('#editModal').modal('show');
+						
 					}
 
 					setTimeout(function () {
@@ -1276,7 +1277,6 @@
 						ebuildingRefresh();
 
 						setTimeout(function () {
-							console.log("puntaagad");
 							frm.find('#ebuilding').val(buildingid);
 						}, 1000);
 						
@@ -1286,7 +1286,6 @@
 						eunitRefresh();
 
 						setTimeout(function () {
-							console.log("hehehe");
 							frm.find('#eunit').val(unitid);
 						}, 1000);
 						
@@ -1318,9 +1317,6 @@
 			
 			var frm = $('#frm-update');
 
-			console.log("Prime ID: " + $("#eresidentPrimeID").val());
-			console.log("Street ID: " + $("#estreet").val());
-			
 
 			$.ajax({
 				url: "{{ url('/resident/update') }}",
@@ -1345,6 +1341,10 @@
 						"unitID": $("#eunit").val(),
 						"buildingID": $("#ebuilding").val(),
 						"addressType": $("#eaddressType").val(),
+						"currentWork": $("#ework").val(),
+						"monthlyIncome": $("#esalary").val(),
+						"hiddenWork": $("#hiddenIncome").val(),
+						"hiddenIncome": $("#hiddenWork").val(),
 
 						
 				}, 
@@ -1384,7 +1384,6 @@
 					url: "{{ url('/resident/getEdit') }}",
 					data: {"residentPrimeID": id},
 					success:function(data) {
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.firstName + "?",
 							text: "",
@@ -1434,7 +1433,6 @@
 					url: "{{ url('/family/getEdit') }}",
 					data: {"familyPrimeID": id},
 					success:function(data) {
-						console.log(data);
 						swal({
 							title: "Are you sure you want to delete " + data.familyName + "?",
 							text: "",
