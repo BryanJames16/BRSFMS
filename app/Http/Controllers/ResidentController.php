@@ -166,15 +166,20 @@ class ResidentController extends Controller
         if($r->ajax())
         {
             return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','residentID', 'firstName',
-                                                                'lastName','middleName','suffix', 'status', 
+                                                                'lastName','middleName','suffix', 'residents.status', 
                                                                 'contactNumber', 'gender', 'birthDate',
                                                                 'civilStatus','seniorCitizenID','disabilities',
                                                                 'residentType','generaladdresses.addressType',
                                                                 'generaladdresses.streetID','generaladdresses.lotID',
-                                                                'generaladdresses.unitID','generaladdresses.buildingID','generaladdresses.personAddressID') 
+                                                                'generaladdresses.unitID','generaladdresses.buildingID',
+                                                                'generaladdresses.personAddressID', 'residentbackgrounds.currentWork', 
+                                                                'residentBackgrounds.monthlyIncome') 
                                         ->join('generaladdresses', 'residents.residentPrimeID', '=', 'generaladdresses.residentPrimeID')
+                                        ->join('residentBackgrounds', 'residents.residentPrimeID', '=', 'residentBackgrounds.peoplePrimeID')
                                         ->where('residents.status', '=', 1) 
-                                        ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID')) 
+                                        ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->orderby('dateStarted','desc') 
+                                        ->limit(1)
                                         ->get());
         }
 
@@ -291,7 +296,19 @@ class ResidentController extends Controller
         $address->buildingID = $r->input('buildingID');
         $address->unitID = $r->input('unitID');
         $address->lotID = $r->input('lotID');
-        $address->save()
+        $address->save();
+
+        if( ($r -> input('work')!= $r -> input('hiddenWork')) || ($r -> input('salary')!=$r -> input('hiddenIncome')) )
+        {
+            $aal = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
+                                            'monthlyIncome' => $r -> input('monthlyIncome'),
+                                            'dateStarted' => Carbon::now(),
+                                            'peoplePrimeID' => $r -> input('residentPrimeID'),
+											'status' => 1,
+                                            'archive' => 0]);
+        }
+
+        
 ;        
 
         return back();
