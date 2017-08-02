@@ -17,6 +17,7 @@ class CreateResidentbackgroundsTable extends Migration {
 			$table->integer('backgroundPrimeID', true);
 			$table->string('currentWork', 40);
 			$table->string('monthlyIncome', 40);
+			$table->date('dateStarted')->nullable();
 			$table->integer('peoplePrimeID')->index('fk_residentBackgrounds_Residents1_idx');
 			$table->boolean('status');
 			$table->boolean('archive');
