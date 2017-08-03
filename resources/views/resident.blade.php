@@ -150,7 +150,13 @@
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-																<a href="#" class="dropdown-item add" name="btnMember" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-outbox"></i> Add to Family</a>
+																@foreach($memberss as $member)
+																	@if($member -> residentPrimeID == $resident -> residentPrimeID)
+																		<a href="#" class="dropdown-item add" name="btnMember" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-outbox"></i> Add to Family</a>
+
+																	@endif
+																@endforeach
+																
 																<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Edit</a>
 																<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
 															</span>
@@ -306,7 +312,7 @@
 
 						<!--ADD TO FAMILY Modal -->
 						<div class="modal fade text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-sm modal-dialog " role="document">
+							<div class="modal-xl modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -317,7 +323,49 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										
+
+										{{Form::open(['url'=>'resident/join', 'method' => 'POST', 'id' => 'frm-addToFam' ])}}
+												{{Form::hidden('resID',null,['id'=>'resID'])}}				
+
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addToFam">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Name</th>
+													<th>Head</th>
+													<th>Members</th>
+													<th>Relationship</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												
+												@foreach($families as $family)
+													<tr>
+
+														
+
+															{{Form::hidden('famID',$family->familyPrimeID,['id'=>'famID'])}}
+															
+
+														<td>{{ $family -> familyID }}</td>
+														<td>{{ $family -> familyName }}</td>
+														<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
+														<td>2</td>
+														<td>{!! Form::text('memberRelation', null, ['id' => 'memberRelation',
+																							'class' => 'form-control border-primary',
+																							 ]) !!}</td>
+														<td>
+															<button class='btn btn-icon btn-round btn-success normal join'  type='button' value='{{ $family -> familyPrimeID }}'>Join here</button>
+														</td>
+														
+													</tr>
+												@endforeach
+												
+											</tbody>
+										</table>
+										{{Form::close()}}
 									</div>
 									<!-- End of Modal Body -->
 
@@ -1089,6 +1137,7 @@
 		//  ADD TO FAMILY
 
 		$(document).on('click', '.add', function(e) {
+
 			var id = $(this).data('value');
 
 			$.ajax({
@@ -1097,7 +1146,17 @@
 				data: {"residentPrimeID":id}, 
 				success:function(data)
 				{
-					$('#memberModal').modal('show');
+					console.log(data);
+					data = $.parseJSON(data);
+					var frm = $('#frm-addToFam');
+
+					for (index in data)
+					{
+						
+						
+						frm.find('#resID').val(data[index].residentPrimeID);
+						console.log("RES ID: "+ $('#resID').val());
+					}
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -1111,9 +1170,51 @@
 				}
 			})
 
+			
+			
+			$('#memberModal').modal('show');
+
 		});
 
 		//  END OF ADD TO FAMILY
+
+		//  JOIN TO FAMILY
+
+
+		$(document).on('click', '.join', function(e) {
+			
+			var id = $(this).val();
+
+			$.ajax({
+				url: "{{ url('/resident/join') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"familyPrimeID": $("#famID").val(), 
+					"peoplePrimeID": $("#resID").val(), 
+					"memberRelation": $("#memberRelation").val()
+				}, 
+				success: function(data) {
+					$("#memberModal").modal("hide");
+					refreshTable();
+					familyRefreshTable();
+					$("#frm-addToFam").trigger("reset");
+					swal("Success", "Successfully Added to family!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
+		});
+
+		//  END OF JOIN TO FAMILY
 
 
 		//  ADD/REMOVE FAMILY MEMBER
