@@ -122,7 +122,7 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
         GOTO GITCOMOK
     )
 
@@ -157,7 +157,7 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
         GOTO GITCOMOK
     )
 
@@ -174,7 +174,7 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
 
         GOTO GITCOMOK
     )

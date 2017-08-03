@@ -13,7 +13,7 @@ use \App\Models\Familymember;
 use \App\Models\Residentbackground;
 use Carbon\Carbon;
 
-require_once(app_path() . "/includes/pktool.php");
+require_once(app_path() . '/Includes/pktool.php');
 
 use StaticCounter;
 use SmartMove;
@@ -27,19 +27,11 @@ class ResidentController extends Controller
     }
 
     public function index() {
-    	$residents = \DB::table('residents') ->select('residentPrimeID','residentID', 'firstName','lastName',
-                                                    'middleName','suffix', 'status', 'contactNumber', 'gender',
-                                                    'birthDate', 'civilStatus','seniorCitizenID','disabilities',
-                                                    'residentType')
-                                                    -> where('status','1')
+    	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('status','1')
                                                     -> get();
         
         $streetss = Street::select('streetID','streetName', 'status')
-    												-> where('archive','0')
-                                                    -> get();
-
-        $memberss = \DB::table('residents') ->select('residentPrimeID')
-                                                    ->join('familymembers', 'residents.residentPrimeID', '!=', 'familymembers.peoplePrimeID')
     												-> where('archive','0')
                                                     -> get();
        
@@ -56,7 +48,6 @@ class ResidentController extends Controller
 		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
                                 -> with('residents', $residents)
                                 -> with('streetss', $streetss)
-                                -> with('memberss', $memberss)
                                 -> with('families',$families);
 
 
@@ -316,20 +307,11 @@ class ResidentController extends Controller
 											'status' => 1,
                                             'archive' => 0]);
         }
-        ;        
+
+        
+;        
 
         return back();
-    }
-
-    public function join(Request $r)
-    {
-        $aah = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
-                                            'peoplePrimeID' => $r -> input('peoplePrimeID'),
-                                            'memberRelation' => $r -> input('memberRelation'),
-											   'archive' => 0]);
-
-
-            return back();
     }
 }
 
