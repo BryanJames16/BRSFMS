@@ -82,17 +82,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		@yield('post-meta')
 
-		<style>
-			.navbar-preset-style {
-				background-color: #DF5E6A;
-				background-image: url("{{ URL::asset('/system-assets/images/header/pattern.png') }}");
-				min-height: "100px";
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/crash_style.css') }}" />
 
 	</head>
 
-	<body data-open="click" data-menu="vertical-content-menu" data-col="2-columns" class="vertical-layout vertical-content-menu 2-columns menu-expanded">
+	<body data-open="click" data-menu="vertical-content-menu" data-col="2-columns" class="vertical-layout vertical-content-menu 2-columns menu-expanded body-preset-style">
 	
 
 		<!-- START NAVBAR -->

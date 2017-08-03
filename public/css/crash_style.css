@@ -1,0 +1,16 @@
+.navbar-preset-style {
+    background-color: #DF5E6A;
+    background-image: url("../system-assets/images/header/pattern.png");
+    min-height: "100px";
+}
+
+.body-preset-style {
+    background-color: #ffffff;
+    background-image: url("../system-assets/images/background/bodybg2.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.sign-cursor {
+    cursor: url("../system-assets/images/sign/sign.png"), crosshair;
+}

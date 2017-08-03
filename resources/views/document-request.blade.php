@@ -306,7 +306,7 @@
 												<div class="card-text">
 													<span>
 														<div class="card-text">
-															<div id="imgPlaceholder" class="signage">
+															<div id="imgPlaceholder" class="sign-cursor">
 
 															</div>
 														</div>
@@ -668,6 +668,7 @@
 					
 					$("#imgPlaceholder").html(canvas);
 					// $("#imgPlaceholder").css("cursor", "url('{{ asset('/system-assets/images/sign/samplesignature.png') }}'), crosshair");
+					//$("#imgPlaceholder").addClass("sign-cursor");
 
 					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
 
