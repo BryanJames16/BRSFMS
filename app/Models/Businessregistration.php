@@ -1,96 +1,56 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Businessregistration
+ * 
+ * @property int $registrationPrimeID
+ * @property string $registrationID
+ * @property \Carbon\Carbon $registrationDate
+ * @property int $businessPrimeID
+ * @property int $peoplePrimeID
+ * 
+ * @property \App\Models\Business $business
+ * @property \App\Models\Person $person
+ *
+ * @package App\Models
  */
-class Businessregistration extends Model
+class Businessregistration extends Eloquent
 {
-    protected $table = 'businessregistrations';
-
-    protected $primaryKey = 'registrationPrimeID';
-
+	protected $primaryKey = 'registrationPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'registrationID',
-        'registrationDate',
-        'businessPrimeID',
-        'peoplePrimeID'
-    ];
+	protected $casts = [
+		'businessPrimeID' => 'int',
+		'peoplePrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'registrationDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getRegistrationID() {
-		return $this->registrationID;
+	protected $fillable = [
+		'registrationID',
+		'registrationDate',
+		'businessPrimeID',
+		'peoplePrimeID'
+	];
+
+	public function business()
+	{
+		return $this->belongsTo(\App\Models\Business::class, 'businessPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getRegistrationDate() {
-		return $this->registrationDate;
+	public function person()
+	{
+		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessPrimeID() {
-		return $this->businessPrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setRegistrationID($value) {
-		$this->registrationID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setRegistrationDate($value) {
-		$this->registrationDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessPrimeID($value) {
-		$this->businessPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-
-
 }

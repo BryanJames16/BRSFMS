@@ -1,113 +1,58 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Family
+ * 
+ * @property int $familyPrimeID
+ * @property string $familyID
+ * @property int $familyHeadID
+ * @property string $familyName
+ * @property \Carbon\Carbon $familyRegistrationDate
+ * @property bool $archive
+ * 
+ * @property \App\Models\Resident $resident
+ * @property \Illuminate\Database\Eloquent\Collection $familymembers
+ *
+ * @package App\Models
  */
-class Family extends Model
+class Family extends Eloquent
 {
-    protected $table = 'families';
-
-    protected $primaryKey = 'familyPrimeID';
-
+	protected $primaryKey = 'familyPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'familyID',
-        'familyHeadID',
-        'familyName',
-        'familyRegistrationDate',
-        'archive'
-    ];
+	protected $casts = [
+		'familyHeadID' => 'int',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'familyRegistrationDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getFamilyID() {
-		return $this->familyID;
+	protected $fillable = [
+		'familyID',
+		'familyHeadID',
+		'familyName',
+		'familyRegistrationDate',
+		'archive'
+	];
+
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'familyHeadID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFamilyHeadID() {
-		return $this->familyHeadID;
+	public function familymembers()
+	{
+		return $this->hasMany(\App\Models\Familymember::class, 'familyPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFamilyName() {
-		return $this->familyName;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFamilyRegistrationDate() {
-		return $this->familyRegistrationDate;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFamilyID($value) {
-		$this->familyID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFamilyHeadID($value) {
-		$this->familyHeadID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFamilyName($value) {
-		$this->familyName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFamilyRegistrationDate($value) {
-		$this->familyRegistrationDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

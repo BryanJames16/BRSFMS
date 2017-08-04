@@ -1,79 +1,50 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Street
+ * 
+ * @property int $streetID
+ * @property string $streetName
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ * @property \Illuminate\Database\Eloquent\Collection $lots
+ *
+ * @package App\Models
  */
-class Street extends Model
+class Street extends Eloquent
 {
-    protected $table = 'streets';
-
-    protected $primaryKey = 'streetID';
-
+	protected $primaryKey = 'streetID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'streetName',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'streetName',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getStreetName() {
-		return $this->streetName;
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'streetID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
+	public function lots()
+	{
+		return $this->hasMany(\App\Models\Lot::class, 'streetID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStreetName($value) {
-		$this->streetName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

@@ -1,164 +1,69 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Facility
+ * 
+ * @property int $primeID
+ * @property string $facilityID
+ * @property string $facilityName
+ * @property string $facilityDesc
+ * @property bool $status
+ * @property bool $archive
+ * @property int $facilityTypeID
+ * @property float $facilityDayPrice
+ * @property float $facilityNightPrice
+ * 
+ * @property \App\Models\Facilitytype $facilitytype
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ * @property \Illuminate\Database\Eloquent\Collection $reservations
+ *
+ * @package App\Models
  */
-class Facility extends Model
+class Facility extends Eloquent
 {
-    protected $table = 'facilities';
-
-    protected $primaryKey = 'primeID';
-
+	protected $primaryKey = 'primeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'facilityID',
-        'facilityName',
-        'facilityDesc',
-        'status',
-        'archive',
-        'facilityTypeID',
-        'facilityDayPrice',
-        'facilityNightPrice'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool',
+		'facilityTypeID' => 'int',
+		'facilityDayPrice' => 'float',
+		'facilityNightPrice' => 'float'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'facilityID',
+		'facilityName',
+		'facilityDesc',
+		'status',
+		'archive',
+		'facilityTypeID',
+		'facilityDayPrice',
+		'facilityNightPrice'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityID() {
-		return $this->facilityID;
+	public function facilitytype()
+	{
+		return $this->belongsTo(\App\Models\Facilitytype::class, 'facilityTypeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityName() {
-		return $this->facilityName;
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'facilitiesPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityDesc() {
-		return $this->facilityDesc;
+	public function reservations()
+	{
+		return $this->hasMany(\App\Models\Reservation::class, 'facilityPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityTypeID() {
-		return $this->facilityTypeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityDayPrice() {
-		return $this->facilityDayPrice;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityNightPrice() {
-		return $this->facilityNightPrice;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityID($value) {
-		$this->facilityID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityName($value) {
-		$this->facilityName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityDesc($value) {
-		$this->facilityDesc = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityTypeID($value) {
-		$this->facilityTypeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityDayPrice($value) {
-		$this->facilityDayPrice = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityNightPrice($value) {
-		$this->facilityNightPrice = $value;
-		return $this;
-	}
-
-
-
 }

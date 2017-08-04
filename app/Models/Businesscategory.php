@@ -1,96 +1,46 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Businesscategory
+ * 
+ * @property int $categoryPrimeID
+ * @property string $categoryName
+ * @property string $categoryDesc
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $businesses
+ *
+ * @package App\Models
  */
-class Businesscategory extends Model
+class Businesscategory extends Eloquent
 {
-    protected $table = 'businesscategories';
-
-    protected $primaryKey = 'categoryPrimeID';
-
+	protected $primaryKey = 'categoryPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'categoryName',
-        'categoryDesc',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'categoryName',
+		'categoryDesc',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getCategoryName() {
-		return $this->categoryName;
+	public function businesses()
+	{
+		return $this->hasMany(\App\Models\Business::class, 'categoryPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getCategoryDesc() {
-		return $this->categoryDesc;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCategoryName($value) {
-		$this->categoryName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCategoryDesc($value) {
-		$this->categoryDesc = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

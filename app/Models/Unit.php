@@ -1,96 +1,53 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Unit
+ * 
+ * @property int $unitID
+ * @property string $unitCode
+ * @property bool $status
+ * @property bool $archive
+ * @property int $buildingID
+ * 
+ * @property \App\Models\Building $building
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ *
+ * @package App\Models
  */
-class Unit extends Model
+class Unit extends Eloquent
 {
-    protected $table = 'units';
-
-    protected $primaryKey = 'unitID';
-
+	protected $primaryKey = 'unitID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'unitCode',
-        'status',
-        'archive',
-        'buildingID'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool',
+		'buildingID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'unitCode',
+		'status',
+		'archive',
+		'buildingID'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getUnitCode() {
-		return $this->unitCode;
+	public function building()
+	{
+		return $this->belongsTo(\App\Models\Building::class, 'buildingID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'unitID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getBuildingID() {
-		return $this->buildingID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setUnitCode($value) {
-		$this->unitCode = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBuildingID($value) {
-		$this->buildingID = $value;
-		return $this;
-	}
-
-
-
 }

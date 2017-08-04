@@ -1,164 +1,83 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Generaladdress
+ * 
+ * @property int $personAddressID
+ * @property string $addressType
+ * @property int $residentPrimeID
+ * @property int $facilitiesPrimeID
+ * @property int $businessPrimeID
+ * @property int $unitID
+ * @property int $streetID
+ * @property int $lotID
+ * @property int $buildingID
+ * 
+ * @property \App\Models\Business $business
+ * @property \App\Models\Facility $facility
+ * @property \App\Models\Resident $resident
+ * @property \App\Models\Street $street
+ * @property \App\Models\Unit $unit
+ *
+ * @package App\Models
  */
-class Generaladdress extends Model
+class Generaladdress extends Eloquent
 {
-    protected $table = 'generaladdresses';
-
-    protected $primaryKey = 'personAddressID';
-
+	protected $primaryKey = 'personAddressID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'addressType',
-        'residentPrimeID',
-        'facilitiesPrimeID',
-        'businessPrimeID',
-        'unitID',
-        'streetID',
-        'lotID',
-        'buildingID'
-    ];
+	protected $casts = [
+		'residentPrimeID' => 'int',
+		'facilitiesPrimeID' => 'int',
+		'businessPrimeID' => 'int',
+		'unitID' => 'int',
+		'streetID' => 'int',
+		'lotID' => 'int',
+		'buildingID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'addressType',
+		'residentPrimeID',
+		'facilitiesPrimeID',
+		'businessPrimeID',
+		'unitID',
+		'streetID',
+		'lotID',
+		'buildingID'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getAddressType() {
-		return $this->addressType;
+	public function business()
+	{
+		return $this->belongsTo(\App\Models\Business::class, 'businessPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getResidentPrimeID() {
-		return $this->residentPrimeID;
+	public function facility()
+	{
+		return $this->belongsTo(\App\Models\Facility::class, 'facilitiesPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFacilitiesPrimeID() {
-		return $this->facilitiesPrimeID;
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'residentPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessPrimeID() {
-		return $this->businessPrimeID;
+	public function street()
+	{
+		return $this->belongsTo(\App\Models\Street::class, 'streetID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getUnitID() {
-		return $this->unitID;
+	public function unit()
+	{
+		return $this->belongsTo(\App\Models\Unit::class, 'unitID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStreetID() {
-		return $this->streetID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLotID() {
-		return $this->lotID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getBuildingID() {
-		return $this->buildingID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setAddressType($value) {
-		$this->addressType = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setResidentPrimeID($value) {
-		$this->residentPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilitiesPrimeID($value) {
-		$this->facilitiesPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessPrimeID($value) {
-		$this->businessPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setUnitID($value) {
-		$this->unitID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStreetID($value) {
-		$this->streetID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setLotID($value) {
-		$this->lotID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBuildingID($value) {
-		$this->buildingID = $value;
-		return $this;
-	}
-
-
-
 }

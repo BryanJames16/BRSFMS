@@ -1,62 +1,45 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Residentaccountregistration
+ * 
+ * @property int $registrationID
+ * @property \Carbon\Carbon $registrationDate
+ * @property int $accountPrimeID
+ * 
+ * @property \App\Models\Residentaccount $residentaccount
+ *
+ * @package App\Models
  */
-class Residentaccountregistration extends Model
+class Residentaccountregistration extends Eloquent
 {
-    protected $table = 'residentaccountregistrations';
-
-    protected $primaryKey = 'registrationID';
-
+	protected $primaryKey = 'registrationID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'registrationDate',
-        'accountPrimeID'
-    ];
+	protected $casts = [
+		'accountPrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'registrationDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getRegistrationDate() {
-		return $this->registrationDate;
+	protected $fillable = [
+		'registrationDate',
+		'accountPrimeID'
+	];
+
+	public function residentaccount()
+	{
+		return $this->belongsTo(\App\Models\Residentaccount::class, 'accountPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getAccountPrimeID() {
-		return $this->accountPrimeID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setRegistrationDate($value) {
-		$this->registrationDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setAccountPrimeID($value) {
-		$this->accountPrimeID = $value;
-		return $this;
-	}
-
-
-
 }

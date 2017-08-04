@@ -1,96 +1,53 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Familymember
+ * 
+ * @property int $familyMemberPrimeID
+ * @property int $familyPrimeID
+ * @property int $peoplePrimeID
+ * @property string $memberRelation
+ * @property bool $archive
+ * 
+ * @property \App\Models\Family $family
+ * @property \App\Models\Resident $resident
+ *
+ * @package App\Models
  */
-class Familymember extends Model
+class Familymember extends Eloquent
 {
-    protected $table = 'familymembers';
-
-    protected $primaryKey = 'familyMemberPrimeID';
-
+	protected $primaryKey = 'familyMemberPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'familyPrimeID',
-        'peoplePrimeID',
-        'memberRelation',
-        'archive'
-    ];
+	protected $casts = [
+		'familyPrimeID' => 'int',
+		'peoplePrimeID' => 'int',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'familyPrimeID',
+		'peoplePrimeID',
+		'memberRelation',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getFamilyPrimeID() {
-		return $this->familyPrimeID;
+	public function family()
+	{
+		return $this->belongsTo(\App\Models\Family::class, 'familyPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getMemberRelation() {
-		return $this->memberRelation;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFamilyPrimeID($value) {
-		$this->familyPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setMemberRelation($value) {
-		$this->memberRelation = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

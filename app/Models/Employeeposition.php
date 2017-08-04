@@ -1,130 +1,57 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Employeeposition
+ * 
+ * @property int $positionID
+ * @property string $positionName
+ * @property \Carbon\Carbon $positionDate
+ * @property int $positionLevel
+ * @property bool $status
+ * @property bool $archive
+ * @property int $employeePrimeID
+ * 
+ * @property \App\Models\Employee $employee
+ *
+ * @package App\Models
  */
-class Employeeposition extends Model
+class Employeeposition extends Eloquent
 {
-    protected $table = 'employeeposition';
-
-    protected $primaryKey = 'positionID';
-
+	protected $table = 'employeeposition';
+	protected $primaryKey = 'positionID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'positionName',
-        'positionDate',
-        'positionLevel',
-        'status',
-        'archive',
-        'employeePrimeID'
-    ];
+	protected $casts = [
+		'positionLevel' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool',
+		'employeePrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'positionDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getPositionName() {
-		return $this->positionName;
+	protected $fillable = [
+		'positionName',
+		'positionDate',
+		'positionLevel',
+		'status',
+		'archive',
+		'employeePrimeID'
+	];
+
+	public function employee()
+	{
+		return $this->belongsTo(\App\Models\Employee::class, 'employeePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPositionDate() {
-		return $this->positionDate;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPositionLevel() {
-		return $this->positionLevel;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getEmployeePrimeID() {
-		return $this->employeePrimeID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPositionName($value) {
-		$this->positionName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPositionDate($value) {
-		$this->positionDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPositionLevel($value) {
-		$this->positionLevel = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setEmployeePrimeID($value) {
-		$this->employeePrimeID = $value;
-		return $this;
-	}
-
-
-
 }

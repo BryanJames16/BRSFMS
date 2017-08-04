@@ -1,113 +1,60 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Servicesponsorship
+ * 
+ * @property int $sponsorPrimeID
+ * @property \Carbon\Carbon $sponsorshipDate
+ * @property int $servicePrimeID
+ * @property int $peoplePrimeID
+ * @property \Carbon\Carbon $startOfImplementation
+ * @property \Carbon\Carbon $endOfImplementation
+ * 
+ * @property \App\Models\Person $person
+ * @property \App\Models\Service $service
+ *
+ * @package App\Models
  */
-class Servicesponsorship extends Model
+class Servicesponsorship extends Eloquent
 {
-    protected $table = 'servicesponsorships';
-
-    protected $primaryKey = 'sponsorPrimeID';
-
+	protected $primaryKey = 'sponsorPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'sponsorshipDate',
-        'servicePrimeID',
-        'peoplePrimeID',
-        'startOfImplementation',
-        'endOfImplementation'
-    ];
+	protected $casts = [
+		'servicePrimeID' => 'int',
+		'peoplePrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'sponsorshipDate',
+		'startOfImplementation',
+		'endOfImplementation'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getSponsorshipDate() {
-		return $this->sponsorshipDate;
+	protected $fillable = [
+		'sponsorshipDate',
+		'servicePrimeID',
+		'peoplePrimeID',
+		'startOfImplementation',
+		'endOfImplementation'
+	];
+
+	public function person()
+	{
+		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getServicePrimeID() {
-		return $this->servicePrimeID;
+	public function service()
+	{
+		return $this->belongsTo(\App\Models\Service::class, 'servicePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStartOfImplementation() {
-		return $this->startOfImplementation;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getEndOfImplementation() {
-		return $this->endOfImplementation;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setSponsorshipDate($value) {
-		$this->sponsorshipDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setServicePrimeID($value) {
-		$this->servicePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStartOfImplementation($value) {
-		$this->startOfImplementation = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setEndOfImplementation($value) {
-		$this->endOfImplementation = $value;
-		return $this;
-	}
-
-
-
 }

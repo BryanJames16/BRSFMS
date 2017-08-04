@@ -1,113 +1,54 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Voter
+ * 
+ * @property string $voterPrimeID
+ * @property string $votersID
+ * @property \Carbon\Carbon $datVoter
+ * @property int $peoplePrimeID
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \App\Models\Resident $resident
+ *
+ * @package App\Models
  */
-class Voter extends Model
+class Voter extends Eloquent
 {
-    protected $table = 'voters';
-
-    protected $primaryKey = 'voterPrimeID';
-
+	protected $primaryKey = 'voterPrimeID';
+	public $incrementing = false;
 	public $timestamps = false;
 
-    protected $fillable = [
-        'votersID',
-        'datVoter',
-        'peoplePrimeID',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'peoplePrimeID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'datVoter'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getVotersID() {
-		return $this->votersID;
+	protected $fillable = [
+		'votersID',
+		'datVoter',
+		'peoplePrimeID',
+		'status',
+		'archive'
+	];
+
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDatVoter() {
-		return $this->datVoter;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setVotersID($value) {
-		$this->votersID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDatVoter($value) {
-		$this->datVoter = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

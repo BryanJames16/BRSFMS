@@ -1,94 +1,49 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Documentdetailrequest
+ * 
+ * @property int $documentDetailPrimeID
+ * @property int $headerPrimeID
+ * @property int $documentPrimeID
+ * @property int $quantity
+ * 
+ * @property \App\Models\Documentheaderrequest $documentheaderrequest
+ * @property \App\Models\Document $document
+ *
+ * @package App\Models
  */
-class Documentdetailrequest extends Model
+class Documentdetailrequest extends Eloquent
 {
-    protected $table = 'documentdetailrequests';
+	public $timestamps = false;
 
-    public $timestamps = false;
+	protected $casts = [
+		'headerPrimeID' => 'int',
+		'documentPrimeID' => 'int',
+		'quantity' => 'int'
+	];
 
-    protected $fillable = [
-        'documentDetailPrimeID',
-        'headerPrimeID',
-        'documentPrimeID',
-        'quantity'
-    ];
+	protected $fillable = [
+		'documentPrimeID',
+		'quantity'
+	];
 
-    protected $guarded = [];
-
-    
-	/**
-	 * @return mixed
-	 */
-	public function getDocumentDetailPrimeID() {
-		return $this->documentDetailPrimeID;
+	public function documentheaderrequest()
+	{
+		return $this->belongsTo(\App\Models\Documentheaderrequest::class, 'headerPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getHeaderPrimeID() {
-		return $this->headerPrimeID;
+	public function document()
+	{
+		return $this->belongsTo(\App\Models\Document::class, 'documentPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDocumentPrimeID() {
-		return $this->documentPrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getQuantity() {
-		return $this->quantity;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDocumentDetailPrimeID($value) {
-		$this->documentDetailPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setHeaderPrimeID($value) {
-		$this->headerPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDocumentPrimeID($value) {
-		$this->documentPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setQuantity($value) {
-		$this->quantity = $value;
-		return $this;
-	}
-
-
-
 }

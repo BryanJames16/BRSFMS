@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Document;
 use \Illuminate\Validation\Rule;
 
-require_once(app_path() . '/includes/pktool.php');
+require_once(app_path() . '/Includes/pktool.php');
 
 use StaticCounter;
 use SmartMove;

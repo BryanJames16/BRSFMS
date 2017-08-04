@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `dbbarangay`;
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.22-MariaDB, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: dbbarangay
+-- Host: 127.0.0.1    Database: dbBarangay
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.19-MariaDB
+-- Server version	10.1.22-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -45,7 +43,6 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (3,1,'El Pueblo',2,1,0),(4,2,'#93 HG',1,1,0),(5,5,'Maui',2,1,0),(6,2,'#32 LM',1,1,0),(7,4,'Illumina',2,1,0);
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +68,6 @@ CREATE TABLE `buildingtypes` (
 
 LOCK TABLES `buildingtypes` WRITE;
 /*!40000 ALTER TABLE `buildingtypes` DISABLE KEYS */;
-INSERT INTO `buildingtypes` VALUES (1,'Houses',1,0),(2,'Condominium',1,0);
 /*!40000 ALTER TABLE `buildingtypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +94,6 @@ CREATE TABLE `businesscategories` (
 
 LOCK TABLES `businesscategories` WRITE;
 /*!40000 ALTER TABLE `businesscategories` DISABLE KEYS */;
-INSERT INTO `businesscategories` VALUES (2,'Industrial','',1,0);
 /*!40000 ALTER TABLE `businesscategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +125,6 @@ CREATE TABLE `businesses` (
 
 LOCK TABLES `businesses` WRITE;
 /*!40000 ALTER TABLE `businesses` DISABLE KEYS */;
-INSERT INTO `businesses` VALUES (2,'BUS_001','Sari Sari Store','','Sole',2,1,0);
 /*!40000 ALTER TABLE `businesses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +184,6 @@ CREATE TABLE `documentdetailrequests` (
 
 LOCK TABLES `documentdetailrequests` WRITE;
 /*!40000 ALTER TABLE `documentdetailrequests` DISABLE KEYS */;
-INSERT INTO `documentdetailrequests` VALUES (1,1,2,1),(2,2,2,1),(3,3,2,1),(4,4,2,1),(5,5,2,2);
 /*!40000 ALTER TABLE `documentdetailrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +212,6 @@ CREATE TABLE `documentheaderrequests` (
 
 LOCK TABLES `documentheaderrequests` WRITE;
 /*!40000 ALTER TABLE `documentheaderrequests` DISABLE KEYS */;
-INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-07-27','Cancelled',1),(2,'REQ_002','2017-07-27','Pending',6),(3,'REQ_003','2017-07-28','Pending',7),(4,'REQ_004','2017-07-29','Pending',1),(5,'REQ_005','2017-07-29','Pending',5);
 /*!40000 ALTER TABLE `documentheaderrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -250,7 +242,6 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-INSERT INTO `documents` VALUES (2,'DOC_001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {scivilstatus}, and whose signature appears below is presently residing in {housenumber}|{buildingnumber}, {unit}, {lot}, {street}.<br><br>This is to certify that {sgender:opt} has no dorigatory record filed and / or pending case against {sgender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {sgender:sopt} requirements.','Certification',100,1,0),(3,'DOC_002','Certificate of Indigency','','This is to chuchu','Certification',100,1,0);
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +332,6 @@ CREATE TABLE `facilities` (
 
 LOCK TABLES `facilities` WRITE;
 /*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
-INSERT INTO `facilities` VALUES (6,'FAC_001','Hipodromo Court','',0,0,3,100,150);
 /*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -367,7 +357,6 @@ CREATE TABLE `facilitytypes` (
 
 LOCK TABLES `facilitytypes` WRITE;
 /*!40000 ALTER TABLE `facilitytypes` DISABLE KEYS */;
-INSERT INTO `facilitytypes` VALUES (3,'Covered Court',1,0);
 /*!40000 ALTER TABLE `facilitytypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +386,6 @@ CREATE TABLE `families` (
 
 LOCK TABLES `families` WRITE;
 /*!40000 ALTER TABLE `families` DISABLE KEYS */;
-INSERT INTO `families` VALUES (1,'FAM_001',1,'Fuellas Family','2017-07-28',0),(2,'FAM_002',7,'Paglinawan Family','2017-07-28',0),(3,'FAM_003',5,'Illaga Family','2017-07-28',0),(4,'FAM_004',6,'Del Mundo Family','2017-07-28',0),(5,'FAM_005',16,'Salvador Family','2017-07-28',0),(6,'FAM_006',1,'asdSD','2017-07-28',1),(8,'FAM_007',17,'Aragon Family','2017-07-29',0);
 /*!40000 ALTER TABLE `families` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,7 +416,6 @@ CREATE TABLE `familymembers` (
 
 LOCK TABLES `familymembers` WRITE;
 /*!40000 ALTER TABLE `familymembers` DISABLE KEYS */;
-INSERT INTO `familymembers` VALUES (1,1,2,'Brother',0),(2,1,5,'Mother',0),(3,2,6,'Cousin',0),(4,2,17,'Brother',0);
 /*!40000 ALTER TABLE `familymembers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -470,7 +457,6 @@ CREATE TABLE `generaladdresses` (
 
 LOCK TABLES `generaladdresses` WRITE;
 /*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
-INSERT INTO `generaladdresses` VALUES (1,'Current Address',23,NULL,NULL,3,1,2,4),(2,'Permanent Address',24,NULL,NULL,5,2,4,7),(4,'Current Address',26,NULL,NULL,6,2,4,7);
 /*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,7 +485,6 @@ CREATE TABLE `lots` (
 
 LOCK TABLES `lots` WRITE;
 /*!40000 ALTER TABLE `lots` DISABLE KEYS */;
-INSERT INTO `lots` VALUES (1,'5C',1,1,0),(2,'4C',1,1,0),(3,'10',2,1,0),(4,'20',2,1,0),(5,'3C',1,1,0);
 /*!40000 ALTER TABLE `lots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,10 +497,10 @@ DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8 NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -524,7 +509,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2017_07_31_074140_create_buildings_table',0),(2,'2017_07_31_074140_create_buildingtypes_table',0),(3,'2017_07_31_074140_create_businesscategories_table',0),(4,'2017_07_31_074140_create_businesses_table',0),(5,'2017_07_31_074140_create_businessregistrations_table',0),(6,'2017_07_31_074140_create_documentdetailrequests_table',0),(7,'2017_07_31_074140_create_documentheaderrequests_table',0),(8,'2017_07_31_074140_create_documents_table',0),(9,'2017_07_31_074140_create_employeeposition_table',0),(10,'2017_07_31_074140_create_employees_table',0),(11,'2017_07_31_074140_create_facilities_table',0),(12,'2017_07_31_074140_create_facilitytypes_table',0),(13,'2017_07_31_074140_create_families_table',0),(14,'2017_07_31_074140_create_familymembers_table',0),(15,'2017_07_31_074140_create_generaladdresses_table',0),(16,'2017_07_31_074140_create_lots_table',0),(17,'2017_07_31_074140_create_people_table',0),(18,'2017_07_31_074140_create_reservations_table',0),(19,'2017_07_31_074140_create_residentaccountregistrations_table',0),(20,'2017_07_31_074140_create_residentaccounts_table',0),(21,'2017_07_31_074140_create_residentbackgrounds_table',0),(22,'2017_07_31_074140_create_residentregistrations_table',0),(23,'2017_07_31_074140_create_residents_table',0),(24,'2017_07_31_074140_create_services_table',0),(25,'2017_07_31_074140_create_servicesponsorships_table',0),(26,'2017_07_31_074140_create_servicetypes_table',0),(27,'2017_07_31_074140_create_streets_table',0),(28,'2017_07_31_074140_create_sysutil_table',0),(29,'2017_07_31_074140_create_units_table',0),(30,'2017_07_31_074140_create_users_table',0),(31,'2017_07_31_074140_create_voters_table',0),(32,'2017_07_31_074145_add_foreign_keys_to_buildings_table',0),(33,'2017_07_31_074145_add_foreign_keys_to_businesses_table',0),(34,'2017_07_31_074145_add_foreign_keys_to_businessregistrations_table',0),(35,'2017_07_31_074145_add_foreign_keys_to_documentdetailrequests_table',0),(36,'2017_07_31_074145_add_foreign_keys_to_documentheaderrequests_table',0),(37,'2017_07_31_074145_add_foreign_keys_to_employeeposition_table',0),(38,'2017_07_31_074145_add_foreign_keys_to_facilities_table',0),(39,'2017_07_31_074145_add_foreign_keys_to_families_table',0),(40,'2017_07_31_074145_add_foreign_keys_to_familymembers_table',0),(41,'2017_07_31_074145_add_foreign_keys_to_generaladdresses_table',0),(42,'2017_07_31_074145_add_foreign_keys_to_lots_table',0),(43,'2017_07_31_074145_add_foreign_keys_to_reservations_table',0),(44,'2017_07_31_074145_add_foreign_keys_to_residentaccountregistrations_table',0),(45,'2017_07_31_074145_add_foreign_keys_to_residentaccounts_table',0),(46,'2017_07_31_074145_add_foreign_keys_to_residentbackgrounds_table',0),(47,'2017_07_31_074145_add_foreign_keys_to_residentregistrations_table',0),(48,'2017_07_31_074145_add_foreign_keys_to_services_table',0),(49,'2017_07_31_074145_add_foreign_keys_to_servicesponsorships_table',0),(50,'2017_07_31_074145_add_foreign_keys_to_units_table',0),(51,'2017_07_31_074145_add_foreign_keys_to_voters_table',0);
+INSERT INTO `migrations` VALUES (103,'2017_08_02_150242_create_buildings_table',0),(104,'2017_08_02_150242_create_buildingtypes_table',0),(105,'2017_08_02_150242_create_businesscategories_table',0),(106,'2017_08_02_150242_create_businesses_table',0),(107,'2017_08_02_150242_create_businessregistrations_table',0),(108,'2017_08_02_150242_create_documentdetailrequests_table',0),(109,'2017_08_02_150242_create_documentheaderrequests_table',0),(110,'2017_08_02_150242_create_documents_table',0),(111,'2017_08_02_150242_create_employeeposition_table',0),(112,'2017_08_02_150242_create_employees_table',0),(113,'2017_08_02_150242_create_facilities_table',0),(114,'2017_08_02_150242_create_facilitytypes_table',0),(115,'2017_08_02_150242_create_families_table',0),(116,'2017_08_02_150242_create_familymembers_table',0),(117,'2017_08_02_150242_create_generaladdresses_table',0),(118,'2017_08_02_150242_create_lots_table',0),(119,'2017_08_02_150242_create_people_table',0),(120,'2017_08_02_150242_create_reservations_table',0),(121,'2017_08_02_150242_create_residentaccountregistrations_table',0),(122,'2017_08_02_150242_create_residentaccounts_table',0),(123,'2017_08_02_150242_create_residentbackgrounds_table',0),(124,'2017_08_02_150242_create_residentregistrations_table',0),(125,'2017_08_02_150242_create_residents_table',0),(126,'2017_08_02_150242_create_services_table',0),(127,'2017_08_02_150242_create_servicesponsorships_table',0),(128,'2017_08_02_150242_create_servicetypes_table',0),(129,'2017_08_02_150242_create_streets_table',0),(130,'2017_08_02_150242_create_units_table',0),(131,'2017_08_02_150242_create_users_table',0),(132,'2017_08_02_150242_create_utilities_table',0),(133,'2017_08_02_150242_create_voters_table',0),(134,'2017_08_02_150246_add_foreign_keys_to_buildings_table',0),(135,'2017_08_02_150246_add_foreign_keys_to_businesses_table',0),(136,'2017_08_02_150246_add_foreign_keys_to_businessregistrations_table',0),(137,'2017_08_02_150246_add_foreign_keys_to_documentdetailrequests_table',0),(138,'2017_08_02_150246_add_foreign_keys_to_documentheaderrequests_table',0),(139,'2017_08_02_150246_add_foreign_keys_to_employeeposition_table',0),(140,'2017_08_02_150246_add_foreign_keys_to_facilities_table',0),(141,'2017_08_02_150246_add_foreign_keys_to_families_table',0),(142,'2017_08_02_150246_add_foreign_keys_to_familymembers_table',0),(143,'2017_08_02_150246_add_foreign_keys_to_generaladdresses_table',0),(144,'2017_08_02_150246_add_foreign_keys_to_lots_table',0),(145,'2017_08_02_150246_add_foreign_keys_to_reservations_table',0),(146,'2017_08_02_150246_add_foreign_keys_to_residentaccountregistrations_table',0),(147,'2017_08_02_150246_add_foreign_keys_to_residentaccounts_table',0),(148,'2017_08_02_150246_add_foreign_keys_to_residentbackgrounds_table',0),(149,'2017_08_02_150246_add_foreign_keys_to_residentregistrations_table',0),(150,'2017_08_02_150246_add_foreign_keys_to_services_table',0),(151,'2017_08_02_150246_add_foreign_keys_to_servicesponsorships_table',0),(152,'2017_08_02_150246_add_foreign_keys_to_units_table',0),(153,'2017_08_02_150246_add_foreign_keys_to_voters_table',0);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -677,7 +662,6 @@ CREATE TABLE `residentbackgrounds` (
 
 LOCK TABLES `residentbackgrounds` WRITE;
 /*!40000 ALTER TABLE `residentbackgrounds` DISABLE KEYS */;
-INSERT INTO `residentbackgrounds` VALUES (4,'Safety Officer','₱0-₱10,000','2017-07-31',26,1,0),(5,'None','₱0-₱10,000','2017-07-30',26,1,0),(6,'Safety Officer','₱50,001-₱100,000','2017-08-01',26,1,0);
 /*!40000 ALTER TABLE `residentbackgrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -743,7 +727,6 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (1,'RES_001','Marc Joseph','Mendoza','Fuellas','Jr.','09234567891','M','1998-06-18','Single','',NULL,'Official',1),(2,'RES_002','Clariza','Mendoza','Fuellas','','09123456789','F','1978-04-16','Married','','','Transient',1),(5,'RES_003','Bryan James','Reyes','Illaga','','09654321761','M','1998-01-01','Single','',NULL,'Transient',1),(6,'RES_004','Moira Kelly','Antonio','Del Mundo','','09123456789','F','1998-02-08','Single','','','Transient',1),(7,'RES_005','Glen','Reyes','Paglinawan','','09123456789','M','2017-01-01','Married','',NULL,'Transient',1),(16,'RES_006','Janella','Desiderio','Salvador','','09123456789','F','1990-04-02','Single','','','Official',1),(17,'RES_007','Xendree','Romero','Aragon','','09123456789','M','2002-09-11','Single','','','Official',1),(23,'RES_008','Gail-Anne','Mendoza','Fuellas','','09123456789','F','1997-05-01','Single','','','Official',1),(24,'RES_009','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-09-05','Single','',NULL,'Official',1),(26,'RES_010','Maria Akizia','Delima','Alvino','','09123456789','F','2002-12-31','Single','',NULL,'Official',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -774,7 +757,6 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (6,'SERV_001','Tuli','',158,1,0);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -832,7 +814,6 @@ CREATE TABLE `servicetypes` (
 
 LOCK TABLES `servicetypes` WRITE;
 /*!40000 ALTER TABLE `servicetypes` DISABLE KEYS */;
-INSERT INTO `servicetypes` VALUES (158,'Health','',1,0),(159,'Skubariwa','',1,0);
 /*!40000 ALTER TABLE `servicetypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -858,31 +839,7 @@ CREATE TABLE `streets` (
 
 LOCK TABLES `streets` WRITE;
 /*!40000 ALTER TABLE `streets` DISABLE KEYS */;
-INSERT INTO `streets` VALUES (1,'Teresa',1,0),(2,'Magdalene',1,0),(3,'Lubiran',1,0);
 /*!40000 ALTER TABLE `streets` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sysutil`
---
-
-DROP TABLE IF EXISTS `sysutil`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sysutil` (
-  `sysUtilID` int(11) NOT NULL AUTO_INCREMENT,
-  `brgyName` varchar(45) NOT NULL,
-  PRIMARY KEY (`sysUtilID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sysutil`
---
-
-LOCK TABLES `sysutil` WRITE;
-/*!40000 ALTER TABLE `sysutil` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sysutil` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -910,7 +867,6 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
-INSERT INTO `units` VALUES (2,'2',1,0,4),(3,'1',1,0,4),(4,'100',1,0,5),(5,'1A',1,0,7),(6,'2A',1,0,7);
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -944,8 +900,44 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Skubariwa','skubariwa@gmail.com','$2y$10$o7sbyFDyiHWht0rPcGEVQuPgXNL2ITbTjRViE2n8mwpAsFb0i0HZu','2017-07-26 11:58:18','2017-07-26 11:50:25','4lY6tOQgOOqjFvv4ru5wtp5dzgzO1SF79G3MvP02fiMWku0ISrt8Jt0bznMW','','','','',''),(2,'asdf','asdf@asdf.com','$2y$10$ZfbiKMOvv769UWE7o3zRLuaD3P5yG2JYfqL4REpOG.ofkD8Pnq1t6','2017-07-29 07:56:48','2017-07-29 07:56:48',NULL,'','','','',''),(3,'skubariwa','f.marcjoseph@yahoo.com','$2y$10$OmVA80gQiDWu8h6.rTD0MelxQEGLRK9K7OvXqVQFgRngfIGrSJ1ju','2017-07-29 14:22:43','2017-07-29 14:21:49','i37DpaM6O0geK2jXtg2tMfGLdE2Kcbzhvub2GQJu8KcZCboFfYwfXKOuiutS','Marc Joseph','Mendoza','Fuellas','','');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `utilities`
+--
+
+DROP TABLE IF EXISTS `utilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `utilities` (
+  `utilityID` int(11) NOT NULL AUTO_INCREMENT,
+  `barangayName` varchar(50) NOT NULL,
+  `chairmanName` varchar(50) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `brgyLogoPath` varchar(250) NOT NULL,
+  `provLogoPath` varchar(250) NOT NULL,
+  `facilityPK` varchar(30) NOT NULL,
+  `documentPK` varchar(30) NOT NULL,
+  `servicePK` varchar(30) NOT NULL,
+  `residentPK` varchar(30) NOT NULL,
+  `familyPK` varchar(30) NOT NULL,
+  `docRequestPK` varchar(30) NOT NULL,
+  `docApprovalPK` varchar(30) NOT NULL,
+  `reservationPK` varchar(30) NOT NULL,
+  `serviceRegPK` varchar(30) NOT NULL,
+  `sponsorPK` varchar(30) NOT NULL,
+  PRIMARY KEY (`utilityID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `utilities`
+--
+
+LOCK TABLES `utilities` WRITE;
+/*!40000 ALTER TABLE `utilities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `utilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -986,4 +978,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-02 21:50:55
+-- Dump completed on 2017-08-02 23:02:57

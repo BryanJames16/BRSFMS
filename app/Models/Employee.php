@@ -1,130 +1,63 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Employee
+ * 
+ * @property int $primeID
+ * @property string $employeeID
+ * @property int $registrationID
+ * @property string $username
+ * @property string $password
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $employeepositions
+ * @property \Illuminate\Database\Eloquent\Collection $residentregistrations
+ *
+ * @package App\Models
  */
-class Employee extends Model
+class Employee extends Eloquent
 {
-    protected $table = 'employees';
-
-    protected $primaryKey = 'primeID';
-
+	protected $primaryKey = 'primeID';
+	public $incrementing = false;
 	public $timestamps = false;
 
-    protected $fillable = [
-        'employeeID',
-        'registrationID',
-        'username',
-        'password',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'primeID' => 'int',
+		'registrationID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $hidden = [
+		'password'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getEmployeeID() {
-		return $this->employeeID;
+	protected $fillable = [
+		'employeeID',
+		'registrationID',
+		'username',
+		'password',
+		'status',
+		'archive'
+	];
+
+	public function employeepositions()
+	{
+		return $this->hasMany(\App\Models\Employeeposition::class, 'employeePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getRegistrationID() {
-		return $this->registrationID;
+	public function residentregistrations()
+	{
+		return $this->hasMany(\App\Models\Residentregistration::class, 'employeePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getUsername() {
-		return $this->username;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setEmployeeID($value) {
-		$this->employeeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setRegistrationID($value) {
-		$this->registrationID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setUsername($value) {
-		$this->username = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPassword($value) {
-		$this->password = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

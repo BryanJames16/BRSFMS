@@ -1,79 +1,54 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Residentregistration
+ * 
+ * @property int $registrationID
+ * @property \Carbon\Carbon $registrationDate
+ * @property int $employeePrimeID
+ * @property int $peoplePrimeID
+ * 
+ * @property \App\Models\Employee $employee
+ * @property \App\Models\Resident $resident
+ *
+ * @package App\Models
  */
-class Residentregistration extends Model
+class Residentregistration extends Eloquent
 {
-    protected $table = 'residentregistrations';
-
-    protected $primaryKey = 'registrationID';
-
+	protected $primaryKey = 'registrationID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'registrationDate',
-        'employeePrimeID',
-        'peoplePrimeID'
-    ];
+	protected $casts = [
+		'employeePrimeID' => 'int',
+		'peoplePrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'registrationDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getRegistrationDate() {
-		return $this->registrationDate;
+	protected $fillable = [
+		'registrationDate',
+		'employeePrimeID',
+		'peoplePrimeID'
+	];
+
+	public function employee()
+	{
+		return $this->belongsTo(\App\Models\Employee::class, 'employeePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getEmployeePrimeID() {
-		return $this->employeePrimeID;
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setRegistrationDate($value) {
-		$this->registrationDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setEmployeePrimeID($value) {
-		$this->employeePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-
-
 }

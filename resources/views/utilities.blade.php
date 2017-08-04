@@ -32,7 +32,7 @@ Utilities
 			<div class="col-xs-14">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Utilities Settings</h4>
+						<h4 class="card-title">Barangay Info</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -49,9 +49,260 @@ Utilities
 									<i class="icon-edit2"></i> Edit Settings  
 								</button>
                     		</p>
+							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+								<thead>
+									<tr>
+										<col width="240">
+										<th>Assets</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($utilities as $utility)
+										<tr>
+											<td>Barangay Name</td>
+											<td>{{ $utility -> barangayName }}</td>
+										</tr>
+										<tr>
+											<td>Chairman Name</td>
+											<td>
+												{{ $utility -> chairmanName }}<br>
+												<img src="{{ URL::asset('system-assets/images/sign/sign.png') }}" height="95px" width="185px">
+											</td>
+										</tr>
+										<tr>
+											<td>Address</td>
+											<td>{{ $utility -> address }}</td>
+										</tr>
+										<tr>
+											<td>Barangay Logo</td>
+											<td>
+												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px"><br>
+												{{ $utility -> brgyLogoPath }}
+											</td>
+										</tr>
+										<tr>
+											<td>Province Logo</td>
+											<td>
+												<img src="{{ URL::asset('system-assets/images/logo/prov_tl.png') }}" height="100px" width="100px"><br>
+												{{ $utility -> provLogoPath }}
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Unique Identifiers</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="card-body collapse in">
+						<div class="card-block card-dashboard">
+							<p align="right">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnUpdatePK"  style="width:130px; font-size:13px">
+									<i class="icon-edit2"></i> Edit Values  
+								</button>
+                    		</p>
+							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+								<thead>
+									<tr>
+										<col width="240">
+										<th>Identifier</th>
+										<th>Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($utilities as $utility)
+										<tr>
+											<td>Document Identifier</td>
+											<td>{{ $utility -> documentPK }}</td>
+										</tr>
+										<tr>
+											<td>Document Approval Identifier</td>
+											<td>{{ $utility -> docApprovalPK }}</td>
+										</tr>
+										<tr>
+											<td>Document Request Identifier</td>
+											<td>{{ $utility -> docRequestPK }}</td>
+										</tr>
+										<tr>
+											<td>Facility Identifier</td>
+											<td>{{ $utility -> facilityPK }}</td>
+										</tr>
+										<tr>
+											<td>Family Identifier</td>
+											<td>{{ $utility -> familyPK }}</td>
+										</tr>
+										<tr>
+											<td>Reservation Identifier</td>
+											<td>{{ $utility -> reservationPK }}</td>
+										</tr>
+										<tr>
+											<td>Resident Identifier</td>
+											<td>{{ $utility -> residentPK }}</td>
+										</tr>
+										<tr>
+											<td>Service Identifier</td>
+											<td>{{ $utility -> servicePK }}</td>
+										</tr>
+										<tr>
+											<td>Service Registration Identifier</td>
+											<td>{{ $utility -> serviceRegPK }}</td>
+										</tr>
+										<tr>
+											<td>Sponsor Identifier</td>
+											<td>{{ $utility -> sponsorPK }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Barangay Meta Info</h4>
+							</div>
+							<div ng-app="maintenanceApp" class="modal-body">
+								<div class="card-block">
+									<div class="card-text">
+										{{ Form::open(['method' => 'POST', 'id' => 'frmMeta', 'files' => true]) }}
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Name:</label>
+											<div class="col-md-9">
+												{{ Form::text('barangayName', 
+																null, 
+																['id' => 'barangayName', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'Barangay Caguinto', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Chairman Name</label>
+											<div class="col-md-9">
+												{{ Form::text('chairmanName', 
+																null, 
+																['id' => 'chairmanName', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'Barangay Caguinto', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Chairman Signature</label>
+											<div class="col-md-9">
+												<div id="canvasDiv" style="border: 1px ridge;">
+													
+												</div>
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
+											<div class="col-md-9">
+												{{ Form::text('address', 
+																null, 
+																['id' => 'address', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'Barangay Caguinto', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Logo</label>
+											<div class="col-md-3">
+												{{ Form::text('brgyLogo', 
+																null, 
+																['id' => 'brgyLogo', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'Barangay Caguinto', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Province Logo</label>
+											<div class="col-md-3">
+												{{ Form::text('provLogo', 
+																null, 
+																['id' => 'provLogo', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'Barangay Caguinto', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+									</div>
+
+									<div class="form-actions center">
+										<input type="submit" class="btn btn-success" value="Request Document" name="btnRequest">
+										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+
+										{{ Form::close() }}
+									</div>					
+																
+								</div>
+							</div>
+							<!-- End of Modal Body -->
+						</div>
+					</div>
+				</div> 
 			</div>
 		</div>
 	</section>
@@ -87,6 +338,90 @@ Utilities
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
 		});
+
+		$("#btnUpdatePK").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+	</script>
+@endsection
+
+@section('page-action')
+	<script>
+		/* Meta Actions */
+		// Canvas Action
+		var canvasDiv = document.getElementById('canvasDiv');
+		var canvas = document.createElement('canvas');
+		var clickX = new Array();
+		var clickY = new Array();
+		var clickDrag = new Array();
+		var paint;
+
+		canvas.setAttribute('width', "390px");
+		canvas.setAttribute('height', "220px");
+		canvas.setAttribute('id', 'signCanvas');
+		canvasDiv.appendChild(canvas);
+		if(typeof G_vmlCanvasManager != 'undefined') {
+			canvas = G_vmlCanvasManager.initElement(canvas);
+		}
+		context = canvas.getContext("2d");
+
+		$('#signCanvas').mousedown(function(e){
+			var mouseX = e.pageX - this.offsetLeft;
+			var mouseY = e.pageY - this.offsetTop;
+					
+			paint = true;
+			addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+			redraw();
+
+			console.log('Mouse Down!');
+		});
+
+		$('#signCanvas').mousemove(function(e){
+			if(paint){
+				addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+				redraw();
+				console.log('Dragging while clicking!');
+			}
+		});
+
+		$('#signCanvas').mouseup(function(e){
+			paint = false;
+			console.log('Mouse Up!');
+		});
+
+		$('#signCanvas').mouseleave(function(e){
+			paint = false;
+			console.log('Mouse left :(');
+		});
+
+		function addClick(x, y, dragging) {
+			clickX.push(x);
+			clickY.push(y);
+			clickDrag.push(dragging);
+		}
+
+		function redraw(){
+			context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+			
+			context.strokeStyle = "#df4b26";
+			context.lineJoin = "round";
+			context.lineWidth = 5;
+						
+			for(var i=0; i < clickX.length; i++) {		
+				context.beginPath();
+				if (clickDrag[i] && i) {
+					context.moveTo(clickX[i-1], clickY[i-1]);
+				}
+				else {
+					context.moveTo(clickX[i]-1, clickY[i]);
+				}
+				context.lineTo(clickX[i], clickY[i]);
+				context.closePath();
+				context.stroke();
+			}
+		}
+
+		/* Primary Key Actions */
 	</script>
 @endsection
 

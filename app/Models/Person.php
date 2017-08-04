@@ -1,181 +1,68 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class Aerson
+ * Class Person
+ * 
+ * @property int $peoplePrimeID
+ * @property string $personID
+ * @property string $firstName
+ * @property string $middleName
+ * @property string $lastName
+ * @property string $suffix
+ * @property string $contactNumber
+ * @property string $gender
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
+ * @property \Illuminate\Database\Eloquent\Collection $reservations
+ * @property \Illuminate\Database\Eloquent\Collection $servicesponsorships
+ *
+ * @package App\Models
  */
-class Person extends Model
+class Person extends Eloquent
 {
-    protected $table = 'people';
-
-    protected $primaryKey = 'peoplePrimeID';
-
+	protected $primaryKey = 'peoplePrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'personID',
-        'firstName',
-        'middleName',
-        'lastName',
-        'suffix',
-        'contactNumber',
-        'gender',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'personID',
+		'firstName',
+		'middleName',
+		'lastName',
+		'suffix',
+		'contactNumber',
+		'gender',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getPersonID() {
-		return $this->personID;
+	public function businessregistrations()
+	{
+		return $this->hasMany(\App\Models\Businessregistration::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFirstName() {
-		return $this->firstName;
+	public function reservations()
+	{
+		return $this->hasMany(\App\Models\Reservation::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getMiddleName() {
-		return $this->middleName;
+	public function servicesponsorships()
+	{
+		return $this->hasMany(\App\Models\Servicesponsorship::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getLastName() {
-		return $this->lastName;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSuffix() {
-		return $this->suffix;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getContactNumber() {
-		return $this->contactNumber;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getGender() {
-		return $this->gender;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPersonID($value) {
-		$this->personID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFirstName($value) {
-		$this->firstName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setMiddleName($value) {
-		$this->middleName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setLastName($value) {
-		$this->lastName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setSuffix($value) {
-		$this->suffix = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setContactNumber($value) {
-		$this->contactNumber = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setGender($value) {
-		$this->gender = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

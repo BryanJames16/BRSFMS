@@ -1,164 +1,66 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Reservation
+ * 
+ * @property int $primeID
+ * @property string $reservationName
+ * @property string $reservationDescription
+ * @property \Carbon\Carbon $reservationStart
+ * @property \Carbon\Carbon $reservationEnd
+ * @property \Carbon\Carbon $dateReserved
+ * @property int $peoplePrimeID
+ * @property int $facilityPrimeID
+ * @property string $status
+ * 
+ * @property \App\Models\Facility $facility
+ * @property \App\Models\Person $person
+ *
+ * @package App\Models
  */
-class Reservation extends Model
+class Reservation extends Eloquent
 {
-    protected $table = 'reservations';
-
-    protected $primaryKey = 'primeID';
-
+	protected $primaryKey = 'primeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'reservationName',
-        'reservationDescription',
-        'reservationStart',
-        'reservationEnd',
-        'dateReserved',
-        'peoplePrimeID',
-        'facilityPrimeID',
-        'status'
-    ];
+	protected $casts = [
+		'peoplePrimeID' => 'int',
+		'facilityPrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'reservationStart',
+		'reservationEnd',
+		'dateReserved'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getReservationName() {
-		return $this->reservationName;
+	protected $fillable = [
+		'reservationName',
+		'reservationDescription',
+		'reservationStart',
+		'reservationEnd',
+		'dateReserved',
+		'peoplePrimeID',
+		'facilityPrimeID',
+		'status'
+	];
+
+	public function facility()
+	{
+		return $this->belongsTo(\App\Models\Facility::class, 'facilityPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getReservationDescription() {
-		return $this->reservationDescription;
+	public function person()
+	{
+		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getReservationStart() {
-		return $this->reservationStart;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getReservationEnd() {
-		return $this->reservationEnd;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDateReserved() {
-		return $this->dateReserved;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFacilityPrimeID() {
-		return $this->facilityPrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setReservationName($value) {
-		$this->reservationName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setReservationDescription($value) {
-		$this->reservationDescription = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setReservationStart($value) {
-		$this->reservationStart = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setReservationEnd($value) {
-		$this->reservationEnd = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDateReserved($value) {
-		$this->dateReserved = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFacilityPrimeID($value) {
-		$this->facilityPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-
-
 }

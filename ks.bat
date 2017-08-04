@@ -12,6 +12,7 @@ SET tempdir=%~dp0\temp
 
 SET mariadbdir=C:\xampp\mysql\bin
 SET mariadbx="%mariadbdir%\mysql.exe"
+SET mariadumpx="%mariadbdir%\mysqldump.exe"
 SET dbsetupdir="%~dp0\database\setup"
 SET dbdumpdir="%~dp0\database\dump"
 SET migratedir="%~dp0\database\migrations"
@@ -121,7 +122,7 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
         GOTO GITCOMOK
     )
 
@@ -141,6 +142,13 @@ if %1==build (
         GOTO GITCOMOK
     )
 
+    if %2==dump (
+        ECHO "Dumping database..."
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+
+        GOTO GITCOMOK
+    )
+
     if %2==integrated (
         ECHO "Wiping migrations folder..."
         DEL %migratedir%\*.php
@@ -149,7 +157,7 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
         GOTO GITCOMOK
     )
 
@@ -166,8 +174,13 @@ if %1==build (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
-        %PHPX% artisan make:models -m
+        %PHPX% artisan code:models --schema=dbbarangay
 
+        GOTO GITCOMOK
+    )
+
+    if %2==system (
+        ECHO "This feature is not yet available..."
         GOTO GITCOMOK
     )
 )

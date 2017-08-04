@@ -1,130 +1,57 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Service
+ * 
+ * @property int $primeID
+ * @property string $serviceID
+ * @property string $serviceName
+ * @property string $serviceDesc
+ * @property int $typeID
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \App\Models\Servicetype $servicetype
+ * @property \Illuminate\Database\Eloquent\Collection $servicesponsorships
+ *
+ * @package App\Models
  */
-class Service extends Model
+class Service extends Eloquent
 {
-    protected $table = 'services';
-
-    protected $primaryKey = 'primeID';
-
+	protected $primaryKey = 'primeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'serviceID',
-        'serviceName',
-        'serviceDesc',
-        'typeID',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'typeID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'serviceID',
+		'serviceName',
+		'serviceDesc',
+		'typeID',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getServiceID() {
-		return $this->serviceID;
+	public function servicetype()
+	{
+		return $this->belongsTo(\App\Models\Servicetype::class, 'typeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getServiceName() {
-		return $this->serviceName;
+	public function servicesponsorships()
+	{
+		return $this->hasMany(\App\Models\Servicesponsorship::class, 'servicePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getServiceDesc() {
-		return $this->serviceDesc;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getTypeID() {
-		return $this->typeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setServiceID($value) {
-		$this->serviceID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setServiceName($value) {
-		$this->serviceName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setServiceDesc($value) {
-		$this->serviceDesc = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setTypeID($value) {
-		$this->typeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

@@ -1,249 +1,109 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Resident
+ * 
+ * @property int $residentPrimeID
+ * @property string $residentID
+ * @property string $firstName
+ * @property string $middleName
+ * @property string $lastName
+ * @property string $suffix
+ * @property string $contactNumber
+ * @property string $gender
+ * @property \Carbon\Carbon $birthDate
+ * @property string $civilStatus
+ * @property string $seniorCitizenID
+ * @property string $disabilities
+ * @property string $residentType
+ * @property bool $status
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $documentheaderrequests
+ * @property \Illuminate\Database\Eloquent\Collection $families
+ * @property \Illuminate\Database\Eloquent\Collection $familymembers
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ * @property \Illuminate\Database\Eloquent\Collection $residentaccounts
+ * @property \Illuminate\Database\Eloquent\Collection $residentbackgrounds
+ * @property \Illuminate\Database\Eloquent\Collection $residentregistrations
+ * @property \Illuminate\Database\Eloquent\Collection $voters
+ *
+ * @package App\Models
  */
-class Resident extends Model
+class Resident extends Eloquent
 {
-    protected $table = 'residents';
-
-    protected $primaryKey = 'residentPrimeID';
-
+	protected $primaryKey = 'residentPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'residentID',
-        'firstName',
-        'middleName',
-        'lastName',
-        'suffix',
-        'contactNumber',
-        'gender',
-        'birthDate',
-        'civilStatus',
-        'seniorCitizenID',
-        'disabilities',
-        'residentType',
-        'status'
-    ];
+	protected $casts = [
+		'status' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'birthDate'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getResidentID() {
-		return $this->residentID;
+	protected $fillable = [
+		'residentID',
+		'firstName',
+		'middleName',
+		'lastName',
+		'suffix',
+		'contactNumber',
+		'gender',
+		'birthDate',
+		'civilStatus',
+		'seniorCitizenID',
+		'disabilities',
+		'residentType',
+		'status'
+	];
+
+	public function documentheaderrequests()
+	{
+		return $this->hasMany(\App\Models\Documentheaderrequest::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFirstName() {
-		return $this->firstName;
+	public function families()
+	{
+		return $this->hasMany(\App\Models\Family::class, 'familyHeadID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getMiddleName() {
-		return $this->middleName;
+	public function familymembers()
+	{
+		return $this->hasMany(\App\Models\Familymember::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getLastName() {
-		return $this->lastName;
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'residentPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getSuffix() {
-		return $this->suffix;
+	public function residentaccounts()
+	{
+		return $this->hasMany(\App\Models\Residentaccount::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getContactNumber() {
-		return $this->contactNumber;
+	public function residentbackgrounds()
+	{
+		return $this->hasMany(\App\Models\Residentbackground::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getGender() {
-		return $this->gender;
+	public function residentregistrations()
+	{
+		return $this->hasMany(\App\Models\Residentregistration::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBirthDate() {
-		return $this->birthDate;
+	public function voters()
+	{
+		return $this->hasMany(\App\Models\Voter::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getCivilStatus() {
-		return $this->civilStatus;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getSeniorCitizenID() {
-		return $this->seniorCitizenID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDisabilities() {
-		return $this->disabilities;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getResidentType() {
-		return $this->residentType;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setResidentID($value) {
-		$this->residentID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setFirstName($value) {
-		$this->firstName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setMiddleName($value) {
-		$this->middleName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setLastName($value) {
-		$this->lastName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setSuffix($value) {
-		$this->suffix = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setContactNumber($value) {
-		$this->contactNumber = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setGender($value) {
-		$this->gender = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBirthDate($value) {
-		$this->birthDate = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCivilStatus($value) {
-		$this->civilStatus = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setSeniorCitizenID($value) {
-		$this->seniorCitizenID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDisabilities($value) {
-		$this->disabilities = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setResidentType($value) {
-		$this->residentType = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-
-
 }

@@ -1,130 +1,55 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Residentbackground
+ * 
+ * @property int $backgroundPrimeID
+ * @property string $currentWork
+ * @property string $monthlyIncome
+ * @property \Carbon\Carbon $dateStarted
+ * @property int $peoplePrimeID
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \App\Models\Resident $resident
+ *
+ * @package App\Models
  */
-class Residentbackground extends Model
+class Residentbackground extends Eloquent
 {
-    protected $table = 'residentbackgrounds';
-
-    protected $primaryKey = 'backgroundPrimeID';
-
+	protected $primaryKey = 'backgroundPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'currentWork',
-        'monthlyIncome',
-        'dateStarted',
-        'peoplePrimeID',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'peoplePrimeID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $dates = [
+		'dateStarted'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getCurrentWork() {
-		return $this->currentWork;
+	protected $fillable = [
+		'currentWork',
+		'monthlyIncome',
+		'dateStarted',
+		'peoplePrimeID',
+		'status',
+		'archive'
+	];
+
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getMonthlyIncome() {
-		return $this->monthlyIncome;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDateStarted() {
-		return $this->dateStarted;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCurrentWork($value) {
-		$this->currentWork = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setMonthlyIncome($value) {
-		$this->monthlyIncome = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setDateStarted($value) {
-		$this->dateStarted = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

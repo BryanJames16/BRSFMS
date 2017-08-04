@@ -1,147 +1,63 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Residentaccount
+ * 
+ * @property int $accountPrimeID
+ * @property string $accountID
+ * @property string $username
+ * @property string $password
+ * @property string $accessCode
+ * @property bool $status
+ * @property bool $archive
+ * @property int $peoplePrimeID
+ * 
+ * @property \App\Models\Resident $resident
+ * @property \Illuminate\Database\Eloquent\Collection $residentaccountregistrations
+ *
+ * @package App\Models
  */
-class Residentaccount extends Model
+class Residentaccount extends Eloquent
 {
-    protected $table = 'residentaccounts';
-
-    protected $primaryKey = 'accountPrimeID';
-
+	protected $primaryKey = 'accountPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'accountID',
-        'username',
-        'password',
-        'accessCode',
-        'status',
-        'archive',
-        'peoplePrimeID'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool',
+		'peoplePrimeID' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $hidden = [
+		'password'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getAccountID() {
-		return $this->accountID;
+	protected $fillable = [
+		'accountID',
+		'username',
+		'password',
+		'accessCode',
+		'status',
+		'archive',
+		'peoplePrimeID'
+	];
+
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getUsername() {
-		return $this->username;
+	public function residentaccountregistrations()
+	{
+		return $this->hasMany(\App\Models\Residentaccountregistration::class, 'accountPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getAccessCode() {
-		return $this->accessCode;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getPeoplePrimeID() {
-		return $this->peoplePrimeID;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setAccountID($value) {
-		$this->accountID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setUsername($value) {
-		$this->username = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPassword($value) {
-		$this->password = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setAccessCode($value) {
-		$this->accessCode = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setPeoplePrimeID($value) {
-		$this->peoplePrimeID = $value;
-		return $this;
-	}
-
-
-
 }

@@ -1,96 +1,46 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Servicetype
+ * 
+ * @property int $typeID
+ * @property string $typeName
+ * @property string $typeDesc
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $services
+ *
+ * @package App\Models
  */
-class Servicetype extends Model
+class Servicetype extends Eloquent
 {
-    protected $table = 'servicetypes';
-
-    protected $primaryKey = 'typeID';
-
+	protected $primaryKey = 'typeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'typeName',
-        'typeDesc',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'typeName',
+		'typeDesc',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getTypeName() {
-		return $this->typeName;
+	public function services()
+	{
+		return $this->hasMany(\App\Models\Service::class, 'typeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getTypeDesc() {
-		return $this->typeDesc;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setTypeName($value) {
-		$this->typeName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setTypeDesc($value) {
-		$this->typeDesc = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

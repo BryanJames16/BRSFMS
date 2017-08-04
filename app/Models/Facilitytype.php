@@ -1,79 +1,44 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Facilitytype
+ * 
+ * @property int $typeID
+ * @property string $typeName
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $facilities
+ *
+ * @package App\Models
  */
-class Facilitytype extends Model
+class Facilitytype extends Eloquent
 {
-    protected $table = 'facilitytypes';
-
-    protected $primaryKey = 'typeID';
-
+	protected $primaryKey = 'typeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'typeName',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'typeName',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getTypeName() {
-		return $this->typeName;
+	public function facilities()
+	{
+		return $this->hasMany(\App\Models\Facility::class, 'facilityTypeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setTypeName($value) {
-		$this->typeName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

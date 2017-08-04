@@ -1,113 +1,62 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Building
+ * 
+ * @property int $buildingID
+ * @property int $lotID
+ * @property string $buildingName
+ * @property int $buildingTypeID
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \App\Models\Buildingtype $buildingtype
+ * @property \App\Models\Lot $lot
+ * @property \Illuminate\Database\Eloquent\Collection $units
+ *
+ * @package App\Models
  */
-class Building extends Model
+class Building extends Eloquent
 {
-    protected $table = 'buildings';
-
-    protected $primaryKey = 'buildingID';
-
+	protected $primaryKey = 'buildingID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'lotID',
-        'buildingName',
-        'buildingTypeID',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'lotID' => 'int',
+		'buildingTypeID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'lotID',
+		'buildingName',
+		'buildingTypeID',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getLotID() {
-		return $this->lotID;
+	public function buildingtype()
+	{
+		return $this->belongsTo(\App\Models\Buildingtype::class, 'buildingTypeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBuildingName() {
-		return $this->buildingName;
+	public function lot()
+	{
+		return $this->belongsTo(\App\Models\Lot::class, 'lotID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBuildingTypeID() {
-		return $this->buildingTypeID;
+	public function units()
+	{
+		return $this->hasMany(\App\Models\Unit::class, 'buildingID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setLotID($value) {
-		$this->lotID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBuildingName($value) {
-		$this->buildingName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBuildingTypeID($value) {
-		$this->buildingTypeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

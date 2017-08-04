@@ -1,79 +1,44 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Buildingtype
+ * 
+ * @property int $buildingTypeID
+ * @property string $buildingTypeName
+ * @property int $status
+ * @property int $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $buildings
+ *
+ * @package App\Models
  */
-class Buildingtype extends Model
+class Buildingtype extends Eloquent
 {
-    protected $table = 'buildingtypes';
-
-    protected $primaryKey = 'buildingTypeID';
-
+	protected $primaryKey = 'buildingTypeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'buildingTypeName',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'status' => 'int',
+		'archive' => 'int'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'buildingTypeName',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getBuildingTypeName() {
-		return $this->buildingTypeName;
+	public function buildings()
+	{
+		return $this->hasMany(\App\Models\Building::class, 'buildingTypeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBuildingTypeName($value) {
-		$this->buildingTypeName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }

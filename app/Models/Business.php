@@ -1,147 +1,65 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Business
+ * 
+ * @property int $businessPrimeID
+ * @property string $businessID
+ * @property string $businessName
+ * @property string $businessDesc
+ * @property string $businessType
+ * @property int $categoryPrimeID
+ * @property bool $status
+ * @property bool $archive
+ * 
+ * @property \App\Models\Businesscategory $businesscategory
+ * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ *
+ * @package App\Models
  */
-class Business extends Model
+class Business extends Eloquent
 {
-    protected $table = 'businesses';
-
-    protected $primaryKey = 'businessPrimeID';
-
+	protected $primaryKey = 'businessPrimeID';
 	public $timestamps = false;
 
-    protected $fillable = [
-        'businessID',
-        'businessName',
-        'businessDesc',
-        'businessType',
-        'categoryPrimeID',
-        'status',
-        'archive'
-    ];
+	protected $casts = [
+		'categoryPrimeID' => 'int',
+		'status' => 'bool',
+		'archive' => 'bool'
+	];
 
-    protected $guarded = [];
+	protected $fillable = [
+		'businessID',
+		'businessName',
+		'businessDesc',
+		'businessType',
+		'categoryPrimeID',
+		'status',
+		'archive'
+	];
 
-    
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessID() {
-		return $this->businessID;
+	public function businesscategory()
+	{
+		return $this->belongsTo(\App\Models\Businesscategory::class, 'categoryPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessName() {
-		return $this->businessName;
+	public function businessregistrations()
+	{
+		return $this->hasMany(\App\Models\Businessregistration::class, 'businessPrimeID');
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessDesc() {
-		return $this->businessDesc;
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'businessPrimeID');
 	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getBusinessType() {
-		return $this->businessType;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getCategoryPrimeID() {
-		return $this->categoryPrimeID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getArchive() {
-		return $this->archive;
-	}
-
-
-    
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessID($value) {
-		$this->businessID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessName($value) {
-		$this->businessName = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessDesc($value) {
-		$this->businessDesc = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setBusinessType($value) {
-		$this->businessType = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setCategoryPrimeID($value) {
-		$this->categoryPrimeID = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setStatus($value) {
-		$this->status = $value;
-		return $this;
-	}
-
-	/**
-	 * @param $value
-	 * @return $this
-	 */
-	public function setArchive($value) {
-		$this->archive = $value;
-		return $this;
-	}
-
-
-
 }
