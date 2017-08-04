@@ -150,10 +150,11 @@
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
+																
 																@foreach($memberss as $member)
+
 																	@if($member -> residentPrimeID == $resident -> residentPrimeID)
 																		<a href="#" class="dropdown-item add" name="btnMember" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-outbox"></i> Add to Family</a>
-
 																	@endif
 																@endforeach
 																
@@ -1102,21 +1103,28 @@
 				data: {"residentPrimeID":id}, 
 				success:function(data)
 				{
-					$('#viewName').html("<b>" + 
-						data.lastName + ", " + data.firstName + " " + 
-						data.middleName + " " + data.suffix + 
-						"</b>"
-					);
-					
-					$('#viewBirth').html(data.birthDate);
-					$('#viewContact').html(data.contactNumber);
-					$('#viewAddtl').html(
-						data.gender + "<br>" + 
-						data.civilStatus + "<br>" + 
-						data.residentType + "<br>"
-					);
 
-					$('#viewModal').modal('show');
+					data = $.parseJSON(data);
+
+					for (index in data)
+					{
+						$('#viewName').html("<b>" + 
+						data[index].lastName + ", " + data[index].firstName + " " + 
+						data[index].middleName + " " + data[index].suffix + 
+						"</b>"
+						);
+					
+						$('#viewBirth').html(data[index].birthDate);
+						$('#viewContact').html(data[index].contactNumber);
+						$('#viewAddtl').html(
+							data[index].gender + "<br>" + 
+							data[index].civilStatus + "<br>" + 
+							data[index].residentType + "<br>"
+						);
+
+						$('#viewModal').modal('show');
+					}
+					
 				}, 
 				error: function(data) {
 					var message = "Error: ";

@@ -38,9 +38,10 @@ class ResidentController extends Controller
     												-> where('archive','0')
                                                     -> get();
 
+        $mem = Familymember::select('peoplePrimeID')->get();
+
         $memberss = \DB::table('residents') ->select('residentPrimeID')
-                                                    ->join('familymembers', 'residents.residentPrimeID', '!=', 'familymembers.peoplePrimeID')
-    												-> where('archive','0')
+                                                    -> whereNotIn('residentPrimeID',$mem)
                                                     -> get();
        
         $families= \DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
@@ -187,7 +188,8 @@ class ResidentController extends Controller
                                         ->join('residentBackgrounds', 'residents.residentPrimeID', '=', 'residentBackgrounds.peoplePrimeID')
                                         ->where('residents.status', '=', 1) 
                                         ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID'))
-                                        ->orderby('dateStarted','desc') 
+                                        ->orderby('dateStarted','desc')
+                                        ->orderby('backgroundPrimeID','desc') 
                                         ->limit(1)
                                         ->get());
         }
