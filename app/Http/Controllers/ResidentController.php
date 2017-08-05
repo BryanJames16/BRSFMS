@@ -34,15 +34,12 @@ class ResidentController extends Controller
         $streetss = Street::select('streetID','streetName', 'status')
     												-> where('archive','0')
                                                     -> get();
-<<<<<<< HEAD
 
         $mem = Familymember::select('peoplePrimeID')->get();
 
         $memberss = \DB::table('residents') ->select('residentPrimeID')
                                                     -> whereNotIn('residentPrimeID',$mem)
                                                     -> get();
-=======
->>>>>>> 34e84b4978dda367730bc098006fb08263398414
        
         $families= \DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
                                                     'familyRegistrationDate', 'archive','residents.firstName',
