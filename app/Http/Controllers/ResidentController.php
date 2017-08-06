@@ -54,7 +54,8 @@ class ResidentController extends Controller
 		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
                                 -> with('residents', $residents)
                                 -> with('streetss', $streetss)
-                                -> with('families',$families);
+                                -> with('families',$families)
+                                -> with('memberss',$memberss);
 
 
     }
