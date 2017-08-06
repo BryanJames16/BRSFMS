@@ -1,1 +1,0 @@
-!function(a,b,c){"use strict";c(".card-form").card({container:".card-wrapper"})}(window,document,jQuery);
