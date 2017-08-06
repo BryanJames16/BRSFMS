@@ -122,7 +122,7 @@
 				type: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 							
 					for (var index in data) {
@@ -134,28 +134,26 @@
 							statusText = "Inactive";
 						}
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].typeID + '</td>' + 
-									'<td>' + data[index].typeName + '</td>' + 
-									'<td>' + data[index].typeDesc + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
-											'<input type="hidden" name="typeID" value="' + data[index].typeID + '" />' + 
-											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
-											'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<span class="dropdown">' +
-												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
-												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].typeID + '"><i class="icon-pen3"></i> Edit</a>' +
-													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].typeID + '"><i class="icon-trash4"></i> Delete</a>' +
-												'</span>' +
-											'</span>' +
-											'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].typeID, 
+								data[index].typeName, 
+								data[index].typeDesc, 
+								statusText, 
+								'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
+									'<input type="hidden" name="typeID" value="' + data[index].typeID + '" />' + 
+									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
+									'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
+									'<input type="hidden" name="status" value="' + statusText + '" />' + 
+									'<span class="dropdown">' +
+										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+											'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].typeID + '"><i class="icon-pen3"></i> Edit</a>' +
+											'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].typeID + '"><i class="icon-trash4"></i> Delete</a>' +
+										'</span>' +
+									'</span>' +
+								'</form>'
+							]).draw(true);
 					}
 				}
 			});

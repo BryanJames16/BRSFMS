@@ -26,6 +26,8 @@ class FacilityTypeController extends Controller
 
     public function store(Request $r) {
 
+        $stat = 0;
+
         $this->validate($r, [
             'typeName' => 'required|unique:facilitytypes|max:30',
         ]);
@@ -37,7 +39,7 @@ class FacilityTypeController extends Controller
             $stat = 0;
         }
         else {
-            console.error("Invalid status type detected!");
+            
         }
 
         $aah = FacilityType::insert(['typeName'=>trim($r->typeName),

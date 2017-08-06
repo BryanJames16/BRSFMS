@@ -315,7 +315,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -327,22 +327,20 @@
 							statusText = "Inactive";
 						}
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].typeID + '</td>' + 
-									'<td>' + data[index].typeName + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="primeID" value="' + data[index].typeID + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
-									'</td>' + 
-									'<td></td>' + 
-								'</tr>'
-						);
-
-						$.ajax.reload();
+						$("#table-container").DataTable().column(4).visible(true)
+						$('#table-container').DataTable()
+							.row.add([
+								data[index].typeID, 
+								data[index].typeName,
+								statusText,
+								'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].typeID + '" />' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+								'</form>',
+								null
+							]).draw(true);
+						$("#table-container").DataTable().column(4).visible(false)
 					}
 				}, 
 				error: function(data) {
