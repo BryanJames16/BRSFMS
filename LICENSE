@@ -7,13 +7,15 @@ abide the license that has been stated hereof:
 
 1.) To protect the data that has been processed in the system, the system itself, must be 
 confidential. Users should not, in any case, expose data that can be used in criminal acts, 
-terrorism, infiltration, and any case that may put an individual to risk.
+terrorism, infiltration, and any case that may put an individual to risk. If a system 
+user exposes private data to public, the system and its developers should not be held 
+liable for these instances.
 
 2.) System developers shall not be held liable for any third-party related incident that 
 may result to system failure.
 
 3.) The users should abide the terms of third-party apps, plugins, and software that has been 
-used in the creation of the system itself.
+used in the creation, progression, and operation of the system itself.
 
 4.) Third-party services such as web hosting, should be licensed by the user itself. System 
 developers and members who collaborated in creating the software shall not be held liable 
