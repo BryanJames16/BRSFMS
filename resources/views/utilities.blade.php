@@ -303,6 +303,225 @@ Utilities
 						</div>
 					</div>
 				</div> 
+
+				<div class="modal animated bounceIn text-xs-left" id="updatePKModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Unique Identifiers</h4>
+							</div>
+							<div ng-app="maintenanceApp" class="modal-body">
+								<div class="card-block">
+									<div class="card-text">
+										{{ Form::open(['method' => 'POST', 'id' => 'frmIdent', 'files' => true]) }}
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Document Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('documentIdentifier', 
+																null, 
+																['id' => 'documentIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'DOC_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Approval Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('approvalIdentifier', 
+																null, 
+																['id' => 'approvalIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'APPR_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Document Request Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('requestIdentifier', 
+																null, 
+																['id' => 'requestIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'REQ_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Facility Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('facilityIdentifier', 
+																null, 
+																['id' => 'facilityIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'FCL_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Family Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('familyIdentifier', 
+																null, 
+																['id' => 'familyIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'FAM_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Facility Reservation Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('reservationIdentifier', 
+																null, 
+																['id' => 'reservationIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'FRES_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Resident Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('residentIdentifier', 
+																null, 
+																['id' => 'residentIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'RES_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Service Identifer:</label>
+											<div class="col-md-9">
+												{{ Form::text('serviceIdentifier', 
+																null, 
+																['id' => 'serviceIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'SERV_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Service Registration Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('servRegIdentifier', 
+																null, 
+																['id' => 'servRegIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'SREG_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Sponsor Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('sponsorIdentifier', 
+																null, 
+																['id' => 'sponsorIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'SPON_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+									</div>
+
+									<div class="form-actions center">
+										<input type="submit" class="btn btn-success" value="Update Identifier(s)" name="btnUpdatePKMod">
+										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+
+										{{ Form::close() }}
+									</div>					
+																
+								</div>
+							</div>
+							<!-- End of Modal Body -->
+						</div>
+					</div>
+				</div> 
 			</div>
 		</div>
 	</section>
@@ -335,13 +554,90 @@ Utilities
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
 
 	<script type="text/javascript">
+
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
 		});
 
 		$("#btnUpdatePK").on('click', function() {
-			$("#iconModal").modal('show');
+			$.ajax({
+				url: "{{ url('/utilities/getCurrentPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					$("#documentIdentifier").val(data.documentPK);
+					$("#approvalIdentifier").val(data.docApprovalPK);
+					$("#requestIdentifier").val(data.docRequestPK);
+					$("#facilityIdentifier").val(data.facilityPK);
+					$("#familyIdentifier").val(data.familyPK);
+					$("#reservationIdentifier").val(data.reservationPK);
+					$("#residentIdentifier").val(data.residentPK);
+					$("#serviceIdentifier").val(data.servicePK);
+					$("#servRegIdentifier").val(data.serviceRegPK);
+					$("#sponsorIdentifier").val(data.sponsorPK);
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+
+			$("#updatePKModal").modal('show');
 		});
+
+		$.ajaxSetup({
+		    headerheaders: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		$("#frmIdent").submit(function (event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/utilities/update') }}", 
+				method: "POST", 
+				data: {
+					"documentPK": $("#documentIdentifier").val(), 
+					"docApprovalPK": $("#approvalIdentifier").val(), 
+					"docRequestPK": $("#facilityIdentifier").val(), 
+					"facilityPK": $("#facilityIdentifier").val(), 
+					"familyPK": $("#familyIdentifier").val(), 
+					"reservationPK": $("#reservationIdentifier").val() , 
+					"residentPK": $("#residentIdentifier").val(), 
+					"servicePK": $("#serviceIdentifier").val(), 
+					"serviceRegPK": $("#servRegIdentifier").val(), 
+					"sponsorPK": $("#sponsorIdentifier").val()
+				}, 
+				success: function(data) {
+					$("#iconModal").modal("hide");
+					$("#frmIdent").trigger("reset");
+					refreshPKTable();
+					swal("Success", "Successfully Updated!", "success");
+				}, 
+				failure: function(data) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+
+		var refreshMetaTable = function() {
+			// Refresh Meta Table
+		};
+
+		var refreshPKTable = function() {
+			// Refresh Unique Identifiers Table
+		};
 	</script>
 @endsection
 
@@ -426,10 +722,14 @@ Utilities
 @endsection
 
 @section('template-js')
-	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		setSelectedTab(UTILITIES);
+	</script>
 @endsection
