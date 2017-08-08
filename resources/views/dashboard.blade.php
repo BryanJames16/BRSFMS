@@ -40,7 +40,6 @@
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
-
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
 		setSelectedTab(DASHBOARD);

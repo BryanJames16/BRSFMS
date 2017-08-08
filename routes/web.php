@@ -12,6 +12,12 @@
 */
 
 
+//Dashboard
+Route::get('/dashboard/raw', 'DashboardController@getRawData');
+Route::get('/dashboard/card', 'DashboardController@getCard');
+Route::get('/dashboard/graph', 'DashboardController@getGraph');
+Route::get('/dashboard/table', 'DashboardController@getTable');
+Route::get('/dashboard/chart', 'DashboardController@getChart');
 
 
 //Facility
@@ -166,6 +172,11 @@ Route::post('/reservation/store', 'ReservationController@store');
 Route::post('/facility-reservation/update', 'ReservationController@update');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 
+//Utilities
+Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
+Route::post('/utilities/store', 'UtilitiesController@store');
+Route::post('/utilities/update', 'UtilitiesController@update');
+
 
 Route::get('/business-registration', function() {
 	return view('business-registration');
@@ -217,10 +228,6 @@ Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');
 });
 
-Route::get('/home', function () {
-	return view('home');
-});
-
 Route::get('/resreg', function() {
 	return view('residentreg');
 });
@@ -260,6 +267,7 @@ Route::resource('/business-category', 'BusinessCategoryController');
 Route::resource('/service-type', 'ServiceTypeController');
 Route::resource('/service', 'ServiceController');
 Route::resource('/person', 'PeopleController');
+Route::resource('/dashboard', 'DashboardController');
 Route::resource('/document', 'DocumentController');
 Route::resource('/document-request', 'DocumentRequestController');
 Route::resource('/province', 'ProvinceController');

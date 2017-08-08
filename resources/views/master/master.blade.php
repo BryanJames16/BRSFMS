@@ -102,7 +102,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="/home" class="navbar-brand nav-link">
+							<a href="/dashboard" class="navbar-brand nav-link">
 								<img alt="branding logo" src="{{ URL::asset('/system-assets/images/logo/brgy.png') }}" data-expand="{{URL::asset('system-assets/images/logo/brgy.png') }}" data-collapse="{{URL::asset('system-assets/images/logo/brgy.png') }}" class="brand-logo" width="500px" />
 							</a>
 						</li>
@@ -270,7 +270,7 @@
 					<div class="main-menu-content">
 						<ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main ">
 							<li class="nav-item" id="dashboard-id">
-								<a href="/home">
+								<a href="/dashboard">
 									<i class="icon-home3"></i>
 									<span data-i18n="nav.dash.main" class="menu-title">Dashboard</span>
 								</a>

@@ -383,7 +383,7 @@
 @section('page-action')
 	<script>
 		$.ajaxSetup({
-		    headers: {
+		    headerheaders: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});

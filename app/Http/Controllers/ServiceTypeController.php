@@ -20,6 +20,7 @@ class ServiceTypeController extends Controller
 
     public function store(Request $r) {
         try {
+            $stat = 0;
             $this->validate($r, [
                 'typeName' => 'required|unique:servicetypes|max:20',
             ]);

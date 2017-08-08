@@ -25,8 +25,6 @@
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Facility</li>
 	<li class="breadcrumb-item"><a href="#">Facility</a></li>
-
-
 @endsection
 
 @section('main-card-title')
@@ -152,8 +150,8 @@
 			<td>{{ $facility -> facilityName }}</td>
 			<td>{{ $facility -> facilityDesc }}</td>
 			<td>{{ $facility -> typeName }}</td>
-			<td>₱{{ $facility -> facilityDayPrice }}</td>
-			<td>₱{{ $facility -> facilityNightPrice }}</td>
+			<td>₱ {{ $facility -> facilityDayPrice }}</td>
+			<td>₱ {{ $facility -> facilityNightPrice }}</td>
 			
 			@if ($facility -> status == 1)
 				<td>Active</td>
@@ -442,7 +440,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -454,23 +452,21 @@
 							statusText = "Inactive";
 						}
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].facilityID + '</td>' + 
-									'<td>' + data[index].facilityName + '</td>' + 
-									'<td>' + data[index].facilityDesc + '</td>' + 
-									'<td>' + data[index].typeName + '</td>' + 
-									'<td>&#8369; ' + data[index].facilityDayPrice + '</td>' + 
-									'<td>&#8369; ' + data[index].facilityNightPrice + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].facilityID,
+								data[index].facilityName,
+								data[index].facilityDesc, 
+								data[index].typeName, 
+								"₱ " + data[index].facilityDayPrice, 
+								"₱ " + data[index].facilityNightPrice, 
+								statusText,
+								'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+								'</form>'
+							]).draw(true);
 					}
 				}, 
 				error: function(data) {

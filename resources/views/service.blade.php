@@ -430,7 +430,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
+					$("#table-container").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -442,25 +442,23 @@
 							statusText = "Inactive";
 						}
 
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].serviceID + '</td>' + 
-									'<td>' + data[index].serviceName + '</td>' + 
-									'<td>' + data[index].serviceDesc + '</td>' + 
-									'<td>' + data[index].typeName + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-											'<input type="hidden" name="serviceName" value="' + data[index].serviceName + '" />' + 
-											'<input type="hidden" name="serviceDesc" value="' + data[index].serviceDesc + '" />' + 
-											'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-										'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].serviceID,
+								data[index].serviceName,
+								data[index].serviceDesc, 
+								data[index].typeName, 
+								statusText, 
+								'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
+									'<input type="hidden" name="serviceName" value="' + data[index].serviceName + '" />' + 
+									'<input type="hidden" name="serviceDesc" value="' + data[index].serviceDesc + '" />' + 
+									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
+									'<input type="hidden" name="status" value="' + statusText + '" />' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+								'</form>'
+							]).draw(true);
 					}
 				}, 
 				error: function(data) {
