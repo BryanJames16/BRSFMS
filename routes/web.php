@@ -199,9 +199,7 @@ Route::get('/service-sponsorship', function() {
 	return view('service-sponsorship');
 });
 
-Route::get('/service-registration', function() {
-	return view('service-registration');
-});
+
 
 Route::get('/document-approval', function() {
 	return view('document-approval');
@@ -276,6 +274,7 @@ Route::resource('/resident', 'ResidentController');
 Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/utilities', 'UtilitiesController');
+Route::resource('/service-registration', 'ServiceRegistrationController');
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');

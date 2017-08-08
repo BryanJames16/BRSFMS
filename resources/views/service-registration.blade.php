@@ -25,6 +25,67 @@
 	Service Reservation
 @endsection
 
+@section('content-body')
+
+	<section id="multi-column">
+		<div class="row">
+			<div class="col-xs-14">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Service Registration</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="card-body collapse in">
+						<div class="card-block card-dashboard">
+							<p align="center">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal" style="width:160px; font-size:13px">
+									<i class="icon-edit2"></i>Register Service  
+								</button>
+							</p>	
+						</div>
+
+
+				
+								<!-- Resident Tab -->
+								<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Birthdate</th>
+											<th>Gender</th>
+											<th>Type</th>
+											<th>Status</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										
+									</tbody>
+								</table>
+								<!-- End of Resident Tab -->
+							</div>
+					</div>
+				</div>
+		
+			
+
+													
+			</div>
+		</div>
+	</section>
+
+@endsection
+
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
 

@@ -390,6 +390,11 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
+										<p align="center">
+											<button type="button" class="btn btn-outline-info btn-lg addMember" style="width:160px; font-size:13px">
+												<i class="icon-edit2"></i>Add Member/s  
+											</button>
+										</p>
 										<div id="famName">
 
 
@@ -416,6 +421,31 @@
 												
 											</tbody>
 										</table>
+
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
+						<!--ADD MEMBERS -->
+
+						<!--Add Members Modal -->
+						<div class="modal fade text-xs-left" id="addMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-lg modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Members</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+										
 
 									</div>
 									<!-- End of Modal Body -->
@@ -1261,8 +1291,8 @@
 											'<span class="dropdown">' +
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-													'<a href="#" class="dropdown-item editM" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
-													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+													'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
+													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
 												'</span>' +
 											'</span>' + 
 											'</form>'
@@ -1320,6 +1350,24 @@
 		});
 
 		//  END OF VIEW FAMILY MEMBER
+
+		//  ADD MEMBERS
+
+		$(document).on('click', '.addMember', function(e) {
+			var id = $(this).data('value');
+
+			$('#editMember').modal('hide');
+			$('#addMember').modal('show');
+			setTimeout(function() {
+				$('#addMember').modal('hide');
+				$('#editMember').modal('show');
+			},5000);
+
+			
+
+		});
+
+		//  END OF ADD MEMBERS
 
 		//  EDIT RESIDENT ACTION
 
