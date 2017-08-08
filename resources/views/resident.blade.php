@@ -1160,8 +1160,6 @@
 
 					for (index in data)
 					{
-						
-						
 						frm.find('#resID').val(data[index].residentPrimeID);
 						console.log("RES ID: "+ $('#resID').val());
 					}

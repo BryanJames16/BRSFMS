@@ -321,5 +321,16 @@ class ResidentController extends Controller
 
         return back();
     }
+
+    public function join(Request $r)
+    {
+        $aah = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
+                                            'peoplePrimeID' => $r -> input('peoplePrimeID'),
+                                            'memberRelation' => $r -> input('memberRelation'),
+											   'archive' => 0]);
+
+
+            return back();
+    }
 }
 
