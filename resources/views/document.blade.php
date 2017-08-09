@@ -411,7 +411,7 @@
 					$("#frm-add").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
-				error: function(error) {
+				failure: function(error) {
 					var message = "Errors: ";
 					var data = error.responseJSON;
 					for (datum in data) {
