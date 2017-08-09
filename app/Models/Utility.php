@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ * Date: Wed, 09 Aug 2017 05:04:49 +0000.
  */
 
 namespace App\Models;
@@ -15,7 +15,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $utilityID
  * @property string $barangayName
  * @property string $chairmanName
- * @property string $signaturePath
  * @property string $address
  * @property string $brgyLogoPath
  * @property string $provLogoPath
@@ -40,7 +39,6 @@ class Utility extends Eloquent
 	protected $fillable = [
 		'barangayName',
 		'chairmanName',
-		'signaturePath',
 		'address',
 		'brgyLogoPath',
 		'provLogoPath',
