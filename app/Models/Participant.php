@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 09 Aug 2017 05:04:48 +0000.
+ * Date: Wed, 09 Aug 2017 06:06:43 +0000.
  */
 
 namespace App\Models;
@@ -13,7 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Participant
  * 
  * @property int $participantID
- * @property int $serviceTransactionID
+ * @property int $serviceTransactionPrimeID
  * @property int $residentID
  * @property \Carbon\Carbon $dateRegistered
  * 
@@ -28,7 +28,7 @@ class Participant extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'serviceTransactionID' => 'int',
+		'serviceTransactionPrimeID' => 'int',
 		'residentID' => 'int'
 	];
 
@@ -37,7 +37,7 @@ class Participant extends Eloquent
 	];
 
 	protected $fillable = [
-		'serviceTransactionID',
+		'serviceTransactionPrimeID',
 		'residentID',
 		'dateRegistered'
 	];
@@ -49,6 +49,6 @@ class Participant extends Eloquent
 
 	public function servicetransaction()
 	{
-		return $this->belongsTo(\App\Models\Servicetransaction::class, 'serviceTransactionID');
+		return $this->belongsTo(\App\Models\Servicetransaction::class, 'serviceTransactionPrimeID');
 	}
 }
