@@ -177,6 +177,12 @@ Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
 
+//Service-Transactions
+Route::post('/service-transaction/store', 'ServiceTransactionController@store');
+Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
+Route::post('/service-transaction/update', 'ServiceTransactionController@update');
+Route::get('/service-transaction/refresh','ServiceTransactionController@Refresh');
+
 
 Route::get('/business-registration', function() {
 	return view('business-registration');
@@ -282,7 +288,7 @@ Route::resource('/resident', 'ResidentController');
 Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/utilities', 'UtilitiesController');
-Route::resource('/service-registration', 'ServiceRegistrationController');
+Route::resource('/service-transaction', 'ServiceTransactionController');
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');

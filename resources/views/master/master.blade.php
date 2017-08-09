@@ -444,7 +444,7 @@
 										</a>
 										<ul class="menu-content">
 											<li id="service-registration-id">
-												<a href="/service-registration" data-i18n="nav.navbars.nav_dark" class="menu-item">
+												<a href="/service-transaction" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-drawer"></i>
 													Service Registration
 												</a>
