@@ -37,11 +37,6 @@
 		<meta name="apple-touch-fullscreen" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
-		<!-- Begin Top Framework JS -->
-		<script src="{{ URL::asset('/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
-		@yield('top-framework-js')
-		<!-- End Top Framework JS -->
-
 		<!-- Custom Styles -->
 		
 		<!-- Begin Vendor StyleSheet -->
@@ -560,6 +555,11 @@
 		<!-- END FOOTER -->
 
 		<!-- Scripts Inclusion -->
+
+		<!-- Begin Top Framework JS -->
+		<script src="{{ URL::asset('/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
+		@yield('top-framework-js')
+		<!-- End Top Framework JS -->
 
 		<!-- Begin Framework JS -->
 		@yield('framework-js')
