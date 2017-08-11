@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use \App\Models\Service;
 use \App\Models\Servicetype;
 use \App\Models\Servicetransaction;
+use \App\Models\Utility;
 
+require_once(app_path() . '/Includes/pktool.php');
+
+use StaticCounter;
+use SmartMove;
 
 class ServiceTransactionController extends Controller
 {
@@ -60,6 +65,36 @@ class ServiceTransactionController extends Controller
                                                      'servicetransactions.status','services.serviceName') 
                                         ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
                                         ->get());
+        }
+    }
+
+    public function nextPK(Request $r) {
+        if ($r->ajax()) {
+
+
+            $serviceTransactionPK = Utility::select('serviceRegPK')->get()->last();
+            $serviceTransactionPKinc = StaticCounter::smart_next($serviceTransactionPK->serviceRegPK, SmartMove::$NUMBER);
+            $lastServiceTransactionID = Servicetransaction::all()->last();
+            
+            if(is_null($lastServiceTransactionID))
+            {
+                return response($serviceTransactionPKinc);
+            }
+            else
+            {
+                $check = Servicetransaction::select('serviceTransactionID')->where([
+                                                                ['serviceTransactionID','=',$serviceTransactionPKinc]
+                                                                ])->get();
+                if($check=='[]')
+                {  
+                    return response($serviceTransactionPKinc); 
+                }
+                else
+                {
+                    $nextValue = StaticCounter::smart_next($lastServiceTransactionID->serviceTransactionID, SmartMove::$NUMBER);
+                    return response($nextValue); 
+                }
+            }
         }
     }
 

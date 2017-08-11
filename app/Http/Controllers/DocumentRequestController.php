@@ -11,6 +11,7 @@ use \App\Models\Documentheaderrequest;
 use \App\Models\Resident;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use \App\Models\Utility;
 
 use StaticCounter;
 use SmartMove;
@@ -221,14 +222,30 @@ class DocumentRequestController extends Controller
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-            $data = DocumentHeaderRequest::all()->last();
+
+
+            $documentRequestPK = Utility::select('docRequestPK')->get()->last();
+            $documentRequestPKinc = StaticCounter::smart_next($documentRequestPK->docRequestPK, SmartMove::$NUMBER);
+            $lastDocumentRequestID = Documentheaderrequest::all()->last();
             
-            if (is_null($data)) {
-                
-            } 
-            else {
-                $nextValue = StaticCounter::smart_next($data->requestID, SmartMove::$NUMBER);
-                return response($nextValue);
+            if(is_null($lastDocumentRequestID))
+            {
+                return response($documentRequestPKinc);
+            }
+            else
+            {
+                $check = Documentheaderrequest::select('requestID')->where([
+                                                                ['requestID','=',$documentRequestPKinc]
+                                                                ])->get();
+                if($check=='[]')
+                {  
+                    return response($documentRequestPKinc); 
+                }
+                else
+                {
+                    $nextValue = StaticCounter::smart_next($lastDocumentRequestID->requestID, SmartMove::$NUMBER);
+                    return response($nextValue); 
+                }
             }
         }
     }

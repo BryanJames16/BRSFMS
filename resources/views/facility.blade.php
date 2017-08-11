@@ -61,7 +61,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('facilityID',null,['id'=>'aFacilityID','class'=>'form-control', 'placeholder'=>'eg.FAC_001', 'maxlength'=>'20' ,'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{Form::text('facilityID',null,['id'=>'aFacilityID','class'=>'form-control','readonly', 'placeholder'=>'eg.FAC_001', 'maxlength'=>'20' ,'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
 		</div>	
 
 	</div>
@@ -481,5 +481,29 @@
 				}
 			});
 		};
+
+		$("#btnAddModal").bind('click', function() {
+			$.ajax({
+				url: "{{ url('/facility/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						// Get primary key format from utilities
+					}
+					else {
+						$("#aFacilityID").val(data);
+					}
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+		});
 	</script>
 @endsection

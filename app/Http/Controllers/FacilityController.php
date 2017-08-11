@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Facility;
+use \App\Models\Utility;
 use \App\Models\Facilitytype;
 use \Illuminate\Validation\Rule;
+
+require_once(app_path() . '/Includes/pktool.php');
+
+use StaticCounter;
+use SmartMove;
 
 class FacilityController extends Controller
 {
@@ -28,6 +34,36 @@ class FacilityController extends Controller
                                         ->where('Facilities.archive', '=', 0) 
                                         ->get();
             return json_encode($facilities);
+        }
+    }
+
+    public function nextPK(Request $r) {
+        if ($r->ajax()) {
+
+
+            $facilityPK = Utility::select('facilityPK')->get()->last();
+            $facilityPKinc = StaticCounter::smart_next($facilityPK->facilityPK, SmartMove::$NUMBER);
+            $lastFacilityID = Facility::all()->last();
+            
+            if(is_null($lastFacilityID))
+            {
+                return response($facilityPKinc);
+            }
+            else
+            {
+                $check = Facility::select('facilityID')->where([
+                                                                ['facilityID','=',$facilityPKinc]
+                                                                ])->get();
+                if($check=='[]')
+                {  
+                    return response($facilityPKinc); 
+                }
+                else
+                {
+                    $nextValue = StaticCounter::smart_next($lastFacilityID->facilityID, SmartMove::$NUMBER);
+                    return response($nextValue); 
+                }
+            }
         }
     }
 

@@ -130,6 +130,7 @@
 									<label for="userinput1">ID</label>
 									{!! Form::text('serviceTransactionID', null, ['id' => 'serviceTransactionID',
 																		'class' => 'form-control border-primary',
+																		'readonly',
 																			'placeholder'=> 'SER_001']) !!}
 								</div>
 								<div class="form-group col-md-6 mb-2">
@@ -257,6 +258,29 @@
 
 		$("#btnRegister").on('click', function() {
 			$("#register").modal('show');
+
+			$.ajax({
+				url: "{{ url('/service-transaction/nextPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					if (data == null) {
+						console.log("Reponse is null!");
+					}
+					else {
+						$("#serviceTransactionID").val(data);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
 		});
 
 		//  REGISTER SERVICE BUTTON

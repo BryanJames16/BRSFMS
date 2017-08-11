@@ -8,6 +8,7 @@ use \App\Models\Lot;
 use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
+use \App\Models\Utility;
 use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
@@ -139,28 +140,60 @@ class ResidentController extends Controller
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-            $data = Resident::all()->last();
+
+
+            $residentPK = Utility::select('residentPK')->get()->last();
+            $residentPKinc = StaticCounter::smart_next($residentPK->residentPK, SmartMove::$NUMBER);
+            $lastResidentID = Resident::all()->last();
             
-            if (is_null($data)) {
-                
-            } 
-            else {
-                $nextValue = StaticCounter::smart_next($data->residentID, SmartMove::$NUMBER);
-                return response($nextValue);
+            if(is_null($lastResidentID))
+            {
+                return response($residentPKinc);
+            }
+            else
+            {
+                $check = Resident::select('residentID')->where([
+                                                                ['residentID','=',$residentPKinc]
+                                                                ])->get();
+                if($check=='[]')
+                {  
+                    return response($residentPKinc); 
+                }
+                else
+                {
+                    $nextValue = StaticCounter::smart_next($lastResidentID->residentID, SmartMove::$NUMBER);
+                    return response($nextValue); 
+                }
             }
         }
     }
 
     public function familyNextPK(Request $r) {
         if ($r->ajax()) {
-            $data = Family::all()->last();
+
+
+            $familyPK = Utility::select('familyPK')->get()->last();
+            $familyPKinc = StaticCounter::smart_next($familyPK->familyPK, SmartMove::$NUMBER);
+            $lastFamilyID = Family::all()->last();
             
-            if (is_null($data)) {
-                
-            } 
-            else {
-                $nextValue = StaticCounter::smart_next($data->familyID, SmartMove::$NUMBER);
-                return response($nextValue);
+            if(is_null($lastFamilyID))
+            {
+                return response($familyPKinc);
+            }
+            else
+            {
+                $check = Family::select('familyID')->where([
+                                                                ['familyID','=',$familyPKinc]
+                                                                ])->get();
+                if($check=='[]')
+                {  
+                    return response($familyPKinc); 
+                }
+                else
+                {
+                    $nextValue = StaticCounter::smart_next($lastFamilyID->familyID, SmartMove::$NUMBER);
+                    return response($nextValue); 
+                }
             }
         }
     }

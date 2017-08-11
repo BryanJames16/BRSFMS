@@ -26,6 +26,7 @@ Route::get('/facility/refresh', 'FacilityController@refresh');
 Route::post('/facility/store', 'FacilityController@store');
 Route::post('/facility/update','FacilityController@edit');
 Route::post('/facility/delete','FacilityController@delete');
+Route::get('/facility/nextPK', 'FacilityController@nextPK');
 
 //Facility Type
 Route::get('/facility-type/getEdit', 'FacilityTypeController@getEdit');
@@ -182,6 +183,7 @@ Route::post('/service-transaction/store', 'ServiceTransactionController@store');
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
 Route::post('/service-transaction/update', 'ServiceTransactionController@update');
 Route::get('/service-transaction/refresh','ServiceTransactionController@Refresh');
+Route::get('/service-transaction/nextPK', 'ServiceTransactionController@nextPK');
 
 
 Route::get('/business-registration', function() {

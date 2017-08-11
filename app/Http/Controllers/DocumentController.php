@@ -77,8 +77,6 @@ class DocumentController extends Controller
             $documentPKinc = StaticCounter::smart_next($documentPK->documentPK, SmartMove::$NUMBER);
             $lastDocumentID = Document::all()->last();
             
-            
-
             if(is_null($lastDocumentID))
             {
                 return response($documentPKinc);
@@ -88,23 +86,16 @@ class DocumentController extends Controller
                 $check = Document::select('documentID')->where([
                                                                 ['documentID','=',$documentPKinc]
                                                                 ])->get();
-
                 if($check=='[]')
-                {
-                    
+                {  
                     return response($documentPKinc); 
                 }
                 else
                 {
-
                     $nextValue = StaticCounter::smart_next($lastDocumentID->documentID, SmartMove::$NUMBER);
-                    return response($nextValue);
-                    
+                    return response($nextValue); 
                 }
-                
-                
             }
-
         }
     }
 
