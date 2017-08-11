@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Document;
+use \App\Models\Utility;
 use \Illuminate\Validation\Rule;
 
 require_once(app_path() . '/Includes/pktool.php');
@@ -70,17 +71,44 @@ class DocumentController extends Controller
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-            $data = Document::all()->last();
+
+
+            $documentPK = Utility::select('documentPK')->get()->last();
+            $documentPKinc = StaticCounter::smart_next($documentPK->documentPK, SmartMove::$NUMBER);
+            $lastDocumentID = Document::all()->last();
             
-            if (is_null($data)) {
-                
-            } 
-            else {
-                $nextValue = StaticCounter::smart_next($data->documentID, SmartMove::$NUMBER);
-                return response($nextValue);
+            
+
+            if(is_null($lastDocumentID))
+            {
+                return response($documentPKinc);
             }
+            else
+            {
+                $check = Document::select('documentID')->where([
+                                                                ['documentID','=',$documentPKinc]
+                                                                ])->get();
+
+                if($check=='[]')
+                {
+                    
+                    return response($documentPKinc); 
+                }
+                else
+                {
+
+                    $nextValue = StaticCounter::smart_next($lastDocumentID->documentID, SmartMove::$NUMBER);
+                    return response($nextValue);
+                    
+                }
+                
+                
+            }
+
         }
     }
+
+
 
     public function edit(Request $r) {
         $document = Document::find($r->input('primeID'));
