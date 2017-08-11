@@ -590,7 +590,7 @@ Utilities
 		});
 
 		$.ajaxSetup({
-		    headerheaders: {
+		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
@@ -602,6 +602,7 @@ Utilities
 				url: "{{ url('/utilities/update') }}", 
 				method: "POST", 
 				data: {
+					"_token": "{{ csrf_token() }}", 
 					"documentPK": $("#documentIdentifier").val(), 
 					"docApprovalPK": $("#approvalIdentifier").val(), 
 					"docRequestPK": $("#facilityIdentifier").val(), 
