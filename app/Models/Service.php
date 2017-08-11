@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 03 Aug 2017 13:51:32 +0000.
+ * Date: Wed, 09 Aug 2017 06:06:44 +0000.
  */
 
 namespace App\Models;
@@ -22,6 +22,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \App\Models\Servicetype $servicetype
  * @property \Illuminate\Database\Eloquent\Collection $servicesponsorships
+ * @property \Illuminate\Database\Eloquent\Collection $servicetransactions
  *
  * @package App\Models
  */
@@ -53,5 +54,10 @@ class Service extends Eloquent
 	public function servicesponsorships()
 	{
 		return $this->hasMany(\App\Models\Servicesponsorship::class, 'servicePrimeID');
+	}
+
+	public function servicetransactions()
+	{
+		return $this->hasMany(\App\Models\Servicetransaction::class, 'servicePrimeID');
 	}
 }

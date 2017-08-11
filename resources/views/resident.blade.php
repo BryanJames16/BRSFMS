@@ -515,12 +515,7 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body">
-										
-
 										{{Form::open(['url'=>'resident/store', 'method' => 'POST', 'id' => 'frm-add', 'class'=>'form'])}}
-
-											
-
 											<div class="form-body">
 												<h4 class="form-section"><i class="icon-eye6"></i> Name </h4>
 												<div class="row">
@@ -656,13 +651,14 @@
 												</div>
 
 
-											<div class="form-actions right">
-												<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
-													<i class="icon-cross2"></i> Cancel
-												</button>
-												<button type="submit" class="btn btn-primary">
-													<i class="icon-check2"></i> Save
-												</button>
+												<div class="form-actions right">
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+														<i class="icon-cross2"></i> Cancel
+													</button>
+													<button type="submit" class="btn btn-primary">
+														<i class="icon-check2"></i> Save
+													</button>
+												</div>
 											</div>
 										{{Form::close()}}
 									</div>
