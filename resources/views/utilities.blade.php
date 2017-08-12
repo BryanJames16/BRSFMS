@@ -11,6 +11,7 @@ Utilities
 
 <!-- CSS Styles -->
 @section('vendor-plugin')
+	<link rel="stylesheet" href="{{ URL::asset('/signature/jquery.signaturepad.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
@@ -226,9 +227,19 @@ Utilities
 										<div class="form-group row">
 											<label class="col-md-3 label-control" for="eventRegInput1">Chairman Signature</label>
 											<div class="col-md-9">
-												<div id="canvasDiv" style="border: 1px ridge;">
-													
-												</div>
+												<form method="POST" action="">
+													<div class="sigPad">
+														<ul class="sigNav">
+															<li class="drawIt"><a href="#draw-it" >Sign</a></li>
+															<li class="clearButton"><a href="#clear">Clear</a></li>
+														</ul>
+														<div class="sig sigWrapper">
+															<div class="typed"></div>
+															<canvas class="pad" width="398" height="100"></canvas>
+															<input type="hidden" name="output" class="output">
+														</div>
+													</div>
+												</form>
 											</div>	
 										</div>
 
@@ -536,6 +547,8 @@ Utilities
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/signature/jquery.signaturepad.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/signature/json2.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/underscore-min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/clndr.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.steps.min.js') }}" type="text/javascript"></script>
@@ -552,6 +565,13 @@ Utilities
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+
+	
+		<script>
+			$(document).ready(function() {
+			$('.sigPad').signaturePad({drawOnly:true});
+			});
+		</script>
 
 	<script type="text/javascript">
 
