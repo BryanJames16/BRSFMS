@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 13 Aug 2017 04:58:28 +0000.
+ * Date: Sun, 13 Aug 2017 05:19:54 +0000.
  */
 
 namespace App\Models;
@@ -17,9 +17,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $requirementDesc
  * @property int $status
  * @property int $archive
- * @property int $documentPrimeID
  * 
- * @property \App\Models\Document $document
+ * @property \Illuminate\Database\Eloquent\Collection $documents
  *
  * @package App\Models
  */
@@ -30,20 +29,19 @@ class Requirement extends Eloquent
 
 	protected $casts = [
 		'status' => 'int',
-		'archive' => 'int',
-		'documentPrimeID' => 'int'
+		'archive' => 'int'
 	];
 
 	protected $fillable = [
 		'requirementName',
 		'requirementDesc',
 		'status',
-		'archive',
-		'documentPrimeID'
+		'archive'
 	];
 
-	public function document()
+	public function documents()
 	{
-		return $this->belongsTo(\App\Models\Document::class, 'documentPrimeID');
+		return $this->belongsToMany(\App\Models\Document::class, 'document_requirements', 'requirementID', 'documentPrimeID')
+					->withPivot('primeID');
 	}
 }

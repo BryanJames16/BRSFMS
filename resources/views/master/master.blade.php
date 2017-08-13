@@ -279,11 +279,25 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Maintenance</span>
 								</a>
 								<ul class="menu-content">
-									<li id="document-id">
-										<a href="/document">
-											<i class="icon-file-text2"></i>
+									<li>
+										<a href="#">
+											<i class="icon-office"></i>
 											<span>Document</span>
 										</a>
+										<ul class="menu-content">
+											<li id="document-id">										
+												<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Document
+												</a>
+											</li>
+											<li id="requirement-id">
+												<a href="/requirement" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-library"></i>
+													Requirement
+												</a>
+											</li>
+										</ul>
 									</li>
 									<li>
 										<a href="#">

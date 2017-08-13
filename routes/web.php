@@ -290,6 +290,7 @@ Route::resource('/resident', 'ResidentController');
 Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/utilities', 'UtilitiesController');
+Route::resource('/requirement', 'RequirementController');
 Route::resource('/service-transaction', 'ServiceTransactionController');
 
 Route::get('/base-maintenance', function () {
