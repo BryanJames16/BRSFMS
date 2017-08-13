@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 13 Aug 2017 05:19:54 +0000.
+ * Date: Sun, 13 Aug 2017 05:42:24 +0000.
  */
 
 namespace App\Models;
@@ -52,7 +52,7 @@ class Document extends Eloquent
 	public function requirements()
 	{
 		return $this->belongsToMany(\App\Models\Requirement::class, 'document_requirements', 'documentPrimeID', 'requirementID')
-					->withPivot('primeID');
+					->withPivot('primeID', 'quantity');
 	}
 
 	public function documentdetailrequests()
