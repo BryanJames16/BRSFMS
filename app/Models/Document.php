@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 09 Aug 2017 06:06:43 +0000.
+ * Date: Sun, 13 Aug 2017 04:58:27 +0000.
  */
 
 namespace App\Models;
@@ -23,6 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $archive
  * 
  * @property \Illuminate\Database\Eloquent\Collection $documentdetailrequests
+ * @property \Illuminate\Database\Eloquent\Collection $requirements
  *
  * @package App\Models
  */
@@ -51,5 +52,10 @@ class Document extends Eloquent
 	public function documentdetailrequests()
 	{
 		return $this->hasMany(\App\Models\Documentdetailrequest::class, 'documentPrimeID');
+	}
+
+	public function requirements()
+	{
+		return $this->hasMany(\App\Models\Requirement::class, 'documentPrimeID');
 	}
 }
