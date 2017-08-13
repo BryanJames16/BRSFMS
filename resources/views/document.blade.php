@@ -1,6 +1,11 @@
 <!-- Parent Template -->
 @extends('master.base_maintenance')
 
+@section('css')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/icheck/icheck.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/icheck/custom.css') }}" />
+@endsection
+
 <!-- Title of the Page -->
 @section('title')
 	Document
@@ -223,10 +228,16 @@
 					<input type='hidden' name='documentPrice' value='{{ $document -> documentPrice }}' />
 					<input type='hidden' name='status' value='{{ $document -> status }}' />
 					
-					<button class='btn btn-icon btn-square btn-primary normal view' type='button' value='{{ $document -> primeID }}'><i class="icon-eye3"></i></button>
-					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $document -> primeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $document -> primeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					
+					<span class="dropdown">
+						<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+						<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+							<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $document -> primeID }}'><i class="icon-eye6"></i> View</a>
+							<a href="#" class="dropdown-item requirement" name="btnEdit" data-value='{{ $document -> primeID }}'><i class="icon-pen3"></i> Add Requirements</a>
+							<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $document -> primeID }}'><i class="icon-pen3"></i> Edit</a>
+							<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $document -> primeID }}'><i class="icon-trash4"></i> Delete</a>
+						</span>
+					</span>
+
 				{{Form::close()}}
 			</td>
 		</tr>
@@ -257,6 +268,56 @@
 							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 						</div>												
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="requirementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Add Requirements</h4>
+				</div>
+				<div ng-app="maintenanceApp" class="modal-body">
+					{{Form::open(['url'=>'/document/requirementsStore', 'method' => 'POST', 'id'=>'frm-addReq'])}}
+					<input type="hidden" id="documentIDreq">
+					<div class="card-block">
+						<p style="text-align:center"><b>CHECK ALL DOCUMENT REQUIREMENTS</b></p>
+						<hr>
+						<div class="row">
+								<div class="form-body">
+									<div class="from-group">
+										@foreach($requirements as $r)
+											<div class="row skin skin-square">
+												<div class="col-md-6" style="text-align:right">
+													<label for="input-11">{{ $r->requirementName }}</label>
+													<input type="checkbox" name="requirements" class="requirements"  value="{{ $r->requirementID }}" />
+												</div>
+												<div class="col-md-6" style="text-align:left">
+													<div class="col-md-2">
+														<label>Quantity: </label>
+													</div>
+													<div class="col-md-4">
+														<input type="number" id="quantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:35%">
+													</div>
+												</div>
+											</div>	
+										@endforeach
+									</div>
+								</div>
+						</div>
+						<hr>
+						<br>
+						<div class="form-actions center">
+							<button type="submit" class="btn btn-success mr-1 addReq">Add</button>
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+						</div>												
+					</div>
+					{{ Form::close() }}
 				</div>
 			</div>
 		</div>
@@ -424,7 +485,7 @@
 		});
 
 		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
+			var id = $(this).data('value');
 
 			$.ajax({
 				type: 'get',
@@ -465,6 +526,19 @@
 				}
 			})
 
+		});
+
+		$(document).on('click', '.requirement', function(e) {
+			var id = $(this).data('value');
+			console.log(id);
+			$('#documentIDreq').val(id)
+			$('#requirementModal').modal('show');
+		});
+
+		$("#frm-addReq").submit(function(event){
+			event.preventDefault();
+			console.log('hahaha');
+			getCheckbox();
 		});
 
 		$("#frm-update").submit(function(event) {
@@ -510,7 +584,7 @@
 
 		$(document).on('click', '.delete', function(e) {
 
-			var id = $(this).val();
+			var id = $(this).data('value');
 
 			$.ajax({
 					type: 'GET',
@@ -551,7 +625,7 @@
 		});
 
 		$(document).on('click', '.view', function() {
-			var primeID = $(this).val();
+			var primeID = $(this).data('value');
 			var documentID = "";
 			var documentName = "";
 			var documentContent = "";
@@ -675,12 +749,15 @@
 								data[index].documentType, 
 								"&#8369; " + data[index].documentPrice,
 								statusText,
-								'<form method="POST" id=' + data[index].primeID + ' accept-charset="UTF-8"])' + 
-									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-									'<button class="btn btn-icon btn-square btn-primary normal view" type="button" value="' + data[index].primeID + '"><i class="icon-eye3"></i></button>' + 
-									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
-								'</form>'
+								'<span class="dropdown">' +
+									'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
+									'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
+										'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].primeID + '"><i class="icon-eye6"></i> View</a>' +
+										'<a href="#" class="dropdown-item requirement" name="btnEdit" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Add Requirements</a>' +
+										'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Edit</a>' +
+										'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].primeID + '"><i class="icon-trash4"></i> Delete</a>' +
+									'</span>' +
+								'</span>'
 							]).draw(false);
 					}
 				}, 
@@ -695,6 +772,53 @@
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
 				}
 			});
+		};
+
+		var getCheckbox = function(){
+			var arrayCheck = [];
+
+			$('.requirements:checked').each(function(){
+				arrayCheck.push($(this).val());
+			})
+
+			var l = arrayCheck.length;
+			var quantity;
+
+			for(var x=0;x<l;x++)
+			{
+				quantity = $('#quantity'+arrayCheck[x]).val();
+				console.log($("#documentIDreq").val());
+				$.ajax({
+					url: "{{ url('/document/requirementsStore') }}", 
+					method: "POST", 
+					data: {
+						"documentPrimeID": $("#documentIDreq").val(), 
+						"requirementID": arrayCheck[x], 
+						"quantity": quantity
+					}, 
+					success: function(data) {
+						
+					}, 
+					failure: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+					
+			}
+			$('#requirementModal').modal('hide');
+			
+			$('#frm-addReq').trigger('reset');
+			swal("Successful", 
+							"Added requirements!", 
+							"success");
+			refreshTable();
+
 		};
 
 		$("#btnAddModal").bind('click', function() {

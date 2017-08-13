@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Document;
 use \App\Models\Utility;
+use \App\Models\Requirement;
+use \App\Models\DocumentRequirement;
 use \Illuminate\Validation\Rule;
 
 require_once(app_path() . '/Includes/pktool.php');
@@ -20,8 +22,11 @@ class DocumentController extends Controller
     															['archive', '=', 0]
     															])
     												-> get();
+        $requirements = \DB::table('requirements') ->select('requirementID', 'requirementName', 'requirementDesc', 'status')
+                                        ->where('archive', '=', 0) 
+                                        ->get();
 
-    	return view('document') -> with('documents', $documents);
+    	return view('document') -> with('documents', $documents)->with('requirements',$requirements);
     }
 
     public function refresh(Request $r) {
@@ -120,6 +125,15 @@ class DocumentController extends Controller
         $document->save();
         return redirect('document');   
         
+    }
+
+    public function requirementsStore(Request $r){
+        $aah = DocumentRequirement::insert(['documentPrimeID'=>$r -> input('documentPrimeID'),
+                                            'requirementID' => $r -> input('requirementID'),
+                                               'quantity' => $r->input('quantity')]);
+
+        return redirect('document');
+
     }
 
 

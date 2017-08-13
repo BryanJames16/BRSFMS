@@ -165,6 +165,35 @@ LOCK TABLES `businessregistrations` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `document_requirements`
+--
+
+DROP TABLE IF EXISTS `document_requirements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `document_requirements` (
+  `primeID` int(11) NOT NULL AUTO_INCREMENT,
+  `documentPrimeID` int(11) NOT NULL,
+  `requirementID` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`primeID`),
+  KEY `documentPrimeID_idx` (`documentPrimeID`),
+  KEY `requirementID_idx` (`requirementID`),
+  CONSTRAINT `documentPrimeID` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
+  CONSTRAINT `requirementID` FOREIGN KEY (`requirementID`) REFERENCES `requirements` (`requirementID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `document_requirements`
+--
+
+LOCK TABLES `document_requirements` WRITE;
+/*!40000 ALTER TABLE `document_requirements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `document_requirements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `documentdetailrequests`
 --
 
@@ -181,7 +210,7 @@ CREATE TABLE `documentdetailrequests` (
   KEY `fk_DocumentDetailRequests_Documents1_idx` (`documentPrimeID`),
   CONSTRAINT `fk_DocumentDetailRequests_DocumentHeaderRequests1` FOREIGN KEY (`headerPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_DocumentDetailRequests_Documents1` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +219,7 @@ CREATE TABLE `documentdetailrequests` (
 
 LOCK TABLES `documentdetailrequests` WRITE;
 /*!40000 ALTER TABLE `documentdetailrequests` DISABLE KEYS */;
+INSERT INTO `documentdetailrequests` VALUES (1,1,4,1);
 /*!40000 ALTER TABLE `documentdetailrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +239,7 @@ CREATE TABLE `documentheaderrequests` (
   PRIMARY KEY (`documentHeaderPrimeID`),
   KEY `fk_DocumentHeaderRequests_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,6 +248,7 @@ CREATE TABLE `documentheaderrequests` (
 
 LOCK TABLES `documentheaderrequests` WRITE;
 /*!40000 ALTER TABLE `documentheaderrequests` DISABLE KEYS */;
+INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-08-12','Pending',28);
 /*!40000 ALTER TABLE `documentheaderrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +270,7 @@ CREATE TABLE `documents` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`primeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +279,7 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-INSERT INTO `documents` VALUES (2,'DOC_001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {scivilstatus}, and whose signature appears below is presently residing in {housenumber}|{buildingnumber}, {unit}, {lot}, {street}.<br><br>This is to certify that {sgender:opt} has no dorigatory record filed and / or pending case against {sgender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {sgender:sopt} requirements.','Certification',100,1,0),(3,'DOC_002','Certificate of Indigency','','This is to chuchu','Certification',100,1,0);
+INSERT INTO `documents` VALUES (4,'DOC_001','Barangay Clearance','ASDASD','asdasasd','Legal Document',150,1,0),(5,'DCM_001','kasdhjakjd','ajkshdsakj','jaksdhasd','Legal Document',900,1,0);
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -588,6 +619,33 @@ INSERT INTO `people` VALUES (1,'PER_001','Marc','Mend','Fuel',NULL,'09263526321'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `requirements`
+--
+
+DROP TABLE IF EXISTS `requirements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `requirements` (
+  `requirementID` int(11) NOT NULL AUTO_INCREMENT,
+  `requirementName` varchar(100) NOT NULL,
+  `requirementDesc` varchar(250) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `archive` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`requirementID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `requirements`
+--
+
+LOCK TABLES `requirements` WRITE;
+/*!40000 ALTER TABLE `requirements` DISABLE KEYS */;
+INSERT INTO `requirements` VALUES (1,'Identity Card','Card',1,0),(2,'Application Form','HAHAHAHAHAH',1,0),(3,'BIR','ashdghsajg',1,0),(4,'SSS','Socia Security System',1,0);
+/*!40000 ALTER TABLE `requirements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `reservations`
 --
 
@@ -803,7 +861,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES (6,'SERV_001','Tuli','',158,1,0);
+INSERT INTO `services` VALUES (6,'SERV_001','Tuli','HAHAHAHA',158,1,0);
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -885,7 +943,7 @@ CREATE TABLE `servicetypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -894,7 +952,7 @@ CREATE TABLE `servicetypes` (
 
 LOCK TABLES `servicetypes` WRITE;
 /*!40000 ALTER TABLE `servicetypes` DISABLE KEYS */;
-INSERT INTO `servicetypes` VALUES (158,'Health','',1,0),(159,'Skubariwa','',1,0);
+INSERT INTO `servicetypes` VALUES (158,'Health','',1,0),(159,'Skubariwa','',1,0),(160,'kjahdskjasd','ahsdjahsdhasdkj',0,1);
 /*!40000 ALTER TABLE `servicetypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1035,7 +1093,7 @@ CREATE TABLE `utilities` (
   `serviceRegPK` varchar(30) NOT NULL,
   `sponsorPK` varchar(30) NOT NULL,
   PRIMARY KEY (`utilityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1044,6 +1102,7 @@ CREATE TABLE `utilities` (
 
 LOCK TABLES `utilities` WRITE;
 /*!40000 ALTER TABLE `utilities` DISABLE KEYS */;
+INSERT INTO `utilities` VALUES (1,'Barangay 629','Roslito Pomoy','asasd','brggy.jpeg','logo.jpg','FAC_000','DCM_000','SERV_000','RES_000','FAM_000','REQ_000','APPR_000','RES_000','SERVICETRAN_000','SPN_000');
 /*!40000 ALTER TABLE `utilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1085,4 +1144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-09 23:35:47
+-- Dump completed on 2017-08-14  0:08:42
