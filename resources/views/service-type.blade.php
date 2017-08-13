@@ -97,7 +97,7 @@
 			<div class="col-md-9">
 				<div class="input-group col-md-9">
 					<label class="inline custom-control custom-radio">
-						<input type="radio" value="active" name="stat" class="tstat custom-control-input" ng-model="service.status">
+						<input type="radio" value="active" name="stat" class="tstat custom-control-input" ng-model="service.status" checked>
 						<span class="custom-control-indicator"></span>
 						<span class="custom-control-description ml-0">Active</span>
 					</label>
@@ -111,88 +111,7 @@
 		</div>
 	</div>
 
-	<script>
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-
-		var refreshTable = function() {
-			$.ajax({
-				url: "{{ url('/service-type/refresh') }}",
-				type: "GET", 
-				datatype: "json", 
-				success: function(data) {
-					$("#table-container").DataTable().clear().draw();
-					data = $.parseJSON(data);
-							
-					for (var index in data) {
-						var statusText = "";
-						if (data[index].status == 1) {
-							statusText = "Active";
-						}
-						else {
-							statusText = "Inactive";
-						}
-
-						$("#table-container").DataTable()
-							.row.add([
-								data[index].typeID, 
-								data[index].typeName, 
-								data[index].typeDesc, 
-								statusText, 
-								'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
-									'<input type="hidden" name="typeID" value="' + data[index].typeID + '" />' + 
-									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
-									'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
-									'<input type="hidden" name="status" value="' + statusText + '" />' + 
-									'<span class="dropdown">' +
-										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
-										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-											'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].typeID + '"><i class="icon-pen3"></i> Edit</a>' +
-											'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].typeID + '"><i class="icon-trash4"></i> Delete</a>' +
-										'</span>' +
-									'</span>' +
-								'</form>'
-							]).draw(true);
-					}
-				}
-			});
-		};
-
-		$('#frm-add').submit(function(event) {
-			event.preventDefault();
-
-			$.ajax({
-				url: "{{ url('/service-type/store') }}",
-				type: "POST",
-				data: {"_token": $('#csrf-token').val(), 
-						"typeName": $("#name").val(), 
-						"typeDesc": $("#desc").val(), 
-						"status": $(".tstat:checked").val()
-				}, 
-				success: function ( _response ){
-					$("#iconModal").modal('hide');
-					$("#frm-add").trigger("reset");
-					
-					refreshTable();
-					
-					swal("Successful", 
-							"Service type has been added!", 
-							"success");
-				}, 
-				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-	</script>
+	
 @endsection
 
 @section('modal-form-action')
@@ -248,6 +167,118 @@
 @endsection
 
 @section('ajax-modal')
+	
+	
+@endsection
+
+@section('edit-modal-title')
+	Edit Service Type
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing service type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'service-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+	{{ csrf_field() }}
+@endsection
+
+
+@section('edit-modal-body')
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
+		<div class="col-md-9">
+			{!!Form::text('type_ID',null,['id'=>'typeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!! Form::text('typeName',null,['id'=>'typeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+		<div class="col-md-9">
+			{!!Form::textarea('typeDesc',null,['id'=>'typeDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="etstat" value="1" class="etstat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="etstat" value="0" class="etstat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+	</button>
+
+@endsection
+
+@section('page-action')
+
+	<script>
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/service-type/update') }}",
+				type: "POST",
+				data: {"_token": $('#csrf-token').val(), 
+						"typeID": $("#typeID").val(), 
+						"typeName": $("#typeName").val(), 
+						"typeDesc": $("#typeDesc").val(), 
+						"status": $(".etstat:checked").val()
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					$("#frm-update").trigger('reset');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Service type has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+	</script>
+
 	<script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).data("value");
@@ -335,97 +366,74 @@
 		
 	});
 	</script>
-	
-@endsection
 
-@section('edit-modal-title')
-	Edit Service Type
-@endsection
-
-@section('edit-modal-desc')
-	Edit existing service type data
-@endsection
-
-@section('ajax-edit-form')
-	{!!Form::open(['url'=>'service-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
-	{{ csrf_field() }}
-@endsection
-
-
-@section('edit-modal-body')
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
-		<div class="col-md-9">
-			{!!Form::text('type_ID',null,['id'=>'typeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
-		</div>	
-
-	</div>
-
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
-		<div class="col-md-9">
-			{!! Form::text('typeName',null,['id'=>'typeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
-		<div class="col-md-9">
-			{!!Form::textarea('typeDesc',null,['id'=>'typeDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="etstat" value="1" class="etstat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="etstat" value="0" class="etstat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
-			</div>
-		</div>
-	</div>
-
-@endsection
-
-@section('edit-modal-action')
-	
-	{!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
-	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
-	</button>
-	
 	<script>
-		$("#frm-update").submit(function(event) {
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/service-type/refresh') }}",
+				type: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").DataTable().clear().draw();
+					data = $.parseJSON(data);
+							
+					for (var index in data) {
+						var statusText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						$("#table-container").DataTable()
+							.row.add([
+								data[index].typeID, 
+								data[index].typeName, 
+								data[index].typeDesc, 
+								statusText, 
+								'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
+									'<input type="hidden" name="typeID" value="' + data[index].typeID + '" />' + 
+									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
+									'<input type="hidden" name="typeDesc" value="' + data[index].typeDesc + '" />' + 
+									'<input type="hidden" name="status" value="' + statusText + '" />' + 
+									'<span class="dropdown">' +
+										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+											'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].typeID + '"><i class="icon-pen3"></i> Edit</a>' +
+											'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].typeID + '"><i class="icon-trash4"></i> Delete</a>' +
+										'</span>' +
+									'</span>' +
+								'</form>'
+							]).draw(true);
+					}
+				}
+			});
+		};
+
+		$('#frm-add').submit(function(event) {
 			event.preventDefault();
 
 			$.ajax({
-				url: "{{ url('/service-type/update') }}",
+				url: "{{ url('/service-type/store') }}",
 				type: "POST",
 				data: {"_token": $('#csrf-token').val(), 
-						"typeID": $("#typeID").val(), 
-						"typeName": $("#typeName").val(), 
-						"typeDesc": $("#typeDesc").val(), 
-						"status": $(".etstat:checked").val()
+						"typeName": $("#name").val(), 
+						"typeDesc": $("#desc").val(), 
+						"status": $(".tstat:checked").val()
 				}, 
 				success: function ( _response ){
-					$("#modalEdit").modal('hide');
-					$("#frm-update").trigger('reset');
+					$("#iconModal").modal('hide');
+					$("#frm-add").trigger("reset");
 					
 					refreshTable();
 					
 					swal("Successful", 
-							"Service type has been updated!", 
+							"Service type has been added!", 
 							"success");
 				}, 
 				error: function(error) {

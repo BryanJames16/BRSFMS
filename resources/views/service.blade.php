@@ -113,44 +113,7 @@
 <input type="submit" class="btn btn-success" value="Add" name="btnAdd">
 <button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 
-	<script>
-		$("#frm-add").submit(function(event) {
-			event.preventDefault();
-
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				url: "{{ url('/service/store') }}", 
-				method: "POST", 
-				data: {
-					"serviceID": $("#serviceID").val(), 
-					"serviceName": $("#serviceName").val(), 
-					"serviceDesc": $("#serviceDesc").val(), 
-					"typeID": $("#typeID").val(), 
-					"status": $(".tstatus:checked").val()
-				}, 
-				success: function(data) {
-					$("#iconModal").modal("hide");
-					refreshTable();
-					$("#frm-add").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-	</script>
+	
 
 </button>
 
@@ -197,6 +160,94 @@
 @endsection
 
 @section('ajax-modal')
+	
+	
+@endsection
+
+@section('edit-modal-title')
+	Edit Service
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing service type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'/service/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+@endsection
+
+
+@section('edit-modal-body')
+
+	
+	{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
+		<div class="col-md-9">
+			{!!Form::text('service_ID',null,['id'=>'serviceID','class'=>'form-control', 'maxlength'=>'20', 'readonly','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('service_name',null,['id'=>'serviceName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'3'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+		<div class="col-md-9">
+			{!!Form::textarea('service_desc',null,['id'=>'serviceDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
+		<div class="col-md-9">
+			
+			{{ Form::select('typeID', $types, null, ['id'=>'typeID', 'class' => 'form-control border-info selectBox']) }}
+			
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="status" value="1" class="estat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="status" value="0" class="estat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+	
+	
+@endsection
+
+@section('page-action')
+
 	<script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).val();
@@ -290,88 +341,46 @@
 			
 		});
 	</script>
-	
-@endsection
 
-@section('edit-modal-title')
-	Edit Service
-@endsection
+	<script>
+		$("#frm-add").submit(function(event) {
+			event.preventDefault();
 
-@section('edit-modal-desc')
-	Edit existing service type data
-@endsection
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
 
-@section('ajax-edit-form')
-	{!!Form::open(['url'=>'/service/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
-@endsection
+			$.ajax({
+				url: "{{ url('/service/store') }}", 
+				method: "POST", 
+				data: {
+					"serviceID": $("#serviceID").val(), 
+					"serviceName": $("#serviceName").val(), 
+					"serviceDesc": $("#serviceDesc").val(), 
+					"typeID": $("#typeID").val(), 
+					"status": $(".tstatus:checked").val()
+				}, 
+				success: function(data) {
+					$("#iconModal").modal("hide");
+					refreshTable();
+					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
 
+					swal("Error", message, "error");
+				}
+			});
+		});
+	</script>
 
-@section('edit-modal-body')
-
-	
-	{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
-		<div class="col-md-9">
-			{!!Form::text('service_ID',null,['id'=>'serviceID','class'=>'form-control', 'maxlength'=>'20', 'readonly','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
-		</div>	
-
-	</div>
-
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
-		<div class="col-md-9">
-			{!!Form::text('service_name',null,['id'=>'serviceName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'3'])!!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
-		<div class="col-md-9">
-			{!!Form::textarea('service_desc',null,['id'=>'serviceDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
-		<div class="col-md-9">
-			
-			{{ Form::select('typeID', $types, null, ['id'=>'typeID', 'class' => 'form-control border-info selectBox']) }}
-			
-		</div>	
-
-	</div>
-
-
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="status" value="1" class="estat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="status" value="0" class="estat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
-			</div>
-		</div>
-	</div>
-
-@endsection
-
-@section('edit-modal-action')
-	
-	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
-	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-	
 	<script>
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
@@ -410,9 +419,7 @@
 			});
 		});
 	</script>
-@endsection
 
-@section('page-action')
 	<script>
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');

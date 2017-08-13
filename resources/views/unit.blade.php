@@ -153,41 +153,7 @@
 					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $unit -> unitID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 					</div>
 
-					<script type="text/javascript">
-	
-					$(document).on('click', '.delete', function(e) {
-
-						var id = this.value;
-						$.ajax({
-								type: 'get',
-								url: "{{ url('unit/getEdit') }}",
-								data: {unitID:id},
-								success:function(data)
-								{
-									
-									swal({
-										  title: "Are you sure you want to delete " + data.unitCode + "?",
-										  text: "",
-										  type: "warning",
-										  showCancelButton: true,
-										  confirmButtonColor: "#DD6B55",
-										  confirmButtonText: "DELETE",
-										  closeOnConfirm: false
-										},
-										function(){
-
-										  swal("Successfull", data.unitCode + " is deleted!", "success");
-										  document.getElementById(data.unitID).submit();
-										  
-										});				
-								}
-							})
-
 					
-						
-					});
-
-					</script>
 
 				{!!Form::close()!!}
 			</td>
@@ -195,50 +161,6 @@
 	@endforeach
 @endsection
 
-@section('ajax-modal')
-	<script>
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
-
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/unit/getEdit') }}",
-				data: {unitID:id},
-				success:function(data)
-				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#unit_code').val(data.unitCode);
-					frm.find('#edit-buildingID').val(data.buildingID);
-					frm.find('#unitID').val(data.unitID);
-
-					
-					if(data.status==1)
-					{
-						$("#active").attr('checked', 'checked');
-					}
-					else
-					{
-						$("#inactive").attr('checked', 'checked');
-					}
-					$('#modalEdit').modal('show');
-					
-				}
-			})
-
-		});
-
-	</script>
-
-	
-	
-@endsection
 
 @section('edit-modal-title')
 	Edit Unit
@@ -305,4 +227,84 @@
 	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 	</button>
 	
+@endsection
+
+@section('page-action')
+
+	<script>
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/unit/getEdit') }}",
+				data: {unitID:id},
+				success:function(data)
+				{
+					console.log(data);
+					var frm = $('#frm-update');
+					frm.find('#unit_code').val(data.unitCode);
+					frm.find('#edit-buildingID').val(data.buildingID);
+					frm.find('#unitID').val(data.unitID);
+
+					
+					if(data.status==1)
+					{
+						$("#active").attr('checked', 'checked');
+					}
+					else
+					{
+						$("#inactive").attr('checked', 'checked');
+					}
+					$('#modalEdit').modal('show');
+					
+				}
+			})
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+	
+					$(document).on('click', '.delete', function(e) {
+
+						var id = this.value;
+						$.ajax({
+								type: 'get',
+								url: "{{ url('unit/getEdit') }}",
+								data: {unitID:id},
+								success:function(data)
+								{
+									
+									swal({
+										  title: "Are you sure you want to delete " + data.unitCode + "?",
+										  text: "",
+										  type: "warning",
+										  showCancelButton: true,
+										  confirmButtonColor: "#DD6B55",
+										  confirmButtonText: "DELETE",
+										  closeOnConfirm: false
+										},
+										function(){
+
+										  swal("Successfull", data.unitCode + " is deleted!", "success");
+										  document.getElementById(data.unitID).submit();
+										  
+										});				
+								}
+							})
+
+					
+						
+					});
+
+					</script>
+
 @endsection

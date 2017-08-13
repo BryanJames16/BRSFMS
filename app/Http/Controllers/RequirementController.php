@@ -21,8 +21,7 @@ class RequirementController extends Controller
         $stat = 0;
         
         $this->validate($r, [
-            'serviceID' => 'required|unique:services|max:20',
-            'serviceName' => 'required|max:30',
+            'requirementName' => 'required|max:30',
         ]);
 
         if($r->input('status') == "active")
@@ -38,10 +37,8 @@ class RequirementController extends Controller
 
         }
 
-        $aah = Service::insert(['serviceID'=>trim($r->serviceID),
-                                            'serviceName'=>trim($r->serviceName),
-                                            'serviceDesc'=>trim($r->serviceDesc),
-                                            'typeID'=>$r->typeID,
+        $aah = Requirement::insert(['requirementName'=>trim($r->requirementName),
+                                            'requirementDesc'=>trim($r->requirementDesc),
                                                'archive'=>0,
                                                'status'=>$stat]);
         return back();
@@ -49,12 +46,11 @@ class RequirementController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            $services = \DB::table('services') ->select('primeID','serviceID', 'serviceName', 'serviceDesc', 'typeName', 'services.status', 'services.typeID') 
-                                        ->join('SERVICETYPES', 'SERVICES.typeID', '=', 'SERVICETYPES.typeID')
-                                        ->where('services.archive', '=', 0) 
+            $requirements = \DB::table('requirements') ->select('requirementID', 'requirementName', 'requirementDesc', 'status')
+                                        ->where('archive', '=', 0) 
                                         ->get();
 
-            return json_encode($services);
+            return json_encode($requirements);
         }
     }
 
@@ -62,7 +58,7 @@ class RequirementController extends Controller
         
         if($r->ajax())
         {
-            return response(Service::find($r->input('primeID')));
+            return response(Requirement::find($r->input('requirementID')));
         }
 
     }
@@ -70,21 +66,20 @@ class RequirementController extends Controller
     public function edit(Request $r)
     {
 
-        $service = Service::find($r->input('primeID'));
-        $service->serviceName = $r->input('serviceName');
-        $service->serviceDesc = $r->input('serviceDesc');
-        $service->typeID = $r->input('typeID');
-        $service->status = $r->input('status');
-        $service->save();
+        $requirement = Requirement::find($r->input('requirementID'));
+        $requirement->requirementName = $r->input('requirementName');
+        $requirement->requirementDesc = $r->input('requirementDesc');
+        $requirement->status = $r->input('status');
+        $requirement->save();
         return back();
     }
 
     public function delete(Request $r)
     {
 
-        $service = Service::find($r->input('primeID'));
-        $service->archive = true;
-        $service->save();
+        $requirement = Requirement::find($r->input('requirementID'));
+        $requirement->archive = true;
+        $requirement->save();
         return back();
     }
 

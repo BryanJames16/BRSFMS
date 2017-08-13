@@ -47,11 +47,7 @@
 				</ul>
 			</div>
 
-			<script type="text/javascript">
-				$(document).ready(function () {
-					$('#iconModal').modal('show');
-				});
-			</script>
+			
 		@endif
 
 	<div class="form-group row">
@@ -137,78 +133,7 @@
 @endsection
 
 @section('ajax-modal')
-	<script>
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
-
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/business-category/getEdit') }}",
-				data: {categoryPrimeID:id},
-				success:function(data)
-				{
-					var frm = $('#frm-update');
-					frm.find('#categoryName').val(data.categoryName);
-					frm.find('#category_desc').val(data.categoryDesc);
-					frm.find('#category_ID').val(data.categoryPrimeID);
-
-					if(data.status==1)
-					{
-						$("#active").attr('checked', 'checked');
-					}
-					else
-					{
-						$("#inactive").attr('checked', 'checked');
-					}
-
-					
-					$('#modalEdit').modal('show');
-				}
-			})
-
-		});
-
-	</script>
-
-	<script type="text/javascript">
-
-	$(document).on('click', '.delete', function(e) {
-
-		var id = $(this).val();
-
-		$.ajax({
-				type: 'get',
-				url: "{{ url('business-category/getEdit') }}",
-				data: {categoryPrimeID:id},
-				success:function(data)
-				{
-					swal({
-						  title: "Are you sure you want to delete " + data.categoryName + "?",
-						  text: "",
-						  type: "warning",
-						  showCancelButton: true,
-						  confirmButtonColor: "#DD6B55",
-						  confirmButtonText: "DELETE",
-						  closeOnConfirm: false
-						},
-						function(){
-
-						  swal("Successfull", data.categoryName + " is deleted!", "success");
-						  document.getElementById(data.categoryPrimeID).submit();
-						});				
-				}
-			})
-
 	
-		
-	});
-	</script>
 	
 @endsection
 
@@ -281,4 +206,87 @@
 	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 	</button>
 	
+@endsection
+
+@section('page-action')
+
+	<script>
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/business-category/getEdit') }}",
+				data: {categoryPrimeID:id},
+				success:function(data)
+				{
+					var frm = $('#frm-update');
+					frm.find('#categoryName').val(data.categoryName);
+					frm.find('#category_desc').val(data.categoryDesc);
+					frm.find('#category_ID').val(data.categoryPrimeID);
+
+					if(data.status==1)
+					{
+						$("#active").attr('checked', 'checked');
+					}
+					else
+					{
+						$("#inactive").attr('checked', 'checked');
+					}
+
+					
+					$('#modalEdit').modal('show');
+				}
+			})
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+
+	$(document).on('click', '.delete', function(e) {
+
+		var id = $(this).val();
+
+		$.ajax({
+				type: 'get',
+				url: "{{ url('business-category/getEdit') }}",
+				data: {categoryPrimeID:id},
+				success:function(data)
+				{
+					swal({
+						  title: "Are you sure you want to delete " + data.categoryName + "?",
+						  text: "",
+						  type: "warning",
+						  showCancelButton: true,
+						  confirmButtonColor: "#DD6B55",
+						  confirmButtonText: "DELETE",
+						  closeOnConfirm: false
+						},
+						function(){
+
+						  swal("Successfull", data.categoryName + " is deleted!", "success");
+						  document.getElementById(data.categoryPrimeID).submit();
+						});				
+				}
+			})
+
+	
+		
+	});
+	</script>
+
+	<script type="text/javascript">
+				$(document).ready(function () {
+					$('#iconModal').modal('show');
+				});
+			</script>
+
 @endsection

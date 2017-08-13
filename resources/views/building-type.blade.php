@@ -97,87 +97,7 @@
 		</div>
 	</div>
 
-	<script>
-		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
-		});
-
-		var refreshTable = function() {
-			$.ajax({
-				url: "{{ url('/building-type/refresh') }}",
-				type: "GET", 
-				datatype: "json", 
-				success: function(data) {
-					$("#table-container").find("tr:gt(0)").remove();
-					data = $.parseJSON(data);
-							
-					for (var index in data) {
-						var statusText = "";
-						if (data[index].status == 1) {
-							statusText = "Active";
-						}
-						else {
-							statusText = "Inactive";
-						}
-
-						$("#table-container").append('<tr>' + 
-									'<td>' + data[index].buildingTypeID + '</td>' + 
-									'<td>' + data[index].buildingTypeName + '</td>' + 
-									'<td>' + statusText + '</td>' + 
-									'<td>' + 
-										'<form method="POST" id="' + data[index].buildingTypeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
-											'<input type="hidden" name="typeID" value="' + data[index].buildingTypeID + '" />' + 
-											'<input type="hidden" name="typeName" value="' + data[index].buildingTypeName + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
-											'<span class="dropdown">' +
-												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
-												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].buildingTypeID + '"><i class="icon-pen3"></i> Edit</a>' +
-													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].buildingTypeID + '"><i class="icon-trash4"></i> Delete</a>' +
-												'</span>' +
-											'</span>' +
-											'</form>' + 
-									'</td>' + 
-								'</tr>'
-						);
-					}
-				}
-			});
-		};
-
-		$('#frm-add').submit(function(event) {
-			event.preventDefault();
-
-			$.ajax({
-				url: "{{ url('/building-type/store') }}",
-				type: "POST",
-				data: {"_token": $('#csrf-token').val(), 
-						"buildingTypeName": $("#buildingTypeName").val(), 
-						"status": $(".tstat:checked").val()
-				}, 
-				success: function ( _response ){
-					$("#iconModal").modal('hide');
-					$("#frm-add").trigger("reset");
-					
-					refreshTable();
-					
-					swal("Successful", 
-							"Building type has been added!", 
-							"success");
-				}, 
-				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-	</script>
+	
 @endsection
 
 @section('modal-form-action')
@@ -229,7 +149,107 @@
 	@endforeach
 @endsection
 
-@section('ajax-modal')
+@section('edit-modal-title')
+	Edit Building Type
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing building type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'building-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+	{{ csrf_field() }}
+@endsection
+
+
+@section('edit-modal-body')
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
+		<div class="col-md-9">
+			{!!Form::text('buildingTypeID',null,['id'=>'buildingTypeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+		</div>	
+
+	</div>
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!! Form::text('building_TypeName',null,['id'=>'building_TypeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="etstat" value="1" class="etstat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="etstat" value="0" class="etstat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
+	</button>
+
+@endsection
+
+@section('page-action')
+
+	<script>
+		$("#frm-update").submit(function(event) {
+			event.preventDefault();
+
+            console.log($("#building_TypeName").val());
+
+			$.ajax({
+				url: "{{ url('/building-type/update') }}",
+				type: "POST",
+				data: {"_token": $('#csrf-token').val(), 
+						"buildingTypeID": $("#buildingTypeID").val(), 
+						"buildingTypeName": $("#building_TypeName").val(), 
+						"status": $(".etstat:checked").val()
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					$("#frm-update").trigger('reset');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Building type has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+	</script>
+
 	<script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).data("value");
@@ -316,90 +336,74 @@
 		
 	});
 	</script>
-	
-@endsection
-
-@section('edit-modal-title')
-	Edit Building Type
-@endsection
-
-@section('edit-modal-desc')
-	Edit existing building type data
-@endsection
-
-@section('ajax-edit-form')
-	{!!Form::open(['url'=>'building-type/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
-	{{ csrf_field() }}
-@endsection
 
 
-@section('edit-modal-body')
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
-		<div class="col-md-9">
-			{!!Form::text('buildingTypeID',null,['id'=>'buildingTypeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
-		</div>	
-
-	</div>
-
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
-		<div class="col-md-9">
-			{!! Form::text('building_TypeName',null,['id'=>'building_TypeName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="etstat" value="1" class="etstat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="etstat" value="0" class="etstat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
-			</div>
-		</div>
-	</div>
-
-@endsection
-
-@section('edit-modal-action')
-	
-	{!! Form::submit('Edit',['class'=>'btn btn-success']) !!}
-	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
-	</button>
-	
 	<script>
-		$("#frm-update").submit(function(event) {
+		$("#btnAddModal").on('click', function() {
+			$("#iconModal").modal('show');
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/building-type/refresh') }}",
+				type: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").find("tr:gt(0)").remove();
+					data = $.parseJSON(data);
+							
+					for (var index in data) {
+						var statusText = "";
+						if (data[index].status == 1) {
+							statusText = "Active";
+						}
+						else {
+							statusText = "Inactive";
+						}
+
+						$("#table-container").append('<tr>' + 
+									'<td>' + data[index].buildingTypeID + '</td>' + 
+									'<td>' + data[index].buildingTypeName + '</td>' + 
+									'<td>' + statusText + '</td>' + 
+									'<td>' + 
+										'<form method="POST" id="' + data[index].buildingTypeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
+											'<input type="hidden" name="typeID" value="' + data[index].buildingTypeID + '" />' + 
+											'<input type="hidden" name="typeName" value="' + data[index].buildingTypeName + '" />' + 
+											'<input type="hidden" name="status" value="' + statusText + '" />' + 
+											'<span class="dropdown">' +
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].buildingTypeID + '"><i class="icon-pen3"></i> Edit</a>' +
+													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].buildingTypeID + '"><i class="icon-trash4"></i> Delete</a>' +
+												'</span>' +
+											'</span>' +
+											'</form>' + 
+									'</td>' + 
+								'</tr>'
+						);
+					}
+				}
+			});
+		};
+
+		$('#frm-add').submit(function(event) {
 			event.preventDefault();
 
-            console.log($("#building_TypeName").val());
-
 			$.ajax({
-				url: "{{ url('/building-type/update') }}",
+				url: "{{ url('/building-type/store') }}",
 				type: "POST",
 				data: {"_token": $('#csrf-token').val(), 
-						"buildingTypeID": $("#buildingTypeID").val(), 
-						"buildingTypeName": $("#building_TypeName").val(), 
-						"status": $(".etstat:checked").val()
+						"buildingTypeName": $("#buildingTypeName").val(), 
+						"status": $(".tstat:checked").val()
 				}, 
 				success: function ( _response ){
-					$("#modalEdit").modal('hide');
-					$("#frm-update").trigger('reset');
+					$("#iconModal").modal('hide');
+					$("#frm-add").trigger("reset");
 					
 					refreshTable();
 					
 					swal("Successful", 
-							"Building type has been updated!", 
+							"Building type has been added!", 
 							"success");
 				}, 
 				error: function(error) {

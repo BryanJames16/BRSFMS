@@ -66,7 +66,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{!!Form::textarea('desc',null,['id'=>'requirementDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+			{!!Form::textarea('requirementDesc',null,['id'=>'requirementDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
 		</div>	
 
 	</div>
@@ -95,44 +95,7 @@
 <input type="submit" class="btn btn-success" value="Add" name="btnAdd">
 <button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 
-	<script>
-		$("#frm-add").submit(function(event) {
-			event.preventDefault();
 
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				url: "{{ url('/service/store') }}", 
-				method: "POST", 
-				data: {
-					"serviceID": $("#serviceID").val(), 
-					"serviceName": $("#serviceName").val(), 
-					"serviceDesc": $("#serviceDesc").val(), 
-					"typeID": $("#typeID").val(), 
-					"status": $(".tstatus:checked").val()
-				}, 
-				success: function(data) {
-					$("#iconModal").modal("hide");
-					refreshTable();
-					$("#frm-add").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-	</script>
 
 </button>
 
@@ -176,23 +139,130 @@
 @endsection
 
 @section('ajax-modal')
-	<script>
+	
+	
+@endsection
+
+@section('edit-modal-title')
+	Edit Service
+@endsection
+
+@section('edit-modal-desc')
+	Edit existing service type data
+@endsection
+
+@section('ajax-edit-form')
+	{!!Form::open(['url'=>'/requirement/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
+@endsection
+
+
+@section('edit-modal-body')
+
+	
+	{!!Form::hidden('requirementID',null,['id'=>'requirementID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+
+
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
+		<div class="col-md-9">
+			{!!Form::text('service_name',null,['id'=>'requirementName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'3'])!!}
+		</div>	
+
+	</div>
+
+	<div class="form-group row">
+		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
+		<div class="col-md-9">
+			{!!Form::textarea('service_desc',null,['id'=>'requirementDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+		</div>	
+
+	</div>
+
+
+
+	<div class="form-group row last">
+		<label class="col-md-3 label-control">*Status</label>
+		<div class="col-md-9">
+			<div class="input-group col-md-9">
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='active' name="status" value="1" class="estat custom-control-input" checked>
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Active</span>
+				</label>
+				<label class="inline custom-control custom-radio">
+					<input type="radio" id='inactive' name="status" value="0" class="estat custom-control-input" >
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description ml-0">Inactive</span>
+				</label>
+			</div>
+		</div>
+	</div>
+
+@endsection
+
+@section('edit-modal-action')
+	
+	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
+	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+	
+	
+@endsection
+
+@section('page-action')
+
+    	<script>
+		$("#frm-add").submit(function(event) {
+			event.preventDefault();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				url: "{{ url('/requirement/store') }}", 
+				method: "POST", 
+				data: { 
+					"requirementName": $("#requirementName").val(), 
+					"requirementDesc": $("#requirementDesc").val(), 
+					"status": $(".tstatus:checked").val()
+				}, 
+				success: function(data) {
+					$("#iconModal").modal("hide");
+					refreshTable();
+					$("#frm-add").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		});
+	</script>
+
+    <script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).val();
 
 			$.ajax({
 				type: 'GET',
-				url: "{{ url('/service/getEdit') }}", 
-				data: {"primeID":id}, 
+				url: "{{ url('/requirement/getEdit') }}", 
+				data: {"requirementID":id}, 
 				success:function(data)
 				{
-					
+					console.log(data);
 					var frm = $('#frm-update');
-					frm.find('#serviceName').val(data.serviceName);
-					frm.find('#serviceDesc').val(data.serviceDesc);
-					frm.find('#serviceID').val(data.serviceID);
-					frm.find('#typeID').val(data.typeID);
-					frm.find('#primeID').val(data.primeID);
+					frm.find('#requirementName').val(data.requirementName);
+					frm.find('#requirementDesc').val(data.requirementDesc);
+					frm.find('#requirementID').val(data.requirementID);
 					
 					if(data.status == 1)
 					{
@@ -229,12 +299,12 @@
 
 			$.ajax({
 					type: 'get',
-					url: "{{ url('/service/getEdit') }}",
-					data: {primeID:id},
+					url: "{{ url('/requirement/getEdit') }}",
+					data: {requirementID:id},
 					success:function(data)
 					{
 						swal({
-							title: "Are you sure you want to delete " + data.serviceName + "?",
+							title: "Are you sure you want to delete " + data.requirementName + "?",
 							text: "",
 							type: "warning",
 							showCancelButton: true,
@@ -245,8 +315,8 @@
 							function() {
 								$.ajax({
 									type: "post",
-									url: "{{ url('/service/delete') }}", 
-									data: {primeID:id}, 
+									url: "{{ url('/requirement/delete') }}", 
+									data: {requirementID:id}, 
 									success: function(data) {
 										refreshTable();
 										swal("Successfull", "Entry is deleted!", "success");
@@ -269,93 +339,19 @@
 			
 		});
 	</script>
-	
-@endsection
 
-@section('edit-modal-title')
-	Edit Service
-@endsection
-
-@section('edit-modal-desc')
-	Edit existing service type data
-@endsection
-
-@section('ajax-edit-form')
-	{!!Form::open(['url'=>'/service/update', 'method' => 'POST', 'id'=>'frm-update'])!!}
-@endsection
-
-
-@section('edit-modal-body')
-
-	
-	{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
-		<div class="col-md-9">
-			{!!Form::text('service_ID',null,['id'=>'serviceID','class'=>'form-control', 'maxlength'=>'20', 'readonly','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5'])!!}
-		</div>	
-
-	</div>
-
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
-		<div class="col-md-9">
-			{!!Form::text('service_name',null,['id'=>'serviceName','class'=>'form-control', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'pattern'=>'^[a-zA-Z0-9-_ \']+$', 'minlength'=>'3'])!!}
-		</div>	
-
-	</div>
-
-	<div class="form-group row">
-		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
-		<div class="col-md-9">
-			{!!Form::textarea('service_desc',null,['id'=>'serviceDesc','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-		</div>	
-
-	</div>
-
-
-
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='active' name="status" value="1" class="estat custom-control-input" checked>
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" id='inactive' name="status" value="0" class="estat custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
-			</div>
-		</div>
-	</div>
-
-@endsection
-
-@section('edit-modal-action')
-	
-	{!!Form::submit('Edit',['class'=>'btn btn-success'])!!}
-	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-	
-	<script>
+    <script>
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
 
 			var frm = $('#frm-update');
 
 			$.ajax({
-				url: "{{ url('/service/update') }}",
+				url: "{{ url('/requirement/update') }}",
 				type: "POST",
-				data: {"primeID": frm.find("#primeID").val(), 
-						"serviceID": frm.find("#serviceID").val(), 
-						"serviceName": frm.find("#serviceName").val(), 
-						"serviceDesc": frm.find("#serviceDesc").val(), 
-						"typeID": frm.find("#typeID").val(), 
+				data: {"requirementID": frm.find("#requirementID").val(), 
+						"requirementName": frm.find("#requirementName").val(), 
+						"requirementDesc": frm.find("#requirementDesc").val(),
 						"status": frm.find(".estat:checked").val() 
 				}, 
 				success: function ( _response ){
@@ -380,9 +376,7 @@
 			});
 		});
 	</script>
-@endsection
 
-@section('page-action')
 	<script>
 		$("#btnAddModal").on('click', function() {
 			$("#iconModal").modal('show');
@@ -396,7 +390,7 @@
 
 		var refreshTable = function() {
 			$.ajax({
-				url: "{{ url('/service/refresh') }}", 
+				url: "{{ url('/requirement/refresh') }}", 
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
@@ -414,19 +408,17 @@
 
 						$("#table-container").DataTable()
 							.row.add([
-								data[index].serviceID,
-								data[index].serviceName,
-								data[index].serviceDesc, 
-								data[index].typeName, 
+								data[index].requirementID,
+								data[index].requirementName,
+								data[index].requirementDesc,
 								statusText, 
-								'<form method="POST" id="' + data[index].primeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-									'<input type="hidden" name="primeID" value="' + data[index].primeID + '" />' + 
-									'<input type="hidden" name="serviceName" value="' + data[index].serviceName + '" />' + 
-									'<input type="hidden" name="serviceDesc" value="' + data[index].serviceDesc + '" />' + 
-									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
+								'<form method="POST" id="' + data[index].requirementID + '" action="/requirement/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].requirementID + '" />' + 
+									'<input type="hidden" name="serviceName" value="' + data[index].requirementName + '" />' + 
+									'<input type="hidden" name="serviceDesc" value="' + data[index].requirementDesc + '" />' + 
 									'<input type="hidden" name="status" value="' + statusText + '" />' + 
-									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
-									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].requirementID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].requirementID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 								'</form>'
 							]).draw(true);
 					}

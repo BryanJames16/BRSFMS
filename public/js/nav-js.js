@@ -32,6 +32,7 @@ var SERVICES = "services-id";
 var STREET = "street-id";
 var UNIT = "unit-id";
 var QUERY = "query-id";
+var REQUIREMENTS = "requirement-id";
 var UTILITIES = "utilities-id";
 var SERVICE_REGISTRATION = "service-registration-id";
 

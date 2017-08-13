@@ -105,6 +105,13 @@ Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');
 
+//Requiement
+Route::post('/requirement/store', 'RequirementController@store');
+Route::get('/requirement/refresh','RequirementController@refresh');
+Route::post('/requirement/delete','RequirementController@delete');
+Route::get('/requirement/getEdit', 'RequirementController@getEdit');
+Route::post('/requirement/update', 'RequirementController@edit');
+
 //Document Request
 Route::get('/document-request/getEdit', 'DocumentRequestController@getEdit');
 Route::get('/document-request/refresh', 'DocumentRequestController@refresh');

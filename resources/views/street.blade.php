@@ -138,7 +138,17 @@
 					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $street -> streetID }}'><i class="icon-android-create"></i></button>
 					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $street -> streetID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 					</div>
-					<script type="text/javascript">
+					
+
+				{!!Form::close()!!}
+			</td>
+		</tr>
+	@endforeach
+@endsection
+
+@section('page-action')
+
+	<script type="text/javascript">
 	
 					$(document).on('click', '.delete', function(e) {
 
@@ -175,13 +185,6 @@
 
 					</script>
 
-				{!!Form::close()!!}
-			</td>
-		</tr>
-	@endforeach
-@endsection
-
-@section('ajax-modal')
 	<script>
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).val();

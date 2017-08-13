@@ -153,41 +153,7 @@
 					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $lot -> lotID }}'><i class="icon-android-create"></i></button>
 					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $lot -> lotID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 					</div>
-					<script type="text/javascript">
-	
-					$(document).on('click', '.delete', function(e) {
-
-						var id = this.value;
-						$.ajax({
-								type: 'get',
-								url: "{{ url('lot/getEdit') }}",
-								data: {lotID:id},
-								success:function(data)
-								{
-									
-									swal({
-										  title: "Are you sure you want to delete " + data.lotCode + "?",
-										  text: "",
-										  type: "warning",
-										  showCancelButton: true,
-										  confirmButtonColor: "#DD6B55",
-										  confirmButtonText: "DELETE",
-										  closeOnConfirm: false
-										},
-										function(){
-
-										  swal("Successfull", data.lotCode + " is deleted!", "success");
-										  document.getElementById(data.lotID).submit();
-										  
-										});				
-								}
-							})
-
 					
-						
-					});
-
-					</script>
 
 				{!!Form::close()!!}
 			</td>
@@ -195,50 +161,7 @@
 	@endforeach
 @endsection
 
-@section('ajax-modal')
-	<script>
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
 
-			$.ajaxSetup({
-		        headers: {
-		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		        }
-			});
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/lot/getEdit') }}",
-				data: {lotID:id},
-				success:function(data)
-				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#lot_code').val(data.lotCode);
-					frm.find('#edit-streetID').val(data.streetID);
-					frm.find('#lotID').val(data.lotID);
-
-					
-					if(data.status==1)
-					{
-						$("#active").attr('checked', 'checked');
-					}
-					else
-					{
-						$("#inactive").attr('checked', 'checked');
-					}
-					$('#modalEdit').modal('show');
-					
-				}
-			})
-
-		});
-
-	</script>
-
-	
-	
-@endsection
 
 @section('edit-modal-title')
 	Edit Lot
@@ -305,4 +228,83 @@
 	<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel
 	</button>
 	
+@endsection
+
+@section('page-action')
+
+	<script>
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajaxSetup({
+		        headers: {
+		            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		        }
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/lot/getEdit') }}",
+				data: {lotID:id},
+				success:function(data)
+				{
+					console.log(data);
+					var frm = $('#frm-update');
+					frm.find('#lot_code').val(data.lotCode);
+					frm.find('#edit-streetID').val(data.streetID);
+					frm.find('#lotID').val(data.lotID);
+
+					
+					if(data.status==1)
+					{
+						$("#active").attr('checked', 'checked');
+					}
+					else
+					{
+						$("#inactive").attr('checked', 'checked');
+					}
+					$('#modalEdit').modal('show');
+					
+				}
+			})
+
+		});
+
+	</script>
+
+	<script type="text/javascript">
+	
+					$(document).on('click', '.delete', function(e) {
+
+						var id = this.value;
+						$.ajax({
+								type: 'get',
+								url: "{{ url('lot/getEdit') }}",
+								data: {lotID:id},
+								success:function(data)
+								{
+									
+									swal({
+										  title: "Are you sure you want to delete " + data.lotCode + "?",
+										  text: "",
+										  type: "warning",
+										  showCancelButton: true,
+										  confirmButtonColor: "#DD6B55",
+										  confirmButtonText: "DELETE",
+										  closeOnConfirm: false
+										},
+										function(){
+
+										  swal("Successfull", data.lotCode + " is deleted!", "success");
+										  document.getElementById(data.lotID).submit();
+										  
+										});				
+								}
+							})
+
+					
+						
+					});
+
+					</script>
 @endsection
