@@ -273,8 +273,10 @@
 		</div>
 	</div>
 
+	<!--Modal for document that does not have any requirements-->
+
 	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="requirementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
@@ -292,17 +294,17 @@
 								<div class="form-body">
 									<div class="from-group">
 										@foreach($requirements as $r)
-											<div class="row skin skin-square">
+											<div>
 												<div class="col-md-6" style="text-align:right">
 													<label for="input-11">{{ $r->requirementName }}</label>
 													<input type="checkbox" name="requirements" class="requirements"  value="{{ $r->requirementID }}" />
 												</div>
 												<div class="col-md-6" style="text-align:left">
-													<div class="col-md-2">
+													<div class="col-md-3">
 														<label>Quantity: </label>
 													</div>
-													<div class="col-md-4">
-														<input type="number" id="quantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:35%">
+													<div class="col-md-3">
+														<input type="number" id="quantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:100%">
 													</div>
 												</div>
 											</div>	
@@ -310,10 +312,64 @@
 									</div>
 								</div>
 						</div>
-						<hr>
-						<br>
 						<div class="form-actions center">
 							<button type="submit" class="btn btn-success mr-1 addReq">Add</button>
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+						</div>												
+					</div>
+					{{ Form::close() }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal for update requirements -->
+
+	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="updateReqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Requirements</h4>
+				</div>
+				<div ng-app="maintenanceApp" class="modal-body">
+
+					{{Form::open(['url'=>'/document/requirementsUpdate', 'method' => 'POST', 'id'=>'frm-updateReq'])}}
+					
+					<input type="hidden" id="edocumentIDreq">
+					
+					<div class="card-block">
+						<p style="text-align:center"><b>CHECK ALL DOCUMENT REQUIREMENTS</b></p>
+						<hr>
+						<div class="row">
+								<div class="form-body">
+									<div class="from-group">
+										<div id="chk">
+										@foreach($requirements as $r)
+											<div>
+												<div class="col-md-6" style="text-align:right">
+													<label for="input-11">{{ $r->requirementName }}</label>
+													<input type="checkbox" name="erequirements" id="erequirements_{{ $r->requirementID }}" class="erequirements"  value="{{ $r->requirementID }}" />
+												</div>
+												<div class="col-md-6" style="text-align:left">
+													<div class="col-md-3">
+														<label>Quantity: </label>
+													</div>
+													<div class="col-md-3">
+														<input type="number" id="equantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:100%">
+													</div>
+												</div>
+											</div>	
+										@endforeach
+										</div>
+									</div>
+								</div>
+						</div>
+						
+						<div class="form-actions center">
+							<button type="submit" class="btn btn-success mr-1 updateReq">Update</button>
 							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 						</div>												
 					</div>
@@ -484,6 +540,63 @@
 			});
 		});
 
+		$("#frm-updateReq").submit(function(event) {
+			event.preventDefault();
+
+			var arrayCheck = [];
+
+			$('.erequirements:checked').each(function(){
+				arrayCheck.push($(this).val());
+			})
+
+			var l = arrayCheck.length;
+			var quantity;
+
+				console.log($("#edocumentIDreq").val());
+				$.ajax({
+					url: "{{ url('/document/requirementsUpdate') }}", 
+					method: "POST", 
+					data: {
+						"documentPrimeID": $("#edocumentIDreq").val()
+					}
+				});
+			
+
+			for(var x=0;x<l;x++)
+			{
+				quantity = $('#equantity'+arrayCheck[x]).val();
+				console.log($("#edocumentIDreq").val());
+				$.ajax({
+					url: "{{ url('/document/requirementsStore') }}", 
+					method: "POST", 
+					data: {
+						"documentPrimeID": $("#edocumentIDreq").val(), 
+						"requirementID": arrayCheck[x], 
+						"quantity": quantity
+					}, 
+					success: function(data) {
+						
+					}, 
+					failure: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+					
+			}
+			$('#updateReqModal').modal('hide');
+			$('#frm-updateReq').trigger('reset');
+			swal("Successful", 
+							"Successfully Updated requirements!", 
+							"success");
+			refreshTable();
+		});
+
 		$(document).on('click', '.edit', function(e) {
 			var id = $(this).data('value');
 
@@ -529,10 +642,43 @@
 		});
 
 		$(document).on('click', '.requirement', function(e) {
+			
+			
 			var id = $(this).data('value');
 			console.log(id);
-			$('#documentIDreq').val(id)
-			$('#requirementModal').modal('show');
+			
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/document/checkRequirements') }}",
+					data: {"documentPrimeID": id},
+					success:function(data) {
+						if(data=='[]')
+						{
+							$('#frm-addReq').trigger('reset');
+							$('#documentIDreq').val(id)
+
+							$('#requirementModal').modal('show');
+						}
+						else
+						{
+							$('#frm-updateReq').trigger('reset');
+							data = $.parseJSON(data);
+							var frm = $('#frm-updateReq');
+							for (index in data) 
+							{
+								console.log(data[index].requirementID);
+								frm.find('#equantity'+data[index].requirementID).val(data[index].quantity);
+								$("#frm-updateReq input[id^='erequirements_'][value='"+data[index].requirementID+"']").prop("checked",true);
+									
+							}
+							$('#edocumentIDreq').val(id)
+							$('#updateReqModal').modal('show');
+						}			
+					}
+			})
+			
+			
+			
 		});
 
 		$("#frm-addReq").submit(function(event){

@@ -35,6 +35,17 @@ class DocumentController extends Controller
         }
     }
 
+    public function checkRequirements(Request $r) {
+        
+        if ($r -> ajax()) 
+        {
+            return json_encode(\DB::table('document_requirements') ->select('primeID','documentPrimeID', 'requirementID', 'quantity') 
+                                        ->where('documentPrimeID', '=', $r->input('documentPrimeID')) 
+                                        ->get());
+        }
+
+    }
+
     public function store(Request $r) {
 
         $this->validate($r, [
@@ -115,6 +126,14 @@ class DocumentController extends Controller
         $document->documentPrice = $r->input('documentPrice');
         $document->status = $r->input('status');
         $document->save();
+        return redirect('document');
+    }
+
+    public function requirementsDelete(Request $r) {
+
+        $requirements = \DB::table('document_requirements')->where('documentPrimeID', '=', $r->input('documentPrimeID'))->delete();
+
+        
         return redirect('document');
     }
 

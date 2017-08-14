@@ -1529,44 +1529,48 @@
 		$(document).on('click', '.delete', function(e) {
 
 			var id = $(this).data('value');
-
 			$.ajax({
 					type: 'GET',
 					url: "{{ url('/resident/getEdit') }}",
 					data: {"residentPrimeID": id},
 					success:function(data) {
-						swal({
-							title: "Are you sure you want to delete " + data.firstName + "?",
-							text: "",
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#DD6B55",
-							confirmButtonText: "DELETE",
-							closeOnConfirm: false
-							},
-							function() {
-								$.ajax({
-									type: "post",
-									url: "{{ url('/resident/delete') }}", 
-									data: {"_token": "{{ csrf_token() }}",
-									residentPrimeID:id}, 
-									success: function(data) {
-										refreshTable();
-										familyRefreshTable();
-										swal("Successfull", "Entry is deleted!", "success");
-									}, 
-									error: function(data) {
-										var message = "Error: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
+						console.log(data);
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							swal({
+								title: "Are you sure you want to delete " + data[index].firstName + "?",
+								text: "",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "DELETE",
+								closeOnConfirm: false
+								},
+								function() {
+									$.ajax({
+										type: "post",
+										url: "{{ url('/resident/delete') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+										residentPrimeID:id}, 
+										success: function(data) {
+											refreshTable();
+											familyRefreshTable();
+											swal("Successfull", "Entry is deleted!", "success");
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
 										}
-										
-										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
-									}
-								});
-							});				
+									});
+								});	
+						}			
 					}
 			})
 		});

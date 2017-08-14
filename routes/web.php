@@ -101,8 +101,10 @@ Route::get('/family/getMembers', 'ResidentController@getMembers');
 Route::get('/document/getEdit', 'DocumentController@getEdit');
 Route::get('/document/refresh', 'DocumentController@refresh');
 Route::get('/document/nextPK', 'DocumentController@nextPK');
+Route::get('/document/checkRequirements', 'DocumentController@checkRequirements');
 Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/requirementsStore', 'DocumentController@requirementsStore');
+Route::post('/document/requirementsUpdate', 'DocumentController@requirementsDelete');
 Route::post('/document/update','DocumentController@edit');
 Route::post('/document/delete','DocumentController@delete');
 
