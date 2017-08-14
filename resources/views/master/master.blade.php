@@ -281,19 +281,19 @@
 								<ul class="menu-content">
 									<li>
 										<a href="#">
-											<i class="icon-office"></i>
+											<i class="icon-note"></i>
 											<span>Document</span>
 										</a>
 										<ul class="menu-content">
 											<li id="document-id">										
 												<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-drawer"></i>
-													Document
+													Physical Document
 												</a>
 											</li>
 											<li id="requirement-id">
 												<a href="/requirement" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-library"></i>
+													<i class="icon-paperplane"></i>
 													Requirement
 												</a>
 											</li>
@@ -391,7 +391,7 @@
 													</li>
 													<li id="building-id">
 														<a href="/building" data-i18n="nav.navbars.nav_dark" class="menu-item">
-															<i class="icon-truck"></i>
+															<i class="icon-shop2"></i>
 															Building
 														</a>
 													</li>
@@ -446,6 +446,12 @@
 											<span>Facility Reservation</span>
 										</a>
 									</li>
+									<li id="collection-id">
+										<a href="/collection" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-moneybag"></i>
+											<span>Collection</span>
+										</a>
+									</li>
 									<li>
 										<a href="#">
 											<i class="icon-cogs"></i>
@@ -468,7 +474,7 @@
 									</li>
 									<li id="business-registration-id">
 										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-location4"></i>
+											<i class="icon-truck3"></i>
 											<span>Business Registration</span>
 										</a>
 									</li>
