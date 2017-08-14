@@ -145,16 +145,6 @@
 							</div>
 						</div>
 					<div class="card-body collapse in px-2">
-						<fieldset class="row py-2">
-							<div class="input-group col-xs-12">
-								<input type="text" class="form-control form-control-lg input-lg border-grey border-lighten-1 " placeholder="Search..." aria-describedby="button-addon2" />
-								<span class="input-group-btn" id="button-addon2">
-									<button class="btn btn-lg btn-secondary border-grey border-lighten-1" type="button">
-										<i class="icon-ios-search-strong"></i>
-									</button>
-								</span>
-							</div>
-						</fieldset>
 						<div class="row py-2">
 							<div class="col-xs-12">
 							<a href="./dashboard" class="btn btn-success btn-block btn-lg">
