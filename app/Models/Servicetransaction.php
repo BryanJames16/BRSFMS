@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 13 Aug 2017 05:42:25 +0000.
+ * Date: Wed, 16 Aug 2017 07:54:49 +0000.
  */
 
 namespace App\Models;
@@ -21,6 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $fromDate
  * @property \Carbon\Carbon $toDate
  * @property string $status
+ * @property int $archive
  * 
  * @property \App\Models\Service $service
  * @property \Illuminate\Database\Eloquent\Collection $participants
@@ -35,7 +36,8 @@ class Servicetransaction extends Eloquent
 	protected $casts = [
 		'servicePrimeID' => 'int',
 		'fromAge' => 'int',
-		'toAge' => 'int'
+		'toAge' => 'int',
+		'archive' => 'int'
 	];
 
 	protected $dates = [
@@ -51,7 +53,8 @@ class Servicetransaction extends Eloquent
 		'toAge',
 		'fromDate',
 		'toDate',
-		'status'
+		'status',
+		'archive'
 	];
 
 	public function service()
