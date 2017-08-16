@@ -194,7 +194,10 @@ Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit
 Route::post('/service-transaction/update', 'ServiceTransactionController@update');
 Route::get('/service-transaction/refresh','ServiceTransactionController@Refresh');
 Route::get('/service-transaction/nextPK', 'ServiceTransactionController@nextPK');
-
+Route::post('/service-transaction/delete', 'ServiceTransactionController@delete');
+Route::post('/service-transaction/addParticipant', 'ServiceTransactionController@addParticipant');
+Route::get('/service-transaction/notParticipant/{id}', 'ServiceTransactionController@notParticipant');
+Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
 
 Route::get('/business-registration', function() {
 	return view('business-registration');

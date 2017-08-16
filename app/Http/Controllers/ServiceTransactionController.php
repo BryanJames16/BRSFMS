@@ -7,6 +7,9 @@ use \App\Models\Service;
 use \App\Models\Servicetype;
 use \App\Models\Servicetransaction;
 use \App\Models\Utility;
+use \App\Models\Resident;
+use \App\Models\Participant;
+use Carbon\Carbon;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -17,7 +20,9 @@ class ServiceTransactionController extends Controller
 {
    public function index() {
  
-        
+        $residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('status','1')
+                                                    -> get();
 
         $servicetransactions= \DB::table('servicetransactions') ->select('serviceTransactionPrimeID',
                                                     'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
@@ -25,6 +30,7 @@ class ServiceTransactionController extends Controller
                                                     'fromAge', 'toAge','fromDate','toDate',
                                                      'servicetransactions.status','services.serviceName') 
                                         ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
+                                        ->where('servicetransactions.archive','0')
                                         ->get();
         $services = Service::select('primeID','serviceID', 'serviceName')
     												-> where('archive','0')
@@ -33,7 +39,42 @@ class ServiceTransactionController extends Controller
 
         return view('service-transaction')
                                             ->with('servicetransactions', $servicetransactions)
+                                            ->with('residents', $residents)
                                             ->with('services', $services);
+    }
+
+    public function notParticipant($id)
+    {
+        
+
+        
+            $mem = Participant::select('residentID')
+                                -> where('serviceTransactionPrimeID','=',$id)
+                                ->get();
+
+            
+
+            return json_encode(\DB::table('residents') ->select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+                                                    -> whereNotIn('residentPrimeID',$mem)
+                                                    -> get());
+        
+    }
+
+    public function getParticipant($id)
+    {
+        
+
+        
+            $mem = Participant::select('residentID')
+                                -> where('serviceTransactionPrimeID','=',$id)
+                                ->get();
+
+            
+
+            return json_encode(\DB::table('residents') ->select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+                                                    -> whereIn('residentPrimeID',$mem)
+                                                    -> get());
+        
     }
 
     public function store(Request $r) {
@@ -55,6 +96,14 @@ class ServiceTransactionController extends Controller
         return back();
     }
 
+    public function addParticipant(Request $r)
+    {
+         $aa = Participant::insert(['serviceTransactionPrimeID' => $r -> input('serviceTransactionPrimeID'),
+                                            'residentID' => $r -> input('residentID'),
+                                            'dateRegistered' => Carbon::now()]);
+        return back();
+    }
+
     public function refresh(Request $r) {
         if ($r -> ajax()) 
         {
@@ -64,6 +113,7 @@ class ServiceTransactionController extends Controller
                                                     'fromAge', 'toAge','fromDate','toDate',
                                                      'servicetransactions.status','services.serviceName') 
                                         ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
+                                        -> where('servicetransactions.archive','0')
                                         ->get());
         }
     }
@@ -99,18 +149,38 @@ class ServiceTransactionController extends Controller
     }
 
     public function getEdit(Request $r) {
-        
-       
+
+       if($r->ajax())
+        {
+            return json_encode(\DB::table('servicetransactions') ->select('serviceTransactionPrimeID','serviceTransactionID','servicetransactions.serviceName as serviceTransactionName',
+                                                                'servicePrimeID','fromAge','toAge', 'fromDate', 
+                                                                'toDate', 'servicetransactions.status', 'servicetransactions.archive','services.serviceName')
+                                        ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID') 
+                                        ->where('serviceTransactionPrimeID', '=', $r->input('serviceTransactionPrimeID'))
+                                        ->where('servicetransactions.archive','=',0)
+                                        ->get());
+        }
+
     }
 
-    public function edit(Request $r)
+    public function update(Request $r)
     {
-
+        $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+        $type->serviceTransactionID = $r->input('serviceTransactionID');
+        $type->serviceName = $r->input('serviceName');
+        $type->servicePrimeID = $r->input('servicePrimeID');
+        $type->fromAge = $r->input('fromAge');
+        $type->toAge = $r->input('toAge');
+        $type->fromDate = $r->input('fromDate');
+        $type->toDate = $r->input('toDate');
+        $type->save();
     }
 
     public function delete(Request $r)
     {
-
+        $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+        $type->archive = 1;
+        $type->save();
     }
 
 }
