@@ -181,7 +181,7 @@ CREATE TABLE `document_requirements` (
   KEY `requirementID_idx` (`requirementID`),
   CONSTRAINT `documentPrimeID` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `requirementID` FOREIGN KEY (`requirementID`) REFERENCES `requirements` (`requirementID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +190,7 @@ CREATE TABLE `document_requirements` (
 
 LOCK TABLES `document_requirements` WRITE;
 /*!40000 ALTER TABLE `document_requirements` DISABLE KEYS */;
+INSERT INTO `document_requirements` VALUES (36,4,3,1),(37,4,1,1),(41,5,1,1),(42,5,4,1);
 /*!40000 ALTER TABLE `document_requirements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +249,7 @@ CREATE TABLE `documentheaderrequests` (
 
 LOCK TABLES `documentheaderrequests` WRITE;
 /*!40000 ALTER TABLE `documentheaderrequests` DISABLE KEYS */;
-INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-08-12','Pending',28);
+INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-08-12','Cancelled',28);
 /*!40000 ALTER TABLE `documentheaderrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,7 +575,7 @@ CREATE TABLE `participants` (
   KEY `residentID_idx` (`residentID`),
   CONSTRAINT `residentID` FOREIGN KEY (`residentID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE,
   CONSTRAINT `serviceTransactionPrimeID` FOREIGN KEY (`serviceTransactionPrimeID`) REFERENCES `servicetransactions` (`serviceTransactionPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -583,6 +584,7 @@ CREATE TABLE `participants` (
 
 LOCK TABLES `participants` WRITE;
 /*!40000 ALTER TABLE `participants` DISABLE KEYS */;
+INSERT INTO `participants` VALUES (15,1,35,'2017-08-16 06:33:49'),(16,1,28,'2017-08-16 06:36:58'),(17,1,29,'2017-08-16 06:58:14'),(18,1,34,'2017-08-16 06:58:22'),(19,1,36,'2017-08-16 06:58:27'),(20,1,31,'2017-08-16 06:58:31'),(21,1,30,'2017-08-16 07:26:21'),(22,1,32,'2017-08-16 07:26:24');
 /*!40000 ALTER TABLE `participants` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -667,7 +669,7 @@ CREATE TABLE `reservations` (
   KEY `fk_Reservations_Facilities1_idx` (`facilityPrimeID`),
   CONSTRAINT `fk_Reservations_Facilities1` FOREIGN KEY (`facilityPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reservations_People1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -676,7 +678,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (1,'Ballroom',NULL,'06:25:00','11:25:00','2017-08-08',1,6,'1'),(2,'ASDAS','asdad','01:00:00','03:00:00','2017-03-02',1,6,'Cancelled');
+INSERT INTO `reservations` VALUES (1,'Ballroom',NULL,'06:25:00','11:25:00','2017-08-08',1,6,'1'),(2,'ASDAS','asdad','01:00:00','03:00:00','2017-03-02',1,6,'Cancelled'),(3,'HAHAHHAHA','kjasdhjakshd','02:00:00','03:00:00','2017-01-02',1,6,'Pending');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -755,7 +757,7 @@ CREATE TABLE `residentbackgrounds` (
   PRIMARY KEY (`backgroundPrimeID`),
   KEY `fk_residentBackgrounds_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_residentBackgrounds_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -764,7 +766,7 @@ CREATE TABLE `residentbackgrounds` (
 
 LOCK TABLES `residentbackgrounds` WRITE;
 /*!40000 ALTER TABLE `residentbackgrounds` DISABLE KEYS */;
-INSERT INTO `residentbackgrounds` VALUES (8,'None','₱0-₱10,000','2017-08-04',28,1,0),(9,'CEO','₱100,001 and above','2017-08-04',28,1,0),(10,'President ','₱100,001 and above','2017-08-04',29,1,0),(11,'None','₱0-₱10,000','2017-08-04',30,1,0),(12,'None','₱0-₱10,000','2017-08-04',31,1,0),(13,'Social Service','₱10,001-₱50,000','2017-08-04',32,1,0),(14,'Safety Officer','>₱10,001-₱50,000','2017-08-04',31,1,0),(15,'CEO','₱100,001 and above','2017-08-04',33,1,0),(16,'CEO','₱100,001 and above','2017-08-04',34,1,0),(17,'CEO','₱100,001 and above','2017-08-04',35,1,0),(18,'CEO','₱100,001 and above','2017-08-04',36,1,0),(19,'CEO','₱100,001 and above','2017-08-06',36,1,0),(20,'CEO','₱100,001 and above','2017-08-06',36,1,0),(21,'CEO','₱100,001 and above','2017-08-06',35,1,0);
+INSERT INTO `residentbackgrounds` VALUES (8,'None','₱0-₱10,000','2017-08-04',28,1,0),(9,'CEO','₱100,001 and above','2017-08-04',28,1,0),(10,'President ','₱100,001 and above','2017-08-04',29,1,0),(11,'None','₱0-₱10,000','2017-08-04',30,1,0),(12,'None','₱0-₱10,000','2017-08-04',31,1,0),(13,'Social Service','₱10,001-₱50,000','2017-08-04',32,1,0),(14,'Safety Officer','>₱10,001-₱50,000','2017-08-04',31,1,0),(15,'CEO','₱100,001 and above','2017-08-04',33,1,0),(16,'CEO','₱100,001 and above','2017-08-04',34,1,0),(17,'CEO','₱100,001 and above','2017-08-04',35,1,0),(18,'CEO','₱100,001 and above','2017-08-04',36,1,0),(19,'CEO','₱100,001 and above','2017-08-06',36,1,0),(20,'CEO','₱100,001 and above','2017-08-06',36,1,0),(21,'CEO','₱100,001 and above','2017-08-06',35,1,0),(22,'CEO','₱100,001 and above','2017-08-14',28,1,0);
 /*!40000 ALTER TABLE `residentbackgrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -830,7 +832,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (28,'RES_001','Marc Joseph','Mendoza','Fuellas','','09263526321','M','1998-06-18','Single','',NULL,'Official',1),(29,'RES_002','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-05-28','Single','','','Official',1),(30,'RES_003','Gail Anne','Mendoza','Fuellas','','09123456789','F','2002-02-28','Single','','','Official',1),(31,'RES_004','Clariza','Mendoza','Fuellas','','09123456789','F','1983-04-16','Married','',NULL,'Official',1),(32,'RES_005','Raymond','Averilla','Fuellas','','09123456789','M','1983-06-26','Married','','','Official',1),(33,'RES_006','Bryan James','Reyes','Illaga','','09234567891','M','1997-08-30','Single','','','Transient',1),(34,'RES_007','Moira Kelly','Antonio','Del Mundo','','09876543211','F','1997-02-08','Single','','','Official',1),(35,'RES_008','Bryan Philip','Escalante','Buenavides',NULL,'09876543212','M','1997-04-04','Single',NULL,NULL,'Transient',1),(36,'RES_009','Gabe','Reyes','Espino','Sr.','09876543212','F','1997-05-05','Single',NULL,NULL,'Official',1);
+INSERT INTO `residents` VALUES (28,'RES_001','Marc Joseph','Mendoza','Fuellas',NULL,'09263526321','M','1998-06-18','Single',NULL,NULL,'Transient',1),(29,'RES_002','Gianne Mae','Mendoza','Fuellas','','09123456789','F','1997-05-28','Single','','','Official',1),(30,'RES_003','Gail Anne','Mendoza','Fuellas','','09123456789','F','2002-02-28','Single','','','Official',1),(31,'RES_004','Clariza','Mendoza','Fuellas','','09123456789','F','1983-04-16','Married','',NULL,'Official',1),(32,'RES_005','Raymond','Averilla','Fuellas','','09123456789','M','1983-06-26','Married','','','Official',1),(33,'RES_006','Bryan James','Reyes','Illaga','','09234567891','M','1997-08-30','Single','','','Transient',1),(34,'RES_007','Moira Kelly','Antonio','Del Mundo','','09876543211','F','1997-02-08','Single','','','Official',1),(35,'RES_008','Bryan Philip','Escalante','Buenavides',NULL,'09876543212','M','1997-04-04','Single',NULL,NULL,'Transient',1),(36,'RES_009','Gabe','Reyes','Espino','Sr.','09876543212','F','1997-05-05','Single',NULL,NULL,'Official',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -910,13 +912,14 @@ CREATE TABLE `servicetransactions` (
   `servicePrimeID` int(11) NOT NULL,
   `fromAge` int(11) NOT NULL,
   `toAge` int(11) NOT NULL,
-  `fromDate` datetime NOT NULL,
-  `toDate` datetime NOT NULL,
+  `fromDate` date NOT NULL,
+  `toDate` date NOT NULL,
   `status` varchar(40) NOT NULL DEFAULT 'Pending',
+  `archive` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`serviceTransactionPrimeID`),
   KEY `servicePrimeID_idx` (`servicePrimeID`),
   CONSTRAINT `servicePrimeID` FOREIGN KEY (`servicePrimeID`) REFERENCES `services` (`primeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -925,7 +928,7 @@ CREATE TABLE `servicetransactions` (
 
 LOCK TABLES `servicetransactions` WRITE;
 /*!40000 ALTER TABLE `servicetransactions` DISABLE KEYS */;
-INSERT INTO `servicetransactions` VALUES (1,'SERVICETRAN_001','2017 Ultima Tuli',6,8,20,'2017-08-17 10:00:00','2017-08-19 16:00:00','Pending'),(6,'SERVICETRAN_002','2018 Ultimo Tuli',6,3,14,'2018-01-31 00:00:00','2018-02-01 00:00:00','Pending');
+INSERT INTO `servicetransactions` VALUES (1,'SERVICETRAN_001','2017 Ultima Tuli',6,8,21,'2017-08-18','2017-08-19','Pending',0),(6,'SERVICETRAN_002','2018 Ultimo Tuli',6,3,14,'2018-01-31','2018-02-01','Pending',0),(9,'SERVICETRAN_003','HAHAHAHAAHAH',6,2,5,'2017-01-01','2017-01-01','Pending',1);
 /*!40000 ALTER TABLE `servicetransactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1144,4 +1147,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-14  0:08:42
+-- Dump completed on 2017-08-16 15:56:36
