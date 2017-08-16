@@ -19,7 +19,7 @@ class CreateResidentsTable extends Migration {
 			$table->string('firstName', 30);
 			$table->string('middleName', 30);
 			$table->string('lastName', 30);
-			$table->string('suffix', 5);
+			$table->string('suffix', 5)->nullable();
 			$table->string('contactNumber', 14);
 			$table->char('gender', 1);
 			$table->date('birthDate');
