@@ -12,11 +12,11 @@ class SessionsController extends Controller
 {
     public function destroy(){
         auth()->logout();
-        return redirect('login');
+        return redirect('admin/login');
     }
 
     public function create(){
-        return view('login');
+        return view('admin/login');
     }
 
     public function store(Request $r){
