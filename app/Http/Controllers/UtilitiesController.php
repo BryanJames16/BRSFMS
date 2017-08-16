@@ -21,22 +21,30 @@ class UtilitiesController extends Controller
         if ($r -> ajax()) {
             return response(Utility::all()->last());
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function update(Request $r) {
-        $utilityRow = Utility::all()->last();
-        $utilityRow -> documentPK = $r -> input('documentPK');
-        $utilityRow -> docApprovalPK = $r -> input('docApprovalPK');
-        $utilityRow -> docRequestPK = $r -> input('docRequestPK'); 
-        $utilityRow -> facilityPK = $r -> input('facilityPK');
-        $utilityRow -> familyPK  = $r -> input('familyPK');
-        $utilityRow -> reservationPK = $r -> input('reservationPK');
-        $utilityRow -> residentPK = $r -> input('residentPK');
-        $utilityRow -> servicePK  = $r -> input('servicePK');
-        $utilityRow -> serviceRegPK = $r -> input('serviceRegPK');
-        $utilityRow -> sponsorPK = $r -> input('sponsorPK');
-        $utilityRow -> save();
-        
-        return redirect('/utilities');
+        if ($r->ajax()) {
+            $utilityRow = Utility::all()->last();
+            $utilityRow -> documentPK = $r -> input('documentPK');
+            $utilityRow -> docApprovalPK = $r -> input('docApprovalPK');
+            $utilityRow -> docRequestPK = $r -> input('docRequestPK'); 
+            $utilityRow -> facilityPK = $r -> input('facilityPK');
+            $utilityRow -> familyPK  = $r -> input('familyPK');
+            $utilityRow -> reservationPK = $r -> input('reservationPK');
+            $utilityRow -> residentPK = $r -> input('residentPK');
+            $utilityRow -> servicePK  = $r -> input('servicePK');
+            $utilityRow -> serviceRegPK = $r -> input('serviceRegPK');
+            $utilityRow -> sponsorPK = $r -> input('sponsorPK');
+            $utilityRow -> save();
+            
+            return redirect('/utilities');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }

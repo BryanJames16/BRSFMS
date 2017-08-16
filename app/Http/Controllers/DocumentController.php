@@ -33,62 +33,70 @@ class DocumentController extends Controller
         if ($r -> ajax()) {
             return json_encode(Document::where("archive", "!=", "1") -> get());
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function checkRequirements(Request $r) {
-        
-        if ($r -> ajax()) 
-        {
+        if ($r -> ajax()) {
             return json_encode(\DB::table('document_requirements') ->select('primeID','documentPrimeID', 'requirementID', 'quantity') 
                                         ->where('documentPrimeID', '=', $r->input('documentPrimeID')) 
                                         ->get());
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
     public function store(Request $r) {
+        if ($r->ajax()) {
+            $this->validate($r, [
+                'documentID' => 'required|unique:documents|max:20',
+                'documentName' => 'required',
+                'documentPrice' => 'required|numeric',
+                'documentContent' => 'required',
+            ]);
+            
 
-        $this->validate($r, [
-            'documentID' => 'required|unique:documents|max:20',
-            'documentName' => 'required',
-            'documentPrice' => 'required|numeric',
-            'documentContent' => 'required',
-        ]);
-        
+            if($r -> input('status') == "active") {
+                $stat = 1;
+            }
+            else if($r -> input('status') == "inactive") {
+                $stat = 0;
+            }
+            else {
 
-        if($r -> input('status') == "active") {
-            $stat = 1;
-        }
-        else if($r -> input('status') == "inactive") {
-            $stat = 0;
+            }
+
+            $insertRet = Document::insert(['documentID'=>trim($r -> input('documentID')),
+                                                'documentName' => trim($r -> input('documentName')),
+                                                'documentDescription' => trim($r -> input('documentDescription')),
+                                                'documentContent' => trim($r -> input('documentContent')), 
+                                                'documentType' => $r -> input('documentType'),
+                                                'documentPrice' => $r -> input('documentPrice'),
+                                                'archive' => 0,
+                                                'status' => $stat]);
+
+
+            return back();
         }
         else {
-
+            return view('errors.403');
         }
-
-        $aah = Document::insert(['documentID'=>trim($r -> input('documentID')),
-                                            'documentName' => trim($r -> input('documentName')),
-                                            'documentDescription' => trim($r -> input('documentDescription')),
-                                            'documentContent' => trim($r -> input('documentContent')), 
-                                            'documentType' => $r -> input('documentType'),
-                                            'documentPrice' => $r -> input('documentPrice'),
-                                               'archive' => 0,
-                                               'status' => $stat]);
-
-
-        return back();
     }
 
     public function getEdit(Request $r) {
         if($r->ajax()) {
             return response(Document::find($r->primeID));
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $documentPK = Utility::select('documentPK')->get()->last();
             $documentPKinc = StaticCounter::smart_next($documentPK->documentPK, SmartMove::$NUMBER);
             $lastDocumentID = Document::all()->last();
@@ -113,47 +121,60 @@ class DocumentController extends Controller
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
-
-
     public function edit(Request $r) {
-        $document = Document::find($r->input('primeID'));
-        $document->documentName = $r->input('documentName');
-        $document->documentDescription = $r->input('documentDescription');
-        $document->documentContent = $r->input('documentContent');
-        $document->documentType = $r->input('documentType');
-        $document->documentPrice = $r->input('documentPrice');
-        $document->status = $r->input('status');
-        $document->save();
-        return redirect('document');
+        if ($r->ajax()) {
+            $document = Document::find($r->input('primeID'));
+            $document->documentName = $r->input('documentName');
+            $document->documentDescription = $r->input('documentDescription');
+            $document->documentContent = $r->input('documentContent');
+            $document->documentType = $r->input('documentType');
+            $document->documentPrice = $r->input('documentPrice');
+            $document->status = $r->input('status');
+            $document->save();
+            return redirect('document');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function requirementsDelete(Request $r) {
-
-        $requirements = \DB::table('document_requirements')->where('documentPrimeID', '=', $r->input('documentPrimeID'))->delete();
-
-        
-        return redirect('document');
+        if ($r->ajax()) {
+            $requirements = \DB::table('document_requirements')->where('documentPrimeID', '=', $r->input('documentPrimeID'))->delete();
+            return redirect('document');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function delete(Request $r) {
-
-        $document = Document::find($r->input('primeID'));
-        $document->archive = true;
-        $document->save();
-        return redirect('document');   
-        
+        if ($r->ajax()) {
+            $document = Document::find($r->input('primeID'));
+            $document->archive = true;
+            $document->save();
+            return redirect('document');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function requirementsStore(Request $r){
-        $aah = DocumentRequirement::insert(['documentPrimeID'=>$r -> input('documentPrimeID'),
-                                            'requirementID' => $r -> input('requirementID'),
-                                               'quantity' => $r->input('quantity')]);
+        if ($r->ajax()) {
+            $insertRet = DocumentRequirement::insert(['documentPrimeID'=>$r -> input('documentPrimeID'),
+                                                'requirementID' => $r -> input('requirementID'),
+                                                'quantity' => $r->input('quantity')]);
 
-        return redirect('document');
-
+            return redirect('document');
+        }
+        else {
+            return view('errors.403');
+        }
     }
-
-
 }

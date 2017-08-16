@@ -43,70 +43,69 @@ class ServiceTransactionController extends Controller
                                             ->with('services', $services);
     }
 
-    public function notParticipant($id)
-    {
-        
+    public function notParticipant($id) {
+        $mem = Participant::select('residentID')
+                            -> where('serviceTransactionPrimeID','=',$id)
+                            ->get();
 
         
-            $mem = Participant::select('residentID')
-                                -> where('serviceTransactionPrimeID','=',$id)
-                                ->get();
 
-            
-
-            return json_encode(\DB::table('residents') ->select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
-                                                    -> whereNotIn('residentPrimeID',$mem)
-                                                    -> get());
-        
+        return json_encode(\DB::table('residents')->select('residentPrimeID', 'residentID', 
+                                                            'firstName', 'lastName', 'middleName', 
+                                                            'suffix', 'status', 'contactNumber', 
+                                                            'gender', 'birthDate', 'civilStatus', 
+                                                            'seniorCitizenID', 'disabilities', 
+                                                            'residentType')
+                                                -> whereNotIn('residentPrimeID',$mem)
+                                                -> get());
     }
 
-    public function getParticipant($id)
-    {
-        
+    public function getParticipant($id) {
+        $mem = Participant::select('residentID')
+                            -> where('serviceTransactionPrimeID','=',$id)
+                            ->get();
 
-        
-            $mem = Participant::select('residentID')
-                                -> where('serviceTransactionPrimeID','=',$id)
-                                ->get();
-
-            
-
-            return json_encode(\DB::table('residents') ->select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
-                                                    -> whereIn('residentPrimeID',$mem)
-                                                    -> get());
-        
+        return json_encode(\DB::table('residents') ->select('residentPrimeID', 'residentID', 
+                                                            'firstName', 'lastName', 'middleName', 
+                                                            'suffix', 'status', 'contactNumber', 
+                                                            'gender', 'birthDate', 'civilStatus', 
+                                                            'seniorCitizenID', 'disabilities', 
+                                                            'residentType')
+                                                -> whereIn('residentPrimeID',$mem)
+                                                -> get());
     }
 
     public function store(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
+                                                'serviceName' => $r -> input('serviceName'),
+                                                'servicePrimeID' => $r -> input('servicePrimeID'),
+                                                'fromAge' => $r -> input('fromAge'),
+                                                'toAge' => $r -> input('toAge'),
+                                                'toDate' => $r -> input('toDate'),
+                                                'fromDate' => $r -> input('fromDate')]);
 
-        echo"
-        <script>
-            alert('HAHAHAHAHAH');
-        </script>
-        ";
-
-        $aa = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
-                                            'serviceName' => $r -> input('serviceName'),
-                                            'servicePrimeID' => $r -> input('servicePrimeID'),
-                                            'fromAge' => $r -> input('fromAge'),
-											'toAge' => $r -> input('toAge'),
-                                            'toDate' => $r -> input('toDate'),
-                                            'fromDate' => $r -> input('fromDate')]);
-
-        return back();
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function addParticipant(Request $r)
-    {
-         $aa = Participant::insert(['serviceTransactionPrimeID' => $r -> input('serviceTransactionPrimeID'),
-                                            'residentID' => $r -> input('residentID'),
-                                            'dateRegistered' => Carbon::now()]);
-        return back();
+    public function addParticipant(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Participant::insert(['serviceTransactionPrimeID' => $r -> input('serviceTransactionPrimeID'),
+                                                'residentID' => $r -> input('residentID'),
+                                                'dateRegistered' => Carbon::now()]);
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function refresh(Request $r) {
-        if ($r -> ajax()) 
-        {
+        if ($r -> ajax()) {
             return json_encode(\DB::table('servicetransactions') ->select('serviceTransactionPrimeID',
                                                     'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
                                                      'servicetransactions.servicePrimeID',
@@ -116,12 +115,13 @@ class ServiceTransactionController extends Controller
                                         -> where('servicetransactions.archive','0')
                                         ->get());
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $serviceTransactionPK = Utility::select('serviceRegPK')->get()->last();
             $serviceTransactionPKinc = StaticCounter::smart_next($serviceTransactionPK->serviceRegPK, SmartMove::$NUMBER);
             $lastServiceTransactionID = Servicetransaction::all()->last();
@@ -146,12 +146,13 @@ class ServiceTransactionController extends Controller
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getEdit(Request $r) {
-
-       if($r->ajax())
-        {
+        if ($r->ajax()) {
             return json_encode(\DB::table('servicetransactions') ->select('serviceTransactionPrimeID','serviceTransactionID','servicetransactions.serviceName as serviceTransactionName',
                                                                 'servicePrimeID','fromAge','toAge', 'fromDate', 
                                                                 'toDate', 'servicetransactions.status', 'servicetransactions.archive','services.serviceName')
@@ -160,35 +161,48 @@ class ServiceTransactionController extends Controller
                                         ->where('servicetransactions.archive','=',0)
                                         ->get());
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function update(Request $r)
-    {
-        $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
-        $type->serviceTransactionID = $r->input('serviceTransactionID');
-        $type->serviceName = $r->input('serviceName');
-        $type->servicePrimeID = $r->input('servicePrimeID');
-        $type->fromAge = $r->input('fromAge');
-        $type->toAge = $r->input('toAge');
-        $type->fromDate = $r->input('fromDate');
-        $type->toDate = $r->input('toDate');
-        $type->save();
+    public function update(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->serviceTransactionID = $r->input('serviceTransactionID');
+            $type->serviceName = $r->input('serviceName');
+            $type->servicePrimeID = $r->input('servicePrimeID');
+            $type->fromAge = $r->input('fromAge');
+            $type->toAge = $r->input('toAge');
+            $type->fromDate = $r->input('fromDate');
+            $type->toDate = $r->input('toDate');
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function delete(Request $r)
-    {
-        $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
-        $type->archive = 1;
-        $type->save();
+    public function delete(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->archive = 1;
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function deletePart(Request $r)
-    {
-        $participants = \DB::table('participants')
-                        ->where('residentID', '=', $r->input('residentID'))
-                        ->where('serviceTransactionPrimeID', '=', $r->input('serviceTransactionPrimeID'))
-                        ->delete();
+    public function deletePart(Request $r) {
+        if ($r->ajax()) {
+            $participants = \DB::table('participants')
+                            ->where('residentID', '=', $r->input('residentID'))
+                            ->where('serviceTransactionPrimeID', '=', $r->input('serviceTransactionPrimeID'))
+                            ->delete();
+        }
+        else {
+            return view('errors.403');
+        }
     }
-
 }

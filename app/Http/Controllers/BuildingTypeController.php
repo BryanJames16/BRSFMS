@@ -19,70 +19,84 @@ class BuildingTypeController extends Controller
     }
 
     public function store(Request $r) {
-        try {
-            $this->validate($r, [
-                'buildingTypeName' => 'required|unique:buildingtypes|max:20',
-            ]);
+        if ($r->ajax()) {
+            try {
+                $this->validate($r, [
+                    'buildingTypeName' => 'required|unique:buildingtypes|max:20',
+                ]);
 
-            if($r->input('status') == "active") {
-                $stat = 1;
+                if($r->input('status') == "active") {
+                    $stat = 1;
+                }
+                else if($r->input('status') == "inactive") {
+                    $stat = 0;
+                }
+                else {
+
+                }        
+
+                $insertRet = BuildingType::insert(['buildingTypeName'=>trim($r -> buildingTypeName),
+                                                    'archive' => 0,
+                                                    'status' => $stat]);
+            } 
+            catch (Exception $exp) {
+                // Catch Error
             }
-            else if($r->input('status') == "inactive") {
-                $stat = 0;
-            }
-            else {
 
-            }        
 
-            $aah = BuildingType::insert(['buildingTypeName'=>trim($r -> buildingTypeName),
-                                                'archive' => 0,
-                                                'status' => $stat]);
-        } 
-        catch (Exception $exp) {
-            // echo "<script>console.log('Exception Caught!\\n' + " . $exp . ");</script>";
+            return back();
         }
-
-
-        return back();
+        else {
+            return view('errors.403');
+        }
     }
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
             return json_encode(BuildingType::where("archive", "!=", "1")->get());
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getEdit(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return response(BuildingType::find($r->buildingTypeID));
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function edit(Request $r)
-    { 
+    public function edit(Request $r) { 
+        if ($r->ajax()) {
+            $this->validate($r, [
+                    'buildingTypeName' => 'required|unique:buildingtypes|max:20',
+                ]);
+                
+            $type = BuildingType::find($r->input('buildingTypeID'));
+            $type->buildingTypeName = $r->input('buildingTypeName');
+            $type->status = $r->input('status');
+            $type->save();
 
-        $this->validate($r, [
-                'buildingTypeName' => 'required|unique:buildingtypes|max:20',
-            ]);
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function delete(Request $r) {
+        if ($r->ajax()) {
+            $type = BuildingType::find($r->input('buildingTypeID'));
+            $type->archive = true;
+            $type->save();
             
-        $type = BuildingType::find($r->input('buildingTypeID'));
-        $type->buildingTypeName = $r->input('buildingTypeName');
-        $type->status = $r->input('status');
-        $type->save();
-
-        return back();
-    }
-
-    public function delete(Request $r)
-    {
-
-        $type = BuildingType::find($r->input('buildingTypeID'));
-        $type->archive = true;
-        $type->save();
-        
-        return back();
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }

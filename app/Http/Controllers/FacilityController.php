@@ -35,12 +35,13 @@ class FacilityController extends Controller
                                         ->get();
             return json_encode($facilities);
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $facilityPK = Utility::select('facilityPK')->get()->last();
             $facilityPKinc = StaticCounter::smart_next($facilityPK->facilityPK, SmartMove::$NUMBER);
             $lastFacilityID = Facility::all()->last();
@@ -65,59 +66,58 @@ class FacilityController extends Controller
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function store(Request $r) {
-
-        $stat = 0;
-
-        $this->validate($r, [
-            
-            'facilityID' => 'required|unique:facilities|max:20',
-            'facilityName' => 'required|unique:facilities|regex:/^([a-zA-Z0-9-_\' ])+$/|max:30',
-            'facilityNightPrice' => 'required|numeric',
-            'facilityDayPrice' => 'required|numeric',
-
-        ]);
-
-        if($r->input('status') == "active")
-        {
-            $stat = 1;
-        }
-        else if($r->input('status') == "inactive")
-        {
+        if ($r->ajax()) {
             $stat = 0;
-        }
-        else
-        {
 
-        }
+            $this->validate($r, [
+                
+                'facilityID' => 'required|unique:facilities|max:20',
+                'facilityName' => 'required|unique:facilities|regex:/^([a-zA-Z0-9-_\' ])+$/|max:30',
+                'facilityNightPrice' => 'required|numeric',
+                'facilityDayPrice' => 'required|numeric',
 
-        $aah = Facility::insert(['facilityID'=>trim($r->facilityID),
-                                            'facilityName'=>trim($r->facilityName),
-                                            'facilityDesc'=>trim($r->facilityDesc),
-                                            'facilityTypeID'=>$r->facilityType,
-                                            'facilityNightPrice'=>$r->facilityNightPrice,
-                                            'facilityDayPrice'=>$r->facilityDayPrice,
-                                               'archive'=>0,
-                                               'status'=>$stat]);
+            ]);
+
+            if($r->input('status') == "active") {
+                $stat = 1;
+            }
+            else if($r->input('status') == "inactive") {
+                $stat = 0;
+            }
+            else {
+
+            }
+
+            $insertRet = Facility::insert(['facilityID'=>trim($r->facilityID),
+                                                'facilityName'=>trim($r->facilityName),
+                                                'facilityDesc'=>trim($r->facilityDesc),
+                                                'facilityTypeID'=>$r->facilityType,
+                                                'facilityNightPrice'=>$r->facilityNightPrice,
+                                                'facilityDayPrice'=>$r->facilityDayPrice,
+                                                'archive'=>0,
+                                                'status'=>$stat]);
             return back();
         }
+    }
 
     public function getEdit(Request $r) {
         if($r->ajax()) {
             return response(Facility::find($r->input('primeID')));
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function edit(Request $r) {
-        $facility = Facility::find($r->input('primeID'));
-
-        if (is_null($facility)) {
-            echo "Facility is null!";
-        }
-        else {
-            echo "Facility is not null!";
+        if ($r->ajax()) {
+            $facility = Facility::find($r->input('primeID'));
 
             $facility->facilityName = $r->input('facilityName');
             $facility->facilityDesc = $r->input('facilityDesc');
@@ -125,16 +125,24 @@ class FacilityController extends Controller
             $facility->facilityDayPrice = $r->input('facilityDayPrice');
             $facility->facilityNightPrice = $r->input('facilityNightPrice');
             $facility->status = $r->input('status');
-        }
 
-        $facility->save();
-        return redirect('facility');
+            $facility->save();
+            return redirect('facility');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function delete(Request $r) {
-        $facility = Facility::find($r->input('primeID'));
-        $facility->archive = true;
-        $facility->save();
-        return redirect('facility');
+        if ($r->ajax()) {
+            $facility = Facility::find($r->input('primeID'));
+            $facility->archive = true;
+            $facility->save();
+            return redirect('facility');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }

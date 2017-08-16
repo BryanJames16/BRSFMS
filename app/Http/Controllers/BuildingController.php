@@ -32,29 +32,34 @@ class BuildingController extends Controller
     }
 
     public function store(Request $r) {
-        try {
-            $this->validate($r, [
-                'buildingName' => 'required|unique:buildings|max:20',
-            ]);
+        if ($r->ajax()) {
+            try {
+                $this->validate($r, [
+                    'buildingName' => 'required|unique:buildings|max:20',
+                ]);
 
-            if($r->input('status') == "active") {
-                $stat = 1;
+                if($r->input('status') == "active") {
+                    $stat = 1;
+                }
+                else if($r->input('status') == "inactive") {
+                    $stat = 0;
+                }
+                else {
+
+                }        
+
+                $insertRet = Building::insert(['buildingName'=>trim($r -> buildingName),
+                                                    'archive' => 0,
+                                                    'lotID' => $r -> lotID,
+                                                    'buildingTypeID' => $r -> buildingTypeID,
+                                                    'status' => $stat]);
+            } 
+            catch (Exception $exp) {
+                // Catch Exceptions
             }
-            else if($r->input('status') == "inactive") {
-                $stat = 0;
-            }
-            else {
-
-            }        
-
-            $aah = Building::insert(['buildingName'=>trim($r -> buildingName),
-                                                'archive' => 0,
-                                                'lotID' => $r -> lotID,
-                                                'buildingTypeID' => $r -> buildingTypeID,
-                                                'status' => $stat]);
-        } 
-        catch (Exception $exp) {
-            // echo "<script>console.log('Exception Caught!\\n' + " . $exp . ");</script>";
+        }
+        else {
+            return view('errors.403');
         }
 
 
@@ -69,42 +74,51 @@ class BuildingController extends Controller
                                                     -> where('buildings.archive', '=', 0)
                                                     -> get());
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getEdit(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return response(Building::find($r->buildingID));
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function edit(Request $r)
-    { 
+    public function edit(Request $r) { 
+        if ($r->ajax()) {
+            $this->validate($r, [
+                    'buildingName' => 'required|unique:buildings|max:20',
+                ]);
+                
+            $building = Building::find($r->input('buildingID'));
+            $building->buildingCode = $r->input('buildingCode');
+            $building->buildingName = $r->input('buildingName');
+            $building->buildingTypeID = $r->input('buildingTypeID');
+            $building->lotID = $r->input('lotID');
+            $building->status = $r->input('status');
+            $building->save();
 
-        $this->validate($r, [
-                'buildingName' => 'required|unique:buildings|max:20',
-            ]);
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function delete(Request $r) {
+        if ($r->ajax()) {
+            $building = Building::find($r->input('buildingID'));
+            $building->archive = true;
+            $building->save();
             
-        $building = Building::find($r->input('buildingID'));
-        $building->buildingCode = $r->input('buildingCode');
-        $building->buildingName = $r->input('buildingName');
-        $building->buildingTypeID = $r->input('buildingTypeID');
-        $building->lotID = $r->input('lotID');
-        $building->status = $r->input('status');
-        $building->save();
-
-        return back();
-    }
-
-    public function delete(Request $r)
-    {
-
-        $building = Building::find($r->input('buildingID'));
-        $building->archive = true;
-        $building->save();
-        
-        return back();
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }

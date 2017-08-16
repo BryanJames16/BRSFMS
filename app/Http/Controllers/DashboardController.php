@@ -24,16 +24,21 @@ class DashboardController extends Controller
     }
     
     public function getCard(Request $r) {
-        $card = new CardClass();
-        $card->population = Resident::all()->count();
-        $card->reservation = Reservation::where("reservationStart", ">", new \DateTime('today'))
-                                ->where("status", "=", "Pending")
+        if ($r->ajax()) {
+            $card = new CardClass();
+            $card->population = Resident::all()->count();
+            $card->reservation = Reservation::where("reservationStart", ">", new \DateTime('today'))
+                                    ->where("status", "=", "Pending")
+                                    ->where("status", "=", "pending")
+                                    ->count();
+            $card->request = Documentheaderrequest::where("status", "=", "Pending")
                                 ->where("status", "=", "pending")
                                 ->count();
-        $card->request = Documentheaderrequest::where("status", "=", "Pending")
-                            ->where("status", "=", "pending")
-                            ->count();
-        return json_encode($card);
+            return json_encode($card);
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getGraph() {

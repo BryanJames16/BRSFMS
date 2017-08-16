@@ -21,52 +21,58 @@ class BarangayController extends Controller
 
     public function store(Request $r) {
 
+        if ($r->ajax()) {
+            $this->validate($r, [
+                
+                'barangayName' => 'required|unique:barangays|max:40',
+                ]);
 
-        $this->validate($r, [
+            if($_POST['stat']=="active")
+            {
+                $stat = 1;
+            }
+            else if($_POST['stat']=="inactive")
+            {
+                $stat = 0;
+            }
+
             
-            'barangayName' => 'required|unique:barangays|max:40',
-            ]);
-
-        if($_POST['stat']=="active")
-        {
-            $stat = 1;
+            $aah = Barangay::insert(['barangayName'=>trim($r->barangayName),
+                                                'archive'=>0,
+                                                'status'=>$stat]);
+            return back();
         }
-        else if($_POST['stat']=="inactive")
-        {
-            $stat = 0;
+        else {
+            return view('errors.403');
         }
-
         
-        $aah = Barangay::insert(['barangayName'=>trim($r->barangayName),
-                                               'archive'=>0,
-                                               'status'=>$stat]);
-        return back();
-        
-        
-        }
+    }
 
     public function getEdit(Request $r) {
         
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return response(Barangay::find($r->barangayID));
         }
-
+        else {
+            return view('errors.403');
+        }
 
     }
 
-    public function edit(Request $r)
-    {
-
-        $barangay = Barangay::find($r->input('barangayID'));
-        $barangay->barangayName = $r->input('barangay_name');
-        $barangay->status = $r->input('stat');
-        $barangay->save();
-        return redirect('barangay');
+    public function edit(Request $r) {
+        if ($r->ajax()) {
+            $barangay = Barangay::find($r->input('barangayID'));
+            $barangay->barangayName = $r->input('barangay_name');
+            $barangay->status = $r->input('stat');
+            $barangay->save();
+            return redirect('barangay');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function delete(Request $r)
-    {
+    public function delete(Request $r) {
 
         $barangay = Barangay::find($r->input('barangayID'));
         $barangay->archive = true;
