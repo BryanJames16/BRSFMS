@@ -4,6 +4,7 @@ var BUILDING = "building-id";
 var BUILDING_TYPE = "building-type-id";
 var BUSINESS = "business-id";
 var BUSINESS_CATEGORY = "business-category-id";
+var BUSINESS_REGISTRATION = "business-registration-id";
 var CITY = "city-id";
 var DASHBOARD = "dashboard-id";
 var DOCUMENT = "document-id";
@@ -18,23 +19,22 @@ var FACILITY_RESERVATION = "facility-reservation-id";
 var FACILITY_TYPE = "facility-type-id";
 var FORMAL_CASE = "formal-case-id";
 var HOUSE = "house-number-id";
-var BUSINESS_REGISTRATION = "business-registration-id";
 var INDIVIDUAL = "individual-id";
 var LOT = "lot-id";
 var MUNICIPALITY = "municipality-id";
 var PHYSICAL_DOCUMENT = "physical-document-id";
 var PROVINCE = "province-id";
+var QUERY = "query-id";
 var REGION = "region-id";
 var RESIDENT_APPLICATION = "resident-application-id";
+var REQUIREMENTS = "requirement-id";
+var SERVICE_REGISTRATION = "service-registration-id";
 var SERVICE_SPONSORSHIP = "service-sponsorhip-id";
 var SERVICE_TYPE = "service-type-id";
 var SERVICES = "services-id";
 var STREET = "street-id";
 var UNIT = "unit-id";
-var QUERY = "query-id";
-var REQUIREMENTS = "requirement-id";
 var UTILITIES = "utilities-id";
-var SERVICE_REGISTRATION = "service-registration-id";
 
 
 function setSelectedTab(selectedTab) {

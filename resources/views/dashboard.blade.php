@@ -102,18 +102,18 @@
 								</div>
 							</a>
 
-							<a href="/facility-reservation">
+							<a href="/resident">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
 									<div class="card bg-gradient-y-teal">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
 													<div class="media-left media-middle">
-														<i class="icon-calendar2 white font-large-2 float-xs-left"></i>
+														<i class="icon-home22 white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="reservation">32</h3>
-														<span>Pending Reservations</span>
+														<h3 id="population">318</h3>
+														<span>Current Total Families</span>
 													</div>
 												</div>
 											</div>
@@ -142,7 +142,47 @@
 								</div>
 							</a>
 
-							<a href="/services">
+							<a href="/document-approval">
+								<div class="col-xl-3 col-lg-6 col-xs-12">
+									<div class="card bg-gradient-y-brown">
+										<div class="card-body">
+											<div class="card-block">
+												<div class="media">
+													<div class="media-left media-middle">
+														<i class="icon-pen2 white font-large-2 float-xs-left"></i>
+													</div>
+													<div class="media-body white text-xs-right">
+														<h3 id="doc-request">4</h3>
+														<span>Document Approvals</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</a>
+
+							<a href="/facility-reservation">
+								<div class="col-xl-3 col-lg-6 col-xs-12">
+									<div class="card bg-gradient-y-indigo">
+										<div class="card-body">
+											<div class="card-block">
+												<div class="media">
+													<div class="media-left media-middle">
+														<i class="icon-calendar2 white font-large-2 float-xs-left"></i>
+													</div>
+													<div class="media-body white text-xs-right">
+														<h3 id="reservation">32</h3>
+														<span>Pending Reservations</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</a>
+
+							<a href="/service-transaction">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
 									<div class="card bg-gradient-y-pink">
 										<div class="card-body">
@@ -162,77 +202,45 @@
 								</div>
 							</a>
 
-							<div class="col-xl-5 col-md-12 col-sm-12">
-								<div class="card no-border box-shadow-0">
-									<div class="card-body collapse in">
-										<div class="card-block bg-gradient-y-light-blue bg-darken-2">
-											<div class="animated-weather-icons text-xs-center float-xs-left" id="weather-animation">
-												<svg version="1.1" id="wind2" class="climacon climacon_wind climacon-white climacon-darken-2 height-100" viewbox="15 15 70 70">
-													<g class="climacon_iconWrap climacon_iconWrap-wind">
-														<g class="climacon_wrapperComponent climacon_componentWrap-wind">
-															<path class="climacon_component climacon_component-stroke climacon_component-wind climacon_component-wind_curl" d="M65.999,52L65.999,52h-3c-1.104,0-2-0.895-2-1.999c0-1.104,0.896-2,2-2h3c1.104,0,2-0.896,2-1.999c0-1.105-0.896-2-2-2s-2-0.896-2-2s0.896-2,2-2c0.138,0,0.271,0.014,0.401,0.041c3.121,0.211,5.597,2.783,5.597,5.959C71.997,49.314,69.312,52,65.999,52z"></path>
-															<path class="climacon_component climacon_component-stroke climacon_component-wind" d="M55.999,48.001h-2h-6.998H34.002c-1.104,0-1.999,0.896-1.999,2c0,1.104,0.895,1.999,1.999,1.999h2h3.999h3h4h3h3.998h2c3.313,0,6,2.688,6,6c0,3.176-2.476,5.748-5.597,5.959C56.271,63.986,56.139,64,55.999,64c-1.104,0-2-0.896-2-2c0-1.105,0.896-2,2-2s2-0.896,2-2s-0.896-2-2-2h-2h-3.998h-3h-4h-3h-3.999h-2c-3.313,0-5.999-2.686-5.999-5.999c0-3.175,2.475-5.747,5.596-5.959c0.131-0.026,0.266-0.04,0.403-0.04l0,0h12.999h6.998h2c1.104,0,2-0.896,2-2s-0.896-2-2-2s-2-0.895-2-2c0-1.104,0.896-2,2-2c0.14,0,0.272,0.015,0.403,0.041c3.121,0.211,5.597,2.783,5.597,5.959C61.999,45.314,59.312,48.001,55.999,48.001z"></path>
-														</g>
-													</g>
-												</svg>
-											</div>
-											<div class="weather-details text-xs-center">
-												<span class="block white darken-2" id="weather-name">Windy</span>
-												<span class="font-large-1 block white darken-4" id="temperature-value">32&deg;F</span>
-												<span class="font-medium-4 text-bold-500 white darken-4" id="location-value">Manila, Philippines</span>
-											</div>
-										</div>
-										<div class="card-footer p-0 no-border">
-											<div class="table-responsive">
-												<table class="table table-bordered mb-0">
-													<tbody>
-														<tr>
-															<td>
-																<div class="details-left float-xs-left">
-																	<span class="font-small-1 grey text-bold-600 block">WIND</span>
-																	<span class="text-bold-500" id="wind-speed">12 MPH</span>
-																</div>
-																<div class="float-xs-right valign-middle">
-																	<i class="icon-wind light-blue lighten-1 font-large-1"></i>
-																</div>
-															</td>
-															<td>
-																<div class="details-left float-xs-left">
-																	<span class="font-small-1 grey text-bold-600 block">HUMIDITY</span>
-																	<span class="text-bold-500" id="humidity-value">36.5&deg;</span>
-																</div>
-																<div class="float-xs-right valign-middle">
-																	<i class="icon-windy2 light-blue lighten-1 font-large-1"></i>
-																</div>
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<div class="details-left float-xs-left">
-																	<span class="font-small-1 grey text-bold-600 block">CHILL</span>
-																	<span class="text-bold-500" id="chill-value">5%</span>
-																</div>
-																<div class="float-xs-right valign-middle">
-																	<i class="icon-ios-snowy light-blue lighten-1 font-large-1"></i>
-																</div>
-															</td>
-															<td>
-																<div class="details-left float-xs-left">
-																	<span class="font-small-1 grey text-bold-600 block">PRESSURE</span>
-																	<span class="text-bold-500" id="pressure-value">30.19 in</span>
-																</div>
-																<div class="float-xs-right valign-middle">
-																	<i class="icon-compass4 light-blue lighten-1 font-large-1"></i>
-																</div>
-															</td>
-														</tr>
-													</tbody>
-												</table>
+							<a href="/service-sponsorship">
+								<div class="col-xl-3 col-lg-6 col-xs-12">
+									<div class="card bg-gradient-y-info">
+										<div class="card-body">
+											<div class="card-block">
+												<div class="media">
+													<div class="media-left media-middle">
+														<i class="icon-android-contact white font-large-2 float-xs-left"></i>
+													</div>
+													<div class="media-body white text-xs-right">
+														<h3 id="pending-services">3</h3>
+														<span>Current Service Sponsors</span>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
+							</a>
+
+							<a href="/business-registration">
+								<div class="col-xl-3 col-lg-6 col-xs-12">
+									<div class="card bg-gradient-y-blue-grey">
+										<div class="card-body">
+											<div class="card-block">
+												<div class="media">
+													<div class="media-left media-middle">
+														<i class="icon-office white font-large-2 float-xs-left"></i>
+													</div>
+													<div class="media-body white text-xs-right">
+														<h3 id="pending-services">8</h3>
+														<span>Registered Businesses</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</a>
 						</div>
 
 						<div class="card-block card-dashboard">

@@ -63,7 +63,6 @@ Route::post('/service/store', 'ServiceController@store');
 Route::post('/service/update','ServiceController@edit');
 Route::post('/service/delete','ServiceController@delete');
 
-
 //Business Category
 Route::get('/business-category/getEdit', 'BusinessCategoryController@getEdit');
 Route::post('/business-category/store', 'BusinessCategoryController@store');
@@ -75,6 +74,9 @@ Route::get('/business/getEdit', 'BusinessController@getEdit');
 Route::post('/business/store', 'BusinessController@store');
 Route::post('/business/update','BusinessController@edit');
 Route::post('/business/delete','BusinessController@delete');
+
+//Business Registration
+
 
 //Resident
 Route::get('/resident/getEdit', 'ResidentController@getEdit');
