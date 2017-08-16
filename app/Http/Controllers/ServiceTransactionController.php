@@ -183,4 +183,12 @@ class ServiceTransactionController extends Controller
         $type->save();
     }
 
+    public function deletePart(Request $r)
+    {
+        $participants = \DB::table('participants')
+                        ->where('residentID', '=', $r->input('residentID'))
+                        ->where('serviceTransactionPrimeID', '=', $r->input('serviceTransactionPrimeID'))
+                        ->delete();
+    }
+
 }

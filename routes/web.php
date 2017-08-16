@@ -198,6 +198,7 @@ Route::get('/service-transaction/refresh','ServiceTransactionController@Refresh'
 Route::get('/service-transaction/nextPK', 'ServiceTransactionController@nextPK');
 Route::post('/service-transaction/delete', 'ServiceTransactionController@delete');
 Route::post('/service-transaction/addParticipant', 'ServiceTransactionController@addParticipant');
+Route::post('/service-transaction/deletePart', 'ServiceTransactionController@deletePart');
 Route::get('/service-transaction/notParticipant/{id}', 'ServiceTransactionController@notParticipant');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
 
