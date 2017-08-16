@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 16 Aug 2017 07:54:48 +0000.
+ * Date: Wed, 16 Aug 2017 13:19:53 +0000.
  */
 
 namespace App\Models;
@@ -22,9 +22,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $lotID
  * @property int $buildingID
  * 
- * @property \App\Models\Business $business
  * @property \App\Models\Facility $facility
  * @property \App\Models\Resident $resident
+ * @property \App\Models\Businessregistration $businessregistration
  * @property \App\Models\Street $street
  * @property \App\Models\Unit $unit
  *
@@ -56,11 +56,6 @@ class Generaladdress extends Eloquent
 		'buildingID'
 	];
 
-	public function business()
-	{
-		return $this->belongsTo(\App\Models\Business::class, 'businessPrimeID');
-	}
-
 	public function facility()
 	{
 		return $this->belongsTo(\App\Models\Facility::class, 'facilitiesPrimeID');
@@ -69,6 +64,11 @@ class Generaladdress extends Eloquent
 	public function resident()
 	{
 		return $this->belongsTo(\App\Models\Resident::class, 'residentPrimeID');
+	}
+
+	public function businessregistration()
+	{
+		return $this->belongsTo(\App\Models\Businessregistration::class, 'businessPrimeID');
 	}
 
 	public function street()

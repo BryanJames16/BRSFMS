@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 16 Aug 2017 07:54:48 +0000.
+ * Date: Wed, 16 Aug 2017 13:19:52 +0000.
  */
 
 namespace App\Models;
@@ -13,13 +13,15 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Businessregistration
  * 
  * @property int $registrationPrimeID
- * @property string $registrationID
- * @property \Carbon\Carbon $registrationDate
- * @property int $businessPrimeID
+ * @property string $originalName
+ * @property string $tradeName
  * @property int $peoplePrimeID
+ * @property \Carbon\Carbon $registrationDate
+ * @property \Carbon\Carbon $removalDate
+ * @property int $archive
  * 
- * @property \App\Models\Business $business
  * @property \App\Models\Person $person
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  *
  * @package App\Models
  */
@@ -29,28 +31,31 @@ class Businessregistration extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'businessPrimeID' => 'int',
-		'peoplePrimeID' => 'int'
+		'peoplePrimeID' => 'int',
+		'archive' => 'int'
 	];
 
 	protected $dates = [
-		'registrationDate'
+		'registrationDate',
+		'removalDate'
 	];
 
 	protected $fillable = [
-		'registrationID',
+		'originalName',
+		'tradeName',
+		'peoplePrimeID',
 		'registrationDate',
-		'businessPrimeID',
-		'peoplePrimeID'
+		'removalDate',
+		'archive'
 	];
-
-	public function business()
-	{
-		return $this->belongsTo(\App\Models\Business::class, 'businessPrimeID');
-	}
 
 	public function person()
 	{
 		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
+	}
+
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'businessPrimeID');
 	}
 }
