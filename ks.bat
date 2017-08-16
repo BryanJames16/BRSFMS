@@ -116,7 +116,7 @@ IF %1==git (
     )
 )
 
-:: Artisan Commands
+:: System Commands
 if %1==build (
     if %2==models (
         ECHO "Wiping models..."

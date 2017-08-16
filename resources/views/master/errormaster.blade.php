@@ -147,7 +147,7 @@
 					<div class="card-body collapse in px-2">
 						<div class="row py-2">
 							<div class="col-xs-12">
-							<a href="./dashboard" class="btn btn-success btn-block btn-lg">
+							<a href="{{ url('/dashboard') }}" class="btn btn-success btn-block btn-lg">
 								<i class="icon-home3"></i> Back to Home
 							</a>
 						</div>

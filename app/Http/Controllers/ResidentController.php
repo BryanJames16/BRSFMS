@@ -22,8 +22,7 @@ use SmartMove;
 class ResidentController extends Controller
 {
 
-    public function _construct(){
-
+    public function _construct() {
         $this->middleware('auth');
     }
 
@@ -48,7 +47,6 @@ class ResidentController extends Controller
                                         ->join('residents', 'families.familyHeadID', '=', 'residents.residentPrimeID')
                                         ->where('families.archive', '=', 0) 
                                         ->get();
-        
 
     	return view('resident',
                                 ['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
@@ -57,22 +55,19 @@ class ResidentController extends Controller
                                 -> with('streetss', $streetss)
                                 -> with('families',$families)
                                 -> with('memberss',$memberss);
-
-
     }
 
-    public function refresh(Request $r) 
-    {
-        if ($r -> ajax()) 
-        {
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
             return json_encode(Resident::where("status", "=", "1") -> get());
+        }
+        else {
+            return view('errors.403');
         }
     }
 
-    public function familyRefresh(Request $r) 
-    {
-        if ($r -> ajax()) 
-        {
+    public function familyRefresh(Request $r) {
+        if ($r -> ajax()) {
             return json_encode(\DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
                                                     'familyRegistrationDate', 'archive','residents.firstName',
                                                      'residents.middleName','residents.lastName') 
@@ -80,55 +75,54 @@ class ResidentController extends Controller
                                         ->where('families.archive', '=', 0) 
                                         ->get());
         }
-    }
-
-	public function store(Request $r) 
-    {
-        
-        
-        $aah = Resident::insert(['residentID'=>trim($r -> input('residentID')),
-                                            'firstName' => trim($r -> input('firstName')),
-                                            'middleName' => trim($r -> input('middleName')),
-                                            'lastName' => $r -> input('lastName'),
-                                            'suffix' => $r -> input('suffix'),
-											'contactNumber' => $r -> input('contactNumber'),
-                                            'gender' => $r -> input('gender'),
-											'birthDate' => $r -> input('birthDate'),
-											'civilStatus' => $r -> input('civilStatus'),
-											'seniorCitizenID' => $r -> input('seniorCitizenID'),
-											'disabilities' => $r -> input('disabilities'),
-											'residentType' => $r -> input('residentType'),
-											   'status' => 1]);
-
-        $findRet = Resident::all() -> last();
-                                               
-        $aa = Generaladdress::insert(['addressType' => $r -> input('addressType'),
-                                            'residentPrimeID' => $findRet -> residentPrimeID,
-                                            'streetID' => $r -> input('streetID'),
-                                            'lotID' => $r -> input('lotID'),
-											'buildingID' => $r -> input('buildingID'),
-                                            'unitID' => $r -> input('unitID')]);
-
-        if($r -> input('currentWork')!="")
-        {
-            $aa = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
-                                            'monthlyIncome' => $r -> input('monthlyIncome'),
-                                            'peoplePrimeID' => $findRet -> residentPrimeID,
-                                            'dateStarted' => Carbon::now(),
-                                            'status' => 1,
-                                            'archive' => 0]);
+        else {
+            return view('errors.403');
         }
-                                
-        
-
-
-
-            return back();
     }
 
-    public function familyStore(Request $r) 
-    {
-        $aah = Family::insert(['familyID'=>trim($r -> input('familyID')),
+	public function store(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Resident::insert(['residentID'=>trim($r -> input('residentID')),
+                                                'firstName' => trim($r -> input('firstName')),
+                                                'middleName' => trim($r -> input('middleName')),
+                                                'lastName' => $r -> input('lastName'),
+                                                'suffix' => $r -> input('suffix'),
+                                                'contactNumber' => $r -> input('contactNumber'),
+                                                'gender' => $r -> input('gender'),
+                                                'birthDate' => $r -> input('birthDate'),
+                                                'civilStatus' => $r -> input('civilStatus'),
+                                                'seniorCitizenID' => $r -> input('seniorCitizenID'),
+                                                'disabilities' => $r -> input('disabilities'),
+                                                'residentType' => $r -> input('residentType'),
+                                                'status' => 1]);
+
+            $findRet = Resident::all() -> last();
+                                                
+            $genAddRet = Generaladdress::insert(['addressType' => $r -> input('addressType'),
+                                                'residentPrimeID' => $findRet -> residentPrimeID,
+                                                'streetID' => $r -> input('streetID'),
+                                                'lotID' => $r -> input('lotID'),
+                                                'buildingID' => $r -> input('buildingID'),
+                                                'unitID' => $r -> input('unitID')]);
+
+            if($r -> input('currentWork')!="") {
+                $resRet = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
+                                                'monthlyIncome' => $r -> input('monthlyIncome'),
+                                                'peoplePrimeID' => $findRet -> residentPrimeID,
+                                                'dateStarted' => Carbon::now(),
+                                                'status' => 1,
+                                                'archive' => 0]);
+            }
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function familyStore(Request $r) {
+        if ($r->ajax()) { 
+            $insertRet = Family::insert(['familyID'=>trim($r -> input('familyID')),
                                             'familyHeadID' => $r -> input('familyHeadID'),
                                             'familyName' => $r -> input('familyName'),
                                             'familyRegistrationDate' => Carbon::now(),
@@ -136,12 +130,14 @@ class ResidentController extends Controller
 
 
             return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $residentPK = Utility::select('residentPK')->get()->last();
             $residentPKinc = StaticCounter::smart_next($residentPK->residentPK, SmartMove::$NUMBER);
             $lastResidentID = Resident::all()->last();
@@ -166,12 +162,13 @@ class ResidentController extends Controller
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function familyNextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $familyPK = Utility::select('familyPK')->get()->last();
             $familyPKinc = StaticCounter::smart_next($familyPK->familyPK, SmartMove::$NUMBER);
             $lastFamilyID = Family::all()->last();
@@ -196,15 +193,13 @@ class ResidentController extends Controller
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getEdit(Request $r) {
-        
-        
-
-
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','residentID', 'firstName',
                                                                 'lastName','middleName','suffix', 'residents.status', 
                                                                 'contactNumber', 'gender', 'birthDate',
@@ -223,22 +218,23 @@ class ResidentController extends Controller
                                         ->limit(1)
                                         ->get());
         }
-
-    }
-
-    public function familyGetEdit(Request $r) {
-        
-        if($r->ajax())
-        {
-            return response(Family::find($r->input('familyPrimeID')));
+        else {
+            return view('errors.403');
         }
 
     }
 
+    public function familyGetEdit(Request $r) {
+        if($r->ajax()) {
+            return response(Family::find($r->input('familyPrimeID')));
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function getMembers(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return json_encode( \DB::table('residents') ->select('residentPrimeID','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation',
                                                     'gender') 
                                         ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
@@ -246,13 +242,13 @@ class ResidentController extends Controller
                                         ->where('familymembers.familyPrimeID', '=', $r->input('familyPrimeID'))
                                         ->get());
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getLot(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return json_encode( \DB::table('lots') ->select('lotID','lotCode') 
                                         ->join('streets', 'lots.streetID', '=', 'streets.streetID')
                                         ->where('lots.status', '=', 1)
@@ -260,14 +256,13 @@ class ResidentController extends Controller
                                         ->where('lots.streetID', '=', $r->input('streetID'))
                                         ->get());
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
-
     public function getBuilding(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return json_encode( \DB::table('buildings') ->select('buildingID','buildingName') 
                                         ->join('lots', 'buildings.lotID', '=', 'lots.lotID')
                                         ->where('buildings.status', '=', 1)
@@ -275,13 +270,13 @@ class ResidentController extends Controller
                                         ->where('buildings.lotID', '=', $r->input('lotID'))
                                         ->get());
         }
-
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getUnit(Request $r) {
-        
-        if($r->ajax())
-        {
+        if($r->ajax()) {
             return json_encode( \DB::table('units') ->select('unitID','unitCode') 
                                         ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
                                         ->where('units.status', '=', 1)
@@ -289,81 +284,90 @@ class ResidentController extends Controller
                                         ->where('buildings.buildingID', '=', $r->input('buildingID'))
                                         ->get());
         }
-
-    }
-
-    public function delete(Request $r)
-    {
-
-        $type = Resident::find($r->input('residentPrimeID'));
-        $type->status = 0;
-        $type->save();
-        
-        return back();
-    }
-
-    public function familyDelete(Request $r)
-    {
-
-        $type = Family::find($r->input('familyPrimeID'));
-        $type->archive = 1;
-        $type->save();
-        
-        return back();
-    }
-
-    public function edit(Request $r)
-    { 
-        
-
-        $type = Resident::find($r->input('residentPrimeID'));
-        $type->residentID = $r->input('residentID');
-        $type->firstName = $r->input('firstName');
-        $type->middleName = $r->input('middleName');
-        $type->lastName = $r->input('lastName');
-        $type->suffix = $r->input('suffix');
-        $type->gender = $r->input('gender');
-        $type->birthDate = $r->input('birthDate');
-        $type->civilStatus = $r->input('civilStatus');
-        $type->seniorCitizenID = $r->input('seniorCitizenID');
-        $type->disabilities = $r->input('disabilities');
-        $type->residentType = $r->input('residentType');
-        $type->contactNumber = $r->input('contactNumber');
-        $type->save();
-
-        $address = GeneralAddress::find($r->input('personAddressID'));
-        $address->addressType = $r->input('addressType');
-        $address->streetID = $r->input('streetID');
-        $address->buildingID = $r->input('buildingID');
-        $address->unitID = $r->input('unitID');
-        $address->lotID = $r->input('lotID');
-        $address->save();
-
-        if( ($r -> input('work')!= $r -> input('hiddenWork')) || ($r -> input('salary')!=$r -> input('hiddenIncome')) )
-        {
-            $aal = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
-                                            'monthlyIncome' => $r -> input('monthlyIncome'),
-                                            'dateStarted' => Carbon::now(),
-                                            'peoplePrimeID' => $r -> input('residentPrimeID'),
-											'status' => 1,
-                                            'archive' => 0]);
+        else {
+            return view('errors.403');
         }
-
-        
-;        
-
-        return back();
     }
 
-    public function join(Request $r)
-    {
-        $aah = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
-                                            'peoplePrimeID' => $r -> input('peoplePrimeID'),
-                                            'memberRelation' => $r -> input('memberRelation'),
-											   'archive' => 0]);
+    public function delete(Request $r) {
+        if ($r->ajax()) {
+            $type = Resident::find($r->input('residentPrimeID'));
+            $type->status = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
 
+    public function familyDelete(Request $r) {
+        if ($r->ajax()) {
+            $type = Family::find($r->input('familyPrimeID'));
+            $type->archive = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function edit(Request $r) { 
+        if ($r->ajax()) {
+            $type = Resident::find($r->input('residentPrimeID'));
+            $type->residentID = $r->input('residentID');
+            $type->firstName = $r->input('firstName');
+            $type->middleName = $r->input('middleName');
+            $type->lastName = $r->input('lastName');
+            $type->suffix = $r->input('suffix');
+            $type->gender = $r->input('gender');
+            $type->birthDate = $r->input('birthDate');
+            $type->civilStatus = $r->input('civilStatus');
+            $type->seniorCitizenID = $r->input('seniorCitizenID');
+            $type->disabilities = $r->input('disabilities');
+            $type->residentType = $r->input('residentType');
+            $type->contactNumber = $r->input('contactNumber');
+            $type->save();
+
+            $address = GeneralAddress::find($r->input('personAddressID'));
+            $address->addressType = $r->input('addressType');
+            $address->streetID = $r->input('streetID');
+            $address->buildingID = $r->input('buildingID');
+            $address->unitID = $r->input('unitID');
+            $address->lotID = $r->input('lotID');
+            $address->save();
+
+            if( ($r -> input('work')!= $r -> input('hiddenWork')) || 
+                    ($r -> input('salary')!=$r -> input('hiddenIncome')) ) {
+                $insertRet = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
+                                                'monthlyIncome' => $r -> input('monthlyIncome'),
+                                                'dateStarted' => Carbon::now(),
+                                                'peoplePrimeID' => $r -> input('residentPrimeID'),
+                                                'status' => 1,
+                                                'archive' => 0]);
+            }
 
             return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function join(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
+                                                'peoplePrimeID' => $r -> input('peoplePrimeID'),
+                                                'memberRelation' => $r -> input('memberRelation'),
+                                                'archive' => 0]);
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }
 

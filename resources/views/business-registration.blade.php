@@ -80,69 +80,100 @@
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Request a Document</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Register Business</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
 													<div class="card-text">
-														{{ Form::open(['method' => 'POST', 'id' => 'frmReq']) }}
+														{{ Form::open(['method' => 'POST', 'id' => 'frmReg']) }}
 
 														<div class="form-group row">
-															<label class="col-md-3 label-control" for="eventRegInput1">Request ID</label>
+															<label class="col-md-3 label-control" for="eventRegInput1">Business ID</label>
 															<div class="col-md-9">
-																{{ Form::text('requestID', 
+																{{ Form::text('businessID', 
 																				null, 
-																				['id' => 'requestID', 
+																				['id' => 'businessID', 
 																					'class' => 'form-control', 
-																					'placeholder' => 'eg.REQ_001', 
+																					'placeholder' => 'eg. 20-198L77', 
 																					'maxlength' => '20', 
 																					'data-toggle' => 'tooltip', 
 																					'data-trigger' => 'focus', 
 																					'data-placement' => 'top', 
-																					'data-title' => 'Maximum of 20 characters', 
+																					'data-title' => 'Assigned by Bureau of Internal Revenues. Maximum of 20 characters', 
 																					'required', 
-																					'readonly', 
 																					'minlength'=>'5', 
 																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
 															</div>	
 														</div>
 
 														<div class="form-group row">
-															<label class="col-md-3 label-control" for="eventRegInput1">Requestor Name</label>
+															<label class="col-md-3 label-control" for="eventRegInput1">Original Business Name</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="aRequestor">
+																{{ Form::text('businessName', 
+																				null, 
+																				['id' => 'businessName', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. RickaDee Salon', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Trade Name</label>
+															<div class="col-md-9">
+																{{ Form::text('tradeName', 
+																				null, 
+																				['id' => 'tradeName', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. RickaDee Salon Corporation', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Owner or Operator</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="operatorName">
 
 																</select>
 															</div>	
 														</div>
 
 														<div class="form-group row">
-															<label class="col-md-3 label-control" for="eventRegInput1">Document</label>
+															<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="aDocument">
+																<select class ='form-control border-info selectBox' name='type' id="businessAddress">
 
 																</select>
 															</div>	
 														</div>
 
 														<div class="form-group row">
-															<label class="col-md-3 label-control" for="eventRegInput1">Quantity</label>
-															<div class="col-md-3">
-																{{ Form::number('requestQuantity', 
-																					null, 
-																					['id' => 'requestQuantity', 
-																						'class' => 'form-control', 
-																						'min' => '1', 
-																						'max' => '8', 
-																						'maxlength' => '10', 
-																						'minlength' => '1', 
-																						'step' => '1']) }}
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Category</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="businessCategory">
+
+																</select>
 															</div>	
 														</div>
 													</div>
 
 													<div class="form-actions center">
-														<input type="submit" class="btn btn-success" value="Request Document" name="btnRequest">
+														<input type="submit" class="btn btn-success" value="Request Document" name="btnRegister">
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
 														{{ Form::close() }}
@@ -187,9 +218,99 @@
 	</script>
 
 	<script type="text/javascript">
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		var refreshTable = function() {
+			
+		};
+
 		$("#btnRegModal").click(function(event) {
 			$("#regModal").modal("show");
+
+			$.ajax({
+				url: '/business-registration/owner', 
+				type: 'GET', 
+				success: function(data) {
+					for (datum in data) {
+						$("#ownerName").append(
+							'<option value="' + data[datum].residentPrimeID + '">' + 
+								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
+								" (" + data[datum].residentID + ")" + 
+							'</option>'
+						);
+					}
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
+			$.ajax({
+				url: '/business-registration/category', 
+				type: 'GET', 
+				success: function(data) {
+					for (datum in data) {
+						$("#businessCategory").append(
+							'<option value="' + data[datum].categoryPrimeID + '">' + 
+								data[datum].categoryName + 
+							'</option>' 
+						);
+					}
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
 		});
+
+		$("#frmReg").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: '/business-registration/store', 
+				type: 'POST', 
+				data: {
+					"businessID": $("#businessID").val(), 
+					"businessName": $("#businessName").val(), 
+					"tradeName": $("#tradeName").val(), 
+					"operatorName": $("#operatorName").val(), 
+					"address": $("#businessAddress").val(), 
+					"businessCategory": $("#businessCategory").val()
+				}
+				success: function(data) {
+					refreshTable();
+					swal("Success", "Successfully Registered Business!", "success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		})
 	</script>
 @endsection
 

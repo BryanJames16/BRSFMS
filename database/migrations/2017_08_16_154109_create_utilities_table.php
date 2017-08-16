@@ -17,7 +17,6 @@ class CreateUtilitiesTable extends Migration {
 			$table->integer('utilityID', true);
 			$table->string('barangayName', 50);
 			$table->string('chairmanName', 50);
-			$table->string('signaturePath', 250);
 			$table->string('address', 100);
 			$table->string('brgyLogoPath', 250);
 			$table->string('provLogoPath', 250);

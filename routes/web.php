@@ -77,7 +77,6 @@ Route::post('/business/delete','BusinessController@delete');
 
 //Business Registration
 
-
 //Resident
 Route::get('/resident/getEdit', 'ResidentController@getEdit');
 Route::post('/resident/store', 'ResidentController@store');
@@ -128,6 +127,9 @@ Route::post('/document-request/store', 'DocumentRequestController@store');
 Route::post('/document-request/delete','DocumentRequestController@delete');
 
 //Document Approval
+Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
+Route::get('/business-registration/owner', 'BusinessRegistrationController@getOwner');
+Route::post('/business-registration/store', 'BusinessRegistrationController@store');
 
 
 //Province
@@ -201,10 +203,6 @@ Route::post('/service-transaction/addParticipant', 'ServiceTransactionController
 Route::post('/service-transaction/deletePart', 'ServiceTransactionController@deletePart');
 Route::get('/service-transaction/notParticipant/{id}', 'ServiceTransactionController@notParticipant');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
-
-Route::get('/business-registration', function() {
-	return view('business-registration');
-});
 
 Route::get('/request', function() {
 	return view('request');
@@ -288,6 +286,7 @@ Route::resource('/facility-reservation', 'ReservationController');
 Route::resource('/facility-type', 'FacilityTypeController');
 Route::resource('/business', 'BusinessController');
 Route::resource('/business-category', 'BusinessCategoryController');
+Route::resource('/business-registration', 'BusinessRegistrationController');
 Route::resource('/service-type', 'ServiceTypeController');
 Route::resource('/service', 'ServiceController');
 Route::resource('/person', 'PeopleController');

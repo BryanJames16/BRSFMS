@@ -30,35 +30,45 @@ class DocumentRequestController extends Controller
         return view('document-request') -> with('requests', $requests);
     }
 
-    public function refresh() {
-        $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
-                                                               'documentdetailrequests.headerPrimeID', 'documents.documentName',
-                                                               'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
-                                        ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
-                                        ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
-                                        ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
-                                        ->get();
+    public function refresh(Request $r) {
+        if ($r->ajax()) {
+            $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
+                                                                'documentdetailrequests.headerPrimeID', 'documents.documentName',
+                                                                'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
+                                            ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
+                                            ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
+                                            ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                            ->get();
 
-        return (json_encode($requests));
+            return (json_encode($requests));
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function store(Request $r) {
-        $headRet = DocumentHeaderRequest::insert([
-            "requestID" => trim($r -> input('requestID')), 
-            "requestDate" => Carbon::now(), 
-            "status" => "Pending", 
-            "peoplePrimeID" => trim($r -> input('peoplePrimeID'))
-        ]);
+        if ($r->ajax()) {
+            $headRet = DocumentHeaderRequest::insert([
+                "requestID" => trim($r -> input('requestID')), 
+                "requestDate" => Carbon::now(), 
+                "status" => "Pending", 
+                "peoplePrimeID" => trim($r -> input('peoplePrimeID'))
+            ]);
 
-        $findRet = DocumentHeaderRequest::all() -> last();
+            $findRet = DocumentHeaderRequest::all() -> last();
 
-        $detailRet = DocumentDetailRequest::insert([
-            "headerPrimeID" => trim($findRet->documentHeaderPrimeID),
-            "documentPrimeID" => $r -> input('documentPrimeID'),
-            "quantity" => $r -> input('quantity')
-        ]);
+            $detailRet = DocumentDetailRequest::insert([
+                "headerPrimeID" => trim($findRet->documentHeaderPrimeID),
+                "documentPrimeID" => $r -> input('documentPrimeID'),
+                "quantity" => $r -> input('quantity')
+            ]);
 
-        return back();
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function view(Request $r) {
@@ -70,8 +80,6 @@ class DocumentRequestController extends Controller
                                                     -> where("headerPrimeID", "=", $r -> input('documentHeaderPrimeID')) 
                                                     -> get()
                                                     -> first();
-
-            //dd($transDetail);
 
             $document = Document::find($transDetail -> documentPrimeID);
             $resident = Resident::find($transHead -> peoplePrimeID);
@@ -218,71 +226,84 @@ class DocumentRequestController extends Controller
                 "documentContent" => $documentFormat -> documentContent
             ]);
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function nextPK(Request $r) {
         if ($r->ajax()) {
-
-
             $documentRequestPK = Utility::select('docRequestPK')->get()->last();
             $documentRequestPKinc = StaticCounter::smart_next($documentRequestPK->docRequestPK, SmartMove::$NUMBER);
             $lastDocumentRequestID = Documentheaderrequest::all()->last();
             
-            if(is_null($lastDocumentRequestID))
-            {
+            if(is_null($lastDocumentRequestID)) {
                 return response($documentRequestPKinc);
             }
-            else
-            {
+            else {
                 $check = Documentheaderrequest::select('requestID')->where([
                                                                 ['requestID','=',$documentRequestPKinc]
                                                                 ])->get();
-                if($check=='[]')
-                {  
+                if($check=='[]') {  
                     return response($documentRequestPKinc); 
                 }
-                else
-                {
+                else {
                     $nextValue = StaticCounter::smart_next($lastDocumentRequestID->requestID, SmartMove::$NUMBER);
                     return response($nextValue); 
                 }
             }
         }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getRequestor(Request $r) {
-        $residents = Resident::select('residentPrimeID', 
-                                            'firstName', 
-                                            'lastName', 
-                                            'middleName', 
-                                            'suffix', 
-                                            'status')
-                                        -> where('status','1')
-                                        -> get();
-        //echo "Residents is: " . $residents;
-        return (response($residents));
+        if ($r->ajax()) {
+            $residents = Resident::select('residentPrimeID', 
+                                                'firstName', 
+                                                'lastName', 
+                                                'middleName', 
+                                                'suffix', 
+                                                'status')
+                                            -> where('status','1')
+                                            -> get();
+            
+            return (response($residents));
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getDocument(Request $r) {
-        $documents = Document::select('primeID', 'documentName', 'status')
-                                    -> where('status','1')
-                                    -> get();
-        return (response($documents));
+        if ($r->ajax()) {
+            $documents = Document::select('primeID', 'documentName', 'status')
+                                        -> where('status','1')
+                                        -> get();
+            return (response($documents));
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function delete(Request $r) {
+        if ($r->ajax()) {
+            $documentRequest = DocumentHeaderRequest::find($r -> input('documentHeaderPrimeID'));
+            $documentRequest -> status = "Cancelled";
+            $documentRequest -> save();
 
-        echo "Passed value is: " . $r -> input('documentHeaderPrimeID');
-
-        $documentRequest = DocumentHeaderRequest::find($r -> input('documentHeaderPrimeID'));
-        $documentRequest -> status = "Cancelled";
-        $documentRequest -> save();
-
-        return redirect('/document-request');
+            return redirect('/document-request');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }
 
-class DocumentFormat {
+class DocumentFormat 
+{
     public $documentID = "";
     public $documentName = "";
     public $documentContent = "";

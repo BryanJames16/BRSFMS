@@ -421,9 +421,9 @@
 						$("#requestID").val(data);
 					}
 				}, 
-				error: function(data) {
+				error: function(errors) {
 					var message = "Error: ";
-					var data = error.responseJSON;
+					var data = errors.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}
