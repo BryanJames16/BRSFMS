@@ -353,6 +353,7 @@
 									<th>Gender</th>
 									<th>Contact Number</th>
 									<th>Disabilities</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 
@@ -495,7 +496,8 @@
 									data[index].birthDate, 
 									data[index].gender, 
 									data[index].contactNumber,
-									data[index].disabilities
+									data[index].disabilities,
+									'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
 								]).draw(false);
 					}
 					$("#addParticipants").modal('hide');
@@ -548,7 +550,8 @@
 									data[index].birthDate, 
 									data[index].gender, 
 									data[index].contactNumber,
-									data[index].disabilities
+									data[index].disabilities,
+									'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
 								]).draw(false);
 					}
 					$("#viewParticipants").modal('show');
@@ -652,6 +655,80 @@
 		
 
 		//  END OF ADD PARTICIPANT SUBMIT
+
+		//  DELETE PARTICIPANT SUBMIT 
+
+		$(document).on('click', '.deletePart', function(e) {
+			
+			var id = $(this).data('value');
+			var serviceTransactionPrimeID = $("#aaserviceTransactionPrimeID").val()
+
+			console.log(serviceTransactionPrimeID);
+			
+			$.ajax({
+				url: "{{ url('/service-transaction/deletePart') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"residentID": id, 
+					"serviceTransactionPrimeID": serviceTransactionPrimeID
+				}, 
+				success: function(data) {
+					
+					$.ajax({
+					url: '/service-transaction/getParticipant/' + serviceTransactionPrimeID, 
+					method: "GET", 
+					datatype: "json", 
+
+					success: function(data) {
+						$("#table-viewParticipants").DataTable().clear().draw();
+						data = $.parseJSON(data);
+
+						for (index in data) {
+							
+							
+							$("#table-viewParticipants").DataTable()
+									.row.add([
+										data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+										data[index].birthDate, 
+										data[index].gender, 
+										data[index].contactNumber,
+										data[index].disabilities,
+										'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+									]).draw(false);
+						}
+					}, 
+					error: function(data) {
+
+						var message = "Error: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+						console.log("Error: Cannot refresh table!\n" + message);
+					}
+					});
+					swal("Success", "Successfully Deleted participant!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+			
+
+		});
+
+		
+
+		//  END OF DELETE PARTICIPANT SUBMIT
 
 		// EDIT SERVICE ACTION
 
@@ -825,8 +902,7 @@
 									data[index].fromAge + ' - ' + data[index].toAge + ' yrs. old', 
 									'12', 
 									data[index].status,
-										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
+										'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
 											'<span class="dropdown">'+
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
@@ -835,8 +911,7 @@
 													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>'+
 												'</span>'+
-											'</span>'+
-											'</form>'
+											'</span>'
 									
 								]).draw(false);
 					}
