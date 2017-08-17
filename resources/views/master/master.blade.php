@@ -339,26 +339,12 @@
 											</li>
 										</ul>
 									</li>
-									<li>
-										<a href="#">
-											<i class="icon-android-car"></i>
-											<span>Business</span>
+									<li id="business-category-id">
+										<a href="/business-category" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-car"></i>
+											<span>Business Category</span>
 										</a>
-										<ul class="menu-content">
-											<li id="business-category-id">
-												<a href="/business-category" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Business Category
-												</a>
-											</li>
-											<li id="business-id">
-												<a href="/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-truck"></i>
-													Business
-												</a>
-											</li>
-										</ul>
-									</li>				
+									</li>			
 									<li>
 										<a href="#">
 											<i class="icon-location22"></i>
@@ -474,7 +460,7 @@
 									</li>
 									<li id="business-registration-id">
 										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-truck3"></i>
+											<i class="icon-truck"></i>
 											<span>Business Registration</span>
 										</a>
 									</li>
