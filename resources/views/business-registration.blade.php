@@ -225,7 +225,35 @@
 		});
 
 		var refreshTable = function() {
-			
+			$.ajax({
+				url: "{{ url('/business-registration/getBusiness') }}", 
+				type: 'GET', 
+				success: function(data) {
+					$("#table-container").DataTable().clear().draw();
+					for (index in data) {
+						$("#table-container").DataTable()
+								.row.add([
+									data[index].businessID, 
+									data[index].registrationDate, 
+									data[index].firstName + " " + 
+										data[index].middleName + " " + 
+										data[index].lastName, 
+									"", 
+									"",
+									""
+								]).draw(false);
+					}
+				}, 
+				error: function(errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
 		};
 
 		$("#btnRegModal").click(function(event) {
@@ -245,7 +273,6 @@
 					}
 				}, 
 				error: function(errors) {
-
 					var message = "Errors: ";
 					var data = errors.responseJSON;
 					for (datum in data) {
@@ -297,7 +324,9 @@
 				}, 
 				success: function(data) {
 					refreshTable();
+					$("#regModal").modal('hide');
 					swal("Success", "Successfully Registered Business!", "success");
+					$("#frmReg").trigger('reset');
 				}, 
 				error: function(error) {
 

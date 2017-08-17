@@ -76,6 +76,10 @@ Route::post('/business/update','BusinessController@edit');
 Route::post('/business/delete','BusinessController@delete');
 
 //Business Registration
+Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
+Route::get('/business-registration/owner', 'BusinessRegistrationController@getOwner');
+Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
+Route::post('/business-registration/store', 'BusinessRegistrationController@store');
 
 //Resident
 Route::get('/resident/getEdit', 'ResidentController@getEdit');
@@ -127,9 +131,7 @@ Route::post('/document-request/store', 'DocumentRequestController@store');
 Route::post('/document-request/delete','DocumentRequestController@delete');
 
 //Document Approval
-Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
-Route::get('/business-registration/owner', 'BusinessRegistrationController@getOwner');
-Route::post('/business-registration/store', 'BusinessRegistrationController@store');
+
 
 
 //Province

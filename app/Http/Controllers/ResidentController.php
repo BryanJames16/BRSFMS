@@ -142,12 +142,10 @@ class ResidentController extends Controller
             $residentPKinc = StaticCounter::smart_next($residentPK->residentPK, SmartMove::$NUMBER);
             $lastResidentID = Resident::all()->last();
             
-            if(is_null($lastResidentID))
-            {
+            if (is_null($lastResidentID)) {
                 return response($residentPKinc);
             }
-            else
-            {
+            else {
                 $check = Resident::select('residentID')->where([
                                                                 ['residentID','=',$residentPKinc]
                                                                 ])->get();

@@ -24,12 +24,10 @@ class BusinessCategoryController extends Controller
                 'categoryName' => 'required|unique:businesscategories|max:30',
                 ]);
 
-            if($_POST['stat']=="active")
-            {
+            if($_POST['stat']=="active") {
                 $stat = 1;
             }
-            else if($_POST['stat']=="inactive")
-            {
+            else if($_POST['stat']=="inactive") {
                 $stat = 0;
             }
 
@@ -39,11 +37,31 @@ class BusinessCategoryController extends Controller
                                                     'status'=>$stat]);
 
 
-            return back();
+            return redirect('/business-category');
         }
-        else {
-            return view('errors.403');
+        //else {
+        //    return view('errors.403');
+        //}
+
+        $this->validate($r, [
+            
+            'categoryName' => 'required|unique:businesscategories|max:30',
+            ]);
+
+        if($_POST['stat']=="active") {
+            $stat = 1;
         }
+        else if($_POST['stat']=="inactive") {
+            $stat = 0;
+        }
+
+        $insertRet = BusinessCategory::insert(['categoryName'=>trim($r->categoryName),
+                                                'archive'=>0,
+                                                'categoryDesc'=>trim($r->desc),
+                                                'status'=>$stat]);
+
+
+        return redirect('/business-category');
     }
 
     public function getEdit(Request $r) {

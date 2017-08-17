@@ -20,7 +20,7 @@ class BusinessRegistrationController extends Controller
                 'businessID' => $r->input('businessID'),
                 'originalName' => $r->input('originalName'), 
                 'tradeName' => $r->input('tradeName'), 
-                'peoplePrimeID' => $r->input('operatorName'), 
+                'residentPrimeID' => $r->input('operatorName'), 
                 'registrationDate' => Carbon::now(), 
                 'archive' => 0
             ]);
@@ -48,6 +48,22 @@ class BusinessRegistrationController extends Controller
     public function getOwner(Request $r) {
         if ($r -> ajax()) {
             return (Resident::where("status", "=", "1")->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getBusiness(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(
+                Businessregistration::join('residents', 
+                                            'residents.residentPrimeID', 
+                                            '=', 
+                                            'businessregistrations.residentPrimeID') 
+                                        ->where("archive", "=", "0")
+                                        ->get()
+            );
         }
         else {
             return view('errors.403');
