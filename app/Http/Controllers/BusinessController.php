@@ -24,12 +24,10 @@ class BusinessController extends Controller
                 'businessName' => 'required|unique:businesses|max:30',
                 ]);
 
-            if($_POST['stat']=="active")
-            {
+            if($_POST['stat']=="active") {
                 $stat = 1;
             }
-            else if($_POST['stat']=="inactive")
-            {
+            else if($_POST['stat']=="inactive") {
                 $stat = 0;
             }
 

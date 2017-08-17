@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Businesscategory;
 use \App\Models\Resident;
+use \App\Models\Businessregistration;
+use Carbon\Carbon;
 
 class BusinessRegistrationController extends Controller
 {
@@ -14,7 +16,18 @@ class BusinessRegistrationController extends Controller
 
     public function store(Request $r) {
         if ($r->ajax()) {
+            $insertRet = Businessregistration::insert([
+                'businessID' => $r->input('businessID'),
+                'originalName' => $r->input('originalName'), 
+                'tradeName' => $r->input('tradeName'), 
+                'peoplePrimeID' => $r->input('operatorName'), 
+                'registrationDate' => Carbon::now(), 
+                'archive' => 0
+            ]);
+            
+            dd($insertRet);
 
+            return back();
         }
         else {
             return view('errors.403');

@@ -173,7 +173,7 @@
 													</div>
 
 													<div class="form-actions center">
-														<input type="submit" class="btn btn-success" value="Request Document" name="btnRegister">
+														<input type="submit" class="btn btn-success" value="Register Business" name="btnRegister">
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
 														{{ Form::close() }}
@@ -236,7 +236,7 @@
 				type: 'GET', 
 				success: function(data) {
 					for (datum in data) {
-						$("#ownerName").append(
+						$("#operatorName").append(
 							'<option value="' + data[datum].residentPrimeID + '">' + 
 								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
 								" (" + data[datum].residentID + ")" + 
@@ -244,10 +244,10 @@
 						);
 					}
 				}, 
-				error: function(error) {
+				error: function(errors) {
 
 					var message = "Errors: ";
-					var data = error.responseJSON;
+					var data = errors.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}
@@ -289,12 +289,12 @@
 				type: 'POST', 
 				data: {
 					"businessID": $("#businessID").val(), 
-					"businessName": $("#businessName").val(), 
+					"originalName": $("#businessName").val(), 
 					"tradeName": $("#tradeName").val(), 
 					"operatorName": $("#operatorName").val(), 
 					"address": $("#businessAddress").val(), 
 					"businessCategory": $("#businessCategory").val()
-				}
+				}, 
 				success: function(data) {
 					refreshTable();
 					swal("Success", "Successfully Registered Business!", "success");

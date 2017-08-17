@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 16 Aug 2017 13:19:52 +0000.
+ * Date: Thu, 17 Aug 2017 15:09:02 +0000.
  */
 
 namespace App\Models;
@@ -13,14 +13,17 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Businessregistration
  * 
  * @property int $registrationPrimeID
+ * @property string $businessID
  * @property string $originalName
  * @property string $tradeName
  * @property int $peoplePrimeID
+ * @property int $residentPrimeID
  * @property \Carbon\Carbon $registrationDate
  * @property \Carbon\Carbon $removalDate
  * @property int $archive
  * 
  * @property \App\Models\Person $person
+ * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  *
  * @package App\Models
@@ -32,6 +35,7 @@ class Businessregistration extends Eloquent
 
 	protected $casts = [
 		'peoplePrimeID' => 'int',
+		'residentPrimeID' => 'int',
 		'archive' => 'int'
 	];
 
@@ -41,9 +45,11 @@ class Businessregistration extends Eloquent
 	];
 
 	protected $fillable = [
+		'businessID',
 		'originalName',
 		'tradeName',
 		'peoplePrimeID',
+		'residentPrimeID',
 		'registrationDate',
 		'removalDate',
 		'archive'
@@ -52,6 +58,11 @@ class Businessregistration extends Eloquent
 	public function person()
 	{
 		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
+	}
+
+	public function resident()
+	{
+		return $this->belongsTo(\App\Models\Resident::class, 'residentPrimeID');
 	}
 
 	public function generaladdresses()
