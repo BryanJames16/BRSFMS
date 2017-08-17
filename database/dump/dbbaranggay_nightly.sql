@@ -43,7 +43,6 @@ CREATE TABLE `buildings` (
 
 LOCK TABLES `buildings` WRITE;
 /*!40000 ALTER TABLE `buildings` DISABLE KEYS */;
-INSERT INTO `buildings` VALUES (8,6,'Calina',3,1,0);
 /*!40000 ALTER TABLE `buildings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +68,6 @@ CREATE TABLE `buildingtypes` (
 
 LOCK TABLES `buildingtypes` WRITE;
 /*!40000 ALTER TABLE `buildingtypes` DISABLE KEYS */;
-INSERT INTO `buildingtypes` VALUES (3,'House',1,0);
 /*!40000 ALTER TABLE `buildingtypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +85,7 @@ CREATE TABLE `businesscategories` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`categoryPrimeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +94,7 @@ CREATE TABLE `businesscategories` (
 
 LOCK TABLES `businesscategories` WRITE;
 /*!40000 ALTER TABLE `businesscategories` DISABLE KEYS */;
-INSERT INTO `businesscategories` VALUES (3,'Recreational','sdfasdfasdf',1,0);
+INSERT INTO `businesscategories` VALUES (4,'Recreational','asdfasdf',1,0);
 /*!40000 ALTER TABLE `businesscategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +117,7 @@ CREATE TABLE `businesses` (
   PRIMARY KEY (`businessPrimeID`),
   KEY `fk_Businesses_BusinessCategory1_idx` (`categoryPrimeID`),
   CONSTRAINT `fk_Businesses_BusinessCategory1` FOREIGN KEY (`categoryPrimeID`) REFERENCES `businesscategories` (`categoryPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,16 +138,20 @@ DROP TABLE IF EXISTS `businessregistrations`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `businessregistrations` (
   `registrationPrimeID` int(11) NOT NULL AUTO_INCREMENT,
+  `businessID` varchar(20) NOT NULL,
   `originalName` varchar(45) NOT NULL,
   `tradeName` varchar(45) NOT NULL,
-  `peoplePrimeID` int(11) NOT NULL,
+  `peoplePrimeID` int(11) DEFAULT NULL,
+  `residentPrimeID` int(11) DEFAULT NULL,
   `registrationDate` datetime NOT NULL,
   `removalDate` datetime DEFAULT NULL,
   `archive` int(11) NOT NULL,
   PRIMARY KEY (`registrationPrimeID`),
   KEY `fk_BusinessRegistrations_People1_idx` (`peoplePrimeID`),
-  CONSTRAINT `fk_BusinessRegistrations_People1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `fk_businessregistrations_residents1_idx` (`residentPrimeID`),
+  CONSTRAINT `fk_BusinessRegistrations_People1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_businessregistrations_residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,6 +160,7 @@ CREATE TABLE `businessregistrations` (
 
 LOCK TABLES `businessregistrations` WRITE;
 /*!40000 ALTER TABLE `businessregistrations` DISABLE KEYS */;
+INSERT INTO `businessregistrations` VALUES (2,'asdfasdf','asdfsdfs','fasdfasdf',NULL,1,'2017-08-17 15:19:44',NULL,0);
 /*!40000 ALTER TABLE `businessregistrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +181,7 @@ CREATE TABLE `document_requirements` (
   KEY `requirementID_idx` (`requirementID`),
   CONSTRAINT `documentPrimeID` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `requirementID` FOREIGN KEY (`requirementID`) REFERENCES `requirements` (`requirementID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +210,7 @@ CREATE TABLE `documentdetailrequests` (
   KEY `fk_DocumentDetailRequests_Documents1_idx` (`documentPrimeID`),
   CONSTRAINT `fk_DocumentDetailRequests_DocumentHeaderRequests1` FOREIGN KEY (`headerPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_DocumentDetailRequests_Documents1` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +238,7 @@ CREATE TABLE `documentheaderrequests` (
   PRIMARY KEY (`documentHeaderPrimeID`),
   KEY `fk_DocumentHeaderRequests_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,7 +268,7 @@ CREATE TABLE `documents` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`primeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,7 +358,7 @@ CREATE TABLE `facilities` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Facilities_FacilityTypes1_idx` (`facilityTypeID`),
   CONSTRAINT `fk_Facilities_FacilityTypes1` FOREIGN KEY (`facilityTypeID`) REFERENCES `facilitytypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,7 +383,7 @@ CREATE TABLE `facilitytypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -389,6 +392,7 @@ CREATE TABLE `facilitytypes` (
 
 LOCK TABLES `facilitytypes` WRITE;
 /*!40000 ALTER TABLE `facilitytypes` DISABLE KEYS */;
+INSERT INTO `facilitytypes` VALUES (1,'Covered Court',1,0);
 /*!40000 ALTER TABLE `facilitytypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -409,7 +413,7 @@ CREATE TABLE `families` (
   PRIMARY KEY (`familyPrimeID`),
   KEY `familyHeadID_idx` (`familyHeadID`),
   CONSTRAINT `familyHeadID` FOREIGN KEY (`familyHeadID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -439,7 +443,7 @@ CREATE TABLE `familymembers` (
   KEY `fk_FamilyMembers_Families1_idx` (`familyPrimeID`),
   CONSTRAINT `fk_FamilyMembers_Families1` FOREIGN KEY (`familyPrimeID`) REFERENCES `families` (`familyPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_familyMembers_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +493,6 @@ CREATE TABLE `generaladdresses` (
 
 LOCK TABLES `generaladdresses` WRITE;
 /*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
-INSERT INTO `generaladdresses` VALUES (15,'Permanent Address',37,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -518,7 +521,6 @@ CREATE TABLE `lots` (
 
 LOCK TABLES `lots` WRITE;
 /*!40000 ALTER TABLE `lots` DISABLE KEYS */;
-INSERT INTO `lots` VALUES (6,'21',4,1,0);
 /*!40000 ALTER TABLE `lots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -534,7 +536,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) CHARACTER SET utf8 NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,6 +545,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES (111,'2017_08_17_150915_create_buildings_table',0),(112,'2017_08_17_150915_create_buildingtypes_table',0),(113,'2017_08_17_150915_create_businesscategories_table',0),(114,'2017_08_17_150915_create_businesses_table',0),(115,'2017_08_17_150915_create_businessregistrations_table',0),(116,'2017_08_17_150915_create_document_requirements_table',0),(117,'2017_08_17_150915_create_documentdetailrequests_table',0),(118,'2017_08_17_150915_create_documentheaderrequests_table',0),(119,'2017_08_17_150915_create_documents_table',0),(120,'2017_08_17_150915_create_employeeposition_table',0),(121,'2017_08_17_150915_create_employees_table',0),(122,'2017_08_17_150915_create_facilities_table',0),(123,'2017_08_17_150915_create_facilitytypes_table',0),(124,'2017_08_17_150915_create_families_table',0),(125,'2017_08_17_150915_create_familymembers_table',0),(126,'2017_08_17_150915_create_generaladdresses_table',0),(127,'2017_08_17_150915_create_lots_table',0),(128,'2017_08_17_150915_create_participants_table',0),(129,'2017_08_17_150915_create_people_table',0),(130,'2017_08_17_150915_create_requirements_table',0),(131,'2017_08_17_150915_create_reservations_table',0),(132,'2017_08_17_150915_create_residentaccountregistrations_table',0),(133,'2017_08_17_150915_create_residentaccounts_table',0),(134,'2017_08_17_150915_create_residentbackgrounds_table',0),(135,'2017_08_17_150915_create_residentregistrations_table',0),(136,'2017_08_17_150915_create_residents_table',0),(137,'2017_08_17_150915_create_services_table',0),(138,'2017_08_17_150915_create_servicesponsorships_table',0),(139,'2017_08_17_150915_create_servicetransactions_table',0),(140,'2017_08_17_150915_create_servicetypes_table',0),(141,'2017_08_17_150915_create_streets_table',0),(142,'2017_08_17_150915_create_sysutil_table',0),(143,'2017_08_17_150915_create_units_table',0),(144,'2017_08_17_150915_create_users_table',0),(145,'2017_08_17_150915_create_utilities_table',0),(146,'2017_08_17_150915_create_voters_table',0),(147,'2017_08_17_150921_add_foreign_keys_to_buildings_table',0),(148,'2017_08_17_150921_add_foreign_keys_to_businesses_table',0),(149,'2017_08_17_150921_add_foreign_keys_to_businessregistrations_table',0),(150,'2017_08_17_150921_add_foreign_keys_to_document_requirements_table',0),(151,'2017_08_17_150921_add_foreign_keys_to_documentdetailrequests_table',0),(152,'2017_08_17_150921_add_foreign_keys_to_documentheaderrequests_table',0),(153,'2017_08_17_150921_add_foreign_keys_to_employeeposition_table',0),(154,'2017_08_17_150921_add_foreign_keys_to_facilities_table',0),(155,'2017_08_17_150921_add_foreign_keys_to_families_table',0),(156,'2017_08_17_150921_add_foreign_keys_to_familymembers_table',0),(157,'2017_08_17_150921_add_foreign_keys_to_generaladdresses_table',0),(158,'2017_08_17_150921_add_foreign_keys_to_lots_table',0),(159,'2017_08_17_150921_add_foreign_keys_to_participants_table',0),(160,'2017_08_17_150921_add_foreign_keys_to_reservations_table',0),(161,'2017_08_17_150921_add_foreign_keys_to_residentaccountregistrations_table',0),(162,'2017_08_17_150921_add_foreign_keys_to_residentaccounts_table',0),(163,'2017_08_17_150921_add_foreign_keys_to_residentbackgrounds_table',0),(164,'2017_08_17_150921_add_foreign_keys_to_residentregistrations_table',0),(165,'2017_08_17_150921_add_foreign_keys_to_services_table',0),(166,'2017_08_17_150921_add_foreign_keys_to_servicesponsorships_table',0),(167,'2017_08_17_150921_add_foreign_keys_to_servicetransactions_table',0),(168,'2017_08_17_150921_add_foreign_keys_to_units_table',0),(169,'2017_08_17_150921_add_foreign_keys_to_voters_table',0);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -563,7 +566,7 @@ CREATE TABLE `participants` (
   KEY `residentID_idx` (`residentID`),
   CONSTRAINT `residentID` FOREIGN KEY (`residentID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE,
   CONSTRAINT `serviceTransactionPrimeID` FOREIGN KEY (`serviceTransactionPrimeID`) REFERENCES `servicetransactions` (`serviceTransactionPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -594,7 +597,7 @@ CREATE TABLE `people` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`peoplePrimeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -620,7 +623,7 @@ CREATE TABLE `requirements` (
   `status` tinyint(4) NOT NULL DEFAULT '1',
   `archive` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`requirementID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -654,7 +657,7 @@ CREATE TABLE `reservations` (
   KEY `fk_Reservations_Facilities1_idx` (`facilityPrimeID`),
   CONSTRAINT `fk_Reservations_Facilities1` FOREIGN KEY (`facilityPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Reservations_People1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -750,7 +753,6 @@ CREATE TABLE `residentbackgrounds` (
 
 LOCK TABLES `residentbackgrounds` WRITE;
 /*!40000 ALTER TABLE `residentbackgrounds` DISABLE KEYS */;
-INSERT INTO `residentbackgrounds` VALUES (23,'asdfsdsd','₱0-₱10,000','2017-08-16',37,1,0);
 /*!40000 ALTER TABLE `residentbackgrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -816,7 +818,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (37,'RES_001','asdfsdfsdf','fasdfsdfsd','sdfasfddsfa','sdfs','0921323131','M','2017-08-17','Single',NULL,NULL,'Transient',1);
+INSERT INTO `residents` VALUES (1,'RES_001','Juan','Ponce','Dela Cruz',NULL,'09275644361','M','1997-08-01','Single',NULL,NULL,'Transient',1);
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -838,7 +840,7 @@ CREATE TABLE `services` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Services_ServiceTypes1_idx` (`typeID`),
   CONSTRAINT `fk_Services_ServiceTypes1` FOREIGN KEY (`typeID`) REFERENCES `servicetypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -902,7 +904,7 @@ CREATE TABLE `servicetransactions` (
   PRIMARY KEY (`serviceTransactionPrimeID`),
   KEY `servicePrimeID_idx` (`servicePrimeID`),
   CONSTRAINT `servicePrimeID` FOREIGN KEY (`servicePrimeID`) REFERENCES `services` (`primeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -928,7 +930,7 @@ CREATE TABLE `servicetypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -962,7 +964,6 @@ CREATE TABLE `streets` (
 
 LOCK TABLES `streets` WRITE;
 /*!40000 ALTER TABLE `streets` DISABLE KEYS */;
-INSERT INTO `streets` VALUES (4,'Hippodromo',1,0);
 /*!40000 ALTER TABLE `streets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1014,7 +1015,6 @@ CREATE TABLE `units` (
 
 LOCK TABLES `units` WRITE;
 /*!40000 ALTER TABLE `units` DISABLE KEYS */;
-INSERT INTO `units` VALUES (7,'21',1,0,8);
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1039,7 +1039,7 @@ CREATE TABLE `users` (
   `suffix` varchar(10) DEFAULT NULL,
   `imagePath` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1076,7 +1076,7 @@ CREATE TABLE `utilities` (
   `serviceRegPK` varchar(30) NOT NULL,
   `sponsorPK` varchar(30) NOT NULL,
   PRIMARY KEY (`utilityID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1126,4 +1126,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-16 22:03:06
+-- Dump completed on 2017-08-18  0:49:57
