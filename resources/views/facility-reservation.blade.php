@@ -395,7 +395,7 @@
 								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
 							</div>
 							<div class="modal-body">
-								{!!Form::open(['url'=>'/reservation/store', 'method' => 'POST'])!!}
+								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST'])!!}
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -685,7 +685,7 @@
 	<script>
 		var refreshCbo = function() {
 			$.ajax({
-				url: "{{ url('/reservation/updatecbo') }}", 
+				url: "{{ url('/facility-reservation/updatecbo') }}", 
 				type: "GET", 
 				success: function(data){
 					$("#reserveeCbo").empty();
