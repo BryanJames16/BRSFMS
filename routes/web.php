@@ -128,6 +128,10 @@ Route::post('/resident/delete', 'ResidentController@delete');
 Route::post('/resident/join', 'ResidentController@join');
 Route::post('/resident/store', 'ResidentController@store');
 Route::post('/resident/update', 'ResidentController@edit');
+Route::post('/resident/addImage', 'ResidentController@addImage');
+Route::post('/resident/memberRemove', 'ResidentController@memberRemove');
+Route::get('/resident/notMember/{id}', 'ResidentController@notMember');
+
 
 // Family
 Route::get('/family/getEdit', 'ResidentController@familyGetEdit');
