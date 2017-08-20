@@ -171,6 +171,8 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
+        Rymanalu\FactoryGenerator\FactoryGeneratorServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
 
         /*
          * Application Service Providers...
