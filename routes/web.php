@@ -188,6 +188,7 @@ Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/business-category', 'BusinessCategoryController');
 Route::resource('/business-registration', 'BusinessRegistrationController');
+Route::resource('/collection', 'CollectionController');
 Route::resource('/dashboard', 'DashboardController');
 Route::resource('/document', 'DocumentController');
 Route::resource('/document-request', 'DocumentRequestController');
@@ -220,6 +221,30 @@ Route::post('/register', 'RegisterController@store');
 
 Route::get('/logout','SessionsController@destroy');
 
+//////////////////////////////////////////////////////////////////////
+/* BLOCK PAGE ROUTES */
+//////////////////////////////////////////////////////////////////////
+
+Route::get('/unmt', function () {
+	return view('errors.unmt');
+});
+
+Route::get('/400', function () {
+	return view('errors.400');
+});
+
+Route::get('/403', function () {
+	return view('errors.403');
+});
+
+Route::get('/404', function () {
+	return view('errors.404');
+});
+
+Route::get('/503', function () {
+	return view('errors.503');
+});
+
 
 //////////////////////////////////////////////////////////////////////
 /* DEVELOPMENT ROUTES */
@@ -231,10 +256,6 @@ Route::get('/master', function () {
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');
-});
-
-Route::get('/unmt', function() {
-	return view('errors.unmt');
 });
 
 
