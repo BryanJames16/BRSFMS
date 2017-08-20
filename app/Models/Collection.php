@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 20 Aug 2017 12:47:19 +0000.
+ * Date: Sun, 20 Aug 2017 13:11:54 +0000.
  */
 
 namespace App\Models;
@@ -14,13 +14,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $collectionPrimeID
  * @property string $collectionID
+ * @property \Carbon\Carbon $collectionDate
  * @property int $collectionType
  * @property float $amount
  * @property string $status
  * @property int $reservationprimeID
  * @property int $documentHeaderPrimeID
- * @property int $residents_residentPrimeID
- * @property int $people_peoplePrimeID
+ * @property int $residentPrimeID
+ * @property int $peoplePrimeID
  * 
  * @property \App\Models\Documentheaderrequest $documentheaderrequest
  * @property \App\Models\Person $person
@@ -39,19 +40,24 @@ class Collection extends Eloquent
 		'amount' => 'float',
 		'reservationprimeID' => 'int',
 		'documentHeaderPrimeID' => 'int',
-		'residents_residentPrimeID' => 'int',
-		'people_peoplePrimeID' => 'int'
+		'residentPrimeID' => 'int',
+		'peoplePrimeID' => 'int'
+	];
+
+	protected $dates = [
+		'collectionDate'
 	];
 
 	protected $fillable = [
 		'collectionID',
+		'collectionDate',
 		'collectionType',
 		'amount',
 		'status',
 		'reservationprimeID',
 		'documentHeaderPrimeID',
-		'residents_residentPrimeID',
-		'people_peoplePrimeID'
+		'residentPrimeID',
+		'peoplePrimeID'
 	];
 
 	public function documentheaderrequest()
@@ -61,7 +67,7 @@ class Collection extends Eloquent
 
 	public function person()
 	{
-		return $this->belongsTo(\App\Models\Person::class, 'people_peoplePrimeID');
+		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
 	}
 
 	public function reservation()
@@ -71,6 +77,6 @@ class Collection extends Eloquent
 
 	public function resident()
 	{
-		return $this->belongsTo(\App\Models\Resident::class, 'residents_residentPrimeID');
+		return $this->belongsTo(\App\Models\Resident::class, 'residentPrimeID');
 	}
 }

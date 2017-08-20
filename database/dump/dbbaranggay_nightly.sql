@@ -172,22 +172,23 @@ DROP TABLE IF EXISTS `collections`;
 CREATE TABLE `collections` (
   `collectionPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `collectionID` varchar(20) NOT NULL,
+  `collectionDate` datetime NOT NULL,
   `collectionType` int(11) NOT NULL,
   `amount` double NOT NULL,
   `status` varchar(20) NOT NULL,
   `reservationprimeID` int(11) DEFAULT NULL,
   `documentHeaderPrimeID` int(11) DEFAULT NULL,
-  `residents_residentPrimeID` int(11) DEFAULT NULL,
-  `people_peoplePrimeID` int(11) DEFAULT NULL,
+  `residentPrimeID` int(11) DEFAULT NULL,
+  `peoplePrimeID` int(11) DEFAULT NULL,
   PRIMARY KEY (`collectionPrimeID`),
   KEY `fk_collections_reservations1_idx` (`reservationprimeID`),
   KEY `fk_collections_documentheaderrequests1_idx` (`documentHeaderPrimeID`),
-  KEY `fk_collections_residents1_idx` (`residents_residentPrimeID`),
-  KEY `fk_collections_people1_idx` (`people_peoplePrimeID`),
+  KEY `fk_collections_residents1_idx` (`residentPrimeID`),
+  KEY `fk_collections_people1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_collections_documentheaderrequests1` FOREIGN KEY (`documentHeaderPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_collections_people1` FOREIGN KEY (`people_peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_collections_people1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_reservations1` FOREIGN KEY (`reservationprimeID`) REFERENCES `reservations` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_collections_residents1` FOREIGN KEY (`residents_residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_collections_residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1159,4 +1160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-20 20:47:06
+-- Dump completed on 2017-08-20 21:11:37

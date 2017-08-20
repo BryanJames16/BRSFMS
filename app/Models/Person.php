@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 20 Aug 2017 12:47:19 +0000.
+ * Date: Sun, 20 Aug 2017 13:11:54 +0000.
  */
 
 namespace App\Models;
@@ -59,7 +59,7 @@ class Person extends Eloquent
 
 	public function collections()
 	{
-		return $this->hasMany(\App\Models\Collection::class, 'people_peoplePrimeID');
+		return $this->hasMany(\App\Models\Collection::class, 'peoplePrimeID');
 	}
 
 	public function reservations()
