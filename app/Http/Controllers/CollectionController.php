@@ -8,27 +8,52 @@ use \App\Models\Collection;
 class CollectionController extends Controller
 {
     public function index() {
-        $collections = \DB::table('collections AS c')
-                        -> table('reservations AS r')
-                        -> table('residents AS res')
-                        -> table('people AS p')
-                        -> table('documentHeaderRequests AS d')
-                        -> select('c.collectionPrimeID', 'c.collectionID', 
-                                    'c.collectionType', 'c.amount', 
-                                    'c.status', 'res.firstName', 
-                                    'res.middleName', 'res.lastName', 
-                                    'res.residentID', 'res.residentPrimeID')
-                        -> join('reservations', 'c.reservationPrimeID', '=', 'r.reservationPrimeID') 
-                        -> join('documentHeaderRequests', 'c.documentHeaderPrimeID', '=', 'd.documentHeaderPrimeID') 
-                        -> join('residents', 'c.residentPrimeID', '=', 'res.residentPrimeID') 
-                        -> join('people', 'c.peoplePrimeID', '=', 'p.peoplePrimeID')
-                        -> where('r.status', '!=', 'Cancelled')
-                        -> where('d.status', '!=', 'Pending')
+        $collections = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', '
+                                            residents.residentPrimeID')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('documentHeaderRequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentHeaderRequests.documentHeaderPrimeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> join('people', 
+                                    'collections.peoplePrimeID', '=', 'people.peoplePrimeID')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> where('documentHeaderRequests.status', '!=', 'Pending')
                         -> get();
         return view('collection')->with('collections', $collections);
     }
 
     public function getCollections(Request $r) {
-
+        $collections = Collection::select('collections.collectionPrimeID', 
+                                'collections.collectionID', 
+                                'collections.collectionType', 
+                                'collections.amount', 
+                                'collections.status', 
+                                'residents.firstName', 
+                                'residents.middleName', 
+                                'residents.lastName', 
+                                'residents.residentID', '
+                                residents.residentPrimeID')
+                        -> join('reservations', 
+                        'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('documentHeaderRequests', 
+                        'collections.documentHeaderPrimeID', '=', 'documentHeaderRequests.documentHeaderPrimeID') 
+                        -> join('residents', 
+                        'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> join('people', 
+                        'collections.peoplePrimeID', '=', 'people.peoplePrimeID')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> where('documentHeaderRequests.status', '!=', 'Pending')
+                        -> get();
+        return response($collections);
     }
 }

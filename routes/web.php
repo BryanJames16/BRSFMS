@@ -156,6 +156,9 @@ Route::post('/facility-reservation/delete','ReservationController@delete');
 Route::post('/facility-reservation/store', 'ReservationController@store');
 Route::post('/facility-reservation/update', 'ReservationController@update');
 
+// Collection
+Route::get('/collection/gCollect', 'Collection@getCollection');
+
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');

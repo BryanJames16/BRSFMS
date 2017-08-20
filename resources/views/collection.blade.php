@@ -101,7 +101,7 @@
                     			</thead>
 
 	                    		<tbody>
-	                    			@foreach($requests as $request)
+	                    			@foreach($collections as $collection)
                                     <tr>
                                         <td></td>
                                     </tr>
