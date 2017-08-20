@@ -65,7 +65,51 @@
 @endsection
 
 @section('content-body')
+    <section id="multi-column">
+        <div class="row">
+            <div class="col-xs-14">
+                <div class="card">
+                    <div class="card-header">
+						<h4 class="card-title">Collection</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+                    <div class="card-body collapse in">
+                        <div class="card-block card-dashboard">
+                            <p align="center">
+                                <!-- Button trigger modal -->
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal"  style="width:160px; font-size:13px">
+									<i class="icon-edit2"></i> Add New Collection 
+								</button>
+                            </p>
 
+                            <table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+                    			<thead>
+                    				<tr>
+										<td>Collection ID</td>
+										<td>Customer Name</td>
+										<td>Collection From</td>
+										<td>Amount</td>
+										<td>Status</td>
+										<td>Actions</td>
+									</tr>
+                    			</thead>
+
+	                    		<tbody>
+	                    			
+	                    		</tbody>
+	                    	</table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
 
 @section('vendor-js')
@@ -98,7 +142,11 @@
 @endsection
 
 @section('page-action')
-
+    <script>
+        $("#btnAddModal").on('click', function () {
+            
+        });
+    </script>
 @endsection
 
 @section('template-js')
