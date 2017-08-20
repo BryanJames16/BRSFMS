@@ -16,8 +16,8 @@ class CollectionController extends Controller
                                             'residents.firstName', 
                                             'residents.middleName', 
                                             'residents.lastName', 
-                                            'residents.residentID', '
-                                            residents.residentPrimeID')
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
                         -> join('reservations', 
                                     'collections.reservationPrimeID', '=', 'reservations.primeID') 
                         -> join('documentHeaderRequests', 

@@ -103,7 +103,21 @@
 	                    		<tbody>
 	                    			@foreach($collections as $collection)
                                     <tr>
-                                        <td></td>
+                                        <td>{{ $collection -> collectionID }}</td>
+                                        <td>
+                                            <p>
+                                            {{ $collection -> firstName }}
+                                            {{ $collection -> middleName }}
+                                            {{ $collection -> lastName }}
+                                            ({{ $collection -> residentPrimeID }})
+                                            </p>
+                                        </td>
+                                        <td>{{ $collection -> collectionType }}</td>
+                                        <td>{{ $collection -> amount }}</td>
+                                        <td>{{ $collection -> status }}</td>
+                                        <td>
+
+                                        </td>
                                     </tr>
                                     @endforeach
 	                    		</tbody>
