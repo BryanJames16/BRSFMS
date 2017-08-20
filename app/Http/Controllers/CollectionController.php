@@ -11,6 +11,6 @@ class CollectionController extends Controller
     }
 
     public function getCollections(Request $r) {
-
+        
     }
 }
