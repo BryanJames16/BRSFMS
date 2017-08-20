@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 20 Aug 2017 12:36:51 +0000.
+ * Date: Sun, 20 Aug 2017 12:47:19 +0000.
  */
 
 namespace App\Models;
@@ -28,6 +28,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $status
  * 
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
+ * @property \Illuminate\Database\Eloquent\Collection $collections
  * @property \Illuminate\Database\Eloquent\Collection $documentheaderrequests
  * @property \Illuminate\Database\Eloquent\Collection $families
  * @property \Illuminate\Database\Eloquent\Collection $familymembers
@@ -72,6 +73,11 @@ class Resident extends Eloquent
 	public function businessregistrations()
 	{
 		return $this->hasMany(\App\Models\Businessregistration::class, 'residentPrimeID');
+	}
+
+	public function collections()
+	{
+		return $this->hasMany(\App\Models\Collection::class, 'residents_residentPrimeID');
 	}
 
 	public function documentheaderrequests()

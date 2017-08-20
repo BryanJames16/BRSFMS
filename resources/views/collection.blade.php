@@ -101,7 +101,11 @@
                     			</thead>
 
 	                    		<tbody>
-	                    			
+	                    			@foreach($requests as $request)
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    @endforeach
 	                    		</tbody>
 	                    	</table>
                         </div>

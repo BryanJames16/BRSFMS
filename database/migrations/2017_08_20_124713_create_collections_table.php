@@ -21,6 +21,8 @@ class CreateCollectionsTable extends Migration {
 			$table->string('status', 20);
 			$table->integer('reservationprimeID')->nullable()->index('fk_collections_reservations1_idx');
 			$table->integer('documentHeaderPrimeID')->nullable()->index('fk_collections_documentheaderrequests1_idx');
+			$table->integer('residents_residentPrimeID')->nullable()->index('fk_collections_residents1_idx');
+			$table->integer('people_peoplePrimeID')->nullable()->index('fk_collections_people1_idx');
 		});
 	}
 
