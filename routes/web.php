@@ -54,10 +54,10 @@ Route::post('/building-type/update','BuildingTypeController@edit');
 
 // Service Type
 Route::get('/service-type/getEdit', 'ServiceTypeController@getEdit');
-Route::get('/service-type/refresh','ServiceTypeController@refresh');
-Route::post('/service-type/delete','ServiceTypeController@delete');
+Route::get('/service-type/refresh', 'ServiceTypeController@refresh');
+Route::post('/service-type/delete', 'ServiceTypeController@delete');
 Route::post('/service-type/store', 'ServiceTypeController@store');
-Route::post('/service-type/update','ServiceTypeController@edit');
+Route::post('/service-type/update', 'ServiceTypeController@edit');
 
 // Service
 Route::get('/service/getEdit', 'ServiceController@getEdit');
@@ -83,7 +83,7 @@ Route::post('/document/requirementsUpdate', 'DocumentController@requirementsDele
 Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update', 'DocumentController@edit');
 
-// Requiement
+// Requirement
 Route::get('/requirement/getEdit', 'RequirementController@getEdit');
 Route::get('/requirement/refresh', 'RequirementController@refresh');
 Route::post('/requirement/delete', 'RequirementController@delete');
