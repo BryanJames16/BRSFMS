@@ -8,6 +8,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
+	
 @endsection
 
 @section('plugin')
@@ -149,30 +152,39 @@
 									<input class="form-control border-primary" name="serviceName" id="serviceName" type="text" id="userinput5" />
 								</div>
 							</div>
-
-							<h4 class="form-section"><i class="icon-mail6"></i> Date</h4>
+							
+							<h4 class="form-section"><i class="icon-mail6"></i> Date</h4> 
+							<div class="form-group ">
+								<input type="checkbox" id="switchDate" class="switchery" data-size="sm" data-color="primary"  />
+								<label for="switcheryColor" class="card-title ml-1">Date Range</label>
+							</div>
 							<div class="row">
 								<div class="form-group col-md-6 mb-2">
 									<label for="userinput4">From</label>
-									{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary']) !!}
+									{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary','disabled']) !!}
 								</div>
 								<div class="form-group col-md-6 mb-2">
 									<label for="userinput4">To</label>
-									{!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary']) !!}
+									{!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary','disabled']) !!}
 								</div>
 							</div>
 
 							<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
+							<div class="form-group ">
+								<input type="checkbox" id="switchAge" class="switchery" data-size="sm" data-color="primary"/>
+								<label for="switcheryColor" class="card-title ml-1">Age Range</label>
+							</div>
 							<div class="row">
 								<div class="form-group col-md-6 mb-2">
 									<label for="userinput4">From</label>
-									{!! Form::number('fromAge', null, ['id' => 'fromAge','class' => 'form-control border-primary']) !!}
+									{!! Form::number('fromAge', null, ['id' => 'fromAge','class' => 'form-control border-primary','disabled']) !!}
 								</div>
 								<div class="form-group col-md-6 mb-2">
 									<label for="userinput4">To</label>
-									{!! Form::number('toAge', null, ['id' => 'toAge','class' => 'form-control border-primary']) !!}
+									{!! Form::number('toAge', null, ['id' => 'toAge','class' => 'form-control border-primary','disabled']) !!}
 								</div>
 							</div>
+							
 
 						
 							<div class="form-actions center">
@@ -402,8 +414,8 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/spinner/jquery.bootstrap-touchspin.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/icheck/icheck.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
@@ -427,6 +439,7 @@
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 
 	<script type="text/javascript">
 
@@ -879,6 +892,21 @@
 		});
 
 		//  END OF SUBMIT ADD RESIDENT
+
+		// DATE SWITCH
+
+		$('#switchDate').change(function(){
+			if(this.checked)
+			{
+				$('#fromDate').prop('disabled'.true);
+			}
+			else
+			{
+				console.log('popopopo');
+			}
+		});
+
+		// END OF DATE SWITCH
 
 		//  SERVICE TRANSACTION REFRESH TABLE
 

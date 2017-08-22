@@ -245,6 +245,34 @@ class ResidentController extends Controller
         }
     }
 
+    public function getRelation(Request $r) {
+        if($r->ajax()) {
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation','familymembers.familyMemberPrimeID',
+                                                    'gender') 
+                                        ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
+                                        ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
+                                        ->where('residents.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getFamilyHead(Request $r) {
+        if($r->ajax()) {
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate',
+                                                    'gender') 
+                                        ->join('families', 'residents.residentPrimeID', '=', 'families.familyHeadID')
+                                        ->where('families.familyPrimeID', '=', $r->input('familyPrimeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+
     public function getLot(Request $r) {
         if($r->ajax()) {
             return json_encode( \DB::table('lots') ->select('lotID','lotCode') 
@@ -359,6 +387,20 @@ class ResidentController extends Controller
                                                 'status' => 1,
                                                 'archive' => 0]);
             }
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function updateRelation(Request $r) { 
+        if ($r->ajax()) {
+
+            $type = Familymember::find($r->input('familyMemberPrimeID'));
+            $type->memberRelation = $r->input('memberRelation');
+            $type->save();
 
             return back();
         }

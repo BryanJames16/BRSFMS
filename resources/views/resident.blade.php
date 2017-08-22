@@ -571,6 +571,78 @@
 						</div> 
 						<!-- End of Modal -->
 
+						<!--UPDATE RELATION -->
+
+						<!--UPDATE RELATION Modal -->
+						<div class="modal fade text-xs-left" id="updateRel" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-sm modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Relation</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+
+										<p style="text-align:center;font-size:20px">
+											<b>
+												<div id="resName">
+													*Resident Name*
+												</div>
+											</b>
+										</p>
+										{{Form::open(['url'=>'family/updateRelation', 'method' => 'POST', 'id' => 'frm-updateRelation', 'class'=>'form'])}}
+										{!! Form::hidden('familyMemberPrimeID', null, ['id' => 'familyMemberPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+										<div class="form-body">
+											<div class="row">
+												<div class="form-group col-xs-8 mb-2">
+													<label for="eventInput1">Relation</label>
+													<select class ="form-control border-info selectBox" name="type" id="rel">
+														<option value="Wife">Wife</option>
+														<option value="Husband">Husband</option>
+														<option value="Mother">Mother</option>
+														<option value="Father">Father</option>
+														<option value="Son">Son</option>
+														<option value="Daughter">Daughter</option>
+														<option value="Sister">Sister</option>
+														<option value="Brother">Brother</option>
+														<option value="Uncle">Uncle</option>
+														<option value="Auntie">Auntie</option>
+														<option value="Grandmother">Grandmother</option>
+														<option value="Grandfather">Grandfather</option>
+														<option value="Grandson">Grandson</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="form-actions right">
+											<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+												<i class="icon-cross2"></i> Cancel
+											</button>
+											<button type="submit" class="btn btn-primary">
+												<i class="icon-check2"></i> Save
+											</button>
+										</div>
+										{{Form::close()}}
+
+										
+
+
+										
+
+										
+
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
 						<!--REGISTER RESIDENT -->
 
 						<!--Add Modal -->
@@ -1162,7 +1234,7 @@
 									data[index].familyID, 
 									data[index].familyName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									'2',
+									data[index].members,
 									data[index].familyRegistrationDate,
 										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +

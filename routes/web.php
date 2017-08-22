@@ -136,10 +136,13 @@ Route::get('/resident/notMember/{id}', 'ResidentController@notMember');
 // Family
 Route::get('/family/getEdit', 'ResidentController@familyGetEdit');
 Route::get('/family/getMembers', 'ResidentController@getMembers');
+Route::get('/family/getFamilyHead', 'ResidentController@getFamilyHead');
 Route::get('/family/nextPK', 'ResidentController@familyNextPK');
+Route::get('/family/getRelation', 'ResidentController@getRelation');
 Route::get('/family/refresh', 'ResidentController@familyRefresh');
 Route::post('/family/delete', 'ResidentController@familyDelete');
 Route::post('/family/store', 'ResidentController@familyStore');
+Route::post('/family/updateRelation', 'ResidentController@updateRelation');
 
 // Document Request
 Route::get('/document-request/getDocument', 'DocumentRequestController@getDocument');
