@@ -35,6 +35,7 @@
 @section('custom-css')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/geometry.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/system-assets/css/card-bg.css') }}" />
 @endsection
 
 <!-- Title of the Page -->
@@ -116,12 +117,150 @@
                                         <td>{{ $collection -> amount }}</td>
                                         <td>{{ $collection -> status }}</td>
                                         <td>
-
+											<button class='btn btn-icon btn-square btn-success normal edit'  type='button'>
+												<i class="icon-android-create"></i>
+											</button>
+											<button class='btn btn-icon btn-square btn-danger delete' type='button' name='btnEdit'>
+												<i class="icon-android-delete"></i>
+											</button>
                                         </td>
                                     </tr>
                                     @endforeach
 	                    		</tbody>
 	                    	</table>
+
+							<!-- Modal Area -->
+							<div class="modal animated bounceIn text-xs-left" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Add New Collection</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											<div class="card-block">
+												<div class="card-text">
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/residentheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Barangay ID</h4>
+																	<p class="card-text" align="justify">
+																		Barangay ID is the primary legal and valid 
+																		identification document issued in Barangay. 
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/resident') }}" class="btn btn-outline-pink">Request Barangay ID</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/docreqheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Document Request</h4>
+																	<p class="card-text" align="justify">
+																		Document Requests are general documents needed
+																		in fulfillment of other crucial requirements. 
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/document-request') }}" class="btn btn-outline-pink">Request a Document</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/facilityheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Facility Reservation</h4>
+																	<p class="card-text" align="justify">
+																		Facilities can be reserved for different occasions
+																		such as league, contest, graduation, etc...
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/facility-reservation') }}" class="btn btn-outline-pink">Reserve a Facility</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/serviceheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Services Engagement</h4>
+																	<p class="card-text" align="justify">
+																		Some services contains collections. These collections
+																		will be used for future programs and services.
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/service-transaction') }}" class="btn btn-outline-pink">Engage in a Service</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/sponsorheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Service Sponsorships</h4>
+																	<p class="card-text" align="justify">
+																		Amount given by the sponsors when sponsoring 
+																		services are used in implementation of services.
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/service-sponsorship') }}" class="btn btn-outline-pink">Engage in a Service</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="col-xl-4 col-md-6 col-sm-12">
+														<div class="card">
+															<div class="card-body">
+																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/businessheader.png') }}" alt="Card image cap" />
+																<div class="card-block">
+																	<h4 class="card-title" align="center">Business Registrations</h4>
+																	<p class="card-text" align="justify">
+																		When someone registers a business in a Barangay, 
+																		funds collected can be considered as collection.
+																	</p>
+																	<p align="center">
+																		<a href="{{ url('/business-registration') }}" class="btn btn-outline-pink">Register a Business</a>
+																	</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="form-actions center">
+													<p align="center">
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Back</button>
+													</p>
+												</div>												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +301,7 @@
 @section('page-action')
     <script>
         $("#btnAddModal").on('click', function () {
-            
+            $("#addModal").modal('show');
         });
     </script>
 @endsection
