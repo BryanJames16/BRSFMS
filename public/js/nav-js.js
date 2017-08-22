@@ -6,6 +6,7 @@ var BUSINESS = "business-id";
 var BUSINESS_CATEGORY = "business-category-id";
 var BUSINESS_REGISTRATION = "business-registration-id";
 var CITY = "city-id";
+var COLLECTION = "collection-id";
 var DASHBOARD = "dashboard-id";
 var DOCUMENT = "document-id";
 var DOCUMENT_TYPE = "document-type-id";

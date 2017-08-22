@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 17 Aug 2017 16:50:46 +0000.
+ * Date: Sun, 20 Aug 2017 15:08:23 +0000.
  */
 
 namespace App\Models;
@@ -19,6 +19,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $peoplePrimeID
  * 
  * @property \App\Models\Resident $resident
+ * @property \Illuminate\Database\Eloquent\Collection $collections
  * @property \Illuminate\Database\Eloquent\Collection $documentdetailrequests
  *
  * @package App\Models
@@ -46,6 +47,11 @@ class Documentheaderrequest extends Eloquent
 	public function resident()
 	{
 		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
+	}
+
+	public function collections()
+	{
+		return $this->hasMany(\App\Models\Collection::class, 'documentHeaderPrimeID');
 	}
 
 	public function documentdetailrequests()

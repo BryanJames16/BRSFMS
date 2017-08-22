@@ -54,10 +54,10 @@ Route::post('/building-type/update','BuildingTypeController@edit');
 
 // Service Type
 Route::get('/service-type/getEdit', 'ServiceTypeController@getEdit');
-Route::get('/service-type/refresh','ServiceTypeController@refresh');
-Route::post('/service-type/delete','ServiceTypeController@delete');
+Route::get('/service-type/refresh', 'ServiceTypeController@refresh');
+Route::post('/service-type/delete', 'ServiceTypeController@delete');
 Route::post('/service-type/store', 'ServiceTypeController@store');
-Route::post('/service-type/update','ServiceTypeController@edit');
+Route::post('/service-type/update', 'ServiceTypeController@edit');
 
 // Service
 Route::get('/service/getEdit', 'ServiceController@getEdit');
@@ -83,7 +83,7 @@ Route::post('/document/requirementsUpdate', 'DocumentController@requirementsDele
 Route::post('/document/store', 'DocumentController@store');
 Route::post('/document/update', 'DocumentController@edit');
 
-// Requiement
+// Requirement
 Route::get('/requirement/getEdit', 'RequirementController@getEdit');
 Route::get('/requirement/refresh', 'RequirementController@refresh');
 Route::post('/requirement/delete', 'RequirementController@delete');
@@ -160,6 +160,9 @@ Route::post('/facility-reservation/delete','ReservationController@delete');
 Route::post('/facility-reservation/store', 'ReservationController@store');
 Route::post('/facility-reservation/update', 'ReservationController@update');
 
+// Collection
+Route::get('/collection/gCollect', 'Collection@getCollection');
+
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
@@ -192,6 +195,7 @@ Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/business-category', 'BusinessCategoryController');
 Route::resource('/business-registration', 'BusinessRegistrationController');
+Route::resource('/collection', 'CollectionController');
 Route::resource('/dashboard', 'DashboardController');
 Route::resource('/document', 'DocumentController');
 Route::resource('/document-request', 'DocumentRequestController');
@@ -224,6 +228,30 @@ Route::post('/register', 'RegisterController@store');
 
 Route::get('/logout','SessionsController@destroy');
 
+//////////////////////////////////////////////////////////////////////
+/* BLOCK PAGE ROUTES */
+//////////////////////////////////////////////////////////////////////
+
+Route::get('/unmt', function () {
+	return view('errors.unmt');
+});
+
+Route::get('/400', function () {
+	return view('errors.400');
+});
+
+Route::get('/403', function () {
+	return view('errors.403');
+});
+
+Route::get('/404', function () {
+	return view('errors.404');
+});
+
+Route::get('/503', function () {
+	return view('errors.503');
+});
+
 
 //////////////////////////////////////////////////////////////////////
 /* DEVELOPMENT ROUTES */
@@ -235,10 +263,6 @@ Route::get('/master', function () {
 
 Route::get('/base-maintenance', function () {
 	return view('master.base_maintenance');
-});
-
-Route::get('/unmt', function() {
-	return view('errors.unmt');
 });
 
 
