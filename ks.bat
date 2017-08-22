@@ -70,12 +70,12 @@ IF %1==rdump (
 )
 
 :: Status Manipulation
-if %1==down (
+IF %1==down (
     ECHO Setting the server down...
     %PHPX% artisan down
     GOTO END
 )
-if %1==up (
+IF %1==up (
     ECHO Setting the server up...
     %PHPX% artisan up
     GOTO END
@@ -97,19 +97,19 @@ IF %1==git (
         GOTO GITCOMOK
     )
 
-    if %2==push (
+    IF %2==push (
         ECHO Pushing changes to GitHub...
         %gitx% push origin master
         GOTO GITCOMOK
     )
 
-    if %2==pull (
+    IF %2==pull (
         ECHO Pulling changes from GitHub...
         %gitx% pull origin master
         GOTO GITCOMOK
     )
 
-    if %2==revert (
+    IF %2==revert (
         ECHO Reverting changes...
         %gitx% revert %3
         GOTO GITCOMOK
@@ -117,8 +117,8 @@ IF %1==git (
 )
 
 :: System Commands
-if %1==build (
-    if %2==models (
+IF %1==build (
+    IF %2==models (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
@@ -126,7 +126,7 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==migrations (
+    IF %2==migrations (
         ECHO "Wiping migrations folder..."
         DEL %migratedir%\*.php
         ECHO "Writing new migrations..."
@@ -134,54 +134,113 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==database (
-        ECHO "Reloading detabase..."
+    IF %2==database (
+        ECHO "Reloading database..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
 
         GOTO GITCOMOK
     )
 
-    if %2==dump (
+    IF %2==integrated (
+        ECHO "Wiping migrations folder..."
+        DEL %migratedir%\*.php
+        ECHO "Writing new migrations..."
+        %PHPX% artisan migrate:generate
+        ECHO "Wiping models..."
+        DEL %modeldir%\*.php
+        ECHO "Writing new models..."
+        %PHPX% artisan code:models --schema=dbbarangay
+        GOTO GITCOMOK
+    )
+
+    IF %2==sysback (
+        ECHO "Reloading database..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
+
+        ECHO "Wiping migrations folder..."
+        DEL %migratedir%\*.php
+        ECHO "Writing new migrations..."
+        %PHPX% artisan migrate:generate
+
+        ECHO "Wiping models..."
+        DEL %modeldir%\*.php
+        ECHO "Writing new models..."
+        %PHPX% artisan code:models --schema=dbbarangay
+
+        GOTO GITCOMOK
+    )
+
+    IF %2==system (
+        ECHO "This feature is not yet available..."
+        GOTO GITCOMOK
+    )
+)
+
+:: Database Commands
+IF %1==database (
+    IF %2==dump (
         ECHO "Dumping database..."
         %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
 
         GOTO GITCOMOK
     )
 
-    if %2==integrated (
-        ECHO "Wiping migrations folder..."
-        DEL %migratedir%\*.php
-        ECHO "Writing new migrations..."
-        %PHPX% artisan migrate:generate
-        ECHO "Wiping models..."
-        DEL %modeldir%\*.php
-        ECHO "Writing new models..."
-        %PHPX% artisan code:models --schema=dbbarangay
+    IF %2==structure (
+        ECHO "Dumping database structure..."
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+
         GOTO GITCOMOK
     )
 
-    if %2==sysback (
-        ECHO "Reloading detabase..."
+    IF %2==data (
+        ECHO "Dumping database data..."
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-create-info --skip-triggers dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+
+        GOTO GITCOMOK
+    )
+
+    IF %2==wipe (
+        ECHO "Wiping database..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
+
+        GOTO GITCOMOK
+    )
+
+    IF %2==rest (
+        ECHO "Restoring database..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
 
-        ECHO "Wiping migrations folder..."
-        DEL %migratedir%\*.php
-        ECHO "Writing new migrations..."
-        %PHPX% artisan migrate:generate
-
-        ECHO "Wiping models..."
-        DEL %modeldir%\*.php
-        ECHO "Writing new models..."
-        %PHPX% artisan code:models --schema=dbbarangay
-
         GOTO GITCOMOK
     )
 
-    if %2==system (
-        ECHO "This feature is not yet available..."
-        GOTO GITCOMOK
+    IF %2==create (
+        IF %3==modelfactory (
+            ECHO "Creating model factory data..."
+
+            GOTO GITCOMOK
+        )
+
+        IF %3==seeds (
+            ECHO "Creating database seeds..."
+
+            GOTO GITCOMOK
+        )
+    )
+
+    IF %2==execute (
+        IF %3==seed (
+            ECHO "Seeding database..."
+
+            GOTO GITCOMOK
+        )
+
+        IF %3==factory (
+            ECHO "Executing model factory..."
+
+            GOTO GITCOMOK
+        )
     )
 )
 

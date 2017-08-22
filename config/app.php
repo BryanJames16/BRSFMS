@@ -173,6 +173,7 @@ return [
         Reliese\Coders\CodersServiceProvider::class,
         Rymanalu\FactoryGenerator\FactoryGeneratorServiceProvider::class,
         Orangehill\Iseed\IseedServiceProvider::class,
+        Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class, 
 
         /*
          * Application Service Providers...
