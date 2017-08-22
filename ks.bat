@@ -70,12 +70,12 @@ IF %1==rdump (
 )
 
 :: Status Manipulation
-if %1==down (
+IF %1==down (
     ECHO Setting the server down...
     %PHPX% artisan down
     GOTO END
 )
-if %1==up (
+IF %1==up (
     ECHO Setting the server up...
     %PHPX% artisan up
     GOTO END
@@ -97,19 +97,19 @@ IF %1==git (
         GOTO GITCOMOK
     )
 
-    if %2==push (
+    IF %2==push (
         ECHO Pushing changes to GitHub...
         %gitx% push origin master
         GOTO GITCOMOK
     )
 
-    if %2==pull (
+    IF %2==pull (
         ECHO Pulling changes from GitHub...
         %gitx% pull origin master
         GOTO GITCOMOK
     )
 
-    if %2==revert (
+    IF %2==revert (
         ECHO Reverting changes...
         %gitx% revert %3
         GOTO GITCOMOK
@@ -117,8 +117,8 @@ IF %1==git (
 )
 
 :: System Commands
-if %1==build (
-    if %2==models (
+IF %1==build (
+    IF %2==models (
         ECHO "Wiping models..."
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
@@ -126,7 +126,7 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==migrations (
+    IF %2==migrations (
         ECHO "Wiping migrations folder..."
         DEL %migratedir%\*.php
         ECHO "Writing new migrations..."
@@ -134,7 +134,7 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==database (
+    IF %2==database (
         ECHO "Reloading detabase..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
@@ -142,14 +142,20 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==dump (
+    IF %2==seed(
+        ECHO "Seeding the database..."
+
+        GOTO GITCOMOK
+    )
+
+    IF %2==dump (
         ECHO "Dumping database..."
         %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
 
         GOTO GITCOMOK
     )
 
-    if %2==integrated (
+    IF %2==integrated (
         ECHO "Wiping migrations folder..."
         DEL %migratedir%\*.php
         ECHO "Writing new migrations..."
@@ -161,7 +167,7 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==sysback (
+    IF %2==sysback (
         ECHO "Reloading detabase..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
@@ -179,7 +185,7 @@ if %1==build (
         GOTO GITCOMOK
     )
 
-    if %2==system (
+    IF %2==system (
         ECHO "This feature is not yet available..."
         GOTO GITCOMOK
     )
