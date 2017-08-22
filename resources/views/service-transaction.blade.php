@@ -156,7 +156,7 @@
 							<h4 class="form-section"><i class="icon-mail6"></i> Date</h4> 
 							<div class="form-group ">
 								<input type="checkbox" id="switchDate" class="switchery" data-size="sm" data-color="primary"  />
-								<label for="switcheryColor" class="card-title ml-1">Date Range</label>
+								<label for="switcheryColor" class="card-title ml-1"></label>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-6 mb-2">
@@ -172,7 +172,7 @@
 							<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
 							<div class="form-group ">
 								<input type="checkbox" id="switchAge" class="switchery" data-size="sm" data-color="primary"/>
-								<label for="switcheryColor" class="card-title ml-1">Age Range</label>
+								<label for="switcheryColor" class="card-title ml-1"></label>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-6 mb-2">
@@ -898,15 +898,34 @@
 		$('#switchDate').change(function(){
 			if(this.checked)
 			{
-				$('#fromDate').prop('disabled'.true);
+				$('#fromDate').prop('disabled',false);
+				$('#toDate').prop('disabled',false);
 			}
 			else
 			{
-				console.log('popopopo');
+				$('#fromDate').prop('disabled',true);
+				$('#toDate').prop('disabled',true);
 			}
 		});
 
 		// END OF DATE SWITCH
+
+		// AGE SWITCH
+
+		$('#switchAge').change(function(){
+			if(this.checked)
+			{
+				$('#fromAge').prop('disabled',false);
+				$('#toAge').prop('disabled',false);
+			}
+			else
+			{
+				$('#fromAge').prop('disabled',true);
+				$('#toAge').prop('disabled',true);
+			}
+		});
+
+		// END OF AGE SWITCH
 
 		//  SERVICE TRANSACTION REFRESH TABLE
 
