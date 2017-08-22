@@ -142,9 +142,9 @@ IF %1==build (
         GOTO GITCOMOK
     )
 
-    IF %2==seed(
+    IF %2==seed (
         ECHO "Seeding the database..."
-
+        
         GOTO GITCOMOK
     )
 
