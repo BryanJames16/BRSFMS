@@ -129,9 +129,11 @@
                                         <td>{{ $collection -> amount }}</td>
                                         <td>{{ $collection -> status }}</td>
                                         <td>
-											<button class='btn btn-icon btn-square btn-success normal edit' value="{{ $collection -> collectionID }}" type='button'>
-												<i class="icon-android-create"></i>
-											</button>
+											<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+											<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+												<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionID }}"><i class="icon-eye6"></i> Update</a>
+												<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionID }}"><i class="icon-pen3"></i> Receipt</a>
+											</span>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -270,6 +272,82 @@
 									</div>
 								</div>
 							</div>
+
+							<div class="modal animated bounceIn text-xs-left" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-md" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Collection</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											<div class="card-block">
+												{{ Form::open([
+													'url' => '/collection/update', 
+													'method' => 'POST', 
+													'id' => 'frmPay'
+												]) }}
+												<div class="card-text">
+													<div class="form-group col-md-6 mb-2">
+														<label for="recievedCash">Enter the amount of the recieved cash:</label>
+														{{ Form::number('recievedCash', 
+																			null, 
+																			['id' => 'recievedCash' , 
+																			'class' => 'form-control ', 
+																			'placeholder' => 'eg. 100', 
+																			'data-toggle' => 'tooltip', 
+																			'data-trigger' => 'focus', 
+																			'data-placement' => 'top', 
+																			'data-title' => 'Please enter a valid amount', 
+																			'required', 
+																			'step'=>'0.25']) }}
+
+														{{ Form::hidden('uCollectionID', 
+																			null, 
+																			['id' => 'uCollectionID']) }}
+													</div>
+												</div>
+
+												<div class="form-actions center">
+													<p align="center">
+														<input type="submit" class="btn btn-primary mr-1 cancel-view" id="btnSubmit">Submit</button>
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
+													</p>
+												</div>	
+												{{ Form::close() }}											
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal animated bounceIn text-xs-left" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											<div class="card-block">
+												<div class="card-text">
+													
+												</div>
+
+												<div class="form-actions center">
+													<p align="center">
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
+													</p>
+												</div>												
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -308,10 +386,26 @@
 @endsection
 
 @section('page-action')
-    <script>
+    <script type="text/javascript">
         $("#btnAddModal").on('click', function () {
             $("#addModal").modal('show');
         });
+
+		$(".btnUpdate").on('click', function () {
+			var collectionID = $(this).val();
+			console.log("Update: " + collectionID);
+			$("#updateModal").modal('show');
+			$("#uCollectionID").val(collectionID);
+		});
+
+		$(".btnReceipt").on('click', function () {
+			$("#receiptModal").modal('show');
+		});
+
+		$("#frmPay").submit(function (event) {
+			event.preventDefault();
+			console.log("Submit: " + $("#uCollectionID").val());
+		});
     </script>
 @endsection
 
