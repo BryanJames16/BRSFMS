@@ -88,31 +88,31 @@ IF %1==git (
         %gitx% init
         %gitx% remote add origin https://BryanJames16@bitbucket.org/BryanJames16/mybms.git
         %gitx% remote -v
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==branch (
         ECHO Setting branch...
         %gitx% branch --set-upstream-to=origin/master master
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==push (
         ECHO Pushing changes to GitHub...
         %gitx% push origin master
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==pull (
         ECHO Pulling changes from GitHub...
         %gitx% pull origin master
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==revert (
         ECHO Reverting changes...
         %gitx% revert %3
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 )
 
@@ -123,7 +123,7 @@ IF %1==build (
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==migrations (
@@ -131,7 +131,7 @@ IF %1==build (
         DEL %migratedir%\*.php
         ECHO "Writing new migrations..."
         %PHPX% artisan migrate:generate
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==database (
@@ -139,7 +139,7 @@ IF %1==build (
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==integrated (
@@ -151,7 +151,7 @@ IF %1==build (
         DEL %modeldir%\*.php
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==sysback (
@@ -169,12 +169,12 @@ IF %1==build (
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==system (
         ECHO "This feature is not yet available..."
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 )
 
@@ -184,62 +184,83 @@ IF %1==database (
         ECHO "Dumping database..."
         %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==structure (
         ECHO "Dumping database structure..."
-        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay > %dbdumpdir%\dbbaranggay_struct.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==data (
         ECHO "Dumping database data..."
-        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-create-info --skip-triggers dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --no-create-info --skip-triggers dbBarangay > %dbdumpdir%\dbbaranggay_data.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==wipe (
         ECHO "Wiping database..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 < %dbsetupdir%\wipeinit.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==rest (
         ECHO "Restoring database..."
         %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_nightly.sql
 
-        GOTO GITCOMOK
+        GOTO COMOK
     )
 
     IF %2==create (
         IF %3==modelfactory (
             ECHO "Creating model factory data..."
 
-            GOTO GITCOMOK
+            GOTO COMOK
         )
 
         IF %3==seeds (
             ECHO "Creating database seeds..."
 
-            GOTO GITCOMOK
+            GOTO COMOK
         )
     )
 
     IF %2==execute (
+        IF %3==init (
+            ECHO "Initializing database data..."
+            %mariadbx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay < %dbsetupdir%\initscript.sql
+
+            GOTO COMOK
+        )
+
+        IF %3==structure (
+            ECHO "Restoring database structure..."
+            %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_struct.sql
+
+            GOTO COMOK
+        )
+
+        IF %3==data (
+            ECHO "Restoring database data..."
+            %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_data.sql
+
+            GOTO COMOK
+        )
+
         IF %3==seed (
             ECHO "Seeding database..."
 
-            GOTO GITCOMOK
+            GOTO COMOK
         )
 
         IF %3==factory (
             ECHO "Executing model factory..."
 
-            GOTO GITCOMOK
+            GOTO COMOK
         )
     )
 )
@@ -248,7 +269,7 @@ IF %1==database (
 ECHO INVALID GIT COMMAND!
 GOTO END
 
-:GITCOMOK
+:COMOK
 GOTO END
 
 :COMERR
