@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:11 +0000.
  */
 
 namespace App\Models;
@@ -21,9 +21,13 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $peoplePrimeID
  * @property int $facilityPrimeID
  * @property string $status
+ * @property string $name
+ * @property int $age
+ * @property string $email
+ * @property string $contactNumber
  * 
  * @property \App\Models\Facility $facility
- * @property \App\Models\Person $person
+ * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $collections
  *
  * @package App\Models
@@ -35,7 +39,8 @@ class Reservation extends Eloquent
 
 	protected $casts = [
 		'peoplePrimeID' => 'int',
-		'facilityPrimeID' => 'int'
+		'facilityPrimeID' => 'int',
+		'age' => 'int'
 	];
 
 	protected $dates = [
@@ -52,7 +57,11 @@ class Reservation extends Eloquent
 		'dateReserved',
 		'peoplePrimeID',
 		'facilityPrimeID',
-		'status'
+		'status',
+		'name',
+		'age',
+		'email',
+		'contactNumber'
 	];
 
 	public function facility()
@@ -60,9 +69,9 @@ class Reservation extends Eloquent
 		return $this->belongsTo(\App\Models\Facility::class, 'facilityPrimeID');
 	}
 
-	public function person()
+	public function resident()
 	{
-		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
+		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
 	}
 
 	public function collections()

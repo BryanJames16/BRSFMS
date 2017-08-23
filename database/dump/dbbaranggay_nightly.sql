@@ -1,8 +1,10 @@
--- MySQL dump 10.16  Distrib 10.1.22-MariaDB, for Win32 (AMD64)
+CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `dbbarangay`;
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: dbBarangay
+-- Host: 127.0.0.1    Database: dbbarangay
 -- ------------------------------------------------------
--- Server version	10.1.22-MariaDB
+-- Server version	5.5.5-10.1.19-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -87,7 +89,7 @@ CREATE TABLE `businesscategories` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`categoryPrimeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +98,7 @@ CREATE TABLE `businesscategories` (
 
 LOCK TABLES `businesscategories` WRITE;
 /*!40000 ALTER TABLE `businesscategories` DISABLE KEYS */;
-INSERT INTO `businesscategories` VALUES (5,'Industrial','',1,0);
+INSERT INTO `businesscategories` VALUES (5,'Industrial','',1,0),(6,'kajshdakjsdh','',1,0);
 /*!40000 ALTER TABLE `businesscategories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,7 +386,7 @@ CREATE TABLE `facilities` (
 
 LOCK TABLES `facilities` WRITE;
 /*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
-INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Court',NULL,1,0,2,100,200),(2,'FAC_002','Hipodromo Plaza',NULL,1,0,5,100,150),(4,'FAC_003','asdhakjsh','ajksdh',1,1,2,0.04,0.02);
+INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Courts',NULL,1,0,2,100,200),(2,'FAC_002','Hipodromo Plaza',NULL,1,0,5,100,150),(4,'FAC_003','asdhakjsh','ajksdh',1,1,2,0.04,0.02);
 /*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -401,7 +403,7 @@ CREATE TABLE `facilitytypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,7 +412,7 @@ CREATE TABLE `facilitytypes` (
 
 LOCK TABLES `facilitytypes` WRITE;
 /*!40000 ALTER TABLE `facilitytypes` DISABLE KEYS */;
-INSERT INTO `facilitytypes` VALUES (2,'Covered Court',1,0),(3,'Parks',1,0),(4,'Chapel',1,0),(5,'Plaza',1,0);
+INSERT INTO `facilitytypes` VALUES (2,'Covered Court',1,0),(3,'Parks',1,0),(4,'Chapel',1,0),(5,'Plaza',1,0),(6,'asdasd',1,1);
 /*!40000 ALTER TABLE `facilitytypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,6 +635,32 @@ INSERT INTO `people` VALUES (1,'PER_001','MMM','AAAFFF','ASDASD',NULL,'091234567
 UNLOCK TABLES;
 
 --
+-- Table structure for table `recipients`
+--
+
+DROP TABLE IF EXISTS `recipients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recipients` (
+  `recipientID` int(11) NOT NULL AUTO_INCREMENT,
+  `recipientName` varchar(45) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `archive` tinyint(4) NOT NULL,
+  PRIMARY KEY (`recipientID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recipients`
+--
+
+LOCK TABLES `recipients` WRITE;
+/*!40000 ALTER TABLE `recipients` DISABLE KEYS */;
+INSERT INTO `recipients` VALUES (2,'Dog',1,0),(3,'Plants',1,0);
+/*!40000 ALTER TABLE `recipients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `requirements`
 --
 
@@ -685,7 +713,7 @@ CREATE TABLE `reservations` (
   KEY `fk_Reservations_Facilities1_idx` (`facilityPrimeID`),
   CONSTRAINT `fk_Reservations_Facilities1` FOREIGN KEY (`facilityPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `peoplePrimeID` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -694,7 +722,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (2,'2017 Contis Vaccination','asdhakjshd','01:00:00','02:00:00','2017-01-01',2,2,'Pending',NULL,NULL,NULL,NULL),(3,'HAHAHAHHA','asdasdasd','02:00:00','03:00:00','2017-01-01',NULL,2,'Pending',NULL,141113,'f.marcjoseph@yahoo.com','09123456789'),(4,'kajshdsakjdhkajsh','akjshdasjdh','15:01:00','17:01:00','2019-12-31',NULL,1,'Pending','kjhaskjdhaskdjh',190000,'kjahajkhdakjshd','kashdkjahsdkj'),(5,'Birthday','asdfasdfsdfsdfsaddsfaa','03:03:00','15:03:00','2017-08-08',NULL,2,'Pending','Hello',9999999,'asldfajsldf@ksdjfhak.com','0901931133');
+INSERT INTO `reservations` VALUES (2,'2017 Contis Vaccination','asdhakjshd','01:00:00','02:00:00','2017-01-01',2,2,'Pending',NULL,NULL,NULL,NULL),(3,'HAHAHAHHA','asdasdasd','02:00:00','03:00:00','2017-01-01',NULL,2,'Pending',NULL,141113,'f.marcjoseph@yahoo.com','09123456789'),(4,'kajshdsakjdhkajsh','akjshdasjdh','15:01:00','17:01:00','2019-12-31',NULL,1,'Pending','kjhaskjdhaskdjh',190000,'kjahajkhdakjshd','kashdkjahsdkj');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -936,7 +964,7 @@ CREATE TABLE `servicetransactions` (
   PRIMARY KEY (`serviceTransactionPrimeID`),
   KEY `servicePrimeID_idx` (`servicePrimeID`),
   CONSTRAINT `servicePrimeID` FOREIGN KEY (`servicePrimeID`) REFERENCES `services` (`primeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -945,7 +973,7 @@ CREATE TABLE `servicetransactions` (
 
 LOCK TABLES `servicetransactions` WRITE;
 /*!40000 ALTER TABLE `servicetransactions` DISABLE KEYS */;
-INSERT INTO `servicetransactions` VALUES (1,'SERV_REG_001','2017 Contis Vaccination',1,4,7,'2017-01-01','2017-01-01','Pending',0);
+INSERT INTO `servicetransactions` VALUES (1,'SERV_REG_001','2017 Contis Vaccination',1,4,7,'2017-01-01','2017-01-01','Pending',1),(6,'SERV_REG_002','.asdhjad',1,NULL,NULL,'2017-08-10',NULL,'Pending',0);
 /*!40000 ALTER TABLE `servicetransactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1111,7 +1139,7 @@ CREATE TABLE `utilities` (
   `reservationPK` varchar(30) NOT NULL,
   `serviceRegPK` varchar(30) NOT NULL,
   `sponsorPK` varchar(30) NOT NULL,
-  `collectionPK` varchar(20) NOT NULL,
+  `collectionPK` varchar(30) NOT NULL,
   PRIMARY KEY (`utilityID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1122,7 +1150,7 @@ CREATE TABLE `utilities` (
 
 LOCK TABLES `utilities` WRITE;
 /*!40000 ALTER TABLE `utilities` DISABLE KEYS */;
-INSERT INTO `utilities` VALUES (1,'Brgy 629','Roselito Pagudpod','123 Hipodromo St. Sta Mesa Manila','asd','asd','FAC_000','DOC_000','SERV_000','RES_000','FAM_000','REQ_000','APPR_000','RSRV_000','SERV_REG_000','SPN_000','COL_000');
+INSERT INTO `utilities` VALUES (1,'Brgy 629','Roselito Pagudpod','123 Hipodromo St. Sta Mesa Manila','asd','asd','FAC_000','DOC_000','SERV_000','RES_000','FAM_000','FAC_000','APPR_000','RSRV_000','SERV_REG_000','SPN_000','COLLE_000');
 /*!40000 ALTER TABLE `utilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1164,4 +1192,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-23 19:03:56
+-- Dump completed on 2017-08-24  0:37:04

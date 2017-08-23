@@ -84,8 +84,20 @@
 											<td>{{$st->serviceTransactionName}}</td>
 											<td>{{$st->serviceName}}</td>
 											
-											<td>{{ date('F j, Y',strtotime($st -> fromDate)) }} - {{ date('F j, Y',strtotime($st -> toDate)) }}</td>
-											<td>{{$st->fromAge}} - {{$st->toAge}} yrs. old</td>
+											@if($st -> toDate==null)
+												<td>{{ date('F j, Y',strtotime($st -> fromDate)) }}</td>
+											@else
+												<td>{{ date('F j, Y',strtotime($st -> fromDate)) }} - {{ date('F j, Y',strtotime($st -> toDate)) }}</td>
+											@endif
+
+											
+											
+											@if($st->fromAge==null)
+												<td>Open</td>
+											@else
+												<td>{{$st->fromAge}} - {{$st->toAge}} yrs. old</td>
+											@endif
+											
 											<td>0</td>
 											<td>{{$st->status}}</td>
 											<td>
@@ -155,36 +167,41 @@
 							
 							<h4 class="form-section"><i class="icon-mail6"></i> Date</h4> 
 							<div class="form-group ">
-								<input type="checkbox" id="switchDate" class="switchery" data-size="sm" data-color="primary"  />
-								<label for="switcheryColor" class="card-title ml-1"></label>
-							</div>
-							<div class="row">
-								<div class="form-group col-md-6 mb-2">
-									<label for="userinput4">From</label>
-									{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary','disabled']) !!}
-								</div>
-								<div class="form-group col-md-6 mb-2">
-									<label for="userinput4">To</label>
-									{!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary','disabled']) !!}
-								</div>
+								<input type="checkbox" id="switchDate" class="switchery" data-size="sm" data-color="primary" checked />
+								<label for="switcheryColor" class="card-title ml-1">Date Range</label>
 							</div>
 
-							<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
-							<div class="form-group ">
-								<input type="checkbox" id="switchAge" class="switchery" data-size="sm" data-color="primary"/>
-								<label for="switcheryColor" class="card-title ml-1"></label>
-							</div>
-							<div class="row">
-								<div class="form-group col-md-6 mb-2">
-									<label for="userinput4">From</label>
-									{!! Form::number('fromAge', null, ['id' => 'fromAge','class' => 'form-control border-primary','disabled']) !!}
-								</div>
-								<div class="form-group col-md-6 mb-2">
-									<label for="userinput4">To</label>
-									{!! Form::number('toAge', null, ['id' => 'toAge','class' => 'form-control border-primary','disabled']) !!}
+							<div id="date">
+								<div class="row">
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput4">From</label>
+										{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary']) !!}
+									</div>
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput4">To</label>
+										{!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary']) !!}
+									</div>
 								</div>
 							</div>
 							
+							<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
+							<div class="form-group ">
+								<input type="checkbox" id="switchAge" class="switchery" data-size="sm" data-color="primary" checked/>
+								<label for="switcheryColor" class="card-title ml-1">Age Range</label>
+							</div>
+
+							<div id="age">
+								<div class="row">
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput4">From</label>
+										{!! Form::number('fromAge', null, ['id' => 'fromAge','class' => 'form-control border-primary']) !!}
+									</div>
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput4">To</label>
+										{!! Form::number('toAge', null, ['id' => 'toAge','class' => 'form-control border-primary']) !!}
+									</div>
+								</div>
+							</div>
 
 						
 							<div class="form-actions center">
@@ -852,60 +869,184 @@
 
 		//  REGISTER SERVICE BUTTON
 
-		//  SUBMIT ADD RESIDENT
+		//  SUBMIT ADD RESERVATION
 
 		$("#frm-register").submit(function(event) {
 			event.preventDefault();
 			console.log("dasa");
 
-			$.ajax({
-				url: "{{ url('/service-transaction/store') }}", 
-				method: "POST", 
-				data: {
-					"_token": "{{ csrf_token() }}", 
-					"serviceTransactionID": $("#serviceTransactionID").val(), 
-					"serviceName": $("#serviceName").val(), 
-					"servicePrimeID": $("#servicePrimeID").val(), 
-					"fromAge": $("#fromAge").val(), 
-					"toAge": $("#toAge").val(),
-					"fromDate": $("#fromDate").val(),
-					"toDate": $("#toDate").val(),
-					
-				}, 
-				success: function(data) {
-					console.log(data);
-					$("#register").modal("hide");
-					refreshTable();
-					$("#frm-register").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
+			if(switchDate.checked == true)
+			{
+				if(switchAge.checked == true)
+				{
+					$.ajax({
+						url: "{{ url('/service-transaction/store') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"serviceTransactionID": $("#serviceTransactionID").val(), 
+							"serviceName": $("#serviceName").val(), 
+							"servicePrimeID": $("#servicePrimeID").val(), 
+							"fromAge": $("#fromAge").val(), 
+							"toAge": $("#toAge").val(),
+							"fromDate": $("#fromDate").val(),
+							"toDate": $("#toDate").val(),
+							
+						}, 
+						success: function(data) {
+							console.log(data);
+							$("#register").modal("hide");
+							refreshTable();
+							$("#frm-register").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
 
-					swal("Error", message, "error");
+							swal("Error", message, "error");
+						}
+					});
 				}
-			});
+				else
+				{
+					$.ajax({
+						url: "{{ url('/service-transaction/storeNoAge') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"serviceTransactionID": $("#serviceTransactionID").val(), 
+							"serviceName": $("#serviceName").val(), 
+							"servicePrimeID": $("#servicePrimeID").val(), 
+							"fromDate": $("#fromDate").val(),
+							"toDate": $("#toDate").val(),
+							
+						}, 
+						success: function(data) {
+							console.log(data);
+							$("#register").modal("hide");
+							refreshTable();
+							$("#frm-register").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
+						}
+					});
+				}
+			}
+			else
+			{
+				if(switchAge.checked == true)
+				{
+					$.ajax({
+						url: "{{ url('/service-transaction/storeAge') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"serviceTransactionID": $("#serviceTransactionID").val(), 
+							"serviceName": $("#serviceName").val(), 
+							"servicePrimeID": $("#servicePrimeID").val(), 
+							"fromAge": $("#fromAge").val(), 
+							"toAge": $("#toAge").val(),
+							"fromDate": $("#fromDate").val(),
+							
+						}, 
+						success: function(data) {
+							console.log(data);
+							$("#register").modal("hide");
+							refreshTable();
+							$("#frm-register").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
+						}
+					});
+				}
+				else
+				{
+					$.ajax({
+						url: "{{ url('/service-transaction/storeNo') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"serviceTransactionID": $("#serviceTransactionID").val(), 
+							"serviceName": $("#serviceName").val(), 
+							"servicePrimeID": $("#servicePrimeID").val(),
+							"fromDate": $("#fromDate").val(),
+							
+						}, 
+						success: function(data) {
+							console.log(data);
+							$("#register").modal("hide");
+							refreshTable();
+							$("#frm-register").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
+						}
+					});
+				}
+			}
+
+			
 		});
 
-		//  END OF SUBMIT ADD RESIDENT
+		//  END OF SUBMIT ADD RESERVATION
 
 		// DATE SWITCH
 
 		$('#switchDate').change(function(){
 			if(this.checked)
 			{
-				$('#fromDate').prop('disabled',false);
-				$('#toDate').prop('disabled',false);
+				$('#date').html(
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">From</label>'+
+									'{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">To</label>'+
+									'{!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+							'</div>'
+						);
 			}
 			else
 			{
-				$('#fromDate').prop('disabled',true);
-				$('#toDate').prop('disabled',true);
+				$('#date').html(
+						'<div class="row">'+
+							'<div class="form-group col-md-6 mb-2">'+
+								'<label for="userinput4">Date</label>'+
+								'{!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary']) !!}'+
+							'</div>'+
+						'</div>'
+					);
 			}
+		
 		});
 
 		// END OF DATE SWITCH
@@ -915,13 +1056,22 @@
 		$('#switchAge').change(function(){
 			if(this.checked)
 			{
-				$('#fromAge').prop('disabled',false);
-				$('#toAge').prop('disabled',false);
+				$('#age').html(
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">From</label>'+
+										'{!! Form::number('fromAge', null, ['id' => 'fromAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">To</label>'+
+										'{!! Form::number('toAge', null, ['id' => 'toAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+								'</div>'
+							);
 			}
 			else
 			{
-				$('#fromAge').prop('disabled',true);
-				$('#toAge').prop('disabled',true);
+				$('#age').html('No age limit');
 			}
 		});
 
@@ -940,13 +1090,33 @@
 
 					for (index in data) {
 						
+						var age;
+						var date;
+
+						if(data[index].fromAge==null)
+						{
+							age = 'Open';
+						}
+						else
+						{
+							age = data[index].fromAge + ' - ' + data[index].toAge + ' yrs. old';
+						}
+
+						if(data[index].toDate==null)
+						{
+							date = data[index].fromDate;
+						}
+						else
+						{
+							date = data[index].fromDate  + ' - ' + data[index].toDate;
+						}
 
 						$("#table-container").DataTable()
 								.row.add([
 									data[index].serviceTransactionName, 
 									data[index].serviceName, 
-									data[index].fromDate + ' - ' + data[index].toDate, 
-									data[index].fromAge + ' - ' + data[index].toAge + ' yrs. old', 
+									date, 
+									age, 
 									'12', 
 									data[index].status,
 										'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
@@ -954,7 +1124,8 @@
 											'<span class="dropdown">'+
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
+													'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View</a>'+
+													'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
 													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>'+
 												'</span>'+
@@ -1023,6 +1194,8 @@
 		};
 
 		//END OF RESIDNET PARTICIPANT REFRESH TABLE
+
+		
 
 
 

@@ -75,7 +75,7 @@ class BusinessCategoryController extends Controller
 
     public function edit(Request $r)
     {
-        if ($r->ajax()) {
+    
             $this->validate($r, [
                 'categoryName' => 'required|unique:businesscategories|max:30',
                 ]);
@@ -86,22 +86,16 @@ class BusinessCategoryController extends Controller
             $category->status = $r->input('stat');
             $category->save();
             return redirect('business-category');
-        }
-        else {
-            return view('errors.403');
-        }
+      
     }
 
     public function delete(Request $r)
     {
-        if ($r->ajax()) {
+       
             $category = BusinessCategory::find($r->input('categoryPrimeID'));
             $category->archive = true;
             $category->save();
             return redirect('business-category');
-        }
-        else {
-            return view('errors.403');
-        }
+     
     }
 }

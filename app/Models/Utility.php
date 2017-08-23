@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:11 +0000.
  */
 
 namespace App\Models;
@@ -28,6 +28,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $reservationPK
  * @property string $serviceRegPK
  * @property string $sponsorPK
+ * @property string $collectionPK
  *
  * @package App\Models
  */
@@ -51,6 +52,7 @@ class Utility extends Eloquent
 		'docApprovalPK',
 		'reservationPK',
 		'serviceRegPK',
-		'sponsorPK'
+		'sponsorPK',
+		'collectionPK'
 	];
 }

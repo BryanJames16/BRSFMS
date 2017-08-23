@@ -92,6 +92,51 @@ class ServiceTransactionController extends Controller
         }
     }
 
+    public function storeNoAge(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
+                                                'serviceName' => $r -> input('serviceName'),
+                                                'servicePrimeID' => $r -> input('servicePrimeID'),
+                                                'toDate' => $r -> input('toDate'),
+                                                'fromDate' => $r -> input('fromDate')]);
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function storeAge(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
+                                                'serviceName' => $r -> input('serviceName'),
+                                                'servicePrimeID' => $r -> input('servicePrimeID'),
+                                                'fromAge' => $r -> input('fromAge'),
+                                                'toAge' => $r -> input('toAge'),
+                                                'fromDate' => $r -> input('fromDate')]);
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function storeNo(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
+                                                'serviceName' => $r -> input('serviceName'),
+                                                'servicePrimeID' => $r -> input('servicePrimeID'),
+                                                'fromDate' => $r -> input('fromDate')]);
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function addParticipant(Request $r) {
         if ($r->ajax()) {
             $insertRet = Participant::insert(['serviceTransactionPrimeID' => $r -> input('serviceTransactionPrimeID'),

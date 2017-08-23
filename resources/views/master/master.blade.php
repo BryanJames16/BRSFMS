@@ -337,6 +337,12 @@
 													Service
 												</a>
 											</li>
+											<li id="recipient-id">
+												<a href="/recipient" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Recipient
+												</a>
+											</li>
 										</ul>
 									</li>
 									<li id="business-category-id">

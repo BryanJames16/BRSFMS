@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:11 +0000.
  */
 
 namespace App\Models;
@@ -25,7 +25,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
  * @property \Illuminate\Database\Eloquent\Collection $collections
- * @property \Illuminate\Database\Eloquent\Collection $reservations
  * @property \Illuminate\Database\Eloquent\Collection $servicesponsorships
  *
  * @package App\Models
@@ -60,11 +59,6 @@ class Person extends Eloquent
 	public function collections()
 	{
 		return $this->hasMany(\App\Models\Collection::class, 'peoplePrimeID');
-	}
-
-	public function reservations()
-	{
-		return $this->hasMany(\App\Models\Reservation::class, 'peoplePrimeID');
 	}
 
 	public function servicesponsorships()

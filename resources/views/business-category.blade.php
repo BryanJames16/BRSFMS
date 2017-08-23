@@ -283,10 +283,6 @@
 	});
 	</script>
 
-	<script type="text/javascript">
-				$(document).ready(function () {
-					$('#iconModal').modal('show');
-				});
-			</script>
+
 
 @endsection

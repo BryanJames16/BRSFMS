@@ -3,7 +3,7 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Facility Type
+	Recipient
 @endsection
 
 <!-- Set All JavaScript Settings -->
@@ -11,32 +11,32 @@
 
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(FACILITY_TYPE);
+		setSelectedTab(RECIPIENTS);
 	</script>
 @endsection
 
 <!-- Adds the Content to the Main Page -->
 @section('inside-content-header')
-	<h2 class="content-header-title">Facility Type</h2>
+	<h2 class="content-header-title">Recipient</h2>
 @endsection
 
 
 	
 @section('inside-breadcrumb')
-	<li class="breadcrumb-item">Facility</li>
-	<li class="breadcrumb-item"><a href="#">Facility Type</a></li>
+	<li class="breadcrumb-item">Service</li>
+	<li class="breadcrumb-item"><a href="#">Recipient</a></li>
 @endsection
 
 @section('main-card-title')
-	Facility Type
+	Recipient
 @endsection
 
 @section('modal-card-title')
-	Add Facility Type
+	Add Recipient
 @endsection
 
 @section('modal-card-desc')
-	Type of the Facility.
+	Recipient of the Service.
 @endsection
 
 @section('modal-form-body')
@@ -58,11 +58,11 @@
 	@endif
 		
 
-	{{Form::open(['url'=>'/facility-type/store', 'method' => 'POST', 'id' => 'frm-add'])}}
+	{{Form::open(['url'=>'/recipient/store', 'method' => 'POST', 'id' => 'frm-add'])}}
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('typeName',null,['id'=>'aTypeName','class'=>'form-control', 'placeholder'=>'eg.Covered Court', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'required', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_ \']+$'])}}
+			{{Form::text('recipientName',null,['id'=>'aRecipientName','class'=>'form-control', 'placeholder'=>'eg.Dog', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'required', 'minlength'=>'3', 'pattern'=>'^[a-zA-Z0-9-_ \']+$'])}}
 		</div>	
 
 	</div>
@@ -105,8 +105,8 @@
 @section('table-body-list')
 	@foreach($facilityTypes as $facilityType)
 		<tr>
-			<td>{{ $facilityType -> typeID }}</td>
-			<td>{{ $facilityType -> typeName }}</td>
+			<td>{{ $facilityType -> recipientID }}</td>
+			<td>{{ $facilityType -> recipientName }}</td>
 			@if ($facilityType -> status == 1)
 				<td>Active</td>
 			@else
@@ -114,12 +114,12 @@
 			@endif
 			
 			<td>
-				{{Form::open(['url'=>'/facility-type/delete', 'method' => 'POST', 'id' => $facilityType -> typeID ])}}
-					<input type='hidden' name='typeID' value='{{ $facilityType -> typeID }}' />
-					<input type='hidden' name='typeName' value='{{ $facilityType -> typeName }}' />
+				{{Form::open(['url'=>'/recipient/delete', 'method' => 'POST', 'id' => $facilityType -> typeID ])}}
+					<input type='hidden' name='recipientID' value='{{ $facilityType -> recipientID }}' />
+					<input type='hidden' name='recipientName' value='{{ $facilityType -> recipientName }}' />
 					<input type='hidden' name='status' value='{{ $facilityType -> status }}' />
-					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $facilityType -> typeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $facilityType -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $facilityType -> recipientID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $facilityType -> recipientID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{{Form::close()}}
 			</td>
 
@@ -130,15 +130,15 @@
 @endsection
 
 @section('edit-modal-title')
-	Edit Facility Type
+	Edit Recipient
 @endsection
 
 @section('edit-modal-desc')
-	Edit existing facility type data
+	Edit existing recipient data
 @endsection
 
 @section('ajax-edit-form')
-	{{Form::open(['url'=>'facility-type/update', 'method' => 'POST', 'id'=>'frm-update'])}}
+	{{Form::open(['url'=>'/recipient/update', 'method' => 'POST', 'id'=>'frm-update'])}}
 @endsection
 
 
@@ -146,7 +146,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">ID</label>
 		<div class="col-md-9">
-			{{Form::text('type_ID',null,['id'=>'eTypeID','class'=>'form-control', 'maxlength'=>'30', 'readonly', 'minlength'=>'1'])}}
+			{{Form::text('recipient_ID',null,['id'=>'eRecipientID','class'=>'form-control', 'maxlength'=>'30', 'readonly', 'minlength'=>'1'])}}
 		</div>	
 
 	</div>
@@ -155,7 +155,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('typeName',null,['id'=>'eTypeName','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'4', 'pattern'=>'^[a-zA-Z0-9\' ]+$'])}}
+			{{Form::text('recipientName',null,['id'=>'eRecipientName','class'=>'form-control', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'3', 'pattern'=>'^[a-zA-Z0-9\' ]+$'])}}
 		</div>	
 	</div>
 
@@ -208,10 +208,10 @@
 			event.preventDefault();
 
 			$.ajax({
-				url: "{{ url('/facility-type/store') }}", 
+				url: "{{ url('/recipient/store') }}", 
 				method: "POST", 
 				data: {
-					"typeName": $("#aTypeName").val(), 
+					"recipientName": $("#aRecipientName").val(), 
 					"status": $(".astatus:checked").val()
 				}, 
 				success: function(data) {
@@ -232,15 +232,15 @@
 			});
 		});
 
-		$("#frm-update").submit(function(event) {
+        $("#frm-update").submit(function(event) {
 			event.preventDefault();
 
 			$.ajax({
-				url: "{{ url('/facility-type/update') }}", 
+				url: "{{ url('/recipient/update') }}", 
 				method: "POST", 
 				data: {
-					"typeID": $("#eTypeID").val(), 
-					"typeName": $("#eTypeName").val(), 
+					"recipientID": $("#eRecipientID").val(),
+                    "recipientName": $("#eRecipientName").val(), 
 					"stat": $(".estatus:checked").val()
 				}, 
 				success: function(data) {
@@ -266,13 +266,13 @@
 
 			$.ajax({
 				type: 'GET',
-				url: "{{ url('/facility-type/getEdit') }}", 
-				data: {"primeID": id}, 
+				url: "{{ url('/recipient/getEdit') }}", 
+				data: {"recipientID": id}, 
 				success: function(data)
 				{
 					var frm = $('#frm-update');
-					frm.find("#eTypeID").val(data.typeID);
-					frm.find('#eTypeName').val(data.typeName);
+					frm.find("#eRecipientID").val(data.recipientID);
+					frm.find('#eRecipientName').val(data.recipientName);
 
 					if(data.status == 1) {
 						$("#eActive").attr('checked', 'checked');
@@ -302,11 +302,11 @@
 
 			$.ajax({
 					type: 'GET',
-					url: "{{ url('/facility-type/getEdit') }}",
-					data: {"primeID": id},
+					url: "{{ url('/recipient/getEdit') }}",
+					data: {"recipientID": id},
 					success:function(data) {
 						swal({
-							title: "Are you sure you want to delete " + data.typeName + "?",
+							title: "Are you sure you want to delete " + data.recipientName + "?",
 							text: "",
 							type: "warning",
 							showCancelButton: true,
@@ -317,8 +317,8 @@
 							function() {
 								$.ajax({
 									type: "post",
-									url: "{{ url('/facility-type/delete') }}", 
-									data: {"typeID": id}, 
+									url: "{{ url('/recipient/delete') }}", 
+									data: {"recipientID": id}, 
 									success: function(data) {
 										refreshTable();
 										swal("Successfull", "Entry is deleted!", "success");
@@ -340,7 +340,7 @@
 
 		var refreshTable = function() {
 			$.ajax({
-				url: "{{ url('/facility-type/refresh') }}", 
+				url: "{{ url('/recipient/refresh') }}", 
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
@@ -359,13 +359,13 @@
 						$("#table-container").DataTable().column(4).visible(true)
 						$('#table-container').DataTable()
 							.row.add([
-								data[index].typeID, 
-								data[index].typeName,
+								data[index].recipientID, 
+								data[index].recipientName,
 								statusText,
-								'<form method="POST" id="' + data[index].typeID + '" action="/service-type/delete" accept-charset="UTF-8"])' + 
-									'<input type="hidden" name="primeID" value="' + data[index].typeID + '" />' + 
-									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].typeID + '"><i class="icon-android-create"></i></button>' + 
-									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].typeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
+								'<form method="POST" id="' + data[index].recipientID + '" action="/recipient/delete" accept-charset="UTF-8"])' + 
+									'<input type="hidden" name="primeID" value="' + data[index].recipientID + '" />' + 
+									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].recipientID + '"><i class="icon-android-create"></i></button>' + 
+									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].recipientID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 								'</form>',
 								null
 							]).draw(true);
