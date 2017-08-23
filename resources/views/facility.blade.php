@@ -104,24 +104,6 @@
 			{{Form::number('facilityNightPrice',null,['id'=>'aNightPrice','class'=>'form-control', 'placeholder'=>'eg.150', 'data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Please enter a valid amount','required', 'step'=>'0.01'])}}
 		</div>	
 
-	</div>	
-
-	<div class="form-group row last">
-		<label class="col-md-3 label-control">*Status</label>
-		<div class="col-md-9">
-			<div class="input-group col-md-9">
-				<label class="inline custom-control custom-radio">
-					<input type="radio" value="aActive" name="aStatus" checked="" class="aStatus custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Active</span>
-				</label>
-				<label class="inline custom-control custom-radio">
-					<input type="radio" value="aInactive" name="aStatus"  class="aStatus custom-control-input" >
-					<span class="custom-control-indicator"></span>
-					<span class="custom-control-description ml-0">Inactive</span>
-				</label>
-			</div>
-		</div>
 	</div>
 
 @endsection
@@ -292,8 +274,7 @@
 					"facilityDesc": $("#aFacilityDesc").val(), 
 					"facilityType": $("#aTypeID").val(), 
 					"facilityDayPrice": $("#aDayPrice").val(), 
-					"facilityNightPrice": $("#aNightPrice").val(), 
-					"status": $(".aStatus:checked").val()
+					"facilityNightPrice": $("#aNightPrice").val()
 				}, 
 				success: function(data) {
 					$("#iconModal").modal("hide");

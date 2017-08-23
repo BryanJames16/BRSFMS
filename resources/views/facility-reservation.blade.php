@@ -13,6 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/select.dataTables.min.css') }}" />
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/fullcalendar.js') }}" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
 @endsection
 
 @section('vendor-style')
@@ -265,28 +267,30 @@
 							</div>
 							<div class="modal-body">
 								<div class="card-block">
+
 									{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Reservation Name :</label>
+										<h4 class="form-section"><i class="icon-eye6"></i> Fill Up </h4>
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput1">Reservation Name</label>
 														{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
 														{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
 													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="firstName1">Reservee :</label>
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput2">Reservee</label>
 														{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
 													</div>
 												</div>
+										
+										<div class="row">
+											
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="firstName1">Facility :</label>
 														{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
 													</div>
 												</div>
-											</div>
+											
 										</div>
 										<div class="row">
 											<div class="col-md-6">
@@ -396,56 +400,64 @@
 							</div>
 							<div class="modal-body">
 								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST'])!!}
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="firstName1">Reservation Name :</label>
-												{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-											</div>
+									
+									
+									<h4 class="form-section"><i class="icon-eye6"></i> Fill Up </h4>
+										<div class="form-group ">
+											<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
+											<label for="switcheryColor" class="card-title ml-1">Resident</label>
 										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="firstName1">Reservee :</label>
-												{{ Form::select('peoplePrimeID', $people, null, ['id'=>'reserveeCbo', 'class' => 'form-control border-info selectBox']) }}
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="firstName1">Facility :</label>
-												{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="firstName1">Reservation Description :</label>
-												{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
 
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="firstName1">Date :</label>
-												{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
+										<div id="change">
+
+											<div class="row">
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput1">Reservation Name</label>
+													
+													{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
+												</div>
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput2">Resident</label>
+													<select class='form-control border-info selectBox' id='reserveeCbo1'>
+														<option value="Marc Fuellas">Marc Fuellas</option>
+													</select>
 												</div>
 											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="firstName1">Start Time :</label>
-												{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+
+											<div class="row">
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput1">Description</label>
+													{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+												</div>
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput2">Facility</label>
+													<select class='form-control border-info selectBox' id='facilityPrimeID'>
+														<option value="Hipodromo Court">Hipodromo Court</option>
+													</select>
+												</div>
 											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="firstName1">End Time :</label>
-												{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+
+											<div class="row">
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput1">Date</label>
+													{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}
+												</div>
 											</div>
+
+											<div class="row">
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput1">Start Time</label>
+													{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
+												</div>
+												<div class="form-group col-md-6 mb-2">
+													<label for="userinput2">End Time</label>
+													{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
+												</div>
+											</div>
+											
+
 										</div>
-									</div>
+									
 									<div class="form-actions center">
 										{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
 									</div>	
@@ -548,6 +560,85 @@
 			</div>	
 		</div>
 	</section>	
+
+	
+@endsection
+
+@section('vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+@endsection
+
+@section('template-js')
+	
+	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
+	
+@endsection
+
+@section('page-vendor-js')
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
+@endsection
+
+@section('page-level-js')
+	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
+	<script>
+
+		
+
+		var refreshCbo = function() {
+			$.ajax({
+				url: "{{ url('/facility-reservation/updatecbo') }}", 
+				type: "GET", 
+				success: function(data){
+					$("#reserveeCbo").empty();
+					var reserveeData = "";
+					data = $.parseJSON(data);
+					for (var index in data) {
+						var name = "";
+						reserveeData += data[index].lastName + ", ";
+						reserveeData += data[index].firstName + " ";
+						if (data[index].middleName != "") {
+							reserveeData += " " + data[index].middleName;
+						}
+
+						console.log("First Name: " + data[index].firstName);
+						console.log("Last Name: " + data[index].lastName);
+
+						$("#reserveeCbo").append(
+							'<option value="' + data[index].peoplePrimeID + '">' + reserveeData + '</option>'
+						);
+
+						reserveeData = "";
+					}
+				}, 
+				error: function(data){
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					console.log("Error: " +  bnhy,message);
+				}
+			});
+
+			console.log("done loading...");
+		}
+
+		refreshCbo();
+	</script>
 
 	<script>
 		$(document).on('click', '.edit', function(e) {
@@ -653,76 +744,108 @@
 				}
 			});
 		});
-	</script>
-@endsection
 
-@section('vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
-@endsection
+		// RES SWITCH
 
-@section('template-js')
-	
-	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
-	
-@endsection
+		$('#switchRes').change(function(){
+			if(this.checked)
+			{
+				$('#change').html('<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Reservation Name</label>'+
+											
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Resident</label>'+
+											"<select class='form-control border-info selectBox' id='reserveeCbo'>"+
+											'<option value="Marc Fuellas">Marc Fuellas</option>'+
+											'</select>'+	
+										'</div>'+
+									'</div>'+
 
-@section('page-vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
-	
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
-	
-	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Description</label>'+
+											'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Facility</label>'+
+											"<select class='form-control border-info selectBox' id='facilityPrimeID'>"+
+											'<option value="Hipodromo Court">Hipodromo Court</option>'+		
+											'</select>'+
+										'</div>'+
+									'</div>'+
 
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
-@endsection
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Date</label>'+
+											'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
+										'</div>'+
+									'</div>'+
 
-@section('page-level-js')
-	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-	<script>
-		var refreshCbo = function() {
-			$.ajax({
-				url: "{{ url('/facility-reservation/updatecbo') }}", 
-				type: "GET", 
-				success: function(data){
-					$("#reserveeCbo").empty();
-					var reserveeData = "";
-					data = $.parseJSON(data);
-					for (var index in data) {
-						var name = "";
-						reserveeData += data[index].lastName + ", ";
-						reserveeData += data[index].firstName + " ";
-						if (data[index].middleName != "") {
-							reserveeData += " " + data[index].middleName;
-						}
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Start Time</label>'+
+											'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">End Time</label>'+
+											'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
+										'</div>'+
+									'</div>');
+			}
+			else
+			{
+				$('#change').html(
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Reservation Name</label>'+
+											
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Non-Resident</label>'+
+											"<select class='form-control border-info selectBox' id='reserveeCbo'>"+
+											'<option value="Marc Fuellas">Marc Fuellas</option>'+
+											'</select>'+	
+										'</div>'+
+									'</div>'+
 
-						console.log("First Name: " + data[index].firstName);
-						console.log("Last Name: " + data[index].lastName);
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Description</label>'+
+											'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Facility</label>'+
+											"<select class='form-control border-info selectBox' id='facilityPrimeID'>"+
+											'<option value="Hipodromo Court">Hipodromo Court</option>'+		
+											'</select>'+
+										'</div>'+
+									'</div>'+
 
-						$("#reserveeCbo").append(
-							'<option value="' + data[index].peoplePrimeID + '">' + reserveeData + '</option>'
-						);
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Date</label>'+
+											'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
+										'</div>'+
+									'</div>'+
 
-						reserveeData = "";
-					}
-				}, 
-				error: function(data){
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Start Time</label>'+
+											'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">End Time</label>'+
+											'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
+										'</div>'+
+									'</div>');
+			}
+		});
 
-					console.log("Error: " +  bnhy,message);
-				}
-			});
+		// END OF RES SWITCH
 
-			console.log("done loading...");
-		}
-
-		refreshCbo();
 	</script>
 @endsection

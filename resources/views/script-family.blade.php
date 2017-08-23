@@ -152,6 +152,7 @@
 							console.log("Error: Cannot fetch data!\n" + message);
 						}
 					})
+					familyRefreshTable();
 					$('#editMember').modal('show');
 				}, 
 				error: function(data) {
@@ -507,6 +508,7 @@
 									
 								]).draw(false);
 					}
+					familyRefreshTable();
 				}, 
 				error: function(data) {
 
@@ -609,6 +611,7 @@
 							console.log("Error: Cannot refresh table!\n" + message);
 						}
 					});
+					familyRefreshTable();
 					swal("Success", "Successfully Added member!", "success");
 
                     $.ajax({
@@ -836,6 +839,7 @@
 												console.log("Error: Cannot fetch data!\n" + message);
 											}
 										})
+										familyRefreshTable();
 										swal("Successfull", "Member removed!", "success");
 									}, 
 									error: function(data) {

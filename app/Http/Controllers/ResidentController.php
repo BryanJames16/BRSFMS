@@ -41,10 +41,20 @@ class ResidentController extends Controller
                                                     -> whereNotIn('residentPrimeID',$mem)
                                                     -> get();
        
-        $families= \DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
-                                                    'familyRegistrationDate', 'archive','residents.firstName',
-                                                     'residents.middleName','residents.lastName') 
+        $families= \DB::table('families') ->select('families.familyPrimeID','familyID', 'familyHeadID', 'familyName',
+                                                    'familyRegistrationDate', 'families.archive','residents.firstName',
+                                                     'residents.middleName','residents.lastName',\DB::raw('count(familyMemberPrimeID) as number')) 
+                                        ->leftjoin('familymembers','familymembers.familyPrimeID','=','families.familyPrimeID')
                                         ->join('residents', 'families.familyHeadID', '=', 'residents.residentPrimeID')
+                                        ->groupBy('families.familyPrimeID')
+                                        ->groupBy('familyID')
+                                        ->groupBy('familyHeadID')
+                                        ->groupBy('familyName')
+                                        ->groupBy('familyRegistrationDate')
+                                        ->groupBy('families.archive')
+                                        ->groupBy('residents.firstName')
+                                        ->groupBy('residents.middleName')
+                                        ->groupBy('residents.lastName')
                                         ->where('families.archive', '=', 0) 
                                         ->get();
 
@@ -68,10 +78,20 @@ class ResidentController extends Controller
 
     public function familyRefresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(\DB::table('families') ->select('familyPrimeID','familyID', 'familyHeadID', 'familyName',
-                                                    'familyRegistrationDate', 'archive','residents.firstName',
-                                                     'residents.middleName','residents.lastName') 
+            return json_encode(\DB::table('families') ->select('families.familyPrimeID','familyID', 'familyHeadID', 'familyName',
+                                                    'familyRegistrationDate', 'families.archive','residents.firstName',
+                                                     'residents.middleName','residents.lastName',\DB::raw('count(familyMemberPrimeID) as number')) 
+                                        ->leftjoin('familymembers','familymembers.familyPrimeID','=','families.familyPrimeID')
                                         ->join('residents', 'families.familyHeadID', '=', 'residents.residentPrimeID')
+                                        ->groupBy('families.familyPrimeID')
+                                        ->groupBy('familyID')
+                                        ->groupBy('familyHeadID')
+                                        ->groupBy('familyName')
+                                        ->groupBy('familyRegistrationDate')
+                                        ->groupBy('families.archive')
+                                        ->groupBy('residents.firstName')
+                                        ->groupBy('residents.middleName')
+                                        ->groupBy('residents.lastName')
                                         ->where('families.archive', '=', 0) 
                                         ->get());
         }

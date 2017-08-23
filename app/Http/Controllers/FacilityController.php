@@ -84,15 +84,6 @@ class FacilityController extends Controller
 
             ]);
 
-            if($r->input('status') == "active") {
-                $stat = 1;
-            }
-            else if($r->input('status') == "inactive") {
-                $stat = 0;
-            }
-            else {
-
-            }
 
             $insertRet = Facility::insert(['facilityID'=>trim($r->facilityID),
                                                 'facilityName'=>trim($r->facilityName),
@@ -101,7 +92,7 @@ class FacilityController extends Controller
                                                 'facilityNightPrice'=>$r->facilityNightPrice,
                                                 'facilityDayPrice'=>$r->facilityDayPrice,
                                                 'archive'=>0,
-                                                'status'=>$stat]);
+                                                'status'=>1]);
             return back();
         }
     }

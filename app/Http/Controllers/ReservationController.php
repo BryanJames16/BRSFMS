@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use \App\Models\Person;
 use \App\Models\Facility;
 use \App\Models\Reservation;
+use \App\Models\Resident;
 
 class ReservationController extends Controller
 {
 
     public function populate() {
-        return view('reservation',
+        return view('facility-reservation',
                         ['facilities' => 
                                 Facility::where([['status', 1], 
                                                 ['archive', 0]])
@@ -39,8 +40,9 @@ class ReservationController extends Controller
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('people', 'reservations.peoplePrimeID', '=', 'people.peoplePrimeID') 
                                         ->get();
-        return view('facility-reservation',['facilities'=>Facility::where([['status', 1],['archive', 0]])->pluck('facilityName', 'primeID')],
-        ['people'=>Person::where([['status', 1],['archive', 0]])->pluck('lastName', 'peoplePrimeID')])-> with('reservations', $reservations);
+        return view('facility-reservation',
+                                            ['facilities'=>Facility::where([['status', 1],['archive', 0]])->pluck('facilityName', 'primeID')],
+                                            ['people'=>Person::where([['status', 1],['archive', 0]])->pluck('lastName', 'peoplePrimeID')])-> with('reservations', $reservations);
     }
 
     public function store(Request $r) {
@@ -57,6 +59,20 @@ class ReservationController extends Controller
     }
 
     public function getEdit(Request $r) {
+        if($r->ajax()) {
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation','familymembers.familyMemberPrimeID',
+                                                    'gender') 
+                                        ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
+                                        ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
+                                        ->where('residents.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getResidents(Request $r) {
         if($r->ajax()) {
             return response(Reservation::find($r->primeID));
         }

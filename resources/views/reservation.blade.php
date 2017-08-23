@@ -69,25 +69,21 @@
 				<div class="card-body collapse in">
 					<div class="card-block">
 						{!!Form::open(['url'=>'/reservation/store', 'method' => 'POST'])!!}
-							
+							<h4 class="form-section"><i class="icon-eye6"></i> Fill Up </h4>
+								<div class="row">
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput1">Reservation Name</label>
+										{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
+									</div>
+									<div class="form-group col-md-6 mb-2">
+										<label for="userinput2">Reservee</label>
+										<select id="reserveeCbo" class="form-control border-info selectBox">
+									</div>
+								</div>
 							<fieldset>
 								<div class="row">
 
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="firstName1">Reservation Name :</label>
-											{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-										</div>
-									</div>
-
-									<div class="col-md-6">
-										<div class="form-group">
-											<label for="firstName1">Reservee :</label>
-											<select id="reserveeCbo" class="form-control border-info selectBox">
-												
-											</select>
-										</div>
-									</div>
+									
 
 									<div class="col-md-6">
 										<div class="form-group">

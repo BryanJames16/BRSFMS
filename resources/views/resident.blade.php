@@ -207,7 +207,7 @@
 													<td>{{ $family -> familyID }}</td>
 													<td>{{ $family -> familyName }}</td>
 													<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
-													<td>2</td>
+													<td>{{ $family -> number }}</td>
 													<td>{{ $family -> familyRegistrationDate }}</td>
 													<td>
 														<span class="dropdown">
@@ -360,7 +360,7 @@
 														<td>{{ $family -> familyID }}</td>
 														<td>{{ $family -> familyName }}</td>
 														<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
-														<td>2</td>
+														<td>{{ $family -> number }}</td>
 														<td>{!! Form::text('memberRelation', null, ['id' => 'memberRelation',
 																							'class' => 'form-control border-primary',
 																							 ]) !!}</td>
@@ -1234,7 +1234,7 @@
 									data[index].familyID, 
 									data[index].familyName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									data[index].members,
+									data[index].number,
 									data[index].familyRegistrationDate,
 										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
@@ -1244,7 +1244,7 @@
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
 													'<a href="#" class="dropdown-item viewMember" name="btnView" data-value="' + data[index].familyPrimeID + '"><i class="icon-eye6"></i> View</a>' +
 													'<a href="#" class="dropdown-item editMember" name="btnEdit" data-value="' + data[index].familyPrimeID + '"><i class="icon-pen3"></i> Add/Remove members</a>' +
-													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+													'<a href="#" class="dropdown-item deleteFamily" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +
 											'</span>' + 
 										'</form>'
