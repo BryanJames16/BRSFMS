@@ -140,7 +140,7 @@ CREATE TABLE `collections` (
   KEY `fk_collections_documentheaderrequests1_idx` (`documentHeaderPrimeID`),
   KEY `fk_collections_residents1_idx` (`residentPrimeID`),
   KEY `fk_collections_people1_idx` (`peoplePrimeID`),
-  CONSTRAINT `fk_collections_documentheaderrequests1` FOREIGN KEY (`documentHeaderPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_collections_documentheaderrequests1` FOREIGN KEY (`documentHeaderPrimeID`) REFERENCES `documentrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_people1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_reservations1` FOREIGN KEY (`reservationprimeID`) REFERENCES `reservations` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -168,41 +168,25 @@ CREATE TABLE `document_requirements` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `documentdetailrequests`
+-- Table structure for table `documentrequests`
 --
 
-DROP TABLE IF EXISTS `documentdetailrequests`;
+DROP TABLE IF EXISTS `documentrequests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `documentdetailrequests` (
-  `documentDetailPrimeID` int(11) NOT NULL AUTO_INCREMENT,
-  `headerPrimeID` int(11) NOT NULL,
-  `documentPrimeID` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  PRIMARY KEY (`documentDetailPrimeID`,`headerPrimeID`),
-  KEY `fk_DocumentDetailRequests_DocumentHeaderRequests1_idx` (`headerPrimeID`),
-  KEY `fk_DocumentDetailRequests_Documents1_idx` (`documentPrimeID`),
-  CONSTRAINT `fk_DocumentDetailRequests_DocumentHeaderRequests1` FOREIGN KEY (`headerPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DocumentDetailRequests_Documents1` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `documentheaderrequests`
---
-
-DROP TABLE IF EXISTS `documentheaderrequests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `documentheaderrequests` (
+CREATE TABLE `documentrequests` (
   `documentHeaderPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `requestID` varchar(20) NOT NULL,
   `requestDate` date NOT NULL,
   `status` varchar(20) NOT NULL,
-  `peoplePrimeID` int(11) NOT NULL,
+  `residentPrimeID` int(11) NOT NULL,
+  `documentsPrimeID` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
   PRIMARY KEY (`documentHeaderPrimeID`),
-  KEY `fk_DocumentHeaderRequests_Residents1_idx` (`peoplePrimeID`),
-  CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_DocumentHeaderRequests_Residents1_idx` (`residentPrimeID`),
+  KEY `fk_documentrequests_documents1_idx` (`documentsPrimeID`),
+  CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_documentrequests_documents1` FOREIGN KEY (`documentsPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -819,4 +803,4 @@ CREATE TABLE `voters` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-23 10:51:03
+-- Dump completed on 2017-08-23 11:30:37
