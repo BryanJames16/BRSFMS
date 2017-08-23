@@ -2,24 +2,25 @@
 
 @section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
-	<!--
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
-
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
-	-->
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/select.dataTables.min.css') }}" />
-	<script src="{{ URL::asset('/robust-assets/js/components/extensions/fullcalendar.js') }}" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
 @endsection
 
 @section('vendor-style')
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+@endsection
+
+@section('plugin')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
 @endsection
 
 @section('template-css')
@@ -100,7 +101,7 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
 											<thead>
 												<tr>
 													<th>Name</th>
@@ -122,16 +123,19 @@
 														<td>{{ $reservation -> reservationName }}</td>
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-														<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 							
 														<td>{{ $reservation -> status }}</td>
 														<td>
 															@if($reservation -> status  == 'Pending')
-																<div class="btn-group" role="group" aria-label="Basic example">
-																	<button class='btn btn-icon btn-round btn-primary normal view' data-toggle="tooltip" data-placement="top" data-original-title="View Details"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-ios-eye"></i></button>
-																	<button class='btn btn-icon btn-round btn-success normal edit' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}'><i class="icon-android-clipboard"></i></button>
-																	<button class='btn btn-icon btn-round btn-danger delete' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
-																</div>
+																<span class="dropdown">
+																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
+																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																	</span>
+																</span>
 															@else
 																N/A
 																@endif
@@ -144,7 +148,7 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
 											<thead>
 												<tr>
 													<th>Name</th>
@@ -168,13 +172,16 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-															<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td>{{ $reservation -> status }}</td>
 															<td>
-																<div class="btn-group" role="group" aria-label="Basic example">
-																	<button class='btn btn-icon btn-round btn-success normal ' data-toggle="tooltip" data-placement="top" data-original-title="Reschedule"  type='button' value='{{ $reservation -> primeID }}' data-toggle='modal' data-target='#rescheduleModal'><i class="icon-android-clipboard"></i></button>
-																	<button class='btn btn-icon btn-round btn-danger ' data-toggle="tooltip" data-placement="top" data-original-title="Cancel" value='{{ $reservation -> primeID }}' type='button' name='btnEdit'><i class="icon-android-cancel"></i></button>
-																</div>
+																<span class="dropdown">
+																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																	</span>
+																</span>
 															</td>
 															{!!Form::close()!!}
 														</tr>
@@ -184,7 +191,7 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
 											<thead>
 												<tr>
 													<th>Name</th>
@@ -205,7 +212,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-															<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td>{{ $reservation -> status }}</td>
 															<td>N/A
 															</td>
@@ -217,7 +224,7 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered table-fixed-column order-column dataex-column-visibility" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
 											<thead>
 												<tr>
 													<th>Name</th>
@@ -238,7 +245,7 @@
 														<td>{{ $reservation -> reservationName }}</td>
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-														<td>{{ $reservation -> dateReserved }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 														<td>{{ $reservation -> status }}</td>
 														<td>N/A
 														</td>
@@ -401,8 +408,6 @@
 							<div class="modal-body">
 								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST'])!!}
 									
-									
-									<h4 class="form-section"><i class="icon-eye6"></i> Fill Up </h4>
 										<div class="form-group ">
 											<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
 											<label for="switcheryColor" class="card-title ml-1">Resident</label>
@@ -410,50 +415,6 @@
 
 										<div id="change">
 
-											<div class="row">
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput1">Reservation Name</label>
-													
-													{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-												</div>
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput2">Resident</label>
-													<select class='form-control border-info selectBox' id='reserveeCbo1'>
-														<option value="Marc Fuellas">Marc Fuellas</option>
-													</select>
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput1">Description</label>
-													{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-												</div>
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput2">Facility</label>
-													<select class='form-control border-info selectBox' id='facilityPrimeID'>
-														<option value="Hipodromo Court">Hipodromo Court</option>
-													</select>
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput1">Date</label>
-													{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput1">Start Time</label>
-													{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-												</div>
-												<div class="form-group col-md-6 mb-2">
-													<label for="userinput2">End Time</label>
-													{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
-												</div>
-											</div>
 											
 
 										</div>
@@ -575,26 +536,104 @@
 @endsection
 
 @section('page-vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
-
-    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.select.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-level-js')
-	<script src="{{URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-fixed-column.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 	<script>
 
+		var residentFunc = function(){
+			$('#change').html('<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Reservation Name</label>'+
+										
+										'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">Resident</label>'+
+										"<select class='form-control border-info selectBox' id='residentCbo'>"+
+										'</select>'+	
+									'</div>'+
+								'</div>'+
+
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Description</label>'+
+										'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">Facility</label>'+
+										"<select class='form-control border-info selectBox' id='facilityCbo'>"+
+										'</select>'+
+									'</div>'+
+								'</div>'+
+
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Date</label>'+
+										'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
+									'</div>'+
+								'</div>'+
+
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Start Time</label>'+
+										'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">End Time</label>'+
+										'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
+									'</div>'+
+								'</div>');
+
+
+						$.ajax({
+							type: 'GET',
+							url: "{{ url('/facility-reservation/getResidents') }}",
+							data: {"serviceTransactionPrimeID": 'asd'},
+							success: function(data) {
+
+							data = $.parseJSON(data);
+
+								for (index in data) {
+
+								$('#residentCbo').append($('<option>',{
+									value: data[index].residentPrimeID,
+									text: data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + ': ' + data[index].residentID
+								}));
+
+								}
+							}
+						});
+
+						$.ajax({
+							type: 'GET',
+							url: "{{ url('/facility-reservation/getFacilities') }}",
+							data: {"serviceTransactionPrimeID": 'asd'},
+							success: function(data) {
+
+							data = $.parseJSON(data);
+
+								for (index in data) {
+
+								$('#facilityCbo').append($('<option>',{
+									value: data[index].primeID,
+									text: data[index].facilityName
+								}));
+
+								}
+							}
+						});
+		}
 		
 
 		var refreshCbo = function() {
@@ -634,10 +673,9 @@
 				}
 			});
 
-			console.log("done loading...");
 		}
 
-		refreshCbo();
+		residentFunc();
 	</script>
 
 	<script>
@@ -750,68 +788,39 @@
 		$('#switchRes').change(function(){
 			if(this.checked)
 			{
-				$('#change').html('<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput1">Reservation Name</label>'+
-											
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
-										'</div>'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput2">Resident</label>'+
-											"<select class='form-control border-info selectBox' id='reserveeCbo'>"+
-											'<option value="Marc Fuellas">Marc Fuellas</option>'+
-											'</select>'+	
-										'</div>'+
-									'</div>'+
-
-									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput1">Description</label>'+
-											'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
-										'</div>'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput2">Facility</label>'+
-											"<select class='form-control border-info selectBox' id='facilityPrimeID'>"+
-											'<option value="Hipodromo Court">Hipodromo Court</option>'+		
-											'</select>'+
-										'</div>'+
-									'</div>'+
-
-									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput1">Date</label>'+
-											'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
-										'</div>'+
-									'</div>'+
-
-									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput1">Start Time</label>'+
-											'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
-										'</div>'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput2">End Time</label>'+
-											'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
-										'</div>'+
-									'</div>');
+				residentFunc();
 			}
 			else
 			{
 				$('#change').html(
+									'<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
 									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Reservation Name</label>'+
-											
 											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
-										'<div class="form-group col-md-6 mb-2">'+
-											'<label for="userinput2">Non-Resident</label>'+
-											"<select class='form-control border-info selectBox' id='reserveeCbo'>"+
-											'<option value="Marc Fuellas">Marc Fuellas</option>'+
-											'</select>'+	
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput2">Name</label>'+
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput1">Age</label>'+
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 									'</div>'+
 
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Email</label>'+
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Contact Number</label>'+
+											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+									'</div>'+
+
+									'<h4 class="form-section">Reservation</h4>'+
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Description</label>'+
@@ -826,18 +835,15 @@
 									'</div>'+
 
 									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
 											'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
 										'</div>'+
-									'</div>'+
-
-									'<div class="row">'+
-										'<div class="form-group col-md-6 mb-2">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
 											'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
 										'</div>'+
-										'<div class="form-group col-md-6 mb-2">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
 											'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
 										'</div>'+
