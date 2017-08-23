@@ -13,8 +13,18 @@ class UtilitiesController extends Controller
         return view('utilities') -> with('utilities', $utilities);
     }
 
-    public function store() {
-
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('utilities') ->select('facilityPK',
+                                                    'documentPK', 'servicePK',
+                                                     'residentPK',
+                                                    'familyPK', 'docRequestPK','docApprovalPK','reservationPK',
+                                                     'serviceRegPK','sponsorPK','collectionPK') 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getCurrentPK(Request $r) {
@@ -41,6 +51,7 @@ class UtilitiesController extends Controller
                                                 'servicePK' => $r -> input('servicePK'),
                                                 'serviceRegPK' => $r -> input('serviceRegPK'),
                                                 'sponsorPK' => $r -> input('sponsorPK'),
+                                                'collectionPK' => $r -> input('collectionPK'),
                                                 'docRequestPK' => $r -> input('docRequestPK')]);   
             }
             else
@@ -55,6 +66,7 @@ class UtilitiesController extends Controller
                 $utilityRow -> residentPK = $r -> input('residentPK');
                 $utilityRow -> servicePK  = $r -> input('servicePK');
                 $utilityRow -> serviceRegPK = $r -> input('serviceRegPK');
+                $utilityRow -> collectionPK = $r -> input('collectionPK');
                 $utilityRow -> sponsorPK = $r -> input('sponsorPK');
                 $utilityRow -> save();
                 

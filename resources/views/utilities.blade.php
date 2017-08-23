@@ -115,7 +115,7 @@ Utilities
 									<i class="icon-edit2"></i> Edit Values  
 								</button>
                     		</p>
-							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-containers">
 								<thead>
 									<tr>
 										<col width="240">
@@ -164,6 +164,10 @@ Utilities
 										<tr>
 											<td>Sponsor Identifier</td>
 											<td>{{ $utility -> sponsorPK }}</td>
+										</tr>
+										<tr>
+											<td>Collection Identifier</td>
+											<td>{{ $utility -> collectionPK }}</td>
 										</tr>
 									@endforeach
 								</tbody>
@@ -406,6 +410,25 @@ Utilities
 										</div>
 
 										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Collection Identifier:</label>
+											<div class="col-md-9">
+												{{ Form::text('collectionIdentifier', 
+																null, 
+																['id' => 'collectionIdentifier', 
+																	'class' => 'form-control', 
+																	'placeholder' => 'FCL_000', 
+																	'maxlength' => '20', 
+																	'data-toggle' => 'tooltip', 
+																	'data-trigger' => 'focus', 
+																	'data-placement' => 'top', 
+																	'data-title' => 'Maximum of 20 characters', 
+																	'required', 
+																	'minlength'=>'5', 
+																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											</div>	
+										</div>
+
+										<div class="form-group row">
 											<label class="col-md-3 label-control" for="eventRegInput1">Family Identifier:</label>
 											<div class="col-md-9">
 												{{ Form::text('familyIdentifier', 
@@ -594,6 +617,7 @@ Utilities
 					$("#serviceIdentifier").val(data.servicePK);
 					$("#servRegIdentifier").val(data.serviceRegPK);
 					$("#sponsorIdentifier").val(data.sponsorPK);
+					$("#collectionIdentifier").val(data.collectionPK);
 				}, 
 				failed: function(data) {
 					var message = "Error: ";
@@ -631,12 +655,12 @@ Utilities
 					"reservationPK": $("#reservationIdentifier").val() , 
 					"residentPK": $("#residentIdentifier").val(), 
 					"servicePK": $("#serviceIdentifier").val(), 
-					"serviceRegPK": $("#servRegIdentifier").val(), 
+					"serviceRegPK": $("#servRegIdentifier").val(),
+					"collectionPK": $("#collectionIdentifier").val(), 
 					"sponsorPK": $("#sponsorIdentifier").val()
 				}, 
 				success: function(data) {
-					$("#iconModal").modal("hide");
-					$("#frmIdent").trigger("reset");
+					$("#updatePKModal").modal("hide");
 					refreshPKTable();
 					swal("Success", "Successfully Updated!", "success");
 				}, 
@@ -657,7 +681,33 @@ Utilities
 		};
 
 		var refreshPKTable = function() {
-			// Refresh Unique Identifiers Table
+			$.ajax({
+				url: "{{ url('/utilities/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					console.log(data);
+					
+					$("#table-containers").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
 		};
 	</script>
 @endsection

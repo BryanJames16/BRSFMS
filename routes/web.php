@@ -190,6 +190,7 @@ Route::post('/business-registration/store', 'BusinessRegistrationController@stor
 
 /* UTILITIES ROUTES */
 Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
+Route::get('/utilities/refresh', 'UtilitiesController@refresh');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
 
