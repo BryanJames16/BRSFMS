@@ -868,7 +868,7 @@
 					"</table>" +  
 				"</div>"
 			);
-		})
+		});
 
 		var refreshTable = function() {
 			$.ajax({

@@ -44,8 +44,7 @@ class ReservationController extends Controller
     }
 
     public function store(Request $r) {
-        if ($r->ajax()) {
-            $insertRet = Reservation::insert(['reservationName'=>trim($r->name),
+        $insertRet = Reservation::insert(['reservationName'=>trim($r->name),
                                                 'reservationDescription'=>trim($r->desc),
                                                 'reservationStart'=>$r->startTime,
                                                 'reservationEnd'=>$r->endTime,
@@ -55,10 +54,6 @@ class ReservationController extends Controller
                                                 'status'=>'Pending']);
 
             return redirect('facility-reservation');
-        }
-        else {
-            return view('errors.403');
-        }  
     }
 
     public function getEdit(Request $r) {

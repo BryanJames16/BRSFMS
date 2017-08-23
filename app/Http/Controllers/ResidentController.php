@@ -27,7 +27,7 @@ class ResidentController extends Controller
     }
 
     public function index() {
-    	$residents = Resident::select('residentPrimeID','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    	$residents = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
     												-> where('status','1')
                                                     -> get();
         
@@ -198,7 +198,7 @@ class ResidentController extends Controller
 
     public function getEdit(Request $r) {
         if($r->ajax()) {
-            return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','residentID', 'firstName',
+            return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','imagePath','residentID', 'firstName',
                                                                 'lastName','middleName','suffix', 'residents.status', 
                                                                 'contactNumber', 'gender', 'birthDate',
                                                                 'civilStatus','seniorCitizenID','disabilities',
@@ -233,7 +233,7 @@ class ResidentController extends Controller
 
     public function getMembers(Request $r) {
         if($r->ajax()) {
-            return json_encode( \DB::table('residents') ->select('residentPrimeID','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation',
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation',
                                                     'gender') 
                                         ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
                                         ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
@@ -244,6 +244,34 @@ class ResidentController extends Controller
             return view('errors.403');
         }
     }
+
+    public function getRelation(Request $r) {
+        if($r->ajax()) {
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation','familymembers.familyMemberPrimeID',
+                                                    'gender') 
+                                        ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
+                                        ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
+                                        ->where('residents.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getFamilyHead(Request $r) {
+        if($r->ajax()) {
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate',
+                                                    'gender') 
+                                        ->join('families', 'residents.residentPrimeID', '=', 'families.familyHeadID')
+                                        ->where('families.familyPrimeID', '=', $r->input('familyPrimeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
 
     public function getLot(Request $r) {
         if($r->ajax()) {
@@ -294,6 +322,18 @@ class ResidentController extends Controller
             $type->save();
             
             return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function memberRemove(Request $r) {
+        if ($r->ajax()) {
+            $participants = \DB::table('familymembers')
+                            ->where('familyPrimeID', '=', $r->input('familyPrimeID'))
+                            ->where('peoplePrimeID', '=', $r->input('peoplePrimeID'))
+                            ->delete();
         }
         else {
             return view('errors.403');
@@ -355,6 +395,20 @@ class ResidentController extends Controller
         }
     }
 
+    public function updateRelation(Request $r) { 
+        if ($r->ajax()) {
+
+            $type = Familymember::find($r->input('familyMemberPrimeID'));
+            $type->memberRelation = $r->input('memberRelation');
+            $type->save();
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function join(Request $r) {
         if ($r->ajax()) {
             $insertRet = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
@@ -367,5 +421,38 @@ class ResidentController extends Controller
             return view('errors.403');
         }
     }
+
+    public function addImage(Request $r){
+       
+            $fileName = $r->imagePath->getClientOriginalName();
+            $r->imagePath->storeAs('public/upload', $fileName);
+
+            $type = Resident::find($r->input('rID'));
+            $type->imagePath = $fileName;
+            $type->save();
+
+
+            return back();
+        
+    }
+
+    public function notMember($id) {
+        $mem = Familymember::select('peoplePrimeID')
+                            -> where('familyPrimeID','=',$id)
+                            ->get();
+
+        
+
+        return json_encode(\DB::table('residents')->select('residentPrimeID', 'residentID', 
+                                                            'firstName', 'lastName', 'middleName', 
+                                                            'suffix', 'status', 'contactNumber', 
+                                                            'gender', 'birthDate', 'civilStatus', 
+                                                            'seniorCitizenID', 'disabilities', 
+                                                            'residentType')
+                                                -> whereNotIn('residentPrimeID',$mem)
+                                                -> get());
+    }
+
+  
 }
 

@@ -95,6 +95,7 @@
 								<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
 									<thead>
 										<tr>
+											<th>Image</th>
 											<th>ID</th>
 											<th>Name</th>
 											<th>Birthdate</th>
@@ -108,6 +109,12 @@
 									<tbody>
 										@foreach($residents as $resident)
 											<tr>
+												@if($resident->imagePath == null)
+													<td><a href="#" class="btn btn-info addImage" data-value='{{ $resident -> residentPrimeID }}'>Add Image</a>
+													</td>
+												@else
+													<td style="width:10%"><a href="#" class="btn  addImage" data-value='{{ $resident -> residentPrimeID }}'><img style="width:100px;height:70px" src="/storage/upload/{{ $resident->imagePath}}" alt="No image yet"></a></td>
+												@endif
 												<td>{{ $resident -> residentID }}</td>
 												<td>{{ $resident -> firstName }} {{ substr($resident -> middleName,0,1)  }}. {{ $resident -> lastName }}</td>
 												<td>{{ $resident -> birthDate }}</td>
@@ -208,7 +215,7 @@
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																<a href="#" class="dropdown-item viewMember" name="btnView" data-value='{{ $family -> familyPrimeID }}'><i class="icon-eye6"></i> View</a>
 																<a href="#" class="dropdown-item editMember" name="btnEdit" data-value='{{ $family -> familyPrimeID }}'><i class="icon-pen3"></i> Add/Remove members</a>
-																<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value='{{ $family -> familyPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+																<a href="#" class="dropdown-item deleteFamily" name="btnDelete" data-value='{{ $family -> familyPrimeID }}'><i class="icon-trash4"></i> Delete</a>
 															</span>
 														</span>
 													</td>
@@ -375,6 +382,52 @@
 						</div> 
 						<!-- End of Modal -->
 
+						<!--ADD IMAGE -->
+
+						<!--ADD IMAGE Modal -->
+						<div class="modal fade text-xs-left" id="addImageModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-xs modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Image</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+
+										{{Form::open(['url'=>'resident/addImage', 'method' => 'POST', 'id' => 'frm-addImage', 'enctype' => 'multipart/form-data'])}}
+												{{Form::hidden('rID',null,['id'=>'rID'])}}				
+												
+												<p style="text-align:center"><b><label for="firstName1">Picture :</label></b>
+												<hr>
+												{!!Form::file('imagePath',null,['id' => 'imagePath',
+																				'class'=>'form-control',
+																				'required'])!!}
+												</p>
+												
+												<div class="form-actions center">
+													<button type="submit" class="btn btn-primary">
+														<i class="icon-check2"></i> Add
+													</button>
+													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+														<i class="icon-cross2"></i> Cancel
+													</button>
+													
+												</div>
+												
+										
+										{{Form::close()}}
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
 						<!--ADD/REMOVE MEMBER -->
 
 						<!--Add/Remove Member Modal -->
@@ -405,6 +458,8 @@
 										<div>
 											<p>MEMBERS:</p>
 										</div>
+										{{Form::open(['url'=>'resident/editMember', 'method' => 'POST', 'id' => 'frm-editMember', 'class'=>'form'])}}
+											{{Form::hidden('familyID',null,['id'=>'ffID'])}}
 
 										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-MemberContainer">
 											<thead>
@@ -421,6 +476,7 @@
 												
 											</tbody>
 										</table>
+										{{Form::close()}}
 
 									</div>
 									<!-- End of Modal Body -->
@@ -440,12 +496,39 @@
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Members</h4>
+										<p align="center"><h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Members</h4></p>
 									</div>
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										
+											<p style="text-align:center;font-size:20px"><b>RESIDENTS</b></p>
+											<p align="center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 viewMem">View Members</button></p>
+											<hr>
+											
+											{{Form::open(['url'=>'resident/addParticipant', 'method' => 'POST', 'id' => 'frm-addResident', 'class'=>'form'])}}
+													{{Form::hidden('familyID',null,['id'=>'fID'])}}
+
+											<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addResident">
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Birthdate</th>
+														<th>Gender</th>
+														<th>Contact Number</th>
+														<th>Relation</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+
+												<tbody>
+												
+
+													
+
+												
+												</tbody>
+											</table>
+											{{Form::close()}}
 
 									</div>
 									<!-- End of Modal Body -->
@@ -470,25 +553,85 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-									
-										<div class="col-xl-3 col-md-6 col-xs-12">
-											<div class="card">
-												<div class="text-xs-center">
-													<div class="card-block">
-														<img src="./robust-assets/images/portrait/medium/avatar-m-4.png" class="rounded-circle  height-150" alt="Card image" />
-													</div>
-													<div class="card-block">
-														<h4 class="card-title">Michelle Howard</h4>
-														<h6 class="card-subtitle text-muted">Managing Director</h6>
-													</div>
-													<div class="text-xs-center">
-														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-facebook"><span class="icon-facebook3"></span></a>
-														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-twitter"><span class="icon-twitter3"></span></a>
-														<a href="#" class="btn btn-social-icon mr-1 mb-1 btn-outline-linkedin"><span class="icon-linkedin3 font-medium-4"></span></a>
-													</div>
+
+										<div id="members">
+
+										</div>
+
+
+										
+
+										
+
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
+						<!--UPDATE RELATION -->
+
+						<!--UPDATE RELATION Modal -->
+						<div class="modal fade text-xs-left" id="updateRel" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-sm modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Relation</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+
+										<p style="text-align:center;font-size:20px">
+											<b>
+												<div id="resName">
+													*Resident Name*
+												</div>
+											</b>
+										</p>
+										{{Form::open(['url'=>'family/updateRelation', 'method' => 'POST', 'id' => 'frm-updateRelation', 'class'=>'form'])}}
+										{!! Form::hidden('familyMemberPrimeID', null, ['id' => 'familyMemberPrimeID','class' => 'form-control border-primary', 'placeholder'=> 'RES_001']) !!}
+										<div class="form-body">
+											<div class="row">
+												<div class="form-group col-xs-8 mb-2">
+													<label for="eventInput1">Relation</label>
+													<select class ="form-control border-info selectBox" name="type" id="rel">
+														<option value="Wife">Wife</option>
+														<option value="Husband">Husband</option>
+														<option value="Mother">Mother</option>
+														<option value="Father">Father</option>
+														<option value="Son">Son</option>
+														<option value="Daughter">Daughter</option>
+														<option value="Sister">Sister</option>
+														<option value="Brother">Brother</option>
+														<option value="Uncle">Uncle</option>
+														<option value="Auntie">Auntie</option>
+														<option value="Grandmother">Grandmother</option>
+														<option value="Grandfather">Grandfather</option>
+														<option value="Grandson">Grandson</option>
+													</select>
 												</div>
 											</div>
 										</div>
+										<div class="form-actions right">
+											<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+												<i class="icon-cross2"></i> Cancel
+											</button>
+											<button type="submit" class="btn btn-primary">
+												<i class="icon-check2"></i> Save
+											</button>
+										</div>
+										{{Form::close()}}
+
+										
+
+
+										
 
 										
 
@@ -699,20 +842,24 @@
 											<td>
 												<span width='20px'></span>
 												<div id='viewName'>
+
 												</div>
 												<br>
 												<div id='viewBirth'>
+												
 												</div>
-												<br>
 												<div id='viewContact'>
+												
 												</div>
-												<br>
 												<div id='viewAddtl'>
+												
 												</div>
 											</td>
 											<td align='right'>
-												<img src='{{ URL::asset("/system-assets/images/portrait/Office-Customer.png") }}'>
-												<span width='20px'></span>
+												<div id="resPic">
+													
+												</div>
+												
 											</td>
 										</tr>
 									</tbody>
@@ -941,690 +1088,31 @@
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 
 	
+	@include('script-resident');
+	
+	@include('script-family');
 
-	<script type="text/javascript">
-
-		//  RESIDENT NEXT PK
-
-		$("#btnAddModal").on('click', function() {
-			$("#addModal").modal('show');
-
-			
-
-			$.ajax({
-				url: "{{ url('/resident/nextPK') }}", 
-				method: "GET", 
-				success: function(data) {
-					if (data == null) {
-						console.log("Reponse is null!");
-					}
-					else {
-						$("#residentID").val(data);
-					}
-
-					lotRefresh();
-
-					setTimeout(function () {
-						buildingRefresh();
-					}, 500);
-
-					setTimeout(function () {
-						unitRefresh();
-					}, 2000);
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-
-			
-		});
-
-		//  END OF RESIDENT NEXT PK
-	</script>
-
-	<script type="text/javascript">
-
-		//  FAMILY NEXT PK
-
-		$("#btnFamilyModal").on('click', function() {
-			$("#familyModal").modal('show');
-
-			$.ajax({
-				url: "{{ url('/family/nextPK') }}", 
-				method: "GET", 
-				success: function(data) {
-					if (data == null) {
-						console.log("Reponse is null!");
-					}
-					else {
-						$("#familyID").val(data);
-					}
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		});
-
-		//  END OF FAMILY NEXT PK
-	</script>
+	
 
 	<script>
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
+		
 
-		//  SUBMIT ADD RESIDENT
+		
 
-		$("#frm-add").submit(function(event) {
-			event.preventDefault();
+		
+		
 
-			$.ajax({
-				url: "{{ url('/resident/store') }}", 
-				method: "POST", 
-				data: {
-					"_token": "{{ csrf_token() }}", 
-					"residentID": $("#residentID").val(), 
-					"lastName": $("#lastName").val(), 
-					"middleName": $("#middleName").val(), 
-					"firstName": $("#firstName").val(), 
-					"suffix": $("#suffix").val(),
-					"contactNumber": $("#contactNumber").val(),  
-					"gender": $("#gender :selected").val(), 
-					"birthDate": $("#birthDate").val(), 
-					"civilStatus": $("#civilStatus").val(), 
-					"seniorCitizenID": $("#seniorCitizenID").val(), 
-					"disabilities": $("#disabilities").val(), 
-					"residentType": $("#residentType").val(),
-					"streetID": $("#street").val(),
-					"lotID": $("#lot").val(),
-					"buildingID": $("#building").val(),
-					"unitID": $("#unit").val(),
-					"addressType": $("#addressType").val(),
-					"currentWork": $("#work").val(),
-					"monthlyIncome": $("#salary").val(),
-					
-				}, 
-				success: function(data) {
-					$("#addModal").modal("hide");
-					refreshTable();
-					familyRefreshTable();
-					$("#frm-add").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
+		
 
-					swal("Error", message, "error");
-				}
-			});
-		});
+		
 
-		//  END OF SUBMIT ADD RESIDENT
+		
 
-		// SUBMIT ADD FAMILY
 
-		$("#frm-familyAdd").submit(function(event) {
-			event.preventDefault();
+		
 
-			$.ajax({
-				url: "{{ url('/family/store') }}", 
-				method: "POST", 
-				data: {
-					"_token": "{{ csrf_token() }}", 
-					"familyID": $("#familyID").val(), 
-					"familyHeadID": $("#familyHeadID").val(), 
-					"familyName": $("#familyName").val()
-				}, 
-				success: function(data) {
-					$("#familyModal").modal("hide");
-					refreshTable();
-					familyRefreshTable();
-					$("#frm-familyAdd").trigger("reset");
-					swal("Success", "Successfully Added!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
 
-					swal("Error", message, "error");
-				}
-			});
-		});
-
-		// END OF SUBMIT ADD FAMILY
-
-		//  VIEW RESIDENT
-
-		$(document).on('click', '.view', function(e) {
-			var id = $(this).data('value');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
-				success:function(data)
-				{
-
-					data = $.parseJSON(data);
-
-					for (index in data)
-					{
-						$('#viewName').html("<b>" + 
-						data[index].lastName + ", " + data[index].firstName + " " + 
-						data[index].middleName + " " + data[index].suffix + 
-						"</b>"
-						);
-					
-						$('#viewBirth').html(data[index].birthDate);
-						$('#viewContact').html(data[index].contactNumber);
-						$('#viewAddtl').html(
-							data[index].gender + "<br>" + 
-							data[index].civilStatus + "<br>" + 
-							data[index].residentType + "<br>"
-						);
-
-						$('#viewModal').modal('show');
-					}
-					
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		//  END OF VIEW RESIDENT
-
-		//  ADD TO FAMILY
-
-		$(document).on('click', '.add', function(e) {
-
-			var id = $(this).data('value');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
-				success:function(data)
-				{
-					console.log(data);
-					data = $.parseJSON(data);
-					var frm = $('#frm-addToFam');
-
-					for (index in data)
-					{
-						frm.find('#resID').val(data[index].residentPrimeID);
-						console.log("RES ID: "+ $('#resID').val());
-					}
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-			
-			
-			$('#memberModal').modal('show');
-
-		});
-
-		//  END OF ADD TO FAMILY
-
-		//  JOIN TO FAMILY
-
-
-		$(document).on('click', '.join', function(e) {
-			
-			var id = $(this).val();
-
-			$.ajax({
-				url: "{{ url('/resident/join') }}", 
-				method: "POST", 
-				data: {
-					"_token": "{{ csrf_token() }}", 
-					"familyPrimeID": $("#famID").val(), 
-					"peoplePrimeID": $("#resID").val(), 
-					"memberRelation": $("#memberRelation").val()
-				}, 
-				success: function(data) {
-					$("#memberModal").modal("hide");
-					refreshTable();
-					familyRefreshTable();
-					$("#frm-addToFam").trigger("reset");
-					swal("Success", "Successfully Added to family!", "success");
-				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-
-		});
-
-		//  END OF JOIN TO FAMILY
-
-
-		//  ADD/REMOVE FAMILY MEMBER
-
-		$(document).on('click', '.editMember', function(e) {
-			var id = $(this).data('value');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/family/getMembers') }}", 
-				data: {"familyPrimeID":id}, 
-				success:function(data)
-				{
-					$("#table-MemberContainer").DataTable().clear().draw();
-					data = $.parseJSON(data);
-
-					for (index in data)
-					{
-						$("#famName").html(
-							"<p>Family Name: " + data[index].familyName + "</p>"
-						);
-
-						$("#headName").html(
-							"<p>Head: " + data[index].familyName + "</p>" 
-							
-						);
-
-						$("#table-MemberContainer").DataTable()
-								.row.add([ 
-									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
-									data[index].gender,
-									data[index].memberRelation,
-									data[index].birthDate, 
-									
-										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
-
-											'<span class="dropdown">' +
-												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
-												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-													'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
-													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
-												'</span>' +
-											'</span>' + 
-											'</form>'
-									]).draw(false);
-					}
-
-					
-					
-					
-					$('#editMember').modal('show');
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		//  END OF ADD/REMOVE FAMILY MEMBER
-
-		//  VIEW FAMILY MEMBERS
-
-		$(document).on('click', '.viewMember', function(e) {
-			var id = $(this).data('value');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/family/getEdit') }}", 
-				data: {"familyPrimeID":id}, 
-				success:function(data)
-				{
-					
-
-					$('#viewMember').modal('show');
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		//  END OF VIEW FAMILY MEMBER
-
-		//  ADD MEMBERS
-
-		$(document).on('click', '.addMember', function(e) {
-			var id = $(this).data('value');
-
-			$('#editMember').modal('hide');
-			$('#addMember').modal('show');
-			setTimeout(function() {
-				$('#addMember').modal('hide');
-				$('#editMember').modal('show');
-			},5000);
-
-			
-
-		});
-
-		//  END OF ADD MEMBERS
-
-		//  EDIT RESIDENT ACTION
-
-		$(document).on('click', '.edit', function(e) {
-			var id = $(this).data('value');
-
-			$.ajax({
-				type: 'get',
-				url: "{{ url('/resident/getEdit') }}", 
-				data: {"residentPrimeID":id}, 
-				success:function(data)
-				{
-					console.log(data);
-					data = $.parseJSON(data);
-					var lotid = "";
-					var buildingid = "";
-					var unitid = "";
-					
-					for (index in data)
-					{
-						
-						var frm = $('#frm-update');
-						frm.find('#estreet').val(data[index].streetID);
-						elotRefresh();
-
-						frm.find('#eresidentPrimeID').val(data[index].residentPrimeID);
-						frm.find('#eresidentID').val(data[index].residentID);
-						frm.find('#efirstName').val(data[index].firstName);
-						frm.find('#emiddleName').val(data[index].middleName);
-						frm.find('#elastName').val(data[index].lastName);
-						frm.find('#esuffix').val(data[index].suffix);
-						frm.find('#egender').val(data[index].gender);
-						frm.find('#ebirthDate').val(data[index].birthDate);
-						frm.find('#ecivilStatus').val(data[index].civilStatus);
-						frm.find('#eseniorCitizenID').val(data[index].seniorCitizenID);
-						frm.find('#edisabilities').val(data[index].disabilities);
-						frm.find('#eresidentType').val(data[index].residentType);
-						frm.find('#econtactNumber').val(data[index].contactNumber);
-						frm.find('#eaddresstype').val(data[index].addressType);
-						frm.find('#epersonAddressID').val(data[index].personAddressID);
-						frm.find('#hiddenWork').val(data[index].currentWork);
-						frm.find('#hiddenIncome').val(data[index].monthlyIncome);
-						frm.find('#ework').val(data[index].currentWork);
-						frm.find('#esalary').val(data[index].monthlyIncome);
-						
-
-						lotid= data[index].lotID;
-						buildingid= data[index].buildingID;
-						unitid= data[index].unitID;
-						
-						
-
-						$('#editModal').modal('show');
-						
-					}
-
-					setTimeout(function () {
-						frm.find('#elot').val(lotid);
-					}, 500);
-					
-					setTimeout(function () {
-						ebuildingRefresh();
-
-						setTimeout(function () {
-							frm.find('#ebuilding').val(buildingid);
-						}, 1000);
-						
-					}, 500);
-
-					setTimeout(function () {
-						eunitRefresh();
-
-						setTimeout(function () {
-							frm.find('#eunit').val(unitid);
-						}, 1000);
-						
-					}, 2000);
-					
-
-					
-				}, 
-				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
-					console.log("Error: Cannot fetch data!\n" + message);
-				}
-			})
-
-		});
-
-		//  END OF EDIT RESIDENT ACTION
-
-		//  UPDATE RESIDENT
-
-		$("#frm-update").submit(function(event) {
-			event.preventDefault();
-			
-			var frm = $('#frm-update');
-
-
-			$.ajax({
-				url: "{{ url('/resident/update') }}",
-				type: "POST",
-				data: {	"_token": "{{ csrf_token() }}",
-						"residentPrimeID": $("#eresidentPrimeID").val(), 
-						"residentID": $("#eresidentID").val(), 
-						"firstName": $("#efirstName").val(), 
-						"middleName": $("#emiddleName").val(),
-						"lastName": $("#elastName").val(),
-						"suffix": $("#esuffix").val(), 
-						"gender": $("#egender").val(),
-						"birthDate": $("#ebirthDate").val(),
-						"civilStatus": $("#ecivilStatus").val(),
-						"seniorCitizenID": $("#eseniorCitizenID").val(),
-						"diabilities": $("#edisabilities").val(),
-						"residentType": $("#eresidentType").val(),
-						"contactNumber": $("#econtactNumber").val(),
-						"personAddressID": $("#epersonAddressID").val(),
-						"lotID": $("#elot").val(),
-						"streetID": $("#estreet").val(),
-						"unitID": $("#eunit").val(),
-						"buildingID": $("#ebuilding").val(),
-						"addressType": $("#eaddressType").val(),
-						"currentWork": $("#ework").val(),
-						"monthlyIncome": $("#esalary").val(),
-						"hiddenWork": $("#hiddenIncome").val(),
-						"hiddenIncome": $("#hiddenWork").val(),
-
-						
-				}, 
-				success: function ( _response ){
-					$("#editModal").modal('hide');
-					
-					familyRefreshTable();
-					refreshTable();
-					
-					swal("Successful", 
-							"Resident has been updated!", 
-							"success");
-				}, 
-				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		});
-
-		//  END OF UPDATE RESIDENT
-
-		//  DELETE RESIDENT
-
-		$(document).on('click', '.delete', function(e) {
-
-			var id = $(this).data('value');
-			$.ajax({
-					type: 'GET',
-					url: "{{ url('/resident/getEdit') }}",
-					data: {"residentPrimeID": id},
-					success:function(data) {
-						console.log(data);
-						data = $.parseJSON(data);
-						for(index in data)
-						{
-							swal({
-								title: "Are you sure you want to delete " + data[index].firstName + "?",
-								text: "",
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#DD6B55",
-								confirmButtonText: "DELETE",
-								closeOnConfirm: false
-								},
-								function() {
-									$.ajax({
-										type: "post",
-										url: "{{ url('/resident/delete') }}", 
-										data: {"_token": "{{ csrf_token() }}",
-										residentPrimeID:id}, 
-										success: function(data) {
-											refreshTable();
-											familyRefreshTable();
-											swal("Successfull", "Entry is deleted!", "success");
-										}, 
-										error: function(data) {
-											var message = "Error: ";
-											var data = error.responseJSON;
-											for (datum in data) {
-												message += data[datum];
-											}
-											
-											swal("Error", "Cannot fetch table data!\n" + message, "error");
-											console.log("Error: Cannot refresh table!\n" + message);
-										}
-									});
-								});	
-						}			
-					}
-			})
-		});
-
-		//  END OF DELETE RESIDENT
-
-		//  DELETE FAMILY 
-
-		$(document).on('click', '.deleteMember', function(e) {
-
-			var id = $(this).data('value');
-
-			$.ajax({
-					type: 'GET',
-					url: "{{ url('/family/getEdit') }}",
-					data: {"familyPrimeID": id},
-					success:function(data) {
-						swal({
-							title: "Are you sure you want to delete " + data.familyName + "?",
-							text: "",
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#DD6B55",
-							confirmButtonText: "DELETE",
-							closeOnConfirm: false
-							},
-							function() {
-								$.ajax({
-									type: "post",
-									url: "{{ url('/family/delete') }}", 
-									data: {"_token": "{{ csrf_token() }}",
-									familyPrimeID:id}, 
-									success: function(data) {
-										refreshTable();
-										familyRefreshTable();
-										swal("Successfull", "Entry is deleted!", "success");
-									}, 
-									error: function(data) {
-										var message = "Error: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
-										}
-										
-										swal("Error", "Cannot fetch table data!\n" + message, "error");
-										console.log("Error: Cannot refresh table!\n" + message);
-									}
-								});
-							});				
-					}
-			})
-		});
-
-		//  END OF DELETE FAMILY
+		
 
 		//  RESIDENT REFRESH TABLE
 
@@ -1640,6 +1128,7 @@
 					for (index in data) {
 						var statusText = "";
 						var genderText = "";
+						var image;
 						if (data[index].status == 1) {
 							statusText = "Active";
 						}
@@ -1655,10 +1144,20 @@
 						{
 							genderText = "Female";
 						}
+						if(data[index].imagePath==null)
+						{
+							img='<td><a href="#" class="btn btn-info addImage" data-value='+data[index].residentPrimeID+'>Add Image</a></td>'
+						}
+						else
+						{
+							img='<td style="width:10%"><a href="#" class="btn  addImage" data-value="'+data[index].residentPrimeID+'">'+
+							'<img style="width:100px;height:70px" src=/storage/upload/'+data[index].imagePath+' alt="No image yet"></a></td>'
+						}
 
 
 						$("#table-container").DataTable()
 								.row.add([
+									img, 
 									data[index].residentID, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									data[index].birthDate, 
@@ -1735,7 +1234,7 @@
 									data[index].familyID, 
 									data[index].familyName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									'2',
+									data[index].members,
 									data[index].familyRegistrationDate,
 										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
