@@ -22,9 +22,8 @@ class CollectionController extends Controller
                                     'collections.reservationPrimeID', '=', 'reservations.primeID') 
                         -> join('residents', 
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
-                        -> join('people', 
-                                    'collections.peoplePrimeID', '=', 'people.peoplePrimeID')
                         -> where('reservations.status', '!=', 'Cancelled')
+                        -> where('collections.status', '!=', 'Paid')
                         -> get();
         return view('collection')->with('collections', $collections);
     }

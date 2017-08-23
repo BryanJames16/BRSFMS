@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 use \App\Models\Person;
 use \App\Models\Facility;
 use \App\Models\Reservation;
+use \App\Models\Collection;
+use \App\Models\Utility;
+use Carbon\Carbon;
+
+require_once(app_path() . '/Includes/pktool.php');
+
+use StaticCounter;
+use SmartMove;
 
 class ReservationController extends Controller
 {
@@ -72,19 +80,42 @@ class ReservationController extends Controller
             date('H', strtotime($r->input('startTime'))) <= 18 && 
             date('H', strtotime($r->input('endTime'))) >= 10 && 
             date('H', strtotime($r->input('endTime'))) <= 18) {
-            $hourDiff = strtotime($r->input('startTime')) - strtotime($r->input('endTime'));
+            $hourDiff = abs(strtotime($r->input('startTime')) - strtotime($r->input('endTime')));
             $hourDiff /= 3600;
             
-            $morningPrice = Facilities::select('facilityDayPrice') 
-                                        -> where('primeID', '=', $r->input('facilityPrimeID'))
-                                        -> get();
-            $totalAmount += $hourDiff * $morningPrice;
+            $morningPrice = Facility::select('facilityDayPrice')
+                                    -> where('primeID', '=', $r->input('facilityPrimeID'))
+                                    -> get();
+            
+            $totalAmount += $hourDiff * ($morningPrice[0] -> facilityDayPrice);
+            
+        }
+        
+        $listOfCollection = Collection::select('collectionID') 
+                                        ->where('status', '=', "'Completed'")
+                                        ->get()
+                                        ->last();
+        $nextKey = "";
+        if (is_null($listOfCollection)) {
+            $collectionPK = Utility::select('collectionPK')->get()->last();
+            $nextKey = StaticCounter::smart_next($collectionPK->collectionPK, SmartMove::$NUMBER);
+        }
+        else {
+            $nextKey = StaticCounter::smart_next($listOfCollection -> collectionID, SmartMove::$NUMBER);
         }
 
-        //$nextKey = ;
+        
+        $latestReservation = Reservation::get()->last();
+        $reservee = Reservation::select('peoplePrimeID')->get()->last();
 
-        //$collectionRet = Collection::insert([]);
-
+        $collectionRet = Collection::insert(['collectionID' => $nextKey,
+                                                'collectionDate' => Carbon::now(), 
+                                                'collectionType' => 3, 
+                                                'amount' => $totalAmount, 
+                                                'status' => 'Pending', 
+                                                'reservationPrimeID' => $latestReservation -> primeID, 
+                                                'residentPrimeID' => $reservee -> peoplePrimeID]);
+        
         return back();
     }
 

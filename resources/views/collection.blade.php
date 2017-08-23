@@ -110,18 +110,27 @@
                                             {{ $collection -> firstName }}
                                             {{ $collection -> middleName }}
                                             {{ $collection -> lastName }}
-                                            ({{ $collection -> residentPrimeID }})
+                                            ({{ $collection -> residentID }})
                                             </p>
                                         </td>
-                                        <td>{{ $collection -> collectionType }}</td>
+                                        <td>
+											@if($collection -> collectionType == 1)
+												Barangay ID
+											@elseif($collection -> collectionType == 2) 
+												Document Request
+											@elseif($collection -> collectionType == 3) 
+												Facility Reservation
+											@elseif($collection -> collectionType == 4) 
+												Services
+											@else
+												Business Registration
+											@endif 
+										</td>
                                         <td>{{ $collection -> amount }}</td>
                                         <td>{{ $collection -> status }}</td>
                                         <td>
-											<button class='btn btn-icon btn-square btn-success normal edit'  type='button'>
+											<button class='btn btn-icon btn-square btn-success normal edit' value="{{ $collection -> collectionID }}" type='button'>
 												<i class="icon-android-create"></i>
-											</button>
-											<button class='btn btn-icon btn-square btn-danger delete' type='button' name='btnEdit'>
-												<i class="icon-android-delete"></i>
 											</button>
                                         </td>
                                     </tr>
