@@ -215,59 +215,56 @@ IF %1==database (
         GOTO COMOK
     )
 
-    IF %2==create (
-        IF %3==modelfactory (
-            ECHO "Creating model factory data..."
+    IF %2==createmodelfactory (
+        ECHO "Creating model factory data..."
 
-            GOTO COMOK
-        )
-
-        IF %3==seeds (
-            ECHO "Creating database seeds..."
-            %PHPX% artisan db:seed
-
-            GOTO COMOK
-        )
+        GOTO COMOK
     )
 
-    IF %2==execute (
-        IF %3==init (
-            ECHO "Initializing database data..."
-            %mariadbx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay < %dbsetupdir%\initscript.sql
+    IF %2==createseeds (
+        ECHO "Creating database seeds..."
+        
 
-            GOTO COMOK
-        )
+        GOTO COMOK
+    )
 
-        IF %3==structure (
-            ECHO "Restoring database structure..."
-            %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_struct.sql
+    IF %2==executeinit (
+        ECHO "Initializing database data..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 --no-data dbBarangay < %dbsetupdir%\initscript.sql
 
-            GOTO COMOK
-        )
+        GOTO COMOK
+    )
 
-        IF %3==data (
-            ECHO "Restoring database data..."
-            %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_data.sql
+    IF %2==executestructure (
+        ECHO "Restoring database structure..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_struct.sql
 
-            GOTO COMOK
-        )
+        GOTO COMOK
+    )
 
-        IF %3==seed (
-            ECHO "Seeding database..."
+    IF %2==executedata (
+        ECHO "Restoring database data..."
+        %mariadbx% -uroot -h127.0.0.1 --port=3307 dbBarangay < %dbdumpdir%\dbbaranggay_data.sql
 
-            GOTO COMOK
-        )
+        GOTO COMOK
+    )
 
-        IF %3==factory (
-            ECHO "Executing model factory..."
+    IF %2==executeseed (
+        ECHO "Seeding database..."
+        %PHPX% artisan db:seed
 
-            GOTO COMOK
-        )
+        GOTO COMOK
+    )
+
+    IF %2==executefactory (
+        ECHO "Executing model factory..."
+
+        GOTO COMOK
     )
 )
 
 :NOGITCOM
-ECHO INVALID GIT COMMAND!
+ECHO INVALID COMMAND!
 GOTO END
 
 :COMOK
