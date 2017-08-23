@@ -163,6 +163,8 @@ Route::get('/facility-reservation/getFacilities', 'ReservationController@getFaci
 Route::get('/facility-reservation/updatecbo', 'ReservationController@updateCombobox');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 Route::post('/facility-reservation/store', 'ReservationController@store');
+Route::post('/facility-reservation/residentStore', 'ReservationController@residentStore');
+Route::post('/facility-reservation/nonresidentStore', 'ReservationController@nonresidentStore');
 Route::post('/facility-reservation/update', 'ReservationController@update');
 
 // Collection

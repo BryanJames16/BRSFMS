@@ -190,7 +190,7 @@ CREATE TABLE `collections` (
   KEY `fk_collections_documentheaderrequests1_idx` (`documentHeaderPrimeID`),
   KEY `fk_collections_residents1_idx` (`residentPrimeID`),
   KEY `fk_collections_people1_idx` (`peoplePrimeID`),
-  CONSTRAINT `fk_collections_documentheaderrequests1` FOREIGN KEY (`documentHeaderPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_collections_documentheaderrequests1` FOREIGN KEY (`documentHeaderPrimeID`) REFERENCES `documentrequests` (`documentRequestPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_people1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_reservations1` FOREIGN KEY (`reservationprimeID`) REFERENCES `reservations` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -237,62 +237,35 @@ INSERT INTO `document_requirements` VALUES (1,1,1,2),(2,2,1,2),(3,2,2,1);
 UNLOCK TABLES;
 
 --
--- Table structure for table `documentdetailrequests`
+-- Table structure for table `documentrequests`
 --
 
-DROP TABLE IF EXISTS `documentdetailrequests`;
+DROP TABLE IF EXISTS `documentrequests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `documentdetailrequests` (
-  `documentDetailPrimeID` int(11) NOT NULL AUTO_INCREMENT,
-  `headerPrimeID` int(11) NOT NULL,
-  `documentPrimeID` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  PRIMARY KEY (`documentDetailPrimeID`,`headerPrimeID`),
-  KEY `fk_DocumentDetailRequests_DocumentHeaderRequests1_idx` (`headerPrimeID`),
-  KEY `fk_DocumentDetailRequests_Documents1_idx` (`documentPrimeID`),
-  CONSTRAINT `fk_DocumentDetailRequests_DocumentHeaderRequests1` FOREIGN KEY (`headerPrimeID`) REFERENCES `documentheaderrequests` (`documentHeaderPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DocumentDetailRequests_Documents1` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `documentdetailrequests`
---
-
-LOCK TABLES `documentdetailrequests` WRITE;
-/*!40000 ALTER TABLE `documentdetailrequests` DISABLE KEYS */;
-INSERT INTO `documentdetailrequests` VALUES (1,1,1,1);
-/*!40000 ALTER TABLE `documentdetailrequests` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `documentheaderrequests`
---
-
-DROP TABLE IF EXISTS `documentheaderrequests`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `documentheaderrequests` (
-  `documentHeaderPrimeID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `documentrequests` (
+  `documentRequestPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `requestID` varchar(20) NOT NULL,
   `requestDate` date NOT NULL,
   `status` varchar(20) NOT NULL,
-  `peoplePrimeID` int(11) NOT NULL,
-  PRIMARY KEY (`documentHeaderPrimeID`),
-  KEY `fk_DocumentHeaderRequests_Residents1_idx` (`peoplePrimeID`),
-  CONSTRAINT `fk_DocumentHeaderRequests_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `residentPrimeID` int(11) NOT NULL,
+  `documentsPrimeID` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`documentRequestPrimeID`),
+  KEY `fk_DocumentHeaderRequests_Residents1_idx` (`residentPrimeID`),
+  KEY `documentPrimeID_idx` (`documentsPrimeID`),
+  CONSTRAINT `documentsPrimeID` FOREIGN KEY (`documentsPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
+  CONSTRAINT `residentPrimeID` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `documentheaderrequests`
+-- Dumping data for table `documentrequests`
 --
 
-LOCK TABLES `documentheaderrequests` WRITE;
-/*!40000 ALTER TABLE `documentheaderrequests` DISABLE KEYS */;
-INSERT INTO `documentheaderrequests` VALUES (1,'REQ_001','2017-08-23','Pending',2);
-/*!40000 ALTER TABLE `documentheaderrequests` ENABLE KEYS */;
+LOCK TABLES `documentrequests` WRITE;
+/*!40000 ALTER TABLE `documentrequests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `documentrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -404,7 +377,7 @@ CREATE TABLE `facilities` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Facilities_FacilityTypes1_idx` (`facilityTypeID`),
   CONSTRAINT `fk_Facilities_FacilityTypes1` FOREIGN KEY (`facilityTypeID`) REFERENCES `facilitytypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -413,7 +386,7 @@ CREATE TABLE `facilities` (
 
 LOCK TABLES `facilities` WRITE;
 /*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
-INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Court','',0,0,2,100,200),(2,'FAC_002','Hipodromo Plaza','',0,0,5,100,150);
+INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Court',NULL,1,0,2,100,200),(2,'FAC_002','Hipodromo Plaza',NULL,1,0,5,100,150),(4,'FAC_003','asdhakjsh','ajksdh',1,1,2,0.04,0.02);
 /*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -460,7 +433,7 @@ CREATE TABLE `families` (
   PRIMARY KEY (`familyPrimeID`),
   KEY `familyHeadID_idx` (`familyHeadID`),
   CONSTRAINT `familyHeadID` FOREIGN KEY (`familyHeadID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,7 +442,7 @@ CREATE TABLE `families` (
 
 LOCK TABLES `families` WRITE;
 /*!40000 ALTER TABLE `families` DISABLE KEYS */;
-INSERT INTO `families` VALUES (1,'FAM_001',4,'Fuellas Family','2017-08-22',0),(2,'FAM_002',5,'Illaga Family','2017-08-22',0);
+INSERT INTO `families` VALUES (1,'FAM_001',4,'Fuellas Family','2017-08-22',0),(2,'FAM_002',5,'Illaga Family','2017-08-22',0),(3,'FAM_003',2,'asdas','2017-08-23',1);
 /*!40000 ALTER TABLE `families` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -491,7 +464,7 @@ CREATE TABLE `familymembers` (
   KEY `fk_FamilyMembers_Families1_idx` (`familyPrimeID`),
   CONSTRAINT `fk_FamilyMembers_Families1` FOREIGN KEY (`familyPrimeID`) REFERENCES `families` (`familyPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_familyMembers_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -500,7 +473,7 @@ CREATE TABLE `familymembers` (
 
 LOCK TABLES `familymembers` WRITE;
 /*!40000 ALTER TABLE `familymembers` DISABLE KEYS */;
-INSERT INTO `familymembers` VALUES (3,1,4,'Auntie',0),(4,2,5,'Self',0),(9,1,2,'Son',0),(16,1,3,'Daughter',0);
+INSERT INTO `familymembers` VALUES (3,1,4,'Auntie',0),(4,2,5,'Self',0),(9,1,2,'Son',0),(17,3,3,'Wife',0);
 /*!40000 ALTER TABLE `familymembers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -648,7 +621,7 @@ CREATE TABLE `people` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`peoplePrimeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -657,6 +630,7 @@ CREATE TABLE `people` (
 
 LOCK TABLES `people` WRITE;
 /*!40000 ALTER TABLE `people` DISABLE KEYS */;
+INSERT INTO `people` VALUES (1,'PER_001','MMM','AAAFFF','ASDASD',NULL,'09123456789','M',1,0);
 /*!40000 ALTER TABLE `people` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -701,15 +675,19 @@ CREATE TABLE `reservations` (
   `reservationStart` time NOT NULL,
   `reservationEnd` time NOT NULL,
   `dateReserved` date NOT NULL,
-  `peoplePrimeID` int(11) NOT NULL,
+  `peoplePrimeID` int(11) DEFAULT NULL,
   `facilityPrimeID` int(11) NOT NULL,
   `status` varchar(15) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `contactNumber` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`primeID`),
   KEY `fk_Reservations_People1_idx` (`peoplePrimeID`),
   KEY `fk_Reservations_Facilities1_idx` (`facilityPrimeID`),
   CONSTRAINT `fk_Reservations_Facilities1` FOREIGN KEY (`facilityPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Reservations_People1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `peoplePrimeID` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -718,6 +696,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+INSERT INTO `reservations` VALUES (2,'2017 Contis Vaccination','asdhakjshd','01:00:00','02:00:00','2017-01-01',2,2,'Pending',NULL,NULL,NULL,NULL),(3,'HAHAHAHHA','asdasdasd','02:00:00','03:00:00','2017-01-01',NULL,2,'Pending',NULL,141113,'f.marcjoseph@yahoo.com','09123456789'),(4,'kajshdsakjdhkajsh','akjshdasjdh','15:01:00','17:01:00','2019-12-31',NULL,1,'Pending','kjhaskjdhaskdjh',190000,'kjahajkhdakjshd','kashdkjahsdkj');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -959,7 +938,7 @@ CREATE TABLE `servicetransactions` (
   PRIMARY KEY (`serviceTransactionPrimeID`),
   KEY `servicePrimeID_idx` (`servicePrimeID`),
   CONSTRAINT `servicePrimeID` FOREIGN KEY (`servicePrimeID`) REFERENCES `services` (`primeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -968,6 +947,7 @@ CREATE TABLE `servicetransactions` (
 
 LOCK TABLES `servicetransactions` WRITE;
 /*!40000 ALTER TABLE `servicetransactions` DISABLE KEYS */;
+INSERT INTO `servicetransactions` VALUES (1,'SERV_REG_001','2017 Contis Vaccination',1,4,7,'2017-01-01','2017-01-01','Pending',0);
 /*!40000 ALTER TABLE `servicetransactions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1185,4 +1165,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-23 10:20:54
+-- Dump completed on 2017-08-23 17:33:35

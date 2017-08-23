@@ -35,13 +35,11 @@ class ReservationController extends Controller
     }
 
    public function index() {
-        $reservations= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'people.lastName','people.firstName','people.middleName') 
+        $reservations= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
-                                        ->join('people', 'reservations.peoplePrimeID', '=', 'people.peoplePrimeID') 
+                                        ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->get();
-        return view('facility-reservation',
-                                            ['facilities'=>Facility::where([['status', 1],['archive', 0]])->pluck('facilityName', 'primeID')],
-                                            ['people'=>Person::where([['status', 1],['archive', 0]])->pluck('lastName', 'peoplePrimeID')])-> with('reservations', $reservations);
+        return view('facility-reservation')->with('reservations',$reservations);
     }
 
     public function store(Request $r) {
@@ -57,9 +55,42 @@ class ReservationController extends Controller
             return redirect('facility-reservation');
     }
 
+    public function residentStore(Request $r) {
+        $insertRet = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
+                                                'reservationDescription'=>trim($r->input('desc')),
+                                                'reservationStart'=>$r->input('startTime'),
+                                                'reservationEnd'=>$r->input('endTime'),
+                                                'dateReserved'=>$r->input('date'),
+                                                'peoplePrimeID'=>$r->input('peoplePrimeID'),
+                                                'facilityPrimeID'=>$r->input('facilityPrimeID'),
+                                                'status'=>'Pending']);
+
+            return back();
+    }
+
+    public function nonresidentStore(Request $r) {
+        $insertRet = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
+                                                'reservationDescription'=>trim($r->input('desc')),
+                                                'reservationStart'=>$r->input('startTime'),
+                                                'reservationEnd'=>$r->input('endTime'),
+                                                'dateReserved'=>$r->input('date'),
+                                                'name'=>$r->input('name'),
+                                                'age'=>$r->input('age'),
+                                                'email'=>$r->input('email'),
+                                                'contactNumber'=>$r->input('contactNumber'),
+                                                'facilityPrimeID'=>$r->input('facilityPrimeID'),
+                                                'status'=>'Pending']);
+
+            return back();
+    }
+
     public function getEdit(Request $r) {
         if($r->ajax()) {
-            return response(Reservation::find($r->primeID));
+            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'people.lastName','people.firstName','people.middleName') 
+                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->join('people', 'reservations.peoplePrimeID', '=', 'people.peoplePrimeID') 
+                                        ->where('reservations.primeID','=', $r->input('primeID'))
+                                        ->get());
         }
         else {
             return view('errors.403');

@@ -285,7 +285,9 @@
 													</div>
 													<div class="form-group col-md-6 mb-2">
 														<label for="userinput2">Reservee</label>
-														{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+														<select class="form-control" id="ures">
+															
+														</select>
 													</div>
 												</div>
 										
@@ -294,7 +296,9 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="firstName1">Facility :</label>
-														{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
+														<select class="form-control" id="ures">
+															
+														</select>
 													</div>
 												</div>
 											
@@ -406,11 +410,11 @@
 								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
 							</div>
 							<div class="modal-body">
-								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST'])!!}
+								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve'])!!}
 									
 										<div class="form-group ">
 											<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
-											<label for="switcheryColor" class="card-title ml-1">Resident</label>
+											<label for="switcheryColor" class="card-title ml-1"><p style="font-family:century gothic;font-size:16px">Resident</p></label>
 										</div>
 
 										<div id="change">
@@ -459,13 +463,17 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="firstName1">Reservee :</label>
-													{{ Form::select('peoplePrimeID', $people, null, ['id'=>'peoplePrimeID', 'class' => 'form-control border-info selectBox']) }}
+													<select class="form-control" id="ures">
+															
+														</select>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="firstName1">Facility :</label>
-													{{ Form::select('facilityPrimeID', $facilities, null, ['id'=>'facilityPrimeID', 'class' => 'form-control border-info selectBox']) }}
+													<select class="form-control" id="ures">
+															
+														</select>
 												</div>
 											</div>
 										</div>
@@ -549,6 +557,8 @@
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
+	
+	
 	<script>
 
 		var residentFunc = function(){
@@ -556,7 +566,7 @@
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Reservation Name</label>'+
 										
-										'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'{!!Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Resident</label>'+
@@ -568,7 +578,7 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Description</label>'+
-										'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+										'{!!Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Facility</label>'+
@@ -580,18 +590,18 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Date</label>'+
-										'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
+										'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control'])!!}'+
 									'</div>'+
 								'</div>'+
 
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Start Time</label>'+
-										'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
+										'{!!Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control'])!!}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">End Time</label>'+
-										'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
+										'{!!Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control'])!!}'+
 									'</div>'+
 								'</div>');
 
@@ -634,48 +644,8 @@
 							}
 						});
 		}
-		
-
-		var refreshCbo = function() {
-			$.ajax({
-				url: "{{ url('/facility-reservation/updatecbo') }}", 
-				type: "GET", 
-				success: function(data){
-					$("#reserveeCbo").empty();
-					var reserveeData = "";
-					data = $.parseJSON(data);
-					for (var index in data) {
-						var name = "";
-						reserveeData += data[index].lastName + ", ";
-						reserveeData += data[index].firstName + " ";
-						if (data[index].middleName != "") {
-							reserveeData += " " + data[index].middleName;
-						}
-
-						console.log("First Name: " + data[index].firstName);
-						console.log("Last Name: " + data[index].lastName);
-
-						$("#reserveeCbo").append(
-							'<option value="' + data[index].peoplePrimeID + '">' + reserveeData + '</option>'
-						);
-
-						reserveeData = "";
-					}
-				}, 
-				error: function(data){
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					console.log("Error: " +  bnhy,message);
-				}
-			});
-
-		}
-
 		residentFunc();
+
 	</script>
 
 	<script>
@@ -753,7 +723,7 @@
 
 	<script>
 		$(document).on('click', '.delete', function(e) {
-			var id = $(this).val();
+			var id = $(this).data('value');
 
 			$.ajax({
 
@@ -762,23 +732,28 @@
 				data: {primeID:id},
 				success:function(data)
 				{
-					console.log(data);
-					swal({
-							title: "Are you sure you want to cancel " + data.reservationName + "?",
-							text: "",
-							type: "warning",
-							showCancelButton: true,
-							confirmButtonColor: "#DD6B55",
-							confirmButtonText: "DELETE",
-							closeOnConfirm: false
-						},
-						function(){
 
-							swal("Successfull", data.reservationName + " is cancelled!", "success");
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						swal({
+								title: "Are you sure you want to cancel " + data[index].reservationName + "?",
+								text: "",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "DELETE",
+								closeOnConfirm: false
+							},
+							function(){
+
+								swal("Successfull", data[index].reservationName + " is cancelled!", "success");
+								
+								document.getElementById(data.primeID).submit();
 							
-							document.getElementById(data.primeID).submit();
-						
-					});				
+						});		
+					}		
 				}
 			});
 		});
@@ -797,26 +772,26 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Reservation Name</label>'+
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('reservationName',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">Name</label>'+
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('name',null,['id'=>'rname','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 									'</div>'+
 
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Email</label>'+
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Contact Number</label>'+
-											'{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 									'</div>'+
 
@@ -824,12 +799,11 @@
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Description</label>'+
-											'{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+											'{!!Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Facility</label>'+
-											"<select class='form-control border-info selectBox' id='facilityPrimeID'>"+
-											'<option value="Hipodromo Court">Hipodromo Court</option>'+		
+											"<select class='form-control border-info selectBox' id='facilityID'>"+
 											'</select>'+
 										'</div>'+
 									'</div>'+
@@ -837,21 +811,122 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
-											'{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}'+
+											'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control'])!!}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
-											'{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}'+
+											'{!!Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control'])!!}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
-											'{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}'+
+											'{!!Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control'])!!}'+
 										'</div>'+
 									'</div>');
+
+									$.ajax({
+										type: 'GET',
+										url: "{{ url('/facility-reservation/getFacilities') }}",
+										data: {"serviceTransactionPrimeID": 'asd'},
+										success: function(data) {
+
+										data = $.parseJSON(data);
+
+											for (index in data) {
+
+											$('#facilityID').append($('<option>',{
+												value: data[index].primeID,
+												text: data[index].facilityName
+											}));
+
+											}
+										}
+									});
 			}
+
+
 		});
 
 		// END OF RES SWITCH
+
+		$("#frm-reserve").submit(function(event) {
+			event.preventDefault();
+			var frm = $('#frm-reserve');
+			
+			frm.find('#startTime').val()
+
+			if(switchRes.checked == true)
+			{
+				$.ajax({
+					url: "{{ url('/facility-reservation/residentStore') }}", 
+					method: "POST", 
+					data: {
+						"_token": "{{ csrf_token() }}", 
+						"reservationName": $("#rreservationName").val(), 
+						"desc": $("#rdesc").val(), 
+						"startTime": $("#rstartTime").val(), 
+						"endTime": $("#rendTime").val(), 
+						"date": $("#rdate").val(),
+						"peoplePrimeID": $("#residentCbo").val(),
+						"facilityPrimeID": $("#facilityCbo").val(),
+						
+					}, 
+					success: function(data) {
+						console.log(data);
+						$("#addModal").modal("hide");
+						
+						$("#frm-reserve").trigger("reset");
+						swal("Success", "Successfully Added!", "success");
+					}, 
+					error: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			}
+			else
+			{
+				$.ajax({
+					url: "{{ url('/facility-reservation/nonresidentStore') }}", 
+					method: "POST", 
+					data: {
+						"_token": "{{ csrf_token() }}", 
+						"reservationName": $("#rreservationName").val(), 
+						"desc": $("#rdesc").val(), 
+						"startTime": $("#rstartTime").val(), 
+						"endTime": $("#rendTime").val(), 
+						"date": $("#rdate").val(),
+						"name": $("#rname").val(),
+						"age": $("#age").val(),
+						"email": $("#email").val(),
+						"contactNumber": $("#contactNumber").val(),
+						"facilityPrimeID": $("#facilityID").val(),
+						
+					}, 
+					success: function(data) {
+						console.log(data);
+						$("#addModal").modal("hide");
+						
+						$("#frm-reserve").trigger("reset");
+						swal("Success", "Successfully Added!", "success");
+					}, 
+					error: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			}
+
+		});
 
 	</script>
 @endsection
