@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `dbbarangay` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `dbbarangay`;
--- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.22-MariaDB, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: dbbarangay
+-- Host: 127.0.0.1    Database: dbBarangay
 -- ------------------------------------------------------
--- Server version	5.5.5-10.1.19-MariaDB
+-- Server version	10.1.22-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -687,7 +685,7 @@ CREATE TABLE `reservations` (
   KEY `fk_Reservations_Facilities1_idx` (`facilityPrimeID`),
   CONSTRAINT `fk_Reservations_Facilities1` FOREIGN KEY (`facilityPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `peoplePrimeID` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -696,7 +694,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (2,'2017 Contis Vaccination','asdhakjshd','01:00:00','02:00:00','2017-01-01',2,2,'Pending',NULL,NULL,NULL,NULL),(3,'HAHAHAHHA','asdasdasd','02:00:00','03:00:00','2017-01-01',NULL,2,'Pending',NULL,141113,'f.marcjoseph@yahoo.com','09123456789'),(4,'kajshdsakjdhkajsh','akjshdasjdh','15:01:00','17:01:00','2019-12-31',NULL,1,'Pending','kjhaskjdhaskdjh',190000,'kjahajkhdakjshd','kashdkjahsdkj');
+INSERT INTO `reservations` VALUES (2,'2017 Contis Vaccination','asdhakjshd','01:00:00','02:00:00','2017-01-01',2,2,'Pending',NULL,NULL,NULL,NULL),(3,'HAHAHAHHA','asdasdasd','02:00:00','03:00:00','2017-01-01',NULL,2,'Pending',NULL,141113,'f.marcjoseph@yahoo.com','09123456789'),(4,'kajshdsakjdhkajsh','akjshdasjdh','15:01:00','17:01:00','2019-12-31',NULL,1,'Pending','kjhaskjdhaskdjh',190000,'kjahajkhdakjshd','kashdkjahsdkj'),(5,'Birthday','asdfasdfsdfsdfsaddsfaa','03:03:00','15:03:00','2017-08-08',NULL,2,'Pending','Hello',9999999,'asldfajsldf@ksdjfhak.com','0901931133');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1113,6 +1111,7 @@ CREATE TABLE `utilities` (
   `reservationPK` varchar(30) NOT NULL,
   `serviceRegPK` varchar(30) NOT NULL,
   `sponsorPK` varchar(30) NOT NULL,
+  `collectionPK` varchar(20) NOT NULL,
   PRIMARY KEY (`utilityID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1123,7 +1122,7 @@ CREATE TABLE `utilities` (
 
 LOCK TABLES `utilities` WRITE;
 /*!40000 ALTER TABLE `utilities` DISABLE KEYS */;
-INSERT INTO `utilities` VALUES (1,'Brgy 629','Roselito Pagudpod','123 Hipodromo St. Sta Mesa Manila','asd','asd','FAC_000','DOC_000','SERV_000','RES_000','FAM_000','REQ_000','APPR_000','RSRV_000','SERV_REG_000','SPN_000');
+INSERT INTO `utilities` VALUES (1,'Brgy 629','Roselito Pagudpod','123 Hipodromo St. Sta Mesa Manila','asd','asd','FAC_000','DOC_000','SERV_000','RES_000','FAM_000','REQ_000','APPR_000','RSRV_000','SERV_REG_000','SPN_000','COL_000');
 /*!40000 ALTER TABLE `utilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1165,4 +1164,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-23 17:37:58
+-- Dump completed on 2017-08-23 19:03:56

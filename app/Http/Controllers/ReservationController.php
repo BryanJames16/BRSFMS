@@ -9,6 +9,7 @@ use \App\Models\Reservation;
 
 class ReservationController extends Controller
 {
+    public $totalAmount = 0;
 
     public function populate() {
         return view('facility-reservation',
@@ -52,7 +53,7 @@ class ReservationController extends Controller
                                                 'facilityPrimeID'=>$r->facilityPrimeID,
                                                 'status'=>'Pending']);
 
-            return redirect('facility-reservation');
+        return redirect('facility-reservation');
     }
 
     public function residentStore(Request $r) {
@@ -65,7 +66,26 @@ class ReservationController extends Controller
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
                                                 'status'=>'Pending']);
 
-            return back();
+        $totalAmount = 0;
+        $hourDiff = 0;
+        if (date('H', strtotime($r->input('startTime'))) >= 10 && 
+            date('H', strtotime($r->input('startTime'))) <= 18 && 
+            date('H', strtotime($r->input('endTime'))) >= 10 && 
+            date('H', strtotime($r->input('endTime'))) <= 18) {
+            $hourDiff = strtotime($r->input('startTime')) - strtotime($r->input('endTime'));
+            $hourDiff /= 3600;
+            
+            $morningPrice = Facilities::select('facilityDayPrice') 
+                                        -> where('primeID', '=', $r->input('facilityPrimeID'))
+                                        -> get();
+            $totalAmount += $hourDiff * $morningPrice;
+        }
+
+        //$nextKey = ;
+
+        //$collectionRet = Collection::insert([]);
+
+        return back();
     }
 
     public function nonresidentStore(Request $r) {
@@ -81,7 +101,7 @@ class ReservationController extends Controller
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
                                                 'status'=>'Pending']);
 
-            return back();
+        return back();
     }
 
     public function getEdit(Request $r) {

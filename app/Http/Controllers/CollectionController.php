@@ -20,14 +20,11 @@ class CollectionController extends Controller
                                             'residents.residentPrimeID')
                         -> join('reservations', 
                                     'collections.reservationPrimeID', '=', 'reservations.primeID') 
-                        -> join('documentHeaderRequests', 
-                                    'collections.documentHeaderPrimeID', '=', 'documentHeaderRequests.documentHeaderPrimeID') 
                         -> join('residents', 
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
                         -> join('people', 
                                     'collections.peoplePrimeID', '=', 'people.peoplePrimeID')
                         -> where('reservations.status', '!=', 'Cancelled')
-                        -> where('documentHeaderRequests.status', '!=', 'Pending')
                         -> get();
         return view('collection')->with('collections', $collections);
     }
