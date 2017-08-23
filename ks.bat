@@ -224,6 +224,7 @@ IF %1==database (
 
         IF %3==seeds (
             ECHO "Creating database seeds..."
+            %PHPX% artisan db:seed
 
             GOTO COMOK
         )
