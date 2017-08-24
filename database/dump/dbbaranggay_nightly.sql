@@ -176,6 +176,7 @@ CREATE TABLE `collections` (
   `collectionPrimeID` int(11) NOT NULL AUTO_INCREMENT,
   `collectionID` varchar(20) NOT NULL,
   `collectionDate` datetime NOT NULL,
+  `paymentDate` datetime DEFAULT NULL,
   `collectionType` int(11) NOT NULL,
   `amount` double NOT NULL,
   `recieved` double DEFAULT NULL,
@@ -202,7 +203,7 @@ CREATE TABLE `collections` (
 
 LOCK TABLES `collections` WRITE;
 /*!40000 ALTER TABLE `collections` DISABLE KEYS */;
-INSERT INTO `collections` VALUES (1,'COLLE_001','2017-08-24 12:25:59',3,200,500,'Paid',5,NULL,2,NULL);
+INSERT INTO `collections` VALUES (1,'COLLE_001','2017-08-24 12:25:59',NULL,3,200,500,'Paid',5,NULL,2,NULL);
 /*!40000 ALTER TABLE `collections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1192,4 +1193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-24 21:45:00
+-- Dump completed on 2017-08-24 23:09:12

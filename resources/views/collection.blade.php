@@ -346,7 +346,7 @@
 												</div>
 
 												<div class="form-actions center">
-													<p align="center">
+													<p align="center" id="receiptAction">
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 													</p>
 												</div>												
@@ -412,6 +412,27 @@
 		});
 
 		$(".btnReceipt").on('click', function () {
+			var collectionID = $(this).data('value');
+			$.ajax({
+				url: '{{ url("/collection/gTransact") }}', 
+				method: 'GET', 
+				data: {
+					"collectionPrimeID": collectionID
+				}, 
+				success: function (data) {
+					console.log(data);
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
 			$("#receiptModal").modal('show');
 			showReceipt();
 		});

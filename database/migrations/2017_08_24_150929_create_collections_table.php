@@ -17,6 +17,7 @@ class CreateCollectionsTable extends Migration {
 			$table->integer('collectionPrimeID', true);
 			$table->string('collectionID', 20);
 			$table->dateTime('collectionDate');
+			$table->dateTime('paymentDate')->nullable();
 			$table->integer('collectionType');
 			$table->float('amount', 10, 0);
 			$table->float('recieved', 10, 0)->nullable();

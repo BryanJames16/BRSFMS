@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Collection;
 use \App\Models\Utility;
+use Carbon\Carbon;
 
 class CollectionController extends Controller
 {
@@ -24,7 +25,7 @@ class CollectionController extends Controller
                         -> join('residents', 
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
                         -> where('reservations.status', '!=', 'Cancelled')
-                        -> where('collections.status', '!=', 'Paid')
+                        //-> where('collections.status', '!=', 'Paid')
                         -> get();
         return view('collection')->with('collections', $collections);
     }
@@ -67,10 +68,18 @@ class CollectionController extends Controller
         return json_encode($amount);
     }
 
+    public function getTransact(Request $r) {
+        $transact = Collection::where('collectionPrimeID', '=', $r->input('collectionPrimeID'))
+                                -> get()
+                                -> last();
+        return json_encode($transact);
+    }
+
     public function payCollection(Request $r) {
         $collection = Collection::find($r->input('collectionPrimeID'));
         $collection -> recieved = $r -> input('recieved');
         $collection -> status = "Paid";
+        $collection -> paymentDate = Carbon::now();
         $collection -> save();
         return back();
     }

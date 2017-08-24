@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 24 Aug 2017 12:22:58 +0000.
+ * Date: Thu, 24 Aug 2017 15:09:38 +0000.
  */
 
 namespace App\Models;
@@ -15,6 +15,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $collectionPrimeID
  * @property string $collectionID
  * @property \Carbon\Carbon $collectionDate
+ * @property \Carbon\Carbon $paymentDate
  * @property int $collectionType
  * @property float $amount
  * @property float $recieved
@@ -47,12 +48,14 @@ class Collection extends Eloquent
 	];
 
 	protected $dates = [
-		'collectionDate'
+		'collectionDate',
+		'paymentDate'
 	];
 
 	protected $fillable = [
 		'collectionID',
 		'collectionDate',
+		'paymentDate',
 		'collectionType',
 		'amount',
 		'recieved',
