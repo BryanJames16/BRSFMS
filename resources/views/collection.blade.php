@@ -131,8 +131,8 @@
                                         <td>
 											<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 											<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-												<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionID }}"><i class="icon-eye6"></i> Update</a>
-												<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionID }}"><i class="icon-pen3"></i> Receipt</a>
+												<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
+												<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
 											</span>
                                         </td>
                                     </tr>
@@ -312,7 +312,7 @@
 
 												<div class="form-actions center">
 													<p align="center">
-														<input type="submit" class="btn btn-primary mr-1 cancel-view" id="btnSubmit">Submit</button>
+														<input type="submit" class="btn btn-primary mr-1 cancel-view" id="btnSubmit">
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 													</p>
 												</div>	
@@ -335,7 +335,12 @@
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">
 												<div class="card-text">
-													<p align="center">
+													<p align="center" id="rHeader" style="font-size: 30px;">
+
+													</p>
+													<hr color="black" />
+													<br>
+													<p id="particulars">
 
 													</p>
 												</div>
@@ -394,14 +399,10 @@
         });
 
 		$(".btnUpdate").on('click', function () {
-			var collectionID = $(this).val();
-			//console.log("Update: " + collectionID);
+			var collectionID = $(this).data('value');
 			
 			$("#updateModal").modal('show');
 			$("#uCollectionID").val(collectionID);
-			
-			console.log("added function: " + $("#uCollectionID").val());
-			console.log("Type: " + typeof(collectionID));
 		});
 
 		$(".btnReceipt").on('click', function () {
@@ -411,19 +412,77 @@
 
 		$("#frmPay").submit(function (event) {
 			event.preventDefault();
-			console.log("Submit: " + $("#uCollectionID").val());
+			
+			$.ajax({
+				url: '{{ url("/") }}', 
+				method: 'GET', 
+				data: {
+					"collectionPrimeID": $("#uCollectionID").val()
+				}, 
+				success: function (data) {
+					if ((data.amount - $("#recievedCash").val()) >= 0) {
+						payColelction($("#recievedCash").val());
+					} 
+					else {
+						swal("Error", 
+								"Recieved Cash is not sufficient to pay the collection!", 
+								"error");
+					}
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
 		});
+
+		var payCollection = function (amount) {
+			$.ajax({
+				url: '{{ url("/") }}',
+				method: 'POST', 
+				data: {
+					"recieved": amount
+				}
+				success: function() {
+					$("#updateModal").modal('hide');
+					$("#frmPay").trigger('reset');
+					swal("Success",
+							"Successfully paid!", 
+							"success");
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		}
 
 		var showReceipt = function () {
 			$.ajax({
-				url: "{{ url('/collection/getHeader') }}", 
+				url: '{{ url("/collection/gHeader") }}', 
 				method: 'GET', 
 				success: function (data) {
-
+					data = $.parseJSON(data);
+					$("#rHeader").html(
+						"<b>" + 
+						data.barangayName + "<br>" + 
+						data.address + 
+						"</b>"
+					);
 				}, 
-				error: function (data) {
+				error: function (errors) {
 					var message = "Errors: ";
-					var data = error.responseJSON;
+					var data = errors.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}

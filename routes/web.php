@@ -139,7 +139,6 @@ Route::post('/resident/addImage', 'ResidentController@addImage');
 Route::post('/resident/memberRemove', 'ResidentController@memberRemove');
 Route::get('/resident/notMember/{id}', 'ResidentController@notMember');
 
-
 // Family
 Route::get('/family/getEdit', 'ResidentController@familyGetEdit');
 Route::get('/family/getMembers', 'ResidentController@getMembers');
@@ -175,7 +174,9 @@ Route::post('/facility-reservation/nonresidentStore', 'ReservationController@non
 Route::post('/facility-reservation/update', 'ReservationController@update');
 
 // Collection
-Route::get('/collection/gCollect', 'Collection@getCollection');
+Route::get('/collection/gCollect', 'CollectionController@getCollection');
+Route::get('/collection/gHeader', 'CollectionController@getHeader');
+Route::get('/collection/gAmount', 'CollectionController@getAmount');
 
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');

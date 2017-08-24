@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Collection;
+use \App\Models\Utility;
 
 class CollectionController extends Controller
 {
@@ -54,7 +55,14 @@ class CollectionController extends Controller
     }
 
     public function getHeader(Request $r) {
-        
-        return response();
+        $headerDetails = Utility::select('barangayName', 'address') -> get() -> last();
+        return json_encode($headerDetails);
+    }
+
+    public function getAmount(Request $r) {
+        $amount = Collection::select('amount')
+                                -> where('collectionPrimeID', '=', $r->input('collectionPrimeID'))
+                                -> get();
+        return response($amount);
     }
 }
