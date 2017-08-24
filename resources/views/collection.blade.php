@@ -394,6 +394,12 @@
 
 @section('page-action')
     <script type="text/javascript">
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
         $("#btnAddModal").on('click', function () {
             $("#addModal").modal('show');
         });
@@ -421,9 +427,9 @@
 				}, 
 				success: function (data) {
 					data = $.parseJSON(data);
-					console.log("Success: " + data);
-					if (data.amount > $("#recievedCash").val()) {
-						payColelction(data.amount, $("#recievedCash").val());
+					console.log("AMOUNT: " + data.amount);
+					if (data.amount <= $("#recievedCash").val()) {
+						payCollection(data.amount, $("#recievedCash").val());
 					} 
 					else {
 						swal("Error", 
@@ -458,7 +464,7 @@
 					$("#frmPay").trigger('reset');
 
 					var message = "";
-					if (total - amount > 0) {
+					if (Math.abs(total - amount) > 0) {
 						message += "Change is: PHP " + Math.abs(total - amount) + "\n";
 					}
 
