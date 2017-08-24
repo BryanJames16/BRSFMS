@@ -98,7 +98,7 @@
 												<td>{{$st->fromAge}} - {{$st->toAge}} yrs. old</td>
 											@endif
 											
-											<td>0</td>
+											<td>{{ $st->number }}</td>
 											<td>{{$st->status}}</td>
 											<td>
 												<span class="dropdown">
@@ -313,26 +313,40 @@
 								</div>
 
 								<h4 class="form-section"><i class="icon-mail6"></i> Date</h4>
-								<div class="row">
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">From</label>
-										{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}
-									</div>
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">To</label>
-										{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}
-									</div>
+								<div class="form-group ">
+									<input type="checkbox" id="eswitchDate" class="switchery" data-size="sm" data-color="primary" checked />
+									<label for="switcheryColor" class="card-title ml-1">Date Range</label>
 								</div>
 
-								<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
-								<div class="row">
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">From</label>
-										{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}
+								<div id="edate">
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">From</label>
+											{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">To</label>
+											{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}
+										</div>
 									</div>
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">To</label>
-										{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}
+								</div>	
+
+								<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
+								<div class="form-group ">
+									<input type="checkbox" id="eswitchAge" class="switchery" data-size="sm" data-color="primary" checked/>
+									<label for="switcheryColor" class="card-title ml-1">Age Range</label>
+								</div>
+
+								<div id="eage">
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">From</label>
+											{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">To</label>
+											{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}
+										</div>
 									</div>
 								</div>
 
@@ -666,6 +680,7 @@
 				}, 
 				success: function(data) {
 					participantRefresh();
+					refreshTable();
 					swal("Success", "Successfully Added participant!", "success");
 				}, 
 				error: function(error) {
@@ -711,6 +726,7 @@
 					datatype: "json", 
 
 					success: function(data) {
+						refreshTable();
 						$("#table-viewParticipants").DataTable().clear().draw();
 						data = $.parseJSON(data);
 
@@ -770,25 +786,53 @@
 					data: {"serviceTransactionPrimeID": id},
 					success:function(data) {
 						data = $.parseJSON(data);
-						
+						var frm = $('#frm-update');
+						frm.trigger('reset');
 
 						for(index in data)
 						{
-							var frm = $('#frm-update');
-							console.log(data[index].serviceTransactionName);
+							
 							frm.find('#eserviceTransactionID').val(data[index].serviceTransactionID);
 							frm.find('#eserviceTransactionPrimeID').val(data[index].serviceTransactionPrimeID);
 							frm.find('#eservicePrimeID').val(data[index].servicePrimeID);
-							frm.find('#efromAge').val(data[index].fromAge);
-							frm.find('#etoAge').val(data[index].toAge);
-							frm.find('#efromDate').val(data[index].fromDate);
-							frm.find('#etoDate').val(data[index].toDate);
 							frm.find('#eserviceName').val(data[index].serviceTransactionName);
+
+							if(data[index].toDate==null)
+							{
+								$('#edate').html('<div class="row">'+
+													'<div class="form-group col-md-6 mb-2">'+
+														'<label for="userinput4">Date</label>'+
+														'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+													'</div>'+
+												'</div>');
+								$('#eswitchDate').trigger('click');
+								frm.find('#efromDate').val(data[index].fromDate);
+							}
+							else
+							{
+								frm.find('#efromDate').val(data[index].fromDate);
+								frm.find('#etoDate').val(data[index].toDate);
+							}
 							
+
+							if(data[index].fromAge==null)
+							{
+								$('#eage').html('No Age Limit!');	
+								$('#eswitchAge').trigger('click');
+							}
+							else
+							{
+								frm.find('#efromAge').val(data[index].fromAge);
+								frm.find('#etoAge').val(data[index].toAge);
+							}
+
 						}			
 					}
 			})
-			$("#editService").modal('show');
+			setTimeout(function() {
+				$("#editService").modal('show');	
+			},500);
+			
 		});
 		// DELETE SERVICE ACTION
 
@@ -1077,6 +1121,66 @@
 
 		// END OF AGE SWITCH
 
+		// END DATE SWITCH
+
+		$('#eswitchDate').change(function(){
+			if(this.checked)
+			{
+				$('#edate').html(
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">From</label>'+
+									'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">To</label>'+
+									'{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+							'</div>'
+						);
+			}
+			else
+			{
+				$('#edate').html(
+						'<div class="row">'+
+							'<div class="form-group col-md-6 mb-2">'+
+								'<label for="userinput4">Date</label>'+
+								'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+							'</div>'+
+						'</div>'
+					);
+			}
+		
+		});
+
+		// END OF EDIT DATE SWITCH
+
+		// EDIT AGE SWITCH
+
+		$('#eswitchAge').change(function(){
+			if(this.checked)
+			{
+				$('#eage').html(
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">From</label>'+
+										'{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">To</label>'+
+										'{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+								'</div>'
+							);
+			}
+			else
+			{
+				$('#eage').html('No age limit');
+			}
+		});
+
+		// END OF EDIT AGE SWITCH
+
 		//  SERVICE TRANSACTION REFRESH TABLE
 
 		var refreshTable = function() {
@@ -1117,7 +1221,7 @@
 									data[index].serviceName, 
 									date, 
 									age, 
-									'12', 
+									data[index].number, 
 									data[index].status,
 										'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
