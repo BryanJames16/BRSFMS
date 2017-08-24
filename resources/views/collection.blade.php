@@ -131,8 +131,11 @@
                                         <td>
 											<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 											<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-												<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
-												<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
+												@if($collection -> status == "Pending" || $collection -> status == "pending")
+													<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
+												@else 
+													<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
+												@endif
 											</span>
                                         </td>
                                     </tr>
@@ -334,19 +337,22 @@
 										</div>
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">
-												<div class="card-text">
+												<div class="card-text" id="receiptContainer">
+													<hr color="black" />
 													<p align="center" id="rHeader" style="font-size: 30px;">
 
 													</p>
 													<hr color="black" />
 													<br>
-													<p id="particulars">
+													<p id="particulars" align="left" style="font-size: 35px;">
 
 													</p>
+													<hr color="black" />
 												</div>
 
 												<div class="form-actions center">
 													<p align="center" id="receiptAction">
+														<button type="button" class="btn btn-primary mr-1" id="printReceipt">Print</button>
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 													</p>
 												</div>												
@@ -358,6 +364,10 @@
                         </div>
                     </div>
                 </div>
+
+				<div id="receiptShadow">
+
+				</div>
             </div>
         </div>
     </section>
@@ -420,7 +430,7 @@
 					"collectionPrimeID": collectionID
 				}, 
 				success: function (data) {
-					console.log(data);
+					//
 				}, 
 				error: function (errors) {
 					var message = "Errors: ";
@@ -451,6 +461,7 @@
 					console.log("AMOUNT: " + data.amount);
 					if (data.amount <= $("#recievedCash").val()) {
 						payCollection(data.amount, $("#recievedCash").val());
+						refreshTable();
 					} 
 					else {
 						swal("Error", 
@@ -471,6 +482,94 @@
 				}
 			});
 		});
+
+		$("#printReceipt").click(function () {
+			//$("#receiptContainer").width('898').height('428');
+			html2canvas(
+				$("#receiptContainer"),
+				{
+					width: 826, 
+					height: 365, 
+					onrendered: function(canvas) {
+						var imgData = canvas.toDataURL('image/png');
+
+						var pdfDoc = new jsPDF({
+							orientation: 'landscape', 
+							unit: 'in', 
+							format: [8.6042, 3.8021]
+						});
+
+						pdfDoc.setProperties({
+							title: "Official Receipt", 
+							subject: "Receipt", 
+							author: "Barangay Resident, Services, and Facilities Managemet System", 
+							keyword: "Receipt",
+							creator: "Barangay Resident, Services, and Facilities Managemet System"
+						});
+						pdfDoc.addImage(imgData, 'png', 0, 0);
+						console.log("Added image...");
+						pdfDoc.save("Receipt-" + getStringDateTime() + ".pdf");
+						console.log("savedpdf");
+					}
+				}
+			);
+		});
+
+		var refreshTable = function () {
+			$.ajax({
+				url: '{{ url("/collection/gCollect") }}', 
+				method: 'GET', 
+				success: function (data) {
+					$("#table-container").DataTable().clear().draw();
+
+					data = $.parseJSON(data);
+					for (datum in data) {
+						var collectionTypeString = "";
+						if (data[datum].collectionType == 1) {
+							collectionTypeString = "Barangay ID";
+						} 
+						else if (data[datum].collectionType == 2) {
+							collectionTypeString = "Document Request";
+						} 
+						else if (data[datum].collectionType == 3) {
+							collectionTypeString = "Facility Reservation";
+						} 
+						else if (data[datum].collectionType == 4) {
+							collectionTypeString = "Services";
+						} 
+						else {
+							collectionTypeString = "Business Registration";
+						}
+
+						$("#table-container").DataTable()
+							.row.add([
+								data[datum].collectionID, 
+								data[datum].firstName + " " + 
+								data[datum].middleName + " " + 
+								data[datum].lastName + " " + 
+								"(" + data[datum].residentID + ")", 
+								collectionTypeString, 
+								data[datum].amount, 
+								data[datum].status, 
+								"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+								"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+									"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
+									"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
+								"</span>"
+							]).draw(false);
+					}
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		}
 
 		var payCollection = function (total, amount) {
 			$.ajax({
@@ -530,6 +629,30 @@
 					swal("Error", message, "error");
 				}
 			});
+
+			$.ajax({
+				url: '{{ url("/collection/gTransact") }}', 
+				method: 'GET', 
+				success: function (data) {
+					data = $.parseJSON(data);
+					$("#particulars").html(
+						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Customer Name: &ensp;" + "<br>" + 
+						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Transaction Date: &ensp;" + "<br>" + 
+						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Payment Date: &ensp;" + "<br>" + 
+						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Object" + " x Quantity: &ensp;" + "<br>" + 
+						""
+					);
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
 		};
     </script>
 @endsection
@@ -541,4 +664,7 @@
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
 @endsection

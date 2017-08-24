@@ -69,6 +69,17 @@ var getCurrentDateTime = function() {
     return (new Date());
 }
 
+var getStringDateTime = function () {
+    var dateTimeToday = new Date();
+    return (dateTimeToday.getFullYear() + "" + 
+            dateTimeToday.getMonth() + "" + 
+            dateTimeToday.getDate() + "" + 
+            dateTimeToday.getHours() + "" + 
+            dateTimeToday.getMinutes() + "" + 
+            dateTimeToday.getSeconds() + "" + 
+            dateTimeToday.getMilliseconds());
+}
+
 var getCurrentDate = function() {
     var monthNames = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"];
