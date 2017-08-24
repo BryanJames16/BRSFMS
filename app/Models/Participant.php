@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 24 Aug 2017 11:11:01 +0000.
+ * Date: Thu, 24 Aug 2017 12:22:58 +0000.
  */
 
 namespace App\Models;
@@ -19,7 +19,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \App\Models\Resident $resident
  * @property \App\Models\Servicetransaction $servicetransaction
- * @property \Illuminate\Database\Eloquent\Collection $partrecipients
  *
  * @package App\Models
  */
@@ -51,10 +50,5 @@ class Participant extends Eloquent
 	public function servicetransaction()
 	{
 		return $this->belongsTo(\App\Models\Servicetransaction::class, 'serviceTransactionPrimeID');
-	}
-
-	public function partrecipients()
-	{
-		return $this->hasMany(\App\Models\Partrecipient::class, 'participantID');
 	}
 }

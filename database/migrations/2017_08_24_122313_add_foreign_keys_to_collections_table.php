@@ -14,7 +14,7 @@ class AddForeignKeysToCollectionsTable extends Migration {
 	{
 		Schema::table('collections', function(Blueprint $table)
 		{
-			$table->foreign('documentHeaderPrimeID', 'fk_collections_documentheaderrequests1')->references('documentHeaderPrimeID')->on('documentheaderrequests')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('documentHeaderPrimeID', 'fk_collections_documentheaderrequests1')->references('documentRequestPrimeID')->on('documentrequests')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('peoplePrimeID', 'fk_collections_people1')->references('peoplePrimeID')->on('people')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('reservationprimeID', 'fk_collections_reservations1')->references('primeID')->on('reservations')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 			$table->foreign('residentPrimeID', 'fk_collections_residents1')->references('residentPrimeID')->on('residents')->onUpdate('NO ACTION')->onDelete('NO ACTION');

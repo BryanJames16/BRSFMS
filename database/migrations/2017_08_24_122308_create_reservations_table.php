@@ -20,9 +20,13 @@ class CreateReservationsTable extends Migration {
 			$table->time('reservationStart');
 			$table->time('reservationEnd');
 			$table->date('dateReserved');
-			$table->integer('peoplePrimeID')->index('fk_Reservations_People1_idx');
+			$table->integer('peoplePrimeID')->nullable()->index('fk_Reservations_People1_idx');
 			$table->integer('facilityPrimeID')->index('fk_Reservations_Facilities1_idx');
 			$table->string('status', 15);
+			$table->string('name', 100)->nullable();
+			$table->integer('age')->nullable();
+			$table->string('email', 45)->nullable();
+			$table->string('contactNumber', 45)->nullable();
 		});
 	}
 

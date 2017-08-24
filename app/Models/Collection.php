@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 24 Aug 2017 11:11:01 +0000.
+ * Date: Thu, 24 Aug 2017 12:22:58 +0000.
  */
 
 namespace App\Models;
@@ -17,6 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $collectionDate
  * @property int $collectionType
  * @property float $amount
+ * @property float $recieved
  * @property string $status
  * @property int $reservationprimeID
  * @property int $documentHeaderPrimeID
@@ -38,6 +39,7 @@ class Collection extends Eloquent
 	protected $casts = [
 		'collectionType' => 'int',
 		'amount' => 'float',
+		'recieved' => 'float',
 		'reservationprimeID' => 'int',
 		'documentHeaderPrimeID' => 'int',
 		'residentPrimeID' => 'int',
@@ -53,6 +55,7 @@ class Collection extends Eloquent
 		'collectionDate',
 		'collectionType',
 		'amount',
+		'recieved',
 		'status',
 		'reservationprimeID',
 		'documentHeaderPrimeID',

@@ -447,6 +447,7 @@
 			if (navigator.onLine) {
 				var city = "Antipolo";
 				var country = "ph";
+				/*
 				$.ajax({
 					url: 'https://query.yahooapis.com/v1/public/' +
 							'yql?q=select%20*%20' + 
@@ -483,6 +484,7 @@
 						swal("Error", message, "error");
 					}
 				});
+				*/
 			}
 		});
 	</script>

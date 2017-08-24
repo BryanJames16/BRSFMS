@@ -63,6 +63,14 @@ class CollectionController extends Controller
         $amount = Collection::select('amount')
                                 -> where('collectionPrimeID', '=', $r->input('collectionPrimeID'))
                                 -> get();
-        return response($amount);
+        return json_encode($amount);
+    }
+
+    public function payCollection(Request $r) {
+        $collection = Collection::find($r->input('collectionPrimeID'));
+        $collection -> recieved = $r -> input('recieved');
+        $collecti9on -> status = "paid";
+        $collection -> save();
+        return back();
     }
 }

@@ -414,18 +414,22 @@
 			event.preventDefault();
 			
 			$.ajax({
-				url: '{{ url("/") }}', 
+				url: '{{ url("/collection/gAmount") }}', 
 				method: 'GET', 
 				data: {
 					"collectionPrimeID": $("#uCollectionID").val()
 				}, 
 				success: function (data) {
-					if ((data.amount - $("#recievedCash").val()) >= 0) {
-						payColelction($("#recievedCash").val());
+					data = $.parseJSON(data);
+					console.log("Success: " + data);
+					if (data.amount > $("#recievedCash").val()) {
+						payColelction(data.amount, $("#recievedCash").val());
 					} 
 					else {
 						swal("Error", 
-								"Recieved Cash is not sufficient to pay the collection!", 
+								"Recieved Cash is not sufficient to pay the collection!" + 
+								"\nRecieved Cash is: PHP " + $("#recievedCash").val() + 
+								"\nRequired amount is: PHP " + data.amount, 
 								"error");
 					}
 				}, 
@@ -441,18 +445,27 @@
 			});
 		});
 
-		var payCollection = function (amount) {
+		var payCollection = function (total, amount) {
 			$.ajax({
-				url: '{{ url("/") }}',
+				url: '{{ url("/collection/pay") }}',
 				method: 'POST', 
 				data: {
-					"recieved": amount
+					"recieved": amount, 
+					"collectionPrimeID": $("#uCollectionID").val()
 				}, 
-				success: function() {
+				success: function(data) {
 					$("#updateModal").modal('hide');
 					$("#frmPay").trigger('reset');
+
+					var message = "";
+					if (total - amount > 0) {
+						message += "Change is: PHP " + Math.abs(total - amount) + "\n";
+					}
+
+					message += "Successfully paid!";
+
 					swal("Success",
-							"Successfully paid!", 
+							message, 
 							"success");
 				}, 
 				error: function (errors) {

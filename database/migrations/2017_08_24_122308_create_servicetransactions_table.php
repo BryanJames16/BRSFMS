@@ -18,10 +18,10 @@ class CreateServicetransactionsTable extends Migration {
 			$table->string('serviceTransactionID', 45);
 			$table->string('serviceName', 100);
 			$table->integer('servicePrimeID')->index('servicePrimeID_idx');
-			$table->integer('fromAge');
-			$table->integer('toAge');
-			$table->date('fromDate');
-			$table->date('toDate');
+			$table->integer('fromAge')->nullable();
+			$table->integer('toAge')->nullable();
+			$table->date('fromDate')->nullable();
+			$table->date('toDate')->nullable();
 			$table->string('status', 40)->default('Pending');
 			$table->boolean('archive')->default(0);
 		});

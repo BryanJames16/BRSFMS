@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 24 Aug 2017 11:11:02 +0000.
+ * Date: Thu, 24 Aug 2017 12:22:58 +0000.
  */
 
 namespace App\Models;
@@ -16,8 +16,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $recipientName
  * @property int $status
  * @property int $archive
- * 
- * @property \Illuminate\Database\Eloquent\Collection $partrecipients
  *
  * @package App\Models
  */
@@ -36,9 +34,4 @@ class Recipient extends Eloquent
 		'status',
 		'archive'
 	];
-
-	public function partrecipients()
-	{
-		return $this->hasMany(\App\Models\Partrecipient::class, 'recipientID');
-	}
 }

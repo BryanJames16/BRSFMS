@@ -28,6 +28,7 @@ class CreateResidentsTable extends Migration {
 			$table->string('disabilities', 250)->nullable();
 			$table->string('residentType', 10);
 			$table->boolean('status');
+			$table->string('imagePath', 500)->nullable();
 		});
 	}
 

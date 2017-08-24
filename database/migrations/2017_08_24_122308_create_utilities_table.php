@@ -30,6 +30,7 @@ class CreateUtilitiesTable extends Migration {
 			$table->string('reservationPK', 30);
 			$table->string('serviceRegPK', 30);
 			$table->string('sponsorPK', 30);
+			$table->string('collectionPK', 30);
 		});
 	}
 

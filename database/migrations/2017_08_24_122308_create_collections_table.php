@@ -19,6 +19,7 @@ class CreateCollectionsTable extends Migration {
 			$table->dateTime('collectionDate');
 			$table->integer('collectionType');
 			$table->float('amount', 10, 0);
+			$table->float('recieved', 10, 0)->nullable();
 			$table->string('status', 20);
 			$table->integer('reservationprimeID')->nullable()->index('fk_collections_reservations1_idx');
 			$table->integer('documentHeaderPrimeID')->nullable()->index('fk_collections_documentheaderrequests1_idx');

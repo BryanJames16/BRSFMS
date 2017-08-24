@@ -15,7 +15,7 @@ class AddForeignKeysToReservationsTable extends Migration {
 		Schema::table('reservations', function(Blueprint $table)
 		{
 			$table->foreign('facilityPrimeID', 'fk_Reservations_Facilities1')->references('primeID')->on('facilities')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('peoplePrimeID', 'fk_Reservations_People1')->references('peoplePrimeID')->on('people')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('peoplePrimeID', 'peoplePrimeID')->references('residentPrimeID')->on('residents')->onUpdate('CASCADE')->onDelete('RESTRICT');
 		});
 	}
 
@@ -30,7 +30,7 @@ class AddForeignKeysToReservationsTable extends Migration {
 		Schema::table('reservations', function(Blueprint $table)
 		{
 			$table->dropForeign('fk_Reservations_Facilities1');
-			$table->dropForeign('fk_Reservations_People1');
+			$table->dropForeign('peoplePrimeID');
 		});
 	}
 
