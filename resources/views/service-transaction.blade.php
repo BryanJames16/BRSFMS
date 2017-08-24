@@ -394,6 +394,9 @@
 					<!-- START MODAL BODY -->
 					<div class="modal-body" width='100%'>
 						<p style="text-align:center;font-size:20px"><b>PARTICIPANTS</b></p>
+						<div id="recipients">
+
+						</div>
 						<hr>
 						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addPart2">Add Participants</button></p>
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-viewParticipant', 'class'=>'form'])}}
@@ -676,7 +679,13 @@
 									data[index].gender, 
 									data[index].contactNumber,
 									data[index].disabilities,
-									'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+									'<span class="dropdown">'+
+										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+												'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+												'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
+										'</span>'+
+									'</span>'
 								]).draw(false);
 					}
 					$("#addParticipants").modal('hide');
@@ -748,7 +757,13 @@
 														data[index].gender, 
 														data[index].contactNumber,
 														data[index].disabilities,
-														'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+														'<span class="dropdown">'+
+															'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+															'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+																	'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+																	'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
+															'</span>'+
+														'</span>'
 													]).draw(false);
 										}
 										$("#viewParticipants").modal('show');
@@ -856,6 +871,19 @@
 
 		});
 
+		$(document).on('click', '.addRecipient', function(e) {
+			
+			var id = $(this).data('value');
+			console.log(id);
+			
+			$('#recipients').html(
+				'asd'
+			);
+			
+			
+
+		});
+
 		
 
 		//  END OF ADD PARTICIPANT SUBMIT
@@ -899,7 +927,13 @@
 										data[index].gender, 
 										data[index].contactNumber,
 										data[index].disabilities,
-										'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+										'<span class="dropdown">'+
+											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+													'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+													'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
+											'</span>'+
+										'</span>'
 									]).draw(false);
 						}
 					}, 
