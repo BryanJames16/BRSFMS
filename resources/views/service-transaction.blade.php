@@ -98,16 +98,27 @@
 												<td>{{$st->fromAge}} - {{$st->toAge}} yrs. old</td>
 											@endif
 											
-											<td>0</td>
+											<td>{{ $st->number }}</td>
 											<td>{{$st->status}}</td>
 											<td>
 												<span class="dropdown">
 													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 													<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-														<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
-														<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
-														<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-pen3"></i> Edit</a>
-														<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+														
+														@if($st->status=='Pending')
+															<a href="#" class="dropdown-item start" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Start</a>
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+															<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
+															<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-pen3"></i> Edit</a>
+															<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+														@elseif($st->status=='On-going')
+															<a href="#" class="dropdown-item finish" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Finish</a>
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+															<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
+														@else
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+														@endif
+														
 													</span>
 												</span>
 											</td>
@@ -313,26 +324,40 @@
 								</div>
 
 								<h4 class="form-section"><i class="icon-mail6"></i> Date</h4>
-								<div class="row">
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">From</label>
-										{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}
-									</div>
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">To</label>
-										{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}
-									</div>
+								<div class="form-group ">
+									<input type="checkbox" id="eswitchDate" class="switchery" data-size="sm" data-color="primary" checked />
+									<label for="switcheryColor" class="card-title ml-1">Date Range</label>
 								</div>
 
-								<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
-								<div class="row">
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">From</label>
-										{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}
+								<div id="edate">
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">From</label>
+											{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">To</label>
+											{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}
+										</div>
 									</div>
-									<div class="form-group col-md-6 mb-2">
-										<label for="userinput4">To</label>
-										{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}
+								</div>	
+
+								<h4 class="form-section"><i class="icon-mail6"></i>Age Bracket</h4>
+								<div class="form-group ">
+									<input type="checkbox" id="eswitchAge" class="switchery" data-size="sm" data-color="primary" checked/>
+									<label for="switcheryColor" class="card-title ml-1">Age Range</label>
+								</div>
+
+								<div id="eage">
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">From</label>
+											{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}
+										</div>
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput4">To</label>
+											{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}
+										</div>
 									</div>
 								</div>
 
@@ -471,14 +496,36 @@
 		$(document).on('click', '.add', function(e) {
 			
 			var id = $(this).data('value');
-			console.log(id);
 
-			var frm = $('#frm-addParticipant');
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						data = $.parseJSON(data);
+						
+						for(index in data)
+						{
+							if(data[index].status=='Pending')
+							{
+								swal("Unavailable", 
+												"The service is still pending!", 
+												"error");
+							}
+							else
+							{
+								var frm = $('#frm-addParticipant');
 			
-			frm.find('#aserviceTransactionPrimeID').val(id);
-			participantRefresh();
+								frm.find('#aserviceTransactionPrimeID').val(id);
+								participantRefresh();
+								
+								$("#addParticipants").modal('show');	
+							}
+						}			
+					}
+			});
+
 			
-			$("#addParticipants").modal('show');
 
 		});
 
@@ -497,6 +544,108 @@
 			$("#addParticipants").modal('show');	
 			},500);
 			
+			
+
+		});
+
+		$(document).on('click', '.start', function(e) {
+			
+			var id = $(this).data('value');
+			
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							swal({
+								title: "Are you sure you want to start " + data[index].serviceTransactionName + "?",
+								text: "Start the service",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "START",
+								closeOnConfirm: false
+								},
+								function() {
+									$.ajax({
+										type: "post",
+										url: "{{ url('/service-transaction/updateStatus') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+										serviceTransactionPrimeID:id}, 
+										success: function(data) {
+											refreshTable();
+											swal("Successfull", "Entry started!", "success");
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
+										}
+									});
+								});	
+						}			
+					}
+			})
+			
+
+		});
+
+		$(document).on('click', '.finish', function(e) {
+			
+			var id = $(this).data('value');
+			
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							swal({
+								title: "Are you sure you want to finish " + data[index].serviceTransactionName + "?",
+								text: "End the service",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "FINISH",
+								closeOnConfirm: false
+								},
+								function() {
+									$.ajax({
+										type: "post",
+										url: "{{ url('/service-transaction/finishStatus') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+										serviceTransactionPrimeID:id}, 
+										success: function(data) {
+											refreshTable();
+											swal("Successfull", "Entry finished!", "success");
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
+										}
+									});
+								});	
+						}			
+					}
+			})
 			
 
 		});
@@ -558,46 +707,70 @@
 			
 			var id = $(this).data('value');
 
-			var frm = $('#frm-viewParticipant');
-			
-			frm.find('#aaserviceTransactionPrimeID').val(id);
-
 			$.ajax({
-				url: '/service-transaction/getParticipant/' + id, 
-				method: "GET", 
-				datatype: "json", 
-
-				success: function(data) {
-					$("#table-viewParticipants").DataTable().clear().draw();
-					data = $.parseJSON(data);
-
-					for (index in data) {
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						data = $.parseJSON(data);
 						
-						
-						$("#table-viewParticipants").DataTable()
-								.row.add([
-									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-									data[index].birthDate, 
-									data[index].gender, 
-									data[index].contactNumber,
-									data[index].disabilities,
-									'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
-								]).draw(false);
-					}
-					$("#viewParticipants").modal('show');
-				}, 
-				error: function(data) {
+						for(index in data)
+						{
+							if(data[index].status=='Pending')
+							{
+								swal("Unavailable", 
+												"The service is still pending!", 
+												"error");
+							}
+							else
+							{
+								var frm = $('#frm-viewParticipant');
+			
+								frm.find('#aaserviceTransactionPrimeID').val(id);
 
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
+								$.ajax({
+									url: '/service-transaction/getParticipant/' + id, 
+									method: "GET", 
+									datatype: "json", 
 
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
+									success: function(data) {
+										$("#table-viewParticipants").DataTable().clear().draw();
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											
+											
+											$("#table-viewParticipants").DataTable()
+													.row.add([
+														data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+														data[index].birthDate, 
+														data[index].gender, 
+														data[index].contactNumber,
+														data[index].disabilities,
+														'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+													]).draw(false);
+										}
+										$("#viewParticipants").modal('show');
+									}, 
+									error: function(data) {
+
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							}
+						}			
+					}
 			});
+
+			
 		});
 
 
@@ -666,6 +839,7 @@
 				}, 
 				success: function(data) {
 					participantRefresh();
+					refreshTable();
 					swal("Success", "Successfully Added participant!", "success");
 				}, 
 				error: function(error) {
@@ -711,6 +885,7 @@
 					datatype: "json", 
 
 					success: function(data) {
+						refreshTable();
 						$("#table-viewParticipants").DataTable().clear().draw();
 						data = $.parseJSON(data);
 
@@ -770,25 +945,53 @@
 					data: {"serviceTransactionPrimeID": id},
 					success:function(data) {
 						data = $.parseJSON(data);
-						
+						var frm = $('#frm-update');
+						frm.trigger('reset');
 
 						for(index in data)
 						{
-							var frm = $('#frm-update');
-							console.log(data[index].serviceTransactionName);
+							
 							frm.find('#eserviceTransactionID').val(data[index].serviceTransactionID);
 							frm.find('#eserviceTransactionPrimeID').val(data[index].serviceTransactionPrimeID);
 							frm.find('#eservicePrimeID').val(data[index].servicePrimeID);
-							frm.find('#efromAge').val(data[index].fromAge);
-							frm.find('#etoAge').val(data[index].toAge);
-							frm.find('#efromDate').val(data[index].fromDate);
-							frm.find('#etoDate').val(data[index].toDate);
 							frm.find('#eserviceName').val(data[index].serviceTransactionName);
+
+							if(data[index].toDate==null)
+							{
+								$('#edate').html('<div class="row">'+
+													'<div class="form-group col-md-6 mb-2">'+
+														'<label for="userinput4">Date</label>'+
+														'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+													'</div>'+
+												'</div>');
+								$('#eswitchDate').trigger('click');
+								frm.find('#efromDate').val(data[index].fromDate);
+							}
+							else
+							{
+								frm.find('#efromDate').val(data[index].fromDate);
+								frm.find('#etoDate').val(data[index].toDate);
+							}
 							
+
+							if(data[index].fromAge==null)
+							{
+								$('#eage').html('No Age Limit!');	
+								$('#eswitchAge').trigger('click');
+							}
+							else
+							{
+								frm.find('#efromAge').val(data[index].fromAge);
+								frm.find('#etoAge').val(data[index].toAge);
+							}
+
 						}			
 					}
 			})
-			$("#editService").modal('show');
+			setTimeout(function() {
+				$("#editService").modal('show');	
+			},500);
+			
 		});
 		// DELETE SERVICE ACTION
 
@@ -1077,6 +1280,66 @@
 
 		// END OF AGE SWITCH
 
+		// END DATE SWITCH
+
+		$('#eswitchDate').change(function(){
+			if(this.checked)
+			{
+				$('#edate').html(
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">From</label>'+
+									'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput4">To</label>'+
+									'{!! Form::date('etoDate', null, ['id' => 'etoDate','class' => 'form-control border-primary']) !!}'+
+								'</div>'+
+							'</div>'
+						);
+			}
+			else
+			{
+				$('#edate').html(
+						'<div class="row">'+
+							'<div class="form-group col-md-6 mb-2">'+
+								'<label for="userinput4">Date</label>'+
+								'{!! Form::date('efromDate', null, ['id' => 'efromDate','class' => 'form-control border-primary']) !!}'+
+							'</div>'+
+						'</div>'
+					);
+			}
+		
+		});
+
+		// END OF EDIT DATE SWITCH
+
+		// EDIT AGE SWITCH
+
+		$('#eswitchAge').change(function(){
+			if(this.checked)
+			{
+				$('#eage').html(
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">From</label>'+
+										'{!! Form::number('efromAge', null, ['id' => 'efromAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput4">To</label>'+
+										'{!! Form::number('etoAge', null, ['id' => 'etoAge','class' => 'form-control border-primary']) !!}'+
+									'</div>'+
+								'</div>'
+							);
+			}
+			else
+			{
+				$('#eage').html('No age limit');
+			}
+		});
+
+		// END OF EDIT AGE SWITCH
+
 		//  SERVICE TRANSACTION REFRESH TABLE
 
 		var refreshTable = function() {
@@ -1090,8 +1353,28 @@
 
 					for (index in data) {
 						
+						var status;
 						var age;
 						var date;
+
+						if(data[index].status=='Pending')
+						{
+							status= '<a href="#" class="dropdown-item start" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Start</a>'+
+									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
+									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
+									'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
+									'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>';
+						}
+						else if(data[index].status=='On-going')
+						{
+							status = '<a href="#" class="dropdown-item finish" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Finish</a>'+ 
+									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
+									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>';
+						}
+						else
+						{
+							status = '<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>';
+						}
 
 						if(data[index].fromAge==null)
 						{
@@ -1117,17 +1400,14 @@
 									data[index].serviceName, 
 									date, 
 									age, 
-									'12', 
+									data[index].number, 
 									data[index].status,
 										'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
 											'<span class="dropdown">'+
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View</a>'+
-													'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
-													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
-													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>'+
+													status +
 												'</span>'+
 											'</span>'
 									

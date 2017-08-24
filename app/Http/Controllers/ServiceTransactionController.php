@@ -24,12 +24,23 @@ class ServiceTransactionController extends Controller
     												-> where('status','1')
                                                     -> get();
 
-        $servicetransactions= \DB::table('servicetransactions') ->select('serviceTransactionPrimeID',
+        $servicetransactions= \DB::table('servicetransactions') ->select('servicetransactions.serviceTransactionPrimeID',
                                                     'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
                                                      'servicetransactions.servicePrimeID',
                                                     'fromAge', 'toAge','fromDate','toDate',
-                                                     'servicetransactions.status','services.serviceName') 
+                                                     'servicetransactions.status','services.serviceName',\DB::raw('count(participantID) as number')) 
+                                        ->leftjoin('participants','participants.serviceTransactionPrimeID','=','servicetransactions.serviceTransactionPrimeID')
                                         ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
+                                        ->groupBy('serviceTransactionPrimeID')
+                                        ->groupBy('serviceTransactionID')
+                                        ->groupBy('serviceTransactionName')
+                                        ->groupBy('servicetransactions.servicePrimeID')
+                                        ->groupBy('fromAge')
+                                        ->groupBy('toAge')
+                                        ->groupBy('fromDate')
+                                        ->groupBy('toDate')
+                                        ->groupBy('servicetransactions.status')
+                                        ->groupBy('services.serviceName')
                                         ->where('servicetransactions.archive','0')
                                         ->get();
         $services = Service::select('primeID','serviceID', 'serviceName')
@@ -151,13 +162,24 @@ class ServiceTransactionController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(\DB::table('servicetransactions') ->select('serviceTransactionPrimeID',
+            return json_encode(\DB::table('servicetransactions') ->select('servicetransactions.serviceTransactionPrimeID',
                                                     'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
                                                      'servicetransactions.servicePrimeID',
                                                     'fromAge', 'toAge','fromDate','toDate',
-                                                     'servicetransactions.status','services.serviceName') 
+                                                     'servicetransactions.status','services.serviceName',\DB::raw('count(participantID) as number')) 
+                                        ->leftjoin('participants','participants.serviceTransactionPrimeID','=','servicetransactions.serviceTransactionPrimeID')
                                         ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
-                                        -> where('servicetransactions.archive','0')
+                                        ->groupBy('serviceTransactionPrimeID')
+                                        ->groupBy('serviceTransactionID')
+                                        ->groupBy('serviceTransactionName')
+                                        ->groupBy('servicetransactions.servicePrimeID')
+                                        ->groupBy('fromAge')
+                                        ->groupBy('toAge')
+                                        ->groupBy('fromDate')
+                                        ->groupBy('toDate')
+                                        ->groupBy('servicetransactions.status')
+                                        ->groupBy('services.serviceName')
+                                        ->where('servicetransactions.archive','0')
                                         ->get());
         }
         else {
@@ -221,6 +243,28 @@ class ServiceTransactionController extends Controller
             $type->toAge = $r->input('toAge');
             $type->fromDate = $r->input('fromDate');
             $type->toDate = $r->input('toDate');
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function updateStatus(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->status = 'On-going';
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function finishStatus(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->status = 'Finished';
             $type->save();
         }
         else {
