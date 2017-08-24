@@ -320,14 +320,14 @@ $factory->define(App\Models\Resident::class, function (Faker\Generator $faker) {
         'firstName' => $faker->word,
         'middleName' => $faker->word,
         'lastName' => $faker->word,
-        'suffix' => $faker->word,
+        'suffix' => 'Sr',
         'contactNumber' => $faker->word,
-        'gender' => $faker->word,
+        'gender' => 'm',
         'birthDate' => $faker->dateTimeBetween(),
-        'civilStatus' => $faker->word,
+        'civilStatus' => 'Married',
         'seniorCitizenID' => $faker->word,
         'disabilities' => $faker->word,
-        'residentType' => $faker->word,
+        'residentType' => 'permanent',
         'status' => $faker->boolean,
     ];
 });
