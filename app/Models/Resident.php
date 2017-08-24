@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:11 +0000.
  */
 
 namespace App\Models;
@@ -26,14 +26,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $disabilities
  * @property string $residentType
  * @property bool $status
+ * @property string $imagePath
  * 
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
  * @property \Illuminate\Database\Eloquent\Collection $collections
- * @property \Illuminate\Database\Eloquent\Collection $documentheaderrequests
+ * @property \Illuminate\Database\Eloquent\Collection $documentrequests
  * @property \Illuminate\Database\Eloquent\Collection $families
  * @property \Illuminate\Database\Eloquent\Collection $familymembers
  * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  * @property \Illuminate\Database\Eloquent\Collection $participants
+ * @property \Illuminate\Database\Eloquent\Collection $reservations
  * @property \Illuminate\Database\Eloquent\Collection $residentaccounts
  * @property \Illuminate\Database\Eloquent\Collection $residentbackgrounds
  * @property \Illuminate\Database\Eloquent\Collection $residentregistrations
@@ -67,7 +69,8 @@ class Resident extends Eloquent
 		'seniorCitizenID',
 		'disabilities',
 		'residentType',
-		'status'
+		'status',
+		'imagePath'
 	];
 
 	public function businessregistrations()
@@ -80,9 +83,9 @@ class Resident extends Eloquent
 		return $this->hasMany(\App\Models\Collection::class, 'residentPrimeID');
 	}
 
-	public function documentheaderrequests()
+	public function documentrequests()
 	{
-		return $this->hasMany(\App\Models\Documentheaderrequest::class, 'peoplePrimeID');
+		return $this->hasMany(\App\Models\Documentrequest::class, 'residentPrimeID');
 	}
 
 	public function families()
@@ -103,6 +106,11 @@ class Resident extends Eloquent
 	public function participants()
 	{
 		return $this->hasMany(\App\Models\Participant::class, 'residentID');
+	}
+
+	public function reservations()
+	{
+		return $this->hasMany(\App\Models\Reservation::class, 'peoplePrimeID');
 	}
 
 	public function residentaccounts()

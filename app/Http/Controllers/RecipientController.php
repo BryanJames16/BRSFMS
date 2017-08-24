@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Models\FacilityType;
+use \App\Models\Recipient;
 use \Illuminate\Validation\Rule;
 
-class FacilityTypeController extends Controller
+class RecipientController extends Controller
 {
     public function index() {
-    	$facilityTypes = FacilityType::select('typeID', 'typeName', 'status')
+    	$facilityTypes = Recipient::select('recipientID', 'recipientName', 'status')
     												-> where([
     															['archive', '=', 0]
     															])
     												-> get();
 
-    	return view('facility-type') -> with('facilityTypes', $facilityTypes);
+    	return view('recipient') -> with('facilityTypes', $facilityTypes);
     }
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(FacilityType::where("archive", "!=", "1") -> get());
+            return json_encode(Recipient::where("archive", "!=", "1") -> get());
         }
         else {
             return view('errors.403');
@@ -32,7 +32,7 @@ class FacilityTypeController extends Controller
             $stat = 0;
 
             $this->validate($r, [
-                'typeName' => 'required|unique:facilitytypes|max:30',
+                'recipientName' => 'required|unique:recipients|max:30',
             ]);
 
             if($r -> input('status') =="active") {
@@ -45,7 +45,7 @@ class FacilityTypeController extends Controller
                 
             }
 
-            $aah = FacilityType::insert(['typeName'=>trim($r->typeName),
+            $aah = Recipient::insert(['recipientName'=>trim($r->recipientName),
                                                 'archive'=>0,
                                                 'status'=>$stat]);
             return back();
@@ -57,7 +57,7 @@ class FacilityTypeController extends Controller
 
     public function getEdit(Request $r) {
         if ($r -> ajax()) {
-            return response(FacilityType::find($r->input('primeID')));
+            return response(Recipient::find($r->input('recipientID')));
         }
         else {
             return view('errors.403');
@@ -67,14 +67,14 @@ class FacilityTypeController extends Controller
     public function edit(Request $r) {
         if ($r->ajax()) {
             $this->validate($r, [
-                'typeName' => ['required',  'max:30', Rule::unique('facilitytypes')->ignore($r->input('typeID'), 'typeID')],
+                'recipientName' => ['required',  'max:30', Rule::unique('recipients')->ignore($r->input('recipientID'), 'recipientID')],
             ]);
 
-            $type = FacilityType::find($r->input('typeID'));
-            $type->typeName = $r->input('typeName');
+            $type = Recipient::find($r->input('recipientID'));
+            $type->recipientName = $r->input('recipientName');
             $type->status = $r->input('stat');
             $type->save();
-            return redirect('facility-type');
+            return redirect('recipient');
         }
         else {
             return view('errors.403');
@@ -83,10 +83,10 @@ class FacilityTypeController extends Controller
 
     public function delete(Request $r) {
         if ($r->ajax()) {
-            $type = FacilityType::find($r->input('typeID'));
+            $type = Recipient::find($r->input('recipientID'));
             $type->archive = true;
             $type->save();
-            return redirect('facility-type');
+            return redirect('recipient');
         }
         else {
             return view('errors.403');

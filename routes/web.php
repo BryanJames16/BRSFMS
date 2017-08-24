@@ -38,6 +38,13 @@ Route::post('/facility-type/delete', 'FacilityTypeController@delete');
 Route::post('/facility-type/store', 'FacilityTypeController@store');
 Route::post('/facility-type/update', 'FacilityTypeController@edit');
 
+// Recipient
+Route::get('/recipient/getEdit', 'RecipientController@getEdit');
+Route::get('/recipient/refresh', 'RecipientController@refresh');
+Route::post('/recipient/delete', 'RecipientController@delete');
+Route::post('/recipient/store', 'RecipientController@store');
+Route::post('/recipient/update', 'RecipientController@edit');
+
 // Building
 Route::get('/building/getEdit', 'BuildingController@getEdit');
 Route::get('/building/refresh','BuildingController@refresh');
@@ -180,6 +187,9 @@ Route::post('/service-transaction/addParticipant', 'ServiceTransactionController
 Route::post('/service-transaction/delete', 'ServiceTransactionController@delete');
 Route::post('/service-transaction/deletePart', 'ServiceTransactionController@deletePart');
 Route::post('/service-transaction/store', 'ServiceTransactionController@store');
+Route::post('/service-transaction/storeNoAge', 'ServiceTransactionController@storeNoAge');
+Route::post('/service-transaction/storeAge', 'ServiceTransactionController@storeAge');
+Route::post('/service-transaction/storeNo', 'ServiceTransactionController@storeNo');
 Route::post('/service-transaction/update', 'ServiceTransactionController@update');
 
 // Business Registration
@@ -222,6 +232,7 @@ Route::resource('/service-transaction', 'ServiceTransactionController');
 Route::resource('/street', 'StreetController');
 Route::resource('/unit', 'UnitController');
 Route::resource('/utilities', 'UtilitiesController');
+Route::resource('/recipient', 'RecipientController');
 
 
 //////////////////////////////////////////////////////////////////////

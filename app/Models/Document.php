@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:11 +0000.
  */
 
 namespace App\Models;
@@ -23,7 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $archive
  * 
  * @property \Illuminate\Database\Eloquent\Collection $requirements
- * @property \Illuminate\Database\Eloquent\Collection $documentdetailrequests
+ * @property \Illuminate\Database\Eloquent\Collection $documentrequests
  *
  * @package App\Models
  */
@@ -55,8 +55,8 @@ class Document extends Eloquent
 					->withPivot('primeID', 'quantity');
 	}
 
-	public function documentdetailrequests()
+	public function documentrequests()
 	{
-		return $this->hasMany(\App\Models\Documentdetailrequest::class, 'documentPrimeID');
+		return $this->hasMany(\App\Models\Documentrequest::class, 'documentsPrimeID');
 	}
 }

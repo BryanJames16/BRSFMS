@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 23 Aug 2017 02:39:44 +0000.
+ * Date: Wed, 23 Aug 2017 15:56:10 +0000.
  */
 
 namespace App\Models;
@@ -23,7 +23,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $residentPrimeID
  * @property int $peoplePrimeID
  * 
- * @property \App\Models\Documentheaderrequest $documentheaderrequest
+ * @property \App\Models\Documentrequest $documentrequest
  * @property \App\Models\Person $person
  * @property \App\Models\Reservation $reservation
  * @property \App\Models\Resident $resident
@@ -60,9 +60,9 @@ class Collection extends Eloquent
 		'peoplePrimeID'
 	];
 
-	public function documentheaderrequest()
+	public function documentrequest()
 	{
-		return $this->belongsTo(\App\Models\Documentheaderrequest::class, 'documentHeaderPrimeID');
+		return $this->belongsTo(\App\Models\Documentrequest::class, 'documentHeaderPrimeID');
 	}
 
 	public function person()

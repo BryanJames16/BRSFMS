@@ -36,6 +36,7 @@ var SERVICES = "services-id";
 var STREET = "street-id";
 var UNIT = "unit-id";
 var UTILITIES = "utilities-id";
+var RECIPIENTS = "recipient-id";
 
 
 function setSelectedTab(selectedTab) {
