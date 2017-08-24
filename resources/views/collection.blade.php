@@ -335,7 +335,9 @@
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">
 												<div class="card-text">
-													
+													<p align="center">
+
+													</p>
 												</div>
 
 												<div class="form-actions center">
@@ -393,19 +395,43 @@
 
 		$(".btnUpdate").on('click', function () {
 			var collectionID = $(this).val();
-			console.log("Update: " + collectionID);
+			//console.log("Update: " + collectionID);
+			
 			$("#updateModal").modal('show');
 			$("#uCollectionID").val(collectionID);
+			
+			console.log("added function: " + $("#uCollectionID").val());
+			console.log("Type: " + typeof(collectionID));
 		});
 
 		$(".btnReceipt").on('click', function () {
 			$("#receiptModal").modal('show');
+			showReceipt();
 		});
 
 		$("#frmPay").submit(function (event) {
 			event.preventDefault();
 			console.log("Submit: " + $("#uCollectionID").val());
 		});
+
+		var showReceipt = function () {
+			$.ajax({
+				url: "{{ url('/collection/getHeader') }}", 
+				method: 'GET', 
+				success: function (data) {
+
+				}, 
+				error: function (data) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		};
     </script>
 @endsection
 

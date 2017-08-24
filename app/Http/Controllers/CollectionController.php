@@ -52,4 +52,9 @@ class CollectionController extends Controller
                         -> get();
         return response($collections);
     }
+
+    public function getHeader(Request $r) {
+        
+        return response();
+    }
 }
