@@ -447,7 +447,7 @@
 				method: 'POST', 
 				data: {
 					"recieved": amount
-				}
+				}, 
 				success: function() {
 					$("#updateModal").modal('hide');
 					$("#frmPay").trigger('reset');
