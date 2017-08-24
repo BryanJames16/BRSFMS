@@ -250,6 +250,28 @@ class ServiceTransactionController extends Controller
         }
     }
 
+    public function updateStatus(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->status = 'On-going';
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function finishStatus(Request $r) {
+        if ($r->ajax()) {
+            $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->status = 'Finished';
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function delete(Request $r) {
         if ($r->ajax()) {
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));

@@ -104,10 +104,21 @@
 												<span class="dropdown">
 													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 													<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-														<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
-														<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
-														<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-pen3"></i> Edit</a>
-														<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+														
+														@if($st->status=='Pending')
+															<a href="#" class="dropdown-item start" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Start</a>
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+															<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
+															<a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-pen3"></i> Edit</a>
+															<a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-trash4"></i> Delete</a>
+														@elseif($st->status=='On-going')
+															<a href="#" class="dropdown-item finish" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Finish</a>
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+															<a href="#" class="dropdown-item add" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> Add Participants</a>
+														@else
+															<a href="#" class="dropdown-item view" name="btnAdd" data-value='{{ $st -> serviceTransactionPrimeID }}'><i class="icon-eye6"></i> View Participants</a>
+														@endif
+														
 													</span>
 												</span>
 											</td>
@@ -485,14 +496,36 @@
 		$(document).on('click', '.add', function(e) {
 			
 			var id = $(this).data('value');
-			console.log(id);
 
-			var frm = $('#frm-addParticipant');
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						data = $.parseJSON(data);
+						
+						for(index in data)
+						{
+							if(data[index].status=='Pending')
+							{
+								swal("Unavailable", 
+												"The service is still pending!", 
+												"error");
+							}
+							else
+							{
+								var frm = $('#frm-addParticipant');
 			
-			frm.find('#aserviceTransactionPrimeID').val(id);
-			participantRefresh();
+								frm.find('#aserviceTransactionPrimeID').val(id);
+								participantRefresh();
+								
+								$("#addParticipants").modal('show');	
+							}
+						}			
+					}
+			});
+
 			
-			$("#addParticipants").modal('show');
 
 		});
 
@@ -511,6 +544,108 @@
 			$("#addParticipants").modal('show');	
 			},500);
 			
+			
+
+		});
+
+		$(document).on('click', '.start', function(e) {
+			
+			var id = $(this).data('value');
+			
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							swal({
+								title: "Are you sure you want to start " + data[index].serviceTransactionName + "?",
+								text: "Start the service",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "START",
+								closeOnConfirm: false
+								},
+								function() {
+									$.ajax({
+										type: "post",
+										url: "{{ url('/service-transaction/updateStatus') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+										serviceTransactionPrimeID:id}, 
+										success: function(data) {
+											refreshTable();
+											swal("Successfull", "Entry started!", "success");
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
+										}
+									});
+								});	
+						}			
+					}
+			})
+			
+
+		});
+
+		$(document).on('click', '.finish', function(e) {
+			
+			var id = $(this).data('value');
+			
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						console.log(data);
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							swal({
+								title: "Are you sure you want to finish " + data[index].serviceTransactionName + "?",
+								text: "End the service",
+								type: "warning",
+								showCancelButton: true,
+								confirmButtonColor: "#DD6B55",
+								confirmButtonText: "FINISH",
+								closeOnConfirm: false
+								},
+								function() {
+									$.ajax({
+										type: "post",
+										url: "{{ url('/service-transaction/finishStatus') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+										serviceTransactionPrimeID:id}, 
+										success: function(data) {
+											refreshTable();
+											swal("Successfull", "Entry finished!", "success");
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
+										}
+									});
+								});	
+						}			
+					}
+			})
 			
 
 		});
@@ -572,46 +707,70 @@
 			
 			var id = $(this).data('value');
 
-			var frm = $('#frm-viewParticipant');
-			
-			frm.find('#aaserviceTransactionPrimeID').val(id);
-
 			$.ajax({
-				url: '/service-transaction/getParticipant/' + id, 
-				method: "GET", 
-				datatype: "json", 
-
-				success: function(data) {
-					$("#table-viewParticipants").DataTable().clear().draw();
-					data = $.parseJSON(data);
-
-					for (index in data) {
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": id},
+					success:function(data) {
+						data = $.parseJSON(data);
 						
-						
-						$("#table-viewParticipants").DataTable()
-								.row.add([
-									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-									data[index].birthDate, 
-									data[index].gender, 
-									data[index].contactNumber,
-									data[index].disabilities,
-									'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
-								]).draw(false);
-					}
-					$("#viewParticipants").modal('show');
-				}, 
-				error: function(data) {
+						for(index in data)
+						{
+							if(data[index].status=='Pending')
+							{
+								swal("Unavailable", 
+												"The service is still pending!", 
+												"error");
+							}
+							else
+							{
+								var frm = $('#frm-viewParticipant');
+			
+								frm.find('#aaserviceTransactionPrimeID').val(id);
 
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
+								$.ajax({
+									url: '/service-transaction/getParticipant/' + id, 
+									method: "GET", 
+									datatype: "json", 
 
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
+									success: function(data) {
+										$("#table-viewParticipants").DataTable().clear().draw();
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											
+											
+											$("#table-viewParticipants").DataTable()
+													.row.add([
+														data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+														data[index].birthDate, 
+														data[index].gender, 
+														data[index].contactNumber,
+														data[index].disabilities,
+														'<button type="button" class="btn btn-danger deletePart" name="btnDelete" data-value="'+ data[index].residentPrimeID +'"><i class="icon-trash4"></i> Remove</a>'
+													]).draw(false);
+										}
+										$("#viewParticipants").modal('show');
+									}, 
+									error: function(data) {
+
+										var message = "Error: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										console.log("Error: Cannot refresh table!\n" + message);
+									}
+								});
+							}
+						}			
+					}
 			});
+
+			
 		});
 
 
@@ -1194,8 +1353,28 @@
 
 					for (index in data) {
 						
+						var status;
 						var age;
 						var date;
+
+						if(data[index].status=='Pending')
+						{
+							status= '<a href="#" class="dropdown-item start" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Start</a>'+
+									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
+									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
+									'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
+									'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>';
+						}
+						else if(data[index].status=='On-going')
+						{
+							status = '<a href="#" class="dropdown-item finish" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Finish</a>'+ 
+									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
+									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>';
+						}
+						else
+						{
+							status = '<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>';
+						}
 
 						if(data[index].fromAge==null)
 						{
@@ -1228,10 +1407,7 @@
 											'<span class="dropdown">'+
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View</a>'+
-													'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
-													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-pen3"></i> Edit</a>'+
-													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-trash4"></i> Delete</a>'+
+													status +
 												'</span>'+
 											'</span>'
 									

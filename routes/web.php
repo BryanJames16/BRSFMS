@@ -191,6 +191,8 @@ Route::post('/service-transaction/storeNoAge', 'ServiceTransactionController@sto
 Route::post('/service-transaction/storeAge', 'ServiceTransactionController@storeAge');
 Route::post('/service-transaction/storeNo', 'ServiceTransactionController@storeNo');
 Route::post('/service-transaction/update', 'ServiceTransactionController@update');
+Route::post('/service-transaction/updateStatus', 'ServiceTransactionController@updateStatus');
+Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@FinishStatus');
 
 // Business Registration
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
