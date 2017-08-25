@@ -30,29 +30,25 @@ class CollectionController extends Controller
         return view('collection')->with('collections', $collections);
     }
 
-    public function getCollections(Request $r) {
+    public function getCollection(Request $r) {
         $collections = Collection::select('collections.collectionPrimeID', 
-                                'collections.collectionID', 
-                                'collections.collectionType', 
-                                'collections.amount', 
-                                'collections.status', 
-                                'residents.firstName', 
-                                'residents.middleName', 
-                                'residents.lastName', 
-                                'residents.residentID', '
-                                residents.residentPrimeID')
-                        -> join('reservations', 
-                        'collections.reservationPrimeID', '=', 'reservations.primeID') 
-                        -> join('documentHeaderRequests', 
-                        'collections.documentHeaderPrimeID', '=', 'documentHeaderRequests.documentHeaderPrimeID') 
-                        -> join('residents', 
-                        'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
-                        -> join('people', 
-                        'collections.peoplePrimeID', '=', 'people.peoplePrimeID')
-                        -> where('reservations.status', '!=', 'Cancelled')
-                        -> where('documentHeaderRequests.status', '!=', 'Pending')
-                        -> get();
-        return response($collections);
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                                    -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                                    -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                                    -> where('reservations.status', '!=', 'Cancelled')
+                                    //-> where('collections.status', '!=', 'Paid')
+                                    -> get();
+        return json_encode($collections);
     }
 
     public function getHeader(Request $r) {
