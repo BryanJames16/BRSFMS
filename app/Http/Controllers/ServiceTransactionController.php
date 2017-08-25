@@ -233,6 +233,18 @@ class ServiceTransactionController extends Controller
         }
     }
 
+    public function getResident(Request $r) {
+        if ($r->ajax()) {
+            return json_encode( \DB::table('residents')->select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('residentPrimeID','=',$r->input('residentPrimeID'))
+                                                    -> where('status','1')
+                                                    -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function update(Request $r) {
         if ($r->ajax()) {
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
