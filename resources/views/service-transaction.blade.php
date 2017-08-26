@@ -429,6 +429,61 @@
 				</div>
 			</div>
 		</div> 
+	<!-- End of Modal -->
+
+	<!--RECIPIENT  Modal -->
+		<div class="modal fade text-xs-left" id="recipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Recipient</h4>
+					</div>
+
+					<!-- START MODAL BODY -->
+					<div class="modal-body" width='100%'>
+						<p style="text-align:center;font-size:20px"><b>Recipients</b></p>
+						
+						<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 back">Back to Participant</button>
+						<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addRecip">Add Recipient</button>
+						
+						
+						<div id="reci">
+
+						</div>
+						<hr>
+						{{Form::open(['url'=>'service-transaction/viewRecipient', 'method' => 'POST', 'id' => 'frm-viewRecipient', 'class'=>'form'])}}
+								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
+
+						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewRecipients">
+							<thead>
+								<tr>
+									<th>Service</th>
+									<th>Recipient</th>
+									<th>Quantity</th>
+									<th>Action</th>
+									<th>Quantity</th>
+									
+								</tr>
+							</thead>
+
+							<tbody>
+							
+
+								
+
+							
+							</tbody>
+						</table>
+						{{Form::close()}}
+					</div>
+					<!-- End of Modal Body -->
+
+				</div>
+			</div>
+		</div> 
 	<!-- End of Modal -->						
 
 
@@ -682,7 +737,7 @@
 									'<span class="dropdown">'+
 										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-												'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+												'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
 												'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 										'</span>'+
 									'</span>'
@@ -760,7 +815,7 @@
 														'<span class="dropdown">'+
 															'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 															'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-																	'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+																	'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
 																	'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 															'</span>'+
 														'</span>'
@@ -871,19 +926,70 @@
 
 		});
 
-		$(document).on('click', '.addRecipient', function(e) {
+		// VIEW RECIPIENT
+
+		$(document).on('click', '.viewRecipient', function(e) {
 			
 			var id = $(this).data('value');
-			console.log(id);
+			var frm = $('#frm-viewParticipant');
+			var servID = frm.find('#aaserviceTransactionPrimeID').val();
 			
-			$('#recipients').html(
-				'asd'
-			);
+
+			$("#viewParticipants").modal('hide');
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getResident') }}",
+					data: {"residentPrimeID": id},
+					success:function(data) {
+						console.log(data);
+
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							$('#reci').html(
+								'<h4>Participant: ' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</h4>'
+
+							);	
+						}			
+					}
+			})
+
+			setTimeout(function() {
+				
+				$('#recipientModal').modal('show');	
+			},500);
 			
 			
 
 		});
 
+		//READY
+		$(document).ready(function () {
+			try {
+				var dt = $("#table-viewRecipients").DataTable();
+				dt.column(3).visible(false);
+			}
+			catch (ex) {
+				console.err("DataTable error: \n" + ex);
+			}
+		});
+
+
+		// BACK TO PARTICIPANT MODAL
+
+		$(document).on('click', '.back', function(e) {
+			
+			
+			$("#recipientModal").modal('hide');
+			
+			setTimeout(function() {
+				
+				$('#viewParticipants').modal('show');	
+			},500);
+			
+			
+
+		});
 		
 
 		//  END OF ADD PARTICIPANT SUBMIT
@@ -930,7 +1036,7 @@
 										'<span class="dropdown">'+
 											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item addRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+													'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
 													'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 											'</span>'+
 										'</span>'
