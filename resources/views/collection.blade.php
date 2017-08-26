@@ -344,7 +344,7 @@
 													</p>
 													<hr color="black" />
 													<br>
-													<p id="particulars" align="left" style="font-size: 35px;">
+													<p id="particulars" align="left" style="font-size: 30px;">
 
 													</p>
 													<hr color="black" />
@@ -352,7 +352,7 @@
 
 												<div class="form-actions center">
 													<p align="center" id="receiptAction">
-														<button type="button" class="btn btn-primary mr-1" id="printReceipt">Print</button>
+														<button type="button" class="btn btn-primary mr-1" id="printReceipt">Save</button>
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 													</p>
 												</div>												
@@ -423,28 +423,9 @@
 
 		$(".btnReceipt").on('click', function () {
 			var collectionID = $(this).data('value');
-			$.ajax({
-				url: '{{ url("/collection/gTransact") }}', 
-				method: 'GET', 
-				data: {
-					"collectionPrimeID": collectionID
-				}, 
-				success: function (data) {
-					//
-				}, 
-				error: function (errors) {
-					var message = "Errors: ";
-					var data = errors.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
+			showReceipt(collectionID);
 
 			$("#receiptModal").modal('show');
-			showReceipt();
 		});
 
 		$("#frmPay").submit(function (event) {
@@ -484,35 +465,13 @@
 		});
 
 		$("#printReceipt").click(function () {
-			//$("#receiptContainer").width('898').height('428');
-			html2canvas(
-				$("#receiptContainer"),
-				{
-					width: 826, 
-					height: 365, 
-					onrendered: function(canvas) {
-						var imgData = canvas.toDataURL('image/png');
-
-						var pdfDoc = new jsPDF({
-							orientation: 'landscape', 
-							unit: 'in', 
-							format: [8.6042, 3.8021]
-						});
-
-						pdfDoc.setProperties({
-							title: "Official Receipt", 
-							subject: "Receipt", 
-							author: "Barangay Resident, Services, and Facilities Managemet System", 
-							keyword: "Receipt",
-							creator: "Barangay Resident, Services, and Facilities Managemet System"
-						});
-						pdfDoc.addImage(imgData, 'png', 0, 0);
-						console.log("Added image...");
-						pdfDoc.save("Receipt-" + getStringDateTime() + ".pdf");
-						console.log("savedpdf");
-					}
-				}
-			);
+			html2pdf($("#receiptContainer")[0], {
+				margin: 	  0, 
+				filename:     "Receipt-" + getStringDateTime() + ".pdf", 
+				image:        { type: 'jpeg', quality: 1 },
+				html2canvas:  { dpi: 300, letterRendering: true },
+				jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'landscape' }
+			});
 		});
 
 		var refreshTable = function () {
@@ -606,7 +565,7 @@
 			});
 		}
 
-		var showReceipt = function () {
+		var showReceipt = function (collectionID) {
 			$.ajax({
 				url: '{{ url("/collection/gHeader") }}', 
 				method: 'GET', 
@@ -633,16 +592,21 @@
 			$.ajax({
 				url: '{{ url("/collection/gTransact") }}', 
 				method: 'GET', 
+				data: {
+					"collectionPrimeID": collectionID
+				}, 
 				success: function (data) {
 					data = $.parseJSON(data);
-					console.log(data);
 					$("#particulars").html(
-						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Customer Name: &ensp;" + "<br>" + 
-						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Transaction Date: &ensp;" + "<br>" + 
-						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Payment Date: &ensp;" + "<br>" + 
-						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Object" + " x Quantity: &ensp;" + "<br>" + 
-						""
+						"&ensp;Transaction ID: &ensp;" + data.transactionID + "<br>" + 
+						"&ensp;Customer Name: &ensp;" + data.customerName + "<br>" + 
+						"&ensp;Transaction Date: &ensp;" + data.transactionDate + "<br>" + 
+						"&ensp;Payment Date: &ensp;" + data.paymentDate + "<br>" + 
+						"&ensp;" + data.partObject + " x " + data.quantity + ": &ensp;PHP " + data.amount + "<br>" + 
+						"&ensp;Cash: &ensp;PHP " + data.cash + "<br>" + 
+						"&ensp;Change: &ensp;PHP " + data.change + "<br>" 
 					);
+
 				}, 
 				error: function (errors) {
 					var message = "Errors: ";
@@ -668,4 +632,6 @@
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2pdf.js') }}" type="text/javascript"></script>
 @endsection

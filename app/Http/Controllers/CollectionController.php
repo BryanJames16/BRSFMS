@@ -69,11 +69,14 @@ class CollectionController extends Controller
 
     public function getTransact(Request $r) {
         $transact = Collection::where('collectionPrimeID', '=', $r->input('collectionPrimeID'))
-                                -> get();
-                                
-        $resident = Resident::select('*')
-                                -> where('residentPrimeID', '=', $transact->residentPrimeID)
-                                -> get();
+                                -> get()
+                                -> first();
+
+        $resident = Resident::where('residentPrimeID', '=', $transact->residentPrimeID)
+                                -> get()
+                                -> first();
+        $reservation = Reservation::all()->first();
+
         if ($transact -> collectionType == 1) {
 
         }
@@ -81,7 +84,8 @@ class CollectionController extends Controller
             
         }
         else if ($transact -> collectionType == 3) {
-            $reservation = Reservation::where('primeID', '=', $transact->reservationPrimeID)
+            $reservation = Reservation::select('*')
+                                        -> where('primeID', '=', $transact->reservationprimeID)
                                         -> get() 
                                         -> last();
         }
@@ -94,12 +98,14 @@ class CollectionController extends Controller
         
         $receiptInfo = new ReceiptInfo();
         $receiptInfo -> transactionID = $transact -> collectionID;
-        $receiptInfo -> customerName = $resident -> fisrtName . " " . 
+        $receiptInfo -> customerName = $resident -> firstName . " " . 
                                         $resident -> middleName . " " . 
                                         $resident -> lastName . " " . 
                                         "(" . $resident -> residentID . ")";
-        $receiptInfo -> transactionDate = $transact -> collectionDate;
-        $receiptInfo -> paymentDate = $transact -> paymentDate;
+        $receiptInfo -> transactionDate = date_format($transact -> collectionDate, 
+                                                        "m/d/Y G:i:s A");
+        $receiptInfo -> paymentDate = date_format($transact -> paymentDate, 
+                                                        "m/d/Y G:i:s A");
 
         if ($transact -> collectionType == 1) {
 
@@ -108,8 +114,7 @@ class CollectionController extends Controller
             
         }
         else if ($transact -> collectionType == 3) {
-            
-            $facility = Facility::where('facilityID', '=', $reservation -> facilityPrimeID)
+            $facility = Facility::where('primeID', '=', $reservation -> facilityPrimeID)
                                     -> get() 
                                     -> last();
             $receiptInfo -> partObject = $facility -> facilityName;
@@ -122,8 +127,14 @@ class CollectionController extends Controller
 
         }
         
-        $receiptInfo -> cash = $transact -> amount;
-        $receiptInfo -> change = $transact -> recieved;
+        $receiptInfo -> amount = $transact -> amount;
+        $receiptInfo -> cash = $transact -> recieved;
+        if ($transact -> recieved > $transact -> amount) {
+            $receiptInfo -> change = ($transact -> recieved - $transact -> amount);
+        }
+        else {
+            $receiptInfo -> change = 0;
+        }
 
         return json_encode($receiptInfo);
     }
@@ -146,6 +157,7 @@ class ReceiptInfo
     public $paymentDate = "";
     public $partObject = "";
     public $quantity = "";
+    public $amount = "";
     public $cash = "";
     public $change = "";
 }
