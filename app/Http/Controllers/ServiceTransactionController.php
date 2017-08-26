@@ -9,6 +9,8 @@ use \App\Models\Servicetransaction;
 use \App\Models\Utility;
 use \App\Models\Resident;
 use \App\Models\Participant;
+use \App\Models\Recipient;
+use \App\Models\Partrecipient;
 use Carbon\Carbon;
 
 require_once(app_path() . '/Includes/pktool.php');
@@ -47,8 +49,14 @@ class ServiceTransactionController extends Controller
     												-> where('archive','0')
                                                     -> where('status','1')
                                                     -> get();
+        
 
-        return view('service-transaction')
+        return view('service-transaction',['recipients' => 
+                                    Recipient::where([
+                                                        ['status', 1], 
+                                                        ['archive', 0]
+                                                    ]) 
+                                                    -> pluck('recipientName', 'recipientID')])
                                             ->with('servicetransactions', $servicetransactions)
                                             ->with('residents', $residents)
                                             ->with('services', $services);
@@ -235,15 +243,63 @@ class ServiceTransactionController extends Controller
 
     public function getResident(Request $r) {
         if ($r->ajax()) {
-            return json_encode( \DB::table('residents')->select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
-    												-> where('residentPrimeID','=',$r->input('residentPrimeID'))
-                                                    -> where('status','1')
+            return json_encode(\DB::table('residents')->select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('status','1')
+                                                    -> where('residentPrimeID',$r->input('residentPrimeID'))
                                                     -> get());
         }
         else {
             return view('errors.403');
         }
     }
+
+    public function getParticipantID(Request $r) {
+        if ($r->ajax()) {
+            return json_encode(\DB::table('participants')->select('participantID')
+    												-> where('serviceTransactionPrimeID','=',$r->input('serviceTransactionPrimeID'))
+                                                    -> where('residentID',$r->input('residentID'))
+                                                    -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getRecipients(Request $r) {
+        if ($r->ajax()) {
+            return json_encode( \DB::table('partrecipients')
+                                    ->select('partrecipientID','quantity','recipientName','quantity','recipients.recipientID')
+                                        ->join('recipients', 'partrecipients.recipientID', '=', 'recipients.recipientID')
+                                        ->join('participants', 'partrecipients.participantID', '=', 'participants.participantID')
+                                        -> where('recipients.status','1')
+                                        -> where('recipients.archive','0')
+                                        -> where('participants.residentID','=',$r->input('residentPrimeID'))
+                                        -> where('participants.serviceTransactionPrimeID','=',$r->input('serviceTransactionPrimeID'))
+                                        -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function fillRecipients(Request $r) {
+        if ($r->ajax()) {
+            return json_encode( \DB::table('recipients')
+                                    ->select('recipientID','recipientName')
+                                        ->join('recipients', 'partrecipients.recipientID', '=', 'recipients.recipientID')
+                                        ->join('participants', 'partrecipients.participantID', '=', 'participants.participantID')
+                                        -> where('recipients.status','1')
+                                        -> where('recipients.archive','0')
+                                        -> where('participants.residentID','=',$r->input('residentPrimeID'))
+                                        -> where('participants.serviceTransactionPrimeID','=',$r->input('serviceTransactionPrimeID'))
+                                        -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+
 
     public function update(Request $r) {
         if ($r->ajax()) {
@@ -306,4 +362,6 @@ class ServiceTransactionController extends Controller
             return view('errors.403');
         }
     }
+
+
 }

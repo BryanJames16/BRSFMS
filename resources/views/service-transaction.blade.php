@@ -248,7 +248,9 @@
 					<div class="modal-body" width='100%'>
 						<p style="text-align:center;font-size:20px"><b>RESIDENTS</b></p>
 						<hr>
+						<div style="text-align:center">	
 						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 viewPart2">View Participants</button></p>
+						</div>
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-addParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aserviceTransactionPrimeID'])}}
 
@@ -398,7 +400,9 @@
 
 						</div>
 						<hr>
+						<div style="text-align:center">	
 						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addPart2">Add Participants</button></p>
+						</div>
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-viewParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
 
@@ -433,7 +437,7 @@
 
 	<!--RECIPIENT  Modal -->
 		<div class="modal fade text-xs-left" id="recipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -446,25 +450,31 @@
 					<div class="modal-body" width='100%'>
 						<p style="text-align:center;font-size:20px"><b>Recipients</b></p>
 						
-						<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 back">Back to Participant</button>
-						<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addRecip">Add Recipient</button>
+						<div style="text-align:center">	
+							<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 back">Back to Participant</button>
+							<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addRecip">Add Recipient</button>
+						</div>
 						
-						
+						<hr>
 						<div id="reci">
 
 						</div>
-						<hr>
+						<div id="serv">
+
+						</div>
+						
 						{{Form::open(['url'=>'service-transaction/viewRecipient', 'method' => 'POST', 'id' => 'frm-viewRecipient', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
+								{{Form::hidden('participantID',null,['id'=>'participantID'])}}
 
 						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewRecipients">
 							<thead>
 								<tr>
-									<th>Service</th>
+									<th>ID</th>
 									<th>Recipient</th>
 									<th>Quantity</th>
 									<th>Action</th>
-									<th>Quantity</th>
+									<th>Action</th>
 									
 								</tr>
 							</thead>
@@ -477,6 +487,58 @@
 							
 							</tbody>
 						</table>
+						{{Form::close()}}
+					</div>
+					<!-- End of Modal Body -->
+
+				</div>
+			</div>
+		</div> 
+	<!-- End of Modal -->	
+
+	<!--ADD RECIPIENT  Modal -->
+		<div class="modal fade text-xs-left" id="addRecipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog modal-xs" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Recipient</h4>
+					</div>
+
+					<!-- START MODAL BODY -->
+					<div class="modal-body" width='100%'>
+						
+						<div style="text-align:center">	
+							<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 backRec">Back to Recipients</button>
+						</div>
+						
+						<hr>
+						{{Form::open(['url'=>'service-transaction/addRecipient', 'method' => 'POST', 'id' => 'frm-addRecipient', 'class'=>'form'])}}
+								{{Form::hidden('rrID',null,['id'=>'rrID'])}}
+						<div class="form-body">
+							<div class="row">
+								<div class="form-group col-xs-6 mb-2">
+									<label for="userinput5">Recipient</label>
+									<select name="recipientID" id="recipientID" class="form-control">
+										<div id="selectRecipient">
+										
+										<div>
+									</select>
+								</div>
+								<div class="form-group col-xs-6 mb-2">
+									<label for="userinput5">Quantity</label>
+									<input class="form-control border-primary" name="quantity" id="quantity" type="number" />
+								</div>
+							</div>
+
+							<div class="form-actions center">
+								<button type="submit" class="btn btn-primary">
+									<i class="icon-check2"></i> Add
+								</button>
+							</div>
+						</div>
 						{{Form::close()}}
 					</div>
 					<!-- End of Modal Body -->
@@ -941,15 +1003,75 @@
 					url: "{{ url('/service-transaction/getResident') }}",
 					data: {"residentPrimeID": id},
 					success:function(data) {
-						console.log(data);
+
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							$('#serv').html(
+								'<h4 style="text-align:center">Participant: ' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</h4>'
+
+							);	
+						}			
+					}
+			})
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getParticipantID') }}",
+					data: {"residentID": id,
+							"serviceTransactionPrimeID": servID,},
+					success:function(data) {
+
+						var frm = $('#frm-viewRecipient');
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							frm.find('#participantID').val(data[index].participantID);
+
+						}			
+					}
+			})
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getEdit') }}",
+					data: {"serviceTransactionPrimeID": servID},
+					success:function(data) {
 
 						data = $.parseJSON(data);
 						for(index in data)
 						{
 							$('#reci').html(
-								'<h4>Participant: ' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</h4>'
+								'<h4 style="text-align:center">Service: ' + data[index].serviceTransactionName + '</h4>'
 
 							);	
+						}			
+					}
+			})
+
+			$.ajax({
+					type: 'GET',
+					url: "{{ url('/service-transaction/getRecipients') }}",
+					data: {"serviceTransactionPrimeID": servID,
+							"residentPrimeID": id},
+					success:function(data) {
+
+						$("#table-viewRecipients").DataTable().clear().draw();
+						
+						data = $.parseJSON(data);
+						for(index in data)
+						{
+							$("#table-viewRecipients").DataTable()
+									.row.add([
+											data[index].partrecipientID,
+											data[index].recipientName,
+											data[index].quantity,
+											'',
+											'<a href="#" class="btn btn-icon btn-danger delete" data-value="'+data[index].partrecipientID+'">'+
+												'<i class="icon-android-delete">Remove</i>'+
+											'</a>'
+										]).draw(false);
+
 						}			
 					}
 			})
@@ -990,9 +1112,42 @@
 			
 
 		});
-		
 
-		//  END OF ADD PARTICIPANT SUBMIT
+		// BACK TO RECIPIENT MODAL
+
+		$(document).on('click', '.backRec', function(e) {
+			
+			
+			$("#addRecipientModal").modal('hide');
+			
+			setTimeout(function() {
+				
+				$('#recipientModal').modal('show');	
+			},500);
+			
+			
+
+		});
+
+		// ADD RECIPIENT MODAL
+
+		$(document).on('click', '.addRecip', function(e) {
+			
+			
+			var id = $('#participantID').val();
+
+			
+			
+			$("#recipientModal").modal('hide');
+			
+			setTimeout(function() {
+				$('#addRecipientModal').modal('show');	
+			},500);
+			
+			
+
+		});
+		
 
 		//  DELETE PARTICIPANT SUBMIT 
 

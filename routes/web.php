@@ -183,6 +183,9 @@ Route::post('/collection/pay', 'CollectionController@payCollection');
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
 Route::get('/service-transaction/getResident', 'ServiceTransactionController@getResident');
+Route::get('/service-transaction/fillRecipients', 'ServiceTransactionController@fillRecipients');
+Route::get('/service-transaction/getParticipantID', 'ServiceTransactionController@getParticipantID');
+Route::get('/service-transaction/getRecipients', 'ServiceTransactionController@getRecipients');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
 Route::get('/service-transaction/nextPK', 'ServiceTransactionController@nextPK');
 Route::get('/service-transaction/notParticipant/{id}', 'ServiceTransactionController@notParticipant');
