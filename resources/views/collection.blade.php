@@ -635,6 +635,7 @@
 				method: 'GET', 
 				success: function (data) {
 					data = $.parseJSON(data);
+					console.log(data);
 					$("#particulars").html(
 						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Customer Name: &ensp;" + "<br>" + 
 						"&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Transaction Date: &ensp;" + "<br>" + 
