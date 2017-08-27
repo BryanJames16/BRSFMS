@@ -7,6 +7,7 @@ require_once(app_path() . '/Includes/pktool.php');
 use Illuminate\Http\Request;
 use \App\Models\Document;
 use \App\Models\Documentrequest;
+use \App\Models\Requestrequirement;
 use \App\Models\Resident;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
@@ -232,6 +233,39 @@ class DocumentRequestController extends Controller
                                         ->join('requirements', 'document_requirements.requirementID', '=', 'requirements.requirementID')
                                         ->where('documentPrimeID', '=', $r->input('documentPrimeID')) 
                                         ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function chkRequirements(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('requestrequirements') ->select('requirementID') 
+                                        ->where('documentRequestPrimeID', '=', $r->input('documentRequestPrimeID')) 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function requirementsDelete(Request $r) {
+        if ($r->ajax()) {
+            $requirements = \DB::table('requestrequirements')->where('documentRequestPrimeID', '=', $r->input('documentRequestPrimeID'))->delete();
+            return redirect('document');
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function requirementsStore(Request $r){
+        if ($r->ajax()) {
+            $insertRet = Requestrequirement::insert(['documentRequestPrimeID'=>$r -> input('documentRequestPrimeID'),
+                                                'requirementID' => $r -> input('requirementID')]);
+
+            return redirect('document-request');
         }
         else {
             return view('errors.403');

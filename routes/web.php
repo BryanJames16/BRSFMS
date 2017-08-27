@@ -159,8 +159,11 @@ Route::get('/document-request/nextPK', 'DocumentRequestController@nextPK');
 Route::get('/document-request/refresh', 'DocumentRequestController@refresh');
 Route::get('/document-request/view', 'DocumentRequestController@view');
 Route::get('/document-request/checkRequirements', 'DocumentRequestController@checkRequirements');
+Route::get('/document-request/chkRequirements', 'DocumentRequestController@chkRequirements');
 Route::post('/document-request/store', 'DocumentRequestController@store');
+Route::post('/document-request/requirementsStore', 'DocumentRequestController@requirementsStore');
 Route::post('/document-request/delete', 'DocumentRequestController@delete');
+Route::post('/document-request/requirementsDelete', 'DocumentRequestController@requirementsDelete');
 
 // Document Approval
 

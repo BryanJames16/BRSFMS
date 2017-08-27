@@ -369,7 +369,7 @@
 		</div>
 	</section>
 
-	<!--ADD RECIPIENT  Modal -->
+	<!--ADD REQUIREMENT  Modal -->
 		<div class="modal fade text-xs-left" id="requirementsModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-xs" role="document">
 				<div class="modal-content">
@@ -383,6 +383,9 @@
 					<!-- START MODAL BODY -->
 					<div class="modal-body" width='100%'>
 						
+						{{Form::open(['url'=>'/document-request/requirementsUpdate', 'method' => 'POST', 'id'=>'frm-updateReq'])}}
+						
+							<input type="hidden" id="documentRequestPrimeID">
 						<p style="text-align:center"><b>CHECK ALL REQUIREMENTS SUBMITTED</b></p>
 						<hr>
 
@@ -398,7 +401,7 @@
 							<button type="submit" class="btn btn-success mr-1 submitReq">Submit</button>
 							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 						</p>
-
+						{{Form::close()}}
 					</div>
 					<!-- End of Modal Body -->
 
@@ -558,6 +561,59 @@
 			});
 		});
 
+		$("#frm-updateReq").submit(function (event) {
+			event.preventDefault();
+
+			var arrayCheck = [];
+
+			$('.requirements:checked').each(function(){
+				arrayCheck.push($(this).val());
+			})
+
+			var l = arrayCheck.length;
+
+			$.ajax({
+				url: "{{ url('/document-request/requirementsDelete') }}", 
+				method: "POST", 
+				data: {
+					"documentRequestPrimeID": $("#documentRequestPrimeID").val()
+				}
+			});
+
+			for(var x=0;x<l;x++)
+			{
+				
+				$.ajax({
+					url: "{{ url('/document-request/requirementsStore') }}", 
+					method: "POST", 
+					data: {
+						"documentRequestPrimeID": $("#documentRequestPrimeID").val(), 
+						"requirementID": arrayCheck[x]
+					}, 
+					success: function(data) {
+						
+					}, 
+					failure: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+					
+			}
+
+			$('#requirementsModal').modal('hide');
+			$('#frm-updateReq').trigger('reset');
+			swal("Successful", 
+							"Successfully submitted requirements!", 
+							"success");
+
+		});
+
 		$(document).on('click', '.btnDelete', function(event) {
 			event.preventDefault();
 			var rowID = $(this).data("value"); 
@@ -599,6 +655,7 @@
 		$(document).on('click', '.viewReq', function(event) {
 			event.preventDefault();
 			var rowID = $(this).data("value");
+			$('#documentRequestPrimeID').val(rowID);
 
 			$.ajax({
 				url: "/document-request/getDocumentID/"+ rowID, 
@@ -621,12 +678,28 @@
 												oo = oo +
 															'<div style="text-align:center">'+
 																
-																'<input type="checkbox" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
+																'<input type="checkbox" id="requirements_'+data[index].requirementID+'" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
 																'<label for="input-11">'+data[index].requirementName+'</label>'+
 															'</div>';
 										}
 
 										$('#chk').html(oo);
+
+										$.ajax({
+												type: 'GET',
+												url: "{{ url('/document-request/chkRequirements') }}",
+												data: {"documentRequestPrimeID": rowID},
+												success:function(data) {
+
+													data = $.parseJSON(data);
+													for (index in data) 
+													{
+														$("#frm-updateReq input[id^='requirements_'][value='"+data[index].requirementID+"']").prop("checked",true);
+													}			
+												}
+										})
+
+
 										$('#requirementsModal').modal('show');	
 												
 								}
@@ -1021,6 +1094,7 @@
 											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
 												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> View</a>" + 
+												"<a href='#' class='dropdown-item view viewReq' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> Requirements</a>" + 
 												buttonEditText + 
 												buttonDelText + 
 											"</span>" + 
