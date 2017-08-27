@@ -679,7 +679,7 @@
 															'<div style="text-align:center">'+
 																
 																'<input type="checkbox" id="requirements_'+data[index].requirementID+'" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
-																'<label for="input-11">'+data[index].requirementName+'</label>'+
+																'<label for="input-11">     ' + data[index].quantity + 'x ' +data[index].requirementName+'</label>'+
 															'</div>';
 										}
 
