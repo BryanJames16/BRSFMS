@@ -6,8 +6,7 @@ require_once(app_path() . '/Includes/pktool.php');
 
 use Illuminate\Http\Request;
 use \App\Models\Document;
-use \App\Models\Documentdetailrequest;
-use \App\Models\Documentheaderrequest;
+use \App\Models\Documentrequest;
 use \App\Models\Resident;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
@@ -19,12 +18,13 @@ use SmartMove;
 class DocumentRequestController extends Controller 
 {
     public function index() {
-        $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
-                                                               'documentdetailrequests.headerPrimeID', 'documents.documentName',
-                                                               'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
-                                        ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
-                                        ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
-                                        ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
+        $requests= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
                                         ->get();
 
         return view('document-request') -> with('requests', $requests);
@@ -32,12 +32,12 @@ class DocumentRequestController extends Controller
 
     public function refresh(Request $r) {
         if ($r->ajax()) {
-            $requests= \DB::table('documentheaderrequests') -> select('documentheaderrequests.*','documentdetailrequests.documentPrimeID','documentdetailrequests.quantity',
-                                                                'documentdetailrequests.headerPrimeID', 'documents.documentName',
-                                                                'residents.firstName', 'residents.middleName', 'residents.lastName', 'residents.suffix')                 
-                                            ->join('documentdetailrequests', 'documentheaderrequests.documentHeaderPrimeID', '=', 'documentdetailrequests.headerPrimeID')
-                                            ->join('documents', 'documentdetailrequests.documentPrimeID', '=', 'documents.primeID')
-                                            ->join('residents', 'documentheaderrequests.peoplePrimeID', '=', 'residents.residentPrimeID')
+            $requests= \DB::table('documentrequests') -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')
+                                            ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                            ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
                                             ->get();
 
             return (json_encode($requests));
@@ -49,20 +49,15 @@ class DocumentRequestController extends Controller
 
     public function store(Request $r) {
         if ($r->ajax()) {
-            $headRet = DocumentHeaderRequest::insert([
+            $headRet = Documentrequest::insert([
                 "requestID" => trim($r -> input('requestID')), 
                 "requestDate" => Carbon::now(), 
-                "status" => "Pending", 
-                "peoplePrimeID" => trim($r -> input('peoplePrimeID'))
+                "status" => "Pending",
+                "documentsPrimeID" => trim($r -> input('documentsPrimeID')),
+                "quantity" => $r -> input('quantity'),
+                "residentPrimeID" => trim($r -> input('residentPrimeID'))
             ]);
 
-            $findRet = DocumentHeaderRequest::all() -> last();
-
-            $detailRet = DocumentDetailRequest::insert([
-                "headerPrimeID" => trim($findRet->documentHeaderPrimeID),
-                "documentPrimeID" => $r -> input('documentPrimeID'),
-                "quantity" => $r -> input('quantity')
-            ]);
 
             return back();
         }
@@ -235,13 +230,13 @@ class DocumentRequestController extends Controller
         if ($r->ajax()) {
             $documentRequestPK = Utility::select('docRequestPK')->get()->last();
             $documentRequestPKinc = StaticCounter::smart_next($documentRequestPK->docRequestPK, SmartMove::$NUMBER);
-            $lastDocumentRequestID = Documentheaderrequest::all()->last();
+            $lastDocumentRequestID = Documentrequest::all()->last();
             
             if(is_null($lastDocumentRequestID)) {
                 return response($documentRequestPKinc);
             }
             else {
-                $check = Documentheaderrequest::select('requestID')->where([
+                $check = Documentrequest::select('requestID')->where([
                                                                 ['requestID','=',$documentRequestPKinc]
                                                                 ])->get();
                 if($check=='[]') {  
@@ -290,7 +285,7 @@ class DocumentRequestController extends Controller
 
     public function delete(Request $r) {
         if ($r->ajax()) {
-            $documentRequest = DocumentHeaderRequest::find($r -> input('documentHeaderPrimeID'));
+            $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
             $documentRequest -> status = "Cancelled";
             $documentRequest -> save();
 

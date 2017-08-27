@@ -245,7 +245,7 @@
 	                    		<tbody>
 	                    			@foreach($requests as $request)
 									<tr>
-										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }} {{ $request -> suffix }}</td> 
+										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
 										<td>{{ $request -> requestDate }} </td>
 										<td>{{ $request -> documentName }} </td>
 										<td>{{ $request -> quantity }}</td>
@@ -261,28 +261,28 @@
 											<span class="dropdown">
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-eye6"></i> View</a>
+													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> View</a>
 
 													@if($request -> status == "Cancelled" || $request -> status == "Approved")
-														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentRequestPrimeID }}' style="pointer-events: none; cursor: default;">
 															<i class="icon-pen3 grey"></i> 
 															<span style="color: grey;">
 																Sign
 															</span>
 														</a>
 													@else
-														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-pen3"></i> Sign</a>
+														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-pen3"></i> Sign</a>
 													@endif	
 
 													@if($request -> status == "Cancelled" || $request -> status == "Approved")
-														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}' style="pointer-events: none; cursor: default;">
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentRequestPrimeID }}' style="pointer-events: none; cursor: default;">
 															<i class="icon-trash4 grey"></i> 
 															<span style="color: grey;">
 																Cancel
 															</span>
 														</a>
 													@else
-														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentHeaderPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
 													@endif
 												</span>
 											</span>
@@ -408,7 +408,7 @@
 		});
 
 		$("#btnAddModal").on('click', function() {
-			$("#iconModal").modal('show');
+			
 
 			$.ajax({
 				url: "{{ url('/document-request/nextPK') }}", 
@@ -443,8 +443,7 @@
 							"<option value=" + data[datum].residentPrimeID + ">" + 
 								data[datum].lastName + ", " + 
 								data[datum].firstName + " " + 
-								data[datum].middleName + " " + 
-								data[datum].suffix + 
+								data[datum].middleName +  
 							"</option>"
 						);
 					}
@@ -465,7 +464,7 @@
 				method: "GET", 
 				success: function(data) {
 					$("#aDocument").html("");
-
+					$("#iconModal").modal('show');
 					for (datum in data) {
 						$("#aDocument").append(
 							"<option value=" + data[datum].primeID + ">" + 
@@ -484,6 +483,8 @@
 					swal("Error", "Cannot fetch table data!\n" + message, "error");
 				}
 			});
+
+			
 		});
 
 		$("#frmReq").submit(function (event) {
@@ -494,8 +495,8 @@
 				method: "POST", 
 				data: {
 					"requestID": $("#requestID").val(), 
-					"peoplePrimeID": $("#aRequestor").val(), 
-					"documentPrimeID": $("#aDocument").val(),
+					"residentPrimeID": $("#aRequestor").val(), 
+					"documentsPrimeID": $("#aDocument").val(),
 					"quantity": $("#requestQuantity").val()
 				}, 
 				success: function(data) {
@@ -533,7 +534,7 @@
 					$.ajax({
 						url: "{{ url('/document-request/delete') }}", 
 						type: "post", 
-						data: {"documentHeaderPrimeID": rowID}, 
+						data: {"documentRequestPrimeID": rowID}, 
 						success: function(data) {
 							refreshTable();
 							swal("Success", "Successfully Cancelled!", "success");
@@ -557,7 +558,7 @@
 		$(document).on('click', '.btnEdit', function(event) {
 			event.preventDefault();
 
-			var documentHeaderPrimeID = $(this).data("value");
+			var documentRequestPrimeID = $(this).data("value");
 
 			var documentID = "";
 			var documentName = "";
@@ -568,7 +569,7 @@
 			$.ajax({
 				type: "GET", 
 				url: "{{ url('/document-request/view') }}", 
-				data: { "documentHeaderPrimeID": documentHeaderPrimeID }, 
+				data: { "documentRequestPrimeID": documentRequestPrimeID }, 
 				async: false, 
 				success: function(data) {
 					documentID = data.documentID;
@@ -727,7 +728,7 @@
 		$(document).on('click', '.btnView', function(event) {
 			event.preventDefault();
 
-			var documentHeaderPrimeID = $(this).data("value");
+			var documentRequestPrimeID = $(this).data("value");
 
 			var documentID = "";
 			var documentName = "";
@@ -738,7 +739,7 @@
 			$.ajax({
 				type: "GET", 
 				url: "{{ url('/document-request/view') }}", 
-				data: { "documentHeaderPrimeID": documentHeaderPrimeID }, 
+				data: { "documentRequestPrimeID": documentRequestPrimeID }, 
 				async: false, 
 				success: function(data) {
 					documentID = data.documentID;
@@ -889,18 +890,18 @@
 
 						if (data[index].status == "Pending") {
 							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
-							buttonEditText = "<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-pen3'></i> Sign</a>";
-							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-trash'></i> Cancel</a>";
+							buttonEditText = "<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-pen3'></i> Sign</a>";
+							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-trash'></i> Cancel</a>";
 						}
 						else if (data[index].status == "Cancelled") {
 							statusText = "<span class='tag round tag-default tag-danger'>Cancelled</span>";
-							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
 												"<i class='icon-pen3 grey'></i>" +  
 												"<span style='color: grey;'>" + 
 													"Sign" + 
 												"</span>" + 
 											"</a>";
-							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
 												"<i class='icon-trash4 grey'></i>" +  
 												"<span style='color: grey;'>" + 
 													"Cancel" + 
@@ -909,13 +910,13 @@
 						} 
 						else {
 							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
-							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
 												"<i class='icon-pen3 grey'></i>" +  
 												"<span style='color: grey;'>" + 
 													"Sign" + 
 												"</span>" + 
 											"</a>";
-							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentHeaderPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
+							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
 												"<i class='icon-trash4 grey'></i>" +  
 												"<span style='color: grey;'>" + 
 													"Cancel" + 
@@ -926,7 +927,7 @@
 						var buttonText = "<span class='dropdown'>" + 
 											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentHeaderPrimeID + "><i class='icon-eye6'></i> View</a>" + 
+												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> View</a>" + 
 												buttonEditText + 
 												buttonDelText + 
 											"</span>" + 
@@ -938,8 +939,7 @@
 							.row.add([
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
-									data[index].lastName + " " + 
-									data[index].suffix, 
+									data[index].lastName, 
 								data[index].requestDate, 
 								data[index].documentName, 
 								data[index].quantity, 
