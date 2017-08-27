@@ -152,11 +152,13 @@ Route::post('/family/updateRelation', 'ResidentController@updateRelation');
 
 // Document Request
 Route::get('/document-request/getDocument', 'DocumentRequestController@getDocument');
+Route::get('/document-request/getDocumentID/{rowID}', 'DocumentRequestController@getDocumentID');
 Route::get('/document-request/getEdit', 'DocumentRequestController@getEdit');
 Route::get('/document-request/getRequestor', 'DocumentRequestController@getRequestor');
 Route::get('/document-request/nextPK', 'DocumentRequestController@nextPK');
 Route::get('/document-request/refresh', 'DocumentRequestController@refresh');
 Route::get('/document-request/view', 'DocumentRequestController@view');
+Route::get('/document-request/checkRequirements', 'DocumentRequestController@checkRequirements');
 Route::post('/document-request/store', 'DocumentRequestController@store');
 Route::post('/document-request/delete', 'DocumentRequestController@delete');
 

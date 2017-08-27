@@ -226,6 +226,18 @@ class DocumentRequestController extends Controller
         }
     }
 
+    public function checkRequirements(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('document_requirements') ->select('primeID','documentPrimeID', 'document_requirements.requirementID', 'quantity','requirements.requirementName') 
+                                        ->join('requirements', 'document_requirements.requirementID', '=', 'requirements.requirementID')
+                                        ->where('documentPrimeID', '=', $r->input('documentPrimeID')) 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function nextPK(Request $r) {
         if ($r->ajax()) {
             $documentRequestPK = Utility::select('docRequestPK')->get()->last();
@@ -281,6 +293,15 @@ class DocumentRequestController extends Controller
         else {
             return view('errors.403');
         }
+    }
+
+    public function getDocumentID($rowID) {
+        
+        $documents = Documentrequest::select('documentsPrimeID')
+                                    -> where('documentRequestPrimeID','=',$rowID)
+                                    -> get();
+        return (response($documents));
+    
     }
 
     public function delete(Request $r) {

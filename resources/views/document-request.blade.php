@@ -262,6 +262,7 @@
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> View</a>
+													<a href="#" class="dropdown-item view viewReq" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Requirements</a>
 
 													@if($request -> status == "Cancelled" || $request -> status == "Approved")
 														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentRequestPrimeID }}' style="pointer-events: none; cursor: default;">
@@ -367,6 +368,46 @@
 			</div>
 		</div>
 	</section>
+
+	<!--ADD RECIPIENT  Modal -->
+		<div class="modal fade text-xs-left" id="requirementsModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog modal-xs" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Requirements</h4>
+					</div>
+
+					<!-- START MODAL BODY -->
+					<div class="modal-body" width='100%'>
+						
+						<p style="text-align:center"><b>CHECK ALL REQUIREMENTS SUBMITTED</b></p>
+						<hr>
+
+						<div id="chk">
+
+							
+
+						</div>
+
+						<hr>
+
+						<p align="center">
+							<button type="submit" class="btn btn-success mr-1 submitReq">Submit</button>
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+						</p>
+
+					</div>
+					<!-- End of Modal Body -->
+
+				</div>
+			</div>
+		</div> 
+	<!-- End of Modal -->
+
+
 @endsection
 
 <!-- Javascript Resources -->
@@ -553,6 +594,58 @@
 			);
 
 			return (false);
+		});
+
+		$(document).on('click', '.viewReq', function(event) {
+			event.preventDefault();
+			var rowID = $(this).data("value");
+
+			$.ajax({
+				url: "/document-request/getDocumentID/"+ rowID, 
+				method: "GET", 
+				success: function(data) {
+					
+					for (datum in data) {
+
+						$.ajax({
+								type: 'GET',
+								url: "{{ url('/document-request/checkRequirements') }}",
+								data: {"documentPrimeID": data[datum].documentsPrimeID},
+								success:function(data) {
+
+										var oo='';
+										data = $.parseJSON(data);
+										for (index in data) 
+										{
+											console.log(data[index].requirementName);
+												oo = oo +
+															'<div style="text-align:center">'+
+																
+																'<input type="checkbox" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
+																'<label for="input-11">'+data[index].requirementName+'</label>'+
+															'</div>';
+										}
+
+										$('#chk').html(oo);
+										$('#requirementsModal').modal('show');	
+												
+								}
+						})
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			}); 
+
+			
+			
 		});
 
 		$(document).on('click', '.btnEdit', function(event) {
