@@ -39,7 +39,7 @@
 			<div class="col-xs-14">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Document Requests</h4>
+						<h4 class="card-title">Document Approval</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -48,37 +48,117 @@
 							</ul>
 						</div>
 					</div>
+
+					<div class="card-body">
+							<div class="card-block">
+								<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
+									<li class="nav-item">
+										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#waiting" aria-controls="active3" aria-expanded="true">Waiting for approval</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#approved" aria-controls="link3" aria-expanded="false">Approved</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#rejected" aria-controls="link3" aria-expanded="false">Rejected</a>
+									</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane fade active in" id="waiting" aria-labelledby="active-tab3" aria-expanded="true">
+										<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-waiting">
+											<thead>
+												<tr>
+													<td>Requestor Name</td>
+													<td>Request Date</td>
+													<td>Document</td>
+													<td>Quantity</td>
+													<td>Status</td>
+													<td>Actions</td>
+												</tr>
+											</thead>
+
+											<tbody>
+												@foreach($requests as $request)
+												<tr>
+													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
+													<td>{{ $request -> requestDate }} </td>
+													<td>{{ $request -> documentName }} </td>
+													<td>{{ $request -> quantity }}</td>
+													<td><span class="tag round tag-default tag-info">Waiting for approval</span></td>
+													<td>
+														<span class="dropdown">
+														<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+														<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+															<a href="#" class="dropdown-item view approve" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Sign and Approve</a>
+															<a href="#" class="dropdown-item view reject" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Reject</a>
+														</span>
+													</span>
+													</td>  
+												</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+									<div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-approved">
+											<thead>
+												<tr>
+													<td>Requestor Name</td>
+													<td>Request Date</td>
+													<td>Document</td>
+													<td>Quantity</td>
+													<td>Status</td>
+												</tr>
+											</thead>	
+											<tbody>
+												@foreach($approved as $request)
+												<tr>
+													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
+													<td>{{ $request -> requestDate }} </td>
+													<td>{{ $request -> documentName }} </td>
+													<td>{{ $request -> quantity }}</td>
+													<td><span class="tag round tag-default tag-success">Approved</span></td> 
+												</tr>
+												@endforeach
+												
+											</tbody>
+										</table>
+									</div>
+									<div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rejected">
+											<thead>
+												<tr>
+													<td>Requestor Name</td>
+													<td>Request Date</td>
+													<td>Document</td>
+													<td>Quantity</td>
+													<td>Status</td>
+												</tr>
+											</thead>	
+											<tbody>
+												@foreach($rejected as $request)
+												<tr>
+													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
+													<td>{{ $request -> requestDate }} </td>
+													<td>{{ $request -> documentName }} </td>
+													<td>{{ $request -> quantity }}</td>
+													<td><span class="tag round tag-default tag-danger">Rejected</span></td> 
+												</tr>
+												@endforeach
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 					<div class="card-body collapse in">
 						<div class="card-block card-dashboard">
 							
 							
-							<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
-                    			<thead>
-                    				<tr>
-										<td>Requestor Name</td>
-										<td>Request Date</td>
-										<td>Document</td>
-										<td>Quantity</td>
-										<td>Status</td>
-										<td>Actions</td>
-									</tr>
-                    			</thead>
-
-	                    		<tbody>
-	                    			<tr>
-										<td>Marc Joseph M. Fuellas</td>
-										<td>June 18, 2017</td>
-										<td>Barangay Clearance</td>
-										<td>2</td>
-										<td>Requirements Completed</td>
-										<td>
-											<a href="#" class="btn btn-icon btn-success deleteRecipient" data-value="">
-												<i class="icon-android-delete">Approve</i>
-											</a>
-										</td>
-									</tr>
-	                    		</tbody>
-	                    	</table>
+							
 
 	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
@@ -157,9 +237,171 @@
 @endsection
 
 @section('page-level-js')
-	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
+	
+	<script type='text/javascript'>
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+
+		$(document).on('click', '.reject', function(event) {
+			event.preventDefault();
+			var id = $(this).data("value"); 
+
+			swal({
+					title: "Are you sure you want to reject this entry?",
+					text: "",
+					type: "warning",
+					showCancelButton: true,
+					cancelButtonText: "GO BACK", 
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "REJECT REQUEST",
+					closeOnConfirm: false
+				}, function() {
+					$.ajax({
+						url: "{{ url('/document-approval/reject') }}", 
+						type: "post", 
+						data: {"documentRequestPrimeID": id}, 
+						success: function(data) {
+							refreshWaiting();
+							refreshApproved();
+							refreshRejected();
+							swal("Success", "Successfully Rejected!", "success");
+						}, 
+						error: function(error) {
+							var message = "Error: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
+						}
+					});
+				}
+			);
+		});
+
+		var refreshWaiting = function() {
+			$.ajax({
+				url: "{{ url('/document-approval/refreshWaiting') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-waiting").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						$("#table-waiting").DataTable()
+							.row.add([
+								data[index].firstName + " " + 
+									data[index].middleName + " " + 
+									data[index].lastName, 
+								data[index].requestDate, 
+								data[index].documentName, 
+								data[index].quantity, 
+								'<span class="tag round tag-default tag-info">Waiting for approval</span>',
+								'<span class="dropdown">'+
+									'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+									'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+										'<a href="#" class="dropdown-item view approve" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-eye6"></i> Sign and Approve</a>'+
+										'<a href="#" class="dropdown-item view reject" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-eye6"></i> Reject</a>'+
+									'</span>'+
+								'</span>'
+									
+							]).draw(false);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+		}
+
+		var refreshApproved = function() {
+			$.ajax({
+				url: "{{ url('/document-approval/refreshApproved') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-approved").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						$("#table-approved").DataTable()
+							.row.add([
+								data[index].firstName + " " + 
+									data[index].middleName + " " + 
+									data[index].lastName, 
+								data[index].requestDate, 
+								data[index].documentName, 
+								data[index].quantity,
+								'<span class="tag round tag-default tag-success">Approved</span>',
+									
+							]).draw(false);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+		}
+
+		var refreshRejected = function() {
+			$.ajax({
+				url: "{{ url('/document-approval/refreshRejected') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-rejected").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						$("#table-rejected").DataTable()
+							.row.add([
+								data[index].firstName + " " + 
+									data[index].middleName + " " + 
+									data[index].lastName, 
+								data[index].requestDate, 
+								data[index].documentName, 
+								data[index].quantity,
+								'<span class="tag round tag-default tag-danger">Rejected</span>',
+									
+							]).draw(false);
+					}
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+		}
+	
+	</script>
+	
+	
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection
 

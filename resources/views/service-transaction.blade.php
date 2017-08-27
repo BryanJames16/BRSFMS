@@ -99,7 +99,14 @@
 											@endif
 											
 											<td>{{ $st->number }}</td>
-											<td>{{$st->status}}</td>
+
+											@if($st->status=='Pending')
+												<td><span class="tag round tag-default tag-info">Pending</span></td>
+											@elseif($st->status=='On-going')
+												<td><span class="tag round tag-default tag-warning">On-going</span></td>
+											@else
+												<td><span class="tag round tag-default tag-success">Finished</span></td>
+											@endif
 											<td>
 												<span class="dropdown">
 													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
@@ -1799,9 +1806,11 @@
 						var status;
 						var age;
 						var date;
+						var s;
 
 						if(data[index].status=='Pending')
 						{
+							s = '<span class="tag round tag-default tag-info">Pending</span>';
 							status= '<a href="#" class="dropdown-item start" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Start</a>'+
 									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
 									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>'+
@@ -1810,12 +1819,14 @@
 						}
 						else if(data[index].status=='On-going')
 						{
+							s = '<span class="tag round tag-default tag-warning">On-going</span>';
 							status = '<a href="#" class="dropdown-item finish" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Finish</a>'+ 
 									'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>'+
 									'<a href="#" class="dropdown-item add" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> Add Participants</a>';
 						}
 						else
 						{
+							s = '<span class="tag round tag-default tag-success">Finished</span>';
 							status = '<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'"><i class="icon-eye6"></i> View Participants</a>';
 						}
 
@@ -1844,7 +1855,7 @@
 									date, 
 									age, 
 									data[index].number, 
-									data[index].status,
+									s,
 										'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
 
 											'<span class="dropdown">'+

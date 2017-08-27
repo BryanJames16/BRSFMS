@@ -163,9 +163,14 @@ Route::get('/document-request/chkRequirements', 'DocumentRequestController@chkRe
 Route::post('/document-request/store', 'DocumentRequestController@store');
 Route::post('/document-request/requirementsStore', 'DocumentRequestController@requirementsStore');
 Route::post('/document-request/delete', 'DocumentRequestController@delete');
+Route::post('/document-request/waiting', 'DocumentRequestController@waiting');
 Route::post('/document-request/requirementsDelete', 'DocumentRequestController@requirementsDelete');
 
 // Document Approval
+Route::post('/document-approval/reject', 'DocumentApprovalController@reject');
+Route::get('/document-approval/refreshWaiting', 'DocumentApprovalController@refreshWaiting');
+Route::get('/document-approval/refreshApproved', 'DocumentApprovalController@refreshApproved');
+Route::get('/document-approval/refreshRejected', 'DocumentApprovalController@refreshRejected');
 
 // Reservation
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
@@ -249,6 +254,7 @@ Route::resource('/street', 'StreetController');
 Route::resource('/unit', 'UnitController');
 Route::resource('/utilities', 'UtilitiesController');
 Route::resource('/recipient', 'RecipientController');
+Route::resource('/document-approval', 'DocumentApprovalController');
 
 
 //////////////////////////////////////////////////////////////////////
@@ -313,10 +319,6 @@ Route::get('/service-sponsorship', function() {
 	return view('service-sponsorship');
 });
 
-
-Route::get('/document-approval', function() {
-	return view('document-approval');
-});
 
 
 //////////////////////////////////////////////////////////////////////
