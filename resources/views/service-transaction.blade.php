@@ -466,6 +466,7 @@
 						{{Form::open(['url'=>'service-transaction/viewRecipient', 'method' => 'POST', 'id' => 'frm-viewRecipient', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
 								{{Form::hidden('participantID',null,['id'=>'participantID'])}}
+								{{Form::hidden('resiID',null,['id'=>'resiID'])}}
 
 						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewRecipients">
 							<thead>
@@ -523,13 +524,12 @@
 									<label for="userinput5">Recipient</label>
 									<select name="recipientID" id="recipientID" class="form-control">
 										<div id="selectRecipient">
-										
 										<div>
 									</select>
 								</div>
 								<div class="form-group col-xs-6 mb-2">
 									<label for="userinput5">Quantity</label>
-									<input class="form-control border-primary" name="quantity" id="quantity" type="number" />
+									<input class="form-control border-primary" name="quantity" id="quantity" type="number" required />
 								</div>
 							</div>
 
@@ -799,7 +799,7 @@
 									'<span class="dropdown">'+
 										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-												'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+												'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> View Recipient</a>'+
 												'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 										'</span>'+
 									'</span>'
@@ -877,7 +877,7 @@
 														'<span class="dropdown">'+
 															'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 															'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-																	'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+																	'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> View Recipient</a>'+
 																	'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 															'</span>'+
 														'</span>'
@@ -907,7 +907,6 @@
 
 
 		//  UPDATE SERVICE
-
 		$("#frm-update").submit(function(event) {
 			event.preventDefault();
 			
@@ -954,6 +953,70 @@
 
 		//  END OF UPDATE SERVICE
 
+		//SUBMIT ADD RECIPIENT
+		$("#frm-addRecipient").submit(function(event) {
+			event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/service-transaction/addRecipient') }}", 
+				method: "POST", 
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"participantID": $("#participantID").val(),
+					"recipientID": $("#recipientID").val(), 
+					"quantity":  $("#quantity").val()
+				}, 
+				success: function(data) {
+					
+					$.ajax({
+							type: 'GET',
+							url: "{{ url('/service-transaction/getRecipients') }}",
+							data: {"serviceTransactionPrimeID": $('#aaserviceTransactionPrimeID').val(),
+									"residentPrimeID": $('#resiID').val()},
+							success:function(data) {
+
+								$("#table-viewRecipients").DataTable().clear().draw();
+								
+								data = $.parseJSON(data);
+								for(index in data)
+								{
+									$("#table-viewRecipients").DataTable()
+											.row.add([
+													data[index].partrecipientID,
+													data[index].recipientName,
+													data[index].quantity,
+													'',
+													'<a href="#" class="btn btn-icon btn-danger deleteRecipient" data-value="'+data[index].partrecipientID+'">'+
+														'<i class="icon-android-delete">Remove</i>'+
+													'</a>'
+												]).draw(false);
+
+								}			
+							}
+					})
+					$("#addRecipientModal").modal('hide');
+					setTimeout(function() {
+						
+						$('#recipientModal').modal('show');	
+					},500);
+
+					swal("Success", "Successfully Added recipient!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+			
+		});
+
+		//  END OF SUBMIT ADD RECIPIENT
+
 		//  ADD PARTICIPANT SUBMIT 
 
 		$(document).on('click', '.addPart', function(e) {
@@ -995,7 +1058,7 @@
 			var id = $(this).data('value');
 			var frm = $('#frm-viewParticipant');
 			var servID = frm.find('#aaserviceTransactionPrimeID').val();
-			
+			$('#resiID').val(id);
 
 			$("#viewParticipants").modal('hide');
 			$.ajax({
@@ -1067,7 +1130,7 @@
 											data[index].recipientName,
 											data[index].quantity,
 											'',
-											'<a href="#" class="btn btn-icon btn-danger delete" data-value="'+data[index].partrecipientID+'">'+
+											'<a href="#" class="btn btn-icon btn-danger deleteRecipient" data-value="'+data[index].partrecipientID+'">'+
 												'<i class="icon-android-delete">Remove</i>'+
 											'</a>'
 										]).draw(false);
@@ -1129,6 +1192,74 @@
 
 		});
 
+		// DELETE RECIPIENT 
+
+		$(document).on('click', '.deleteRecipient', function(e) {
+			
+			var id = $(this).data('value');
+			
+			swal({
+				title: "Are you sure you want to remove this?",
+				text: "",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "DELETE",
+				closeOnConfirm: false
+				},
+				function() {
+					$.ajax({
+						type: "post",
+						url: "{{ url('/service-transaction/deleteRecipient') }}", 
+						data: {"_token": "{{ csrf_token() }}",
+						partrecipientID:id}, 
+						success: function(data) {
+
+							$.ajax({
+									type: 'GET',
+									url: "{{ url('/service-transaction/getRecipients') }}",
+									data: {"serviceTransactionPrimeID": $('#aaserviceTransactionPrimeID').val(),
+											"residentPrimeID": $('#resiID').val()},
+									success:function(data) {
+
+										$("#table-viewRecipients").DataTable().clear().draw();
+										
+										data = $.parseJSON(data);
+										for(index in data)
+										{
+											$("#table-viewRecipients").DataTable()
+													.row.add([
+															data[index].partrecipientID,
+															data[index].recipientName,
+															data[index].quantity,
+															'',
+															'<a href="#" class="btn btn-icon btn-danger deleteRecipient" data-value="'+data[index].partrecipientID+'">'+
+																'<i class="icon-android-delete">Remove</i>'+
+															'</a>'
+														]).draw(false);
+
+										}			
+									}
+							})
+							swal("Successfull", "Recipient removed!", "success");
+						}, 
+						error: function(data) {
+							var message = "Error: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+							
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
+							console.log("Error: Cannot refresh table!\n" + message);
+						}
+					});
+				});
+			
+			
+
+		});
+
 		// ADD RECIPIENT MODAL
 
 		$(document).on('click', '.addRecip', function(e) {
@@ -1136,7 +1267,24 @@
 			
 			var id = $('#participantID').val();
 
-			
+			$.ajax({
+					type: 'GET',
+					url: '/service-transaction/fillRecipients/'+ id,
+					success:function(data) {
+
+						$('#recipientID').html('');
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+							$('#recipientID').append($('<option>',{
+								value: data[index].recipientID,
+								text: data[index].recipientName
+							}));	
+						}	
+								
+					}
+			})
 			
 			$("#recipientModal").modal('hide');
 			
@@ -1191,7 +1339,7 @@
 										'<span class="dropdown">'+
 											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-													'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> Add Recipient</a>'+
+													'<a href="#" class="dropdown-item viewRecipient" name="btnAdd" data-value="'+data[index].residentPrimeID+'"><i class="icon-eye6"></i> View Recipient</a>'+
 													'<a href="#" class="dropdown-item deletePart" name="btnDelete" data-value="'+data[index].residentPrimeID+'"><i class="icon-trash4"></i> Delete</a>'+
 											'</span>'+
 										'</span>'

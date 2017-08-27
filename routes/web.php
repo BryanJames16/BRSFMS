@@ -183,7 +183,7 @@ Route::post('/collection/pay', 'CollectionController@payCollection');
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
 Route::get('/service-transaction/getResident', 'ServiceTransactionController@getResident');
-Route::get('/service-transaction/fillRecipients', 'ServiceTransactionController@fillRecipients');
+Route::get('/service-transaction/fillRecipients/{id}', 'ServiceTransactionController@fillRecipients');
 Route::get('/service-transaction/getParticipantID', 'ServiceTransactionController@getParticipantID');
 Route::get('/service-transaction/getRecipients', 'ServiceTransactionController@getRecipients');
 Route::get('/service-transaction/getParticipant/{id}', 'ServiceTransactionController@getParticipant');
@@ -192,8 +192,10 @@ Route::get('/service-transaction/notParticipant/{id}', 'ServiceTransactionContro
 Route::get('/service-transaction/refresh','ServiceTransactionController@Refresh');
 Route::post('/service-transaction/addParticipant', 'ServiceTransactionController@addParticipant');
 Route::post('/service-transaction/delete', 'ServiceTransactionController@delete');
+Route::post('/service-transaction/deleteRecipient', 'ServiceTransactionController@deleteRecipient');
 Route::post('/service-transaction/deletePart', 'ServiceTransactionController@deletePart');
 Route::post('/service-transaction/store', 'ServiceTransactionController@store');
+Route::post('/service-transaction/addRecipient', 'ServiceTransactionController@addRecipient');
 Route::post('/service-transaction/storeNoAge', 'ServiceTransactionController@storeNoAge');
 Route::post('/service-transaction/storeAge', 'ServiceTransactionController@storeAge');
 Route::post('/service-transaction/storeNo', 'ServiceTransactionController@storeNo');

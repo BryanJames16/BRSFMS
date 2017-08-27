@@ -80,6 +80,7 @@ class ServiceTransactionController extends Controller
     }
 
     public function getParticipant($id) {
+
         $mem = Participant::select('residentID')
                             -> where('serviceTransactionPrimeID','=',$id)
                             ->get();
@@ -103,6 +104,20 @@ class ServiceTransactionController extends Controller
                                                 'toAge' => $r -> input('toAge'),
                                                 'toDate' => $r -> input('toDate'),
                                                 'fromDate' => $r -> input('fromDate')]);
+
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function addRecipient(Request $r) {
+        if ($r->ajax()) {
+            $insertRet = Partrecipient::insert(['participantID' => $r -> input('participantID'),
+                                                'recipientID' => $r -> input('recipientID'),
+                                                'quantity' => $r -> input('quantity'),
+                                                'archive' => 0]);
 
             return back();
         }
@@ -267,12 +282,15 @@ class ServiceTransactionController extends Controller
 
     public function getRecipients(Request $r) {
         if ($r->ajax()) {
+
+            
             return json_encode( \DB::table('partrecipients')
                                     ->select('partrecipientID','quantity','recipientName','quantity','recipients.recipientID')
                                         ->join('recipients', 'partrecipients.recipientID', '=', 'recipients.recipientID')
                                         ->join('participants', 'partrecipients.participantID', '=', 'participants.participantID')
                                         -> where('recipients.status','1')
                                         -> where('recipients.archive','0')
+                                        -> where('partrecipients.archive','0')
                                         -> where('participants.residentID','=',$r->input('residentPrimeID'))
                                         -> where('participants.serviceTransactionPrimeID','=',$r->input('serviceTransactionPrimeID'))
                                         -> get());
@@ -282,21 +300,19 @@ class ServiceTransactionController extends Controller
         }
     }
 
-    public function fillRecipients(Request $r) {
-        if ($r->ajax()) {
-            return json_encode( \DB::table('recipients')
-                                    ->select('recipientID','recipientName')
-                                        ->join('recipients', 'partrecipients.recipientID', '=', 'recipients.recipientID')
-                                        ->join('participants', 'partrecipients.participantID', '=', 'participants.participantID')
-                                        -> where('recipients.status','1')
-                                        -> where('recipients.archive','0')
-                                        -> where('participants.residentID','=',$r->input('residentPrimeID'))
-                                        -> where('participants.serviceTransactionPrimeID','=',$r->input('serviceTransactionPrimeID'))
-                                        -> get());
-        }
-        else {
-            return view('errors.403');
-        }
+    public function fillRecipients($id) {
+        
+            $mem = Partrecipient::select('recipientID')
+                            -> where('participantID','=',$id)
+                            -> where('archive','=',0)
+                            ->get();
+
+
+            return json_encode(\DB::table('recipients')->select('recipientName', 'recipientID')
+                                                -> whereNotIn('recipientID',$mem)
+                                                -> get());
+            
+        
     }
 
 
@@ -343,6 +359,17 @@ class ServiceTransactionController extends Controller
     public function delete(Request $r) {
         if ($r->ajax()) {
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
+            $type->archive = 1;
+            $type->save();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function deleteRecipient(Request $r) {
+        if ($r->ajax()) {
+            $type = Partrecipient::find($r->input('partrecipientID'));
             $type->archive = 1;
             $type->save();
         }
