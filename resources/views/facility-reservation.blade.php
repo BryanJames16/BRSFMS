@@ -568,37 +568,10 @@
 		};
 
 		var eventsFullCal = [];
-		$.ajax({
-			url: '{{ url("/facility-reservation/gReservations") }}',
-			type: 'GET', 
-			data: { "currentDateTime": getCurrentDateTime() }, 
-			success: function (data) {
-				var data = $.parseJSON(data);
-				var eventColor = "#37BC9B";
-				for (datum in data) {
-					var eventObj = {
-						title: data[datum].reservationName, 
-						start: new Date(data[datum].reservationStart), 
-						end: new Date(data[datum].reservationEnd), 
-						color: eventColor
-					};
-					eventsFullCal.push(eventObj);
-					console.log("Event Handling");
-				}
-			}, 
-			error: function(errors) {
-					var message = "Error: ";
-					var data = errors.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-				}
-		});
 
 		$("#btnViewCal").click(function () {
 			$(document).ready(function () {
+				checkFullCalendar(getCurrentDateTime());
 				$("#fc-external-drag").fullCalendar({
 					header: {
 						left: 'prev,next today', 
@@ -614,6 +587,47 @@
 				window.setTimeout(clickToday, 1000);
 			});
 		});
+
+		$(".fc-prev-button").click(function () {
+			console.log(getCurrentDateTime());
+			//checkFullCalendar("1");
+		});
+
+		$(".fc-next-button").click(function () {
+			//checkFullCalendar("1");
+		});
+
+		var checkFullCalendar = function (passedDate) {
+			$.ajax({
+				url: '{{ url("/facility-reservation/gReservations") }}',
+				type: 'GET', 
+				async: false, 
+				data: { "currentDateTime": passedDate }, 
+				success: function (data) {
+					var data = $.parseJSON(data);
+					var eventColor = "#37BC9B";
+					for (datum in data) {
+						var eventObj = {
+							title: data[datum].reservationName, 
+							start: data[datum].dateReserved + "T" + data[datum].reservationStart, 
+							end: data[datum].dateReserved + "T" + data[datum].reservationEnd, 
+							color: eventColor
+						};
+						eventsFullCal.push(eventObj);
+						console.log("Events pushed!");
+					}
+				}, 
+				error: function(errors) {
+						var message = "Error: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+			});
+		}
 
 		var residentFunc = function(){
 			$('#change').html('<div class="row">'+
