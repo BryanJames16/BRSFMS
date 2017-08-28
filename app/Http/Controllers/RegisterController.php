@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\User;
+use \App\Models\User;
 
 class RegisterController extends Controller
 {
@@ -20,6 +20,9 @@ class RegisterController extends Controller
             'lastName' => 'required'
         ]);
 
+        $fileName = request('imagePath')->getClientOriginalName();
+        request('imagePath')->storeAs('public/upload', $fileName);
+
         $user = User::create([
             'name' => request('name'), 
             'email' => request('email'),
@@ -27,7 +30,7 @@ class RegisterController extends Controller
             'middleName' => request('middleName'), 
             'lastName' => request('lastName'), 
             'suffix' => request('suffix'), 
-            'imagePath' => request('imagePath'),  
+            'imagePath' => $fileName,  
             'password' => bcrypt(request('password')) 
             ]);
 

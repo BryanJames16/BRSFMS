@@ -218,23 +218,11 @@
 									@if(Auth::check())
 										<span class="user-name" style="color:white">{{ Auth::user()->name }}</span>
 										<span class="avatar avatar-online">
-										<img src="./robust-assets/images/portrait/small/marty-mcfly.png" alt="avatar" /><i></i>
+										<img src="/storage/upload/{{ Auth::user()->imagePath }}" alt="avatar" /><i></i>
 									</span>
 									@endif
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="#" class="dropdown-item">
-										<i class="icon-head"></i> Edit Profile
-									</a>
-									<a href="#" class="dropdown-item">
-										<i class="icon-mail6"></i> My Inbox
-									</a>
-									<a href="#" class="dropdown-item">
-										<i class="icon-clipboard2"></i> Task
-									</a>
-									<a href="#" class="dropdown-item">
-										<i class="icon-calendar5"></i> Calender
-									</a>
 									<div class="dropdown-divider"></div>
 									<a href="/logout" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
 								</div>
