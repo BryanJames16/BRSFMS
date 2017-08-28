@@ -565,7 +565,30 @@
 		var clickToday = function () {
 			$(".fc-today-button").click();
 		};
-		
+
+		var eventsFullCal = [];
+		$.ajax({
+			url: '{{ url("/facility-reservation/gReservations") }}',
+			type: 'GET', 
+			success: function (data) {
+				var data = $.parseJSON(data);
+				var eventColor = "#37BC9B";
+				for (datum in data) {
+					var eventObj = {};
+					eventsFullCal.push(eventObj);
+				}
+			}, 
+			error: function(errors) {
+					var message = "Error: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+		});
+
 		$("#btnViewCal").click(function () {
 			$(document).ready(function () {
 				$("#fc-external-drag").fullCalendar({

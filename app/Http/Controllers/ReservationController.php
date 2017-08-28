@@ -205,4 +205,16 @@ class ReservationController extends Controller
             return view('errors.403');
         }
     }
+
+    public function getReservations(Request $r) {
+        if ($r -> ajax()) {
+            $reservations = Reservation::where('status', '=', 'Pending')
+                                            -> where();
+
+            return json_encode($reservations);
+        }
+        else {
+            return view('errors.403');
+        }
+    }
 }
