@@ -13,6 +13,7 @@
 @endsection
 
 @section('vendor-style')
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
 @endsection
 
@@ -78,7 +79,7 @@
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> Facility Reservation  
 								</button>
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#calendarModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnViewCal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> View Calendar  
 								</button>
 							</p>	
@@ -380,7 +381,7 @@
 														</div>
 
 														<div class="card-body collapse in">
-															<div id='fc-bg-events'></div>
+															<div id='fc-external-drag'></div>
 														</div>
 													</div>
 												</div>
@@ -557,9 +558,36 @@
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
 	
-	
-	<script>
+	<script type="text/javascript">
+		var clickToday = function () {
+			$(".fc-today-button").click();
+		};
+		
+		$("#btnViewCal").click(function () {
+			$(document).ready(function () {
+				$("#fc-external-drag").fullCalendar({
+					header: {
+						left: 'prev,next today', 
+						center: 'title', 
+						right: "month,agendaWeek,agendaDay"
+					}, 
+					editable: 0, 
+					droppable: 0, 
+					events: [{
+						title: 'Long Weekend', 
+						start: '2017-08-26', 
+						end: '2017-08-28', 
+						color: '#37BC9B'
+					}]
+				});
+				$("#calendarModal").modal("show");
+
+				window.setTimeout(clickToday, 1000);
+			});
+		});
 
 		var residentFunc = function(){
 			$('#change').html('<div class="row">'+
