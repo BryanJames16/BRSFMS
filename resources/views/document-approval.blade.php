@@ -19,6 +19,64 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/style.css') }}" />
 @endsection
 
+@section('custom-css')
+	<style>
+		.filePreview {
+			border: 1px ridge black;
+			width: 8.5in;
+			height: 11in;
+		}
+
+		.fileNumber {
+			font-family: "Bookman Old Style";
+			font-size: 10px;
+		}
+
+		.fileHeader {
+			font-family: 'Arial';
+			font-size: 15px;
+			height: 1in;
+			width: 8.5in;
+		}
+
+		.fileTitle {
+			font-family: "Arial";
+			font-size: 35px;
+		}
+
+		.fileContent {
+			font-family: "Arial";
+			font-size: 18px;
+		}
+
+		.dataContentFix {
+			vertical-align: middle;
+		}
+
+		.parIndented {
+			text-indent: 2.0em;
+		}
+
+		.signaturePane {
+			font-size: 17px;
+		}
+
+		.bpage {
+			background-color: white;
+			left: 20%;
+			position: absolute;
+		}
+
+		#imgPlaceholder {
+			overflow: visible;
+		}
+
+		.signage {
+			cursor: "{{ URL::asset('/system-assets/images/sign/samplesignature.png') }}";
+		}
+	</style>
+@endsection
+
 <!-- Title of the Page -->
 @section('title')
 	Document Approval
@@ -34,6 +92,8 @@
 @endsection
 
 @section('content-body')
+		
+
 		<section id="multi-column">
 		<div class="row">
 			<div class="col-xs-14">
@@ -170,6 +230,9 @@
 											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
 										</div>
 										<div ng-app="maintenanceApp" class="modal-body">
+
+											
+											
 											<div class="card-block">
 												<div class="card-text">
 													<span>
@@ -183,45 +246,30 @@
 
 												<div class="form-actions center">
 													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
+													<button type="submit" class="btn btn-success mr-1 approveReq" id="submit">Submit</button>
 												</div>												
 											</div>
+
+
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-								<div class="modal-dialog modal-lg" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
-												<span aria-hidden="true">&times;</span>
-											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
-										</div>
-										<div ng-app="maintenanceApp" class="modal-body">
-											<div class="card-block">
-												<div class="card-text">
-													<span>
-														<div class="card-text">
-															<div id="imgContainer">
-
-															</div>
-														</div>
-													</span>
-												</div>
-
-												<div class="form-actions center">
-													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-												</div>												
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+							
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="bpage" id="lookContainer">
+
+		</div>
+
+		<div id="fixContainer">
+			<div id="signContainer" class="signContainer" height="95px" width="185px">
+
 			</div>
 		</div>
 
@@ -397,12 +445,194 @@
 				}
 			});
 		}
+
+		$(document).on('click', '.approve', function(event) {
+			event.preventDefault();
+
+			var documentRequestPrimeID = $(this).data("value");
+
+			var documentID = "";
+			var documentName = "";
+			var documentContent = "";
+			var requestorName = "";
+
+
+			$.ajax({
+				type: "GET", 
+				url: "{{ url('/document-approval/view') }}", 
+				data: { "documentRequestPrimeID": documentRequestPrimeID }, 
+				async: false, 
+				success: function(data) {
+					
+					documentID = data.documentID;
+					documentName = data.documentName;
+					documentContent = data.documentContent;
+					requestorName = data.requestorName;
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+					
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+
+			$("#pdfModal").modal("show");
+
+			$("#lookContainer").html(
+				"<p align='left' class='fileNumber'>&nbsp;&nbsp;" + documentID + "</p><br>" + 
+				"<div>" +
+					"<table>" +
+						"<tr>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/brgy_logo.png' height='100' width='100'>" + "</center></td>" +  
+						"<td width='432px'>" + 
+							"<center>" + 
+								"<span width='20px'></span>" + 
+								"<p align='center'>" + 
+									"Republic of the Philippines<br>" + 
+									"District VI, City of Manila<br>" + 
+									"<b>BARANGAY 629 - ZONE 63</b><br>" + 
+									"<i>OFFICE OF THE SANGUNIANG BARANGAY</i><br>" + 
+									"Hippodromo Street, Sta. Mesa, Manila<br>" + 
+								"</p>" + 
+							"</center>" + 
+						"</td>" + 
+						"<td width='192px'><center>" + "<img src='./system-assets/ico/ManilaSeal.png' height='100' width='100'>" + "</center></td>" +  
+						"</tr>" + 
+					"</table>" + 
+				"</div><br><br><br>" + 
+				"<div class='dataContentFix'>" + 
+					"<table>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" +
+						"<tr height='30%'></tr>" + 
+						"<tr height='70%'>" + 
+							"<td width=20px></td>" + 
+							"<td valign='center'>" + 
+								"<p align='center' valign='middle' class='fileTitle'><b>" + documentName + "</b></p><br><br><br>" + 
+								"<p align='left' class='fileContent'>" + documentContent + "</p><br>" + 
+							"</td>" + 
+							"<td width=20px></td>" + 
+						"</tr>" + 
+					"</table>" + 
+				"</div>" + 
+				"<div height='100%'>" +
+					"<table width='100%'>" + 
+						"<th>" + 
+							"<td></td>" + 
+							"<td></td>" + 
+						"</th>" + 
+						"<tr>" + 
+							"<td>" + 
+								"<br><br>" + 
+								"<p valign='bottom' align='center' class='signaturePane'>" + 
+									requestorName + 
+								"</p>" + 
+							"</td>" + 
+							"<td>" + 
+								"<p align='center' class='fileContent'>" + 
+									"Respectfully Yours,<br><br>" + 
+								"</p>" + 
+								"<p align='center' class='signaturePane'>" + 
+									"Rolito A. Innocencio<br>" + 
+									"Barangay Chairman<br>" +  
+								"</p>" + 
+							"</td>" + 
+						"</tr>" + 
+					"</table>" +  
+				"</div>"
+			);
+
+			
+			var element = $("#lookContainer");
+
+			$("#lookContainer").width("816").height("1056");
+			html2canvas(element, {
+				width: 816, 
+				height: 1056,
+				onrendered: function(canvas) {
+					var imgData = canvas.toDataURL('image/png');
+					
+					$("#imgPlaceholder").html(canvas);
+					$("#imgPlaceholder").css("cursor", "url('{{ asset('/system-assets/images/sign/Handwriting.cur') }}'), crosshair");
+					//$("#imgPlaceholder").addClass("sign-cursor");
+
+					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
+
+					pdfDoc.setProperties({
+						title: documentID + documentName, 
+						subject: documentName, 
+						author: "Barangay Resident, Services, and Facilities Managemet System", 
+						keyword: documentName,
+						creator: "Barangay Resident, Services, and Facilities Managemet System"
+					});
+					pdfDoc.addImage(imgData, 'png', 0, 0);
+					var pdfUrl = pdfDoc.output('datauristring');
+					$("#signContainer").html(
+						'<img id="signPanel" src="{{ URL::asset("/system-assets/images/sign/samplesignature.png") }}" height="95px" width="185px">'
+					);
+
+					$("#imgPlaceholder").click(function(e) {
+						var obj = {
+							left: e.pageX - ($("#signPanel").width() / 2), 
+							top: e.pageY - ($("#signPanel").height() / 2)
+						};
+
+						$("#signContainer").clone().appendTo("#imgPlaceholder").show(0).offset(obj);
+						$("#fixContainer").html(
+							"<div id='signContainer' class='signContainer' height='95px' width='185px'>" + 
+							"</div>"
+						);
+						
+						html2canvas($("#imgPlaceholder"), {
+							width: 816, 
+							height: 1056, 
+							onrendered: function(newDraw) {
+								$("#lookContainer").html(newDraw);
+							}, 
+							useCORS: true
+						});
+					});
+
+					/*
+					$("#imgPlaceholder").html(
+						'<iframe type="application/pdf" src="' + pdfUrl + '" width="100%" height="500px">' + 
+						'</iframe>'
+					);
+					*/
+				}
+			});
+			
+			setTimeout(function () {
+				$("#lookContainer").width("0").height("0");
+				$("#lookContainer").html("");
+			}, 5000);
+
+			
+		});
+
+		
+
+		$(".cancel-view").on('click', function() {
+			$("#imgPlaceholder").css('cursor', 'default');
+			$("#imgPlaceholder").off('click');
+			$("#signContainer").html("");
+			$("#lookContainer").html("");
+		});
 	
 	</script>
 	
 	
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-vendor-js')

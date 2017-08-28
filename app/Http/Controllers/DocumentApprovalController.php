@@ -9,6 +9,7 @@ use \App\Models\Document;
 use \App\Models\Documentrequest;
 use \App\Models\Requestrequirement;
 use \App\Models\Resident;
+use \App\Models\Generaladdress;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use \App\Models\Utility;
@@ -133,14 +134,19 @@ class DocumentApprovalController extends Controller
         if ($r -> ajax()) {
             $documentFormat = new DocumentFormat();
 
-            $transHead = DocumentHeaderRequest::find($r -> input('documentHeaderPrimeID'));
-            $transDetail = DocumentDetailRequest::select("documentDetailPrimeID", "headerPrimeID", "documentPrimeID")
-                                                    -> where("headerPrimeID", "=", $r -> input('documentHeaderPrimeID')) 
+            $transHead = Documentrequest::find($r -> input('documentRequestPrimeID'));
+            $transDetail = Documentrequest::select("documentRequestPrimeID", "requestID", "documentsPrimeID")
+                                                    -> where("documentRequestPrimeID", "=", $r -> input('documentRequestPrimeID')) 
+                                                    -> get()
+                                                    -> first();
+            $gen = Generaladdress::select("personAddressID")
+                                                    -> where("residentPrimeID", "=", $transHead -> residentPrimeID) 
                                                     -> get()
                                                     -> first();
 
-            $document = Document::find($transDetail -> documentPrimeID);
-            $resident = Resident::find($transHead -> peoplePrimeID);
+            $document = Document::find($transDetail -> documentsPrimeID);
+            $resident = Resident::find($transHead -> residentPrimeID);
+            $address = Generaladdress::find($gen -> personAddressID);
 
             $documentContent = $document -> documentContent;
             
@@ -267,6 +273,18 @@ class DocumentApprovalController extends Controller
 
             if (stripos($documentContent, "{disabilities}") !== false) {
                 $documentContent = str_ireplace("{disabilities}", $resident -> disabilities, $documentContent);
+            }
+            if (stripos($documentContent, "{unit}") !== false) {
+                $documentContent = str_ireplace("{unit}", $address -> unitID, $documentContent);
+            }
+            if (stripos($documentContent, "{street}") !== false) {
+                $documentContent = str_ireplace("{street}", $address -> streetID, $documentContent);
+            }
+            if (stripos($documentContent, "{lot}") !== false) {
+                $documentContent = str_ireplace("{lot}", $address -> lotID, $documentContent);
+            }
+            if (stripos($documentContent, "{buildingnumber}") !== false) {
+                $documentContent = str_ireplace("{buildingnumber}", $address -> buildingID, $documentContent);
             }
 
             $documentFormat -> documentID = $document -> documentID;

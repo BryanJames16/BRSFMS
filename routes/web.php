@@ -171,6 +171,7 @@ Route::post('/document-approval/reject', 'DocumentApprovalController@reject');
 Route::get('/document-approval/refreshWaiting', 'DocumentApprovalController@refreshWaiting');
 Route::get('/document-approval/refreshApproved', 'DocumentApprovalController@refreshApproved');
 Route::get('/document-approval/refreshRejected', 'DocumentApprovalController@refreshRejected');
+Route::get('/document-approval/view', 'DocumentApprovalController@view');
 
 // Reservation
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
