@@ -2,14 +2,12 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 27 Aug 2017 06:44:06 +0000.
+ * Date: Mon, 28 Aug 2017 07:02:13 +0000.
  */
 
 namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
@@ -29,7 +27,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  *
  * @package App\Models
  */
-class User extends Authenticatable
+class User extends Eloquent
 {
 	protected $hidden = [
 		'password',

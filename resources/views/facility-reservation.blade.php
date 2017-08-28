@@ -565,39 +565,23 @@
 	<script type="text/javascript">
 		var clickToday = function () {
 			$(".fc-today-button").click();
+
+			$(".fc-prev-button").on('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
+
+			$(".fc-next-button").click('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
 		};
 
 		var eventsFullCal = [];
-		$.ajax({
-			url: '{{ url("/facility-reservation/gReservations") }}',
-			type: 'GET', 
-			data: { "currentDateTime": getCurrentDateTime() }, 
-			success: function (data) {
-				var data = $.parseJSON(data);
-				var eventColor = "#37BC9B";
-				for (datum in data) {
-					var eventObj = {
-						title: data[datum].reservationName, 
-						start: new Date(data[datum].reservationStart), 
-						end: new Date(data[datum].reservationEnd), 
-						color: eventColor
-					};
-					eventsFullCal.push(eventObj);
-				}
-			}, 
-			error: function(errors) {
-					var message = "Error: ";
-					var data = errors.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-				}
-		});
 
 		$("#btnViewCal").click(function () {
 			$(document).ready(function () {
+				checkFullCalendar(getCurrentDateTime());
 				$("#fc-external-drag").fullCalendar({
 					header: {
 						left: 'prev,next today', 
@@ -606,18 +590,45 @@
 					}, 
 					editable: 0, 
 					droppable: 0, 
-					events: [{
-						title: 'Long Weekend', 
-						start: '2017-08-26', 
-						end: '2017-08-28', 
-						color: '#37BC9B'
-					}]
+					events: eventsFullCal
 				});
 				$("#calendarModal").modal("show");
 
 				window.setTimeout(clickToday, 1000);
 			});
 		});
+
+		var checkFullCalendar = function (passedDate) {
+			$.ajax({
+				url: '{{ url("/facility-reservation/gReservations") }}',
+				type: 'GET', 
+				async: false, 
+				data: { "currentDateTime": passedDate }, 
+				success: function (data) {
+					var data = $.parseJSON(data);
+					var eventColor = "#37BC9B";
+					for (datum in data) {
+						var eventObj = {
+							title: data[datum].reservationName, 
+							start: data[datum].dateReserved + "T" + data[datum].reservationStart, 
+							end: data[datum].dateReserved + "T" + data[datum].reservationEnd, 
+							color: eventColor
+						};
+						eventsFullCal.push(eventObj);
+						console.log("Events pushed!");
+					}
+				}, 
+				error: function(errors) {
+						var message = "Error: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+			});
+		}
 
 		var residentFunc = function(){
 			$('#change').html('<div class="row">'+
