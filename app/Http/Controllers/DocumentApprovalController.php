@@ -16,7 +16,7 @@ use \App\Models\Utility;
 use StaticCounter;
 use SmartMove;
 
-class DocumentRequestController extends Controller 
+class DocumentApprovalController extends Controller 
 {
     public function index() {
         $requests= \DB::table('documentrequests') 
@@ -26,28 +26,84 @@ class DocumentRequestController extends Controller
                                                  'residents.lastName', 'residents.suffix')                 
                                         ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
                                         ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
-                                        ->where('documentrequests.status','!=','Waiting for approval')
-                                        ->where('documentrequests.status','!=','Rejected')
-                                        ->where('documentrequests.status','!=','Approved')
+                                        ->where('documentrequests.status','=','Waiting for approval')
                                         ->get();
-
-        return view('document-request') -> with('requests', $requests);
-    }
-
-    public function refresh(Request $r) {
-        if ($r->ajax()) {
-            $requests= \DB::table('documentrequests') -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+        $approved= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
                                                 'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
                                                 'residents.firstName', 'residents.middleName','documentrequests.status',
-                                                 'residents.lastName', 'residents.suffix')
-                                            ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
-                                            ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
-                                            ->where('documentrequests.status','!=','Waiting for approval')
-                                            ->where('documentrequests.status','!=','Rejected')
-                                            ->where('documentrequests.status','!=','Approved')
-                                            ->get();
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('documentrequests.status','=','Approved')
+                                        ->get();
+        
+        $rejected= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('documentrequests.status','=','Rejected')
+                                        ->get();
+
+        return view('document-approval') -> with('requests', $requests)
+                                        -> with('approved', $approved)
+                                        -> with('rejected', $rejected);
+    }
+
+    public function refreshWaiting(Request $r) {
+        if ($r->ajax()) {
+            $requests= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('documentrequests.status','=','Waiting for approval')
+                                        ->get();
 
             return (json_encode($requests));
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function refreshApproved(Request $r) {
+        if ($r->ajax()) {
+            $approved= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('documentrequests.status','=','Approved')
+                                        ->get();
+
+            return (json_encode($approved));
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function refreshRejected(Request $r) {
+        if ($r->ajax()) {
+            $rejected= \DB::table('documentrequests') 
+                                        -> select('documentRequestPrimeID', 'documentsPrimeID', 'quantity',
+                                                'documentrequests.residentPrimeID', 'documents.documentName', 'requestDate','requestID',
+                                                'residents.firstName', 'residents.middleName','documentrequests.status',
+                                                 'residents.lastName', 'residents.suffix')                 
+                                        ->join('documents', 'documentrequests.documentsPrimeID', '=', 'documents.primeID')
+                                        ->join('residents', 'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('documentrequests.status','=','Rejected')
+                                        ->get();
+
+            return (json_encode($rejected));
         }
         else {
             return view('errors.403');
@@ -351,6 +407,19 @@ class DocumentRequestController extends Controller
             $documentRequest -> save();
 
             return redirect('/document-request');
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function reject(Request $r) {
+        if ($r->ajax()) {
+            $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
+            $documentRequest -> status = "Rejected";
+            $documentRequest -> save();
+
+            return redirect('/document-approval');
         }
         else {
             return view('errors.403');

@@ -252,42 +252,22 @@
 
 										@if ($request -> status == "Pending")
 											<td><span class="tag round tag-default tag-info">Pending</span></td>
+											<td>
+												<span class="dropdown">
+													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+													<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+														<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> View</a>
+														<a href="#" class="dropdown-item view viewReq" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Requirements</a>
+														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-trash4"></i>Cancel</a>
+													</span>
+												</span>
+											</td>
 										@elseif($request -> status == "Cancelled") 
 											<td><span class="tag round tag-default tag-danger">Cancelled</span></td>
+											<td>N/A</td>	
 										@else 
-											<td><span class="tag round tag-default tag-success">Approved</span></td>
 										@endif
-										<td>
-											<span class="dropdown">
-												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-													<a href="#" class="dropdown-item view btnView" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> View</a>
-													<a href="#" class="dropdown-item view viewReq" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Requirements</a>
-
-													@if($request -> status == "Cancelled" || $request -> status == "Approved")
-														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentRequestPrimeID }}' style="pointer-events: none; cursor: default;">
-															<i class="icon-pen3 grey"></i> 
-															<span style="color: grey;">
-																Sign
-															</span>
-														</a>
-													@else
-														<a href="#" class="dropdown-item edit btnEdit" name="btnEdit" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-pen3"></i> Sign</a>
-													@endif	
-
-													@if($request -> status == "Cancelled" || $request -> status == "Approved")
-														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentRequestPrimeID }}' style="pointer-events: none; cursor: default;">
-															<i class="icon-trash4 grey"></i> 
-															<span style="color: grey;">
-																Cancel
-															</span>
-														</a>
-													@else
-														<a href="#" class="dropdown-item delete btnDelete" name="btnDelete" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-trash4"></i> Cancel</a>
-													@endif
-												</span>
-											</span>
-										</td>  
+										  
 									</tr>
 									@endforeach
 	                    		</tbody>
@@ -565,12 +545,31 @@
 			event.preventDefault();
 
 			var arrayCheck = [];
+			var hehe = [];
 
 			$('.requirements:checked').each(function(){
 				arrayCheck.push($(this).val());
 			})
 
+			$('.requirements').each(function(){
+				hehe.push($(this).val());
+			})
+
+			var h = hehe.length;
 			var l = arrayCheck.length;
+
+			if(h == l)
+			{
+				$.ajax({
+				url: "{{ url('/document-request/waiting') }}", 
+				method: "POST", 
+				data: {
+					"documentRequestPrimeID": $("#documentRequestPrimeID").val()
+				}
+			});
+			}
+
+			console.log('Total: ' + h + ' Checked: ' + l);
 
 			$.ajax({
 				url: "{{ url('/document-request/requirementsDelete') }}", 
@@ -605,7 +604,7 @@
 				});
 					
 			}
-
+			refreshTable();
 			$('#requirementsModal').modal('hide');
 			$('#frm-updateReq').trigger('reset');
 			swal("Successful", 
@@ -1056,53 +1055,40 @@
 
 						if (data[index].status == "Pending") {
 							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
-							buttonEditText = "<a href='#' class='dropdown-item edit btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-pen3'></i> Sign</a>";
+							buttonEditText = "<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> View</a>" + 
+												"<a href='#' class='dropdown-item view viewReq' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> Requirements</a>"  ;
 							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-trash'></i> Cancel</a>";
 						}
-						else if (data[index].status == "Cancelled") {
+						else{
 							statusText = "<span class='tag round tag-default tag-danger'>Cancelled</span>";
-							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
-												"<i class='icon-pen3 grey'></i>" +  
-												"<span style='color: grey;'>" + 
-													"Sign" + 
-												"</span>" + 
-											"</a>";
-							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
-												"<i class='icon-trash4 grey'></i>" +  
-												"<span style='color: grey;'>" + 
-													"Cancel" + 
-												"</span>" + 
-											"</a>";
-						} 
-						else {
-							statusText = "<span class='tag round tag-default tag-success'>Approved</span>";
-							buttonEditText = "<a href='#'class='dropdown-item delete btnEdit' name='btnEdit' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
-												"<i class='icon-pen3 grey'></i>" +  
-												"<span style='color: grey;'>" + 
-													"Sign" + 
-												"</span>" + 
-											"</a>";
-							buttonDelText = "<a href='#'class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID +  " style='pointer-events: none; cursor: default;'>" + 
-												"<i class='icon-trash4 grey'></i>" +  
-												"<span style='color: grey;'>" + 
-													"Cancel" + 
-												"</span>" + 
-											"</a>";
+							
 						}
-
+						
 						var buttonText = "<span class='dropdown'>" + 
 											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-												"<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> View</a>" + 
-												"<a href='#' class='dropdown-item view viewReq' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> Requirements</a>" + 
+												
 												buttonEditText + 
 												buttonDelText + 
 											"</span>" + 
 										"</span>";
-													
-													
-
-						$("#table-container").DataTable()
+						if(data[index].status == "Cancelled")
+						{
+							$("#table-container").DataTable()
+							.row.add([
+								data[index].firstName + " " + 
+									data[index].middleName + " " + 
+									data[index].lastName, 
+								data[index].requestDate, 
+								data[index].documentName, 
+								data[index].quantity, 
+								statusText,
+								'N/A'
+							]).draw(false);
+						}	
+						else
+						{
+							$("#table-container").DataTable()
 							.row.add([
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
@@ -1113,6 +1099,10 @@
 								statusText,
 								buttonText
 							]).draw(false);
+						}						
+													
+
+						
 					}
 				}, 
 				error: function(data) {

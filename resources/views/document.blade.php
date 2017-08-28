@@ -212,9 +212,9 @@
 			<td>₱{{ $document -> documentPrice }}</td>
 			
 			@if ($document -> status == 1)
-				<td>Active</td>
+				<td><span class="tag round tag-default tag-success">Active</span></td>
 			@else
-				<td>Inactive</td>
+				<td><span class="tag round tag-default tag-danger">Inactive</span></td>
 			@endif
 			
 			<td>
@@ -882,10 +882,10 @@
 					for (index in data) {
 						var statusText = "";
 						if (data[index].status == 1) {
-							statusText = "Active";
+							statusText = '<span class="tag round tag-default tag-success">Active</span>';
 						}
 						else {
-							statusText = "Inactive";
+							statusText = '<span class="tag round tag-default tag-danger">Inactive</span>';
 						}
 
 						$("#table-container").DataTable()

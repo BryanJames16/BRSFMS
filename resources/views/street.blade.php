@@ -121,9 +121,9 @@
 			<td>{{ $street -> streetName }}</td>
 			
 			@if ($street -> status == 1)
-				<td>Active</td>
+				<td><span class="tag round tag-default tag-success">Active</span></td>
 			@else
-				<td>Inactive</td>
+				<td><span class="tag round tag-default tag-danger">Inactive</span></td>
 			@endif
 			
 			<td>
