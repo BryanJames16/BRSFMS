@@ -206,10 +206,11 @@ class ReservationController extends Controller
         }
     }
 
-    public function getReservations(Request $r) {
+    public function getReservation(Request $r) {
         if ($r -> ajax()) {
+            $dateToday = date("Y-m-d", strtotime($r->input('currentDateTime')));
             $reservations = Reservation::where('status', '=', 'Pending')
-                                            -> where();
+                                            -> where('dateReserved', '=', $dateToday);
 
             return json_encode($reservations);
         }

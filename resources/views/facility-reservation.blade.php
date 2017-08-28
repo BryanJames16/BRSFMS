@@ -557,6 +557,7 @@
 
 @section('page-level-js')
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
@@ -570,11 +571,17 @@
 		$.ajax({
 			url: '{{ url("/facility-reservation/gReservations") }}',
 			type: 'GET', 
+			data: { "currentDateTime": getCurrentDateTime() }, 
 			success: function (data) {
 				var data = $.parseJSON(data);
 				var eventColor = "#37BC9B";
 				for (datum in data) {
-					var eventObj = {};
+					var eventObj = {
+						title: data[datum].reservationName, 
+						start: new Date(data[datum].reservationStart), 
+						end: new Date(data[datum].reservationEnd), 
+						color: eventColor
+					};
 					eventsFullCal.push(eventObj);
 				}
 			}, 
