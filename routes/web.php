@@ -177,6 +177,7 @@ Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
 Route::get('/facility-reservation/getResidents', 'ReservationController@getResidents');
 Route::get('/facility-reservation/getFacilities', 'ReservationController@getFacilities');
 Route::get('/facility-reservation/updatecbo', 'ReservationController@updateCombobox');
+Route::get('/facility-reservation/gReservations', 'ReservationController@getReservation');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 Route::post('/facility-reservation/store', 'ReservationController@store');
 Route::post('/facility-reservation/residentStore', 'ReservationController@residentStore');
