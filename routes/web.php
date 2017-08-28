@@ -174,7 +174,11 @@ Route::get('/document-approval/refreshRejected', 'DocumentApprovalController@ref
 Route::get('/document-approval/view', 'DocumentApprovalController@view');
 
 // Reservation
+Route::get('/facility-reservation/refresh', 'ReservationController@refresh');
+Route::get('/facility-reservation/refreshNonRes', 'ReservationController@refreshNonRes');
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
+Route::get('/facility-reservation/getRes', 'ReservationController@getRes');
+Route::get('/facility-reservation/getEditNonRes', 'ReservationController@getEditNonRes');
 Route::get('/facility-reservation/getResidents', 'ReservationController@getResidents');
 Route::get('/facility-reservation/getFacilities', 'ReservationController@getFacilities');
 Route::get('/facility-reservation/updatecbo', 'ReservationController@updateCombobox');

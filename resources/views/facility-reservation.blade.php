@@ -102,13 +102,14 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-all">
 											<thead>
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
 													<th>Reserved By</th>
 													<th>Date and Time</th>
+													<th>Residency</th>
 													<th>Status</th>
 													<th>Actions</th>
 												</tr>
@@ -125,37 +126,87 @@
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-							
-														<td>{{ $reservation -> status }}</td>
-														<td>
-															@if($reservation -> status  == 'Pending')
-																<span class="dropdown">
-																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
-																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+														<td><span class="tag border-success success tag-border">Resident</span></td>
+														@if($reservation -> status  == 'Pending')
+															<td><span class="tag round tag-info">Pending</span></td>
+															<td>
+																
+																	<span class="dropdown">
+																		<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
+																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																		</span>
 																	</span>
-																</span>
-															@else
-																N/A
-																@endif
-														</td>
+																
+															</td>
+														@elseif($reservation -> status  == 'Rescheduled')
+															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td>N/A</td>
+														@elseif($reservation -> status  == 'Cancelled')	
+															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td>N/A</td>
+														@else
+															<td></td>
+															<td>N/A</td>
+														@endif
 															{!!Form::close()!!}
 													</tr>
 
 												@endforeach
+												@foreach($nonres as $reservation)
+													<tr>
+														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ])!!}					
+														{{ csrf_field() }}
+
+														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+														<td>{{ $reservation -> reservationName }}</td>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>{{ $reservation -> name }}</td>
+														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
+														@if($reservation -> status  == 'Pending')
+															<td><span class="tag round tag-info">Pending</span></td>
+															<td>
+																
+																	<span class="dropdown">
+																		<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
+																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																		</span>
+																	</span>
+																
+															</td>
+														@elseif($reservation -> status  == 'Rescheduled')
+															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td>N/A</td>
+														@elseif($reservation -> status  == 'Cancelled')	
+															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td>N/A</td>
+														@else
+															<td></td>
+															<td>N/A</td>
+														@endif
+															{!!Form::close()!!}
+													</tr>
+
+												@endforeach
+
 											</tbody>
 										</table>
 									</div>
 									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
 											<thead>
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
 													<th>Reserved By</th>
 													<th>Date and Time</th>
+													<th>Residency</th>
 													<th>Status</th>
 													<th>Actions</th>
 												</tr>
@@ -174,11 +225,41 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td>{{ $reservation -> status }}</td>
+															<td><span class="tag border-success success tag-border">Resident</span></td>
+															<td><span class="tag round tag-info">Pending</span></td>
 															<td>
 																<span class="dropdown">
 																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
+																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																	</span>
+																</span>
+															</td>
+															{!!Form::close()!!}
+														</tr>
+													@endif
+												@endforeach
+												@foreach($nonres as $reservation)
+
+													@if($reservation -> status  == 'Pending')
+														<tr>
+															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ csrf_field() }}
+
+															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+															<td>{{ $reservation -> reservationName }}</td>
+															<td>{{ $reservation -> facilityName }}</td>
+															<td>{{ $reservation -> name }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
+															<td><span class="tag round tag-info">Pending</span></td>
+															<td>
+																<span class="dropdown">
+																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
@@ -192,13 +273,14 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rescheduled">
 											<thead>
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
 													<th>Reserved By</th>
 													<th>Date and Time</th>
+													<th>Residency</th>
 													<th>Status</th>
 													<th>Actions</th>
 												</tr>
@@ -214,7 +296,26 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td>{{ $reservation -> status }}</td>
+															<td><span class="tag border-success success tag-border">Resident</span></td>
+															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td>N/A
+															</td>
+															{!!Form::close()!!}
+														</tr>
+													@endif
+												@endforeach
+												@foreach($nonres as $reservation)
+													@if($reservation -> status  == 'Rescheduled')
+														<tr>
+															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ csrf_field() }}
+															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+															<td>{{ $reservation -> reservationName }}</td>
+															<td>{{ $reservation -> facilityName }}</td>
+															<td>{{ $reservation -> name }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
+															<td><span class="tag round tag-default">Rescheduled</span></td>
 															<td>N/A
 															</td>
 															{!!Form::close()!!}
@@ -225,34 +326,54 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-cancelled">
 											<thead>
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
 													<th>Reserved By</th>
 													<th>Date</th>
+													<th>Residency</th>
 													<th>Status</th>
 													<th>Actions</th>
 												</tr>
 											</thead>
 											<tbody>
 												@foreach($reservations as $reservation)
-												@if($reservation -> status  == 'Cancelled')
-													<tr>
-														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
-														{{ csrf_field() }}
-														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
-														<td>{{ $reservation -> reservationName }}</td>
-														<td>{{ $reservation -> facilityName }}</td>
-														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-														<td>{{ $reservation -> status }}</td>
-														<td>N/A
-														</td>
-														{!!Form::close()!!}
-													</tr>
-												@endif
+													@if($reservation -> status  == 'Cancelled')
+														<tr>
+															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ csrf_field() }}
+															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+															<td>{{ $reservation -> reservationName }}</td>
+															<td>{{ $reservation -> facilityName }}</td>
+															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td><span class="tag border-success success tag-border">Resident</span></td>
+															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td>N/A
+															</td>
+															{!!Form::close()!!}
+														</tr>
+													@endif
+												@endforeach
+												@foreach($nonres as $reservation)
+													@if($reservation -> status  == 'Cancelled')
+														<tr>
+															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ csrf_field() }}
+															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
+															<td>{{ $reservation -> reservationName }}</td>
+															<td>{{ $reservation -> facilityName }}</td>
+															<td>{{ $reservation -> name }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
+															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td>N/A
+															</td>
+															{!!Form::close()!!}
+														</tr>
+													@endif
 												@endforeach
 											</tbody>
 										</table>
@@ -274,75 +395,18 @@
 								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
 							</div>
 							<div class="modal-body">
-								<div class="card-block">
+								{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id' => 'frm-reschedule'])!!}
+				
+										<div id="echange">
 
-									{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-										<h4 class="form-section"><i class="icon-eye6"></i> Fill Up </h4>
-												<div class="row">
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput1">Reservation Name</label>
-														{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
-														{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-													</div>
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput2">Reservee</label>
-														<select class="form-control" id="ures">
-															
-														</select>
-													</div>
-												</div>
-										
-										<div class="row">
 											
-												<div class="col-md-6">
-													<div class="form-group">
-														<label for="firstName1">Facility :</label>
-														<select class="form-control" id="ures">
-															
-														</select>
-													</div>
-												</div>
-											
-										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Reservation Description :</label>
-													{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
 
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Date :</label>
-													<div class='input-group'>
-															{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
-													</div>
-												</div>
-											</div>
 										</div>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Start Time :</label>
-														{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">End Time :</label>
-															{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
-												</div>
-											</div>
-										</div>
-										<div class="form-actions center">
-											<button type="submit" class="btn btn-success mr-1">Reschedule</button>
-											<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-										</div>
-									{!!Form::close()!!}													
-								</div>
+									
+									<div class="form-actions center">
+										{!!Form::submit('Reschedule',['class'=>'btn btn-success'])!!}
+									</div>	
+								{!!Form::close()!!}
 							</div>
 							<!-- End of Modal Body -->
 						</div>
@@ -451,77 +515,13 @@
 								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
 							</div>
 							<div class="modal-body">
-								{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id'=>'frm-update'])!!}
-									<fieldset>
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Reservation Name :</label>
-													{!!Form::hidden('primeID',null,['id'=>'primeID','class'=>'form-control'])!!}
-													{!!Form::text('name',null,['id'=>'name','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Reservee :</label>
-													<select class="form-control" id="ures">
-															
-														</select>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Facility :</label>
-													<select class="form-control" id="ures">
-															
-														</select>
-												</div>
-											</div>
-										</div>
+								
+									<p align="center" style="font-size:20px"><b>RESERVATION DETAILS</b></p>
+									<hr>
+									<div id="reservationDetails">
 
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Reservation Description :</label>
-													{!!Form::textarea('desc',null,['id'=>'desc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Date :</label>
-													<div class='input-group'>
-														{!!Form::date('date',null,['id'=>'date','class'=>'form-control'])!!}	
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="row">
-											
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">Start Time :</label>
-														{!!Form::time('startTime',null,['id'=>'startTime','class'=>'form-control'])!!}
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<div class="form-group">
-													<label for="firstName1">End Time :</label>
-														{!!Form::time('endTime',null,['id'=>'endTime','class'=>'form-control'])!!}
-												</div>
-											</div>
-										</div>
-									</fieldset>
-														
-												
-
-									<div class="form-actions center">
-										<button type="submit" class="btn btn-success mr-1">Reschedule</button>
-										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 									</div>
-								{!!Form::close()!!}
+
 							</div>
 											<!-- End of Modal Body -->
 						</div>
@@ -719,43 +719,256 @@
 
 	<script>
 		$(document).on('click', '.edit', function(e) {
-			var id = $(this).val();
-
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}
-			});
+			var id = $(this).data('value');
 
 			$.ajax({
+
 				type: 'get',
-				url: "{{ url('/facility-reservation/getEdit') }}",
+				url: "{{ url('facility-reservation/getRes') }}",
 				data: {primeID:id},
 				success:function(data)
 				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#name').val(data.reservationName);
-					frm.find('#desc').val(data.reservationDescription);
-					frm.find('#facilityPrimeID').val(data.facilityPrimeID);
-					frm.find('#primeID').val(data.primeID);
-					frm.find('#peoplePrimeID').val(data.peoplePrimeID);
-					frm.find('#date').val(data.dateReserved);
-					frm.find('#startTime').val(data.reservationStart);
-					frm.find('#endTime').val(data.reservationEnd);
-					
-					
-					$('#rescheduleModal').modal('show');
-					
+
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						if(data[index].peoplePrimeID==null)
+						{
+							$('#echange').html(
+									'<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
+									'<div class="row">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput1">Reservation Name</label>'+
+											'{!!Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control'])!!}'+
+											'{!!Form::text('ereservationName',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput2">Name</label>'+
+											'{!!Form::text('ename',null,['id'=>'ername','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput1">Age</label>'+
+											'{!!Form::text('eage',null,['id'=>'eage','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+									'</div>'+
+
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Email</label>'+
+											'{!!Form::text('eemail',null,['id'=>'eemail','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Contact Number</label>'+
+											'{!!Form::text('econtactNumber',null,['id'=>'econtactNumber','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'</div>'+
+									'</div>'+
+
+									'<h4 class="form-section">Reservation</h4>'+
+									'<div class="row">'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput1">Description</label>'+
+											'{!!Form::textarea('edesc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+										'</div>'+
+										'<div class="form-group col-md-6 mb-2">'+
+											'<label for="userinput2">Facility</label>'+
+											"<select class='form-control border-info selectBox' id='efacilityID'>"+
+											'</select>'+
+										'</div>'+
+									'</div>'+
+
+									'<div class="row">'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput1">Date</label>'+
+											'{!!Form::date('edate',null,['id'=>'erdate','class'=>'form-control'])!!}'+
+										'</div>'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput1">Start Time</label>'+
+											'{!!Form::time('estartTime',null,['id'=>'erstartTime','class'=>'form-control'])!!}'+
+										'</div>'+
+										'<div class="form-group col-xs-6 col-md-4">'+
+											'<label for="userinput2">End Time</label>'+
+											'{!!Form::time('eendTime',null,['id'=>'erendTime','class'=>'form-control'])!!}'+
+										'</div>'+
+									'</div>');
+
+									$.ajax({
+										type: 'GET',
+										url: "{{ url('/facility-reservation/getFacilities') }}",
+										data: {"serviceTransactionPrimeID": 'asd'},
+										success: function(data) {
+
+										data = $.parseJSON(data);
+
+											for (index in data) {
+
+											$('#efacilityID').append($('<option>',{
+												value: data[index].primeID,
+												text: data[index].facilityName
+											}));
+
+											}
+										}
+									});
+
+								$.ajax({
+									type: 'get',
+									url: "{{ url('/facility-reservation/getEditNonRes') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
+
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											var frm = $('#frm-reschedule');
+											frm.find('#erreservationID').val(data[index].primeID);
+											frm.find('#erreservationName').val(data[index].reservationName);
+											frm.find('#ername').val(data[index].name);
+											frm.find('#eage').val(data[index].age);
+											frm.find('#eemail').val(data[index].email);
+											frm.find('#econtactNumber').val(data[index].contactNumber);
+											frm.find('#erdesc').val(data[index].reservationDescription);
+											frm.find('#efacilityID').val(data[index].facilityPrimeID);
+											frm.find('#erdate').val(data[index].dateReserved);
+											frm.find('#erstartTime').val(data[index].reservationStart);
+											frm.find('#erendTime').val(data[index].reservationEnd);
+										}
+										
+										
+										
+										$('#rescheduleModal').modal('show');
+										
+									}
+								})
+							
+						}	
+						else
+						{
+							$('#echange').html('<div class="row">'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput1">Reservation Name</label>'+
+													'{!!Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control'])!!}'+
+													'{!!Form::text('name',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+												'</div>'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput2">Resident</label>'+
+													"<select class='form-control border-info selectBox' id='eresidentCbo'>"+
+													'</select>'+	
+												'</div>'+
+											'</div>'+
+
+											'<div class="row">'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput1">Description</label>'+
+													'{!!Form::textarea('desc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+												'</div>'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput2">Facility</label>'+
+													"<select class='form-control border-info selectBox' id='efacilityCbo'>"+
+													'</select>'+
+												'</div>'+
+											'</div>'+
+
+											'<div class="row">'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput1">Date</label>'+
+													'{!!Form::date('date',null,['id'=>'erdate','class'=>'form-control'])!!}'+
+												'</div>'+
+											'</div>'+
+
+											'<div class="row">'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput1">Start Time</label>'+
+													'{!!Form::time('startTime',null,['id'=>'erstartTime','class'=>'form-control'])!!}'+
+												'</div>'+
+												'<div class="form-group col-md-6 mb-2">'+
+													'<label for="userinput2">End Time</label>'+
+													'{!!Form::time('endTime',null,['id'=>'erendTime','class'=>'form-control'])!!}'+
+												'</div>'+
+											'</div>');
+
+
+									$.ajax({
+										type: 'GET',
+										url: "{{ url('/facility-reservation/getResidents') }}",
+										data: {"serviceTransactionPrimeID": 'asd'},
+										success: function(data) {
+
+										data = $.parseJSON(data);
+
+											for (index in data) {
+
+											$('#eresidentCbo').append($('<option>',{
+												value: data[index].residentPrimeID,
+												text: data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + ': ' + data[index].residentID
+											}));
+
+											}
+										}
+									});
+
+									$.ajax({
+										type: 'GET',
+										url: "{{ url('/facility-reservation/getFacilities') }}",
+										data: {"serviceTransactionPrimeID": 'asd'},
+										success: function(data) {
+
+										data = $.parseJSON(data);
+
+											for (index in data) {
+
+											$('#efacilityCbo').append($('<option>',{
+												value: data[index].primeID,
+												text: data[index].facilityName
+											}));
+
+											}
+										}
+									});
+
+									$.ajax({
+										type: 'get',
+										url: "{{ url('/facility-reservation/getEdit') }}",
+										data: {primeID:id},
+										success:function(data)
+										{
+
+											data = $.parseJSON(data);
+
+											for (index in data) 
+											{
+												var frm = $('#frm-reschedule');
+												frm.find('#erreservationID').val(data[index].primeID);
+												frm.find('#erreservationName').val(data[index].reservationName);
+												frm.find('#eresidentCbo').val(data[index].peoplePrimeID);
+												frm.find('#erdesc').val(data[index].reservationDescription);
+												frm.find('#efacilityID').val(data[index].facilityPrimeID);
+												frm.find('#erdate').val(data[index].dateReserved);
+												frm.find('#erstartTime').val(data[index].reservationStart);
+												frm.find('#erendTime').val(data[index].reservationEnd);
+											}
+											
+											
+											
+											$('#rescheduleModal').modal('show');
+											
+										}
+									})
+						}	
+					}		
 				}
-			})
+			});
+
+			
 
 		});
 	</script>
 
 	<script>
 		$(document).on('click', '.view', function(e) {
-			var id = $(this).val();
+			var id = $(this).data('value');
 
 			$.ajaxSetup({
 				headers: {
@@ -764,27 +977,101 @@
 			});
 
 			$.ajax({
+
 				type: 'get',
-				url: "{{ url('/facility-reservation/getEdit') }}",
+				url: "{{ url('facility-reservation/getRes') }}",
 				data: {primeID:id},
 				success:function(data)
 				{
-					console.log(data);
-					var frm = $('#frm-update');
-					frm.find('#name').val(data.reservationName);
-					frm.find('#desc').val(data.reservationDescription);
-					frm.find('#facilityPrimeID').val(data.facilityPrimeID);
-					frm.find('#primeID').val(data.primeID);
-					frm.find('#peoplePrimeID').val(data.peoplePrimeID);
-					frm.find('#date').val(data.dateReserved);
-					frm.find('#startTime').val(data.reservationStart);
-					frm.find('#endTime').val(data.reservationEnd);
-					
-					
-					$('#viewModal').modal('show');
-					
+
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						if(data[index].peoplePrimeID==null)	
+						{
+								$.ajax({
+
+									type: 'get',
+									url: "{{ url('facility-reservation/getEditNonRes') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
+
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											$('#reservationDetails').html(
+												'<p style="font-size:18px" align="center">'+
+														
+														'<b>CREDENTIALS</b> <br><br>' +
+														'Reserved By: ' + data[index].name + '<br>' +
+														'Age: ' + data[index].age + '<br>' +
+														'E-mail: ' + data[index].email + '<br>' +
+														'Contact Number: ' + data[index].contactNumber + '<br>' +
+														'Residency: Non-resident <br><br>' +
+														'<b>RESERVATION INFORMATION</b> <br><br>' +
+														'Reservation Name: ' + data[index].reservationName + '<br>' +
+														'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+														'Facility: ' + data[index].facilityName + '<br>' +
+														'Date Reserved: ' + data[index].dateReserved + '<br>' +
+														'Start Time: ' + data[index].reservationStart + '<br>' +
+														'End Time: ' + data[index].reservationEnd + '<br>' +
+												'</p>'
+												);	
+											$('#viewModal').modal('show');
+										}		
+									}
+								});
+						}
+						else
+						{
+								$.ajax({
+
+									type: 'get',
+									url: "{{ url('facility-reservation/getEdit') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
+
+										data = $.parseJSON(data);
+										var gender='Female';
+
+										for (index in data) 
+										{
+											if(data[index].gender=='M')
+											{
+												gender='Male';
+											}
+
+											$('#reservationDetails').html(
+												'<p style="font-size:18px" align="center">'+
+														
+														'<b>CREDENTIALS</b> <br><br>' +
+														'Reserved By: ' + data[index].lastName + ', ' + data[index].firstName + ' '+ data[index].middleName + '<br>' +
+														'Gender: ' + gender + '<br>' +
+														'Contact Number: ' + data[index].contactNumber + '<br>' +
+														'Residency: Resident <br><br>' +
+														'<b>RESERVATION INFORMATION</b> <br><br>' +
+														'Reservation Name: ' + data[index].reservationName + '<br>' +
+														'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+														'Facility: ' + data[index].facilityName + '<br>' +
+														'Date Reserved: ' + data[index].dateReserved + '<br>' +
+														'Start Time: ' + data[index].reservationStart + '<br>' +
+														'End Time: ' + data[index].reservationEnd + '<br>' +
+												'</p>'
+											);	
+											$('#viewModal').modal('show');
+										}		
+									}
+								});
+						}
+					}		
 				}
-			})
+			});
+
+			
 
 		});
 
@@ -794,10 +1081,11 @@
 		$(document).on('click', '.delete', function(e) {
 			var id = $(this).data('value');
 
+
 			$.ajax({
 
 				type: 'get',
-				url: "{{ url('facility-reservation/getEdit') }}",
+				url: "{{ url('facility-reservation/getRes') }}",
 				data: {primeID:id},
 				success:function(data)
 				{
@@ -806,25 +1094,119 @@
 
 					for (index in data) 
 					{
-						swal({
-								title: "Are you sure you want to cancel " + data[index].reservationName + "?",
-								text: "",
-								type: "warning",
-								showCancelButton: true,
-								confirmButtonColor: "#DD6B55",
-								confirmButtonText: "DELETE",
-								closeOnConfirm: false
-							},
-							function(){
+						if(data[index].peoplePrimeID==null)	
+						{
+								$.ajax({
 
-								swal("Successfull", data[index].reservationName + " is cancelled!", "success");
-								
-								document.getElementById(data.primeID).submit();
-							
-						});		
+									type: 'get',
+									url: "{{ url('facility-reservation/getEditNonRes') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
+
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											swal({
+													title: "Are you sure you want to cancel " + data[index].reservationName + "?",
+													text: "",
+													type: "warning",
+													showCancelButton: true,
+													confirmButtonColor: "#DD6B55",
+													confirmButtonText: "DELETE",
+													closeOnConfirm: false
+												},
+												function(){
+
+													$.ajax({
+															type: "post",
+															url: "{{ url('/facility-reservation/delete') }}", 
+															data: {"_token": "{{ csrf_token() }}",
+															primeID:id}, 
+															success: function(data) {
+																
+															}, 
+															error: function(data) {
+																var message = "Error: ";
+																var data = error.responseJSON;
+																for (datum in data) {
+																	message += data[datum];
+																}
+																
+																swal("Error", "Cannot fetch table data!\n" + message, "error");
+																console.log("Error: Cannot refresh table!\n" + message);
+															}
+														});
+
+													swal("Successfull", data[index].reservationName + " is cancelled!", "success");
+													refreshTable();
+													document.getElementById(data.primeID).submit();
+												
+											});		
+										}		
+									}
+								});
+						}
+						else
+						{
+								$.ajax({
+
+									type: 'get',
+									url: "{{ url('facility-reservation/getEdit') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
+
+										data = $.parseJSON(data);
+
+										for (index in data) 
+										{
+											swal({
+													title: "Are you sure you want to cancel " + data[index].reservationName + "?",
+													text: "",
+													type: "warning",
+													showCancelButton: true,
+													confirmButtonColor: "#DD6B55",
+													confirmButtonText: "DELETE",
+													closeOnConfirm: false
+												},
+												function(){
+
+													$.ajax({
+															type: "post",
+															url: "{{ url('/facility-reservation/delete') }}", 
+															data: {"_token": "{{ csrf_token() }}",
+															primeID:id}, 
+															success: function(data) {
+																
+															}, 
+															error: function(data) {
+																var message = "Error: ";
+																var data = error.responseJSON;
+																for (datum in data) {
+																	message += data[datum];
+																}
+																
+																swal("Error", "Cannot fetch table data!\n" + message, "error");
+																console.log("Error: Cannot refresh table!\n" + message);
+															}
+														});
+
+													swal("Successfull", data[index].reservationName + " is cancelled!", "success");
+													refreshTable();
+													document.getElementById(data.primeID).submit();
+												
+											});		
+										}		
+									}
+								});
+						}
 					}		
 				}
 			});
+
+					
 		});
 
 		// RES SWITCH
@@ -917,6 +1299,122 @@
 
 		// END OF RES SWITCH
 
+		$("#frm-reschedule").submit(function(event) {
+
+			event.preventDefault();
+
+			id = $('#erreservationID').val();
+			rid = $('#eresidentCbo').val();
+			name = $('#ername').val();
+			age = $('#eage').val();
+			cn = $('#econtactNumber').val();
+			email = $('#eemail').val();
+			desc = $('#erdesc').val();
+			facility = $('#efacilityID').val();
+			efacility = $('#efacilityCbo').val();
+			date = $('#erdate').val();
+			start = $('#erstartTime').val();
+			end = $('#erendTime').val();
+			resname = $('#erreservationName').val();
+
+			$.ajax({
+
+				type: 'get',
+				url: "{{ url('facility-reservation/getRes') }}",
+				data: {primeID:id},
+				success:function(data)
+				{
+
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						if(data[index].peoplePrimeID==null)
+						{
+							$.ajax({
+								url: "{{ url('/facility-reservation/update') }}", 
+								method: "POST", 
+								data: {
+									"_token": "{{ csrf_token() }}", 
+									"primeID": id,
+									"reservationName": resname, 
+									"reservationDescription": desc, 
+									"reservationStart": start, 
+									"reservationEnd": end, 
+									"dateReserved":date,
+									"peoplePrimeID": rid,
+									"facilityPrimeID": facility,
+									"name": name,
+									"age": age,
+									"email": email,
+									"contactNumber": cn,
+									
+								}, 
+								success: function(data) {
+
+									refreshTable();
+									$("#rescheduleModal").modal("hide");
+									
+									$("#frm-resched").trigger("reset");
+									swal("Success", "Successfully Rescheduled!", "success");
+								}, 
+								error: function(error) {
+									var message = "Errors: ";
+									var data = error.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
+
+									swal("Error", message, "error");
+								}
+							});
+						}
+						else
+						{
+							$.ajax({
+								url: "{{ url('/facility-reservation/update') }}", 
+								method: "POST", 
+								data: {
+									"_token": "{{ csrf_token() }}", 
+									"primeID": id,
+									"reservationName": resname, 
+									"reservationDescription": desc, 
+									"reservationStart": start, 
+									"reservationEnd": end, 
+									"dateReserved":date,
+									"peoplePrimeID": rid,
+									"facilityPrimeID": efacility,
+									"name": name,
+									"age": age,
+									"email": email,
+									"contactNumber": cn,
+									
+								}, 
+								success: function(data) {
+
+									refreshTable();
+									$("#rescheduleModal").modal("hide");
+									
+									$("#frm-resched").trigger("reset");
+									swal("Success", "Successfully Rescheduled!", "success");
+								}, 
+								error: function(error) {
+									var message = "Errors: ";
+									var data = error.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
+
+									swal("Error", message, "error");
+								}
+							});
+						}
+					}		
+				}
+			});
+
+		});
+
 		$("#frm-reserve").submit(function(event) {
 			event.preventDefault();
 			var frm = $('#frm-reserve');
@@ -940,6 +1438,8 @@
 						
 					}, 
 					success: function(data) {
+
+						refreshTable();
 						console.log(data);
 						$("#addModal").modal("hide");
 						
@@ -996,6 +1496,230 @@
 			}
 
 		});
+
+		//  ALL REFRESH TABLE
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/facility-reservation/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+
+					$("#table-all").DataTable().clear().draw();
+					$("#table-pending").DataTable().clear().draw();
+					$("#table-rescheduled").DataTable().clear().draw();
+					$("#table-cancelled").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						var actions;
+						var status;
+
+						if(data[index].status=="Pending")
+						{
+							status = '<span class="tag round tag-default tag-info">Pending</span>';
+							actions = 	'<span class="dropdown">'+
+											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+												'<a href="#" class="dropdown-item view" name="btnView" data-value="'+data[index].primeID + '"><i class="icon-eye6"></i> View</a>'+
+												'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+data[index].primeID + '"><i class="icon-pen3"></i> Reschedule</a>'+
+												'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+data[index].primeID + '"><i class="icon-trash4"></i> Cancel</a>'+
+											'</span>'+
+										'</span>';
+
+							$("#table-pending").DataTable()
+								.row.add([
+									data[index].reservationName, 
+									data[index].facilityName, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+									'<span class="tag border-success success tag-border">Resident</span>',
+									status,
+									actions
+									
+								]).draw(false);
+						}
+						else if(data[index].status=="Rescheduled")
+						{
+							status = '<span class="tag round tag-default">Resceduled</span>';
+							actions = 'N/A';
+
+							$("#table-rescheduled").DataTable()
+								.row.add([
+									data[index].reservationName, 
+									data[index].facilityName, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+									'<span class="tag border-success success tag-border">Resident</span>',
+									status,
+									actions
+									
+								]).draw(false);
+						}
+						else if(data[index].status=="Cancelled")
+						{
+							status = '<span class="tag round tag-danger">Cancelled</span>';
+							actions = 'N/A';
+
+							$("#table-cancelled").DataTable()
+								.row.add([
+									data[index].reservationName, 
+									data[index].facilityName, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+									'<span class="tag border-success success tag-border">Resident</span>',
+									status,
+									actions
+									
+								]).draw(false);
+						}
+						else
+						{
+							status = '<span class="tag round tag-success">Finished</span>';
+							actions = 'N/A';
+						}
+
+
+						$("#table-all").DataTable()
+								.row.add([
+									data[index].reservationName, 
+									data[index].facilityName, 
+									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
+									data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+									'<span class="tag border-success success tag-border">Resident</span>',
+									status,
+									actions
+									
+								]).draw(false);
+							
+					}
+
+					$.ajax({
+							url: "{{ url('/facility-reservation/refreshNonRes') }}", 
+							method: "GET", 
+							datatype: "json", 
+							success: function(data) {
+
+								data = $.parseJSON(data);
+
+								for (index in data) {
+									
+									var actions;
+									var status;
+
+									if(data[index].status=="Pending")
+									{
+										status = '<span class="tag round tag-default tag-info">Pending</span>';
+										actions = 	'<span class="dropdown">'+
+														'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+														'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+															'<a href="#" class="dropdown-item view" name="btnView" data-value="'+data[index].primeID + '"><i class="icon-eye6"></i> View</a>'+
+															'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+data[index].primeID + '"><i class="icon-pen3"></i> Reschedule</a>'+
+															'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+data[index].primeID + '"><i class="icon-trash4"></i> Cancel</a>'+
+														'</span>'+
+													'</span>';
+
+										$("#table-pending").DataTable()
+											.row.add([
+												data[index].reservationName, 
+												data[index].facilityName, 
+												data[index].name, 
+												data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												status,
+												actions
+												
+											]).draw(false);
+									}
+									else if(data[index].status=="Rescheduled")
+									{
+										status = '<span class="tag round tag-default">Resceduled</span>';
+										actions = 'N/A';
+
+										$("#table-rescheduled").DataTable()
+											.row.add([
+												data[index].reservationName, 
+												data[index].facilityName, 
+												data[index].name, 
+												data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												status,
+												actions
+												
+											]).draw(false);
+									}
+									else if(data[index].status=="Cancelled")
+									{
+										status = '<span class="tag round tag-danger">Cancelled</span>';
+										actions = 'N/A';
+
+										$("#table-cancelled").DataTable()
+											.row.add([
+												data[index].reservationName, 
+												data[index].facilityName, 
+												data[index].name, 
+												data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												status,
+												actions
+												
+											]).draw(false);
+									}
+									else
+									{
+										status = '<span class="tag round tag-success">Finished</span>';
+										actions = 'N/A';
+									}
+
+
+									$("#table-all").DataTable()
+											.row.add([
+												data[index].reservationName, 
+												data[index].facilityName, 
+												data[index].name, 
+												data[index].dateReserved + ' ' + data[index].reservationStart + ' - ' + data[index].reservationEnd, 
+												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												status,
+												actions
+												
+											]).draw(false);
+									
+
+									
+										
+									
+								}
+							}, 
+							error: function(data) {
+
+								var message = "Error: ";
+								var data = error.responseJSON;
+								for (datum in data) {
+									message += data[datum];
+								}
+
+								swal("Error", "Cannot fetch table data!\n" + message, "error");
+								console.log("Error: Cannot refresh table!\n" + message);
+							}
+						});
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
+
+		//END OF ALL REFRESH TABLE
 
 	</script>
 @endsection
