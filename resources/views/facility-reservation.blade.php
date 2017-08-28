@@ -583,6 +583,7 @@
 						color: eventColor
 					};
 					eventsFullCal.push(eventObj);
+					console.log("Event Handling");
 				}
 			}, 
 			error: function(errors) {
@@ -606,12 +607,7 @@
 					}, 
 					editable: 0, 
 					droppable: 0, 
-					events: [{
-						title: 'Long Weekend', 
-						start: '2017-08-26', 
-						end: '2017-08-28', 
-						color: '#37BC9B'
-					}]
+					events: eventsFullCal
 				});
 				$("#calendarModal").modal("show");
 
