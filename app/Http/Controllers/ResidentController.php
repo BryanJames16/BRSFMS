@@ -22,9 +22,7 @@ use SmartMove;
 class ResidentController extends Controller
 {
 
-    public function _construct() {
-        $this->middleware('auth');
-    }
+    
 
     public function index() {
     	$residents = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')

@@ -60,7 +60,7 @@
 				<div class="card-block">
 
 
-          <form class="form" method="post" action="/register" />
+          <form class="form" method="post" action="/register" enctype="multipart/form-data" />
 
           {{ csrf_field() }}
 							<div class="form-body">
