@@ -565,6 +565,16 @@
 	<script type="text/javascript">
 		var clickToday = function () {
 			$(".fc-today-button").click();
+
+			$(".fc-prev-button").on('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
+
+			$(".fc-next-button").click('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
 		};
 
 		var eventsFullCal = [];
@@ -586,15 +596,6 @@
 
 				window.setTimeout(clickToday, 1000);
 			});
-		});
-
-		$(".fc-prev-button").click(function () {
-			console.log(getCurrentDateTime());
-			//checkFullCalendar("1");
-		});
-
-		$(".fc-next-button").click(function () {
-			//checkFullCalendar("1");
 		});
 
 		var checkFullCalendar = function (passedDate) {
