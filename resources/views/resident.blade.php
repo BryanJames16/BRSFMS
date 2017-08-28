@@ -1130,10 +1130,10 @@
 						var genderText = "";
 						var image;
 						if (data[index].status == 1) {
-							statusText = "Active";
+							statusText = '<span class="tag round tag-default tag-success">Active</span>';
 						}
 						else {
-							statusText = "Inactive";
+							statusText = '<span class="tag round tag-default tag-danger">Inactive</span>';
 						}
 
 						if (data[index].gender == 'M')
@@ -1213,10 +1213,10 @@
 						var statusText = "";
 						var genderText = "";
 						if (data[index].status == 1) {
-							statusText = "Active";
+							statusText = '<span class="tag round tag-default tag-success">Active</span>';
 						}
 						else {
-							statusText = "Inactive";
+							statusText = '<span class="tag round tag-default tag-danger">Inactive</span>';
 						}
 
 						if (data[index].gender == 'M')
