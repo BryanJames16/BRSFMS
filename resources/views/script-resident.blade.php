@@ -119,6 +119,21 @@
 
 					for (index in data)
 					{
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
+						var sal = data[index].monthlyIncome;
+
+						if(data[index].currentWork=='None')
+						{
+							sal = "None";
+						}
+
 						var gen;
 						if(data[index].gender=='M')
 						{
@@ -140,7 +155,7 @@
 					
 						$('#viewBirth').html(
 							"<p style='font-size:15px' align='center'>"+
-							"Birthday: " +data[index].birthDate+
+							"Birthday: " + d +
 							"</p>"
 							);
 						$('#viewContact').html(
@@ -154,7 +169,7 @@
 							"Senior Citizen ID: "+data[index].seniorCitizenID + "<br>" + 
 							"Disabililities: "+data[index].disabilities + "<br>" +  
 							"Current Work: "+data[index].currentWork + "<br>" + 
-							"Monthly Income: "+data[index].monthlyIncome + "<br>" + 
+							"Monthly Income: "+ sal + "<br>" + 
 							"Resident Type: "+data[index].residentType + "<br>"
 						);
 						$('#resPic').html(

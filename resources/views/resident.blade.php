@@ -117,7 +117,7 @@
 												@endif
 												<td>{{ $resident -> residentID }}</td>
 												<td>{{ $resident -> firstName }} {{ substr($resident -> middleName,0,1)  }}. {{ $resident -> lastName }}</td>
-												<td>{{ $resident -> birthDate }}</td>
+												<td>{{ date('F j, Y',strtotime($resident -> birthDate)) }}</td>
 
 												@if ($resident -> gender == 'M')
 													<td>Male</td>
@@ -208,7 +208,7 @@
 													<td>{{ $family -> familyName }}</td>
 													<td>{{ $family -> lastName }}, {{ $family -> firstName }}  {{ substr($family -> middleName,0,1)  }}.</td>
 													<td>{{ $family -> number }}</td>
-													<td>{{ $family -> familyRegistrationDate }}</td>
+													<td>{{ date('F j, Y',strtotime($family -> familyRegistrationDate)) }}</td>
 													<td>
 														<span class="dropdown">
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
@@ -601,6 +601,7 @@
 												<div class="form-group col-xs-8 mb-2">
 													<label for="eventInput1">Relation</label>
 													<select class ="form-control border-info selectBox" name="type" id="rel">
+														<option value="Self">Self</option>
 														<option value="Wife">Wife</option>
 														<option value="Husband">Husband</option>
 														<option value="Mother">Mother</option>
@@ -1126,6 +1127,14 @@
 					data = $.parseJSON(data);
 
 					for (index in data) {
+					
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						var statusText = "";
 						var genderText = "";
 						var image;
@@ -1160,7 +1169,7 @@
 									img, 
 									data[index].residentID, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									data[index].birthDate, 
+									months[month] + ' ' + day + ', ' + year, 
 									genderText, 
 									data[index].residentType + ' Resident', 
 									statusText,
@@ -1210,6 +1219,14 @@
 					data = $.parseJSON(data);
 
 					for (index in data) {
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].familyRegistrationDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						var statusText = "";
 						var genderText = "";
 						if (data[index].status == 1) {
@@ -1235,7 +1252,7 @@
 									data[index].familyName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									data[index].number,
-									data[index].familyRegistrationDate,
+									d,
 										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
 

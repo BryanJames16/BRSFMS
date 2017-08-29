@@ -251,7 +251,7 @@ class ResidentController extends Controller
 
     public function getMembers(Request $r) {
         if($r->ajax()) {
-            return json_encode( \DB::table('residents') ->select('residentPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation',
+            return json_encode( \DB::table('residents') ->select('residentPrimeID','familymembers.familyMemberPrimeID','imagePath','firstName','middleName', 'lastName','families.familyName','birthDate', 'familymembers.memberRelation',
                                                     'gender') 
                                         ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
                                         ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
@@ -269,7 +269,7 @@ class ResidentController extends Controller
                                                     'gender') 
                                         ->join('familymembers', 'residents.residentPrimeID', '=', 'familymembers.peoplePrimeID')
                                         ->join('families', 'familymembers.familyPrimeID', '=', 'families.familyPrimeID')
-                                        ->where('residents.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->where('familymembers.familyMemberPrimeID', '=', $r->input('familyMemberPrimeID'))
                                         ->get());
         }
         else {

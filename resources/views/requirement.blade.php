@@ -416,7 +416,6 @@
 									'<input type="hidden" name="primeID" value="' + data[index].requirementID + '" />' + 
 									'<input type="hidden" name="serviceName" value="' + data[index].requirementName + '" />' + 
 									'<input type="hidden" name="serviceDesc" value="' + data[index].requirementDesc + '" />' + 
-									'<input type="hidden" name="status" value="' + statusText + '" />' + 
 									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].requirementID + '"><i class="icon-android-create"></i></button>' + 
 									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].requirementID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 								'</form>'

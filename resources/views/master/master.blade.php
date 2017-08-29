@@ -271,18 +271,20 @@
 											<span>Document</span>
 										</a>
 										<ul class="menu-content">
-											<li id="document-id">										
-												<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Physical Document
-												</a>
-											</li>
+											
 											<li id="requirement-id">
 												<a href="/requirement" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-paperplane"></i>
 													Requirement
 												</a>
 											</li>
+											<li id="document-id">										
+												<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-drawer"></i>
+													Physical Document
+												</a>
+											</li>
+											
 										</ul>
 									</li>
 									<li>

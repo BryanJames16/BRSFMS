@@ -91,6 +91,14 @@
 
 					for (index in data)
 					{
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						if(data[index].gender=='M')
 						{
 							gen = "Male";
@@ -110,7 +118,7 @@
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
 									gen,
 									data[index].memberRelation,
-									data[index].birthDate, 
+									d, 
 									
 										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
@@ -118,7 +126,7 @@
 											'<span class="dropdown">' +
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-													'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
+													'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].familyMemberPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
 													'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
 												'</span>' +
 											'</span>' + 
@@ -233,12 +241,23 @@
 				data: {"familyPrimeID":id}, 
 				success:function(data)
 				{
+
+					
+
                     $('#members').html('');
 					data = $.parseJSON(data);
 					console.log(data);	
 
 					for(index in data)
 					{
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						$('#members').append(
 							'<div class="col-xl-3 col-md-6 col-xs-12">'+
 								'<div class="card">'+
@@ -249,7 +268,7 @@
 										'<div class="card-block">'+
 											'<h4 class="card-title">'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</h4>'+
 											'<h6 class="card-subtitle text-muted">' + data[index].memberRelation+ '</h6>'+
-											'<h6 class="text-muted">' + data[index].birthDate+ '</h6>'+
+											'<h6 class="text-muted">' + d + '</h6>'+
 										'</div>'+
 									'</div>'+
 								'</div>'+
@@ -283,7 +302,7 @@
 			$.ajax({
 				type: 'get',
 				url: "{{ url('/family/getRelation') }}", 
-				data: {"residentPrimeID":id}, 
+				data: {"familyMemberPrimeID":id}, 
 				success:function(data)
 				{
 					data = $.parseJSON(data);
@@ -353,6 +372,14 @@
 
 							for (index in data)
 							{
+
+								var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+								var date = new Date(data[index].birthDate);
+								var month = date.getMonth();
+								var day = date.getDate();
+								var year = date.getFullYear();
+								var d = months[month] + ' ' + day + ', ' + year;
+
 								if(data[index].gender=='M')
 								{
 									gen = "Male";
@@ -372,7 +399,7 @@
 											data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
 											gen,
 											data[index].memberRelation,
-											data[index].birthDate, 
+											d, 
 											
 												'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 													'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
@@ -380,7 +407,7 @@
 													'<span class="dropdown">' +
 														'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 														'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-															'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
+															'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].familyMemberPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
 															'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
 														'</span>' +
 													'</span>' + 
@@ -475,6 +502,13 @@
 
 					for (index in data) {
 
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						if(data[index].gender=='M')
 						{
 							gen = "Male";
@@ -486,10 +520,11 @@
 						$("#table-addResident").DataTable()
 								.row.add([
 									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-									data[index].birthDate, 
+									d, 
 									gen, 
 									data[index].contactNumber,
 									'<select class ="form-control border-info selectBox" name="type" id="relation'+data[index].residentPrimeID+'">' +
+											'<option value="Self">Self</option>'+
 											'<option value="Wife">Wife</option>'+
 											'<option value="Husband">Husband</option>'+
 											'<option value="Mother">Mother</option>'+
@@ -564,6 +599,14 @@
 
 							for (index in data) {
 								
+
+								var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+								var date = new Date(data[index].birthDate);
+								var month = date.getMonth();
+								var day = date.getDate();
+								var year = date.getFullYear();
+								var d = months[month] + ' ' + day + ', ' + year;
+
 								if(data[index].gender=='M')
 								{
 									gen = "Male";
@@ -576,10 +619,11 @@
 								$("#table-addResident").DataTable()
 										.row.add([
 											data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-											data[index].birthDate, 
+											d, 
 											gen, 
 											data[index].contactNumber,
 											'<select class ="form-control border-info selectBox" name="type" id="relation'+data[index].residentPrimeID+'">' +
+											'<option value="Self">Self</option>'+
 											'<option value="Wife">Wife</option>'+
 											'<option value="Husband">Husband</option>'+
 											'<option value="Mother">Mother</option>'+
@@ -626,6 +670,15 @@
 
                             for (index in data)
                             {
+
+
+								var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+								var date = new Date(data[index].birthDate);
+								var month = date.getMonth();
+								var day = date.getDate();
+								var year = date.getFullYear();
+								var d = months[month] + ' ' + day + ', ' + year;
+
 								if(data[index].gender=='M')
 								{
 									gen = "Male";
@@ -646,7 +699,7 @@
                                             data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
                                             gen,
                                             data[index].memberRelation,
-                                            data[index].birthDate, 
+                                            d, 
                                             
                                                 '<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
                                                     '<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
@@ -654,7 +707,7 @@
                                                     '<span class="dropdown">' +
                                                         '<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
                                                         '<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-                                                            '<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
+                                                            '<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].familyMemberPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
                                                             '<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
                                                         '</span>' +
                                                     '</span>' + 
@@ -765,6 +818,14 @@
 
 												for (index in data)
 												{
+
+													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var date = new Date(data[index].birthDate);
+													var month = date.getMonth();
+													var day = date.getDate();
+													var year = date.getFullYear();
+													var d = months[month] + ' ' + day + ', ' + year;
+
 													if(data[index].gender=='M')
 													{
 														gen = "Male";
@@ -785,7 +846,7 @@
 																data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName,
 																gen,
 																data[index].memberRelation,
-																data[index].birthDate, 
+																d, 
 																
 																	'<form method="POST" id="' + data[index].residentPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
 																		'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
@@ -793,7 +854,7 @@
 																		'<span class="dropdown">' +
 																			'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 																			'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-																				'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
+																				'<a href="#" class="dropdown-item updateRelation" name="btnUpdate" data-value="' + data[index].familyMemberPrimeID + '"><i class="icon-eye6"></i> Update Relation</a>' +
 																				'<a href="#" class="dropdown-item deleteMember" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Remove</a>' +
 																			'</span>' +
 																		'</span>' + 
