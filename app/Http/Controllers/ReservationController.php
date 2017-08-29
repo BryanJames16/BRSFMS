@@ -48,7 +48,35 @@ class ReservationController extends Controller
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->get();
-        return view('facility-reservation')->with('reservations',$reservations);
+        $nonres= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'name','age','email','contactNumber') 
+                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->where('reservations.peoplePrimeID', '=', null) 
+                                        ->get();
+        return view('facility-reservation')->with('reservations',$reservations)->with('nonres',$nonres);
+    }
+
+    public function refresh(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
+                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function refreshNonRes(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'name','age','email','contactNumber') 
+                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->where('reservations.peoplePrimeID', '=', null) 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function store(Request $r) {
@@ -148,10 +176,34 @@ class ReservationController extends Controller
 
     public function getEdit(Request $r) {
         if($r->ajax()) {
-            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'people.lastName','people.firstName','people.middleName') 
+            return json_encode(\DB::table('reservations') ->select('reservations.primeID','peoplePrimeID','reservations.facilityPrimeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.contactNumber','residents.gender','residents.lastName','residents.firstName','residents.middleName') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
-                                        ->join('people', 'reservations.peoplePrimeID', '=', 'people.peoplePrimeID') 
+                                        ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->where('reservations.primeID','=', $r->input('primeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getEditNonRes(Request $r) {
+        if($r->ajax()) {
+            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.facilityPrimeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'name','age','email','contactNumber') 
+                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->where('reservations.peoplePrimeID', '=', null) 
+                                        ->where('reservations.primeID', '=', $r->input('primeID')) 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getRes(Request $r) {
+        if($r->ajax()) {
+            return json_encode(\DB::table('reservations') ->select('peoplePrimeID') 
+                                        ->where('primeID', '=', $r->input('primeID')) 
                                         ->get());
         }
         else {
@@ -189,13 +241,17 @@ class ReservationController extends Controller
             $reservation->status = 'Rescheduled';
             $reservation->save();
 
-            $aah = Reservation::insert(['reservationName'=>trim($r->name),
-                                                'reservationDescription'=>trim($r->desc),
-                                                'reservationStart'=>$r->startTime,
-                                                'reservationEnd'=>$r->endTime,
-                                                'dateReserved'=>$r->date,
-                                                'peoplePrimeID'=>$r->peoplePrimeID,
-                                                'facilityPrimeID'=>$r->facilityPrimeID,
+            $aah = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
+                                                'reservationDescription'=>trim($r->input('reservationDescription')),
+                                                'reservationStart'=>$r->input('reservationStart'),
+                                                'reservationEnd'=>$r->input('reservationEnd'),
+                                                'dateReserved'=>$r->input('dateReserved'),
+                                                'peoplePrimeID'=>$r->input('peoplePrimeID'),
+                                                'facilityPrimeID'=>$r->input('facilityPrimeID'),
+                                                'name'=>$r->input('name'),
+                                                'age'=>$r->input('age'),
+                                                'email'=>$r->input('email'),
+                                                'contactNumber'=>$r->input('contactNumber'),
                                                 'status'=>'Pending']);
 
             return redirect('facility-reservation');
