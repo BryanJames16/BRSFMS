@@ -100,6 +100,17 @@ class ResidentController extends Controller
 
 	public function store(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'residentID' => 'required|unique:residents|max:20',
+                'firstName' => 'alpha|required|max:30|min:2',
+                'middleName' => 'alpha|min:0|max:30',
+                'lastName' => 'alpha|required|min:2|max:30',
+                'birthDate' => 'required|date|before:tomorrow',
+                'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
+                'disabilities' => 'nullable|alpha_dash|min:0|max:250',
+            ]);
+
             $insertRet = Resident::insert(['residentID'=>trim($r -> input('residentID')),
                                                 'firstName' => trim($r -> input('firstName')),
                                                 'middleName' => trim($r -> input('middleName')),
@@ -140,6 +151,14 @@ class ResidentController extends Controller
 
     public function familyStore(Request $r) {
         if ($r->ajax()) { 
+
+
+            $this->validate($r, [
+                'familyID' => 'required|unique:families',
+                'familyHeadID' => 'required',
+                'familyName' => 'required|unique:families|max:30|min:5',
+            ]);
+
             $insertRet = Family::insert(['familyID'=>trim($r -> input('familyID')),
                                             'familyHeadID' => $r -> input('familyHeadID'),
                                             'familyName' => $r -> input('familyName'),
@@ -373,6 +392,17 @@ class ResidentController extends Controller
 
     public function edit(Request $r) { 
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'residentID' => 'required|max:20',
+                'firstName' => 'alpha_dash|required|max:30|min:2',
+                'middleName' => 'alpha_dash|min:0|max:30',
+                'lastName' => 'alpha_dash|required|min:2|max:30',
+                'birthDate' => 'required|date|before:tomorrow',
+                'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
+                'disabilities' => 'nullable|alpha_dash|min:0|max:250',
+            ]);
+
             $type = Resident::find($r->input('residentPrimeID'));
             $type->residentID = $r->input('residentID');
             $type->firstName = $r->input('firstName');

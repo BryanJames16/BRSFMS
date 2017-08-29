@@ -56,6 +56,13 @@ class DocumentRequestController extends Controller
 
     public function store(Request $r) {
         if ($r->ajax()) {
+
+
+            $this->validate($r, [
+                'requestID' => 'required|unique:documentrequests|max:20',
+                'quantity' => 'required|integer|max:8|min:1',
+            ]);
+
             $headRet = Documentrequest::insert([
                 "requestID" => trim($r -> input('requestID')), 
                 "requestDate" => Carbon::now(), 

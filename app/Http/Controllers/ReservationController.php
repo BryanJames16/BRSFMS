@@ -80,6 +80,9 @@ class ReservationController extends Controller
     }
 
     public function store(Request $r) {
+
+        
+
         $insertRet = Reservation::insert(['reservationName'=>trim($r->name),
                                                 'reservationDescription'=>trim($r->desc),
                                                 'reservationStart'=>$r->startTime,
@@ -93,6 +96,15 @@ class ReservationController extends Controller
     }
 
     public function residentStore(Request $r) {
+
+        $this->validate($r, [
+                'reservationName' => 'required|alpha_dash|unique:reservations|max:30|min:5',
+                'desc' => 'alpha_dash|nullable|max:500|min:0',
+                'startTime' => 'required',
+                'endTime' => 'required',
+                'date' => 'required|date|after_or_equal:today',
+            ]);
+
         $insertRet = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
                                                 'reservationDescription'=>trim($r->input('desc')),
                                                 'reservationStart'=>$r->input('startTime'),
@@ -176,6 +188,20 @@ class ReservationController extends Controller
     }
 
     public function nonresidentStore(Request $r) {
+
+
+        $this->validate($r, [
+                'reservationName' => 'required|alpha_dash|unique:reservations|max:30|min:5',
+                'desc' => 'alpha_dash|nullable|max:500|min:0',
+                'startTime' => 'required',
+                'endTime' => 'required',
+                'date' => 'required|date|after_or_equal:today',
+                'name' => 'alpha_dash|required|max:100|min:5',
+                'age' => 'integer|required|min:10',
+                'email' => 'email|required',
+                'contactNumber' => 'numeric|required',
+            ]);
+
         $insertRet = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
                                                 'reservationDescription'=>trim($r->input('desc')),
                                                 'reservationStart'=>$r->input('startTime'),
@@ -327,6 +353,18 @@ class ReservationController extends Controller
             $reservation = Reservation::find($r->input('primeID'));
             $reservation->status = 'Rescheduled';
             $reservation->save();
+
+             $this->validate($r, [
+                'reservationName' => 'required|alpha_dash|max:30|min:5',
+                'reservationDescription' => 'alpha_dash|nullable|max:500|min:0',
+                'reservationStart' => 'required',
+                'reservationEnd' => 'required',
+                'dateReserved' => 'required|date|after_or_equal:today',
+                'name' => 'alpha_dash|required|max:100|min:5',
+                'age' => 'integer|required|min:10',
+                'email' => 'email|required',
+                'contactNumber' => 'numeric|required',
+            ]);
 
             $aah = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
                                                 'reservationDescription'=>trim($r->input('reservationDescription')),

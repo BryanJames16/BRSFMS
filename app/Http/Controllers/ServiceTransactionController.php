@@ -97,6 +97,16 @@ class ServiceTransactionController extends Controller
 
     public function store(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
+                'serviceName' => 'unique:servicetransactions|required|max:30|min:2',
+                'fromAge' => 'integer|nullable|min:0',
+                'toAge' => 'integer|nullable|min:1',
+                'toDate' => 'nullable|date|after:fromDate',
+                'fromDate' => 'date|required|after_or_equal:today',
+            ]);
+
             $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
                                                 'serviceName' => $r -> input('serviceName'),
                                                 'servicePrimeID' => $r -> input('servicePrimeID'),
@@ -114,6 +124,11 @@ class ServiceTransactionController extends Controller
 
     public function addRecipient(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'quantity' => 'required',
+            ]);
+
             $insertRet = Partrecipient::insert(['participantID' => $r -> input('participantID'),
                                                 'recipientID' => $r -> input('recipientID'),
                                                 'quantity' => $r -> input('quantity'),
@@ -128,6 +143,14 @@ class ServiceTransactionController extends Controller
 
     public function storeNoAge(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
+                'serviceName' => 'unique:servicetransactions|required|max:30|min:2',
+                'toDate' => 'nullable|date|after:fromDate',
+                'fromDate' => 'date|required|after_or_equal:today',
+            ]);
+
             $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
                                                 'serviceName' => $r -> input('serviceName'),
                                                 'servicePrimeID' => $r -> input('servicePrimeID'),
@@ -143,6 +166,14 @@ class ServiceTransactionController extends Controller
 
     public function storeAge(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
+                'serviceName' => 'unique:servicetransactions|required|max:30|min:2',
+                'fromAge' => 'integer|nullable|min:0',
+                'toAge' => 'integer|nullable|min:1',
+                'fromDate' => 'date|required|after_or_equal:today',
+            ]);
             $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
                                                 'serviceName' => $r -> input('serviceName'),
                                                 'servicePrimeID' => $r -> input('servicePrimeID'),
@@ -159,6 +190,12 @@ class ServiceTransactionController extends Controller
 
     public function storeNo(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
+                'serviceName' => 'unique:servicetransactions|required|max:30|min:2',
+                'fromDate' => 'date|required|after_or_equal:today',
+            ]);
             $insertRet = Servicetransaction::insert(['serviceTransactionID' => $r -> input('serviceTransactionID'),
                                                 'serviceName' => $r -> input('serviceName'),
                                                 'servicePrimeID' => $r -> input('servicePrimeID'),
@@ -319,6 +356,16 @@ class ServiceTransactionController extends Controller
 
     public function update(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
+                'serviceName' => 'required|max:30|min:2',
+                'fromAge' => 'integer|nullable|min:0',
+                'toAge' => 'integer|nullable|min:1',
+                'toDate' => 'nullable|date|after:fromDate',
+                'fromDate' => 'date|required|after_or_equal:today',
+            ]);
+
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
             $type->serviceTransactionID = $r->input('serviceTransactionID');
             $type->serviceName = $r->input('serviceName');

@@ -53,7 +53,7 @@ class DocumentController extends Controller
         if ($r->ajax()) {
             $this->validate($r, [
                 'documentID' => 'required|unique:documents|max:20',
-                'documentName' => 'required|max:30|min:7|regex:/(^([a-zA-z0-9_-]+)(\d+)?$)/u',
+                'documentName' => 'required|max:30|min:7',
                 'documentPrice' => 'required|numeric|min:0|max:1000000',
                 'documentContent' => 'required|min:10|max:500',
             ]);
