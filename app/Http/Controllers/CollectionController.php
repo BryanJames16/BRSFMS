@@ -140,10 +140,17 @@ class CollectionController extends Controller
         
         $receiptInfo = new ReceiptInfo();
         $receiptInfo -> transactionID = $transact -> collectionID;
-        $receiptInfo -> customerName = $resident -> firstName . " " . 
-                                        $resident -> middleName . " " . 
-                                        $resident -> lastName . " " . 
-                                        "(" . $resident -> residentID . ")";
+        
+        if (is_null()) {
+            $receiptInfo -> customerName = $resident -> firstName . " " . 
+                                            $resident -> middleName . " " . 
+                                            $resident -> lastName . " " . 
+                                            "(" . $resident -> residentID . ")";
+        }
+        else {
+            $recieptInfo -> customerName = $reservation -> name;
+        }
+
         $receiptInfo -> transactionDate = date_format($transact -> collectionDate, 
                                                         "m/d/Y G:i:s A");
         $receiptInfo -> paymentDate = date_format($transact -> paymentDate, 

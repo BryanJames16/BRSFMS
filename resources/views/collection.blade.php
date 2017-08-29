@@ -414,13 +414,6 @@
             $("#addModal").modal('show');
         });
 
-		$(".btnUpdate").on('click', function () {
-			var collectionID = $(this).data('value');
-			
-			$("#updateModal").modal('show');
-			$("#uCollectionID").val(collectionID);
-		});
-
 		$(".btnReceipt").on('click', function () {
 			var collectionID = $(this).data('value');
 			showReceipt(collectionID);
@@ -436,6 +429,15 @@
 			$("#table-container").DataTable().clear().draw();
 			fillResident();
 			fillNesident();
+
+			$(document).ready(function () {
+				$(".btnUpdate").on('click', function () {
+					var collectionID = $(this).data('value');
+					
+					$("#updateModal").modal('show');
+					$("#uCollectionID").val(collectionID);
+				});
+			});
 		}
 
 		var fillResident = function() {
@@ -443,6 +445,7 @@
 				$.ajax({
 					url: '{{ url("/collection/gFResident") }}', 
 					method: 'GET', 
+					async: false, 
 					success: function (data) {
 						data = $.parseJSON(data);
 						for (datum in data) {
@@ -463,6 +466,15 @@
 								collectionTypeString = "Business Registration";
 							}
 
+							var buttonValues = "";
+							if (data[datum].status == "Paid" || 
+								data[datum].status == "paid") {
+								buttonValues = "<a href='#' class='dropdown-item btnReceipt' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>";
+							}
+							else {
+								buttonValues = "<a href='#' class='dropdown-item btnUpdate' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>";
+							}
+
 							$("#table-container").DataTable()
 								.row.add([
 									data[datum].collectionID, 
@@ -475,8 +487,7 @@
 									data[datum].status, 
 									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-										"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
-										"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
+										buttonValues + 
 									"</span>"
 								]).draw(false);
 						}
@@ -499,6 +510,7 @@
 				$.ajax({
 					url: '{{ url("/collection/gFNesident") }}', 
 					method: 'GET', 
+					async: false, 
 					success: function (data) {
 						data = $.parseJSON(data);
 						for (datum in data) {
@@ -519,6 +531,15 @@
 								collectionTypeString = "Business Registration";
 							}
 
+							var buttonValues = "";
+							if (data[datum].status == "Paid" || 
+								data[datum].status == "paid") {
+								buttonValues = "<a href='#' class='dropdown-item btnReceipt' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>";
+							}
+							else {
+								buttonValues = "<a href='#' class='dropdown-item btnUpdate' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>";
+							}
+
 							$("#table-container").DataTable()
 								.row.add([
 									data[datum].collectionID, 
@@ -529,8 +550,7 @@
 									data[datum].status, 
 									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-										"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
-										"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
+										buttonValues + 
 									"</span>"
 								]).draw(false);
 						}
@@ -559,6 +579,7 @@
 				}, 
 				success: function (data) {
 					data = $.parseJSON(data);
+					console.log("Collection Passed: " + $("#uCollectionID").val());
 					console.log("AMOUNT: " + data.amount);
 					if (data.amount <= $("#recievedCash").val()) {
 						payCollection(data.amount, $("#recievedCash").val());
