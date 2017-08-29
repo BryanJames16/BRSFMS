@@ -428,6 +428,126 @@
 			$("#receiptModal").modal('show');
 		});
 
+		$(document).ready(function () {
+			fillTable();
+		});
+
+		var fillTable = function () {
+			$("#table-container").DataTable().clear().draw();
+			fillResident();
+			fillNesident();
+		}
+
+		var fillResident = function() {
+			$(document).ready(function () {
+				$.ajax({
+					url: '{{ url("/collection/gFResident") }}', 
+					method: 'GET', 
+					success: function (data) {
+						data = $.parseJSON(data);
+						for (datum in data) {
+							var collectionTypeString = "";
+							if (data[datum].collectionType == 1) {
+								collectionTypeString = "Barangay ID";
+							} 
+							else if (data[datum].collectionType == 2) {
+								collectionTypeString = "Document Request";
+							} 
+							else if (data[datum].collectionType == 3) {
+								collectionTypeString = "Facility Reservation";
+							} 
+							else if (data[datum].collectionType == 4) {
+								collectionTypeString = "Services";
+							} 
+							else {
+								collectionTypeString = "Business Registration";
+							}
+
+							$("#table-container").DataTable()
+								.row.add([
+									data[datum].collectionID, 
+									data[datum].firstName + " " + 
+									data[datum].middleName + " " + 
+									data[datum].lastName + " " + 
+									"(" + data[datum].residentID + ")", 
+									collectionTypeString, 
+									data[datum].amount, 
+									data[datum].status, 
+									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+										"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
+										"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
+									"</span>"
+								]).draw(false);
+						}
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			});
+		};
+
+		var fillNesident = function() {
+			$(document).ready(function () {
+				$.ajax({
+					url: '{{ url("/collection/gFNesident") }}', 
+					method: 'GET', 
+					success: function (data) {
+						data = $.parseJSON(data);
+						for (datum in data) {
+							var collectionTypeString = "";
+							if (data[datum].collectionType == 1) {
+								collectionTypeString = "Barangay ID";
+							} 
+							else if (data[datum].collectionType == 2) {
+								collectionTypeString = "Document Request";
+							} 
+							else if (data[datum].collectionType == 3) {
+								collectionTypeString = "Facility Reservation";
+							} 
+							else if (data[datum].collectionType == 4) {
+								collectionTypeString = "Services";
+							} 
+							else {
+								collectionTypeString = "Business Registration";
+							}
+
+							$("#table-container").DataTable()
+								.row.add([
+									data[datum].collectionID, 
+									data[datum].name + 
+									"(" + data[datum].primeID + ")", 
+									collectionTypeString, 
+									data[datum].amount, 
+									data[datum].status, 
+									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+										"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
+										"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
+									"</span>"
+								]).draw(false);
+						}
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			});
+		};
+
 		$("#frmPay").submit(function (event) {
 			event.preventDefault();
 			
@@ -475,59 +595,7 @@
 		});
 
 		var refreshTable = function () {
-			$.ajax({
-				url: '{{ url("/collection/gCollect") }}', 
-				method: 'GET', 
-				success: function (data) {
-					$("#table-container").DataTable().clear().draw();
-
-					data = $.parseJSON(data);
-					for (datum in data) {
-						var collectionTypeString = "";
-						if (data[datum].collectionType == 1) {
-							collectionTypeString = "Barangay ID";
-						} 
-						else if (data[datum].collectionType == 2) {
-							collectionTypeString = "Document Request";
-						} 
-						else if (data[datum].collectionType == 3) {
-							collectionTypeString = "Facility Reservation";
-						} 
-						else if (data[datum].collectionType == 4) {
-							collectionTypeString = "Services";
-						} 
-						else {
-							collectionTypeString = "Business Registration";
-						}
-
-						$("#table-container").DataTable()
-							.row.add([
-								data[datum].collectionID, 
-								data[datum].firstName + " " + 
-								data[datum].middleName + " " + 
-								data[datum].lastName + " " + 
-								"(" + data[datum].residentID + ")", 
-								collectionTypeString, 
-								data[datum].amount, 
-								data[datum].status, 
-								"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
-								"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-									"<a href='#' class='dropdown-item btnUpdate' data-value='" + data.collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>" + 
-									"<a href='#' class='dropdown-item btnReceipt' data-value='" + data.collectionPrimeID + "'><i class='icon-pen3'></i> Receipt</a>" + 
-								"</span>"
-							]).draw(false);
-					}
-				}, 
-				error: function (errors) {
-					var message = "Errors: ";
-					var data = errors.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
+			fillTable();
 		}
 
 		var payCollection = function (total, amount) {

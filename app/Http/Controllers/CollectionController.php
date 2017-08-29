@@ -28,7 +28,6 @@ class CollectionController extends Controller
                         -> join('residents', 
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
                         -> where('reservations.status', '!=', 'Cancelled')
-                        //-> where('collections.status', '!=', 'Paid')
                         -> get();
         return view('collection')->with('collections', $collections);
     }
@@ -51,6 +50,49 @@ class CollectionController extends Controller
                                     -> where('reservations.status', '!=', 'Cancelled')
                                     //-> where('collections.status', '!=', 'Paid')
                                     -> get();
+        return json_encode($collections);
+    }
+
+    public function getReserveRCollection(Request $r) {
+        $collections = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                                    -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                                    -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                                    -> where('reservations.status', '!=', 'Cancelled')
+                                    -> get();
+        
+        return json_encode($collections);
+    }
+
+    public function getReserveNCollection(Request $r) {
+        $collections = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'reservations.name', 
+                                            'reservations.age', 
+                                            'reservations.email', 
+                                            'reservations.contactNumber', 
+                                            'reservations.primeID')
+                                    -> join('reservations', 
+                                                'collections.reservationPrimeID', 
+                                                '=', 
+                                                'reservations.primeID') 
+                                    -> where('reservations.status', '!=', 'Cancelled')
+                                    -> whereNotNull('reservations.name') 
+                                    -> get();
+        
         return json_encode($collections);
     }
 
