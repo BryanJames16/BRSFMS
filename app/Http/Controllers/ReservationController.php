@@ -170,7 +170,7 @@ class ReservationController extends Controller
                                                 'amount' => $totalAmount, 
                                                 'status' => 'Pending', 
                                                 'reservationPrimeID' => $latestReservation -> primeID, 
-                                                'residentPrimeID' => $reservee -> peoplePrimeID]);
+                                                'residentPrimeID' => $latestReservation -> peoplePrimeID]);
         
         return back();
     }
@@ -255,7 +255,8 @@ class ReservationController extends Controller
                                                 'collectionType' => 3, 
                                                 'amount' => $totalAmount, 
                                                 'status' => 'Pending', 
-                                                'reservationPrimeID' => $latestReservation -> primeID]);
+                                                'reservationPrimeID' => $latestReservation -> primeID, 
+                                                'peoplePrimeID' => $latestReservation -> peoplePrimeID]);
 
         return back();
     }
