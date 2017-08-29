@@ -438,6 +438,8 @@
 					$("#uCollectionID").val(collectionID);
 				});
 			});
+
+			console.log("Table has been filed!");
 		}
 
 		var fillResident = function() {
@@ -583,7 +585,8 @@
 					console.log("AMOUNT: " + data.amount);
 					if (data.amount <= $("#recievedCash").val()) {
 						payCollection(data.amount, $("#recievedCash").val());
-						refreshTable();
+						fillTable();
+						console.log("Payment Done!");
 					} 
 					else {
 						swal("Error", 
