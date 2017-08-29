@@ -193,6 +193,8 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 Route::get('/collection/gCollect', 'CollectionController@getCollection');
 Route::get('/collection/gHeader', 'CollectionController@getHeader');
 Route::get('/collection/gAmount', 'CollectionController@getAmount');
+Route::get('/collection/gFResident', 'CollectionController@getReserveRCollection');
+Route::get('/collection/gFNesident', 'CollectionController@getReserveNCollection');
 Route::get('/collection/gTransact', 'CollectionController@getTransact');
 Route::post('/collection/pay', 'CollectionController@payCollection');
 
