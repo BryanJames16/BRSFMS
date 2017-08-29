@@ -545,7 +545,10 @@
 @endsection
 
 @section('page-vendor-js')
-	
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
+	<!-- <script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script> -->
+
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
@@ -635,7 +638,7 @@
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Reservation Name</label>'+
 										
-										'{!!Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'{!!Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'minlength'=>'5', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Resident</label>'+
@@ -659,7 +662,7 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Date</label>'+
-										'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control'])!!}'+
+										'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30'])!!}'+
 									'</div>'+
 								'</div>'+
 
@@ -1288,18 +1291,18 @@
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::text('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1'])!!}'+
 										'</div>'+
 									'</div>'+
 
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Email</label>'+
-											'{!!Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.junjun@yahoo.com', 'maxlength'=>'32','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 32 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Contact Number</label>'+
-											'{!!Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.09275223489', 'maxlength'=>'11','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 11 dugits', 'minlength'=>'5'])!!}'+
 										'</div>'+
 									'</div>'+
 
@@ -1355,7 +1358,23 @@
 		});
 
 		// END OF RES SWITCH
+		
+		$(document).ready(function () {
+			jQuery.validator.addMethod("greaterThan", 
+				function(value, element, params) {
 
+					if (!/Invalid|NaN/.test(new Date(value))) {
+						return new Date(value) > new Date($(params).val());
+					}
+
+					return isNaN(value) && isNaN($(params).val()) 
+						|| (Number(value) > Number($(params).val())); 
+				},'Must be greater than {0}.'
+			);
+
+			//$("#rendTime").rules('add', { greaterThan: "#rstartTime" });
+		});
+		
 		$("#frm-reschedule").submit(function(event) {
 
 			event.preventDefault();
