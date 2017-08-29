@@ -80,6 +80,13 @@ var getStringDateTime = function () {
             dateTimeToday.getMilliseconds());
 }
 
+var getDateOnly = function () {
+    var dateTimeToday = new Date();
+    return (dateTimeToday.getFullYear() + "-" + 
+            dateTimeToday.getMonth() + "-" + 
+            dateTimeToday.getDate());
+}
+
 var getCurrentDate = function() {
     var monthNames = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"];
