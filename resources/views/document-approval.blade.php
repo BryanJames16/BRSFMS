@@ -122,6 +122,12 @@
 										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#rejected" aria-controls="link3" aria-expanded="false">Rejected</a>
 									</li>
 								</ul>
+
+								<form id='docReq'>
+									<input type="hidden" id="dcID"></input>
+
+								</form>
+
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="waiting" aria-labelledby="active-tab3" aria-expanded="true">
 										<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-waiting">
@@ -140,7 +146,7 @@
 												@foreach($requests as $request)
 												<tr>
 													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
-													<td>{{ $request -> requestDate }} </td>
+													<td>{{ date('F j, Y',strtotime($request -> requestDate)) }}</td>
 													<td>{{ $request -> documentName }} </td>
 													<td>{{ $request -> quantity }}</td>
 													<td><span class="tag round tag-default tag-info">Waiting for approval</span></td>
@@ -173,7 +179,7 @@
 												@foreach($approved as $request)
 												<tr>
 													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
-													<td>{{ $request -> requestDate }} </td>
+													<td>{{ date('F j, Y',strtotime($request -> requestDate)) }}</td>
 													<td>{{ $request -> documentName }} </td>
 													<td>{{ $request -> quantity }}</td>
 													<td><span class="tag round tag-default tag-success">Approved</span></td> 
@@ -198,7 +204,7 @@
 												@foreach($rejected as $request)
 												<tr>
 													<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
-													<td>{{ $request -> requestDate }} </td>
+													<td>{{ date('F j, Y',strtotime($request -> requestDate)) }}</td>
 													<td>{{ $request -> documentName }} </td>
 													<td>{{ $request -> quantity }}</td>
 													<td><span class="tag round tag-default tag-danger">Rejected</span></td> 
@@ -244,10 +250,10 @@
 													</span>
 												</div>
 
-												<div class="form-actions center">
+												<p align="center">
 													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
-													<button type="submit" class="btn btn-success mr-1 approveReq" id="submit">Submit</button>
-												</div>												
+													<button type="button" class="btn btn-success mr-1 approveReq" id="printReceipt">Print Document and Approve</button>
+												</p>												
 											</div>
 
 
@@ -292,6 +298,8 @@
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
+
+		
 
 		$(document).on('click', '.reject', function(event) {
 			event.preventDefault();
@@ -341,13 +349,20 @@
 					data = $.parseJSON(data);
 
 					for (index in data) {
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].requestDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
 						
 						$("#table-waiting").DataTable()
 							.row.add([
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
 									data[index].lastName, 
-								data[index].requestDate, 
+								d, 
 								data[index].documentName, 
 								data[index].quantity, 
 								'<span class="tag round tag-default tag-info">Waiting for approval</span>',
@@ -385,12 +400,19 @@
 
 					for (index in data) {
 						
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].requestDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						$("#table-approved").DataTable()
 							.row.add([
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
 									data[index].lastName, 
-								data[index].requestDate, 
+								d, 
 								data[index].documentName, 
 								data[index].quantity,
 								'<span class="tag round tag-default tag-success">Approved</span>',
@@ -421,12 +443,19 @@
 
 					for (index in data) {
 						
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].requestDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						$("#table-rejected").DataTable()
 							.row.add([
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
 									data[index].lastName, 
-								data[index].requestDate, 
+								d, 
 								data[index].documentName, 
 								data[index].quantity,
 								'<span class="tag round tag-default tag-danger">Rejected</span>',
@@ -450,6 +479,9 @@
 			event.preventDefault();
 
 			var documentRequestPrimeID = $(this).data("value");
+
+			var frm = $('#docReq');
+			frm.find('#dcID').val(documentRequestPrimeID);
 
 			var documentID = "";
 			var documentName = "";
@@ -590,15 +622,58 @@
 							"</div>"
 						);
 						$("#fixContainer").html($("#imgPlaceHolder").html());
-						html2canvas($("#imgPlaceholder"), {
-							width: 816, 
-							height: 1056, 
-							onrendered: function(newDraw) {
-								console.log("Written!");
-								pdfDoc.addImage(newDraw, 'png', 0, 0);
-								pdfDoc.save("DOC-" + getStringDateTime() + ".pdf");
-							}, 
-							useCORS: true
+						
+						
+						$("#printReceipt").click(function () {
+							
+
+							html2canvas($("#imgPlaceholder"), {
+								width: 816, 
+								height: 1056, 
+								onrendered: function(newDraw) {
+									console.log("Written!");
+									pdfDoc.addImage(newDraw, 'png', 0, 0);
+									pdfDoc.save("DOC-" + getStringDateTime() + ".pdf");
+								}, 
+								useCORS: true
+							});
+
+							$.ajax({
+								url: "{{ url('/document-approval/approve') }}", 
+								type: "post", 
+								data: {"documentRequestPrimeID": documentRequestPrimeID}, 
+								success: function(data) {
+									
+									refreshWaiting();
+									refreshApproved();
+									refreshRejected();
+
+									swal({
+										title: "Document Approved!",
+										text: "Do you want to print again or go back?",
+										type: "success",
+										showCancelButton: true,
+										cancelButtonText: "GO BACK", 
+										confirmButtonColor: "#DD6B55",
+										confirmButtonText: "PRINT AGAIN",
+										closeOnConfirm: false
+									}, function() {
+										
+									}
+								);
+
+								}, 
+								error: function(error) {
+									var message = "Error: ";
+									var data = error.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
+
+									swal("Error", "Cannot fetch table data!\n" + message, "error");
+								}
+							});
+
 						});
 					});
 
@@ -633,9 +708,11 @@
 	
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2pdf.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-vendor-js')
