@@ -168,6 +168,7 @@ Route::post('/document-request/requirementsDelete', 'DocumentRequestController@r
 
 // Document Approval
 Route::post('/document-approval/reject', 'DocumentApprovalController@reject');
+Route::post('/document-approval/approve', 'DocumentApprovalController@approve');
 Route::get('/document-approval/refreshWaiting', 'DocumentApprovalController@refreshWaiting');
 Route::get('/document-approval/refreshApproved', 'DocumentApprovalController@refreshApproved');
 Route::get('/document-approval/refreshRejected', 'DocumentApprovalController@refreshRejected');

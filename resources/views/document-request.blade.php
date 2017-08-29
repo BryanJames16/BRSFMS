@@ -560,6 +560,8 @@
 
 			if(h == l)
 			{
+
+
 				$.ajax({
 				url: "{{ url('/document-request/waiting') }}", 
 				method: "POST", 

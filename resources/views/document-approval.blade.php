@@ -647,20 +647,14 @@
 									refreshWaiting();
 									refreshApproved();
 									refreshRejected();
+									$("#lookContainer").width("0").height("0");
+									$("#lookContainer").html("");
+									$("#signContainer").html("");
 
-									swal({
-										title: "Document Approved!",
-										text: "Do you want to print again or go back?",
-										type: "success",
-										showCancelButton: true,
-										cancelButtonText: "GO BACK", 
-										confirmButtonColor: "#DD6B55",
-										confirmButtonText: "PRINT AGAIN",
-										closeOnConfirm: false
-									}, function() {
-										
-									}
-								);
+									swal("Success", "Document Approved!", "success");
+									
+									$("#pdfModal").modal("hide");
+									
 
 								}, 
 								error: function(error) {
@@ -687,8 +681,7 @@
 			});
 			
 			setTimeout(function () {
-				//$("#lookContainer").width("0").height("0");
-				//$("#lookContainer").html("");
+				
 			}, 5000);
 
 			
@@ -697,10 +690,10 @@
 		
 
 		$(".cancel-view").on('click', function() {
-			//$("#imgPlaceholder").css('cursor', 'default');
-			//$("#imgPlaceholder").off('click');
-			//$("#signContainer").html("");
-			//$("#lookContainer").html("");
+			$("#imgPlaceholder").css('cursor', 'default');
+			$("#imgPlaceholder").off('click');
+			$("#signContainer").html("");
+			$("#lookContainer").html("");
 		});
 	
 	</script>

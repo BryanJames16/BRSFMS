@@ -430,6 +430,18 @@ class DocumentApprovalController extends Controller
             return view('errors.403');
         }
     }
+    public function approve(Request $r) {
+        if ($r->ajax()) {
+            $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
+            $documentRequest -> status = "Approved";
+            $documentRequest -> save();
+
+            return redirect('/document-request');
+        }
+        else {
+            return view('errors.403');
+        }
+    }
 
     public function reject(Request $r) {
         if ($r->ajax()) {
