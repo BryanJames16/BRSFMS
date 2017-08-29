@@ -563,16 +563,16 @@
 					$("#imgPlaceholder").css("cursor", "url('{{ asset('/system-assets/images/sign/Handwriting.cur') }}'), crosshair");
 					//$("#imgPlaceholder").addClass("sign-cursor");
 
-					var pdfDoc = new jsPDF('p', 'in', [8.5, 13]);
+					var pdfDoc = new jsPDF('p', 'in', [8.5, 11]);
 
 					pdfDoc.setProperties({
-						title: documentID + documentName, 
+						title: documentID + "_-_" + documentName, 
 						subject: documentName, 
 						author: "Barangay Resident, Services, and Facilities Managemet System", 
 						keyword: documentName,
 						creator: "Barangay Resident, Services, and Facilities Managemet System"
 					});
-					pdfDoc.addImage(imgData, 'png', 0, 0);
+					//pdfDoc.addImage(imgData, 'png', 0, 0);
 					var pdfUrl = pdfDoc.output('datauristring');
 					$("#signContainer").html(
 						'<img id="signPanel" src="{{ URL::asset("/system-assets/images/sign/samplesignature.png") }}" height="95px" width="185px">'
@@ -589,12 +589,14 @@
 							"<div id='signContainer' class='signContainer' height='95px' width='185px'>" + 
 							"</div>"
 						);
-						
+						$("#fixContainer").html($("#imgPlaceHolder").html());
 						html2canvas($("#imgPlaceholder"), {
 							width: 816, 
 							height: 1056, 
 							onrendered: function(newDraw) {
-								$("#lookContainer").html(newDraw);
+								console.log("Written!");
+								pdfDoc.addImage(newDraw, 'png', 0, 0);
+								pdfDoc.save("DOC-" + getStringDateTime() + ".pdf");
 							}, 
 							useCORS: true
 						});
@@ -610,8 +612,8 @@
 			});
 			
 			setTimeout(function () {
-				$("#lookContainer").width("0").height("0");
-				$("#lookContainer").html("");
+				//$("#lookContainer").width("0").height("0");
+				//$("#lookContainer").html("");
 			}, 5000);
 
 			
@@ -620,19 +622,20 @@
 		
 
 		$(".cancel-view").on('click', function() {
-			$("#imgPlaceholder").css('cursor', 'default');
-			$("#imgPlaceholder").off('click');
-			$("#signContainer").html("");
-			$("#lookContainer").html("");
+			//$("#imgPlaceholder").css('cursor', 'default');
+			//$("#imgPlaceholder").off('click');
+			//$("#signContainer").html("");
+			//$("#lookContainer").html("");
 		});
 	
 	</script>
 	
 	
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-vendor-js')

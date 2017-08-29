@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Resident;
 use \App\Models\Reservation;
-use \App\Models\Documentheaderrequest;
+use \App\Models\Documentrequest;
 use \Illuminate\Validation\Rule;
 
 require_once(app_path() . '/Includes/pktool.php');
@@ -31,9 +31,9 @@ class DashboardController extends Controller
                                     ->where("status", "=", "Pending")
                                     ->where("status", "=", "pending")
                                     ->count();
-            $card->request = Documentheaderrequest::where("status", "=", "Pending")
-                                ->where("status", "=", "pending")
-                                ->count();
+            $card->request = Documentrequest::where("status", "=", "Pending")
+                                                ->where("status", "=", "pending")
+                                                ->count();
             return json_encode($card);
         }
         else {

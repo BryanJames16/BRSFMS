@@ -587,6 +587,11 @@
 		@yield('js-setting')
 		<!-- End Post Scripts -->
 
+		<!-- Begin System Scripts -->
+		<script src="{{ URL::asset('/js/sys-handler.js') }}" type="text/javascript"></script>
+		@yield('system-js')
+		<!-- End System Scripts -->
+
 		<!-- General Javacript -->
 		@yield('general-js')
 		<!-- End General Javascript -->

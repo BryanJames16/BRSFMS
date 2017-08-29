@@ -89,6 +89,17 @@ class ReservationController extends Controller
             
             $totalAmount += $hourDiff * ($morningPrice[0] -> facilityDayPrice);
             
+        } 
+        else if (date('H', strtotime($r->input('startTime'))) >= 18 && 
+                    date('H', strtotime($r->input('startTime'))) <= 22 && 
+                    date('H', strtotime($r->input('endTime'))) >= 18 && 
+                    date('H', strtotime($r->input('endTime'))) <= 22) {
+            $morningPrice = Facility::select('facilityDayPrice')
+                                -> where('primeID', '=', $r->input('facilityPrimeID'))
+                                -> get();
+        }
+        else {
+            // Some Codes Here
         }
         
         $listOfCollection = Collection::select('collectionID') 

@@ -110,7 +110,20 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{{Form::text('documentID',null,['id'=>'documentID','class'=>' form-control', 'placeholder'=>'eg.DOC_001', 'maxlength'=>'20','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters','required', 'readonly', 'minlength'=>'5', 'pattern'=>'^[a-zA-Z0-9-_]+$'])}}
+			{{ Form::text('documentID', 
+							null, 
+							['id' => 'documentID', 
+							'class' => ' form-control', 
+							'placeholder' => 'eg.DOC_001', 
+							'maxlength' => '20', 
+							'data-toggle' => 'tooltip', 
+							'data-trigger' => 'focus', 
+							'data-placement' => 'top', 
+							'data-title' => 'Maximum of 20 characters', 
+							'required', 
+							'readonly', 
+							'minlength' => '5', 
+							'pattern' => '^[a-zA-Z0-9-_]+$']) }}
 		</div>	
 
 	</div>
@@ -118,7 +131,19 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{{Form::text('documentName',null,['id'=>'documentName','class'=>' form-control', 'placeholder'=>'eg.Barangay Clearance', 'maxlength'=>'30','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters','required', 'minlength'=>'7', 'pattern'=>'^[a-zA-Z0-9-_ ]+$'])}}
+			{{ Form::text('documentName', 
+							null, 
+							['id' => 'documentName', 
+							'class' => ' form-control', 
+							'placeholder' => 'eg.Barangay Clearance', 
+							'maxlength' => '30', 
+							'minlength' => '7', 
+							'data-toggle' => 'tooltip', 
+							'data-trigger' => 'focus', 
+							'data-placement' => 'top', 
+							'data-title' => 'Maximum of 30 characters', 
+							'required', 
+							'pattern' => '^[a-zA-Z0-9-_ ]+$']) }}
 		</div>	
 
 	</div>
@@ -161,7 +186,15 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
 		<div class="col-md-9">
-			{{Form::number('documentPrice',null,['id'=>'documentPrice','class'=>'form-control','min'=>'0', 'maxlength'=>'10', 'minlength'=>'1', 'step'=>'0.01'])}}
+			{{ Form::number('documentPrice', 
+								null, 
+								['id' => 'documentPrice', 
+								'class' => 'form-control', 
+								'min' => '0', 
+								'max' => '1000000', 
+								'maxlength' => '10', 
+								'minlength' => '1', 
+								'step'=>'0.25']) }}
 		</div>	
 	</div>
 
@@ -464,7 +497,15 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
 		<div class="col-md-9">
-			{{Form::number('documentPrice',null,['id'=>'eDocumentPrice','class'=>'form-control','min'=>'0', 'maxlength'=>'8', 'minlength'=>'1', 'step'=>'0.01'])}}
+			{{ Form::number('documentPrice', 
+								null, 
+								['id' => 'eDocumentPrice', 
+								'class' => 'form-control', 
+								'min' => '0', 
+								'maxlength' => '8', 
+								'minlength'=>'1', 
+								'max' => '1000000', 
+								'step'=>'0.25']) }}
 		</div>	
 	</div>
 
@@ -528,14 +569,8 @@
 					$("#frm-add").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
-				failure: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
+				error: function(data) {
+					swal("Error", errorReport(data), "error");
 				}
 			});
 		});
@@ -577,14 +612,8 @@
 					success: function(data) {
 						
 					}, 
-					failure: function(error) {
-						var message = "Errors: ";
-						var data = error.responseJSON;
-						for (datum in data) {
-							message += data[datum];
-						}
-
-						swal("Error", message, "error");
+					error: function(data) {
+						swal("Error", errorReport(data), "error");
 					}
 				});
 					
@@ -629,13 +658,7 @@
 					$('#modalEdit').modal('show');
 				}, 
 				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch data!\n" + message, "error");
+					swal("Error", "Cannot fetch data!\n" + errorReport(data), "error");
 				}
 			})
 
@@ -716,14 +739,7 @@
 							"success");
 				}, 
 				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
+					swal("Error", errorReport(data), "error");
 				}
 			});
 		});
@@ -756,13 +772,7 @@
 										swal("Successfull", "Entry is deleted!", "success");
 									}, 
 									error: function(data) {
-										var message = "Error: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
-										}
-										
-										swal("Error", "Cannot fetch table data!\n" + message, "error");
+										swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
 									}
 								});
 							});				
@@ -788,13 +798,7 @@
 					documentContent = data.documentContent;
 				}, 
 				error: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-					
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
 				}
 			});
 
@@ -908,14 +912,7 @@
 					}
 				}, 
 				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
 				}
 			});
 		};
@@ -972,21 +969,10 @@
 				url: "{{ url('/document/nextPK') }}", 
 				method: "GET", 
 				success: function(data) {
-					if (data == null) {
-						// Get primary key format from utilities
-					}
-					else {
-						$("#documentID").val(data);
-					}
+					$("#documentID").val(data);
 				}, 
-				failed: function(data) {
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				error: function(data) {
+					swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
 				}
 			});
 		});
