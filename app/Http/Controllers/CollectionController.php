@@ -117,7 +117,7 @@ class CollectionController extends Controller
         $resident = Resident::where('residentPrimeID', '=', $transact->residentPrimeID)
                                 -> get()
                                 -> first();
-        $reservation = Reservation::all()->first();
+        $reservation = Reservation::all()->last();
 
         if ($transact -> collectionType == 1) {
 
@@ -141,14 +141,14 @@ class CollectionController extends Controller
         $receiptInfo = new ReceiptInfo();
         $receiptInfo -> transactionID = $transact -> collectionID;
         
-        if (is_null()) {
+        if (is_null($transact -> residentPrimeID)) {
+            $receiptInfo -> customerName = $reservation -> name;
+        }
+        else {
             $receiptInfo -> customerName = $resident -> firstName . " " . 
                                             $resident -> middleName . " " . 
                                             $resident -> lastName . " " . 
                                             "(" . $resident -> residentID . ")";
-        }
-        else {
-            $recieptInfo -> customerName = $reservation -> name;
         }
 
         $receiptInfo -> transactionDate = date_format($transact -> collectionDate, 

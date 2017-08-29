@@ -414,13 +414,6 @@
             $("#addModal").modal('show');
         });
 
-		$(".btnReceipt").on('click', function () {
-			var collectionID = $(this).data('value');
-			showReceipt(collectionID);
-
-			$("#receiptModal").modal('show');
-		});
-
 		$(document).ready(function () {
 			fillTable();
 		});
@@ -436,6 +429,13 @@
 					
 					$("#updateModal").modal('show');
 					$("#uCollectionID").val(collectionID);
+				});
+
+				$(".btnReceipt").on('click', function () {
+					var collectionID = $(this).data('value');
+					showReceipt(collectionID);
+
+					$("#receiptModal").modal('show');
 				});
 			});
 
