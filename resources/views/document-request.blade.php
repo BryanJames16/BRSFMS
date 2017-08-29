@@ -246,7 +246,7 @@
 	                    			@foreach($requests as $request)
 									<tr>
 										<td>{{ $request -> firstName }} {{ $request -> middleName }} {{ $request -> lastName }}</td> 
-										<td>{{ $request -> requestDate }} </td>
+										<td>{{ date('F j, Y',strtotime($request -> requestDate)) }}</td>
 										<td>{{ $request -> documentName }} </td>
 										<td>{{ $request -> quantity }}</td>
 
@@ -1049,6 +1049,14 @@
 					data = $.parseJSON(data);
 
 					for (index in data) {
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].requestDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						var statusText = "";
 						var buttonEditText = "";
 						var buttonDelText = "";
@@ -1079,7 +1087,7 @@
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
 									data[index].lastName, 
-								data[index].requestDate, 
+								d, 
 								data[index].documentName, 
 								data[index].quantity, 
 								statusText,
@@ -1093,7 +1101,7 @@
 								data[index].firstName + " " + 
 									data[index].middleName + " " + 
 									data[index].lastName, 
-								data[index].requestDate, 
+								d, 
 								data[index].documentName, 
 								data[index].quantity, 
 								statusText,

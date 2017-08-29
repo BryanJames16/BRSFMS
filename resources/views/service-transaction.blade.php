@@ -795,11 +795,17 @@
 
 					for (index in data) {
 						
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
 						
 						$("#table-viewParticipants").DataTable()
 								.row.add([
 									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-									data[index].birthDate, 
+									d, 
 									data[index].gender, 
 									data[index].contactNumber,
 									data[index].disabilities,
@@ -873,11 +879,17 @@
 										for (index in data) 
 										{
 											
+											var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+											var date = new Date(data[index].birthDate);
+											var month = date.getMonth();
+											var day = date.getDate();
+											var year = date.getFullYear();
+											var d = months[month] + ' ' + day + ', ' + year;
 											
 											$("#table-viewParticipants").DataTable()
 													.row.add([
 														data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-														data[index].birthDate, 
+														d, 
 														data[index].gender, 
 														data[index].contactNumber,
 														data[index].disabilities,
@@ -1335,11 +1347,17 @@
 
 						for (index in data) {
 							
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].birthDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
 							
 							$("#table-viewParticipants").DataTable()
 									.row.add([
 										data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-										data[index].birthDate, 
+										d, 
 										data[index].gender, 
 										data[index].contactNumber,
 										data[index].disabilities,
@@ -1808,6 +1826,20 @@
 						var date;
 						var s;
 
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var dat = new Date(data[index].fromDate);
+						var month = dat.getMonth();
+						var day = dat.getDate();
+						var year = dat.getFullYear();
+						var fd = months[month] + ' ' + day + ', ' + year;
+
+						var tmonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var tdat = new Date(data[index].toDate);
+						var tmonth = tdat.getMonth();
+						var tday = tdat.getDate();
+						var tyear = tdat.getFullYear();
+						var td = tmonths[tmonth] + ' ' + tday + ', ' + tyear;
+
 						if(data[index].status=='Pending')
 						{
 							s = '<span class="tag round tag-default tag-info">Pending</span>';
@@ -1841,11 +1873,11 @@
 
 						if(data[index].toDate==null)
 						{
-							date = data[index].fromDate;
+							date = fd;
 						}
 						else
 						{
-							date = data[index].fromDate  + ' - ' + data[index].toDate;
+							date = fd  + ' - ' + td;
 						}
 
 						$("#table-container").DataTable()
@@ -1902,10 +1934,17 @@
 
 					for (index in data) {
 						
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
 						$("#table-resParticipants").DataTable()
 								.row.add([
 									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-									data[index].birthDate, 
+									d, 
 									data[index].gender, 
 									data[index].contactNumber,
 									'<button class="btn btn-icon btn-round btn-success normal addPart"  type="button" value="' + data[index].residentPrimeID + '">Add</button>'
