@@ -108,6 +108,15 @@ class FacilityController extends Controller
 
     public function edit(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                
+                'facilityName' => ['required','regex:/^([a-zA-Z0-9-_\' ])+$/',  'max:30', Rule::unique('facilities')->ignore($r->input('primeID'), 'primeID')],
+                'facilityNightPrice' => 'required|numeric',
+                'facilityDayPrice' => 'required|numeric',
+
+            ]);
+
             $facility = Facility::find($r->input('primeID'));
 
             $facility->facilityName = $r->input('facilityName');

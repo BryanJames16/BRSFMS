@@ -53,6 +53,14 @@ class CollectionController extends Controller
         return json_encode($collections);
     }
 
+    public function getResID(Request $r) {
+        $collections = Collection::select('reservationPrimeID')
+                                    -> where('collectionPrimeID', '=', $r->input('collectionPrimeID'))
+                                    //-> where('collections.status', '!=', 'Paid')
+                                    -> get();
+        return json_encode($collections);
+    }
+
     public function getReserveRCollection(Request $r) {
         $collections = Collection::select('collections.collectionPrimeID', 
                                             'collections.collectionID', 
@@ -94,6 +102,19 @@ class CollectionController extends Controller
                                     -> get();
         
         return json_encode($collections);
+    }
+
+    public function paidRes(Request $r) {
+        if ($r->ajax()) {
+
+            $type = Reservation::find($r->input('primeID'));
+            $type->status = 'Paid';
+            $type->save();
+            return redirect('collection');
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getHeader(Request $r) {

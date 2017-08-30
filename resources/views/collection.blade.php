@@ -641,6 +641,52 @@
 
 					message += "Successfully paid!";
 
+					$.ajax({
+						url: '{{ url("/collection/getResID") }}', 
+						method: 'GET', 
+						data: {
+							"collectionPrimeID": $("#uCollectionID").val()
+						}, 
+						success: function (data) {
+							data = $.parseJSON(data);
+							
+							for(index in data)
+							{
+								console.log(data[index].reservationPrimeID);
+
+								$.ajax({
+									url: '{{ url("/collection/paidRes") }}',
+									method: 'POST', 
+									data: {
+										"primeID": data[index].reservationPrimeID 
+									}, 
+									success: function(data) {
+
+									}, 
+									error: function (errors) {
+										var message = "Errors: ";
+										var data = errors.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", message, "error");
+									}
+								});
+							}
+							
+						}, 
+						error: function (errors) {
+							var message = "Errors: ";
+							var data = errors.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
+						}
+					});
+
 					swal("Success",
 							message, 
 							"success");

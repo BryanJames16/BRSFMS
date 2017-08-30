@@ -128,6 +128,13 @@ class DocumentController extends Controller
 
     public function edit(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'documentName' => ['required',  'max:30','min:7', Rule::unique('documents')->ignore($r->input('primeID'), 'primeID')],
+                'documentPrice' => 'required|numeric|min:0|max:1000000',
+                'documentContent' => 'required|min:10|max:500',
+            ]);
+
             $document = Document::find($r->input('primeID'));
             $document->documentName = $r->input('documentName');
             $document->documentDescription = $r->input('documentDescription');

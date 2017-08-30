@@ -72,7 +72,7 @@ class BuildingTypeController extends Controller
     public function edit(Request $r) { 
         if ($r->ajax()) {
             $this->validate($r, [
-                    'buildingTypeName' => 'required|unique:buildingtypes|max:20',
+                    'buildingTypeName' => ['required',  'max:20', Rule::unique('buildingtypes')->ignore($r->input('buildingTypeID'), 'buildingTypeID')],
                 ]);
                 
             $type = BuildingType::find($r->input('buildingTypeID'));

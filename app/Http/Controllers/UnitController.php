@@ -24,7 +24,7 @@ class UnitController extends Controller
 
         $this->validate($r, [
             
-            'unitCode' => 'required|unique:units|max:20',
+            'unitCode' => 'required|max:20',
             ]);
 
         if($_POST['stat']=="active")
@@ -58,8 +58,13 @@ class UnitController extends Controller
     public function edit(Request $r)
     {
 
+        $this->validate($r, [
+            
+            'unitCode' => 'required|max:20',
+            ]);
+
         $unit = Unit::find($r->input('unitID'));
-        $unit->unitCode = $r->input('unit_code');
+        $unit->unitCode = $r->input('unitCode');
         $unit->buildingID = $r->input('buildingID');
         $unit->status = $r->input('stat');
         $unit->save();

@@ -369,7 +369,6 @@
 										'<form method="POST" id="' + data[index].buildingTypeID + '" action="/service-type/delete" accept-charset="UTF-8"])!!}' + 
 											'<input type="hidden" name="typeID" value="' + data[index].buildingTypeID + '" />' + 
 											'<input type="hidden" name="typeName" value="' + data[index].buildingTypeName + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
 											'<span class="dropdown">' +
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+

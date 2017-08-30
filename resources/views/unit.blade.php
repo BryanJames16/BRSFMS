@@ -185,7 +185,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Unit Number</label>
 		<div class="col-md-9">
-			{!!Form::text('unit_code',null,['id'=>'unit_code','class'=>'form-control', 'maxlength'=>'8','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 8 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'1'])!!}
+			{!!Form::text('unitCode',null,['id'=>'unit_code','class'=>'form-control', 'maxlength'=>'8','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 8 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'1'])!!}
 		</div>	
 
 	</div>

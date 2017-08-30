@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\Models\Lot;
 use \App\Models\Street;
 use \App\Models\Barangay;
+use \Illuminate\Validation\Rule;
 
 class LotController extends Controller
 {
@@ -30,7 +31,7 @@ class LotController extends Controller
 
         $this->validate($r, [
             
-            'lotCode' => 'required|unique:lots|max:5',
+            'lotCode' => 'required|max:5',
             ]);
 
 
@@ -67,8 +68,13 @@ class LotController extends Controller
     public function edit(Request $r)
     {
 
+        $this->validate($r, [
+            
+            'lotCode' => ['required',  'max:5'],
+            ]);
+
         $lot = Lot::find($r->input('lotID'));
-        $lot->lotCode = $r->input('lot_code');
+        $lot->lotCode = $r->input('lotCode');
         $lot->streetID = $r->input('streetID');
         $lot->status = $r->input('stat');
         $lot->save();

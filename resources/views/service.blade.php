@@ -461,7 +461,6 @@
 									'<input type="hidden" name="serviceName" value="' + data[index].serviceName + '" />' + 
 									'<input type="hidden" name="serviceDesc" value="' + data[index].serviceDesc + '" />' + 
 									'<input type="hidden" name="typeName" value="' + data[index].typeName + '" />' + 
-									'<input type="hidden" name="status" value="' + statusText + '" />' + 
 									'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].primeID + '"><i class="icon-android-create"></i></button>' + 
 									'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].primeID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 								'</form>'

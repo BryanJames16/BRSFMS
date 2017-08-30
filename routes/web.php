@@ -193,11 +193,13 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 // Collection
 Route::get('/collection/gCollect', 'CollectionController@getCollection');
 Route::get('/collection/gHeader', 'CollectionController@getHeader');
+Route::get('/collection/getResID', 'CollectionController@getResID');
 Route::get('/collection/gAmount', 'CollectionController@getAmount');
 Route::get('/collection/gFResident', 'CollectionController@getReserveRCollection');
 Route::get('/collection/gFNesident', 'CollectionController@getReserveNCollection');
 Route::get('/collection/gTransact', 'CollectionController@getTransact');
 Route::post('/collection/pay', 'CollectionController@payCollection');
+Route::post('/collection/paidRes', 'CollectionController@paidRes');
 
 // Service-Transactions
 Route::get('/service-transaction/getEdit', 'ServiceTransactionController@getEdit');
@@ -321,11 +323,15 @@ Route::get('/base-maintenance', function () {
 //////////////////////////////////////////////////////////////////////
 
 Route::get('/sponsors', function() {
-	return view('sponsors');
+	return redirect('/unmt');
 });
 
 Route::get('/service-sponsorship', function() {
-	return view('service-sponsorship');
+	return redirect('/unmt');
+});
+
+Route::get('/business-registration', function () {
+	return redirect('/unmt');
 });
 
 

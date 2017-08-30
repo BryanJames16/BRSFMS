@@ -91,11 +91,10 @@ class BuildingController extends Controller
     public function edit(Request $r) { 
         if ($r->ajax()) {
             $this->validate($r, [
-                    'buildingName' => 'required|unique:buildings|max:20',
+                    'buildingName' => ['required',  'max:20', Rule::unique('buildings')->ignore($r->input('buildingID'), 'buildingID')],
                 ]);
                 
             $building = Building::find($r->input('buildingID'));
-            $building->buildingCode = $r->input('buildingCode');
             $building->buildingName = $r->input('buildingName');
             $building->buildingTypeID = $r->input('buildingTypeID');
             $building->lotID = $r->input('lotID');

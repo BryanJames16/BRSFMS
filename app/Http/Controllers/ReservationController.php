@@ -98,8 +98,8 @@ class ReservationController extends Controller
     public function residentStore(Request $r) {
 
         $this->validate($r, [
-                'reservationName' => 'required|alpha_dash|unique:reservations|max:30|min:5',
-                'desc' => 'alpha_dash|nullable|max:500|min:0',
+                'reservationName' => 'required|unique:reservations|max:30|min:5',
+                'desc' => 'nullable|max:500|min:0',
                 'startTime' => 'required',
                 'endTime' => 'required',
                 'date' => 'required|date|after_or_equal:today',
@@ -191,12 +191,12 @@ class ReservationController extends Controller
 
 
         $this->validate($r, [
-                'reservationName' => 'required|alpha_dash|unique:reservations|max:30|min:5',
-                'desc' => 'alpha_dash|nullable|max:500|min:0',
+                'reservationName' => 'required|unique:reservations|max:30|min:5',
+                'desc' => 'nullable|max:500|min:0',
                 'startTime' => 'required',
                 'endTime' => 'required',
                 'date' => 'required|date|after_or_equal:today',
-                'name' => 'alpha_dash|required|max:100|min:5',
+                'name' => 'required|max:100|min:5',
                 'age' => 'integer|required|min:10',
                 'email' => 'email|required',
                 'contactNumber' => 'numeric|required',
@@ -355,12 +355,12 @@ class ReservationController extends Controller
             $reservation->save();
 
              $this->validate($r, [
-                'reservationName' => 'required|alpha_dash|max:30|min:5',
-                'reservationDescription' => 'alpha_dash|nullable|max:500|min:0',
+                'reservationName' => 'required|max:30|min:5',
+                'reservationDescription' => 'nullable|max:500|min:0',
                 'reservationStart' => 'required',
                 'reservationEnd' => 'required',
                 'dateReserved' => 'required|date|after_or_equal:today',
-                'name' => 'alpha_dash|required|max:100|min:5',
+                'name' => 'required|max:100|min:5',
                 'age' => 'integer|required|min:10',
                 'email' => 'email|required',
                 'contactNumber' => 'numeric|required',

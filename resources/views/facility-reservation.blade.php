@@ -147,6 +147,9 @@
 														@elseif($reservation -> status  == 'Cancelled')	
 															<td><span class="tag round tag-danger">Cancelled</span></td>
 															<td>N/A</td>
+														@elseif($reservation -> status  == 'Paid')	
+															<td><span class="tag round tag-success">Paid</span></td>
+															<td>N/A</td>
 														@else
 															<td></td>
 															<td>N/A</td>
@@ -752,7 +755,7 @@
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::text('eage',null,['id'=>'eage','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{!!Form::number('eage',null,['id'=>'eage','class'=>'form-control', 'placeholder'=>'eg.Birthday Party','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 										'</div>'+
 									'</div>'+
 
@@ -1291,7 +1294,7 @@
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::text('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1'])!!}'+
+											'{!!Form::number('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1'])!!}'+
 										'</div>'+
 									'</div>'+
 

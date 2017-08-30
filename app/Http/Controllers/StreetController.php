@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Street;
+use \Illuminate\Validation\Rule;
+
 
 class StreetController extends Controller
 {
@@ -54,8 +56,14 @@ class StreetController extends Controller
     public function edit(Request $r)
     {
 
+        $this->validate($r, [
+            
+            'streetName' => ['required',  'max:30', Rule::unique('streets')->ignore($r->input('streetID'), 'streetID')],
+            
+            ]);
+
         $street = Street::find($r->input('streetID'));
-        $street->streetName = $r->input('street_name');
+        $street->streetName = $r->input('streetName');
         $street->status = $r->input('stat');
         $street->save();
         return redirect('street');

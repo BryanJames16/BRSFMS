@@ -192,7 +192,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*ID</label>
 		<div class="col-md-9">
-			{!!Form::text('buildingID',null,['id'=>'buildingID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
+			{!!Form::text('buildingID',null,['id'=>'ebuildingID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])!!}
 		</div>	
 
 	</div>
@@ -200,7 +200,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{!! Form::text('buildingName',null,['id'=>'buildingName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
+			{!! Form::text('buildingName',null,['id'=>'ebuildingName','class'=>'form-control', 'maxlength'=>'20','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 20 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'5']) !!}
 		</div>	
 
 	</div>
@@ -209,7 +209,7 @@
 			<label class="col-md-3 label-control" for="eventRegInput1">*Lot</label>
 			<div class="col-md-9">
 				
-				{{ Form::select('lotID', $lots, null, ['id'=>'lotID', 'class' => 'form-control border-info selectBox']) }}
+				{{ Form::select('lotID', $lots, null, ['id'=>'elotID', 'class' => 'form-control border-info selectBox']) }}
 				
 			</div>	
 
@@ -218,7 +218,7 @@
 			<label class="col-md-3 label-control" for="eventRegInput1">*Type</label>
 			<div class="col-md-9">
 				
-				{{ Form::select('buildingTypeID', $buildingtypes, null, ['id'=>'buildingTypeID', 'class' => 'form-control border-info selectBox']) }}
+				{{ Form::select('buildingTypeID', $buildingtypes, null, ['id'=>'ebuildingTypeID', 'class' => 'form-control border-info selectBox']) }}
 				
 			</div>	
 
@@ -287,7 +287,6 @@
 											'<input type="hidden" name="buildingID" value="' + data[index].buildingID + '" />' + 
                                             '<input type="hidden" name="buildingName" value="' + data[index].buildingName + '" />' + 
 											'<input type="hidden" name="buildingType" value="' + data[index].buildingTypeName + '" />' + 
-											'<input type="hidden" name="status" value="' + statusText + '" />' + 
 											'<button class="btn btn-icon btn-square btn-success normal edit"  type="button" value="' + data[index].buildingID + '"><i class="icon-android-create"></i></button>' + 
 											'<button class="btn btn-icon btn-square btn-danger delete" value="' + data[index].buildingID + '" type="button" name="btnEdit"><i class="icon-android-delete"></i></button>' + 
 										'</form>' + 
@@ -343,9 +342,10 @@
 				url: "{{ url('/building/update') }}",
 				type: "POST",
 				data: {"_token": $('#csrf-token').val(), 
-						"buildingID": $("#buildingID").val(), 
-						"buildingName": $("#buildingName").val(), 
-						"buildingTypeID": $("#buildingTypeID").val(), 
+						"buildingID": $("#ebuildingID").val(), 
+						"buildingName": $("#ebuildingName").val(), 
+						"lotID": $("#elotID").val(), 
+						"buildingTypeID": $("#ebuildingTypeID").val(), 
 						"status": $(".etstat:checked").val()
 				}, 
 				success: function ( _response ){
@@ -390,10 +390,10 @@
 				success:function(data)
 				{
 					var frm = $('#frm-update');
-                    frm.find('#buildingName').val(data.buildingName);
-					frm.find('#lotID').val(data.lotID);
-					frm.find('#buildingTypeID').val(data.buildingTypeID);
-					frm.find('#buildingID').val(data.buildingID);
+                    frm.find('#ebuildingName').val(data.buildingName);
+					frm.find('#elotID').val(data.lotID);
+					frm.find('#ebuildingTypeID').val(data.buildingTypeID);
+					frm.find('#ebuildingID').val(data.buildingID);
 
 					if(data.status==1)
 					{

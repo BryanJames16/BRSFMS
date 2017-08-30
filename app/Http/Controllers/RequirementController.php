@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Requirement;
 use \App\Models\Document;
+use \Illuminate\Validation\Rule;
 
 class RequirementController extends Controller
 {
@@ -22,7 +23,7 @@ class RequirementController extends Controller
             $stat = 0;
             
             $this->validate($r, [
-                'requirementName' => 'required|max:30',
+                'requirementName' => 'required|unique:requirements|max:30',
             ]);
 
             if($r->input('status') == "active")
@@ -73,6 +74,12 @@ class RequirementController extends Controller
 
     public function edit(Request $r) {
         if ($r->ajax()) {
+
+
+            $this->validate($r, [
+                'requirementName' => ['required',  'max:30', Rule::unique('requirements')->ignore($r->input('requirementID'), 'requirementID')],
+            ]);
+
             $requirement = Requirement::find($r->input('requirementID'));
             $requirement->requirementName = $r->input('requirementName');
             $requirement->requirementDesc = $r->input('requirementDesc');

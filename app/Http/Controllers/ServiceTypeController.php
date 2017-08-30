@@ -74,7 +74,7 @@ class ServiceTypeController extends Controller
     public function edit(Request $r) { 
         if ($r->ajax()) {
             $this->validate($r, [
-                    'typeName' => 'required|unique:servicetypes|max:20',
+                    'typeName' => ['required',  'max:20', Rule::unique('servicetypes')->ignore($r->input('typeID'), 'typeID')],
                 ]);
                 
             $type = ServiceType::find($r->input('typeID'));

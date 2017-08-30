@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Businesscategory;
+use \Illuminate\Validation\Rule;
 
 class BusinessCategoryController extends Controller
 {
@@ -77,7 +78,7 @@ class BusinessCategoryController extends Controller
     {
     
             $this->validate($r, [
-                'categoryName' => 'required|unique:businesscategories|max:30',
+                'categoryName' => ['required',  'max:30', Rule::unique('businesscategories')->ignore($r->input('category_ID'), 'categoryPrimeID')],
                 ]);
 
             $category = BusinessCategory::find($r->input('category_ID'));

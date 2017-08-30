@@ -103,9 +103,9 @@ class ResidentController extends Controller
 
             $this->validate($r, [
                 'residentID' => 'required|unique:residents|max:20',
-                'firstName' => 'alpha|required|max:30|min:2',
-                'middleName' => 'alpha|min:0|max:30',
-                'lastName' => 'alpha|required|min:2|max:30',
+                'firstName' => 'required|max:30|min:2',
+                'middleName' => 'min:0|max:30',
+                'lastName' => 'required|min:2|max:30',
                 'birthDate' => 'required|date|before:tomorrow',
                 'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
                 'disabilities' => 'nullable|alpha_dash|min:0|max:250',
@@ -395,9 +395,9 @@ class ResidentController extends Controller
 
             $this->validate($r, [
                 'residentID' => 'required|max:20',
-                'firstName' => 'alpha_dash|required|max:30|min:2',
-                'middleName' => 'alpha_dash|min:0|max:30',
-                'lastName' => 'alpha_dash|required|min:2|max:30',
+                'firstName' => 'required|max:30|min:2',
+                'middleName' => 'min:0|max:30',
+                'lastName' => 'required|min:2|max:30',
                 'birthDate' => 'required|date|before:tomorrow',
                 'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
                 'disabilities' => 'nullable|alpha_dash|min:0|max:250',

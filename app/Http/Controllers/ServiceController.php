@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Service;
 use \App\Models\Servicetype;
+use \Illuminate\Validation\Rule;
 
 class ServiceController extends Controller
 {
@@ -80,6 +81,11 @@ class ServiceController extends Controller
 
     public function edit(Request $r) {
         if ($r->ajax()) {
+
+            $this->validate($r, [
+                'serviceName' => ['required',  'max:30', Rule::unique('services')->ignore($r->input('primeID'), 'primeID')],
+            ]);
+
             $service = Service::find($r->input('primeID'));
             $service->serviceName = $r->input('serviceName');
             $service->serviceDesc = $r->input('serviceDesc');

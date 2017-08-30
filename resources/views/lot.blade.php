@@ -186,7 +186,7 @@
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
-			{!!Form::text('lot_code',null,['id'=>'lot_code','class'=>'form-control', 'maxlength'=>'5','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 5 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'1'])!!}
+			{!!Form::text('lotCode',null,['id'=>'lot_code','class'=>'form-control', 'maxlength'=>'5','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 5 characters', 'pattern'=>'^[a-zA-Z0-9-_]+$', 'minlength'=>'1'])!!}
 		</div>	
 
 	</div>
