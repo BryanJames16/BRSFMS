@@ -676,7 +676,7 @@
 										{
 											console.log(data[index].requirementName);
 												oo = oo +
-															'<div style="text-align:center">'+
+															'<div style="text-align:left">'+
 																
 																'<input type="checkbox" id="requirements_'+data[index].requirementID+'" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
 																'<label for="input-11">     ' + data[index].quantity + 'x ' +data[index].requirementName+'</label>'+
@@ -1064,8 +1064,7 @@
 
 						if (data[index].status == "Pending") {
 							statusText = "<span class='tag round tag-default tag-info'>Pending</span>";
-							buttonEditText = "<a href='#' class='dropdown-item view btnView' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> View</a>" + 
-												"<a href='#' class='dropdown-item view viewReq' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> Requirements</a>"  ;
+							buttonEditText = "<a href='#' class='dropdown-item view viewReq' name='btnView' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-eye6'></i> Requirements</a>"  ;
 							buttonDelText = "<a href='#' class='dropdown-item delete btnDelete' name='btnDelete' data-value=" + data[index].documentRequestPrimeID + "><i class='icon-trash'></i> Cancel</a>";
 						}
 						else{

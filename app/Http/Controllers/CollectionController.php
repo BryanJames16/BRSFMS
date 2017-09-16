@@ -22,6 +22,7 @@ class CollectionController extends Controller
                                             'residents.middleName', 
                                             'residents.lastName', 
                                             'residents.residentID', 
+                                            'reservations.reservationName', 
                                             'residents.residentPrimeID')
                         -> join('reservations', 
                                     'collections.reservationPrimeID', '=', 'reservations.primeID') 
@@ -67,6 +68,7 @@ class CollectionController extends Controller
                                             'collections.collectionType', 
                                             'collections.amount', 
                                             'collections.status', 
+                                            'reservations.reservationName', 
                                             'residents.firstName', 
                                             'residents.middleName', 
                                             'residents.lastName', 

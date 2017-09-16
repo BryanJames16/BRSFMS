@@ -93,7 +93,8 @@
                     			<thead>
                     				<tr>
 										<td>Collection ID</td>
-										<td>Customer Name</td>
+										<td>Customer</td>
+										<td>Description</td>
 										<td>Collection From</td>
 										<td>Amount</td>
 										<td>Status</td>
@@ -113,6 +114,7 @@
                                             ({{ $collection -> residentID }})
                                             </p>
                                         </td>
+										<td>{{ $collection -> reservationName }}</td>
                                         <td>
 											@if($collection -> collectionType == 1)
 												Barangay ID
@@ -129,6 +131,7 @@
                                         <td>{{ $collection -> amount }}</td>
                                         <td>{{ $collection -> status }}</td>
                                         <td>
+											<span class="dropdown">
 											<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 											<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 												@if($collection -> status == "Pending" || $collection -> status == "pending")
@@ -136,6 +139,7 @@
 												@else 
 													<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
 												@endif
+											</span>
 											</span>
                                         </td>
                                     </tr>
@@ -484,9 +488,11 @@
 									data[datum].middleName + " " + 
 									data[datum].lastName + " " + 
 									"(" + data[datum].residentID + ")", 
+									data[datum].reservationName,
 									collectionTypeString, 
 									data[datum].amount, 
 									data[datum].status, 
+									"<span class='dropdown'>" +
 									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
 									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
 										buttonValues + 

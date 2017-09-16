@@ -92,7 +92,7 @@
 														<i class="icon-user1 white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="population">7,107</h3>
+														<h3 id="population">{{ $residents }}</h3>
 														<span>Current Total Population</span>
 													</div>
 												</div>
@@ -112,7 +112,7 @@
 														<i class="icon-home22 white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="population">318</h3>
+														<h3 id="population">{{ $family }}</h3>
 														<span>Current Total Families</span>
 													</div>
 												</div>
@@ -132,7 +132,7 @@
 														<i class="icon-note white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="doc-request">14</h3>
+														<h3 id="doc-request">{{ $request }}</h3>
 														<span>Document Requests</span>
 													</div>
 												</div>
@@ -152,7 +152,7 @@
 														<i class="icon-pen2 white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="doc-request">4</h3>
+														<h3 id="doc-request">{{ $approval }}</h3>
 														<span>Document Approvals</span>
 													</div>
 												</div>
@@ -172,7 +172,7 @@
 														<i class="icon-calendar2 white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="reservation">32</h3>
+														<h3 id="reservation">{{ $pendingres }}</h3>
 														<span>Pending Reservations</span>
 													</div>
 												</div>
@@ -192,7 +192,7 @@
 														<i class="icon-antenna white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">8</h3>
+														<h3 id="pending-services">{{ $pendingser }}</h3>
 														<span>Current Pending Services</span>
 													</div>
 												</div>
@@ -212,7 +212,7 @@
 														<i class="icon-android-contact white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">3</h3>
+														<h3 id="pending-services">0</h3>
 														<span>Current Service Sponsors</span>
 													</div>
 												</div>
@@ -232,7 +232,7 @@
 														<i class="icon-office white font-large-2 float-xs-left"></i>
 													</div>
 													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">8</h3>
+														<h3 id="pending-services">0</h3>
 														<span>Registered Businesses</span>
 													</div>
 												</div>
@@ -428,10 +428,6 @@
 				method: 'GET', 
 				success: function(data) {
 					data = $.parseJSON(data);
-					$("#population").html(data.population);
-					$("#reservation").html(data.reservation);
-					$("#doc-request").html(data.request);
-					$("#pending-services").html(data.pendingService);
 				}, 
 				error: function(data) {
 					var message = "Errors: ";

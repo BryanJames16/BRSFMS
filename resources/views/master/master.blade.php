@@ -411,11 +411,14 @@
 													<i class="icon-drawer"></i>
 													Document Request
 												</a>
+												
 											</li>
 											<li id="document-approval-id">
 												<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-aperture"></i>
 													Document Approval
+													<!--<span class="tag tag-info">22</span>-->
+													
 												</a>
 											</li>
 										</ul>
@@ -506,12 +509,39 @@
 								</ul>
 							</li>
 
-							<li class="nav-item" id="query-id">
-								<a href="/queries">
-									<i class="icon-question"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Query</span>
+							<li class=" nav-item">
+								<a href="#">
+									<i class="icon-stack"></i>
+									<span data-i18n="nav.navbars.main" class="menu-title">Query</span>
 								</a>
+								<ul class="menu-content">
+									<li id="query-resident-id">
+										<a href="/query/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-user-tie"></i>
+											<span>Resident</span>
+										</a>
+									</li>
+									<li id="query-document-id">
+										<a href="/query/document" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-user-tie"></i>
+											<span>Document</span>
+										</a>
+									</li>
+									<li id="query-reservation-id">
+										<a href="/query/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-user-tie"></i>
+											<span>Facility Reservation</span>
+										</a>
+									</li>
+									<li id="query-service-id">
+										<a href="/query/service" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-user-tie"></i>
+											<span>Service</span>
+										</a>
+									</li>
+								</ul>
 							</li>
+
 
 						
 

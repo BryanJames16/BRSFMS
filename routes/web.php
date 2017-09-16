@@ -236,6 +236,10 @@ Route::get('/utilities/refresh', 'UtilitiesController@refresh');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
 
+/* QUERY RESIDENT */
+Route::get('/query/resident/submit', 'QueryResidentController@getQuery');
+Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
+
 
 //////////////////////////////////////////////////////////////////////
 /* RESOURCE ROUTES */
@@ -266,6 +270,10 @@ Route::resource('/unit', 'UnitController');
 Route::resource('/utilities', 'UtilitiesController');
 Route::resource('/recipient', 'RecipientController');
 Route::resource('/document-approval', 'DocumentApprovalController');
+Route::resource('/query/resident', 'QueryResidentController');
+Route::resource('/query/reservation', 'QueryReservationController');
+Route::resource('/query/service', 'QueryServiceController');
+Route::resource('/query/document', 'QueryDocumentController');
 
 
 //////////////////////////////////////////////////////////////////////
