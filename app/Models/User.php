@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 28 Aug 2017 07:02:13 +0000.
+ * Date: Mon, 18 Sep 2017 06:54:45 +0000.
  */
 
 namespace App\Models;
@@ -24,11 +24,21 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $lastName
  * @property string $suffix
  * @property string $imagePath
+ * @property int $approval
+ * @property string $position
+ * @property int $accept
+ * @property int $archive
  *
  * @package App\Models
  */
 class User extends Eloquent
 {
+	protected $casts = [
+		'approval' => 'int',
+		'accept' => 'int',
+		'archive' => 'int'
+	];
+
 	protected $hidden = [
 		'password',
 		'remember_token'
@@ -43,6 +53,10 @@ class User extends Eloquent
 		'middleName',
 		'lastName',
 		'suffix',
-		'imagePath'
+		'imagePath',
+		'approval',
+		'position',
+		'accept',
+		'archive'
 	];
 }

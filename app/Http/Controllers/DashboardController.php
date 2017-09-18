@@ -19,6 +19,7 @@ class DashboardController extends Controller
 {
     public function index() {
 
+        
         $residents = Resident::where("status", "=", 1)->count();
         $family = Family::where("archive", "=", 0)->count();
         $pendingres = Reservation::where("status", "=", "Pending")->count();

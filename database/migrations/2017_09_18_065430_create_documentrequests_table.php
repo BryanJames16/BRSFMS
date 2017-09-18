@@ -21,6 +21,7 @@ class CreateDocumentrequestsTable extends Migration {
 			$table->integer('residentPrimeID')->index('fk_DocumentHeaderRequests_Residents1_idx');
 			$table->integer('documentsPrimeID')->index('documentPrimeID_idx');
 			$table->integer('quantity');
+			$table->string('remark', 200)->nullable();
 		});
 	}
 

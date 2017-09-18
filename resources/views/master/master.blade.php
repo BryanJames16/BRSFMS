@@ -413,14 +413,15 @@
 												</a>
 												
 											</li>
-											<li id="document-approval-id">
-												<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-aperture"></i>
-													Document Approval
-													<!--<span class="tag tag-info">22</span>-->
-													
-												</a>
-											</li>
+											@if(Auth::user()->approval == 1)
+												<li id="document-approval-id">
+													<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-aperture"></i>
+														Document Approval
+														<!--<span class="tag tag-info">22</span>-->
+													</a>
+												</li>
+											@endif
 										</ul>
 									</li>
 									<li id="facility-reservation-id">
@@ -551,6 +552,15 @@
 									<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
 								</a>
 							</li>
+
+							@if(Auth::user()->position == 'Chairman')
+								<li class="nav-item" id="users-id">
+									<a href="/users">
+										<i class="icon-wrench3"></i>
+										<span data-i18n="nav.dash.main" class="menu-title">Users</span>
+									</a>
+								</li>
+							@endif
 	
 							<br />
 

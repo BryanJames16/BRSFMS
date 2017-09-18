@@ -112,6 +112,11 @@
 											<input type="password" class="form-control form-control-lg input-lg" id="password" name="password" placeholder="Enter Password" required="" />
 										</div>
 									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="text" class="form-control form-control-lg input-lg" id="position" name="position" placeholder="Enter Position" required="" />
+										</div>
+									</div>
 								</div>
 							<div class="form-actions center">
 								<button type="button" class="btn btn-warning mr-1">

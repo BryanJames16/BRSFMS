@@ -17,7 +17,8 @@ class RegisterController extends Controller
             'name' => 'required',
             'email' => 'required',
             'firstName' => 'required',
-            'lastName' => 'required'
+            'lastName' => 'required',
+            'position' => 'required'
         ]);
 
         $fileName = request('imagePath')->getClientOriginalName();
@@ -30,6 +31,7 @@ class RegisterController extends Controller
             'middleName' => request('middleName'), 
             'lastName' => request('lastName'), 
             'suffix' => request('suffix'), 
+            'position' => request('position'), 
             'imagePath' => $fileName,  
             'password' => bcrypt(request('password')) 
             ]);

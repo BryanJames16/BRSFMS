@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 28 Aug 2017 07:02:12 +0000.
+ * Date: Mon, 18 Sep 2017 06:54:44 +0000.
  */
 
 namespace App\Models;
@@ -19,6 +19,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $residentPrimeID
  * @property int $documentsPrimeID
  * @property int $quantity
+ * @property string $remark
  * 
  * @property \App\Models\Document $document
  * @property \App\Models\Resident $resident
@@ -48,7 +49,8 @@ class Documentrequest extends Eloquent
 		'status',
 		'residentPrimeID',
 		'documentsPrimeID',
-		'quantity'
+		'quantity',
+		'remark'
 	];
 
 	public function document()

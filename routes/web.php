@@ -241,6 +241,13 @@ Route::get('/query/resident/submit', 'QueryResidentController@getQuery');
 Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
 
 
+/* USERS */
+Route::post('/users/accept', 'UsersController@accept');
+Route::post('/users/reject', 'UsersController@reject');
+Route::get('/users/pendingRefresh', 'UsersController@pendingRefresh');
+Route::get('/users/refresh', 'UsersController@refresh');
+
+
 //////////////////////////////////////////////////////////////////////
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////
@@ -274,6 +281,7 @@ Route::resource('/query/resident', 'QueryResidentController');
 Route::resource('/query/reservation', 'QueryReservationController');
 Route::resource('/query/service', 'QueryServiceController');
 Route::resource('/query/document', 'QueryDocumentController');
+Route::resource('/users', 'UsersController');
 
 
 //////////////////////////////////////////////////////////////////////

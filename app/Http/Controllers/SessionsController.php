@@ -26,7 +26,8 @@ class SessionsController extends Controller
             'password' => $r->input('password')
         );
         
-        if(Auth::attempt($user)){
+        if(Auth::attempt(['email' => $r->input('email'), 'password' => $r->input('password'), 'accept' => '1' ]))
+        {
             return redirect('dashboard');
         }
         else{

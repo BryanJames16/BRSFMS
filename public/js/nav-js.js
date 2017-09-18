@@ -30,6 +30,7 @@ var MUNICIPALITY = "municipality-id";
 var PHYSICAL_DOCUMENT = "physical-document-id";
 var PROVINCE = "province-id";
 var QUERY = "query-id";
+var USERS = "users-id";
 var REGION = "region-id";
 var RESIDENT_APPLICATION = "resident-application-id";
 var REQUIREMENTS = "requirement-id";
