@@ -119,8 +119,8 @@ IF %1==git (
 :: System Commands
 IF %1==build (
     IF %2==models (
-        ECHO "Wiping models..."
-        DEL %modeldir%\*.php
+        ::ECHO "Wiping models..."
+        ::DEL %modeldir%\*.php
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
         GOTO COMOK
@@ -147,8 +147,8 @@ IF %1==build (
         DEL %migratedir%\*.php
         ECHO "Writing new migrations..."
         %PHPX% artisan migrate:generate
-        ECHO "Wiping models..."
-        DEL %modeldir%\*.php
+        ::ECHO "Wiping models..."
+        ::DEL %modeldir%\*.php
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
         GOTO COMOK
@@ -164,8 +164,8 @@ IF %1==build (
         ECHO "Writing new migrations..."
         %PHPX% artisan migrate:generate
 
-        ECHO "Wiping models..."
-        DEL %modeldir%\*.php
+        ::ECHO "Wiping models..."
+        ::DEL %modeldir%\*.php
         ECHO "Writing new models..."
         %PHPX% artisan code:models --schema=dbbarangay
 
