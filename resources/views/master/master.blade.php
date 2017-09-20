@@ -128,7 +128,7 @@
 							<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
 									<i class="ficon icon-bell4" style="color:white"></i>
-									<span class="tag tag-pill tag-default tag-danger tag-default tag-up" id="notif-count">2</span>
+									<span class="tag tag-pill tag-default tag-danger tag-default tag-up" id="notif-count">{{ $total }}</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
 									<li class="dropdown-menu-header">
@@ -137,44 +137,46 @@
 											<span class="notification-tag tag tag-default tag-danger float-xs-right m-0">2 New</span>
 										</h6>
 									</li>
-									<li class="list-group scrollable-container">
-										<a href="javascript:void(0)" class="list-group-item">
-											<div class="media">
-												<div class="media-left valign-middle">
-													<i class="icon-cart3 icon-bg-circle bg-cyan" style="color:white"></i>
+									@if(Auth::user()->position == "Chairman")
+										<li class="list-group scrollable-container">
+											<a href="javascript:void(0)" class="list-group-item">
+												<div class="media">
+													<div class="media-left valign-middle">
+														<i class="icon-cart3 icon-bg-circle bg-cyan" style="color:white"></i>
+													</div>
+													<div class="media-body">
+														<h6 class="media-heading">New legal document request!</h6>
+														<p class="notification-text font-small-3 text-muted">
+															Lorem ipsum dolor sit amet, consectetuer elit.
+														</p>
+														<small>
+															<time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">
+																30 minutes ago
+															</time>
+														</small>
+													</div>
 												</div>
-												<div class="media-body">
-													<h6 class="media-heading">New legal document request!</h6>
-													<p class="notification-text font-small-3 text-muted">
-														Lorem ipsum dolor sit amet, consectetuer elit.
-													</p>
-													<small>
-														<time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">
-															30 minutes ago
-														</time>
-													</small>
+											</a>
+											<a href="javascript:void(0)" class="list-group-item">
+												<div class="media">
+													<div class="media-left valign-middle">
+														<i class="icon-monitor3 icon-bg-circle bg-red bg-darken-1"></i>
+													</div>
+													<div class="media-body">
+														<h6 class="media-heading red darken-1">New Incident Report!</h6>
+														<p class="notification-text font-small-3 text-muted">
+															Aliquam tincidunt mauris eu risus.
+														</p>
+														<small>
+															<time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">
+																5 hour ago
+															</time>
+														</small>
+													</div>
 												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0)" class="list-group-item">
-											<div class="media">
-												<div class="media-left valign-middle">
-													<i class="icon-monitor3 icon-bg-circle bg-red bg-darken-1"></i>
-												</div>
-												<div class="media-body">
-													<h6 class="media-heading red darken-1">New Incident Report!</h6>
-													<p class="notification-text font-small-3 text-muted">
-														Aliquam tincidunt mauris eu risus.
-													</p>
-													<small>
-														<time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">
-															5 hour ago
-														</time>
-													</small>
-												</div>
-											</div>
-										</a>
-									</li>
+											</a>
+										</li>
+									@endif
 								</ul>
 							</li>
 							<li class="dropdown dropdown-notification nav-item">
@@ -410,6 +412,7 @@
 												<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-drawer"></i>
 													Document Request
+													<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
 												</a>
 												
 											</li>
@@ -418,6 +421,7 @@
 													<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
 														<i class="icon-aperture"></i>
 														Document Approval
+														<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
 														<!--<span class="tag tag-info">22</span>-->
 													</a>
 												</li>
@@ -427,7 +431,8 @@
 									<li id="facility-reservation-id">
 										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
-											<span>Facility Reservation</span>
+											<span>Facility Reservation  </span>
+											<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfReservation }}</span>
 										</a>
 									</li>
 									<li id="collection-id">

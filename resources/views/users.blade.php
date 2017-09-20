@@ -97,7 +97,9 @@
 													<th>Actions</th>
 												</tr>
 											</thead>
-                                                @foreach($us as $u)
+                                                
+											<tbody id="myList">
+												@foreach($us as $u)
                                                     <tr align="center">
                                                         <td>{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</td>
                                                         <td>{{ $u->name }}</td>
@@ -120,8 +122,6 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-											<tbody>
-												
 
 											</tbody>
 										</table>
@@ -156,9 +156,90 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
 
+	</section>
 
-	
+	<section id="multi-column">
+		<div class="row">
+			<div class="col-xs-14">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Users</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="list" class="card-body collapse in">
+						
+						<div class="card-body">
+							<div class="card-block">
+
+							@foreach($us as $u)
+								<div class="col-xl-4 col-md-6 col-xs-12">
+									<div class="card box-shadow-2">
+										<div class="text-xs-center">
+											<div class="card-block">
+												<img src="/storage/upload/{{ $u->imagePath }}" class="rounded-circle  height-150" alt="Card image" />
+											</div>
+											<div class="card-block">
+												<h4 class="card-title">{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</h4>
+												<h6 class="card-subtitle text-muted">{{ $u->position }}</h6>
+											</div>
+										</div>
+										<div class="list-group list-group-flush">
+											<p href="" class="list-group-item"> 
+												Resident Registration
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+											<p href="" class="list-group-item"> 
+												Document Request
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+											<p href="" class="list-group-item"> 
+												Document Approval
+												@if($u->approval==0)
+													<input type="checkbox" id="switchery" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+												@else
+													<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+												@endif
+											</p>
+											<p href="" class="list-group-item"> 
+												Facility Reservation
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+											<p href="" class="list-group-item"> 
+												Service Registration
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+											<p href="" class="list-group-item"> 
+												Business Registration
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+											<p href="" class="list-group-item"> 
+												Collection
+												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
+											</p>
+										</div>
+									</div>
+								</div>			
+							
+							@endforeach
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
 @endsection
 
 @section('vendor-js')
@@ -194,6 +275,13 @@
 	
 
 	<script>
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
 		$(document).on('click', '.accept', function(e) {
 			var id = $(this).data('value');
         
@@ -237,11 +325,7 @@
         $(document).on('click', '.reject', function(e) {
 			var id = $(this).data('value');
         
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}
-			});
+			
 
             swal({
                     title: "Are you sure you want to reject this user?",
@@ -283,10 +367,10 @@
 					for (var index in data) {
 						var statusText = "";
 						if (data[index].approval == 1) {
-							statusText = '<input type="checkbox" id="switchery" data-size="sm" data-color="primary" class="switchery" value="'+ data[index].id +'" checked/="" />';
+							statusText = '<input type="checkbox" id="switchery" name="sw" class="switchery" value="'+ data[index].id +'" checked/="" />';
 						}
 						else {
-							statusText = '<input type="checkbox" id="switchery" data-size="sm" data-color="primary" class="switchery" value="'+ data[index].id +'" />';
+							statusText = '<input type="checkbox" id="switchery" name="sw" class="switchery" value="'+ data[index].id +'" />';
 						}
 
 						$("#table-users").DataTable()
@@ -306,7 +390,10 @@
 									'</span>' +
 								'</form>'
 							]).draw(true);
+
 					}
+
+                    
 				}
 			});
 		};
@@ -338,9 +425,76 @@
 			});
 		};
 
-    $('#switchery').change(function(){
+    $('#myList').on('change','#switchery',function(e){
         var id = $(this).val();
-        alert(id);
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/approve') }}", 
+                success: function(data) { 
+                    console.log('approved');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/restrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switchery',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/approve') }}", 
+                success: function(data) { 
+                    console.log('approved');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/restrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
     })
 
 	</script>

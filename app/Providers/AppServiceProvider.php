@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use \App\Models\Documentrequest;
+use \App\Models\Reservation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $request = Documentrequest::where("status", "=", "Pending")->count();
+        $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
+        $pendingres = Reservation::where("status", "=", "Pending")->count();
+        $total = $request + $approval + $pendingres;
+        View::share('countOfRequest',$request);
+        View::share('countOfApproval',$approval);
+        View::share('countOfReservation',$pendingres);
+        View::share('total',$total);
+
+        
     }
 
     /**

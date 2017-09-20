@@ -156,9 +156,19 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="businessAddress">
-
-																</select>
+																{{ Form::text('address', 
+																				null, 
+																				['id' => 'address', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. 123-ab Halina St. Bacoor, Cavite', 
+																					'maxlength' => '250', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
 															</div>	
 														</div>
 

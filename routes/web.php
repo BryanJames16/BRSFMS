@@ -244,6 +244,8 @@ Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
 /* USERS */
 Route::post('/users/accept', 'UsersController@accept');
 Route::post('/users/reject', 'UsersController@reject');
+Route::post('/users/approve', 'UsersController@approve');
+Route::post('/users/restrict', 'UsersController@restrict');
 Route::get('/users/pendingRefresh', 'UsersController@pendingRefresh');
 Route::get('/users/refresh', 'UsersController@refresh');
 
@@ -282,6 +284,7 @@ Route::resource('/query/reservation', 'QueryReservationController');
 Route::resource('/query/service', 'QueryServiceController');
 Route::resource('/query/document', 'QueryDocumentController');
 Route::resource('/users', 'UsersController');
+Route::resource('/brgy', 'BrgyController');
 
 
 //////////////////////////////////////////////////////////////////////
@@ -335,7 +338,7 @@ Route::get('/base-maintenance', function () {
 
 
 //////////////////////////////////////////////////////////////////////
-/* SYSTEM TEMPORARY ROUTES */
+/* SYSTEM TEMPORARY ROUTES 
 //////////////////////////////////////////////////////////////////////
 
 Route::get('/sponsors', function() {
@@ -350,7 +353,7 @@ Route::get('/business-registration', function () {
 	return redirect('/unmt');
 });
 
-
+*/
 
 //////////////////////////////////////////////////////////////////////
 /* ORPHAN ROUTES */

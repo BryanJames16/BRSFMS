@@ -19,32 +19,32 @@ require_once(app_path() . '/Includes/pktool.php');
 use StaticCounter;
 use SmartMove;
 
-class UsersController extends Controller
+class BrgyController extends Controller
 {
 
     
 
     public function index() {
-    	$us = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position','approval','accept')
+    	$us = User::select('id','name','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
                             -> where('accept','=',1)
                             -> where('archive','=',0)
                             -> get();
 
-        $pendings = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position','approval','accept')
+        $pendings = User::select('id','name','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
                             -> where('accept','=',0)
                             -> where('archive','=',0)
                             -> get();
         
         
-    	return view('users')-> with('us', $us)
+    	return view('brgy')-> with('us', $us)
                                 -> with('pendings', $pendings);
     }
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(User::select('id','name','imagePath','email', 'firstName','middleName','lastName','position','approval','accept')
+            return json_encode(User::select('id','name','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
                             -> where('accept','=',1)
                             -> where('archive','=',0)
