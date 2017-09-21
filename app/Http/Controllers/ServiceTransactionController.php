@@ -358,7 +358,6 @@ class ServiceTransactionController extends Controller
         if ($r->ajax()) {
 
             $this->validate($r, [
-                'serviceTransactionID' => 'required|unique:servicetransactions|max:45',
                 'serviceName' => 'required|max:30|min:2',
                 'fromAge' => 'integer|nullable|min:0',
                 'toAge' => 'integer|nullable|min:1',

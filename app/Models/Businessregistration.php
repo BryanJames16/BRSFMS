@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 05:01:39 +0000.
+ * Date: Wed, 20 Sep 2017 17:12:10 +0000.
  */
 
 namespace App\Models;
@@ -16,13 +16,18 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $businessID
  * @property string $originalName
  * @property string $tradeName
- * @property int $peoplePrimeID
  * @property int $residentPrimeID
  * @property \Carbon\Carbon $registrationDate
  * @property \Carbon\Carbon $removalDate
  * @property int $archive
+ * @property string $address
+ * @property string $firstName
+ * @property string $middleName
+ * @property string $lastName
+ * @property string $contactNumber
+ * @property \Carbon\Carbon $birthday
+ * @property string $gender
  * 
- * @property \App\Models\Person $person
  * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  *
@@ -34,31 +39,32 @@ class Businessregistration extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'peoplePrimeID' => 'int',
 		'residentPrimeID' => 'int',
 		'archive' => 'int'
 	];
 
 	protected $dates = [
 		'registrationDate',
-		'removalDate'
+		'removalDate',
+		'birthday'
 	];
 
 	protected $fillable = [
 		'businessID',
 		'originalName',
 		'tradeName',
-		'peoplePrimeID',
 		'residentPrimeID',
 		'registrationDate',
 		'removalDate',
-		'archive'
+		'archive',
+		'address',
+		'firstName',
+		'middleName',
+		'lastName',
+		'contactNumber',
+		'birthday',
+		'gender'
 	];
-
-	public function person()
-	{
-		return $this->belongsTo(\App\Models\Person::class, 'peoplePrimeID');
-	}
 
 	public function resident()
 	{

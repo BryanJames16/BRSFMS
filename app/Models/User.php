@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 05:01:39 +0000.
+ * Date: Wed, 20 Sep 2017 17:12:11 +0000.
  */
 
 namespace App\Models;
@@ -28,6 +28,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $position
  * @property int $accept
  * @property int $archive
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $messages
  *
  * @package App\Models
  */
@@ -59,4 +61,9 @@ class User extends Eloquent
 		'accept',
 		'archive'
 	];
+
+	public function messages()
+	{
+		return $this->hasMany(\App\Models\Message::class, 'senderID');
+	}
 }

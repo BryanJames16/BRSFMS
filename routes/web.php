@@ -228,7 +228,12 @@ Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@F
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
 Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
 Route::get('/business-registration/owner', 'BusinessRegistrationController@getOwner');
+Route::get('/business-registration/refresh', 'BusinessRegistrationController@refresh');
+Route::get('/business-registration/getEdit', 'BusinessRegistrationController@getEdit');
+Route::get('/business-registration/getDetails', 'BusinessRegistrationController@getDetails');
 Route::post('/business-registration/store', 'BusinessRegistrationController@store');
+Route::post('/business-registration/delete', 'BusinessRegistrationController@delete');
+Route::post('/business-registration/update', 'BusinessRegistrationController@edit');
 
 /* UTILITIES ROUTES */
 Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
@@ -244,12 +249,24 @@ Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
 /* USERS */
 Route::post('/users/accept', 'UsersController@accept');
 Route::post('/users/reject', 'UsersController@reject');
-Route::post('/users/approve', 'UsersController@approve');
-Route::post('/users/restrict', 'UsersController@restrict');
 Route::get('/users/pendingRefresh', 'UsersController@pendingRefresh');
 Route::get('/users/refresh', 'UsersController@refresh');
-
-
+Route::post('/users/approvalAllow', 'UsersController@approvalAllow');
+Route::post('/users/approvalRestrict', 'UsersController@approvalRestrict');
+Route::post('/users/residentAllow', 'UsersController@residentAllow');
+Route::post('/users/residentRestrict', 'UsersController@residentRestrict');
+Route::post('/users/requestAllow', 'UsersController@requestAllow');
+Route::post('/users/requestRestrict', 'UsersController@requestRestrict');
+Route::post('/users/reservationAllow', 'UsersController@reservationAllow');
+Route::post('/users/reservationRestrict', 'UsersController@reservationRestrict');
+Route::post('/users/serviceAllow', 'UsersController@serviceAllow');
+Route::post('/users/serviceRestrict', 'UsersController@serviceRestrict');
+Route::post('/users/businessAllow', 'UsersController@businessAllow');
+Route::post('/users/businessRestrict', 'UsersController@businessRestrict');
+Route::post('/users/collectionAllow', 'UsersController@collectionAllow');
+Route::post('/users/collectionRestrict', 'UsersController@collectionRestrict');
+Route::post('/users/sponsorshipAllow', 'UsersController@sponsorshipAllow');
+Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict');
 //////////////////////////////////////////////////////////////////////
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////

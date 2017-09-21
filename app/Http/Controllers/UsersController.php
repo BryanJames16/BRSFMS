@@ -25,7 +25,9 @@ class UsersController extends Controller
     
 
     public function index() {
-    	$us = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position','approval','accept')
+    	$us = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position',
+                            'approval','resident','request','reservation','service','sponsorship','business',
+                            'collection','accept')
                             -> where('position','!=','Chairman')
                             -> where('accept','=',1)
                             -> where('archive','=',0)
@@ -94,7 +96,7 @@ class UsersController extends Controller
         }
     }
 
-    public function approve(Request $r) {
+    public function approvalAllow(Request $r) {
         if ($r->ajax()) {
             $type = User::find($r->input('id'));
             $type->approval = 1;
@@ -107,7 +109,7 @@ class UsersController extends Controller
         }
     }
 
-    public function restrict(Request $r) {
+    public function approvalRestrict(Request $r) {
         if ($r->ajax()) {
             $type = User::find($r->input('id'));
             $type->approval = 0;
@@ -119,25 +121,11 @@ class UsersController extends Controller
             return view('errors.403');
         }
     }
-	
-    public function getUnit(Request $r) {
-        if($r->ajax()) {
-            return json_encode( \DB::table('units') ->select('unitID','unitCode') 
-                                        ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
-                                        ->where('units.status', '=', 1)
-                                        ->where('units.archive', '=', 0)
-                                        ->where('buildings.buildingID', '=', $r->input('buildingID'))
-                                        ->get());
-        }
-        else {
-            return view('errors.403');
-        }
-    }
 
-    public function delete(Request $r) {
+    public function residentAllow(Request $r) {
         if ($r->ajax()) {
-            $type = Resident::find($r->input('residentPrimeID'));
-            $type->status = 0;
+            $type = User::find($r->input('id'));
+            $type->resident = 1;
             $type->save();
             
             return back();
@@ -147,22 +135,10 @@ class UsersController extends Controller
         }
     }
 
-    public function memberRemove(Request $r) {
+    public function residentRestrict(Request $r) {
         if ($r->ajax()) {
-            $participants = \DB::table('familymembers')
-                            ->where('familyPrimeID', '=', $r->input('familyPrimeID'))
-                            ->where('peoplePrimeID', '=', $r->input('peoplePrimeID'))
-                            ->delete();
-        }
-        else {
-            return view('errors.403');
-        }
-    }
-
-    public function familyDelete(Request $r) {
-        if ($r->ajax()) {
-            $type = Family::find($r->input('familyPrimeID'));
-            $type->archive = 1;
+            $type = User::find($r->input('id'));
+            $type->resident = 0;
             $type->save();
             
             return back();
@@ -172,52 +148,12 @@ class UsersController extends Controller
         }
     }
 
-    public function edit(Request $r) { 
+    public function requestAllow(Request $r) {
         if ($r->ajax()) {
-
-            $this->validate($r, [
-                'residentID' => 'required|max:20',
-                'firstName' => 'required|max:30|min:2',
-                'middleName' => 'min:0|max:30',
-                'lastName' => 'required|min:2|max:30',
-                'birthDate' => 'required|date|before:tomorrow',
-                'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
-                'disabilities' => 'nullable|alpha_dash|min:0|max:250',
-            ]);
-
-            $type = Resident::find($r->input('residentPrimeID'));
-            $type->residentID = $r->input('residentID');
-            $type->firstName = $r->input('firstName');
-            $type->middleName = $r->input('middleName');
-            $type->lastName = $r->input('lastName');
-            $type->suffix = $r->input('suffix');
-            $type->gender = $r->input('gender');
-            $type->birthDate = $r->input('birthDate');
-            $type->civilStatus = $r->input('civilStatus');
-            $type->seniorCitizenID = $r->input('seniorCitizenID');
-            $type->disabilities = $r->input('disabilities');
-            $type->residentType = $r->input('residentType');
-            $type->contactNumber = $r->input('contactNumber');
+            $type = User::find($r->input('id'));
+            $type->request = 1;
             $type->save();
-
-            $address = GeneralAddress::find($r->input('personAddressID'));
-            $address->addressType = $r->input('addressType');
-            $address->streetID = $r->input('streetID');
-            $address->buildingID = $r->input('buildingID');
-            $address->unitID = $r->input('unitID');
-            $address->lotID = $r->input('lotID');
-            $address->save();
-
-            if( ($r -> input('work')!= $r -> input('hiddenWork')) || 
-                    ($r -> input('salary')!=$r -> input('hiddenIncome')) ) {
-                $insertRet = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
-                                                'monthlyIncome' => $r -> input('monthlyIncome'),
-                                                'dateStarted' => Carbon::now(),
-                                                'peoplePrimeID' => $r -> input('residentPrimeID'),
-                                                'status' => 1,
-                                                'archive' => 0]);
-            }
-
+            
             return back();
         }
         else {
@@ -225,13 +161,12 @@ class UsersController extends Controller
         }
     }
 
-    public function updateRelation(Request $r) { 
+    public function requestRestrict(Request $r) {
         if ($r->ajax()) {
-
-            $type = Familymember::find($r->input('familyMemberPrimeID'));
-            $type->memberRelation = $r->input('memberRelation');
+            $type = User::find($r->input('id'));
+            $type->request = 0;
             $type->save();
-
+            
             return back();
         }
         else {
@@ -239,12 +174,12 @@ class UsersController extends Controller
         }
     }
 
-    public function join(Request $r) {
+    public function reservationAllow(Request $r) {
         if ($r->ajax()) {
-            $insertRet = Familymember::insert(['familyPrimeID'=>$r -> input('familyPrimeID'),
-                                                'peoplePrimeID' => $r -> input('peoplePrimeID'),
-                                                'memberRelation' => $r -> input('memberRelation'),
-                                                'archive' => 0]);
+            $type = User::find($r->input('id'));
+            $type->reservation = 1;
+            $type->save();
+            
             return back();
         }
         else {
@@ -252,37 +187,122 @@ class UsersController extends Controller
         }
     }
 
-    public function addImage(Request $r){
-       
-            $fileName = $r->imagePath->getClientOriginalName();
-            $r->imagePath->storeAs('public/upload', $fileName);
-
-            $type = Resident::find($r->input('rID'));
-            $type->imagePath = $fileName;
+    public function reservationRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->reservation = 0;
             $type->save();
-
-
+            
             return back();
-        
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
-    public function notMember($id) {
-        $mem = Familymember::select('peoplePrimeID')
-                            -> where('familyPrimeID','=',$id)
-                            ->get();
-
-        
-
-        return json_encode(\DB::table('residents')->select('residentPrimeID', 'residentID', 
-                                                            'firstName', 'lastName', 'middleName', 
-                                                            'suffix', 'status', 'contactNumber', 
-                                                            'gender', 'birthDate', 'civilStatus', 
-                                                            'seniorCitizenID', 'disabilities', 
-                                                            'residentType')
-                                                -> whereNotIn('residentPrimeID',$mem)
-                                                -> get());
+    public function serviceAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->service = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
+    public function serviceRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->service = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function businessAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->business = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function businessRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->business = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function collectionAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->collection = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function collectionRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->collection = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function sponsorshipAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->sponsorship = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function sponsorshipRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->sponsorship = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
   
 }
 

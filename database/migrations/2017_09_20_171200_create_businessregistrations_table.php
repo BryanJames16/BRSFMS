@@ -18,11 +18,17 @@ class CreateBusinessregistrationsTable extends Migration {
 			$table->string('businessID', 20);
 			$table->string('originalName', 45);
 			$table->string('tradeName', 45);
-			$table->integer('peoplePrimeID')->nullable()->index('fk_BusinessRegistrations_People1_idx');
 			$table->integer('residentPrimeID')->nullable()->index('fk_businessregistrations_residents1_idx');
 			$table->dateTime('registrationDate');
 			$table->dateTime('removalDate')->nullable();
 			$table->integer('archive');
+			$table->string('address', 250);
+			$table->string('firstName', 45)->nullable();
+			$table->string('middleName', 45)->nullable();
+			$table->string('lastName', 45)->nullable();
+			$table->string('contactNumber', 45)->nullable();
+			$table->date('birthday')->nullable();
+			$table->string('gender', 5)->nullable();
 		});
 	}
 

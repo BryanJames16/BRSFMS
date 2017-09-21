@@ -86,6 +86,91 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="user" aria-labelledby="active-tab3" aria-expanded="true">
+										
+										@foreach($us as $u)
+											<div class="col-xl-4 col-md-6 col-xs-12">
+												<div class="card box-shadow-2">
+													<div class="text-xs-center">
+														<div class="card-block">
+															<img src="/storage/upload/{{ $u->imagePath }}" class="rounded-circle  height-150" alt="Card image" />
+														</div>
+														<div class="card-block">
+															<h4 class="card-title">{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</h4>
+															<h6 class="card-subtitle text-muted">{{ $u->position }}</h6>
+														</div>
+													</div>
+													<div class="list-group list-group-flush">
+														<p href="" class="list-group-item"> 
+															Resident Registration
+															@if($u->resident==0)
+																<input type="checkbox" id="switcheryResident" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryResident" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Document Request
+															@if($u->request==0)
+																<input type="checkbox" id="switcheryRequest" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryRequest" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Document Approval
+															@if($u->approval==0)
+																<input type="checkbox" id="switcheryApproval" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryApproval" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Facility Reservation
+															@if($u->reservation==0)
+																<input type="checkbox" id="switcheryReservation" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryReservation" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Service Registration
+															@if($u->service==0)
+																<input type="checkbox" id="switcheryService" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryService" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Service Sponsorship
+															@if($u->sponsorship==0)
+																<input type="checkbox" id="switcherySponsorship" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcherySponsorship" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Business Registration
+															@if($u->business==0)
+																<input type="checkbox" id="switcheryBusiness" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryBusiness" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+														<p href="" class="list-group-item"> 
+															Collection
+															@if($u->collection==0)
+																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+													</div>
+												</div>
+											</div>			
+										
+										@endforeach
+										
+										<!--
 										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-users">
 											<thead>
 												<tr>
@@ -125,6 +210,7 @@
 
 											</tbody>
 										</table>
+										-->
 									</div>
 									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
 										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
@@ -161,85 +247,7 @@
 
 	</section>
 
-	<section id="multi-column">
-		<div class="row">
-			<div class="col-xs-14">
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Users</h4>
-						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-						<div class="heading-elements">
-							<ul class="list-inline mb-0">
-								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
-								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div id="list" class="card-body collapse in">
-						
-						<div class="card-body">
-							<div class="card-block">
-
-							@foreach($us as $u)
-								<div class="col-xl-4 col-md-6 col-xs-12">
-									<div class="card box-shadow-2">
-										<div class="text-xs-center">
-											<div class="card-block">
-												<img src="/storage/upload/{{ $u->imagePath }}" class="rounded-circle  height-150" alt="Card image" />
-											</div>
-											<div class="card-block">
-												<h4 class="card-title">{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</h4>
-												<h6 class="card-subtitle text-muted">{{ $u->position }}</h6>
-											</div>
-										</div>
-										<div class="list-group list-group-flush">
-											<p href="" class="list-group-item"> 
-												Resident Registration
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-											<p href="" class="list-group-item"> 
-												Document Request
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-											<p href="" class="list-group-item"> 
-												Document Approval
-												@if($u->approval==0)
-													<input type="checkbox" id="switchery" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-												@else
-													<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-												@endif
-											</p>
-											<p href="" class="list-group-item"> 
-												Facility Reservation
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-											<p href="" class="list-group-item"> 
-												Service Registration
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-											<p href="" class="list-group-item"> 
-												Business Registration
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-											<p href="" class="list-group-item"> 
-												Collection
-												<input type="checkbox" id="switchery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}"  />
-											</p>
-										</div>
-									</div>
-								</div>			
-							
-							@endforeach
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</section>
+	
 @endsection
 
 @section('vendor-js')
@@ -461,7 +469,7 @@
         
     })
 
-	$('#list').on('change','#switchery',function(e){
+	$('#list').on('change','#switcheryApproval',function(e){
         var id = $(this).val();
 
         if(this.checked == true)
@@ -469,9 +477,9 @@
             $.ajax({
                 type: "post", 
                 data: {id: id},
-                url: "{{ url('users/approve') }}", 
+                url: "{{ url('users/approvalAllow') }}", 
                 success: function(data) { 
-                    console.log('approved');
+                    console.log('allowed');
                     
                 }, 
                 error: function(data) {
@@ -484,7 +492,259 @@
             $.ajax({
                 type: "post", 
                 data: {id: id},
-                url: "{{ url('users/restrict') }}", 
+                url: "{{ url('users/approvalRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryResident',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/residentAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/residentRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryRequest',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/requestAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/requestRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryReservation',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/reservationAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/reservationRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryService',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/serviceAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/serviceRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcherySponsorship',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/sponsorshipAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/sponsorshipRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryBusiness',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/businessAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/businessRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+	$('#list').on('change','#switcheryCollection',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/collectionAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/collectionRestrict') }}", 
                 success: function(data) { 
                     console.log('restricted');
                 }, 

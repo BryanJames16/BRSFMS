@@ -396,38 +396,44 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Transaction</span>
 								</a>
 								<ul class="menu-content">
-									<li id="resident-application-id">
-										<a href="/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-user-tie"></i>
-											<span>Resident</span>
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<i class="icon-cogs"></i>
-											<span>Document</span>
-										</a>
-										<ul class="menu-content">
-											<li id="document-request-id">
-												<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Document Request
-													<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
-												</a>
-												
-											</li>
-											@if(Auth::user()->approval == 1)
-												<li id="document-approval-id">
-													<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
-														<i class="icon-aperture"></i>
-														Document Approval
-														<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
-														<!--<span class="tag tag-info">22</span>-->
-													</a>
-												</li>
-											@endif
-										</ul>
-									</li>
+									@if(Auth::user()->resident == 1)
+										<li id="resident-application-id">
+											<a href="/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-user-tie"></i>
+												<span>Resident</span>
+											</a>
+										</li>
+									@endif
+
+										<li>
+											<a href="#">
+												<i class="icon-cogs"></i>
+												<span>Document</span>
+											</a>
+											<ul class="menu-content">
+												@if(Auth::user()->request == 1)
+													<li id="document-request-id">
+														<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
+															<i class="icon-drawer"></i>
+															Document Request
+															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
+														</a>
+														
+													</li>
+												@endif
+												@if(Auth::user()->approval == 1)
+													<li id="document-approval-id">
+														<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
+															<i class="icon-aperture"></i>
+															Document Approval
+															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
+															<!--<span class="tag tag-info">22</span>-->
+														</a>
+													</li>
+												@endif
+											</ul>
+										</li>
+									@if(Auth::user()->reservation == 1)
 									<li id="facility-reservation-id">
 										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
@@ -435,38 +441,47 @@
 											<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfReservation }}</span>
 										</a>
 									</li>
+									@endif
+									@if(Auth::user()->collection == 1)
 									<li id="collection-id">
 										<a href="/collection" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-moneybag"></i>
 											<span>Collection</span>
 										</a>
 									</li>
+									@endif
 									<li>
 										<a href="#">
 											<i class="icon-cogs"></i>
 											<span>Service</span>
 										</a>
 										<ul class="menu-content">
+											@if(Auth::user()->service == 1)
 											<li id="service-registration-id">
 												<a href="/service-transaction" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-drawer"></i>
 													Service Registration
 												</a>
 											</li>
+											@endif
+											@if(Auth::user()->sponsorship == 1)
 											<li id="service-sponsorhip-id">
 												<a href="/service-sponsorship" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-aperture"></i>
 													Service Sponsorship
 												</a>
 											</li>
+											@endif
 										</ul>
 									</li>
+									@if(Auth::user()->business == 1)
 									<li id="business-registration-id">
 										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-truck"></i>
 											<span>Business Registration</span>
 										</a>
 									</li>
+									@endif
 								</ul>
 							</li>
 

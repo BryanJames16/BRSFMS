@@ -12,6 +12,7 @@ use \App\Models\Utility;
 use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
+use \App\Models\Servicetransaction;
 use Carbon\Carbon;
 
 require_once(app_path() . '/Includes/pktool.php');
@@ -25,6 +26,17 @@ class BrgyController extends Controller
     
 
     public function index() {
+
+        $st= \DB::table('servicetransactions') ->select('servicetransactions.serviceTransactionPrimeID',
+                                                    'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
+                                                     'servicetransactions.servicePrimeID',
+                                                    'fromAge', 'toAge','fromDate','toDate',
+                                                     'servicetransactions.status','services.serviceName') 
+                                        ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
+                                        ->where('servicetransactions.archive','0')
+                                        ->where('servicetransactions.status','Pending')
+                                        ->get();
+
     	$us = User::select('id','name','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
                             -> where('accept','=',1)
@@ -39,7 +51,8 @@ class BrgyController extends Controller
         
         
     	return view('brgy')-> with('us', $us)
-                                -> with('pendings', $pendings);
+                           -> with('st', $st)
+                           -> with('pendings', $pendings);
     }
 
     public function refresh(Request $r) {

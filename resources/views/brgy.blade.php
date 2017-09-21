@@ -61,7 +61,11 @@
 
 		<!-- Begin Vendor Plugins CSS -->
 		@yield('vendor-plugin')
-            <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/icheck/icheck.css') }}" />
+			<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/icheck/custom.css') }}" />
+			<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/js/plugins/gallery/photo-swipe/photoswipe.css') }}" />
+			<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/js/plugins/gallery/photo-swipe/default-skin/default-skin.css') }}" />
+			<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
@@ -119,7 +123,195 @@
 				-->
 
 				<div class="content-body">
+
+					<!-- START PRELOADER-->
+
+					<div id="preloader-wrapper">
+					<div id="loader">
+						<div class="line-scale-pulse-out-rapid loader-white">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+						</div>
+					</div>
+					<div class="loader-section section-top bg-cyan"></div>
+					<div class="loader-section section-bottom bg-cyan"></div>
+					</div>
+
+					<!-- END PRELOADER-->
+
+					<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Barangay 629 Upcoming Services</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+										<div class="heading-elements">
+						<ul class="list-inline mb-0">
+							<li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+							<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+							<li><a data-action="close"><i class="icon-cross2"></i></a></li>
+						</ul>
+						</div>
+					</div>
+					<div class="card-body collapse in">
+						<div class="card-block">
+						<div class="card-text">
+							<p>These services are all for the residents of Barngay 629</p>
+							<section class="cd-horizontal-timeline">
+							<div class="timeline">
+								<div class="events-wrapper">
+								<div class="events">
+									<ol>
+									@foreach($st as $s)
+										<li><a href="#0" class="selected" data-date="{{ date('m/d/Y',strtotime($s -> fromDate)) }}">{{ date('j M',strtotime($s -> fromDate)) }}</a></li>
+									@endforeach
+
+									</ol>
+									
+
+									<span class="filling-line" aria-hidden="true"></span>
+								</div>
+								<!-- .events -->
+								</div>
+								<!-- .events-wrapper -->
+
+								<ul class="cd-timeline-navigation">
+								<li><a href="#0" class="prev inactive">Prev</a></li>
+								<li><a href="#0" class="next">Next</a></li>
+								</ul>
+								<!-- .cd-timeline-navigation -->
+							</div>
+							<!-- .timeline -->
+
+							<div class="events-content">
+								<ol>
+
+								@foreach($st as $s)
+
+									<li class="selected" data-date="{{ date('m/d/Y',strtotime($s -> fromDate)) }}">
+										<h2>{{$s -> serviceTransactionName}}</h2>
+										<h3 class="text-muted mb-1">
+											<em>
+												@if($s -> toDate==null)
+													<td>{{ date('F j, Y',strtotime($s -> fromDate)) }}</td>
+												@else
+													<td>{{ date('F j, Y',strtotime($s -> fromDate)) }} - {{ date('F j, Y',strtotime($s -> toDate)) }}</td>
+												@endif
+											</em>
+										</h3>
+										<p class="lead">
+										Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+										reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+										</p>
+									</li>
+
+								@endforeach
+
+								
+
+								<li data-date="28/02/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>February 28th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="20/04/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>March 20th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="20/05/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>May 20th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="09/07/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>July 9th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="30/08/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>August 30th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="15/09/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>September 15th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="01/11/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>November 1st, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="10/12/2015">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>December 10th, 2015</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="19/01/2016">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>January 19th, 2016</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+
+								<li data-date="03/03/2016">
+									<h2>Event title here</h2>
+									<h3 class="text-muted mb-1"><em>March 3rd, 2016</em></h3>
+									<p class="lead">
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum praesentium officia, fugit recusandae ipsa, quia velit nulla adipisci? Consequuntur aspernatur at, eaque hic repellendus sit dicta consequatur quae, ut harum ipsam molestias maxime non nisi
+									reiciendis eligendi! Doloremque quia pariatur harum ea amet quibusdam quisquam, quae, temporibus dolores porro doloribus.
+									</p>
+								</li>
+								</ol>
+							</div>
+							<!-- .events-content -->
+							</section>
+						</div>
+						</div>
+					</div>
+					</div>
+					<!--/ Basic Horizontal Timeline -->
+
 					@yield('content-body')
+
+					
 				</div>
 			</div>
 		</div>
@@ -148,6 +340,17 @@
 		<!-- Begin Page Vendor JS -->
 		@yield('page-vendor-js')
 
+			<script src="{{ URL::asset('/robust-assets/js/plugins/timeline/horizontal-timeline.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/plugins/gallery/masonry/masonry.pkgd.min.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/plugins/charts/gmaps.min.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/plugins/gallery/photo-swipe/photoswipe.min.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/plugins/gallery/photo-swipe/photoswipe-ui-default.min.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/plugins/charts/echarts/echarts.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/components/charts/echarts/bar-column/stacked-column.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/components/charts/echarts/radar-chord/non-ribbon-chord.js') }}" type="text/javascript"></script>
+			
+
+
             <script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
             <script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
             <!-- <script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script> -->
@@ -172,6 +375,8 @@
 		@yield('page-level-js')
 		<!-- End Page Level JS -->
             <script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/components/pages/timeline.js') }}" type="text/javascript"></script>
+			<script src="{{ URL::asset('/robust-assets/js/components/gallery/photo-swipe/photoswipe-script.js') }}" type="text/javascript"></script>
             <script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
             <script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
             <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>

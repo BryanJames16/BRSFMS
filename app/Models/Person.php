@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 05:01:39 +0000.
+ * Date: Wed, 20 Sep 2017 17:12:11 +0000.
  */
 
 namespace App\Models;
@@ -23,7 +23,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $status
  * @property bool $archive
  * 
- * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
  * @property \Illuminate\Database\Eloquent\Collection $collections
  * @property \Illuminate\Database\Eloquent\Collection $servicesponsorships
  *
@@ -50,11 +49,6 @@ class Person extends Eloquent
 		'status',
 		'archive'
 	];
-
-	public function businessregistrations()
-	{
-		return $this->hasMany(\App\Models\Businessregistration::class, 'peoplePrimeID');
-	}
 
 	public function collections()
 	{

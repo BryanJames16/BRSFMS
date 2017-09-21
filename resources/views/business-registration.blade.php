@@ -109,9 +109,9 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Original Business Name</label>
 															<div class="col-md-9">
-																{{ Form::text('businessName', 
+																{{ Form::text('originalName', 
 																				null, 
-																				['id' => 'businessName', 
+																				['id' => 'originalName', 
 																					'class' => 'form-control', 
 																					'placeholder' => 'eg. RickaDee Salon', 
 																					'maxlength' => '20', 
@@ -147,7 +147,7 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Business Owner or Operator</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="operatorName">
+																<select class ='form-control border-info selectBox' name='type' id="residentPrimeID">
 
 																</select>
 															</div>	
@@ -175,19 +175,19 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Business Category</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="businessCategory">
+																<select class ='form-control border-info selectBox' name='type' id="categoryID">
 
 																</select>
 															</div>	
 														</div>
 													</div>
 
-													<div class="form-actions center">
-														<input type="submit" class="btn btn-success" value="Register Business" name="btnRegister">
+													<p align="center">
+														<a href="#" class="btn btn-success register"  name="btnRegister">Register</a>
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
 														{{ Form::close() }}
-													</div>					
+													</p>					
 																				
 												</div>
 											</div>
@@ -196,22 +196,198 @@
 									</div>
 								</div> 
 								<!-- End of Modal -->
+
+								<!-- EDIT Modal -->
+								<div class="modal animated bounceIn text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Edit Business</h4>
+											</div>
+											<div ng-app="maintenanceApp" class="modal-body">
+												<div class="card-block">
+													<div class="card-text">
+														{{ Form::open(['method' => 'POST', 'id' => 'frm-update']) }}
+
+
+														{{ Form::hidden('registrationPrimeID', 
+															null, 
+															['id' => 'registrationPrimeID', 
+																'class' => 'form-control']) }}
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business ID</label>
+															<div class="col-md-9">
+																{{ Form::text('businessID', 
+																				null, 
+																				['id' => 'businessID', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. 20-198L77', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Assigned by Bureau of Internal Revenues. Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Original Business Name</label>
+															<div class="col-md-9">
+																{{ Form::text('originalName', 
+																				null, 
+																				['id' => 'originalName', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. RickaDee Salon', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Trade Name</label>
+															<div class="col-md-9">
+																{{ Form::text('tradeName', 
+																				null, 
+																				['id' => 'tradeName', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. RickaDee Salon Corporation', 
+																					'maxlength' => '20', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Owner or Operator</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="eresidentPrimeID">
+
+																</select>
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
+															<div class="col-md-9">
+																{{ Form::text('address', 
+																				null, 
+																				['id' => 'address', 
+																					'class' => 'form-control', 
+																					'placeholder' => 'eg. 123-ab Halina St. Bacoor, Cavite', 
+																					'maxlength' => '250', 
+																					'data-toggle' => 'tooltip', 
+																					'data-trigger' => 'focus', 
+																					'data-placement' => 'top', 
+																					'data-title' => 'Maximum of 20 characters', 
+																					'required', 
+																					'minlength'=>'5', 
+																					'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+															</div>	
+														</div>
+
+														<div class="form-group row">
+															<label class="col-md-3 label-control" for="eventRegInput1">Business Category</label>
+															<div class="col-md-9">
+																<select class ='form-control border-info selectBox' name='type' id="ecategoryID">
+
+																</select>
+															</div>	
+														</div>
+													</div>
+
+													<p align="center">
+														<a href="#" class="btn btn-success update"  name="btnRegister">Update</a>
+														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
+
+														{{ Form::close() }}
+													</p>					
+																				
+												</div>
+											</div>
+											<!-- End of Modal Body -->
+										</div>
+									</div>
+								</div> 
+								<!-- End of Modal -->
+
+											<!-- VIEW MODAL -->
+
+											<!-- Modal -->
+								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
+											</div>
+											<div class="modal-body">
+												
+													<p align="center" style="font-size:20px"><b>BUSINESS DETAILS</b></p>
+													<hr>
+													<div id="businessDetails">
+
+													</div>
+
+											</div>
+															<!-- End of Modal Body -->
+										</div>
+									</div>
+								</div> <!-- End of Modal -->
 							</p>
 
 							<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
 								<thead>
                     				<tr>
 										<td>Business ID</td>
+										<td>Original Name</td>
+										<td>Trade Name</td>
 										<td>Registration Date</td>
 										<td>Owner</td>
-										<td>Business Type</td>
-										<td>Remarks</td>
+										<td>Category</td>
 										<td>Actions</td>
 									</tr>
                     			</thead>
 
 								<tbody>
-
+									@foreach($regs as $reg)
+									<tr>
+										<td>{{$reg -> businessID}}</td>
+										<td>{{$reg -> originalName}}</td>
+										<td>{{$reg -> tradeName}}</td>
+										<td>{{ date('F j, Y',strtotime($reg -> registrationDate)) }}</td>
+										<td>{{$reg -> lastName}}, {{$reg -> firstName}} {{$reg -> middleName}}</td>
+										<td>{{$reg -> categoryName}}</td>
+										<td><span class="dropdown">
+												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+													<a href="#" class="dropdown-item view" name="btnView" data-value=" {{$reg ->registrationPrimeID}}"><i class="icon-eye3"></i> View</a>
+													<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-pen3"></i> Edit</a>
+													<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-trash4"></i> Delete</a>
+												</span>
+											</span>
+										</td>
+									</tr>
+									@endforeach
 								</tbody>	
 							</table>
 						</div>
@@ -234,29 +410,31 @@
 		    }
 		});
 
-		var refreshTable = function() {
+		$(document).on('click', '.register', function(e) {
+        
 			$.ajax({
-				url: "{{ url('/business-registration/getBusiness') }}", 
-				type: 'GET', 
-				success: function(data) {
-					$("#table-container").DataTable().clear().draw();
-					for (index in data) {
-						$("#table-container").DataTable()
-								.row.add([
-									data[index].businessID, 
-									data[index].registrationDate, 
-									data[index].firstName + " " + 
-										data[index].middleName + " " + 
-										data[index].lastName, 
-									"", 
-									"",
-									""
-								]).draw(false);
-					}
+				url: '/business-registration/store', 
+				type: 'POST', 
+				data: {
+					"businessID": $("#businessID").val(), 
+					"originalName": $("#originalName").val(), 
+					"tradeName": $("#tradeName").val(), 
+					"residentPrimeID": $("#residentPrimeID").val(), 
+					"address": $("#address").val(), 
+					"categoryID": $("#categoryID").val()
 				}, 
-				error: function(errors) {
+				success: function(data) {
+					refreshTable();
+					
+					$("#regModal").modal('hide');
+					
+					$("#frmReg").trigger('reset');
+					swal("Success", "Successfully Registered Business!", "success");
+				}, 
+				error: function(error) {
+
 					var message = "Errors: ";
-					var data = errors.responseJSON;
+					var data = error.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}
@@ -264,17 +442,87 @@
 					swal("Error", message, "error");
 				}
 			});
-		};
+            
+		});
 
-		$("#btnRegModal").click(function(event) {
-			$("#regModal").modal("show");
+		$(document).on('click', '.view', function(e) {
+			var id = $(this).data('value');
+
+			
+
+			$.ajax({
+
+				type: 'get',
+				url: "{{ url('business-registration/getDetails') }}",
+				data: {registrationPrimeID:id},
+				success:function(data)
+				{
+
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						
+				
+
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].registrationDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+
+							var start = data[index].reservationStart;
+							var end = data[index].reservationEnd;
+							var g;
+
+							if(data[index].gender=='M')
+							{
+								g = "Male";
+							}
+							else{
+								g = "Female";
+							}
+
+							
+							$('#businessDetails').html(
+								'<p style="font-size:18px" align="center">'+
+										
+										'<b>BUSINESS</b> <br><br>' +
+										'Business ID:  ' + data[index].businessID + '<br>' +
+										'Original Name:  ' + data[index].originalName + '<br>' +
+										'Trade Name:  ' + data[index].tradeName + '<br>' +
+										'Date Registered:  ' + d + '<br>' +
+										'Category:  ' + data[index].categoryName + '<br><br>' +
+										'<b>BUSINESS OWNER</b> <br><br>' +
+										'Name: ' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '<br>' +
+										'Contact Number: ' + data[index].contactNumber + '<br>' +
+										'Gender: ' + g + '<br>' +
+								'</p>'
+								);	
+							$('#viewModal').modal('show');
+				
+						
+					}		
+				}
+			});
+
+			
+
+		});
+
+		$(document).on('click', '.edit', function(e) {
+			var id = $(this).data("value");
 
 			$.ajax({
 				url: '/business-registration/owner', 
 				type: 'GET', 
 				success: function(data) {
+
+					$('#eresidentPrimeID').html('');
+
 					for (datum in data) {
-						$("#operatorName").append(
+						$("#eresidentPrimeID").append(
 							'<option value="' + data[datum].residentPrimeID + '">' + 
 								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
 								" (" + data[datum].residentID + ")" + 
@@ -297,8 +545,221 @@
 				url: '/business-registration/category', 
 				type: 'GET', 
 				success: function(data) {
+
+					$('#ecategoryID').html('');
+
 					for (datum in data) {
-						$("#businessCategory").append(
+						$("#ecategoryID").append(
+							'<option value="' + data[datum].categoryPrimeID + '">' + 
+								data[datum].categoryName + 
+							'</option>' 
+						);
+					}
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/business-registration/getEdit') }}",
+				data: {registrationPrimeID:id},
+				success:function(data)
+				{
+					var frm = $('#frm-update');
+					frm.find('#registrationPrimeID').val(data.registrationPrimeID);
+					frm.find('#businessID').val(data.businessID);
+					frm.find('#originalName').val(data.originalName);
+					frm.find('#tradeName').val(data.tradeName);
+					frm.find('#eresidentPrimeID').val(data.residentPrimeID);
+					frm.find('#address').val(data.address);
+					frm.find('#ecategoryID').val(data.categoryID);
+
+					
+					$('#modalEdit').modal('show');
+				}
+			})
+
+		});
+
+		$(document).on('click', '.delete', function(e) {
+        
+			var id = $(this).data("value");
+			
+			$.ajax({
+				type: 'get',
+				url: "{{ url('business-registration/getEdit') }}",
+				data: {registrationPrimeID:id},
+				success:function(data)
+				{
+					swal({
+						  title: "Are you sure you want to delete " + data.originalName + "?",
+						  text: "",
+						  type: "warning",
+						  showCancelButton: true,
+						  confirmButtonColor: "#DD6B55",
+						  confirmButtonText: "DELETE",
+						  closeOnConfirm: false
+						},
+						function(){
+						  $.ajax({
+							  type: "post", 
+							  url: "{{ url('business-registration/delete') }}", 
+							  data: {registrationPrimeID: id},
+							  success: function(data) { 
+									swal("Success", "Successfully deleted!", "success");
+									refreshTable();
+							  }, 
+							  error: function(data) {
+									swal("Error", "Failed!", "error");
+							  }
+						  });
+						});				
+				}
+			});
+            
+		});
+
+		$(document).on('click', '.update', function(e) {
+        
+			var frm = $('#frm-update');
+
+			$.ajax({
+				url: "{{ url('/business-registration/update') }}",
+				type: "POST",
+				data: {"_token": $('#csrf-token').val(), 
+						"registrationPrimeID": frm.find("#registrationPrimeID").val(), 
+						"businessID": frm.find("#businessID").val(), 
+						"originalName": frm.find("#originalName").val(), 
+						"tradeName": frm.find("#tradeName").val(),
+						"residentPrimeID": frm.find("#eresidentPrimeID").val(), 
+						"address": frm.find("#address").val(), 
+						"categoryID": frm.find("#ecategoryID").val(), 
+				}, 
+				success: function ( _response ){
+					$("#modalEdit").modal('hide');
+					$("#frm-update").trigger('reset');
+					
+					refreshTable();
+					
+					swal("Successful", 
+							"Business has been updated!", 
+							"success");
+				}, 
+				error: function(error) {
+
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+			
+			
+            
+		});
+
+		var refreshTable = function() {
+			$.ajax({
+				url: "{{ url('/business-registration/refresh') }}", 
+				type: 'GET', 
+				success: function(data) {
+
+					data = $.parseJSON(data);	
+					$("#table-container").DataTable().clear().draw();
+
+					for (index in data) {
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].registrationDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
+						$("#table-container").DataTable()
+								.row.add([
+									data[index].businessID,
+									data[index].originalName,
+									data[index].tradeName, 
+									d, 
+									data[index].firstName + " " + 
+										data[index].middleName + " " + 
+										data[index].lastName, 
+									data[index].categoryName,
+									'<span class="dropdown">' +
+										'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>' +
+										'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+											'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].registrationPrimeID + '"><i class="icon-eye3"></i> View</a>' +
+											'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].registrationPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
+											'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].registrationPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
+										'</span>' +
+									'</span>'
+								]).draw(false);
+					}
+				}, 
+				error: function(errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+		};
+
+		$("#btnRegModal").click(function(event) {
+			$("#regModal").modal("show");
+
+			$.ajax({
+				url: '/business-registration/owner', 
+				type: 'GET', 
+				success: function(data) {
+
+					$('#residentPrimeID').html('');
+
+					for (datum in data) {
+						$("#residentPrimeID").append(
+							'<option value="' + data[datum].residentPrimeID + '">' + 
+								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
+								" (" + data[datum].residentID + ")" + 
+							'</option>'
+						);
+					}
+				}, 
+				error: function(errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
+			$.ajax({
+				url: '/business-registration/category', 
+				type: 'GET', 
+				success: function(data) {
+
+					$('#categoryID').html('');
+
+					for (datum in data) {
+						$("#categoryID").append(
 							'<option value="' + data[datum].categoryPrimeID + '">' + 
 								data[datum].categoryName + 
 							'</option>' 
@@ -318,38 +779,6 @@
 			});
 		});
 
-		$("#frmReg").submit(function(event) {
-			event.preventDefault();
-
-			$.ajax({
-				url: '/business-registration/store', 
-				type: 'POST', 
-				data: {
-					"businessID": $("#businessID").val(), 
-					"originalName": $("#businessName").val(), 
-					"tradeName": $("#tradeName").val(), 
-					"operatorName": $("#operatorName").val(), 
-					"address": $("#businessAddress").val(), 
-					"businessCategory": $("#businessCategory").val()
-				}, 
-				success: function(data) {
-					refreshTable();
-					$("#regModal").modal('hide');
-					swal("Success", "Successfully Registered Business!", "success");
-					$("#frmReg").trigger('reset');
-				}, 
-				error: function(error) {
-
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
-				}
-			});
-		})
 	</script>
 @endsection
 
