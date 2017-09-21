@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 17:12:11 +0000.
+ * Date: Thu, 21 Sep 2017 08:26:12 +0000.
  */
 
 namespace App\Models;
@@ -24,11 +24,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $lastName
  * @property string $suffix
  * @property string $imagePath
- * @property int $approval
  * @property string $position
  * @property int $accept
  * @property int $archive
+ * @property int $approval
+ * @property int $resident
+ * @property int $request
+ * @property int $reservation
+ * @property int $service
+ * @property int $business
+ * @property int $collection
+ * @property int $sponsorship
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $logs
  * @property \Illuminate\Database\Eloquent\Collection $messages
  *
  * @package App\Models
@@ -36,9 +44,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class User extends Eloquent
 {
 	protected $casts = [
-		'approval' => 'int',
 		'accept' => 'int',
-		'archive' => 'int'
+		'archive' => 'int',
+		'approval' => 'int',
+		'resident' => 'int',
+		'request' => 'int',
+		'reservation' => 'int',
+		'service' => 'int',
+		'business' => 'int',
+		'collection' => 'int',
+		'sponsorship' => 'int'
 	];
 
 	protected $hidden = [
@@ -56,11 +71,23 @@ class User extends Eloquent
 		'lastName',
 		'suffix',
 		'imagePath',
-		'approval',
 		'position',
 		'accept',
-		'archive'
+		'archive',
+		'approval',
+		'resident',
+		'request',
+		'reservation',
+		'service',
+		'business',
+		'collection',
+		'sponsorship'
 	];
+
+	public function logs()
+	{
+		return $this->hasMany(\App\Models\Log::class, 'userID');
+	}
 
 	public function messages()
 	{

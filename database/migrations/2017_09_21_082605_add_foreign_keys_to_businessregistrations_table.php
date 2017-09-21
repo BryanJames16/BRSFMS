@@ -14,6 +14,7 @@ class AddForeignKeysToBusinessregistrationsTable extends Migration {
 	{
 		Schema::table('businessregistrations', function(Blueprint $table)
 		{
+			$table->foreign('categoryID', 'categoryID')->references('categoryPrimeID')->on('businesscategories')->onUpdate('CASCADE')->onDelete('RESTRICT');
 			$table->foreign('residentPrimeID', 'fk_businessregistrations_residents1')->references('residentPrimeID')->on('residents')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}
@@ -28,6 +29,7 @@ class AddForeignKeysToBusinessregistrationsTable extends Migration {
 	{
 		Schema::table('businessregistrations', function(Blueprint $table)
 		{
+			$table->dropForeign('categoryID');
 			$table->dropForeign('fk_businessregistrations_residents1');
 		});
 	}

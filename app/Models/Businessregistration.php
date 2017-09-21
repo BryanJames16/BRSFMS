@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 17:12:10 +0000.
+ * Date: Thu, 21 Sep 2017 08:26:11 +0000.
  */
 
 namespace App\Models;
@@ -27,9 +27,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $contactNumber
  * @property \Carbon\Carbon $birthday
  * @property string $gender
+ * @property int $categoryID
  * 
+ * @property \App\Models\Businesscategory $businesscategory
  * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
+ * @property \Illuminate\Database\Eloquent\Collection $logs
  *
  * @package App\Models
  */
@@ -40,7 +43,8 @@ class Businessregistration extends Eloquent
 
 	protected $casts = [
 		'residentPrimeID' => 'int',
-		'archive' => 'int'
+		'archive' => 'int',
+		'categoryID' => 'int'
 	];
 
 	protected $dates = [
@@ -63,8 +67,14 @@ class Businessregistration extends Eloquent
 		'lastName',
 		'contactNumber',
 		'birthday',
-		'gender'
+		'gender',
+		'categoryID'
 	];
+
+	public function businesscategory()
+	{
+		return $this->belongsTo(\App\Models\Businesscategory::class, 'categoryID');
+	}
 
 	public function resident()
 	{
@@ -74,5 +84,10 @@ class Businessregistration extends Eloquent
 	public function generaladdresses()
 	{
 		return $this->hasMany(\App\Models\Generaladdress::class, 'businessPrimeID');
+	}
+
+	public function logs()
+	{
+		return $this->hasMany(\App\Models\Log::class, 'businessID');
 	}
 }

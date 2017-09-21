@@ -21,7 +21,7 @@ class CreateBusinessregistrationsTable extends Migration {
 			$table->integer('residentPrimeID')->nullable()->index('fk_businessregistrations_residents1_idx');
 			$table->dateTime('registrationDate');
 			$table->dateTime('removalDate')->nullable();
-			$table->integer('archive');
+			$table->boolean('archive')->default(0);
 			$table->string('address', 250);
 			$table->string('firstName', 45)->nullable();
 			$table->string('middleName', 45)->nullable();
@@ -29,6 +29,7 @@ class CreateBusinessregistrationsTable extends Migration {
 			$table->string('contactNumber', 45)->nullable();
 			$table->date('birthday')->nullable();
 			$table->string('gender', 5)->nullable();
+			$table->integer('categoryID')->index('categoryID_idx');
 		});
 	}
 

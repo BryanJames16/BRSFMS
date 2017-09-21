@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 20 Sep 2017 17:12:11 +0000.
+ * Date: Thu, 21 Sep 2017 08:26:11 +0000.
  */
 
 namespace App\Models;
@@ -29,6 +29,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \App\Models\Facility $facility
  * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $collections
+ * @property \Illuminate\Database\Eloquent\Collection $logs
  *
  * @package App\Models
  */
@@ -77,5 +78,10 @@ class Reservation extends Eloquent
 	public function collections()
 	{
 		return $this->hasMany(\App\Models\Collection::class, 'reservationprimeID');
+	}
+
+	public function logs()
+	{
+		return $this->hasMany(\App\Models\Log::class, 'reservationID');
 	}
 }

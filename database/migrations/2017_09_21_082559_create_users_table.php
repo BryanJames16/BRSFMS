@@ -25,10 +25,17 @@ class CreateUsersTable extends Migration {
 			$table->string('lastName', 45);
 			$table->string('suffix', 10)->nullable();
 			$table->string('imagePath', 200)->nullable();
-			$table->boolean('approval')->default(0);
 			$table->string('position', 45);
 			$table->boolean('accept')->default(0);
 			$table->boolean('archive')->default(0);
+			$table->boolean('approval')->default(0);
+			$table->boolean('resident')->default(0);
+			$table->boolean('request')->default(0);
+			$table->boolean('reservation')->default(0);
+			$table->boolean('service')->default(0);
+			$table->boolean('business')->default(0);
+			$table->boolean('collection')->default(0);
+			$table->boolean('sponsorship')->default(0);
 		});
 	}
 
