@@ -12,6 +12,8 @@ use \App\Models\Resident;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use \App\Models\Utility;
+use Illuminate\Support\Facades\Auth;
+use \App\Models\Log;
 
 use StaticCounter;
 use SmartMove;
@@ -72,6 +74,15 @@ class DocumentRequestController extends Controller
                 "residentPrimeID" => trim($r -> input('residentPrimeID'))
             ]);
 
+            $req = Documentrequest::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Requested a document',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Document',
+                                                'requestID' => $req-> documentRequestPrimeID]);
 
             return back();
         }
@@ -303,7 +314,7 @@ class DocumentRequestController extends Controller
                 }
                 else {
                     $nextValue = StaticCounter::smart_next($lastDocumentRequestID->requestID, SmartMove::$NUMBER);
-                    return response($nextValue); 
+                    return response($nextValue);     
                 }
             }
         }
@@ -356,6 +367,14 @@ class DocumentRequestController extends Controller
             $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
             $documentRequest -> status = "Cancelled";
             $documentRequest -> save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Cancelled a document request',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Document',
+                                                'requestID' => $r -> input('documentRequestPrimeID')]);
 
             return redirect('/document-request');
         }

@@ -8,11 +8,13 @@ use \App\Models\User;
 use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
+use \App\Models\Message;
 use \App\Models\Utility;
 use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -51,6 +53,56 @@ class UsersController extends Controller
                             -> where('accept','=',1)
                             -> where('archive','=',0)
                             -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getMessage(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Message::select('messages.id','senderID','receiverID','content','dateSent','isRead', 'firstName','middleName','lastName')
+                            ->join('users', 'users.id', '=', 'messages.senderID')
+                            -> where('messages.id','=',$r->input('id'))
+                            -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function reply(Request $r) {
+
+
+            
+        $aah = Message::insert(['content'=>($r->input('content')),
+                                            'senderID'=>$r->input('senderID'),
+                                               'receiverID'=>$r->input('receiverID'),
+                                               'dateSent'=> Carbon::now()]);
+       return back();
+             
+    }
+
+    public function create(Request $r) {
+
+        $id = Auth::id();
+            
+        $aah = Message::insert(['content'=>($r->input('content')),
+                                            'senderID'=> $id,
+                                               'receiverID'=>$r->input('receiverID'),
+                                               'dateSent'=> Carbon::now()]);
+       return back();
+             
+    }
+
+
+    public function read(Request $r) {
+        if ($r->ajax()) {
+            $type = Message::find($r->input('id'));
+            $type->isRead = 1;
+            $type->save();
+            
+            return back();
         }
         else {
             return view('errors.403');

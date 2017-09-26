@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\Models\Resident;
 use \App\Models\Lot;
+
 use \App\Models\Unit;
 use \App\Models\Street;
 use \App\Models\Family;
@@ -13,6 +14,8 @@ use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
 use Carbon\Carbon;
+use \App\Models\Log;
+use Illuminate\Support\Facades\Auth;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -142,7 +145,19 @@ class ResidentController extends Controller
                                                 'status' => 1,
                                                 'archive' => 0]);
             }
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a resident',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Resident',
+                                                'resID' => $findRet-> residentPrimeID]);
+
             return back();
+
+
+
         }
         else {
             return view('errors.403');
@@ -165,6 +180,15 @@ class ResidentController extends Controller
                                             'familyRegistrationDate' => Carbon::now(),
 											   'archive' => 0]);
 
+            $fam = Family::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a family',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Family',
+                                                'famID' => $fam -> familyPrimeID]);
 
             return back();
         }
@@ -357,6 +381,14 @@ class ResidentController extends Controller
             $type = Resident::find($r->input('residentPrimeID'));
             $type->status = 0;
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Deleted a resident',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Resident',
+                                                'resID' => $r->input('residentPrimeID')]);
             
             return back();
         }
@@ -383,6 +415,14 @@ class ResidentController extends Controller
             $type->archive = 1;
             $type->save();
             
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Deleted a family',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Family',
+                                                'famID' => $r->input('familyPrimeID')]);
+
             return back();
         }
         else {
@@ -436,6 +476,16 @@ class ResidentController extends Controller
                                                 'archive' => 0]);
             }
 
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Edited a resident',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Resident',
+                                                'resID' => $r->input('residentPrimeID')]);
+
+
+
             return back();
         }
         else {
@@ -478,6 +528,14 @@ class ResidentController extends Controller
             $type = Resident::find($r->input('rID'));
             $type->imagePath = $fileName;
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Uploaded an image to a resident',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Resident',
+                                                'resID' => $r->input('rID')]);
 
 
             return back();

@@ -198,6 +198,7 @@
 													<td>Document</td>
 													<td>Quantity</td>
 													<td>Status</td>
+													<td>Action</td>
 												</tr>
 											</thead>	
 											<tbody>
@@ -208,6 +209,7 @@
 													<td>{{ $request -> documentName }} </td>
 													<td>{{ $request -> quantity }}</td>
 													<td><span class="tag round tag-default tag-danger">Rejected</span></td> 
+													<td><a href="#" class="btn btn-info viewRemarks" data-value="{{ $request->documentRequestPrimeID }}">View Remarks</a></td>
 												</tr>
 												@endforeach
 												
@@ -262,6 +264,92 @@
 								</div>
 							</div>
 
+							<!--Reject -->
+
+							<!--Reject Modal -->
+							<div class="modal fade text-xs-left" id="rejectModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog modal-xs " role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reject this document</h4>
+										</div>
+
+										<!-- START MODAL BODY -->
+										<div class="modal-body" width='100%'>
+											{{Form::open(['url'=>'document-approval/reject', 'method' => 'POST', 'id' => 'frm-reject', 'class'=>'form'])}}
+								
+
+											<div class="form-body">
+
+												<input type="hidden" id="docID" name="docID"></input>
+
+												<div class="row">
+													<div class="form-group col-xs-12 mb-2">
+														<label for="eventInput1">Remarks:</label>
+														{!!Form::textarea('remarks',null,['id'=>'remarks','class'=>'form-control', 'placeholder'=>'Rejected because..', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}
+													</div>
+												</div>
+
+												
+											</div>
+
+											<div class="form-actions center">
+												<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+													<i class="icon-cross2"></i> Cancel
+												</button>
+												<a href="#" class="btn btn-primary rejectSubmit">
+													<i class="icon-check2"></i> Reject
+												</a>
+											</div>
+										{{Form::close()}}
+										</div>
+										<!-- End of Modal Body -->
+
+									</div>
+								</div>
+							</div> 
+							<!-- End of Modal -->
+
+							<!--Remarks -->
+
+							<!--Remarks Modal -->
+							<div class="modal fade text-xs-left" id="remarkModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal-dialog modal-xs " role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Remarks</h4>
+										</div>
+
+										<!-- START MODAL BODY -->
+										<div class="modal-body" width='100%'>
+											{{Form::open(['url'=>'document-approval/reject', 'method' => 'POST', 'id' => 'frm-remarks', 'class'=>'form'])}}
+								
+
+											<div class="form-body">
+
+												<p align="center">REMARKS:</p>
+												<p align="center">
+													{!!Form::textarea('remarks',null,['id'=>'remarks','class'=>'form-control', 'placeholder'=>'Rejected because..', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters', 'readonly'])!!}
+												</p>
+
+												
+											</div>
+
+										{{Form::close()}}
+										</div>
+										<!-- End of Modal Body -->
+
+									</div>
+								</div>
+							</div> 
+							<!-- End of Modal -->
+
 							
 						</div>
 					</div>
@@ -304,39 +392,45 @@
 		$(document).on('click', '.reject', function(event) {
 			event.preventDefault();
 			var id = $(this).data("value"); 
+			var frm = $('#frm-reject');
+			frm.find('#docID').val(id);
 
-			swal({
-					title: "Are you sure you want to reject this entry?",
-					text: "",
-					type: "warning",
-					showCancelButton: true,
-					cancelButtonText: "GO BACK", 
-					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "REJECT REQUEST",
-					closeOnConfirm: false
-				}, function() {
-					$.ajax({
-						url: "{{ url('/document-approval/reject') }}", 
-						type: "post", 
-						data: {"documentRequestPrimeID": id}, 
-						success: function(data) {
-							refreshWaiting();
-							refreshApproved();
-							refreshRejected();
-							swal("Success", "Successfully Rejected!", "success");
-						}, 
-						error: function(error) {
-							var message = "Error: ";
-							var data = error.responseJSON;
-							for (datum in data) {
-								message += data[datum];
-							}
+			$('#rejectModal').modal('show');
 
-							swal("Error", "Cannot fetch table data!\n" + message, "error");
-						}
-					});
+			
+		});
+
+		$(document).on('click', '.viewRemarks', function(event) {
+			event.preventDefault();
+			var id = $(this).data("value"); 
+
+			$.ajax({
+				url: "{{ url('/document-approval/getRemarks') }}", 
+				type: "get", 
+				data: {"documentRequestPrimeID": id}, 
+				success: function(data) {
+					
+					data = $.parseJSON(data);
+
+					for (index in data) {
+
+						var frm = $('#frm-remarks');
+						frm.find('#remarks').val(data[index].remark);
+						$('#remarkModal').modal('show');
+					}
+
+				}, 
+				error: function(error) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
 				}
-			);
+			});
+			
 		});
 
 		var refreshWaiting = function() {
@@ -459,7 +553,8 @@
 								data[index].documentName, 
 								data[index].quantity,
 								'<span class="tag round tag-default tag-danger">Rejected</span>',
-									
+								'<a href="#" class="btn btn-info viewRemarks" data-value="'+data[index].documentRequestPrimeID+'">View Remarks</a>'
+
 							]).draw(false);
 					}
 				}, 
@@ -474,6 +569,39 @@
 				}
 			});
 		}
+
+		$(document).on('click', '.rejectSubmit', function(event) {
+
+			var frm = $('#frm-reject');
+			var id = frm.find('#docID').val();
+
+			$.ajax({
+				url: "{{ url('/document-approval/reject') }}", 
+				type: "post", 
+				data: {"documentRequestPrimeID": id,
+						"remarks": frm.find('#remarks').val()}, 
+				success: function(data) {
+					
+					refreshWaiting();
+					refreshApproved();
+					refreshRejected();
+					$("#frm-reject").trigger("reset");
+					$('#rejectModal').modal('hide');
+					swal("Success", "Successfully Rejected!", "success");
+				}, 
+				error: function(error) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+
+
+		});
 
 		$(document).on('click', '.approve', function(event) {
 			event.preventDefault();

@@ -173,6 +173,11 @@ Route::get('/document-approval/refreshWaiting', 'DocumentApprovalController@refr
 Route::get('/document-approval/refreshApproved', 'DocumentApprovalController@refreshApproved');
 Route::get('/document-approval/refreshRejected', 'DocumentApprovalController@refreshRejected');
 Route::get('/document-approval/view', 'DocumentApprovalController@view');
+Route::get('/document-approval/getRemarks', 'DocumentApprovalController@getRemarks');
+
+// Log
+Route::get('/logs/getLogs', 'LogsController@getLogs');
+Route::get('/logs/getUserLogs', 'LogsController@getUserLogs');
 
 // Reservation
 Route::get('/facility-reservation/refresh', 'ReservationController@refresh');
@@ -247,7 +252,11 @@ Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
 
 
 /* USERS */
+Route::get('/users/getMessage', 'UsersController@getMessage');
 Route::post('/users/accept', 'UsersController@accept');
+Route::post('/users/reply', 'UsersController@reply');
+Route::post('/users/create', 'UsersController@create');
+Route::get('/users/read', 'UsersController@read');
 Route::post('/users/reject', 'UsersController@reject');
 Route::get('/users/pendingRefresh', 'UsersController@pendingRefresh');
 Route::get('/users/refresh', 'UsersController@refresh');
@@ -302,6 +311,7 @@ Route::resource('/query/service', 'QueryServiceController');
 Route::resource('/query/document', 'QueryDocumentController');
 Route::resource('/users', 'UsersController');
 Route::resource('/brgy', 'BrgyController');
+Route::resource('/logs', 'LogsController');
 
 
 //////////////////////////////////////////////////////////////////////

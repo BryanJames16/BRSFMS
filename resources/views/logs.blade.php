@@ -32,19 +32,19 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Users
+	Logs
 @endsection
 
 @section('js-setting')
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(USERS);
+		setSelectedTab(LOGS);
 	</script>
 @endsection
 
 @section('content-header')
 	<div class="content-header-left col-md-6 col-xs-12">
-		<h2 class="content-header-titlemb-0">Users </h2>
+		<h2 class="content-header-titlemb-0">Logs </h2>
 		<p class="text-muted mb-0"></p>
 	</div>
 @endsection
@@ -52,14 +52,94 @@
 @section('breadcrumb')
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">Chairman</li>
-		<li class="breadcrumb-item"><a href="#">Users</a></li>
+		<li class="breadcrumb-item"><a href="#">Logs</a></li>
 	</ol>
 @endsection
 
 @section('content-body')
-	<section id="multi-column">
-		<div class="row">
-			<div class="col-xs-14">
+	
+
+    
+<section id="multi-column">
+		
+        <div class="row">
+			
+            <div class="col-xs-8">
+				<div style="height:550px" class="card">
+					<div class="card-header">
+						<h4 class="card-title">Logs</h4>
+						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+						<div class="heading-elements">
+							<ul class="list-inline mb-0">
+								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="card-body collapse in">
+                        <div class="card-block card-dashboard">
+                        <div class="default-wheel-speed scroll-example height-450 ps-container ps-theme-default ps-active-y">
+                            <section id="timeline" class="timeline-left timeline-wrapper">
+                                <h3 class="page-title text-xs-center text-lg-left">Timeline</h3>
+                                <ul class="timeline">
+                                    <li class="timeline-line"></li>
+                                    
+                                </ul>
+
+                            @foreach($all as $al)
+
+                                <ul class="timeline">
+                                    <li class="timeline-line"></li>
+                                    <li class="timeline-item">
+                                        <div class="timeline-badge">
+                                            
+                                            @if($al->type=="Resident")
+                                                <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Resident">
+                                                <i class="icon-man-woman"></i>
+                                            @elseif($al->type=="Document")
+                                                <span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Document">
+                                                <i class="icon-book"></i>
+                                            @elseif($al->type=="Reservation")
+                                                <span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Reservation">
+                                                <i class="icon-clock3"></i>
+                                            @elseif($al->type=="Business")
+                                                <span class="bg-green bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Business">
+                                                <i class="icon-office"></i>
+                                            @elseif($al->type=="Service")
+                                                <span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Service">
+                                                <i class="icon-plus2"></i>
+                                            @elseif($al->type=="Family")
+                                                <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Family">
+                                                <i class="icon-home3"></i>
+                                            @else
+                                                <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Collection">
+                                                <i class="icon-coin-dollar"></i>
+                                            @endif
+                                        </span>
+                                        </div>
+                                        <div class="timeline-card card border-grey border-lighten-2">
+                                            <div class="card-header">
+                                                <h4 class="card-title"><a href="#">{{ $al->firstName }} {{ $al->lastName }} {{ $al->action }}</a></h4>
+                                                <p class="card-subtitle text-muted pt-1">
+                                                    <span class="font-small-3">{{ Carbon\Carbon::parse($al->dateOfAction)->diffForHumans() }}</span>
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+                                    </li>
+                                </ul>
+                            @endforeach
+
+                                
+                            </section>
+                        </div>
+                        </div>
+					</div>	
+                </div>									
+			</div>
+            
+            
+            <div class="col-xs-4">
 				<div class="card">
 					<div class="card-header">
 						<h4 class="card-title">Users</h4>
@@ -71,178 +151,21 @@
 							</ul>
 						</div>
 					</div>
-
 					<div class="card-body collapse in">
-						
-						<div class="card-body">
-							<div class="card-block">
-								<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
-									<li class="nav-item">
-										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#user" aria-controls="active3" aria-expanded="true">Users</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#pending" aria-controls="link3" aria-expanded="false">Pending User</a>
-									</li>
-								</ul>
-								<div class="tab-content px-1 pt-1">
-									<div role="tabpanel" class="tab-pane fade active in" id="user" aria-labelledby="active-tab3" aria-expanded="true">
-										<div id = "list">
-										@foreach($us as $u)
-											<div class="col-xl-4 col-md-6 col-xs-12">
-												<div class="card box-shadow-2">
-													<div class="text-xs-center">
-														<div class="card-block">
-															<img src="/storage/upload/{{ $u->imagePath }}" class="rounded-circle  height-150" alt="Card image" />
-														</div>
-														<div class="card-block">
-															<h4 class="card-title">{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</h4>
-															<h6 class="card-subtitle text-muted">{{ $u->position }}</h6>
-														</div>
-													</div>
-													<div class="list-group list-group-flush">
-														<p href="" class="list-group-item"> 
-															Resident Registration
-															@if($u->resident==0)
-																<input type="checkbox" id="switcheryResident" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryResident" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Document Request
-															@if($u->request==0)
-																<input type="checkbox" id="switcheryRequest" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryRequest" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Document Approval
-															@if($u->approval==0)
-																<input type="checkbox" id="switcheryApproval" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryApproval" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Facility Reservation
-															@if($u->reservation==0)
-																<input type="checkbox" id="switcheryReservation" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryReservation" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Service Registration
-															@if($u->service==0)
-																<input type="checkbox" id="switcheryService" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryService" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Service Sponsorship
-															@if($u->sponsorship==0)
-																<input type="checkbox" id="switcherySponsorship" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcherySponsorship" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Business Registration
-															@if($u->business==0)
-																<input type="checkbox" id="switcheryBusiness" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryBusiness" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-														<p href="" class="list-group-item"> 
-															Collection
-															@if($u->collection==0)
-																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
-															@else
-																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
-															@endif
-														</p>
-													</div>
-												</div>
-											</div>			
-										
-										@endforeach
-										</div>
-										<!--
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-users">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Username</th>
-													<th>Position</th>
-													<th>Email</th>
-													<th>Document Approval</th>
-													<th>Actions</th>
-												</tr>
-											</thead>
-                                                
-											<tbody id="myList">
-												@foreach($us as $u)
-                                                    <tr align="center">
-                                                        <td>{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</td>
-                                                        <td>{{ $u->name }}</td>
-                                                        <td>{{ $u->position }}</td>
-                                                        <td>{{ $u->email }}</td>
-                                                        @if($u->approval==0)
-                                                            <td><input type="checkbox" id="switchery" name="sw" class="switchery" value="{{ $u->id }}"  /></td>
-                                                        @else
-                                                            <td><input type="checkbox" id="switchery" name="sw" class="switchery" value="{{ $u->id }}" checked/="" /></td>
-                                                        @endif
-                                                        
-                                                        <td>
-                                                            <span class="dropdown">
-                                                                <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-                                                                <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-                                                                    <a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $u -> id }}'><i class="icon-pen3"></i> Edit</a>
-                                                                    <a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $u -> id }}'><i class="icon-trash4"></i> Delete</a>
-                                                                </span>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-
-											</tbody>
-										</table>
-										-->
-									</div>
-									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Username</th>
-													<th>Position</th>
-													<th>Email</th>
-													<th>Actions</th>
-												</tr>
-											</thead>	
-											<tbody>
-                                                @foreach($pendings as $u)
-                                                    <tr>
-                                                        <td>{{ $u->lastName }}, {{ $u->firstName }} {{ $u->middleName }}</td>
-                                                        <td>{{ $u->name }}</td>
-                                                        <td>{{ $u->position }}</td>
-                                                        <td>{{ $u->email }}</td>
-                                                        <td><a class="btn btn-success accept" data-value="{{$u->id}}"  >Accept</a>
-                                                            <a class="btn btn-danger reject" data-value="{{$u->id}}"  >Reject</a></td>
-                                                    </tr>
-                                                @endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+                        <div class="card-block card-dashboard">
+                            <div class="list-group">
+                                <a href="#" data-value="all" onclick="opencity(event)" class="list-group-item set active">All Users</a>
+                                <a href="#" data-value="{{Auth::user()->id}}" onclick="opencity(event)" class="list-group-item set">You</a>
+                                @foreach($usah as $usa)
+                                    <a href="#" data-value="{{ $usa->id }}" onclick="opencity(event)" class="list-group-item set">{{ $usa->firstName }} {{ $usa->middleName }} {{ $usa->lastName }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+					</div>	
+                </div>									
 			</div>
+
+            
 		</div>
 
 	</section>
@@ -275,7 +198,8 @@
 @endsection
 
 @section('page-level-js')
-	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/ui/scrollable.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
@@ -290,77 +214,54 @@
             }
         });
 
-		$(document).on('click', '.accept', function(e) {
+        $(document).on('click', '.set', function(e) {
 			var id = $(this).data('value');
         
-			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}
-			});
-
-            swal({
-                    title: "Are you sure you want to accept this user?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "ACCEPT",
-                    closeOnConfirm: false
-                },
-                function(){
-                    $.ajax({
-                        type: "post", 
-                        url: "{{ url('users/accept') }}", 
+			if(id=="all")
+            {
+                $.ajax({
+                        type: "get", 
+                        url: "{{ url('logs/getLogs') }}", 
                         data: {id: id},
                         success: function(data) { 
-                            swal("Success", "Successfully accepted!", "success");
-                            refreshTable();
-                            pendingRefresh();
+                            
+                            data = $.parseJSON(data);
+
+							for (index in data) {
+                                console.log(data[index].action);
+                            }
+
                         }, 
                         error: function(data) {
                             swal("Error", "Failed!", "error");
                         }
                     });
-            });
+            }
+            else
+            {
+                $.ajax({
+                    type: "get", 
+                    url: "{{ url('logs/getUserLogs') }}", 
+                    data: {id: id},
+                    success: function(data) { 
+                        
+                        data = $.parseJSON(data);
 
-
-
-			
-
-		});
-
-        $(document).on('click', '.reject', function(e) {
-			var id = $(this).data('value');
-        
-			
-
-            swal({
-                    title: "Are you sure you want to reject this user?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "REJECT",
-                    closeOnConfirm: false
-                },
-                function(){
-                    $.ajax({
-                        type: "post", 
-                        data: {id: id},
-                        url: "{{ url('users/reject') }}", 
-                        success: function(data) { 
-                            swal("Success", "Successfully rejected!", "success");
-                            refreshTable();
-                            pendingRefresh();
-                        }, 
-                        error: function(data) {
-                            swal("Error", "Failed!", "error");
+                        for (index in data) {
+                            console.log(data[index].action);
                         }
-                    });
-            });
+
+                    }, 
+                    error: function(data) {
+                        swal("Error", "Failed!", "error");
+                    }
+                });
+            }
 
 		});
+
+
+        
 
 
         var refreshTable = function() {
@@ -756,6 +657,24 @@
         
         
     })
+
+    function opencity(evt) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("set");
+        
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("set");
+        for (i = 0; i < tabcontent.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+
+        // Show the current tab, and add an "active" class to the link that opened the tab
+        evt.currentTarget.classList.add("active");
+    }
 
 	</script>
 

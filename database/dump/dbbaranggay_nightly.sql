@@ -542,7 +542,7 @@ DROP TABLE IF EXISTS `logs`;
 CREATE TABLE `logs` (
   `logID` int(11) NOT NULL AUTO_INCREMENT,
   `userID` int(11) NOT NULL,
-  `action` varchar(45) NOT NULL,
+  `action` varchar(100) NOT NULL,
   `resID` int(11) DEFAULT NULL,
   `famID` int(11) DEFAULT NULL,
   `requestID` int(11) DEFAULT NULL,
@@ -550,6 +550,7 @@ CREATE TABLE `logs` (
   `collectionID` int(11) DEFAULT NULL,
   `servTransactionPrimeID` int(11) DEFAULT NULL,
   `businessID` int(11) DEFAULT NULL,
+  `dateOfAction` datetime NOT NULL,
   PRIMARY KEY (`logID`),
   KEY `residentPrimeID_idx` (`resID`),
   KEY `userID_idx` (`userID`),
@@ -567,7 +568,7 @@ CREATE TABLE `logs` (
   CONSTRAINT `reservationID` FOREIGN KEY (`reservationID`) REFERENCES `reservations` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `servTransactionPrimeID` FOREIGN KEY (`servTransactionPrimeID`) REFERENCES `servicetransactions` (`serviceTransactionPrimeID`) ON UPDATE CASCADE,
   CONSTRAINT `userID` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -576,6 +577,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
+INSERT INTO `logs` VALUES (1,1,'Edited a resident',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -952,7 +954,7 @@ CREATE TABLE `residentbackgrounds` (
   PRIMARY KEY (`backgroundPrimeID`),
   KEY `fk_residentBackgrounds_Residents1_idx` (`peoplePrimeID`),
   CONSTRAINT `fk_residentBackgrounds_Residents1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -961,7 +963,7 @@ CREATE TABLE `residentbackgrounds` (
 
 LOCK TABLES `residentbackgrounds` WRITE;
 /*!40000 ALTER TABLE `residentbackgrounds` DISABLE KEYS */;
-INSERT INTO `residentbackgrounds` VALUES (1,'CEO','₱100,001 and above','2017-08-22',2,1,0),(2,'Software Engineer','₱50,001-₱100,000','2017-08-22',3,1,0),(3,'CPA','₱50,001-₱100,000','2017-08-22',4,1,0),(4,'CEO','₱100,001 and above','2017-08-22',5,1,0),(5,'CEO','₱100,001 and above','2017-08-27',2,1,0),(6,'CEO','₱100,001 and above','2017-08-27',2,1,0),(7,'CEO','₱50,001-₱100,000','2017-08-29',2,1,0),(8,'CEO','₱100,001 and above','2017-08-29',2,1,0),(9,'CEO','₱100,001 and above','2017-08-29',6,1,0),(10,'None','₱0-₱10,000','2017-08-29',7,1,0),(11,'CEO','₱100,001 and above','2017-08-30',8,1,0),(12,'CEO','₱100,001 and above','2017-08-30',2,1,0);
+INSERT INTO `residentbackgrounds` VALUES (1,'CEO','₱100,001 and above','2017-08-22',2,1,0),(2,'Software Engineer','₱50,001-₱100,000','2017-08-22',3,1,0),(3,'CPA','₱50,001-₱100,000','2017-08-22',4,1,0),(4,'CEO','₱100,001 and above','2017-08-22',5,1,0),(5,'CEO','₱100,001 and above','2017-08-27',2,1,0),(6,'CEO','₱100,001 and above','2017-08-27',2,1,0),(7,'CEO','₱50,001-₱100,000','2017-08-29',2,1,0),(8,'CEO','₱100,001 and above','2017-08-29',2,1,0),(9,'CEO','₱100,001 and above','2017-08-29',6,1,0),(10,'None','₱0-₱10,000','2017-08-29',7,1,0),(11,'CEO','₱100,001 and above','2017-08-30',8,1,0),(12,'CEO','₱100,001 and above','2017-08-30',2,1,0),(13,'CEO','₱100,001 and above','2017-09-24',2,1,0);
 /*!40000 ALTER TABLE `residentbackgrounds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1028,7 +1030,7 @@ CREATE TABLE `residents` (
 
 LOCK TABLES `residents` WRITE;
 /*!40000 ALTER TABLE `residents` DISABLE KEYS */;
-INSERT INTO `residents` VALUES (2,'RES_001','Marc Joseph','Mendoza','Fuellas',NULL,'09263526321','M','1998-06-18','Single',NULL,'HIV','Official',1,'4bf0c0b006fa76b0f5b783874deddb06.jpg'),(3,'RES_002','Gianne Mae','Mendoza','Fuellas',NULL,'09123456789','F','1997-04-26','Single',NULL,NULL,'Official',1,'7c15f23c241b8569a845fd3c99b95d98.jpg'),(4,'RES_003','Raymond','Averilla','Fuellas',NULL,'09876543211','M','1996-08-07','Married',NULL,NULL,'Official',1,'10.jpg'),(5,'RES_004','Bryan James','Reyes','Illaga',NULL,'09876543212','M','1999-12-01','Widowed',NULL,NULL,'Transient',1,'11enrique.jpg'),(6,'RES_005','Moira Kelly','Antonio','Del Mundo',NULL,'09123456789','F','1998-02-08','Single',NULL,NULL,'Official',1,'15873194_386425791708882_1865123785069904347_n.jpg'),(7,'RES_006','Moiro','Antonio','Del Mundo',NULL,'09263526321','M','2003-05-01','Single',NULL,NULL,'Official',1,'2015-12-25 18.20.31.jpg'),(8,'RES_007','John','Cruz','Perez',NULL,'09234567891','M','1998-04-01','Married',NULL,NULL,'Transient',1,'7c15f23c241b8569a845fd3c99b95d98.jpg');
+INSERT INTO `residents` VALUES (2,'RES_001','Marc Joseph','Mendoza','Fuellas',NULL,'09263526321','M','1998-06-18','Single',NULL,NULL,'Official',1,'4bf0c0b006fa76b0f5b783874deddb06.jpg'),(3,'RES_002','Gianne Mae','Mendoza','Fuellas',NULL,'09123456789','F','1997-04-26','Single',NULL,NULL,'Official',1,'7c15f23c241b8569a845fd3c99b95d98.jpg'),(4,'RES_003','Raymond','Averilla','Fuellas',NULL,'09876543211','M','1996-08-07','Married',NULL,NULL,'Official',1,'10.jpg'),(5,'RES_004','Bryan James','Reyes','Illaga',NULL,'09876543212','M','1999-12-01','Widowed',NULL,NULL,'Transient',1,'11enrique.jpg'),(6,'RES_005','Moira Kelly','Antonio','Del Mundo',NULL,'09123456789','F','1998-02-08','Single',NULL,NULL,'Official',1,'15873194_386425791708882_1865123785069904347_n.jpg'),(7,'RES_006','Moiro','Antonio','Del Mundo',NULL,'09263526321','M','2003-05-01','Single',NULL,NULL,'Official',1,'2015-12-25 18.20.31.jpg'),(8,'RES_007','John','Cruz','Perez',NULL,'09234567891','M','1998-04-01','Married',NULL,NULL,'Transient',1,'7c15f23c241b8569a845fd3c99b95d98.jpg');
 /*!40000 ALTER TABLE `residents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1274,7 +1276,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'skubariwa','skubariwa@gmail.com','$2y$10$vvKYTszmeQ/1iDvnm9tfKeglftn9YhWA/c42esjAvsuoleM57M43u','2017-08-28 05:23:53','2017-08-28 05:23:53','ndsuH8dVDlpd7wWW1EstT5wSS4g11ANEIqIIYU1yk1mG6dXwDQejzIIW9EyB','Marc Joseph','Mendoza','Fuellas','Jr.','4bf0c0b006fa76b0f5b783874deddb06.jpg','Chairman',1,0,1,1,1,1,1,1,1,1),(2,'popo','popo@yahoo.com','$2y$10$kZ9qe7GlW5V1LFAQwUUEx.zSZQDRyPQukxSTdNV/uRsTJTBV1G8/S','2017-09-21 04:14:46','2017-08-28 05:33:05','87sVaXfZaHjczGUt9giHMKAI3KW722EQ5zUSlk61f5Ny9IdZxYCDXgBUEaF5','Jason','Santos','Pediz','popo','36058_154619721235420_678295_n.jpg','Kagawad',1,0,1,1,1,1,1,1,1,1),(3,'Bryan_James','bryan_james.ilaga_lds@yahoo.com','$2y$10$Mm00HQmJ/UGUEbn7EpKXbOU7vpfyz6sT5u5AmUDnJ04QFYDMSP/Wi','2017-09-21 04:19:08','2017-08-29 08:08:53',NULL,'Bryan James','Torcelino','Ilaga',NULL,'2015-12-25 18.20.31.jpg','Secretary',1,0,1,1,1,1,1,1,1,1),(4,'alahoy','alahoy@yahoo.com','$2y$10$mHFPFwSWpPJ/Eo5zAPv6TuZANJfOI3T/v.I29Ki7VwXkCmTZ.uxQu','2017-09-21 04:19:17','2017-09-17 17:04:25','wXYABLVabfjo6BXGhjBCdhoS5d77x0BgchHrmAqENuD8b274p1LdyWhzwGm2','Samuel','De Anto','Surgao','kjhdkjasd','15873194_386425791708882_1865123785069904347_n.jpg','Vice Chairman',1,0,1,1,1,1,1,1,1,1);
+INSERT INTO `users` VALUES (1,'skubariwa','skubariwa@gmail.com','$2y$10$vvKYTszmeQ/1iDvnm9tfKeglftn9YhWA/c42esjAvsuoleM57M43u','2017-08-28 05:23:53','2017-08-28 05:23:53','KzKP5AEP7gm6av5WftTL068aLgpQIlZJtYtS7ELY4TsjApCVMxN2Ujd7YfWK','Marc Joseph','Mendoza','Fuellas','Jr.','4bf0c0b006fa76b0f5b783874deddb06.jpg','Chairman',1,0,1,1,1,1,1,1,1,1),(2,'popo','popo@yahoo.com','$2y$10$kZ9qe7GlW5V1LFAQwUUEx.zSZQDRyPQukxSTdNV/uRsTJTBV1G8/S','2017-09-21 04:14:46','2017-08-28 05:33:05','87sVaXfZaHjczGUt9giHMKAI3KW722EQ5zUSlk61f5Ny9IdZxYCDXgBUEaF5','Jason','Santos','Pediz','popo','36058_154619721235420_678295_n.jpg','Kagawad',1,0,1,1,1,1,1,1,1,1),(3,'Bryan_James','bryan_james.ilaga_lds@yahoo.com','$2y$10$Mm00HQmJ/UGUEbn7EpKXbOU7vpfyz6sT5u5AmUDnJ04QFYDMSP/Wi','2017-09-21 04:19:08','2017-08-29 08:08:53',NULL,'Bryan James','Torcelino','Ilaga',NULL,'2015-12-25 18.20.31.jpg','Secretary',1,0,1,1,1,1,1,1,1,1),(4,'alahoy','alahoy@yahoo.com','$2y$10$mHFPFwSWpPJ/Eo5zAPv6TuZANJfOI3T/v.I29Ki7VwXkCmTZ.uxQu','2017-09-21 04:19:17','2017-09-17 17:04:25','wXYABLVabfjo6BXGhjBCdhoS5d77x0BgchHrmAqENuD8b274p1LdyWhzwGm2','Samuel','De Anto','Surgao','kjhdkjasd','15873194_386425791708882_1865123785069904347_n.jpg','Vice Chairman',1,0,1,1,1,1,1,1,1,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1355,4 +1357,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-09-21 16:30:42
+-- Dump completed on 2017-09-24 21:59:06

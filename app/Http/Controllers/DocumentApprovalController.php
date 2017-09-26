@@ -13,6 +13,8 @@ use \App\Models\Generaladdress;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use \App\Models\Utility;
+use Illuminate\Support\Facades\Auth;
+use \App\Models\Log;
 
 use StaticCounter;
 use SmartMove;
@@ -436,6 +438,14 @@ class DocumentApprovalController extends Controller
             $documentRequest -> status = "Approved";
             $documentRequest -> save();
 
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Approved a document request',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Document',
+                                                'requestID' => $r -> input('documentRequestPrimeID')]);
+
             return redirect('/document-request');
         }
         else {
@@ -447,7 +457,16 @@ class DocumentApprovalController extends Controller
         if ($r->ajax()) {
             $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
             $documentRequest -> status = "Rejected";
+            $documentRequest -> remark = $r -> input('remarks');
             $documentRequest -> save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Rejected a document request',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Document',
+                                                'requestID' => $r -> input('documentRequestPrimeID')]);
 
             return redirect('/document-approval');
         }
@@ -463,6 +482,17 @@ class DocumentApprovalController extends Controller
             $documentRequest -> save();
 
             return redirect('/document-request');
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getRemarks(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('documentrequests') ->select('remark') 
+                                        ->where('documentRequestPrimeID', '=', $r->input('documentRequestPrimeID')) 
+                                        ->get());
         }
         else {
             return view('errors.403');

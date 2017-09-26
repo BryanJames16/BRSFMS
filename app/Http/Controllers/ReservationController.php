@@ -9,6 +9,8 @@ use \App\Models\Reservation;
 use \App\Models\Collection;
 use \App\Models\Utility;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use \App\Models\Log;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -92,6 +94,16 @@ class ReservationController extends Controller
                                                 'facilityPrimeID'=>$r->facilityPrimeID,
                                                 'status'=>'Pending']);
 
+        $res = Reservation::all() -> last();
+
+        $id = Auth::id();
+           
+        $log = Log::insert(['userID'=>$id,
+                                            'action' => 'Reserved a facility',
+                                            'dateOfAction' => Carbon::now(),
+                                            'type' => 'Reservation',
+                                            'reservationID' => $res -> primeID]);
+
         return redirect('facility-reservation');
     }
 
@@ -113,6 +125,16 @@ class ReservationController extends Controller
                                                 'peoplePrimeID'=>$r->input('peoplePrimeID'),
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
                                                 'status'=>'Pending']);
+
+        $res = Reservation::all() -> last();
+
+        $id = Auth::id();
+           
+        $log = Log::insert(['userID'=>$id,
+                                            'action' => 'Reserved a facility',
+                                            'dateOfAction' => Carbon::now(),
+                                            'type' => 'Reservation',
+                                            'reservationID' => $res -> primeID]);
 
         $totalAmount = 0;
         $hourDiff = 0;
@@ -214,6 +236,16 @@ class ReservationController extends Controller
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
                                                 'status'=>'Pending']);
         
+        $res = Reservation::all() -> last();
+
+        $id = Auth::id();
+           
+        $log = Log::insert(['userID'=>$id,
+                                            'action' => 'Reserved a facility',
+                                            'dateOfAction' => Carbon::now(),
+                                            'type' => 'Reservation',
+                                            'reservationID' => $res -> primeID]);
+
         $totalAmount = 0;
         $hourDiff = 0;
         if (date('H', strtotime($r->input('startTime'))) >= 10 && 
@@ -354,16 +386,20 @@ class ReservationController extends Controller
             $reservation->status = 'Rescheduled';
             $reservation->save();
 
+            $id = Auth::id();
+            
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Rescheduled a reservation',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Reservation',
+                                                'reservationID' => $r->input('primeID')]);
+
              $this->validate($r, [
                 'reservationName' => 'required|max:30|min:5',
                 'reservationDescription' => 'nullable|max:500|min:0',
                 'reservationStart' => 'required',
                 'reservationEnd' => 'required',
                 'dateReserved' => 'required|date|after_or_equal:today',
-                'name' => 'required|max:100|min:5',
-                'age' => 'integer|required|min:10',
-                'email' => 'email|required',
-                'contactNumber' => 'numeric|required',
             ]);
 
             $aah = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
@@ -379,6 +415,16 @@ class ReservationController extends Controller
                                                 'contactNumber'=>$r->input('contactNumber'),
                                                 'status'=>'Pending']);
 
+            $res = Reservation::all() -> last();
+
+            $id = Auth::id();
+            
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Reserved a facility',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Reservation',
+                                                'reservationID' => $res -> primeID]);
+
             return redirect('facility-reservation');
         }
         else {
@@ -391,6 +437,15 @@ class ReservationController extends Controller
             $reservation = Reservation::find($r->input('primeID'));
             $reservation->status = 'Cancelled';
             $reservation->save();
+
+            $id = Auth::id();
+            
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Cancelled a reservation',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Reservation',
+                                                'reservationID' => $r->input('primeID')]);
+
             return redirect('facility-reservation');
         }
         else {

@@ -12,6 +12,8 @@ use \App\Models\Participant;
 use \App\Models\Recipient;
 use \App\Models\Partrecipient;
 use Carbon\Carbon;
+use \App\Models\Log;
+use Illuminate\Support\Facades\Auth;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -115,6 +117,16 @@ class ServiceTransactionController extends Controller
                                                 'toDate' => $r -> input('toDate'),
                                                 'fromDate' => $r -> input('fromDate')]);
 
+            $fam = Servicetransaction::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $fam -> serviceTransactionPrimeID]);
+
             return back();
         }
         else {
@@ -157,6 +169,16 @@ class ServiceTransactionController extends Controller
                                                 'toDate' => $r -> input('toDate'),
                                                 'fromDate' => $r -> input('fromDate')]);
 
+            $fam = Servicetransaction::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $fam -> serviceTransactionPrimeID]);
+
             return back();
         }
         else {
@@ -181,6 +203,16 @@ class ServiceTransactionController extends Controller
                                                 'toAge' => $r -> input('toAge'),
                                                 'fromDate' => $r -> input('fromDate')]);
 
+            $fam = Servicetransaction::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $fam -> serviceTransactionPrimeID]);
+
             return back();
         }
         else {
@@ -200,6 +232,16 @@ class ServiceTransactionController extends Controller
                                                 'serviceName' => $r -> input('serviceName'),
                                                 'servicePrimeID' => $r -> input('servicePrimeID'),
                                                 'fromDate' => $r -> input('fromDate')]);
+
+            $fam = Servicetransaction::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $fam -> serviceTransactionPrimeID]);
 
             return back();
         }
@@ -374,6 +416,15 @@ class ServiceTransactionController extends Controller
             $type->fromDate = $r->input('fromDate');
             $type->toDate = $r->input('toDate');
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Edited a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $r->input('serviceTransactionPrimeID')]);
+
         }
         else {
             return view('errors.403');
@@ -385,6 +436,15 @@ class ServiceTransactionController extends Controller
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
             $type->status = 'On-going';
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Started a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $r->input('serviceTransactionPrimeID')]);
+
         }
         else {
             return view('errors.403');
@@ -396,6 +456,14 @@ class ServiceTransactionController extends Controller
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
             $type->status = 'Finished';
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Finished a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $r->input('serviceTransactionPrimeID')]);
         }
         else {
             return view('errors.403');
@@ -407,6 +475,15 @@ class ServiceTransactionController extends Controller
             $type = Servicetransaction::find($r->input('serviceTransactionPrimeID'));
             $type->archive = 1;
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Deleted a service',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Service',
+                                                'servTransactionPrimeID' => $r->input('serviceTransactionPrimeID')]);
+
         }
         else {
             return view('errors.403');

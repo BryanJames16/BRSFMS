@@ -182,35 +182,52 @@
 							<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
 									<i class="ficon icon-mail6" style="color:white"></i>
-									<span class="tag tag-pill tag-default tag-info tag-default tag-up" id="message-count">4</span>
+									@if($mess>0)
+										<span class="tag tag-pill tag-default tag-info tag-default tag-up">
+										{{ $mess }}
+										</span>
+									@endif
 								</a>
+
 								<ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-									<li class="dropdown-menu-header">
-										<h6 class="dropdown-header m-0">
-											<span class="grey darken-2">Messages</span>
-											<span class="notification-tag tag tag-default tag-info float-xs-right m-0">4 New</span>
-										</h6>
-									</li>
-									<li class="list-group scrollable-container">
-										<a href="javascript:void(0)" class="list-group-item">
-											<div class="media">
-												<div class="media-left">
-													<span class="avatar avatar-sm avatar-online rounded-circle">
-														<img src="./robust-assets/images/portrait/small/marty-mcfly.png" alt="avatar" /><i></i>
-													</span>
-												</div>
-												<div class="media-body">
-													<h6 class="media-heading">Margaret Govan</h6>
-													<p class="notification-text font-small-3 text-muted">
-														I like your portfolio, let's start the project.
-													</p>
-													<small>
-														<time datetime="2015-06-11T18:29:20+08:00" class="media-meta text-muted">Today</time>
-													</small>
-												</div>
+								
+								<li class="dropdown-menu-header">
+									<h6 class="dropdown-header m-0">
+										<span class="grey darken-2">Messages</span>
+										@if($mess>0)
+										<span class="notification-tag tag tag-default tag-info float-xs-right m-0">{{ $mess }} Unread</span>
+										@endif
+									</h6>
+								</li>
+								<li style="text-align:center" class="dropdown-menu-header">
+									
+									<a href="#" class="create"><i class="ficon icon-mail6" style="color:violet"></i> Create new message</a>
+									
+								</li>
+
+								<li class="list-group scrollable-container">
+									
+									@foreach($messages as $message)
+
+									<a href="#" data-value="{{ $message->id }}" class="list-group-item viewReply">
+										<div class="media">
+											<div class="media-left">
+												<span class="avatar avatar-sm avatar-online rounded-circle">
+													<img src="/storage/upload/{{ $message->imagePath }}" alt="avatar" /><i></i>
+												</span>
 											</div>
-										</a>
-									</li>
+											<div class="media-body">
+												<h6 class="media-heading">{{$message->firstName}} {{$message->lastName}}</h6>
+												<p class="notification-text font-small-3 text-muted">{{ $message->content }}</p><small>
+													<time datetime="{{$message->dateSent}}" class="media-meta text-muted">{{ Carbon\Carbon::parse($message->dateSent)->diffForHumans() }}</time></small>
+											</div>
+										</div>
+									</a>
+									@endforeach
+								
+								</li>
+
+								<li class="dropdown-menu-footer"><a href="javascript:void(0)" class="dropdown-item text-muted text-xs-center">Read all messages</a></li>
 								</ul>
 							</li>
 							<li class="dropdown dropdown-user nav-item">
@@ -416,7 +433,9 @@
 														<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
 															<i class="icon-drawer"></i>
 															Document Request
+															@if($countOfRequest != 0)
 															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
+															@endif
 														</a>
 														
 													</li>
@@ -426,8 +445,9 @@
 														<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
 															<i class="icon-aperture"></i>
 															Document Approval
+															@if($countOfApproval != 0)
 															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
-															<!--<span class="tag tag-info">22</span>-->
+															@endif
 														</a>
 													</li>
 												@endif
@@ -438,7 +458,15 @@
 										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
 											<i class="icon-android-calendar"></i>
 											<span>Facility Reservation  </span>
-											<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfReservation }}</span>
+											
+											@if($countOfReservation != 0)
+											<span class="tag tag tag-primary tag-pill mr-2">
+												<div id="countOfReservation">
+													{{ $countOfReservation }}
+												</div>	
+											</span>
+											@endif
+											
 										</a>
 									</li>
 									@endif
@@ -576,8 +604,17 @@
 							@if(Auth::user()->position == 'Chairman')
 								<li class="nav-item" id="users-id">
 									<a href="/users">
-										<i class="icon-wrench3"></i>
+										<i class="icon-person"></i>
 										<span data-i18n="nav.dash.main" class="menu-title">Users</span>
+									</a>
+								</li>
+							@endif
+
+							@if(Auth::user()->position == 'Chairman')
+								<li class="nav-item" id="logs-id">
+									<a href="/logs">
+										<i class="icon-book"></i>
+										<span data-i18n="nav.dash.main" class="menu-title">Logs</span>
 									</a>
 								</li>
 							@endif
@@ -605,6 +642,126 @@
 
 				<div class="content-body">
 					@yield('content-body')
+
+					<!--Reply -->
+
+					<!--Reply Modal -->
+					<div class="modal fade text-xs-left" id="replyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal-dialog " role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Message</h4>
+								</div>
+
+								<!-- START MODAL BODY -->
+								<div class="modal-body" width='100%'>
+									{{Form::open(['url'=>'document-approval/reject', 'method' => 'POST', 'id' => 'frm-message', 'class'=>'form'])}}
+						
+									<input type="hidden" name="receiverID" id="receiverID"></input>
+									<input type="hidden" name="senderID" id="senderID"></input>
+
+									<div class="row">
+
+											<div class="form-body">
+
+											<div class="form-group col-md-6 mb-2">
+												<p align="center"><b>From:</b> <p align="center" id="sender"></p></p>
+												<p align="center">
+													<b>Date Sent:</b>
+													<p align="center" id="dateSent"></p>
+												</p>
+												<p align="center">
+													<b>Message:</b>
+													<p align="center" id="message"></p>
+												</p>
+												
+											</div>
+											<div class="form-group col-md-6 mb-2">
+												<p align="center"><b>Reply:</b></p>
+												<p align="center">
+													{!!Form::textarea('reply',null,['id'=>'reply','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus'])!!}
+												</p>
+
+											</div>
+											</div>
+
+									</div>
+
+									<div class="form-actions center">
+										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+											<i class="icon-cross2"></i> Cancel
+										</button>
+										<a href="#" class="btn btn-primary sendSubmit">
+											<i class="icon-check2"></i> Send
+										</a>
+									</div>
+
+								{{Form::close()}}
+								</div>
+								<!-- End of Modal Body -->
+
+							</div>
+						</div>
+					</div> 
+					<!-- End of Modal -->
+
+					<!--Create Message -->
+
+					<!--Create Message Modal -->
+					<div class="modal fade text-xs-left" id="createModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal-dialog modal-xs" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Create Message</h4>
+								</div>
+
+								<!-- START MODAL BODY -->
+								<div class="modal-body" width='100%'>
+									{{Form::open(['url'=>'document-approval/reject', 'method' => 'POST', 'id' => 'frm-create', 'class'=>'form'])}}
+						
+									<input type="hidden" name="receiverID" id="receiverID"></input>
+									<input type="hidden" name="senderID" id="senderID"></input>
+
+										<p align="center"><b>To:</b></p>
+										<p align="center">
+											<select name="receiver" id="receiver" class="form-control">
+												@foreach($us as $u)
+													<option value= {{$u -> id}}>{{$u -> firstName}} {{$u -> lastName}}</option>
+												@endforeach
+											</select>
+										</p>
+									
+										<p align="center"><b>Message:</b></p>
+										<p align="center">
+											{!!Form::textarea('createM',null,['id'=>'createM','class'=>'form-control', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus'])!!}
+										</p>
+
+
+									<div class="form-actions center">
+										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+											<i class="icon-cross2"></i> Cancel
+										</button>
+										<a href="#" class="btn btn-primary createSubmit">
+											<i class="icon-check2"></i> Send
+										</a>
+									</div>
+
+								{{Form::close()}}
+								</div>
+								<!-- End of Modal Body -->
+
+							</div>
+						</div>
+					</div> 
+					<!-- End of Modal -->
+
+
 				</div>
 			</div>
 		</div>
@@ -639,6 +796,160 @@
 
 		<!-- Begin Page Level JS -->
 		@yield('page-level-js')
+		
+		<script type='text/javascript'>
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+
+			$(document).on('click', '.sendSubmit', function(event) {
+				
+				event.preventDefault();
+				var frm = $('#frm-message');
+
+				$.ajax({
+					url: "{{ url('/users/reply') }}", 
+					type: "POST", 
+					data: {"content": frm.find('#reply').val(),
+							"senderID": frm.find('#senderID').val(),
+							"receiverID": frm.find('#receiverID').val(),
+					}, 
+					success: function(data) {
+
+						$("#frm-message").trigger("reset");
+						$('#replyModal').modal('hide');
+						swal("Success", "Successfully Replied to a message!", "success");
+
+					}, 
+					error: function(error) {
+						var message = "Error: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+				});
+
+			});
+
+			$(document).on('click', '.createSubmit', function(event) {
+				
+				event.preventDefault();
+				var frm = $('#frm-create');
+
+				$.ajax({
+					url: "{{ url('/users/create') }}", 
+					type: "POST", 
+					data: {"content": frm.find('#createM').val(),
+							"receiverID": frm.find('#receiver').val(),
+					}, 
+					success: function(data) {
+
+						$("#frm-message").trigger("reset");
+						$('#createModal').modal('hide');
+						swal("Success", "Successfully sent!", "success");
+
+					}, 
+					error: function(error) {
+						var message = "Error: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+				});
+
+			});
+
+			$(document).on('click', '.create', function(event) {
+				
+				event.preventDefault();
+				$('#createModal').modal('show');
+
+			});
+
+			$(document).on('click', '.viewReply', function(event) {
+				event.preventDefault();
+				var id = $(this).data("value");
+
+				$.ajax({
+					url: "{{ url('/users/read') }}", 
+					type: "get", 
+					data: {"id": id}, 
+					success: function(data) {
+						console.log('Read');
+
+						$.ajax({
+							url: "{{ url('/users/getMessage') }}", 
+							type: "get", 
+							data: {"id": id}, 
+							success: function(data) {
+								
+								data = $.parseJSON(data);
+
+								for (index in data) {
+
+									var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+									var date = new Date(data[index].dateSent);
+									var month = date.getMonth();
+									var day = date.getDate();
+									var year = date.getFullYear();
+									var d = months[month] + ' ' + day + ', ' + year;
+
+									var start = data[index].dateSent;
+									start = start.toString().substring(11);
+									
+									start = start.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+									
+									if(start.length > 1){
+										start = start.slice(1);
+										start[5] = +start[0] < 12 ? ' AM' : ' PM';
+										start[0] = +start[0] % 12 || 12;
+									}
+
+									var st = start.join('');
+									
+									var frm = $('#frm-message');
+									frm.find('#senderID').val(data[index].receiverID);
+									frm.find('#receiverID').val(data[index].senderID);
+									$('#message').html(data[index].content);
+									$('#dateSent').html(d+ ', ' + st );
+									$('#sender').html(data[index].firstName + ' ' + data[index].lastName);
+									$('#replyModal').modal('show');
+								}
+
+							}, 
+							error: function(error) {
+								var message = "Error: ";
+								var data = error.responseJSON;
+								for (datum in data) {
+									message += data[datum];
+								}
+
+								swal("Error", "Cannot fetch table data!\n" + message, "error");
+							}
+						});
+					}, 
+					error: function(error) {
+						var message = "Error: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+				});
+
+			});
+
+		</script>
 		<!-- End Page Level JS -->
 
 		<!-- Begin Post HTML -->

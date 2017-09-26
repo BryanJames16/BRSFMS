@@ -8,6 +8,8 @@ use \App\Models\Resident;
 use \App\Models\Businessregistration;
 use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
+use \App\Models\Log;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessRegistrationController extends Controller
 {
@@ -51,7 +53,19 @@ class BusinessRegistrationController extends Controller
                 'registrationDate' => Carbon::now()
             ]);
             
+            $fam = Businessregistration::all() -> last();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Registered a business',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Business',
+                                                'businessID' => $fam -> registrationPrimeID]);
+
             dd($insertRet);
+
+            
 
             return back();
         }
@@ -94,6 +108,14 @@ class BusinessRegistrationController extends Controller
             $type = Businessregistration::find($r->input('registrationPrimeID'));
             $type->archive = true;
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Deleted a business',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Business',
+                                                'businessID' => $r->input('registrationPrimeID')]);
             
             return back();
         }
@@ -132,6 +154,14 @@ class BusinessRegistrationController extends Controller
             $type->address = $r->input('address');
             $type->categoryID = $r->input('categoryID');
             $type->save();
+
+            $id = Auth::id();
+           
+            $log = Log::insert(['userID'=>$id,
+                                                'action' => 'Edited a business',
+                                                'dateOfAction' => Carbon::now(),
+                                                'type' => 'Business',
+                                                'businessID' => $r->input('registrationPrimeID')]);
 
             return back();
         }

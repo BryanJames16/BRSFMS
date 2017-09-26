@@ -6,6 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use \App\Models\Documentrequest;
 use \App\Models\Reservation;
+use \App\Models\User;
+use \App\Models\Message;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,14 +20,50 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $request = Documentrequest::where("status", "=", "Pending")->count();
-        $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
-        $pendingres = Reservation::where("status", "=", "Pending")->count();
-        $total = $request + $approval + $pendingres;
-        View::share('countOfRequest',$request);
-        View::share('countOfApproval',$approval);
-        View::share('countOfReservation',$pendingres);
-        View::share('total',$total);
+        
+
+        view()->composer('*',function ($view)
+        {
+            if(Auth::check())
+            {
+
+            
+            $id = Auth::user()->id;
+            $messages= Message::select('messages.id','content', 'dateSent','imagePath', 'firstName','middleName','lastName',
+                                                    'isRead')                 
+                                        ->join('users', 'users.id', '=', 'messages.senderID')
+                                        ->where('receiverID','=', $id)
+                                        ->orderby('dateSent','desc')
+                                        ->get();
+
+            $us= User::select('id','firstName', 'middleName','lastName')                 
+                                        ->where('id','!=', $id)
+                                        ->get();
+        
+            //$view->with('messages',$messages);
+
+            $mess = Message::where("receiverID", "=", $id)
+                            ->where('isRead', 0)
+                            ->count();
+
+            $request = Documentrequest::where("status", "=", "Pending")->count();
+            $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
+            $pendingres = Reservation::where("status", "=", "Pending")->count();
+            $total = $request + $approval + $pendingres;
+            View::share('countOfRequest',$request);
+            View::share('countOfApproval',$approval);
+            View::share('countOfReservation',$pendingres);
+            View::share('total',$total);
+            View::share('messages',$messages);
+            View::share('mess',$mess);
+            View::share('us',$us);
+            }
+        }
+        );
+
+        
+
+        
 
         
     }
