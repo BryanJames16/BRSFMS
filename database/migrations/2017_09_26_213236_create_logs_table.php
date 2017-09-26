@@ -16,7 +16,7 @@ class CreateLogsTable extends Migration {
 		{
 			$table->integer('logID', true);
 			$table->integer('userID')->index('userID_idx');
-			$table->string('action', 45);
+			$table->string('action', 100);
 			$table->integer('resID')->nullable()->index('residentPrimeID_idx');
 			$table->integer('famID')->nullable()->index('famID_idx');
 			$table->integer('requestID')->nullable()->index('requestID_idx');
@@ -24,6 +24,8 @@ class CreateLogsTable extends Migration {
 			$table->integer('collectionID')->nullable()->index('collectionID_idx');
 			$table->integer('servTransactionPrimeID')->nullable()->index('servicePrimeID_idx');
 			$table->integer('businessID')->nullable()->index('businessID_idx');
+			$table->dateTime('dateOfAction');
+			$table->string('type', 20)->nullable();
 		});
 	}
 

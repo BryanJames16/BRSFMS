@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 21 Sep 2017 08:26:11 +0000.
+ * Date: Tue, 26 Sep 2017 21:32:51 +0800.
  */
 
 namespace App\Models;
@@ -22,6 +22,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $collectionID
  * @property int $servTransactionPrimeID
  * @property int $businessID
+ * @property \Carbon\Carbon $dateOfAction
+ * @property string $type
  * 
  * @property \App\Models\Businessregistration $businessregistration
  * @property \App\Models\Collection $collection
@@ -50,6 +52,10 @@ class Log extends Eloquent
 		'businessID' => 'int'
 	];
 
+	protected $dates = [
+		'dateOfAction'
+	];
+
 	protected $fillable = [
 		'userID',
 		'action',
@@ -59,7 +65,9 @@ class Log extends Eloquent
 		'reservationID',
 		'collectionID',
 		'servTransactionPrimeID',
-		'businessID'
+		'businessID',
+		'dateOfAction',
+		'type'
 	];
 
 	public function businessregistration()
