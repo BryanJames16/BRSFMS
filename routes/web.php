@@ -250,6 +250,14 @@ Route::post('/utilities/update', 'UtilitiesController@update');
 Route::get('/query/resident/submit', 'QueryResidentController@getQuery');
 Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');
 
+/* QUERY BUSINESS */
+Route::get('/query/business/submit', 'QueryBusinessController@getQuery');
+Route::get('/query/business/getEdit', 'QueryBusinessController@getEdit');
+
+/* QUERY DOCUMENT */
+Route::get('/query/document/submit', 'QueryDocumentController@getQuery');
+Route::get('/query/document/getEdit', 'QueryDocumentController@getEdit');
+
 
 /* USERS */
 Route::get('/users/getMessage', 'UsersController@getMessage');
@@ -309,6 +317,7 @@ Route::resource('/query/resident', 'QueryResidentController');
 Route::resource('/query/reservation', 'QueryReservationController');
 Route::resource('/query/service', 'QueryServiceController');
 Route::resource('/query/document', 'QueryDocumentController');
+Route::resource('/query/business', 'QueryBusinessController');
 Route::resource('/users', 'UsersController');
 Route::resource('/brgy', 'BrgyController');
 Route::resource('/logs', 'LogsController');

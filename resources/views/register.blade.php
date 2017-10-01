@@ -68,12 +68,12 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-							        <input type="text" class="form-control form-control-lg input-lg" id="name" name="name" placeholder="User Name" />
+							        		<input type="text" class="form-control form-control-lg input-lg" id="name" name="name" placeholder="* User Name" />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-         							<input type="text" class="form-control form-control-lg input-lg" id="firstName" name="firstName" placeholder="First Name" />
+         									<input type="text" class="form-control form-control-lg input-lg" id="firstName" name="firstName" placeholder="* First Name" />
 										</div>
 									</div>
 								</div>
@@ -85,11 +85,11 @@
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-        							<input type="text" class="form-control form-control-lg input-lg" id="lastName" name="lastName" placeholder="Last Name" />
+        									<input type="text" class="form-control form-control-lg input-lg" id="lastName" name="lastName" placeholder="* Last Name" />
 										</div>
 									</div>
 								</div>
-                <div class="row">
+                				<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
 											<input type="text" class="form-control form-control-lg input-lg" id="suffix" name="suffix" placeholder="Suffix" />
@@ -101,7 +101,7 @@
 										</div>
 									</div>
 								</div>
-                <div class="row">
+                				<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
 											<input type="email" class="form-control form-control-lg input-lg" id="email" name="email" placeholder="Your Email Address" required="" />

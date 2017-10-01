@@ -33,7 +33,7 @@ class LogsController extends Controller
         $usah= User::select('id','firstName', 'middleName','lastName')                 
                                         ->where('id','!=', $id)
                                         ->get();
-        $all = \DB::table('logs') ->select('action','dateOfAction','firstName','middleName','lastName','type') 
+        $all = \DB::table('logs') ->select('logID','action','dateOfAction','firstName','middleName','lastName','type') 
                                         ->join('users', 'users.id', '=', 'logs.userID')
                                         ->orderby('dateOfAction','desc')
                                         ->get();
@@ -45,8 +45,9 @@ class LogsController extends Controller
 
     public function getLogs(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(\DB::table('logs') ->select('action','dateOfAction','firstName','middleName','lastName') 
+            return json_encode(\DB::table('logs') ->select('type','action','dateOfAction','firstName','middleName','lastName') 
                                         ->join('users', 'users.id', '=', 'logs.userID')
+                                        ->orderby('dateOfAction','desc')
                                         ->get());
         }
         else {
@@ -56,9 +57,10 @@ class LogsController extends Controller
 
     public function getUserLogs(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(\DB::table('logs') ->select('action' ,'dateOfAction','firstName','middleName','lastName') 
+            return json_encode(\DB::table('logs') ->select('action' ,'dateOfAction','firstName','middleName','lastName','type') 
                                         ->join('users', 'users.id', '=', 'logs.userID')
                                         ->where('userID','=', $r->input('id'))
+                                        ->orderby('dateOfAction','desc')
                                         ->get());
         }
         else {

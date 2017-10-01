@@ -15,6 +15,7 @@ var QUERY_RESIDENT = "query-resident-id";
 var QUERY_RESERVATION = "query-reservation-id";
 var QUERY_SERVICE = "query-service-id";
 var QUERY_DOCUMENT = "query-document-id";
+var QUERY_BUSINESS = "query-business-id";
 var DOCUMENT_APPROVAL = "document-approval-id";
 var EMPLOYEE = "employee-id";
 var EMPLOYEE_POSITION = "employee-position-id";

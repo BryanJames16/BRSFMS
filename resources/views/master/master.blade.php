@@ -125,7 +125,7 @@
 							</li>
 						</ul>
 						<ul class="nav navbar-nav float-xs-right">
-							<li class="dropdown dropdown-notification nav-item">
+							<!--<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
 									<i class="ficon icon-bell4" style="color:white"></i>
 									<span class="tag tag-pill tag-default tag-danger tag-default tag-up" id="notif-count">{{ $total }}</span>
@@ -178,7 +178,7 @@
 										</li>
 									@endif
 								</ul>
-							</li>
+							</li>-->
 							<li class="dropdown dropdown-notification nav-item">
 								<a href="#" data-toggle="dropdown" class="nav-link nav-link-label">
 									<i class="ficon icon-mail6" style="color:white"></i>
@@ -566,28 +566,35 @@
 								<ul class="menu-content">
 									<li id="query-resident-id">
 										<a href="/query/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-user-tie"></i>
+											<i class="icon-search4"></i>
 											<span>Resident</span>
 										</a>
 									</li>
 									<li id="query-document-id">
 										<a href="/query/document" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-user-tie"></i>
-											<span>Document</span>
+											<i class="icon-search4"></i>
+											<span>Document Request</span>
+										</a>
+									</li>
+									<li id="query-business-id">
+										<a href="/query/business" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-search4"></i>
+											<span>Business</span>
 										</a>
 									</li>
 									<li id="query-reservation-id">
 										<a href="/query/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-user-tie"></i>
+											<i class="icon-search4"></i>
 											<span>Facility Reservation</span>
 										</a>
 									</li>
 									<li id="query-service-id">
 										<a href="/query/service" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-user-tie"></i>
+											<i class="icon-search4"></i>
 											<span>Service</span>
 										</a>
 									</li>
+									
 								</ul>
 							</li>
 

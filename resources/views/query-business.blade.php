@@ -36,14 +36,14 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Query - Document Request
+	Query - Business
 @endsection
 
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
 	<script type="text/javascript">
-		setSelectedTab(QUERY_DOCUMENT);
+		setSelectedTab(QUERY_BUSINESS);
 	</script>
 @endsection
 
@@ -54,7 +54,7 @@
 			<div class="col-xs-4">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Query for Document Request</h4>
+						<h4 class="card-title">Query for Business</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -66,47 +66,58 @@
 					<div class="card-body collapse in">
                         <div class="card-block card-dashboard">
                             <div class="form-body">
+
+                                {{Form::open(['url'=>'/query/resident/submit', 'method' => 'POST', 'id' => 'frm-query'])}}
+
                                 
-								<h6 align="center">DOCUMENT</h6>
+
+								<h6 align="center">BUSINESS</h6>
                                 <fieldset>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="firstName1">Document :</label>
-                                                <select name="document" id="document" class="form-control">
+                                                <label for="firstName1">Business ID :</label>
+                                                <input type="text" class="form-control" id="businessID" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Original Name :</label>
+                                                <input type="text" class="form-control" id="originalName" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Trade Name :</label>
+                                                <input type="text" class="form-control" id="tradeName" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Category :</label>
+                                                <select name="categroy" id="category" class="form-control">
                                                     <option value="All">All</option>
-                                                    @foreach($documents as $doc)
-                                                        <option value="{{ $doc->primeID }}">{{ $doc-> documentName }}</option>
+                                                    @foreach($categories as $cat)
+                                                        <option value="{{ $cat->categoryPrimeID }}">{{ $cat-> categoryName }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="firstName1">Quantity :</label>
-                                                <input type="number" class="form-control" id="quantity" />
+                                                <label for="firstName1">Address :</label>
+                                                <input type="text" class="form-control" id="address" />
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="firstName1">Request Date :</label>
-                                                <input type="date" class="form-control" id="requestDate" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="firstName1">Status :</label>
-                                                <select name="status" id="status" class="form-control">
-                                                    <option value="All">All</option>
-													<option value="Waiting for approval">Waiting for approval</option>
-                                                    <option value="Approved">Approved</option>
-													<option value="Pending">Pending</option>
-													<option value="Cancelled">Cancelled</option>
-													<option value="Rejected">Rejected</option>
-                                                </select>
+                                                <label for="firstName1">Date Registered :</label>
+                                                <input type="date" class="form-control" id="dateRegistered" />
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +125,7 @@
                                     
                                 </fieldset>
 
-                                <h6 align="center">REQUESTOR</h6>
+                                <h6 align="center">OWNER</h6>
                                 <fieldset>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -152,11 +163,12 @@
 
                                     
                                 </fieldset>
-                               
 
                                 <div style="text-align:center">	
                                 <p style="text-align:center"<button type="button" class="btn round btn-success query">Query</button></p>
                                 </div>
+
+                                {{Form::close()}}
 
                             </div>
                         </div>
@@ -182,16 +194,17 @@
                         <table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
                             <thead>
                                 <tr>
-                                    <th>Requestor</th>
-                                    <th>Date</th>
-                                    <th>Document</th>
-                                    <th>Status</th>
+                                    <th>Business ID</th>
+                                    <th>Original Name</th>
+                                    <th>Owner</th>
+                                    <th>Category</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 
+                                -->
                             </tbody>
                         </table>
                         <!-- End of Resident Tab -->
@@ -205,7 +218,7 @@
 			
 		</div>
 
-		<!--View Modal -->
+				<!--Viiew Modal -->
 				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog " role="document">
 						<div class="modal-content">
@@ -218,7 +231,7 @@
 
 							<!-- START MODAL BODY -->
 							<div class="modal-body" width='100%'>
-								<p align="center" style="font-size:20px"><b>DOCUMENT REQUEST DETAILS</b></p>
+								<p align="center" style="font-size:20px"><b>BUSINESS DETAILS</b></p>
                                     <hr>
                                     <div id="businessDetails">
 
@@ -269,46 +282,43 @@
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/jquery.longpress.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 
-
-
+	
 	<script>
 		
+
 		$(document).on('click', '.query', function(e) {
 			
 
             var gender = $("#gender :selected").val();
-            var document = $("#document").val();
-			var status = $("#status").val();
+            var category = $("#category").val();
 
 
             if($("#gender :selected").val()=='All')
             {
                 gender = '';
             }
-            if($("#document").val()=='All')
+            if($("#category").val()=='All')
             {
-                document = '';
-            }
-			if($("#status").val()=='All')
-            {
-                status = '';
+                category = '';
             }
 
             
         
             $.ajax({
-				url: "{{ url('/query/document/submit') }}", 
+				url: "{{ url('/query/business/submit') }}", 
 				method: "GET", 
 				data: {
 					"_token": "{{ csrf_token() }}", 
 					"lastName": $("#lastName").val(), 
 					"middleName": $("#middleName").val(), 
 					"firstName": $("#firstName").val(), 
-					"quantity": $("#quantity").val(),
+					"businessID": $("#businessID").val(),
 					"gender": gender, 
-					"documentsPrimeID": document, 
-					"status": status, 
-					"requestDate": $("#requestDate").val(),
+					"categoryID": category, 
+					"tradeName": $("#tradeName").val(),
+					"originalName": $("#originalName").val(),
+					"dateRegistered": $("#dateRegistered").val(),
+					"address": $("#address").val(),
 					
 				}, 
 				success: function(data) {
@@ -321,7 +331,7 @@
 					for (index in data)
 					{
                         var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-						var date = new Date(data[index].requestDate);
+						var date = new Date(data[index].registrationDate);
 						var month = date.getMonth();
 						var day = date.getDate();
 						var year = date.getFullYear();
@@ -342,11 +352,11 @@
 
 						$("#table-container").DataTable()
 								.row.add([
-									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName,
-									d, 
-									data[index].documentName, 
-									data[index].status, 
-										'<a href="#" class="btn btn-success view" name="btnView" data-value="' + data[index].documentRequestPrimeID + '"><i class="icon-eye6"></i> View</a>'
+									data[index].businessID, 
+									data[index].originalName, 
+									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+									data[index].categoryName, 
+										'<a href="#" class="btn btn-success view" name="btnView" data-value="' + data[index].registrationPrimeID + '"><i class="icon-eye6"></i> View</a>'
 									
 								]).draw(false);
                     }
@@ -366,11 +376,73 @@
         
 
 		});
-		
 
 		
 		
+//  VIEW RESIDENT
 
+		$(document).on('click', '.view', function(e) {
+			var id = $(this).data('value');
+
+            $.ajax({
+
+				type: 'get',
+				url: "{{ url('business-registration/getDetails') }}",
+				data: {registrationPrimeID:id},
+				success:function(data)
+				{
+
+					data = $.parseJSON(data);
+
+					for (index in data) 
+					{
+						
+				
+
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].registrationDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+
+							var start = data[index].reservationStart;
+							var end = data[index].reservationEnd;
+							var g;
+
+							if(data[index].gender=='M')
+							{
+								g = "Male";
+							}
+							else{
+								g = "Female";
+							}
+
+							
+							$('#businessDetails').html(
+								'<p style="font-size:18px" align="center">'+
+										
+										'<b>BUSINESS</b> <br><br>' +
+										'Business ID:  ' + data[index].businessID + '<br>' +
+										'Original Name:  ' + data[index].originalName + '<br>' +
+										'Trade Name:  ' + data[index].tradeName + '<br>' +
+										'Date Registered:  ' + d + '<br>' +
+										'Category:  ' + data[index].categoryName + '<br><br>' +
+										'<b>BUSINESS OWNER</b> <br><br>' +
+										'Name: ' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '<br>' +
+										'Contact Number: ' + data[index].contactNumber + '<br>' +
+										'Gender: ' + g + '<br>' +
+								'</p>'
+								);	
+							$('#viewModal').modal('show');
+				
+						
+					}		
+				}
+			});
+
+
+		});
 		
 
 		

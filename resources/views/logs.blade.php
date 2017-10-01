@@ -86,6 +86,8 @@
                                     
                                 </ul>
 
+                            <div id="logsTimeline">
+
                             @foreach($all as $al)
 
                                 <ul class="timeline">
@@ -119,7 +121,9 @@
                                         </div>
                                         <div class="timeline-card card border-grey border-lighten-2">
                                             <div class="card-header">
-                                                <h4 class="card-title"><a href="#">{{ $al->firstName }} {{ $al->lastName }} {{ $al->action }}</a></h4>
+                                                <h4 class="card-title"><a href="#" data-value="{{ $al->logID }}" class="open">{{ $al->firstName }} {{ $al->lastName }} {{ $al->action }}</a>
+                                                    
+                                                </h4>
                                                 <p class="card-subtitle text-muted pt-1">
                                                     <span class="font-small-3">{{ Carbon\Carbon::parse($al->dateOfAction)->diffForHumans() }}</span>
                                                 </p>
@@ -129,6 +133,8 @@
                                     </li>
                                 </ul>
                             @endforeach
+
+                            </div>
 
                                 
                             </section>
@@ -163,10 +169,38 @@
                         </div>
 					</div>	
                 </div>									
-			</div>
-
-            
+			</div>    
 		</div>
+
+        <!--Reply -->
+
+        <!--Reply Modal -->
+        <div class="modal fade text-xs-left" id="openModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Details</h4>
+                    </div>
+
+                    <!-- START MODAL BODY -->
+                    <div class="modal-body" width='100%'>
+                        
+                        <div id="modalDetails">
+
+                        </div>
+
+                    </div>
+                    <!-- End of Modal Body -->
+
+                </div>
+            </div>
+        </div> 
+        <!-- End of Modal -->
+
+
 
 	</section>
 
@@ -225,10 +259,72 @@
                         data: {id: id},
                         success: function(data) { 
                             
+                            $('#logsTimeline').html(''); 
                             data = $.parseJSON(data);
 
 							for (index in data) {
-                                console.log(data[index].action);
+                               
+                                var span='';
+
+                            if(data[index].type=="Resident")
+                            {
+                                span='<span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Resident">'+
+                                                '<i class="icon-man-woman"></i>';
+                            }
+                            else if(data[index].type=="Document")
+                            {
+                                span='<span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Document">'+
+                                                '<i class="icon-book"></i>';
+                            }
+                            else if(data[index].type=="Reservation")
+                            {
+                                span='<span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Reservation">'+
+                                                '<i class="icon-clock3"></i>';
+                            }
+                            else if(data[index].type=="Business")
+                            {
+                                span='<span class="bg-green bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Business">'+
+                                                '<i class="icon-office"></i>';
+                            }
+                            else if(data[index].type=="Service")
+                            {
+                                span='<span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Service">'+
+                                                '<i class="icon-plus2"></i>';
+                            }
+                            else if(data[index].type=="Family")
+                            {
+                                span='<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Family">'+
+                                                '<i class="icon-home3"></i>';
+                            }
+                            else
+                            {
+                                span='<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Collection">'+
+                                                '<i class="icon-coin-dollar"></i>';
+                            }
+
+                            $('#logsTimeline').append(
+                                '<ul class="timeline">'+
+                                    '<li class="timeline-line"></li>'+
+                                    '<li class="timeline-item">'+
+                                        '<div class="timeline-badge">'+
+                                           span +
+                                        '</span>'+
+                                        '</div>'+
+                                        '<div class="timeline-card card border-grey border-lighten-2">'+
+                                            '<div class="card-header">'+
+                                                '<h4 class="card-title"><a href="#" data-value="' + data[index].logID + '" class="open">' + data[index].firstName + ' ' + data[index].lastName + ' ' + data[index].action + '</a>'+
+                                                    
+                                                '</h4>'+
+                                                '<p class="card-subtitle text-muted pt-1">'+
+                                                    '<span class="font-small-3">'+ data[index].dateOfAction +'</span>'+
+                                                '</p>'+
+                                            '</div>'+
+                                            
+                                        '</div>'+
+                                    '</li>'+
+                                '</ul>'
+                            );
+
                             }
 
                         }, 
@@ -244,11 +340,72 @@
                     url: "{{ url('logs/getUserLogs') }}", 
                     data: {id: id},
                     success: function(data) { 
-                        
+                        $('#logsTimeline').html('');       
                         data = $.parseJSON(data);
 
                         for (index in data) {
-                            console.log(data[index].action);
+                            
+                            var span='';
+
+                            if(data[index].type=="Resident")
+                            {
+                                span='<span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Resident">'+
+                                                '<i class="icon-man-woman"></i>';
+                            }
+                            else if(data[index].type=="Document")
+                            {
+                                span='<span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Document">'+
+                                                '<i class="icon-book"></i>';
+                            }
+                            else if(data[index].type=="Reservation")
+                            {
+                                span='<span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Reservation">'+
+                                                '<i class="icon-clock3"></i>';
+                            }
+                            else if(data[index].type=="Business")
+                            {
+                                span='<span class="bg-green bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Business">'+
+                                                '<i class="icon-office"></i>';
+                            }
+                            else if(data[index].type=="Service")
+                            {
+                                span='<span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Service">'+
+                                                '<i class="icon-plus2"></i>';
+                            }
+                            else if(data[index].type=="Family")
+                            {
+                                span='<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Family">'+
+                                                '<i class="icon-home3"></i>';
+                            }
+                            else
+                            {
+                                span='<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Collection">'+
+                                                '<i class="icon-coin-dollar"></i>';
+                            }
+
+                            $('#logsTimeline').append(
+                                '<ul class="timeline">'+
+                                    '<li class="timeline-line"></li>'+
+                                    '<li class="timeline-item">'+
+                                        '<div class="timeline-badge">'+
+                                           span +
+                                        '</span>'+
+                                        '</div>'+
+                                        '<div class="timeline-card card border-grey border-lighten-2">'+
+                                            '<div class="card-header">'+
+                                                '<h4 class="card-title"><a href="#" data-value="' + data[index].logID + '" class="open">' + data[index].firstName + ' ' + data[index].lastName + ' ' + data[index].action + '</a>'+
+                                                    
+                                                '</h4>'+
+                                                '<p class="card-subtitle text-muted pt-1">'+
+                                                    '<span class="font-small-3">'+ data[index].dateOfAction +'</span>'+
+                                                '</p>'+
+                                            '</div>'+
+                                            
+                                        '</div>'+
+                                    '</li>'+
+                                '</ul>'
+                            ); 
+
                         }
 
                     }, 
@@ -257,6 +414,14 @@
                     }
                 });
             }
+
+		});
+
+        $(document).on('click', '.open', function(e) {
+			var id = $(this).data('value');
+            
+            $("#openModal").modal("show");
+			
 
 		});
 
