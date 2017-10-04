@@ -172,10 +172,10 @@
 			</div>    
 		</div>
 
-        <!--Reply -->
+        <!--Open -->
 
-        <!--Reply Modal -->
-        <div class="modal fade text-xs-left" id="openModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <!--Open Modal -->
+        <div class="modal fade text-xs-left" id="openM" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -254,17 +254,37 @@
 			if(id=="all")
             {
                 $.ajax({
-                        type: "get", 
-                        url: "{{ url('logs/getLogs') }}", 
-                        data: {id: id},
-                        success: function(data) { 
-                            
-                            $('#logsTimeline').html(''); 
-                            data = $.parseJSON(data);
+                    type: "get", 
+                    url: "{{ url('logs/getLogs') }}", 
+                    data: {id: id},
+                    success: function(data) { 
+                        
+                        $('#logsTimeline').html(''); 
+                        data = $.parseJSON(data);
 
-							for (index in data) {
-                               
-                                var span='';
+                        for (index in data) {
+                            
+                            var span='';
+
+                            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                            var date = new Date(data[index].dateOfAction);
+                            var month = date.getMonth();
+                            var day = date.getDate();
+                            var year = date.getFullYear();
+                            var d = months[month] + ' ' + day + ', ' + year;
+
+                            var start = data[index].dateOfAction;
+                            start = start.toString().substring(11);
+                            
+                            start = start.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+                            
+                            if(start.length > 1){
+                                start = start.slice(1);
+                                start[5] = +start[0] < 12 ? ' AM' : ' PM';
+                                start[0] = +start[0] % 12 || 12;
+                            }
+
+                            var st = start.join('');
 
                             if(data[index].type=="Resident")
                             {
@@ -307,7 +327,7 @@
                                     '<li class="timeline-line"></li>'+
                                     '<li class="timeline-item">'+
                                         '<div class="timeline-badge">'+
-                                           span +
+                                            span +
                                         '</span>'+
                                         '</div>'+
                                         '<div class="timeline-card card border-grey border-lighten-2">'+
@@ -316,7 +336,7 @@
                                                     
                                                 '</h4>'+
                                                 '<p class="card-subtitle text-muted pt-1">'+
-                                                    '<span class="font-small-3">'+ data[index].dateOfAction +'</span>'+
+                                                    '<span class="font-small-3">'+ d + ', ' + st +'</span>'+
                                                 '</p>'+
                                             '</div>'+
                                             
@@ -325,13 +345,13 @@
                                 '</ul>'
                             );
 
-                            }
-
-                        }, 
-                        error: function(data) {
-                            swal("Error", "Failed!", "error");
                         }
-                    });
+
+                    }, 
+                    error: function(data) {
+                        swal("Error", "Failed!", "error");
+                    }
+                });
             }
             else
             {
@@ -347,6 +367,26 @@
                             
                             var span='';
 
+                            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                            var date = new Date(data[index].dateOfAction);
+                            var month = date.getMonth();
+                            var day = date.getDate();
+                            var year = date.getFullYear();
+                            var d = months[month] + ' ' + day + ', ' + year;
+
+                            var start = data[index].dateOfAction;
+                            start = start.toString().substring(11);
+                            
+                            start = start.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+                            
+                            if(start.length > 1){
+                                start = start.slice(1);
+                                start[5] = +start[0] < 12 ? ' AM' : ' PM';
+                                start[0] = +start[0] % 12 || 12;
+                            }
+
+                            var st = start.join('');
+
                             if(data[index].type=="Resident")
                             {
                                 span='<span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Resident">'+
@@ -397,7 +437,7 @@
                                                     
                                                 '</h4>'+
                                                 '<p class="card-subtitle text-muted pt-1">'+
-                                                    '<span class="font-small-3">'+ data[index].dateOfAction +'</span>'+
+                                                    '<span class="font-small-3">'+ d + ', ' + st +'</span>'+
                                                 '</p>'+
                                             '</div>'+
                                             
@@ -420,7 +460,7 @@
         $(document).on('click', '.open', function(e) {
 			var id = $(this).data('value');
             
-            $("#openModal").modal("show");
+            $('#openM').modal('show');
 			
 
 		});

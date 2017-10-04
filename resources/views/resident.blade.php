@@ -157,7 +157,8 @@
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-																
+																<a href="#" class="dropdown-item print" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-card"></i> Barangay ID</a>
+
 																@foreach($memberss as $member)
 
 																	@if($member -> residentPrimeID == $resident -> residentPrimeID)
@@ -311,6 +312,136 @@
 									</div>
 									<!-- End of Modal Body -->
 
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
+						<!--Barangay ID -->
+
+						<!--Barangay ID Modal -->
+						<div class="modal fade text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-dialog " role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Barangay ID</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+										
+										
+											
+											<div id="mainCard">
+												<br>
+												<div style="margin:auto;width:88%;" id="cardWrapper">
+													
+													
+													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
+														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='./system-assets/ico/brgy_logo.png'></img>
+														<h6 style="text-align:center;color:blue;padding-top:5px">
+															REPUBLIC OF THE PHILIPPINES<br>
+															CITY OF MANILA<br>
+															OFFICE OF THE BARANGAY CHAIRMAN<br>
+															BARANGAY 629<br>
+														</h6>
+													</div>
+													<div style="border:1px solid;height:20px;width:500px;background-color:rgb(0, 224, 0)">
+														<p align="center">Barangay Resident Identification Card</p>
+													</div>
+													<div style="background-color:lightgrey;position:relative;width:500px;height:180px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 0px 10px 10px;" id="cardContentContainer">
+														
+														<div style="width:320px;text-align:center">
+															<h2>Marc Joseph M. Fuellas</h2>
+															<br>
+															<br>
+															<p>
+															___________________________<br>
+															CARDHOLDER SIGNATURE<br>
+															Valid until 5/31/2019
+															</p>
+														</div>
+
+														<div style="background-color:white;position:absolute;top:35px;right:25px;width:96px;height:96px;border:1px solid;float:right;">
+															<p style="padding-top:25px;font-size:30px" align="center">1 X 1</p>
+														</div>
+													</div>
+
+
+												</div>
+												<br>
+
+												<div style="display: table;width:88%;table-layout:fixed;margin-left:32px;">
+													<div style="padding:5px;display:table-cell;color:blue;background-color:lightgrey;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 0px 0px 10px;">
+														<p>
+															<br>
+															BIRTHDAY: JUNE 18, 1998<br>
+															ADDRESS: 258 H TERESA ST.<br>
+															STA MESA, MANILA<br>
+															CONTACT NO.: 09263526321<br>
+															<br>
+															Parent to be contacted in case of emegency<br>
+															NAME: CLARIZA M. FUELLAS<br>
+															ADDRESS: 258 H TERESA ST.<br>
+															STA MESA, MANILA<br>
+															CONTACT NO.: 09324606293
+														</p>
+													</div>
+
+													<div style="display:table-cell;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 10px 10px 0px;" id="cardContentContainer">
+														
+													</div>
+												</div>
+												
+												<br>
+											<div align="center">
+													<button class="btn btn-success" id="printID" value="Print">PRINT</button>
+											</div>
+
+											</div>
+											
+										
+
+										
+
+										<!--
+										
+
+										<div id="idbody"  >
+											<div class="header"> <p><span style="float:left; padding-top:20px; position:absolute; margin-left:-5%; height:80px;"><img src="img/logo.png" width="40px" height="40px" /></span>Uganda Martyrs University<br /><span>KABALE CAMPUS</span></p></div>
+											<div class="body">
+											<p style="padding-top:5px;">STUDENT IDENTITY CARD NO: <span style="color:red;">RES_001231</span></p>
+											<p>BSIT</p>
+											<div class="data">
+											<div class="details">
+											<table style="margin-left:20%;">
+											<tr><td>12387623618</td></tr>
+											<tr><td>Marc Joseph</td></tr>
+											<tr><td>Fuellas</td></tr>
+											</table>
+											</div>
+											<div class="pic">
+											<img src="" width="97%" height="97%" style="margin:1.5%;"/>
+											</div>
+											</div>
+											<div class="foot">
+											<p style="float:left; padding-left:10px;">Expires: 31/02/2017</p>
+											<p style="float:right; padding-right:5px;">Holders`s Signature: <img src="" id="myDiv"></i></p>
+											</div>
+											</div>
+											<a href="">Print</a>
+											</div>
+										</div>
+										-->
+										
+										
+
+
+									</div>
+									<!-- End of Modal Body -->
 								</div>
 							</div>
 						</div> 
@@ -1108,9 +1239,33 @@
 		
 
 		
-
-
+		$(document).on('click', '.print', function(e) {
+			var id = $(this).data('value');
 		
+			$('#idModal').modal('show');
+
+		});
+
+		$("#printID").click(function () {
+			html2pdf($("#mainCard")[0], {
+				margin: 	  0, 
+				filename:     "BarangayID-" + getStringDateTime() + ".pdf", 
+				image:        { type: 'jpeg', quality: 1 },
+				html2canvas:  { dpi: 300, letterRendering: true },
+				jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'landscape' }
+			});
+
+			html2canvas($("#mainCard"), {
+				width: 816, 
+				height: 1056, 
+				onrendered: function(newDraw) {
+					console.log("Written!");
+					pdfDoc.addImage(newDraw, 'png', 0, 0);
+					pdfDoc.save("DOC-" + getStringDateTime() + ".pdf");
+				}, 
+				useCORS: true
+			});
+		});
 
 
 		
@@ -1286,6 +1441,9 @@
 
 		
 
+
+		
+
 		
 		@include('resident-refresh');
 
@@ -1301,4 +1459,9 @@
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/rasterizeHTML.allinone.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/html2pdf.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 @endsection
