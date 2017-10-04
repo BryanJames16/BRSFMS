@@ -81,6 +81,16 @@ IF %1==up (
     GOTO END
 )
 
+IF %1==pkg (
+    IF %2==update (
+        composer update
+    )
+
+    IF %2==install (
+        composer require %3
+    )
+)
+
 :: Git Manipulation
 IF %1==git (
     IF %2==init (
@@ -182,7 +192,7 @@ IF %1==build (
 IF %1==database (
     IF %2==dump (
         ECHO "Dumping database..."
-        %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --events --routines --triggers dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
 
         GOTO COMOK
     )
