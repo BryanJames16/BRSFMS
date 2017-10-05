@@ -173,6 +173,7 @@ return [
         Orangehill\Iseed\IseedServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
         Rymanalu\FactoryGenerator\FactoryGeneratorServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
 
