@@ -12,7 +12,8 @@
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "dev-master",
         "reliese/laravel": "^0.0.13",
-        "rymanalu/factory-generator": "^1.0"
+        "rymanalu/factory-generator": "^1.0",
+        "spatie/laravel-backup": "^3.0.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0", 
