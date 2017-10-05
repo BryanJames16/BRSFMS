@@ -152,8 +152,8 @@ return [
          * Here you can specify how emails should be sent.
          */
         'mail' => [
-            'from' => 'your@email.com',
-            'to'   => 'your@email.com',
+            'from' => env('SYS_META_EMAIL'),
+            'to'   => env('SYS_ADMIN_EMAIL'),
         ],
 
         /*
