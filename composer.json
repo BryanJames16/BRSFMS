@@ -14,7 +14,8 @@
         "orangehill/iseed": "dev-master",
         "reliese/laravel": "^0.0.13",
         "rymanalu/factory-generator": "^1.0",
-        "spatie/laravel-backup": "^3.0.0"
+        "spatie/laravel-backup": "^3.0.0",
+        "yajra/laravel-datatables-oracle": "~8.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0", 
