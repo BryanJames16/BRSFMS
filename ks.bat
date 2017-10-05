@@ -188,6 +188,14 @@ IF %1==build (
     )
 )
 
+IF %1==sys (
+    IF %2==backup (
+        ECHO Preparing for a back up...
+        ECHO Back Up done!
+        GOTO COMOK
+    )
+)
+
 :: Database Commands
 IF %1==database (
     IF %2==dump (
