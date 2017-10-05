@@ -84,7 +84,7 @@
 						<div class="card-block card-dashboard">
 							<a href="/resident">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-cyan">
+									<div class="card bg-gradient-y2-cyan">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -104,7 +104,7 @@
 
 							<a href="/resident">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-teal">
+									<div class="card bg-gradient-y2-teal">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -124,7 +124,7 @@
 
 							<a href="/document-request">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-deep-orange">
+									<div class="card bg-gradient-y2-deep-orange">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -144,7 +144,7 @@
 
 							<a href="/document-approval">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-brown">
+									<div class="card bg-gradient-y2-brown">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -164,7 +164,7 @@
 
 							<a href="/facility-reservation">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-indigo">
+									<div class="card bg-gradient-y2-indigo">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -184,7 +184,7 @@
 
 							<a href="/service-transaction">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-pink">
+									<div class="card bg-gradient-y2-pink">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -204,7 +204,7 @@
 
 							<a href="/service-sponsorship">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-info">
+									<div class="card bg-gradient-y2-info">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
@@ -224,7 +224,7 @@
 
 							<a href="/business-registration">
 								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-blue-grey">
+									<div class="card bg-gradient-y2-blue-grey">
 										<div class="card-body">
 											<div class="card-block">
 												<div class="media">
