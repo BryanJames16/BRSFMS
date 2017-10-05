@@ -23,6 +23,8 @@ SET gitdir=C:\Program Files\Git\bin
 SET gitx="%gitdir%\git.exe"
 
 SET PHPX=C:\xampp\php\php.exe
+SET SCHED=SCHTASKS.EXE
+SET SUDO=%placedir%sudo.cmd
 
 set /a LCOUNT=1
 
@@ -195,6 +197,32 @@ IF %1==sys (
         GOTO COMOK
     )
 
+    IF %2==SSCHED (
+        ECHO Registering Task Scheduler...
+        %SUDO% cmd /k %placedir%\ks sys sTCci
+        ECHO Registered Successfully!
+        GOTO COMOK
+    )
+
+    IF %2==RSCHED (
+        ECHO Removing from Task Scheduler...
+        %SUDO% cmd /k %placedir%\ks sys llNOtT
+        ECHO Removed Successfully!
+        GOTO COMOK
+    )
+
+    IF %2==sTCci (
+        ECHO RUN THIS COMMAND AS ADMINISTRATOR!
+        %SCHED% /CREATE /RU SYSTEM /SC MINUTE /TN "BRSFMS System Schedule" /TR "%PHPX% %placedir%artisan schedule:run" /ST 00:00
+        GOTO COMOK
+    )
+
+    IF %2==llNOtT (
+        ECHO RUN THIS COMMAND AS ADMINISTRATOR!
+        %SCHED% /DELETE /TN "BRSFMS System Schedule" /F
+        GOTO COMOK
+    )
+
     IF %2==deploy (
         ECHO Preparing for deployed system...
         ECHO Deployment done!
@@ -301,3 +329,4 @@ exit
 
 :END
 ECHO Command Completed Successfully!
+EXIT /B
