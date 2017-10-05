@@ -194,6 +194,12 @@ IF %1==sys (
         ECHO Back Up done!
         GOTO COMOK
     )
+
+    IF %2==deploy (
+        ECHO Preparing for deployed system...
+        ECHO Deployment done!
+        GOTO COMOK
+    )
 )
 
 :: Database Commands
