@@ -23,6 +23,8 @@ SET gitdir=C:\Program Files\Git\bin
 SET gitx="%gitdir%\git.exe"
 
 SET PHPX=C:\xampp\php\php.exe
+SET SCHED=SCHTASKS.EXE
+SET SUDO=%placedir%sudo.cmd
 
 set /a LCOUNT=1
 
@@ -79,6 +81,16 @@ IF %1==up (
     ECHO Setting the server up...
     %PHPX% artisan up
     GOTO END
+)
+
+IF %1==pkg (
+    IF %2==update (
+        composer update
+    )
+
+    IF %2==install (
+        composer require %3
+    )
 )
 
 :: Git Manipulation
@@ -178,11 +190,51 @@ IF %1==build (
     )
 )
 
+IF %1==sys (
+    IF %2==backup (
+        ECHO Preparing for a back up...
+        ECHO Back Up done!
+        GOTO COMOK
+    )
+
+    IF %2==SSCHED (
+        ECHO Registering Task Scheduler...
+        %SUDO% cmd /k %placedir%\ks sys sTCci
+        ECHO Registered Successfully!
+        GOTO COMOK
+    )
+
+    IF %2==RSCHED (
+        ECHO Removing from Task Scheduler...
+        %SUDO% cmd /k %placedir%\ks sys llNOtT
+        ECHO Removed Successfully!
+        GOTO COMOK
+    )
+
+    IF %2==sTCci (
+        ECHO RUN THIS COMMAND AS ADMINISTRATOR!
+        %SCHED% /CREATE /RU SYSTEM /SC MINUTE /TN "BRSFMS System Schedule" /TR "%PHPX% %placedir%artisan schedule:run" /ST 00:00
+        GOTO COMOK
+    )
+
+    IF %2==llNOtT (
+        ECHO RUN THIS COMMAND AS ADMINISTRATOR!
+        %SCHED% /DELETE /TN "BRSFMS System Schedule" /F
+        GOTO COMOK
+    )
+
+    IF %2==deploy (
+        ECHO Preparing for deployed system...
+        ECHO Deployment done!
+        GOTO COMOK
+    )
+)
+
 :: Database Commands
 IF %1==database (
     IF %2==dump (
         ECHO "Dumping database..."
-        %mariadumpx% -uroot -h127.0.0.1 --port=3307 dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
+        %mariadumpx% -uroot -h127.0.0.1 --port=3307 --events --routines --triggers dbBarangay > %dbdumpdir%\dbbaranggay_nightly.sql
 
         GOTO COMOK
     )
@@ -277,3 +329,4 @@ exit
 
 :END
 ECHO Command Completed Successfully!
+EXIT /B

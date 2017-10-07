@@ -81,179 +81,197 @@
 						</div>
 					</div>
 					<div class="card-body collapse in">
-						<div class="card-block card-dashboard">
-							<a href="/resident">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-cyan">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-user1 white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="population">{{ $residents }}</h3>
-														<span>Current Total Population</span>
+						<div class="card-block">
+							<ul class="nav nav-tabs nav-top-border no-hover-bg">
+								<li class="nav-item">
+									<a class="nav-link active" id="base-tab1" data-toggle="tab" aria-controls="tab1" href="#tab1" aria-expanded="true">Summary</a>
+								</li>
+
+								<li class="nav-item">
+									<a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2" href="#tab2" aria-expanded="false">Chart</a>
+								</li>
+							</ul>
+
+							<div class="tab-content px-1 pt-1">
+								<div role="tabpanel" class="tab-pane active" id="tab1" aria-expanded="true" aria-labelledby="base-tab1">
+									<div class="card-block card-dashboard">
+										<a href="/resident">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-cyan">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-user1 white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="population">{{ $residents }}</h3>
+																	<span>Current Total Population</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/resident">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-teal">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-home22 white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="population">{{ $family }}</h3>
-														<span>Current Total Families</span>
+										<a href="/resident">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-teal">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-home22 white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="population">{{ $family }}</h3>
+																	<span>Current Total Families</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/document-request">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-deep-orange">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-note white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="doc-request">{{ $request }}</h3>
-														<span>Document Requests</span>
+										<a href="/document-request">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-deep-orange">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-note white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="doc-request">{{ $request }}</h3>
+																	<span>Document Requests</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/document-approval">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-brown">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-pen2 white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="doc-request">{{ $approval }}</h3>
-														<span>Document Approvals</span>
+										<a href="/document-approval">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-brown">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-pen2 white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="doc-request">{{ $approval }}</h3>
+																	<span>Document Approvals</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/facility-reservation">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-indigo">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-calendar2 white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="reservation">{{ $pendingres }}</h3>
-														<span>Pending Reservations</span>
+										<a href="/facility-reservation">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-indigo">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-calendar2 white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="reservation">{{ $pendingres }}</h3>
+																	<span>Pending Reservations</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/service-transaction">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-pink">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-antenna white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">{{ $pendingser }}</h3>
-														<span>Current Pending Services</span>
+										<a href="/service-transaction">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-pink">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-antenna white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="pending-services">{{ $pendingser }}</h3>
+																	<span>Current Pending Services</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-							</a>
+										</a>
 
-							<a href="/service-sponsorship">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-info">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-android-contact white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">0</h3>
-														<span>Current Service Sponsors</span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</a>
-
-							<a href="/business-registration">
-								<div class="col-xl-3 col-lg-6 col-xs-12">
-									<div class="card bg-gradient-y-blue-grey">
-										<div class="card-body">
-											<div class="card-block">
-												<div class="media">
-													<div class="media-left media-middle">
-														<i class="icon-office white font-large-2 float-xs-left"></i>
-													</div>
-													<div class="media-body white text-xs-right">
-														<h3 id="pending-services">0</h3>
-														<span>Registered Businesses</span>
+										<a href="/service-sponsorship">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-info">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-android-contact white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="pending-services">0</h3>
+																	<span>Current Service Sponsors</span>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
+										</a>
+
+										<a href="/business-registration">
+											<div class="col-xl-3 col-lg-6 col-xs-12">
+												<div class="card bg-gradient-y2-blue-grey">
+													<div class="card-body">
+														<div class="card-block">
+															<div class="media">
+																<div class="media-left media-middle">
+																	<i class="icon-office white font-large-2 float-xs-left"></i>
+																</div>
+																<div class="media-body white text-xs-right">
+																	<h3 id="pending-services">0</h3>
+																	<span>Registered Businesses</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
+								</div>
+
+								<div class="tab-pane" id="tab2" aria-labelledby="base-tab2">
+									<div class="card-block card-dashboard">
+										<h3>Transaction Rate</h3>
+										<div class="chartjs" style="height: 80px;">
+											<canvas id="transaction-chart" style="display: block; height: 80px;" height="80px"></canvas>
+										</div>
+									</div>
+
+									<div class="card-block card-dashboard">
+										<h3>Liability Rate</h3>
+										<div class="chartjs" style="height: 80px;">
+											<canvas id="liability-chart" style="display: block; height: 80px;" height="80px"></canvas>
 										</div>
 									</div>
 								</div>
-							</a>
-						</div>
-
-						<div class="card-block card-dashboard">
-							<h3>Transaction Rate</h3>
-							<div class="chartjs" style="height: 80px;">
-								<canvas id="transaction-chart" style="display: block; height: 80px;" height="80px"></canvas>
-							</div>
-						</div>
-
-						<div class="card-block card-dashboard">
-							<h3>Liability Rate</h3>
-							<div class="chartjs" style="height: 80px;">
-								<canvas id="liability-chart" style="display: block; height: 80px;" height="80px"></canvas>
 							</div>
 						</div>
 					</div>

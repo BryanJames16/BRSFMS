@@ -166,14 +166,16 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Way\Generators\GeneratorsServiceProvider::class,
-        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class, 
+        Orangehill\Iseed\IseedServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
         Rymanalu\FactoryGenerator\FactoryGeneratorServiceProvider::class,
-        Orangehill\Iseed\IseedServiceProvider::class,
-        Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider::class, 
+        Spatie\Backup\BackupServiceProvider::class,
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -212,6 +214,7 @@ return [
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Form' => Collective\Html\FormFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,

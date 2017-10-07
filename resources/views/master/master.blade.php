@@ -263,7 +263,7 @@
 				<!-- Start of Main Menu -->
 				<div class="main-menu menu-light menu-border menu-shadow navbar-border menu-accordion">
 					<!-- BEGIN Main Menu Header -->
-					<div class="main-menu-header bg-gradient-y2-cyan">
+					<div class="main-menu-header bg-gradient-y2-grey">
 						<input type="text" placeholder="Search" class="menu-search form-control round" />
 					</div>
 					<!-- END Main Menu Header -->
