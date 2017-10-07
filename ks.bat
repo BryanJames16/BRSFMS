@@ -193,6 +193,7 @@ IF %1==build (
 IF %1==sys (
     IF %2==backup (
         ECHO Preparing for a back up...
+        %PHPX% artisan backup:run
         ECHO Back Up done!
         GOTO COMOK
     )
