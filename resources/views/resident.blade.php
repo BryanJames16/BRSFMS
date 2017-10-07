@@ -355,13 +355,12 @@
 													<div style="background-color:lightgrey;position:relative;width:500px;height:180px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 0px 10px 10px;" id="cardContentContainer">
 														
 														<div style="width:320px;text-align:center">
-															<h2>Marc Joseph M. Fuellas</h2>
+															<h2 id="nameID">Marc Joseph M. Fuellas</h2>
 															<br>
 															<br>
 															<p>
 															___________________________<br>
 															CARDHOLDER SIGNATURE<br>
-															Valid until 5/31/2019
 															</p>
 														</div>
 
@@ -376,18 +375,26 @@
 
 												<div style="display: table;width:88%;table-layout:fixed;margin-left:32px;">
 													<div style="padding:5px;display:table-cell;color:blue;background-color:lightgrey;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 0px 0px 10px;">
-														<p>
+														<p style="color:black">
 															<br>
-															BIRTHDAY: JUNE 18, 1998<br>
-															ADDRESS: 258 H TERESA ST.<br>
-															STA MESA, MANILA<br>
-															CONTACT NO.: 09263526321<br>
+															BIRTHDAY: 
+																<span style="color:blue" id="bdayID">JUNE 18, 1998</span><br>
+															ADDRESS: 
+																<span style="color:blue">258 H TERESA ST.<br>
+																	STA MESA, MANILA
+																</span><br>
+															CONTACT NO.: 
+																<span style="color:blue" id="contactNumberID">09263526321</span><br>
 															<br>
 															Parent to be contacted in case of emegency<br>
-															NAME: CLARIZA M. FUELLAS<br>
-															ADDRESS: 258 H TERESA ST.<br>
-															STA MESA, MANILA<br>
-															CONTACT NO.: 09324606293
+															NAME: 
+																<span style="color:blue">CLARIZA M. FUELLAS</span><br>
+															ADDRESS: 
+																<span style="color:blue">258 H TERESA ST.<br>
+																	STA MESA, MANILA
+																</span><br>
+															CONTACT NO.: 
+																<span style="color:blue">09324606293</span>
 														</p>
 													</div>
 
@@ -1242,7 +1249,50 @@
 		$(document).on('click', '.print', function(e) {
 			var id = $(this).data('value');
 		
-			$('#idModal').modal('show');
+
+			
+
+			$.ajax({
+				type: 'get',
+				url: "{{ url('/resident/getEdit') }}", 
+				data: {"residentPrimeID":id}, 
+				success:function(data)
+				{
+
+					data = $.parseJSON(data);
+
+					for (index in data)
+					{
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].birthDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
+						var m = data[index].middleName.substring(0,1);
+
+						$('#bdayID').html(d);
+						$('#nameID').html(data[index].firstName + " " + m + ". " + data[index].lastName);
+						$('#contactNumberID').html(data[index].contactNumber);
+
+						$('#idModal').modal('show');
+						
+					}
+					
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+					console.log("Error: Cannot fetch data!\n" + message);
+				}
+			})
 
 		});
 
