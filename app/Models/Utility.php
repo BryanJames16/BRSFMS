@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 05 Oct 2017 15:30:41 +0800.
+ * Date: Sun, 08 Oct 2017 10:41:00 +0800.
  */
 
 namespace App\Models;
@@ -29,6 +29,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $serviceRegPK
  * @property string $sponsorPK
  * @property string $collectionPK
+ * @property float $barangayIDAmount
+ * @property int $expirationID
+ * @property int $yearsOfExpiration
  *
  * @package App\Models
  */
@@ -36,6 +39,12 @@ class Utility extends Eloquent
 {
 	protected $primaryKey = 'utilityID';
 	public $timestamps = false;
+
+	protected $casts = [
+		'barangayIDAmount' => 'float',
+		'expirationID' => 'int',
+		'yearsOfExpiration' => 'int'
+	];
 
 	protected $fillable = [
 		'barangayName',
@@ -53,6 +62,9 @@ class Utility extends Eloquent
 		'reservationPK',
 		'serviceRegPK',
 		'sponsorPK',
-		'collectionPK'
+		'collectionPK',
+		'barangayIDAmount',
+		'expirationID',
+		'yearsOfExpiration'
 	];
 }

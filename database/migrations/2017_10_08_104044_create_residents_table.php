@@ -29,6 +29,7 @@ class CreateResidentsTable extends Migration {
 			$table->string('residentType', 10);
 			$table->boolean('status');
 			$table->string('imagePath', 500)->nullable();
+			$table->string('address', 250);
 		});
 	}
 

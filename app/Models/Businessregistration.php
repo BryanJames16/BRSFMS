@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 05 Oct 2017 15:30:40 +0800.
+ * Date: Sun, 08 Oct 2017 10:40:59 +0800.
  */
 
 namespace App\Models;
@@ -31,7 +31,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \App\Models\Businesscategory $businesscategory
  * @property \App\Models\Resident $resident
- * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  * @property \Illuminate\Database\Eloquent\Collection $logs
  *
  * @package App\Models
@@ -79,11 +78,6 @@ class Businessregistration extends Eloquent
 	public function resident()
 	{
 		return $this->belongsTo(\App\Models\Resident::class, 'residentPrimeID');
-	}
-
-	public function generaladdresses()
-	{
-		return $this->hasMany(\App\Models\Generaladdress::class, 'businessPrimeID');
 	}
 
 	public function logs()

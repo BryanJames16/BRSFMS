@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 05 Oct 2017 15:30:41 +0800.
+ * Date: Sun, 08 Oct 2017 10:41:00 +0800.
  */
 
 namespace App\Models;
@@ -27,13 +27,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $residentType
  * @property bool $status
  * @property string $imagePath
+ * @property string $address
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $barangaycards
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
  * @property \Illuminate\Database\Eloquent\Collection $collections
  * @property \Illuminate\Database\Eloquent\Collection $documentrequests
  * @property \Illuminate\Database\Eloquent\Collection $families
  * @property \Illuminate\Database\Eloquent\Collection $familymembers
- * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  * @property \Illuminate\Database\Eloquent\Collection $logs
  * @property \Illuminate\Database\Eloquent\Collection $participants
  * @property \Illuminate\Database\Eloquent\Collection $reservations
@@ -71,8 +72,14 @@ class Resident extends Eloquent
 		'disabilities',
 		'residentType',
 		'status',
-		'imagePath'
+		'imagePath',
+		'address'
 	];
+
+	public function barangaycards()
+	{
+		return $this->hasMany(\App\Models\Barangaycard::class, 'rID');
+	}
 
 	public function businessregistrations()
 	{
@@ -97,11 +104,6 @@ class Resident extends Eloquent
 	public function familymembers()
 	{
 		return $this->hasMany(\App\Models\Familymember::class, 'peoplePrimeID');
-	}
-
-	public function generaladdresses()
-	{
-		return $this->hasMany(\App\Models\Generaladdress::class, 'residentPrimeID');
 	}
 
 	public function logs()

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 05 Oct 2017 15:30:40 +0800.
+ * Date: Sun, 08 Oct 2017 10:41:00 +0800.
  */
 
 namespace App\Models;
@@ -24,7 +24,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $documentHeaderPrimeID
  * @property int $residentPrimeID
  * @property int $peoplePrimeID
+ * @property int $cardID
  * 
+ * @property \App\Models\Barangaycard $barangaycard
  * @property \App\Models\Documentrequest $documentrequest
  * @property \App\Models\Person $person
  * @property \App\Models\Reservation $reservation
@@ -45,7 +47,8 @@ class Collection extends Eloquent
 		'reservationprimeID' => 'int',
 		'documentHeaderPrimeID' => 'int',
 		'residentPrimeID' => 'int',
-		'peoplePrimeID' => 'int'
+		'peoplePrimeID' => 'int',
+		'cardID' => 'int'
 	];
 
 	protected $dates = [
@@ -64,8 +67,14 @@ class Collection extends Eloquent
 		'reservationprimeID',
 		'documentHeaderPrimeID',
 		'residentPrimeID',
-		'peoplePrimeID'
+		'peoplePrimeID',
+		'cardID'
 	];
+
+	public function barangaycard()
+	{
+		return $this->belongsTo(\App\Models\Barangaycard::class, 'cardID');
+	}
 
 	public function documentrequest()
 	{

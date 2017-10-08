@@ -31,6 +31,9 @@ class CreateUtilitiesTable extends Migration {
 			$table->string('serviceRegPK', 30);
 			$table->string('sponsorPK', 30);
 			$table->string('collectionPK', 30);
+			$table->float('barangayIDAmount', 10, 0);
+			$table->boolean('expirationID')->default(1);
+			$table->integer('yearsOfExpiration')->nullable()->default(2);
 		});
 	}
 

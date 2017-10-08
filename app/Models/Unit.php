@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 05 Oct 2017 15:30:41 +0800.
+ * Date: Sun, 08 Oct 2017 10:41:00 +0800.
  */
 
 namespace App\Models;
@@ -19,7 +19,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $buildingID
  * 
  * @property \App\Models\Building $building
- * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  *
  * @package App\Models
  */
@@ -44,10 +43,5 @@ class Unit extends Eloquent
 	public function building()
 	{
 		return $this->belongsTo(\App\Models\Building::class, 'buildingID');
-	}
-
-	public function generaladdresses()
-	{
-		return $this->hasMany(\App\Models\Generaladdress::class, 'unitID');
 	}
 }
