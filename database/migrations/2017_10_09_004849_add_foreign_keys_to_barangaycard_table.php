@@ -14,6 +14,7 @@ class AddForeignKeysToBarangaycardTable extends Migration {
 	{
 		Schema::table('barangaycard', function(Blueprint $table)
 		{
+			$table->foreign('memID', 'memID')->references('familyMemberPrimeID')->on('familymembers')->onUpdate('CASCADE')->onDelete('RESTRICT');
 			$table->foreign('rID', 'rID')->references('residentPrimeID')->on('residents')->onUpdate('CASCADE')->onDelete('RESTRICT');
 		});
 	}
@@ -28,6 +29,7 @@ class AddForeignKeysToBarangaycardTable extends Migration {
 	{
 		Schema::table('barangaycard', function(Blueprint $table)
 		{
+			$table->dropForeign('memID');
 			$table->dropForeign('rID');
 		});
 	}

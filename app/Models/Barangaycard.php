@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 08 Oct 2017 10:40:59 +0800.
+ * Date: Mon, 09 Oct 2017 00:48:55 +0800.
  */
 
 namespace App\Models;
@@ -16,7 +16,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $rID
  * @property \Carbon\Carbon $expirationDate
  * @property \Carbon\Carbon $dateIssued
+ * @property int $released
+ * @property int $status
+ * @property int $memID
  * 
+ * @property \App\Models\Familymember $familymember
  * @property \App\Models\Resident $resident
  * @property \Illuminate\Database\Eloquent\Collection $collections
  *
@@ -29,7 +33,10 @@ class Barangaycard extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'rID' => 'int'
+		'rID' => 'int',
+		'released' => 'int',
+		'status' => 'int',
+		'memID' => 'int'
 	];
 
 	protected $dates = [
@@ -40,8 +47,16 @@ class Barangaycard extends Eloquent
 	protected $fillable = [
 		'rID',
 		'expirationDate',
-		'dateIssued'
+		'dateIssued',
+		'released',
+		'status',
+		'memID'
 	];
+
+	public function familymember()
+	{
+		return $this->belongsTo(\App\Models\Familymember::class, 'memID');
+	}
 
 	public function resident()
 	{

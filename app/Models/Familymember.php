@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sun, 08 Oct 2017 10:41:00 +0800.
+ * Date: Mon, 09 Oct 2017 00:48:55 +0800.
  */
 
 namespace App\Models;
@@ -20,6 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property \App\Models\Family $family
  * @property \App\Models\Resident $resident
+ * @property \Illuminate\Database\Eloquent\Collection $barangaycards
  *
  * @package App\Models
  */
@@ -49,5 +50,10 @@ class Familymember extends Eloquent
 	public function resident()
 	{
 		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
+	}
+
+	public function barangaycards()
+	{
+		return $this->hasMany(\App\Models\Barangaycard::class, 'memID');
 	}
 }
