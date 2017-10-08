@@ -157,7 +157,7 @@
 															<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 															<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																<a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-																<a href="#" class="dropdown-item print" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-card"></i> Barangay ID</a>
+																<a href="#" class="dropdown-item print" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-card"></i> Issue a Barangay ID</a>
 
 																@foreach($memberss as $member)
 
@@ -332,7 +332,10 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
-										
+											@foreach($util as $utill)
+
+											<h4 align="center">AMOUNT: P{{$utill->barangayIDAmount}}</h4>
+											<h3 align="center">Preview:</h3>
 										
 											
 											<div id="mainCard">
@@ -341,14 +344,15 @@
 													
 													
 													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
-														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='./system-assets/ico/brgy_logo.png'></img>
+														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$utill->brgyLogoPath}}'></img>
 														<h6 style="text-align:center;color:blue;padding-top:5px">
 															REPUBLIC OF THE PHILIPPINES<br>
 															CITY OF MANILA<br>
 															OFFICE OF THE BARANGAY CHAIRMAN<br>
-															BARANGAY 629<br>
+															{{$utill->barangayName}}<br>
 														</h6>
 													</div>
+													
 													<div style="border:1px solid;height:20px;width:500px;background-color:rgb(0, 224, 0)">
 														<p align="center">Barangay Resident Identification Card</p>
 													</div>
@@ -361,6 +365,9 @@
 															<p>
 															___________________________<br>
 															CARDHOLDER SIGNATURE<br>
+															@if($utill->expirationID==1)
+															Valid until: <span id="validity"></span>
+															@endif
 															</p>
 														</div>
 
@@ -375,13 +382,11 @@
 
 												<div style="display: table;width:88%;table-layout:fixed;margin-left:32px;">
 													<div style="padding:5px;display:table-cell;color:blue;background-color:lightgrey;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 0px 0px 10px;">
-														<p style="color:black">
-															<br>
+														<p style="color:black"><b>
 															BIRTHDAY: 
 																<span style="color:blue" id="bdayID">JUNE 18, 1998</span><br>
 															ADDRESS: 
-																<span style="color:blue">258 H TERESA ST.<br>
-																	STA MESA, MANILA
+																<span style="color:blue" id="addressID">
 																</span><br>
 															CONTACT NO.: 
 																<span style="color:blue" id="contactNumberID">09263526321</span><br>
@@ -394,18 +399,33 @@
 																	STA MESA, MANILA
 																</span><br>
 															CONTACT NO.: 
-																<span style="color:blue">09324606293</span>
+																<span style="color:blue">09324606293</span></b>
 														</p>
 													</div>
 
 													<div style="display:table-cell;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 10px 10px 0px;" id="cardContentContainer">
+														<p style="color:black;font-size:12px;"><i>
+															Holder is a bonafide constituent of this
+															barangay and is entitled to all privilege
+															and services holder may require. <br> <br>
+
+															If found please return to the Barangay
+															Secretariat, Barangay 629, Sta Mesa, Manila.</i>
+														</p>
 														
+														<p align="center" style="color:black">
+															<img src="system-assets/images/sign/samplesignature.png" alt="sign" width="70%" height="30%"><br>
+															<span style="font-size:15px"><b>HON. JOSEPH N. BRIONES</b></span><br>
+															Barangay Chairman
+														</p>
 													</div>
 												</div>
 												
 												<br>
+											
+											
 											<div align="center">
-													<button class="btn btn-success" id="printID" value="Print">PRINT</button>
+													<button class="btn btn-success" id="issueID" value="Print">Issue</button>
 											</div>
 
 											</div>
@@ -446,7 +466,7 @@
 										
 										
 
-
+									@endforeach
 									</div>
 									<!-- End of Modal Body -->
 								</div>
@@ -879,45 +899,18 @@
 
 												<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 												<div class="row">
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Address Type</label>
-														<select name="addressType" id="addressType" class="form-control">
-															<option value"Permanent Address">Permanent Address</option>
-															<option value"Current Address">Current Address</option>
-														</select>
-													</div>
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Street</label>
-														<select name="street" id="street" class="form-control street">
-															@foreach($streetss as $street)
-																<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
-															@endforeach
-														</select>
+													<div class="form-group col-md-12 mb-2">
+														<label for="userinput3">Address</label>
+														{!! Form::text('address', null, ['id' => 'address','class' => 'form-control border-primary', 'placeholder'=> 'ex. 258-H Teresa St. Sta Mesa, Manila']) !!}
 													</div>
 												</div>
-												<div class="row">
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput4">Lot</label>
-														<select name="lot" id="lot" class="form-control lot" disabled></select>
-													</div>
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput4">Building</label>
-														<select name="building" id="building" class="form-control building" disabled></select>
-													</div>
-												</div>
-												<div class="row">
-													
-													<div class="form-group col-md-6 mb-2">
-														<label for="userinput4">Unit</label>
-														<select name="unit" id="unit" class="form-control unit" disabled></select>
-													</div>
-												</div>
+												
 
 												<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
 												<div class="row">
 													<div class="form-group col-xs-12 mb-2">
 														<label for="userinput5">Current Work (Enter "None" if not applicable)</label>
-														<input class="form-control border-primary" name="work" id="work" type="text" id="userinput5" />
+														<input class="form-control border-primary" name="work" id="work" type="text" value="None" id="userinput5" />
 													</div>
 												</div>
 												<div class="row">
@@ -1112,40 +1105,12 @@
 
 									<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 									<div class="row">
-										<div class="form-group col-md-6 mb-2">
-											<label for="userinput3">Address Type</label>
-											<select name="addressType" id="eaddressType" class="form-control">
-												<option value"Permanent Address">Permanent Address</option>
-												<option value"Current Address">Current Address</option>
-											</select>
-										</div>
-										<div class="form-group col-md-6 mb-2">
-											<label for="userinput3">Street</label>
-											<select name="street" id="estreet" class="form-control estreet">
-												@foreach($streetss as $street)
-													<option value= {{$street -> streetID}}>{{$street -> streetName}}</option>
-												@endforeach
-											</select>
+										<div class="form-group col-md-12 mb-2">
+											<label for="userinput3">Address</label>
+											{!! Form::text('eaddress', null, ['id' => 'eaddress','class' => 'form-control border-primary']) !!}
 										</div>
 									</div>
-									<div class="row">
-										<div class="form-group col-md-6 mb-2">
-											<label for="userinput4">Lot</label>
-											<select name="lot" id="elot" class="form-control elot" disabled></select>
-										</div>
-										<div class="form-group col-md-6 mb-2">
-											<label for="userinput4">Building</label>
-											<select name="building" id="ebuilding" class="form-control ebuilding" disabled></select>
-										</div>
-									</div>
-									<div class="row">
-										
-										<div class="form-group col-md-6 mb-2">
-											<label for="userinput4">Unit</label>
-											<select name="unit" id="eunit" class="form-control eunit" disabled></select>
-										</div>
-									</div>
-
+									
 									<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
 									<div class="row">
 										<div class="form-group col-xs-12 mb-2">
@@ -1250,8 +1215,6 @@
 			var id = $(this).data('value');
 		
 
-			
-
 			$.ajax({
 				type: 'get',
 				url: "{{ url('/resident/getEdit') }}", 
@@ -1276,7 +1239,7 @@
 						$('#bdayID').html(d);
 						$('#nameID').html(data[index].firstName + " " + m + ". " + data[index].lastName);
 						$('#contactNumberID').html(data[index].contactNumber);
-
+						$('#addressID').html(data[index].address);
 						$('#idModal').modal('show');
 						
 					}
@@ -1296,25 +1259,32 @@
 
 		});
 
-		$("#printID").click(function () {
-			html2pdf($("#mainCard")[0], {
-				margin: 	  0, 
-				filename:     "BarangayID-" + getStringDateTime() + ".pdf", 
-				image:        { type: 'jpeg', quality: 1 },
-				html2canvas:  { dpi: 300, letterRendering: true },
-				jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'landscape' }
-			});
+		$("#issueID").click(function () {
+			
+			swal({
+				title: "Are you sure you want to issue a barangay ID?",
+				text: "",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "ISSUE",
+				closeOnConfirm: false
+				},
+				function() {
+					swal({
+						title: "Proceed to payment?",
+						text: "",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#DD6B55",
+						confirmButtonText: "PROCEED",
+						closeOnConfirm: false
+						},
+						function() {
+							window.location.href = "/collection";
+						});
+				});
 
-			html2canvas($("#mainCard"), {
-				width: 816, 
-				height: 1056, 
-				onrendered: function(newDraw) {
-					console.log("Written!");
-					pdfDoc.addImage(newDraw, 'png', 0, 0);
-					pdfDoc.save("DOC-" + getStringDateTime() + ".pdf");
-				}, 
-				useCORS: true
-			});
 		});
 
 
@@ -1385,7 +1355,7 @@
 												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
 												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
 													'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
-													'<a href="#" class="dropdown-item add" name="btnMember" data-value="' + data[index].residentPrimeID+ '"><i class="icon-outbox"></i> Add to Family</a>' +
+													'<a href="#" class="dropdown-item print" name="btnMember" data-value="' + data[index].residentPrimeID+ '"><i class="icon-outbox"></i> Issue a barangay ID</a>' +
 													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].residentPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
 													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
 												'</span>' +

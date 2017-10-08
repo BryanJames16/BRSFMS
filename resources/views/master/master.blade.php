@@ -510,6 +510,12 @@
 										</a>
 									</li>
 									@endif
+									<li id="business-registration-id">
+										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-truck"></i>
+											<span>ID Releasing</span>
+										</a>
+									</li>
 								</ul>
 							</li>
 

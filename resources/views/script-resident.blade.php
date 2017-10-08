@@ -23,16 +23,6 @@
 					else {
 						$("#residentID").val(data);
 					}
-
-					lotRefresh();
-
-					setTimeout(function () {
-						buildingRefresh();
-					}, 500);
-
-					setTimeout(function () {
-						unitRefresh();
-					}, 2000);
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -73,11 +63,7 @@
 					"seniorCitizenID": $("#seniorCitizenID").val(), 
 					"disabilities": $("#disabilities").val(), 
 					"residentType": $("#residentType").val(),
-					"streetID": $("#street").val(),
-					"lotID": $("#lot").val(),
-					"buildingID": $("#building").val(),
-					"unitID": $("#unit").val(),
-					"addressType": $("#addressType").val(),
+					"address": $("#address").val(),
 					"currentWork": $("#work").val(),
 					"monthlyIncome": $("#salary").val(),
 					
@@ -155,6 +141,7 @@
 					
 						$('#viewBirth').html(
 							"<p style='font-size:15px' align='center'>"+
+							"Address: " + data[index].address + "<br>" +
 							"Birthday: " + d +
 							"</p>"
 							);
@@ -306,16 +293,11 @@
 				{
 					console.log(data);
 					data = $.parseJSON(data);
-					var lotid = "";
-					var buildingid = "";
-					var unitid = "";
-					
+
 					for (index in data)
 					{
 						
 						var frm = $('#frm-update');
-						frm.find('#estreet').val(data[index].streetID);
-						elotRefresh();
 
 						frm.find('#eresidentPrimeID').val(data[index].residentPrimeID);
 						frm.find('#eresidentID').val(data[index].residentID);
@@ -324,6 +306,7 @@
 						frm.find('#elastName').val(data[index].lastName);
 						frm.find('#esuffix').val(data[index].suffix);
 						frm.find('#egender').val(data[index].gender);
+						frm.find('#eaddress').val(data[index].address);
 						frm.find('#ebirthDate').val(data[index].birthDate);
 						frm.find('#ecivilStatus').val(data[index].civilStatus);
 						frm.find('#eseniorCitizenID').val(data[index].seniorCitizenID);
@@ -338,37 +321,13 @@
 						frm.find('#esalary').val(data[index].monthlyIncome);
 						
 
-						lotid= data[index].lotID;
-						buildingid= data[index].buildingID;
-						unitid= data[index].unitID;
-						
 						
 
 						$('#editModal').modal('show');
 						
 					}
 
-					setTimeout(function () {
-						frm.find('#elot').val(lotid);
-					}, 500);
 					
-					setTimeout(function () {
-						ebuildingRefresh();
-
-						setTimeout(function () {
-							frm.find('#ebuilding').val(buildingid);
-						}, 1000);
-						
-					}, 500);
-
-					setTimeout(function () {
-						eunitRefresh();
-
-						setTimeout(function () {
-							frm.find('#eunit').val(unitid);
-						}, 1000);
-						
-					}, 2000);
 					
 
 					
@@ -414,12 +373,7 @@
 						"disabilities": $("#edisabilities").val(),
 						"residentType": $("#eresidentType").val(),
 						"contactNumber": $("#econtactNumber").val(),
-						"personAddressID": $("#epersonAddressID").val(),
-						"lotID": $("#elot").val(),
-						"streetID": $("#estreet").val(),
-						"unitID": $("#eunit").val(),
-						"buildingID": $("#ebuilding").val(),
-						"addressType": $("#eaddressType").val(),
+						"address": $("#eaddress").val(),
 						"currentWork": $("#ework").val(),
 						"monthlyIncome": $("#esalary").val(),
 						"hiddenWork": $("#hiddenIncome").val(),

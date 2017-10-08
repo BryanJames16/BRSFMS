@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Resident;
-use \App\Models\Lot;
 
-use \App\Models\Unit;
-use \App\Models\Street;
 use \App\Models\Family;
 use \App\Models\Utility;
-use \App\Models\Generaladdress;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
 use Carbon\Carbon;
@@ -32,10 +28,7 @@ class ResidentController extends Controller
     												-> where('status','1')
                                                     -> get();
         
-        $streetss = Street::select('streetID','streetName', 'status')
-    												-> where('archive','0')
-                                                    -> get();
-
+        
         $mem = Familymember::select('peoplePrimeID')->get();
 
         $memberss = \DB::table('residents') ->select('residentPrimeID')
@@ -59,11 +52,8 @@ class ResidentController extends Controller
                                         ->where('families.archive', '=', 0) 
                                         ->get();
 
-    	return view('resident',
-                                ['streets'=>Street::where([['status', 1],['archive', 0]])->pluck('streetName', 'streetID')],
-		                        ['lots'=>Lot::where([['status', 1],['archive', 0]])->pluck('lotCode', 'lotID')])
+    	return view('resident')
                                 -> with('residents', $residents)
-                                -> with('streetss', $streetss)
                                 -> with('families',$families)
                                 -> with('memberss',$memberss);
     }
@@ -124,18 +114,12 @@ class ResidentController extends Controller
                                                 'birthDate' => $r -> input('birthDate'),
                                                 'civilStatus' => $r -> input('civilStatus'),
                                                 'seniorCitizenID' => $r -> input('seniorCitizenID'),
+                                                'address' => $r -> input('address'),
                                                 'disabilities' => $r -> input('disabilities'),
                                                 'residentType' => $r -> input('residentType'),
                                                 'status' => 1]);
 
             $findRet = Resident::all() -> last();
-                                                
-            $genAddRet = Generaladdress::insert(['addressType' => $r -> input('addressType'),
-                                                'residentPrimeID' => $findRet -> residentPrimeID,
-                                                'streetID' => $r -> input('streetID'),
-                                                'lotID' => $r -> input('lotID'),
-                                                'buildingID' => $r -> input('buildingID'),
-                                                'unitID' => $r -> input('unitID')]);
 
             if($r -> input('currentWork')!="") {
                 $resRet = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
@@ -263,15 +247,11 @@ class ResidentController extends Controller
                                                                 'lastName','middleName','suffix', 'residents.status', 
                                                                 'contactNumber', 'gender', 'birthDate',
                                                                 'civilStatus','seniorCitizenID','disabilities',
-                                                                'residentType','generaladdresses.addressType',
-                                                                'generaladdresses.streetID','generaladdresses.lotID',
-                                                                'generaladdresses.unitID','generaladdresses.buildingID',
-                                                                'generaladdresses.personAddressID', 'residentbackgrounds.currentWork', 
-                                                                'residentBackgrounds.monthlyIncome') 
-                                        ->join('generaladdresses', 'residents.residentPrimeID', '=', 'generaladdresses.residentPrimeID')
+                                                                'residentType','residentbackgrounds.currentWork', 
+                                                                'residentBackgrounds.monthlyIncome','address') 
                                         ->join('residentBackgrounds', 'residents.residentPrimeID', '=', 'residentBackgrounds.peoplePrimeID')
                                         ->where('residents.status', '=', 1) 
-                                        ->where('generaladdresses.residentPrimeID', '=', $r->input('residentPrimeID'))
+                                        ->where('residents.residentPrimeID', '=', $r->input('residentPrimeID')) 
                                         ->orderby('dateStarted','desc')
                                         ->orderby('backgroundPrimeID','desc') 
                                         ->limit(1)
@@ -334,47 +314,6 @@ class ResidentController extends Controller
     }
 
 
-    public function getLot(Request $r) {
-        if($r->ajax()) {
-            return json_encode( \DB::table('lots') ->select('lotID','lotCode') 
-                                        ->join('streets', 'lots.streetID', '=', 'streets.streetID')
-                                        ->where('lots.status', '=', 1)
-                                        ->where('lots.archive', '=', 0)
-                                        ->where('lots.streetID', '=', $r->input('streetID'))
-                                        ->get());
-        }
-        else {
-            return view('errors.403');
-        }
-    }
-
-    public function getBuilding(Request $r) {
-        if($r->ajax()) {
-            return json_encode( \DB::table('buildings') ->select('buildingID','buildingName') 
-                                        ->join('lots', 'buildings.lotID', '=', 'lots.lotID')
-                                        ->where('buildings.status', '=', 1)
-                                        ->where('buildings.archive', '=', 0)
-                                        ->where('buildings.lotID', '=', $r->input('lotID'))
-                                        ->get());
-        }
-        else {
-            return view('errors.403');
-        }
-    }
-
-    public function getUnit(Request $r) {
-        if($r->ajax()) {
-            return json_encode( \DB::table('units') ->select('unitID','unitCode') 
-                                        ->join('buildings', 'units.buildingID', '=', 'buildings.buildingID')
-                                        ->where('units.status', '=', 1)
-                                        ->where('units.archive', '=', 0)
-                                        ->where('buildings.buildingID', '=', $r->input('buildingID'))
-                                        ->get());
-        }
-        else {
-            return view('errors.403');
-        }
-    }
 
     public function delete(Request $r) {
         if ($r->ajax()) {
@@ -456,15 +395,8 @@ class ResidentController extends Controller
             $type->disabilities = $r->input('disabilities');
             $type->residentType = $r->input('residentType');
             $type->contactNumber = $r->input('contactNumber');
+            $type->address = $r->input('address');
             $type->save();
-
-            $address = GeneralAddress::find($r->input('personAddressID'));
-            $address->addressType = $r->input('addressType');
-            $address->streetID = $r->input('streetID');
-            $address->buildingID = $r->input('buildingID');
-            $address->unitID = $r->input('unitID');
-            $address->lotID = $r->input('lotID');
-            $address->save();
 
             if( ($r -> input('work')!= $r -> input('hiddenWork')) || 
                     ($r -> input('salary')!=$r -> input('hiddenIncome')) ) {

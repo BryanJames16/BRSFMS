@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use \App\Models\Documentrequest;
 use \App\Models\Reservation;
 use \App\Models\User;
+use \App\Models\Utility;
 use \App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +40,11 @@ class AppServiceProvider extends ServiceProvider
             $us= User::select('id','firstName', 'middleName','lastName')                 
                                         ->where('id','!=', $id)
                                         ->get();
+
+            $util= Utility::select('brgyLogoPath','barangayName', 'chairmanName','address','barangayIDAmount',
+                                            'expirationID','yearsOfExpiration')        
+                                        ->get();
         
-            //$view->with('messages',$messages);
 
             $mess = Message::where("receiverID", "=", $id)
                             ->where('isRead', 0)
@@ -57,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('messages',$messages);
             View::share('mess',$mess);
             View::share('us',$us);
+            View::share('util',$util);
             }
         }
         );
