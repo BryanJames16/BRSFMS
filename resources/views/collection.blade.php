@@ -18,6 +18,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
 
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
@@ -88,64 +90,126 @@
 									<i class="icon-edit2"></i> Add New Collection 
 								</button>
                             </p>
+							<hr>
+							<label for="switcherySize10" class="card-title mr-1">Pending</label>
+							<input type="checkbox" id="switchStatus" class="switchery" data-size="lg" />
+							<label for="switcherySize10" class="card-title ml-1">Paid</label>
 
-                            <table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
-                    			<thead>
-                    				<tr>
-										<td>Collection ID</td>
-										<td>Customer</td>
-										<td>Description</td>
-										<td>Collection From</td>
-										<td>Amount</td>
-										<td>Status</td>
-										<td>Actions</td>
-									</tr>
-                    			</thead>
+							<div class="card-block">
+								<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
+									<li class="nav-item">
+										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#id" aria-controls="active3" aria-expanded="true">Barangay ID</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#reservation" aria-controls="link3" aria-expanded="false">Reservation</a>
+									</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane fade active in" id="id" aria-labelledby="active-tab3" aria-expanded="true">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-ID">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Customer</th>
+													<th>Date</th>
+													<th>Collection From</th>
+													<th>Amount</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
 
-	                    		<tbody>
-	                    			@foreach($collections as $collection)
-                                    <tr>
-                                        <td>{{ $collection -> collectionID }}</td>
-                                        <td>
-                                            <p>
-                                            {{ $collection -> firstName }}
-                                            {{ $collection -> middleName }}
-                                            {{ $collection -> lastName }}
-                                            ({{ $collection -> residentID }})
-                                            </p>
-                                        </td>
-										<td>{{ $collection -> reservationName }}</td>
-                                        <td>
-											@if($collection -> collectionType == 1)
-												Barangay ID
-											@elseif($collection -> collectionType == 2) 
-												Document Request
-											@elseif($collection -> collectionType == 3) 
-												Facility Reservation
-											@elseif($collection -> collectionType == 4) 
-												Services
-											@else
-												Business Registration
-											@endif 
-										</td>
-                                        <td>{{ $collection -> amount }}</td>
-                                        <td>{{ $collection -> status }}</td>
-                                        <td>
-											<span class="dropdown">
-											<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-											<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-												@if($collection -> status == "Pending" || $collection -> status == "pending")
-													<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
-												@else 
-													<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
-												@endif
-											</span>
-											</span>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-	                    		</tbody>
-	                    	</table>
+											<tbody>
+												@foreach($collID as $cID)
+													<tr>
+														<td>{{ $cID -> collectionID }}</td>
+														<td>{{ $cID -> lastName}}, {{$cID -> firstName}} {{$cID -> middleName}}</td>
+														<td>{{ date('F j, Y',strtotime($cID -> collectionDate)) }}</td>
+														<td>Barangay ID</td>
+														<td>{{ $cID -> amount }}</td>
+														<td>
+															@if($cID -> status == "Pending")
+																<span class="tag round tag-info">Pending</span>
+															@else
+																<span class="tag round tag-success">Paid</span>
+															@endif
+														</td>
+														<td>
+															
+																@if($cID -> status == "Pending" || $cID -> status == "pending")
+																	<a href="#" class="btn btn-info idPay" data-value="{{$cID->collectionPrimeID}}">Payment</a>
+																@else 
+																	<a href="#" class="btn btn-warning idReceipt" data-value="{{ $cID -> collectionPrimeID }}">Show Receipt</a>
+																@endif
+															
+														</td>
+													</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+									<div class="tab-pane fade" id="reservation" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+											<thead>
+												<tr>
+													<td>Collection ID</td>
+													<td>Customer</td>
+													<td>Description</td>
+													<td>Collection From</td>
+													<td>Amount</td>
+													<td>Status</td>
+													<td>Actions</td>
+												</tr>
+											</thead>	
+											<tbody>
+												@foreach($collections as $collection)
+												<tr>
+													<td>{{ $collection -> collectionID }}</td>
+													<td>
+														<p>
+														{{ $collection -> firstName }}
+														{{ $collection -> middleName }}
+														{{ $collection -> lastName }}
+														({{ $collection -> residentID }})
+														</p>
+													</td>
+													<td>{{ $collection -> reservationName }}</td>
+													<td>
+														@if($collection -> collectionType == 1)
+															Barangay ID
+														@elseif($collection -> collectionType == 2) 
+															Document Request
+														@elseif($collection -> collectionType == 3) 
+															Facility Reservation
+														@elseif($collection -> collectionType == 4) 
+															Services
+														@else
+															Business Registration
+														@endif 
+													</td>
+													<td>{{ $collection -> amount }}</td>
+													<td>{{ $collection -> status }}</td>
+													<td>
+														<span class="dropdown">
+														<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+														<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+															@if($collection -> status == "Pending" || $collection -> status == "pending")
+																<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
+															@else 
+																<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
+															@endif
+														</span>
+														</span>
+													</td>
+												</tr>
+												@endforeach
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
 
 							<!-- Modal Area -->
 							<div class="modal animated bounceIn text-xs-left" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
@@ -275,6 +339,70 @@
 													</p>
 												</div>												
 											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal Area -->
+							<div class="modal animated bounceIn text-xs-left" id="idPayModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-xs" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Barangay ID Payment</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											<form id="frm-IDPay">
+											<input type="hidden" id="idCollID"></input>
+
+											<h3 align="center">Amount To Pay:</h3> 
+											<br>
+											<h2 align="center">
+												@foreach($util as $ut)
+												₱<input style="width:40%" type="number" value="{{ $ut -> barangayIDAmount }}" id="idAmountToPay" disabled></input> 
+												@endforeach	
+											</h2>
+											<br>
+											<h3 align="center">Cash: </h3>
+											<br>
+											<p align="center">
+												<input type="text" id="idCash"></input>
+											</p> 
+											
+											<br>
+											<br>
+											<p align="center">
+												<button type="button" class="btn btn-warning mr-1" id="btnIDPay">Pay</button>
+											</p>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal Area -->
+							<div class="modal animated bounceIn text-xs-left" id="idReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-xs" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											
+											<div id="mainReceipt">
+
+											</div>
+
+											<p align="center">
+												<button type="button" class="btn btn-info mr-1" id="idReceiptPrint">Print</button>
+											</p>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -416,6 +544,91 @@
 
         $("#btnAddModal").on('click', function () {
             $("#addModal").modal('show');
+        });
+
+		$('#switchStatus').change(function(){
+			if(this.checked)
+			{
+				alert('Checked!');
+			}
+			else
+			{
+				
+			}
+		});
+
+		$(".idPay").on('click', function () {
+            
+			var id = $(this).data('value');
+			
+			$('#idCollID').val(id);
+
+			$("#idPayModal").modal('show');
+
+        });
+
+		$(".idReceipt").on('click', function () {
+            
+			var id = $(this).data('value');
+			
+			$('#idCollID').val(id);
+
+			$("#idReceiptModal").modal('show');
+
+        });
+
+		$("#btnIDPay").on('click', function () {
+
+			var cash = Number($('#idCash').val());
+			var amount = Number($('#idAmountToPay').val());
+			var id = $('#idCollID').val();
+
+			if(cash < amount)
+			{
+				swal("Insufficient Cash", 
+					"Recieved Cash is not sufficient to pay the collection!" + 
+					"\nRecieved Cash is: PHP " + cash + 
+					"\nRequired amount is: PHP " + amount, 
+					"error");
+			}
+			else if( cash >= amount)
+			{
+				$.ajax({
+					url: '{{ url("/collection/payID") }}',
+					method: 'POST', 
+					data: {
+						"recieved": cash, 
+						"collectionPrimeID": id
+					}, 
+					success: function(data) {
+						$("#idPayModal").modal('hide');
+						$("#frm-IDPay").trigger('reset');
+
+						var message = "";
+						if (Math.abs(cash - amount) > 0) {
+							message += "Change is: PHP " + Math.abs(cash - amount) + "\n";
+						}
+
+						refreshID();
+
+						swal("Successfully Paid!",
+								message, 
+								"success");
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});	
+			}
+			else{
+				
+			}
         });
 
 		$(document).ready(function () {
@@ -763,6 +976,56 @@
 				}
 			});
 		};
+
+
+		var refreshID = function() {
+			$.ajax({
+				url: "{{ url('/collection/refreshID') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-ID").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						var statusText = "";
+						var btn ='';
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].collectionDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
+						if (data[index].status == "Pending") {
+							statusText = '<span class="tag round tag-info">Pending</span>';
+							btn = '<a href="#" class="btn btn-info idPay" data-value="'+ data[index].collectionPrimeID +'">Payment</a>';
+						}
+						else {
+							statusText = '<span class="tag round tag-success">Paid</span>';
+							btn = '<a href="#" class="btn btn-info idReceipt" data-value="'+ data[index].collectionPrimeID +'">Receipt</a>';
+						}
+
+						$("#table-ID").DataTable()
+							.row.add([
+								data[index].collectionID, 
+								data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+								d,
+								'Barangay ID', 
+								"&#8369; " + data[index].amount,
+								statusText,
+								btn
+							]).draw(false);
+					}
+				}, 
+				error: function(data) {
+					swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
+				}
+			});
+		};
+
+
     </script>
 @endsection
 

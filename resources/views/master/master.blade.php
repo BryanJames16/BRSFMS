@@ -357,52 +357,6 @@
 											<i class="icon-car"></i>
 											<span>Business Category</span>
 										</a>
-									</li>			
-									<li>
-										<a href="#">
-											<i class="icon-location22"></i>
-											<span>Address</span>
-										</a>
-										<ul class="menu-content">
-											<li id="street-id">
-												<a href="/street" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-road"></i>
-													Street
-												</a>
-											</li>
-											<li id="lot-id">
-												<a href="/lot" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-enlarge"></i>
-													Lot
-												</a>
-											</li>
-											<li>
-												<a href="#">
-													<i class="icon-android-car"></i>
-													<span>Building</span>
-												</a>
-												<ul class="menu-content">
-													<li id="building-type-id">
-														<a href="/building-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-															<i class="icon-drawer"></i>
-															Building Type
-														</a>
-													</li>
-													<li id="building-id">
-														<a href="/building" data-i18n="nav.navbars.nav_dark" class="menu-item">
-															<i class="icon-shop2"></i>
-															Building
-														</a>
-													</li>
-												</ul>
-											</li>
-											<li id="unit-id">
-												<a href="/unit" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-compass2"></i>
-													Unit
-												</a>
-											</li>
-										</ul>
 									</li>
 								</ul>
 							</li>
@@ -510,9 +464,9 @@
 										</a>
 									</li>
 									@endif
-									<li id="business-registration-id">
-										<a href="/business-registration" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-truck"></i>
+									<li id="id-releasing-id">
+										<a href="/id-release" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-card"></i>
 											<span>ID Releasing</span>
 										</a>
 									</li>

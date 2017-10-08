@@ -130,10 +130,13 @@ Route::get('/resident/getHouse', 'ResidentController@getHouse');
 Route::get('/resident/getLot', 'ResidentController@getLot');
 Route::get('/resident/getUnit', 'ResidentController@getUnit');
 Route::get('/resident/nextPK', 'ResidentController@nextPK');
+Route::get('/resident/getPer', 'ResidentController@getPer');
+Route::get('/resident/getMemDet', 'ResidentController@getMemDet');
 Route::get('/resident/refresh', 'ResidentController@refresh');
 Route::post('/resident/delete', 'ResidentController@delete');
 Route::post('/resident/join', 'ResidentController@join');
 Route::post('/resident/store', 'ResidentController@store');
+Route::post('/resident/issue', 'ResidentController@issue');
 Route::post('/resident/update', 'ResidentController@edit');
 Route::post('/resident/addImage', 'ResidentController@addImage');
 Route::post('/resident/memberRemove', 'ResidentController@memberRemove');
@@ -197,6 +200,7 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 
 // Collection
 Route::get('/collection/gCollect', 'CollectionController@getCollection');
+Route::get('/collection/refreshID', 'CollectionController@refreshID');
 Route::get('/collection/gHeader', 'CollectionController@getHeader');
 Route::get('/collection/getResID', 'CollectionController@getResID');
 Route::get('/collection/gAmount', 'CollectionController@getAmount');
@@ -204,6 +208,7 @@ Route::get('/collection/gFResident', 'CollectionController@getReserveRCollection
 Route::get('/collection/gFNesident', 'CollectionController@getReserveNCollection');
 Route::get('/collection/gTransact', 'CollectionController@getTransact');
 Route::post('/collection/pay', 'CollectionController@payCollection');
+Route::post('/collection/payID', 'CollectionController@payID');
 Route::post('/collection/paidRes', 'CollectionController@paidRes');
 
 // Service-Transactions
@@ -245,6 +250,11 @@ Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::get('/utilities/refresh', 'UtilitiesController@refresh');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
+
+/*ID RELEASE*/
+Route::get('/id-release/getEdit', 'IDReleasingController@getEdit');
+Route::get('/id-release/refresh', 'IDReleasingController@refresh');
+Route::post('/id-release/release', 'IDReleasingController@release');
 
 /* QUERY RESIDENT */
 Route::get('/query/resident/submit', 'QueryResidentController@getQuery');
@@ -288,6 +298,7 @@ Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict')
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////
 
+Route::resource('/id-release', 'IDReleasingController');
 Route::resource('/building', 'BuildingController');
 Route::resource('/building-type', 'BuildingTypeController');
 Route::resource('/business-category', 'BusinessCategoryController');

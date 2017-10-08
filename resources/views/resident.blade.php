@@ -321,7 +321,7 @@
 
 						<!--Barangay ID Modal -->
 						<div class="modal fade text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
-							<div class="modal-dialog " role="document">
+							<div class="modal-dialog modal-xl" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -332,15 +332,23 @@
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
+											
+											
+											
 											@foreach($util as $utill)
+
+											<input type="hidden" id="amount" value="{{$utill->barangayIDAmount}}"></input>
+											<input type="hidden" id="yearsOfExpiration" value="{{$utill->yearsOfExpiration}}"></input>
+											<input type="hidden" id="hehe"></input>
 
 											<h4 align="center">AMOUNT: P{{$utill->barangayIDAmount}}</h4>
 											<h3 align="center">Preview:</h3>
 										
 											
-											<div id="mainCard">
+											<div class="row" id="mainCard" style="padding-left:50px;">
+												
 												<br>
-												<div style="margin:auto;width:88%;" id="cardWrapper">
+												<div class="col-md-6" style="width:40%;padding-top:20px;padding-left:70px" id="cardWrapper">
 													
 													
 													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
@@ -371,17 +379,25 @@
 															</p>
 														</div>
 
+														
+
 														<div style="background-color:white;position:absolute;top:35px;right:25px;width:96px;height:96px;border:1px solid;float:right;">
 															<p style="padding-top:25px;font-size:30px" align="center">1 X 1</p>
 														</div>
+
+														<div style="position:absolute;top:100px;right:25px;width:96px;height:96px;float:right;">
+															<p style="padding-top:30px;font-size:20px" align="center" id="bID"></p>
+														</div>
+
+														
 													</div>
 
 
 												</div>
 												<br>
 
-												<div style="display: table;width:88%;table-layout:fixed;margin-left:32px;">
-													<div style="padding:5px;display:table-cell;color:blue;background-color:lightgrey;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 0px 0px 10px;">
+												<div class="col-md-6" style="display: table;width:500px;table-layout:fixed;margin-left:100px;">
+													<div style="padding:5px;display:table-cell;color:blue;background-color:lightgrey;width:240px;height:208px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 0px 0px 10px;">
 														<p style="color:black"><b>
 															BIRTHDAY: 
 																<span style="color:blue" id="bdayID">JUNE 18, 1998</span><br>
@@ -393,17 +409,16 @@
 															<br>
 															Parent to be contacted in case of emegency<br>
 															NAME: 
-																<span style="color:blue">CLARIZA M. FUELLAS</span><br>
+																<span style="color:blue" id="emerName"></span><br>
 															ADDRESS: 
-																<span style="color:blue">258 H TERESA ST.<br>
-																	STA MESA, MANILA
+																<span style="color:blue" id="emerAddress">
 																</span><br>
 															CONTACT NO.: 
-																<span style="color:blue">09324606293</span></b>
+																<span style="color:blue" id="emerNumber"></span></b>
 														</p>
 													</div>
 
-													<div style="display:table-cell;width:250px;height:280px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 10px 10px 0px;" id="cardContentContainer">
+													<div style="display:table-cell;width:250px;height:208px;border:1px solid;border-color:rgb(0, 0, 193);padding:20px;box-sizing:border-box;border-radius:0px 10px 10px 0px;" id="cardContentContainer">
 														<p style="color:black;font-size:12px;"><i>
 															Holder is a bonafide constituent of this
 															barangay and is entitled to all privilege
@@ -424,46 +439,22 @@
 												<br>
 											
 											
+
+											</div>
+											<br>
 											<div align="center">
-													<button class="btn btn-success" id="issueID" value="Print">Issue</button>
+													
+													<h4>Person to be contacted in case of emergency: </h4>
+													<select style="width:25%" class ="form-control border-info selectPerson" name="selectPerson" id="selectPerson">
+														
+													</select>
+													<br>
+													<button class="btn btn-info" id="updateID">Update</button>
+													<button class="btn btn-success" id="issueID" value="Print" disabled>Issue</button>
 											</div>
 
-											</div>
-											
 										
 
-										
-
-										<!--
-										
-
-										<div id="idbody"  >
-											<div class="header"> <p><span style="float:left; padding-top:20px; position:absolute; margin-left:-5%; height:80px;"><img src="img/logo.png" width="40px" height="40px" /></span>Uganda Martyrs University<br /><span>KABALE CAMPUS</span></p></div>
-											<div class="body">
-											<p style="padding-top:5px;">STUDENT IDENTITY CARD NO: <span style="color:red;">RES_001231</span></p>
-											<p>BSIT</p>
-											<div class="data">
-											<div class="details">
-											<table style="margin-left:20%;">
-											<tr><td>12387623618</td></tr>
-											<tr><td>Marc Joseph</td></tr>
-											<tr><td>Fuellas</td></tr>
-											</table>
-											</div>
-											<div class="pic">
-											<img src="" width="97%" height="97%" style="margin:1.5%;"/>
-											</div>
-											</div>
-											<div class="foot">
-											<p style="float:left; padding-left:10px;">Expires: 31/02/2017</p>
-											<p style="float:right; padding-right:5px;">Holders`s Signature: <img src="" id="myDiv"></i></p>
-											</div>
-											</div>
-											<a href="">Print</a>
-											</div>
-										</div>
-										-->
-										
 										
 
 									@endforeach
@@ -1213,7 +1204,10 @@
 		
 		$(document).on('click', '.print', function(e) {
 			var id = $(this).data('value');
-		
+
+			$('#hehe').val(id);
+
+			
 
 			$.ajax({
 				type: 'get',
@@ -1240,6 +1234,28 @@
 						$('#nameID').html(data[index].firstName + " " + m + ". " + data[index].lastName);
 						$('#contactNumberID').html(data[index].contactNumber);
 						$('#addressID').html(data[index].address);
+						$('#bID').html(data[index].residentID);
+
+						$.ajax({
+								type: 'GET',
+								url: '/resident/getPer',
+								data: {'residentPrimeID': id},
+								success:function(data) {
+
+									$('#selectPerson').html('');
+									data = $.parseJSON(data);
+
+									for(index in data)
+									{
+										$('#selectPerson').append($('<option>',{
+											value: data[index].familyMemberPrimeID,
+											text: data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName
+										}));	
+									}	
+											
+								}
+						})
+
 						$('#idModal').modal('show');
 						
 					}
@@ -1259,6 +1275,34 @@
 
 		});
 
+		$("#updateID").click(function () {
+			
+
+			$.ajax({
+					type: 'GET',
+					url: '/resident/getMemDet',
+					data: {'familyMemberPrimeID': $('#selectPerson').val()},
+					success:function(data) {
+
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+							$('#emerName').html(data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName);
+							$('#emerAddress').html(data[index].address);
+							$('#emerNumber').html(data[index].contactNumber);
+						}	
+								
+					}
+			})
+
+			$("#issueID").prop('disabled',false);
+			
+			
+			
+		
+		});
+
 		$("#issueID").click(function () {
 			
 			swal({
@@ -1271,6 +1315,32 @@
 				closeOnConfirm: false
 				},
 				function() {
+
+
+					$.ajax({
+						type: "post",
+						url: "{{ url('/resident/issue') }}", 
+						data: {"_token": "{{ csrf_token() }}",
+						residentPrimeID:$('#hehe').val(),
+						yearsOfExpiration:$('#yearsOfExpiration').val(),
+						memID:$('#selectPerson').val(),
+						amount:$('#amount').val()}, 
+						success: function(data) {
+							console.log('Issue save!');
+						}, 
+						error: function(data) {
+							var message = "Error: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+							
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
+							console.log("Error: Cannot refresh table!\n" + message);
+						}
+					});
+
+
 					swal({
 						title: "Proceed to payment?",
 						text: "",

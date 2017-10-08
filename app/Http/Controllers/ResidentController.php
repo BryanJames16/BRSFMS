@@ -7,6 +7,8 @@ use \App\Models\Resident;
 
 use \App\Models\Family;
 use \App\Models\Utility;
+use \App\Models\Collection;
+use \App\Models\Barangaycard;
 use \App\Models\Familymember;
 use \App\Models\Residentbackground;
 use Carbon\Carbon;
@@ -61,6 +63,36 @@ class ResidentController extends Controller
     public function refresh(Request $r) {
         if ($r -> ajax()) {
             return json_encode(Resident::where("status", "=", "1") -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function issue(Request $r) {
+        if ($r -> ajax()) {
+
+            $d = Carbon::now()->addYears($r->input('yearsOfExpiration'));
+
+            $issue = Barangaycard::insert(['rID'=>$r -> input('residentPrimeID'),
+                                                'expirationDate' => $d,
+                                                'memID' => $r->input('memID'),
+                                                'dateIssued' => Carbon::now()]);
+
+            $findRet = Barangaycard::all() -> last();
+
+            $listOfCollection = Collection::select('collectionID') 
+                                        ->get()
+                                        ->last();
+
+            $nextKey = StaticCounter::smart_next($listOfCollection -> collectionID, SmartMove::$NUMBER);
+
+            $col = Collection::insert(['collectionID'=>$nextKey,
+                                                'collectionDate' => Carbon::now(),
+                                                'collectionType' => 1,
+                                                'amount' => $r->input('amount'),
+                                                'status' => 'Pending',
+                                                'cardID' => $findRet->cardID]);
         }
         else {
             return view('errors.403');
@@ -255,6 +287,43 @@ class ResidentController extends Controller
                                         ->orderby('dateStarted','desc')
                                         ->orderby('backgroundPrimeID','desc') 
                                         ->limit(1)
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+
+    }
+
+    public function getPer(Request $r) {
+        if($r->ajax()) {
+
+            $family = Familymember::select('familyPrimeID')
+             ->where('peoplePrimeID','=',$r->input('residentPrimeID'))
+             ->get()
+             ->last();
+
+            
+            return json_encode(\DB::table('familymembers') ->select('familyMemberPrimeID','firstName', 'middleName', 'lastName', 'peoplePrimeID', 'memberRelation') 
+                                        ->join('residents', 'familymembers.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('residents.status', '=', 1) 
+                                        ->where('familyPrimeID', '=', $family-> familyPrimeID)
+                                        ->where('peoplePrimeID','!=',$r->input('residentPrimeID')) 
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+
+    }
+
+    public function getMemDet(Request $r) {
+        if($r->ajax()) {
+
+            return json_encode(\DB::table('familymembers') ->select('address','firstName', 'middleName', 'lastName', 'contactNumber') 
+                                        ->join('residents', 'familymembers.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('residents.status', '=', 1) 
+                                        ->where('familyMemberPrimeID','=',$r->input('familyMemberPrimeID')) 
                                         ->get());
         }
         else {

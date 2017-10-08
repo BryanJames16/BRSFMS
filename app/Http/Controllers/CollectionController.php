@@ -8,6 +8,7 @@ use \App\Models\Facility;
 use \App\Models\Reservation;
 use \App\Models\Resident;
 use \App\Models\Utility;
+use \App\Models\Barangaycard;
 use Carbon\Carbon;
 
 class CollectionController extends Controller
@@ -30,7 +31,52 @@ class CollectionController extends Controller
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
                         -> where('reservations.status', '!=', 'Cancelled')
                         -> get();
-        return view('collection')->with('collections', $collections);
+
+        $collID = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                        -> join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> get();
+
+
+        return view('collection')
+                                ->with('collections', $collections)
+                                ->with('collID', $collID);
+    }
+
+    public function refreshID(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('collections') ->select('collections.collectionPrimeID', 
+                                                                'collections.collectionID', 
+                                                                'collections.collectionType', 
+                                                                'collections.collectionDate', 
+                                                                'collections.amount', 
+                                                                'collections.status', 
+                                                                'residents.firstName', 
+                                                                'residents.middleName', 
+                                                                'residents.lastName', 
+                                                                'residents.residentID', 
+                                                                'residents.residentPrimeID')
+                                            -> join('barangaycard', 
+                                                        'collections.cardID', '=', 'barangaycard.cardID') 
+                                            -> join('residents', 
+                                                        'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                                            -> get());
+        }
+        else {
+            return view('errors.403');
+        }
     }
 
     public function getCollection(Request $r) {
@@ -217,6 +263,26 @@ class CollectionController extends Controller
         $collection -> status = "Paid";
         $collection -> paymentDate = Carbon::now();
         $collection -> save();
+        return back();
+    }
+
+    public function payID(Request $r) {
+
+        $collection = Collection::find($r->input('collectionPrimeID'));
+        $collection -> recieved = $r -> input('recieved');
+        $collection -> status = "Paid";
+        $collection -> paymentDate = Carbon::now();
+        $collection -> save();
+
+        $check = Collection::select('cardID') 
+                                        ->where('collectionPrimeID','=',$r->input('collectionPrimeID'))
+                                        ->get()
+                                        ->last();
+
+        $idColl = Barangaycard::find($check-> cardID);
+        $idColl -> status = "1";
+        $idColl -> save();                      
+
         return back();
     }
 }

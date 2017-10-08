@@ -27,6 +27,7 @@ var FORMAL_CASE = "formal-case-id";
 var HOUSE = "house-number-id";
 var INDIVIDUAL = "individual-id";
 var LOT = "lot-id";
+var ID_RELEASING = "id-releasing-id";
 var MUNICIPALITY = "municipality-id";
 var PHYSICAL_DOCUMENT = "physical-document-id";
 var PROVINCE = "province-id";
