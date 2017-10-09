@@ -31,3 +31,7 @@ ks database executestructure    -   Restores database structure dump only
 ks database executedata         -   Restores database data dump only
 ks database executeseed         -   runs database seeder 
 ks database executefactory      -   runs model factory <NOT YET IMPLEMENTED>
+
+ks sys backup                   -   Runs full system backup
+ks sys SSCHED                   -   Registers backup command schedule
+ks sys RSCHED                   -   Removes backup command schedule

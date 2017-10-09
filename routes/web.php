@@ -236,6 +236,9 @@ Route::post('/service-transaction/update', 'ServiceTransactionController@update'
 Route::post('/service-transaction/updateStatus', 'ServiceTransactionController@updateStatus');
 Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@FinishStatus');
 
+// Items
+//Route::get('/items/fetch', 'ItemController@fetch');
+
 // Business Registration
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
 Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
@@ -296,6 +299,7 @@ Route::post('/users/collectionAllow', 'UsersController@collectionAllow');
 Route::post('/users/collectionRestrict', 'UsersController@collectionRestrict');
 Route::post('/users/sponsorshipAllow', 'UsersController@sponsorshipAllow');
 Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict');
+
 //////////////////////////////////////////////////////////////////////
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////
@@ -334,6 +338,7 @@ Route::resource('/query/business', 'QueryBusinessController');
 Route::resource('/users', 'UsersController');
 Route::resource('/brgy', 'BrgyController');
 Route::resource('/logs', 'LogsController');
+//Route::resource('/items', 'Items');
 
 
 //////////////////////////////////////////////////////////////////////
