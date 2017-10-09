@@ -302,40 +302,40 @@ Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict')
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////
 
-Route::resource('/id-release', 'IDReleasingController');
-Route::resource('/building', 'BuildingController');
-Route::resource('/building-type', 'BuildingTypeController');
-Route::resource('/business-category', 'BusinessCategoryController');
-Route::resource('/business-registration', 'BusinessRegistrationController');
-Route::resource('/collection', 'CollectionController');
-Route::resource('/dashboard', 'DashboardController');
-Route::resource('/document', 'DocumentController');
-Route::resource('/document-request', 'DocumentRequestController');
-Route::resource('/facility', 'FacilityController');
-Route::resource('/facility-reservation', 'ReservationController');
-Route::resource('/facility-type', 'FacilityTypeController');
-Route::resource('/house', 'HouseController');
-Route::resource('/lot', 'LotController');
-Route::resource('/person', 'PeopleController');
-Route::resource('/reservation', 'ReservationController@populate');
-Route::resource('/resident', 'ResidentController');
-Route::resource('/requirement', 'RequirementController');
-Route::resource('/service', 'ServiceController');
-Route::resource('/service-type', 'ServiceTypeController');
-Route::resource('/service-transaction', 'ServiceTransactionController');
-Route::resource('/street', 'StreetController');
-Route::resource('/unit', 'UnitController');
-Route::resource('/utilities', 'UtilitiesController');
-Route::resource('/recipient', 'RecipientController');
-Route::resource('/document-approval', 'DocumentApprovalController');
+Route::resource('/id-release', 'IDReleasingController')->middleware("auth");
+Route::resource('/building', 'BuildingController')->middleware("auth");
+Route::resource('/building-type', 'BuildingTypeController')->middleware("auth");
+Route::resource('/business-category', 'BusinessCategoryController')->middleware("auth");
+Route::resource('/business-registration', 'BusinessRegistrationController')->middleware("auth");
+Route::resource('/collection', 'CollectionController')->middleware("auth");
+Route::resource('/dashboard', 'DashboardController')->middleware("auth");
+Route::resource('/document', 'DocumentController')->middleware("auth");
+Route::resource('/document-request', 'DocumentRequestController')->middleware("auth");
+Route::resource('/facility', 'FacilityController')->middleware("auth");
+Route::resource('/facility-reservation', 'ReservationController')->middleware("auth");
+Route::resource('/facility-type', 'FacilityTypeController')->middleware("auth");
+Route::resource('/house', 'HouseController')->middleware("auth");
+Route::resource('/lot', 'LotController')->middleware("auth");
+Route::resource('/person', 'PeopleController')->middleware("auth");
+Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
+Route::resource('/resident', 'ResidentController')->middleware("auth");
+Route::resource('/requirement', 'RequirementController')->middleware("auth");
+Route::resource('/service', 'ServiceController')->middleware("auth");
+Route::resource('/service-type', 'ServiceTypeController')->middleware("auth");
+Route::resource('/service-transaction', 'ServiceTransactionController')->middleware("auth");
+Route::resource('/street', 'StreetController')->middleware("auth");
+Route::resource('/unit', 'UnitController')->middleware("auth");
+Route::resource('/utilities', 'UtilitiesController')->middleware("auth");
+Route::resource('/recipient', 'RecipientController')->middleware("auth");
+Route::resource('/document-approval', 'DocumentApprovalController')->middleware("auth");
 Route::resource('/query/resident', 'QueryResidentController');
-Route::resource('/query/reservation', 'QueryReservationController');
-Route::resource('/query/service', 'QueryServiceController');
-Route::resource('/query/document', 'QueryDocumentController');
-Route::resource('/query/business', 'QueryBusinessController');
-Route::resource('/users', 'UsersController');
-Route::resource('/brgy', 'BrgyController');
-Route::resource('/logs', 'LogsController');
+Route::resource('/query/reservation', 'QueryReservationController')->middleware("auth");
+Route::resource('/query/service', 'QueryServiceController')->middleware("auth");
+Route::resource('/query/document', 'QueryDocumentController')->middleware("auth");
+Route::resource('/query/business', 'QueryBusinessController')->middleware("auth");
+Route::resource('/users', 'UsersController')->middleware("auth");
+Route::resource('/brgy', 'BrgyController')->middleware("auth");
+Route::resource('/logs', 'LogsController')->middleware("auth");
 //Route::resource('/items', 'Items');
 
 
@@ -343,13 +343,13 @@ Route::resource('/logs', 'LogsController');
 /* AUTHENTICATION ROUTES */
 //////////////////////////////////////////////////////////////////////
 
-Route::get('/login', 'SessionsController@create');
-Route::post('/login','SessionsController@store');
+Route::get('/login', ['as' => 'login', 'uses' => 'SessionsController@create']);
+Route::post('/login', ['as' => 'login', 'uses' => 'SessionsController@store']);
 
-Route::get('/register', 'RegisterController@create');
-Route::post('/register', 'RegisterController@store');
+Route::get('/register', ['as' => 'register', 'uses' => 'RegisterController@create']);
+Route::post('/register', ['as' => 'register', 'uses' => 'RegisterController@store']);
 
-Route::get('/logout','SessionsController@destroy');
+Route::get('/logout', ['as' => 'logout', 'uses' => 'SessionsController@destroy']);
 
 //////////////////////////////////////////////////////////////////////
 /* BLOCK PAGE ROUTES */
