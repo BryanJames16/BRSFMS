@@ -295,6 +295,21 @@ class ResidentController extends Controller
 
     }
 
+    public function getWorkHistory(Request $r) {
+        if($r->ajax()) {
+            return json_encode(\DB::table('residentbackgrounds') ->select('currentWork','monthlyIncome','dateStarted','firstName','middleName','lastName') 
+                                        ->join('residents', 'residentbackgrounds.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                        ->where('residents.status', '=', 1) 
+                                        ->where('residentbackgrounds.peoplePrimeID', '=', $r->input('residentPrimeID')) 
+                                        ->orderBy('dateStarted', 'desc')
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+
+    }
+
     public function getPer(Request $r) {
         if($r->ajax()) {
 
@@ -441,6 +456,7 @@ class ResidentController extends Controller
     public function edit(Request $r) { 
         if ($r->ajax()) {
 
+            
             $this->validate($r, [
                 'residentID' => 'required|max:20',
                 'firstName' => 'required|max:30|min:2',
@@ -466,9 +482,12 @@ class ResidentController extends Controller
             $type->contactNumber = $r->input('contactNumber');
             $type->address = $r->input('address');
             $type->save();
+            
 
-            if( ($r -> input('work')!= $r -> input('hiddenWork')) || 
-                    ($r -> input('salary')!=$r -> input('hiddenIncome')) ) {
+
+            
+            if( ($r -> input('currentWork')!= $r -> input('hiddenWork')) || 
+                    ($r -> input('monthlyIncome')!=$r -> input('hiddenIncome')) ) {
                 $insertRet = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
                                                 'monthlyIncome' => $r -> input('monthlyIncome'),
                                                 'dateStarted' => Carbon::now(),
@@ -476,6 +495,7 @@ class ResidentController extends Controller
                                                 'status' => 1,
                                                 'archive' => 0]);
             }
+            
 
             $id = Auth::id();
            

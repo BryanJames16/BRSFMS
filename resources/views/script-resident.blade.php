@@ -94,6 +94,8 @@
 		$(document).on('click', '.view', function(e) {
 			var id = $(this).data('value');
 
+			$('#workHistory').data('value', id);
+
 			$.ajax({
 				type: 'get',
 				url: "{{ url('/resident/getEdit') }}", 
@@ -112,6 +114,18 @@
 						var day = date.getDate();
 						var year = date.getFullYear();
 						var d = months[month] + ' ' + day + ', ' + year;
+
+						var dis = "N/A";
+						var sen = "N/A";
+
+						if(data[index].disabilities!=null)
+						{
+							dis = data[index].disabilities;
+						}
+						if(data[index].seniorCitizenID!=null)
+						{
+							sen = data[index].seniorCitizenID;
+						}
 
 						var sal = data[index].monthlyIncome;
 
@@ -153,8 +167,8 @@
 							"<p style='font-size:15px' align='center'>"+
 							"Gender: "+gen + "<br>" + 
 							"Civil Status: "+data[index].civilStatus + "<br>" +
-							"Senior Citizen ID: "+data[index].seniorCitizenID + "<br>" + 
-							"Disabililities: "+data[index].disabilities + "<br>" +  
+							"Senior Citizen ID: "+ sen + "<br>" + 
+							"Disabililities: "+dis + "<br>" +  
 							"Current Work: "+data[index].currentWork + "<br>" + 
 							"Monthly Income: "+ sal + "<br>" + 
 							"Resident Type: "+data[index].residentType + "<br>"
@@ -291,7 +305,6 @@
 				data: {"residentPrimeID":id}, 
 				success:function(data)
 				{
-					console.log(data);
 					data = $.parseJSON(data);
 
 					for (index in data)
@@ -320,7 +333,6 @@
 						frm.find('#ework').val(data[index].currentWork);
 						frm.find('#esalary').val(data[index].monthlyIncome);
 						
-
 						
 
 						$('#editModal').modal('show');
@@ -376,12 +388,15 @@
 						"address": $("#eaddress").val(),
 						"currentWork": $("#ework").val(),
 						"monthlyIncome": $("#esalary").val(),
-						"hiddenWork": $("#hiddenIncome").val(),
-						"hiddenIncome": $("#hiddenWork").val(),
+						"hiddenIncome": $("#hiddenIncome").val(),
+						"hiddenWork": $("#hiddenWork").val(),
 
 						
 				}, 
 				success: function ( _response ){
+
+					
+
 					$("#editModal").modal('hide');
 					
 					familyRefreshTable();

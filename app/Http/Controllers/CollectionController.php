@@ -152,6 +152,24 @@ class CollectionController extends Controller
         return json_encode($collections);
     }
 
+    public function showReceiptID(Request $r) {
+        $collections = Collection::select('collectionID', 
+                                            'paymentDate', 
+                                            'recieved','amount','firstName','middleName','lastName')
+                                    -> join('barangaycard', 
+                                                'collections.cardID', 
+                                                '=', 
+                                                'barangaycard.cardID')
+                                    -> join('residents', 
+                                                'barangaycard.rID', 
+                                                '=', 
+                                                'residents.residentPrimeID')
+                                    ->where('collectionPrimeID','=',$r->input('collectionPrimeID'))
+                                    -> get();
+        
+        return json_encode($collections);
+    }
+
     public function paidRes(Request $r) {
         if ($r->ajax()) {
 
