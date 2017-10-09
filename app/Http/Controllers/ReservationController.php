@@ -59,10 +59,14 @@ class ReservationController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(Reservation::select('*') 
-                                        ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
-                                        ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
-                                        ->get());
+            return json_encode(Reservation::select('reservations.primeID', 'reservations.reservationName', 
+                                                    'reservations.reservationStart', 'reservations.reservationEnd', 
+                                                    'reservations.dateReserved', 'reservations.status', 
+                                                    'facilities.facilityName', 'residents.firstName', 
+                                                    'residents.middleName', 'residents.lastName') 
+                                        -> join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        -> join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
+                                        -> get());
         }
         else {
             return view('errors.403');
