@@ -458,16 +458,11 @@
 											familyRefreshTable();
 											swal("Successfull", "Entry is deleted!", "success");
 										}, 
-										error: function(data) {
-											var message = "Error: ";
-											var data = error.responseJSON;
-											for (datum in data) {
-												message += data[datum];
-											}
-											
-											swal("Error", "Cannot fetch table data!\n" + message, "error");
-											console.log("Error: Cannot refresh table!\n" + message);
+										error: function(xhr, status, error) {
+											var err = eval("(" + xhr.responseText + ")");
+											swal("Error", "Error: " + err.Message, "error");
 										}
+										
 									});
 								});	
 						}			

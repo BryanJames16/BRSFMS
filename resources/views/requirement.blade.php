@@ -235,14 +235,9 @@
 					$("#frm-add").trigger("reset");
 					swal("Success", "Successfully Added!", "success");
 				}, 
-				error: function(error) {
-					var message = "Errors: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", message, "error");
+				error: function(xhr, status, error) {
+					var err = eval("(" + xhr.responseText + ")");
+					swal("Error", "Error: " + err.Message, "error");
 				}
 			});
 		});

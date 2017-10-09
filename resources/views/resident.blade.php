@@ -852,18 +852,18 @@
 																							 'readonly']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput2">First Name</label>
-														{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph']) !!}
+														<label for="userinput2">*First Name</label>
+														{!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> 'Marc Joseph','required']) !!}
 													</div>
 												</div>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Middle Name</label>
-														{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza']) !!}
+														<label for="userinput3">*Middle Name</label>
+														{!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> 'Mendoza' ,'required']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Last Name</label>
-														{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas']) !!}
+														<label for="userinput3">*Last Name</label>
+														{!! Form::text('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary', 'placeholder'=> 'Fuellas' ,'required']) !!}
 													</div>
 												</div>
 												<div class="row">
@@ -872,7 +872,7 @@
 														{!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> 'Sr.']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Gender</label>
+														<label for="userinput3">*Gender</label>
 														<select name="gender" id="gender" class="form-control">
 															<option value="M">MALE</option>
 															<option value="F">FEMALE</option>
@@ -883,11 +883,11 @@
 												<h4 class="form-section"><i class="icon-eye6"></i> Additional Vital Info</h4>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput1">Birth Date</label>
-														{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control']) !!}
+														<label for="userinput1">*Birth Date</label>
+														{!! Form::date('birthDate', null, ['id' => 'birthDate','class' => 'form-control' ,'required']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput2">Civil Status</label>
+														<label for="userinput2">*Civil Status</label>
 														<select name="civilStatus" id="civilStatus" class="form-control">
 															<option>Married</option>
 															<option>Single</option>
@@ -908,11 +908,11 @@
 												</div>
 												<div class="row">
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput3">Contact Number</label>
-														{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789']) !!}
+														<label for="userinput3">*Contact Number</label>
+														{!! Form::text('contactNumber', null, ['id' => 'contactNumber','class' => 'form-control border-primary', 'placeholder'=> 'ex. 09123456789' ,'required']) !!}
 													</div>
 													<div class="form-group col-md-6 mb-2">
-														<label for="userinput4">Resident Type</label>
+														<label for="userinput4">*Resident Type</label>
 														<select id="residentType" name="residentType" class="form-control">
 															<option value="Transient">Transient Resident</option>
 															<option value="Official">Official Resident</option>
@@ -930,8 +930,8 @@
 												<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 												<div class="row">
 													<div class="form-group col-md-12 mb-2">
-														<label for="userinput3">Address</label>
-														{!! Form::text('address', null, ['id' => 'address','class' => 'form-control border-primary', 'placeholder'=> 'ex. 258-H Teresa St. Sta Mesa, Manila']) !!}
+														<label for="userinput3">*Address</label>
+														{!! Form::text('address', null, ['id' => 'address','class' => 'form-control border-primary', 'placeholder'=> 'ex. 258-H Teresa St. Sta Mesa, Manila','required']) !!}
 													</div>
 												</div>
 												
@@ -939,14 +939,14 @@
 												<h4 class="form-section"><i class="icon-mail6"></i> Resident Background</h4>
 												<div class="row">
 													<div class="form-group col-xs-12 mb-2">
-														<label for="userinput5">Current Work (Enter "None" if not applicable)</label>
-														<input class="form-control border-primary" name="work" id="work" type="text" value="None" id="userinput5" />
+														<label for="userinput5">*Current Work (Enter "None" if not applicable)</label>
+														<input class="form-control border-primary" name="work" id="work" type="text" value="None" id="userinput5" require/>
 													</div>
 												</div>
 												<div class="row">
 													<div class="form-group col-xs-12 mb-2">
-														<label for="userinput6">Monthly Salary</label>
-														<select class="form-control" name="salary" id="salary">
+														<label for="userinput6">*Monthly Salary</label>
+														<select class="form-control" name="salary" id="salary" required>
 															<option value ="₱0-₱10,000">₱0-₱10,000</option>
 															<option value="₱10,001-₱50,000">₱10,001-₱50,000</option>
 															<option value="₱50,001-₱100,000">₱50,001-₱100,000</option>
@@ -956,14 +956,14 @@
 												</div>
 
 
-												<div class="form-actions right">
+												<p  align="center">
 													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
 														<i class="icon-cross2"></i> Cancel
 													</button>
 													<button type="submit" class="btn btn-primary">
 														<i class="icon-check2"></i> Save
 													</button>
-												</div>
+												</p>
 											</div>
 										{{Form::close()}}
 									</div>

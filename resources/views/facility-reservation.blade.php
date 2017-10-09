@@ -1939,6 +1939,9 @@
 			else if (aStartTime.getHours() > aEndTime.getHours()) {
 				swal("Error", "Starting time must not exceed the ending time", "error");
 			}
+			else if (aStartTime.getHours() == aEndTime.getHours()) {
+				swal("Error", "Ending time must exceed the starting time", "error");
+			}
 			else {
 				id = $('#erreservationID').val();
 				rid = $('#eresidentCbo').val();
@@ -2113,6 +2116,9 @@
 				else if (aStartTime.getHours() > aEndTime.getHours()) {
 					swal("Error", "Starting time must not exceed the ending time", "error");
 				}
+				else if (aStartTime.getHours() == aEndTime.getHours()) {
+				swal("Error", "Ending time must exceed the starting time", "error");
+			}
 				else {
 					$.ajax({
 						url: "{{ url('/facility-reservation/residentStore') }}", 
