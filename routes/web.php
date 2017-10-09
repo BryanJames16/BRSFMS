@@ -126,6 +126,7 @@ Route::post('/house/update','HouseController@edit');
 // Resident
 Route::get('/resident/getBuilding', 'ResidentController@getBuilding');
 Route::get('/resident/getEdit', 'ResidentController@getEdit');
+Route::get('/resident/getWorkHistory', 'ResidentController@getWorkHistory');
 Route::get('/resident/getHouse', 'ResidentController@getHouse');
 Route::get('/resident/getLot', 'ResidentController@getLot');
 Route::get('/resident/getUnit', 'ResidentController@getUnit');
@@ -200,6 +201,7 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 
 // Collection
 Route::get('/collection/gCollect', 'CollectionController@getCollection');
+Route::get('/collection/showReceiptID', 'CollectionController@showReceiptID');
 Route::get('/collection/refreshID', 'CollectionController@refreshID');
 Route::get('/collection/gHeader', 'CollectionController@getHeader');
 Route::get('/collection/getResID', 'CollectionController@getResID');

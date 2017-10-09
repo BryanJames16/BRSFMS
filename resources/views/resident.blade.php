@@ -317,6 +317,44 @@
 						</div> 
 						<!-- End of Modal -->
 
+						<!--Work History Modal -->
+						<div class="modal fade text-xs-left" id="workHistoryModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Work History</h4>
+									</div>
+
+									<!-- START MODAL BODY -->
+									<div class="modal-body" width='100%'>
+										<div>
+											<h3 align="center" id="rName"></h3>
+											<br>
+											<table class="table table-striped table-bordered dataTable no-footer" style="font-size:14px;width:100%;" id="table-wh">
+											<thead>
+												<tr>
+													<th>Date Updated</th>
+													<th>Work</th>
+													<th>Salary Range</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												
+											</tbody>
+										</table>
+										</div>
+									</div>
+									<!-- End of Modal Body -->
+
+								</div>
+							</div>
+						</div> 
+						<!-- End of Modal -->
+
 						<!--Barangay ID -->
 
 						<!--Barangay ID Modal -->
@@ -977,6 +1015,7 @@
 												<div id='viewAddtl'>
 												
 												</div>
+												<a class="btn btn-info" href="#" id="workHistory">Work History</a>
 											</td>
 											<td align='right'>
 												<div id="resPic">
@@ -1191,15 +1230,46 @@
 
 	<script>
 		
+		$(document).on('click', '#workHistory', function(e) {
+			var id = $(this).data('value');
 
-		
+			$.ajax({
+					type: 'GET',
+					url: '/resident/getWorkHistory',
+					data: {'residentPrimeID': id},
+					success:function(data) {
 
-		
-		
+						data = $.parseJSON(data);
+						$("#table-wh").DataTable().clear().draw();
 
-		
+						for(index in data)
+						{
+							$('#rName').html(data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName);
 
-		
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].dateStarted);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+
+							$("#table-wh").DataTable()
+									.row.add([
+										d, 
+										data[index].currentWork, 
+										data[index].monthlyIncome, 
+										
+									]).draw(false);
+						}
+						$('#viewModal').modal('hide');	
+						setTimeout(function() {
+							$('#workHistoryModal').modal('show');
+						},500);
+							
+								
+					}
+			})
+		});
 
 		
 		$(document).on('click', '.print', function(e) {

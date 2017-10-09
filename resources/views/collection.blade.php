@@ -121,6 +121,7 @@
 
 											<tbody>
 												@foreach($collID as $cID)
+													@if($cID -> status == "Pending" || $cID -> status == "pending")
 													<tr>
 														<td>{{ $cID -> collectionID }}</td>
 														<td>{{ $cID -> lastName}}, {{$cID -> firstName}} {{$cID -> middleName}}</td>
@@ -144,6 +145,7 @@
 															
 														</td>
 													</tr>
+													@endif
 												@endforeach
 											</tbody>
 										</table>
@@ -385,7 +387,7 @@
 
 							<!-- Modal Area -->
 							<div class="modal animated bounceIn text-xs-left" id="idReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
-								<div class="modal-dialog modal-xs" role="document">
+								<div class="modal-dialog " role="document">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
@@ -393,12 +395,57 @@
 											</button>
 											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
 										</div>
-										<div class="modal-body dirty-white-card">
-											
-											<div id="mainReceipt">
+										<div class="modal-body">
+											@foreach($util as $u)
+												<div style="padding:10px;border:1px solid black" id="mainReceipt">
+													<div align="center">
+														<h6>Republic of the Philippines<br>
+															District VI, City of Manila<br>
+															{{ $u -> barangayName }} <br>
+															{{ $u -> address }}
+														</h6>
+														<h6 align="left">No.: <u><span id="orID"></span></u></h6>
+														
+														<h4>
+															OFFICIAL RECEIPT
+														</h4>
+													</div>
+													<div align="right">
+														<h6>Date: <u><span id="orDate"></u></span></h6> 
+													</div>
+													<div style="">
+														
+														<table style="font-size:15px;height:20%;width:100%;border-collapse:collapse;border:1px solid black;">
+															<thead style="border:1px solid black">
+																<tr>
+																	<th>Item</th>
+																	<th>Amount Total</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr style="border:0.5px solid black">
+																	<td>Barangay I.D.</td>
+																	<td>₱{{$u -> barangayIDAmount}}</td>
+																</tr>
+																<tr>
+																	<th>Cash:</th>
+																	<td>₱<span id="orCash"></span></td>
+																</tr>
+																<tr>
+																	<th>Change:</th>
+																	<td>₱<span id="orChange"></span></td>
+																</tr>
+															</tbody>
+														</table>
+														<br>
+														<div>
+															<h6>Receiver: <u><span id="orReciever"></span></u></h4>
+														</div>		
+													</div>
+												</div>
+												<br>
 
-											</div>
-
+											@endforeach
 											<p align="center">
 												<button type="button" class="btn btn-info mr-1" id="idReceiptPrint">Print</button>
 											</p>
@@ -547,18 +594,14 @@
         });
 
 		$('#switchStatus').change(function(){
-			if(this.checked)
-			{
-				alert('Checked!');
-			}
-			else
-			{
-				
-			}
+			refreshID();
+			
 		});
 
-		$(".idPay").on('click', function () {
+		$(document).on('click', '.idPay', function(e) {
             
+
+
 			var id = $(this).data('value');
 			
 			$('#idCollID').val(id);
@@ -567,17 +610,60 @@
 
         });
 
-		$(".idReceipt").on('click', function () {
+		$(document).on('click', '#idReceipt', function(e) {
             
-			var id = $(this).data('value');
-			
-			$('#idCollID').val(id);
+				var id = $(this).data('value');
+				
+				$.ajax({
+					url: '{{ url("/collection/showReceiptID") }}', 
+					method: 'GET', 
+					data: {'collectionPrimeID':id}, 
+					success: function (data) {
 
-			$("#idReceiptModal").modal('show');
+						console.log(data);
+
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+
+							var change = data[index].recieved - data[index].amount;
+
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].paymentDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+
+							$('#orDate').html(d);
+							$('#orReciever').html(data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName);
+							$('#orID').html(data[index].collectionID);
+							$('#orCash').html(data[index].recieved);
+							$('#orChange').html(change);	
+							$("#idReceiptModal").modal('show');
+
+						} 
+
+						
+						
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+
+				
 
         });
 
-		$("#btnIDPay").on('click', function () {
+		$(document).on('click', '#btnIDPay', function(e) {
 
 			var cash = Number($('#idCash').val());
 			var amount = Number($('#idAmountToPay').val());
@@ -837,6 +923,16 @@
 			});
 		});
 
+		$("#idReceiptPrint").click(function () {
+			html2pdf($("#mainReceipt")[0], {
+				margin: 	  0, 
+				filename:     "Receipt-" + getStringDateTime() + ".pdf", 
+				image:        { type: 'jpeg', quality: 1 },
+				html2canvas:  { dpi: 300, letterRendering: true },
+				jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'portrait' }
+			});
+		});
+
 		var refreshTable = function () {
 			fillTable();
 		}
@@ -988,8 +1084,10 @@
 					data = $.parseJSON(data);
 
 					for (index in data) {
+
+						
 						var statusText = "";
-						var btn ='';
+						var btn ="";
 
 						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 						var date = new Date(data[index].collectionDate);
@@ -1004,19 +1102,44 @@
 						}
 						else {
 							statusText = '<span class="tag round tag-success">Paid</span>';
-							btn = '<a href="#" class="btn btn-info idReceipt" data-value="'+ data[index].collectionPrimeID +'">Receipt</a>';
+							btn = '<a href="#" id="idReceipt" class="btn btn-warning idReceipt" data-value="'+ data[index].collectionPrimeID +'">Show Receipt</a>';
 						}
 
-						$("#table-ID").DataTable()
-							.row.add([
-								data[index].collectionID, 
-								data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
-								d,
-								'Barangay ID', 
-								"&#8369; " + data[index].amount,
-								statusText,
-								btn
-							]).draw(false);
+						if(switchStatus.checked == true)
+						{
+							
+							if(data[index].status == "Paid")
+							{
+								$("#table-ID").DataTable()
+								.row.add([
+									data[index].collectionID, 
+									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+									d,
+									'Barangay ID', 
+									"&#8369; " + data[index].amount,
+									statusText,
+									btn
+								]).draw(false);
+							}
+						}
+						else
+						{
+							if(data[index].status == "Pending")
+							{
+								$("#table-ID").DataTable()
+								.row.add([
+									data[index].collectionID, 
+									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+									d,
+									'Barangay ID', 
+									"&#8369; " + data[index].amount,
+									statusText,
+									btn
+								]).draw(false);
+							}
+						}
+
+						
 					}
 				}, 
 				error: function(data) {
