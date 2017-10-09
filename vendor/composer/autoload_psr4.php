@@ -47,9 +47,11 @@ return array(
     'Iso3166\\' => array($vendorDir . '/julien-c/iso3166/src'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
     'Giggsey\\Locale\\' => array($vendorDir . '/giggsey/locale/src'),
+    'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/EmailValidator'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
@@ -59,5 +61,6 @@ return array(
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'Collective\\Html\\' => array($vendorDir . '/laravelcollective/html/src'),
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
+    'Barryvdh\\DomPDF\\' => array($vendorDir . '/barryvdh/laravel-dompdf/src'),
     'App\\' => array($baseDir . '/app'),
 );
