@@ -250,6 +250,10 @@ Route::post('/business-registration/store', 'BusinessRegistrationController@stor
 Route::post('/business-registration/delete', 'BusinessRegistrationController@delete');
 Route::post('/business-registration/update', 'BusinessRegistrationController@edit');
 
+/* REPORTS ROUTES */
+// Collection Report Routes
+Route::get('/reports/collection/fetch', 'ReportsCollectionController@fetch');
+
 /* UTILITIES ROUTES */
 Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::get('/utilities/refresh', 'UtilitiesController@refresh');
@@ -339,6 +343,7 @@ Route::resource('/users', 'UsersController')->middleware("auth");
 Route::resource('/brgy', 'BrgyController')->middleware("auth");
 Route::resource('/logs', 'LogsController')->middleware("auth");
 //Route::resource('/items', 'Items');
+Route::resource('/reports/collection', 'ReportsCollectionController');
 
 
 //////////////////////////////////////////////////////////////////////
