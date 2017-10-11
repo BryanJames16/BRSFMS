@@ -14,6 +14,7 @@
 
 @section('vendor-style')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/pickers/pickadate/pickadate.css') }}" />
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
 @endsection
 
@@ -136,6 +137,7 @@
 																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																			<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																		</span>
 																	</span>
@@ -178,6 +180,7 @@
 																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																			<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																		</span>
 																	</span>
@@ -236,6 +239,7 @@
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
 																</span>
@@ -264,6 +268,7 @@
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
 																</span>
@@ -464,6 +469,24 @@
 				</div> <!-- End of Modal -->
 
 
+				<!-- Extend Modal -->
+				<div class="modal fade text-xs-left" id="extendModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
+							</div>
+							<div class="modal-body">
+								
+							</div>
+							<!-- End of Modal Body -->
+						</div>
+					</div>
+				</div> <!-- End of Modal -->
+
 
 										<!--RESERVE FACILITY -->
 
@@ -585,8 +608,8 @@
 
 		var eventsFullCal = [];
 
-		$("#btnViewCal").click(function () {
-			$(document).ready(function () {
+		$(document).ready(function () {
+			$("#btnViewCal").click(function () {
 				checkFullCalendar(getCurrentDateTime());
 				$("#fc-external-drag").fullCalendar({
 					header: {
@@ -596,13 +619,254 @@
 					}, 
 					editable: 0, 
 					droppable: 0, 
-					events: eventsFullCal
+					events: eventsFullCal, 
+					dayClick: function(date, jsEvent, view) {
+						if (date >= $("#fc-external-drag").fullCalendar('getDate')) {
+							$("#calendarModal").modal("hide");
+							swal({
+								title: "Save the Date!", 
+								text: "Do you want to reserve a facility on this date?",
+								icon: "info",
+								showCancelButton: true,
+								confirmButtonColor: "#00F704",
+								confirmButtonText: "YES",
+								cancelButtonText: "NO"
+							}, 
+							function(confirmRes) {
+								if (confirmRes) {
+									window.setTimeout(function() {
+										updateConfirmation(date);	
+									}, 500);
+								}
+								else {
+									$("#calendarModal").modal("show");
+								}
+							});
+						}
+					},
+					eventClick: function(calEvent, jsEvent, view) {
+						var id = calEvent.data_id;
+
+						$.ajaxSetup({
+							headers: {
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						});
+
+						$.ajax({
+
+							type: 'get',
+							url: "{{ url('facility-reservation/getRes') }}",
+							data: {"primeID": id},
+							success:function(data)
+							{
+								data = $.parseJSON(data);
+
+								for (index in data) 
+								{
+									if(data[index].peoplePrimeID==null)	
+									{
+										$.ajax({
+
+											type: 'get',
+											url: "{{ url('facility-reservation/getEditNonRes') }}",
+											data: {primeID:id},
+											success:function(data)
+											{
+
+												data = $.parseJSON(data);
+
+												for (index in data) 
+												{
+
+													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var date = new Date(data[index].dateReserved);
+													var month = date.getMonth();
+													var day = date.getDate();
+													var year = date.getFullYear();
+													var d = months[month] + ' ' + day + ', ' + year;
+
+													var start = data[index].reservationStart;
+													var end = data[index].reservationEnd;
+
+													start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+													end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
+
+													if(start.length > 1){
+														start = start.slice(1);
+														start[5] = +start[0] < 12 ? 'AM' : 'PM';
+														start[0] = +start[0] % 12 || 12;
+													}
+
+													if(end.length > 1){
+														end = end.slice(1);
+														end[5] = +end[0] < 12 ? 'AM' : 'PM';
+														end[0] = +end[0] % 12 || 12;
+													}
+
+													var st = start.join('');
+													var en = end.join('');
+
+													$('#reservationDetails').html(
+														'<p style="font-size:18px" align="center">'+
+																
+																'<b>CREDENTIALS</b> <br><br>' +
+																'Reserved By: ' + data[index].name + '<br>' +
+																'Age: ' + data[index].age + '<br>' +
+																'E-mail: ' + data[index].email + '<br>' +
+																'Contact Number: ' + data[index].contactNumber + '<br>' +
+																'Residency: Non-resident <br><br>' +
+																'<b>RESERVATION INFORMATION</b> <br><br>' +
+																'Reservation Name: ' + data[index].reservationName + '<br>' +
+																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+																'Facility: ' + data[index].facilityName + '<br>' +
+																'Date Reserved: ' + d + '<br>' +
+																'Start Time: ' + st + '<br>' +
+																'End Time: ' + en + '<br>' +
+														'</p>'
+														);	
+													$('#calendarModal').modal('hide');
+													window.setTimeout(function() {
+														$('#viewModal').modal('show');
+													}, 500)
+												}		
+											}
+										});
+									}
+									else
+									{
+										$.ajax({
+
+											type: 'get',
+											url: "{{ url('facility-reservation/getEdit') }}",
+											data: {primeID:id},
+											success:function(data)
+											{
+
+												data = $.parseJSON(data);
+												var gender='Female';
+
+												for (index in data) 
+												{
+
+													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var date = new Date(data[index].dateReserved);
+													var month = date.getMonth();
+													var day = date.getDate();
+													var year = date.getFullYear();
+													var d = months[month] + ' ' + day + ', ' + year;
+
+													var start = data[index].reservationStart;
+													var end = data[index].reservationEnd;
+
+													start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+													end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
+
+													if(start.length > 1){
+														start = start.slice(1);
+														start[5] = +start[0] < 12 ? 'AM' : 'PM';
+														start[0] = +start[0] % 12 || 12;
+													}
+
+													if(end.length > 1){
+														end = end.slice(1);
+														end[5] = +end[0] < 12 ? 'AM' : 'PM';
+														end[0] = +end[0] % 12 || 12;
+													}
+
+													var st = start.join('');
+													var en = end.join('');
+
+													if(data[index].gender=='M')
+													{
+														gender='Male';
+													}
+
+													$('#reservationDetails').html(
+														'<p style="font-size:18px" align="center">'+
+																
+																'<b>CREDENTIALS</b> <br><br>' +
+																'Reserved By: ' + data[index].lastName + ', ' + data[index].firstName + ' '+ data[index].middleName + '<br>' +
+																'Gender: ' + gender + '<br>' +
+																'Contact Number: ' + data[index].contactNumber + '<br>' +
+																'Residency: Resident <br><br>' +
+																'<b>RESERVATION INFORMATION</b> <br><br>' +
+																'Reservation Name: ' + data[index].reservationName + '<br>' +
+																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+																'Facility: ' + data[index].facilityName + '<br>' +
+																'Date Reserved: ' + d + '<br>' +
+																'Start Time: ' + st + '<br>' +
+																'End Time: ' + en + '<br>' +
+														'</p>'
+													);	
+													$('#calendarModal').modal('hide');
+													window.setTimeout(function() {
+														$('#viewModal').modal('show');
+													}, 500)
+												}		
+											}
+										});
+									}
+								}		
+							},
+							error: function(errors) {
+								var message = "Error: ";
+								var data = errors.responseJSON;
+								for (datum in data) {
+									message += data[datum];
+								}
+
+								swal("Error", "Cannot fetch table data!\n" + message, "error");
+							}
+						});
+					}
 				});
 				$("#calendarModal").modal("show");
 
 				window.setTimeout(clickToday, 1000);
+
+				$("#fc-external-drag").fullCalendar('rerenderEvents');
 			});
 		});
+
+		var updateConfirmation = function(curDat) {
+			swal({
+				title: "Confirmation", 
+				text: "Is this a reservation for residents?", 
+				icon: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#00F704",
+				confirmButtonText: "YES",
+				cancelButtonText: "NO"
+			}, 
+			function(confirmRes2) {
+				if (confirmRes2) {
+					$("#addModal").modal('show');
+					
+				}
+				else {
+					$("#addModal").modal('show');
+				}
+
+				window.setTimeout(function() {
+					updateDateOnModal(curDat);	
+				}, 500)
+			});
+		}
+
+		var updateDateOnModal = function(curDat, resRev) {
+			if (resRev) {
+				$("#switchRes").trigger('click');
+			}
+			else {
+				$("#switchRes").trigger('click');
+			}
+
+			$(document).ready(function() {
+				var formattingDate = new Date(curDat.format("YYYY-MM-DD"));
+				$("#rdate").val(curDat.format("YYYY-MM-DD"));
+			});
+		}
 
 		var checkFullCalendar = function (passedDate) {
 			$.ajax({
@@ -613,12 +877,14 @@
 				success: function (data) {
 					var data = $.parseJSON(data);
 					var eventColor = "#37BC9B";
+					eventsFullCal = [];
 					for (datum in data) {
 						var eventObj = {
-							title: data[datum].reservationName, 
-							start: data[datum].dateReserved + "T" + data[datum].reservationStart, 
-							end: data[datum].dateReserved + "T" + data[datum].reservationEnd, 
-							color: eventColor
+							"title": data[datum].reservationName, 
+							"start": data[datum].dateReserved + "T" + data[datum].reservationStart, 
+							"end": data[datum].dateReserved + "T" + data[datum].reservationEnd, 
+							"color": eventColor,
+							"data_id": data[datum].primeID
 						};
 						eventsFullCal.push(eventObj);
 						console.log("Events pushed!");
@@ -1142,6 +1408,10 @@
 	</script>
 
 	<script>
+		$("[name=btnExtend]").click(function(event) {
+			event.preventDefault();
+		});
+
 		$(document).on('click', '.delete', function(e) {
 			var id = $(this).data('value');
 
@@ -1519,7 +1789,6 @@
 					success: function(data) {
 
 						refreshTable();
-						console.log(data);
 						$("#addModal").modal("hide");
 						
 						$("#frm-reserve").trigger("reset");
@@ -1556,7 +1825,6 @@
 						
 					}, 
 					success: function(data) {
-						console.log(data);
 						$("#addModal").modal("hide");
 						
 						$("#frm-reserve").trigger("reset");
@@ -1624,15 +1892,15 @@
 						var actions;
 						var status;
 
-						if(data[index].status=="Pending")
-						{
+						if(data[index].status=="Pending") {
 							status = '<span class="tag round tag-default tag-info">Pending</span>';
 							actions = 	'<span class="dropdown">'+
 											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-												'<a href="#" class="dropdown-item view" name="btnView" data-value="'+data[index].primeID + '"><i class="icon-eye6"></i> View</a>'+
-												'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="'+data[index].primeID + '"><i class="icon-pen3"></i> Reschedule</a>'+
-												'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="'+data[index].primeID + '"><i class="icon-trash4"></i> Cancel</a>'+
+												'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].primeID + '"><i class="icon-eye6"></i> View</a>'+
+												'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Reschedule</a>'+
+												'<a href="#" class="dropdown-item edit" name="btnExtend" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Extend</a>' + 
+												'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].primeID + '"><i class="icon-trash4"></i> Cancel</a>'+
 											'</span>'+
 										'</span>';
 
