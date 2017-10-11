@@ -29,12 +29,15 @@ class Kernel extends ConsoleKernel
 
         // System Back Up
         if (strtolower(env('SYS_BACKUP')) == "yes") {
-            $schedule->command('backup:clean')->daily()->at('23:30');
-            $schedule->command('backup:run')->daily()->at('23:32');
-            $schedule->command('backup:monitor')->daily()->at('23:42');
+            $schedule->command('backup:clean')->daily()->at('06:00');
+            $schedule->command('backup:run')->daily()->at('07:00');
+            $schedule->command('backup:monitor')->daily()->at('09:00');
         }
 
-        
+        // Realtime System
+        if (strtolower(env('SYS_REALTIME')) == "yes") {
+            $schedule->call('App\Http\Controllers\ReservationController@realtime')->everyMinute();
+        }
     }
 
     /**

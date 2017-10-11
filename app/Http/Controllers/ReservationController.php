@@ -469,4 +469,8 @@ class ReservationController extends Controller
             return view('errors.403');
         }
     }
+
+    public function realtime() {
+        
+    }
 }
