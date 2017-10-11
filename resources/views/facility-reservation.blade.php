@@ -105,7 +105,7 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="all" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-all">
+										<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-all">
 											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Name</th>
@@ -207,8 +207,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
@@ -283,8 +283,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="rescheduled" role="tabpanel" aria-labelledby="dropdownOpt1-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rescheduled">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rescheduled">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>
@@ -336,8 +336,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="linkOpt-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-cancelled">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-cancelled">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Name</th>
 													<th>Reserved Facility</th>

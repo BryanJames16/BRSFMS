@@ -3,3 +3,7 @@
     color: #ffffff;
     text-align: left;
 }
+
+.table-custome-outline-red {
+    border: 1px solid #DF5E6A;
+}

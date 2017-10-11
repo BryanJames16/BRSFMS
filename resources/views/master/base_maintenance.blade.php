@@ -15,6 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 @endsection
 
@@ -125,8 +127,8 @@
 									</div>
 								</div> <!-- End of Modal -->
 
-							<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
-                    			<thead>
+							<table class="table table-striped table-custome-outline-red multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+                    			<thead class="thead-custom-bg-red">
                     				<tr>
 										@yield('table-head-list')
 									</tr>
