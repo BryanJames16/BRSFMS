@@ -567,7 +567,6 @@
 @endsection
 
 @section('template-js')
-	
 	<script src="{{ URL::asset('/robust-assets/js/app.min.js') }}"></script>
 	
 @endsection
