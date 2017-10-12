@@ -8,9 +8,14 @@
     background-color: #ffffff;
     background-image: url("../system-assets/images/background/bodybg2.jpg");
     background-size: cover;
+    /* background-repeat: repeat; */
     background-attachment: fixed;
 }
 
 .sign-cursor {
     cursor: url("../system-assets/images/sign/sign.png"), crosshair;
+}
+
+.nav-menu-custom-bg {
+    background-color: rgb(255, 228, 231);
 }

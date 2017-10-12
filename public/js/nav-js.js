@@ -21,6 +21,7 @@ var FACILITY_TYPE = "facility-type-id";
 var FORMAL_CASE = "formal-case-id";
 var HOUSE = "house-number-id";
 var INDIVIDUAL = "individual-id";
+var ITEM_RESERVATION = "item-reservation-id";
 var LOGS = "logs-id";
 var LOT = "lot-id";
 var ID_RELEASING = "id-releasing-id";

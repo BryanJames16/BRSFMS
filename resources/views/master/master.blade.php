@@ -263,7 +263,7 @@
 				<!-- Start of Main Menu -->
 				<div class="main-menu menu-light menu-border menu-shadow navbar-border menu-accordion">
 					<!-- BEGIN Main Menu Header -->
-					<div class="main-menu-header bg-gradient-y2-grey">
+					<div class="main-menu-header">
 						<input type="text" placeholder="Search" class="menu-search form-control round" />
 					</div>
 					<!-- END Main Menu Header -->
@@ -368,60 +368,90 @@
 								</a>
 								<ul class="menu-content">
 									@if(Auth::user()->resident == 1)
-										<li id="resident-application-id">
-											<a href="/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
-												<i class="icon-user-tie"></i>
+										<li>
+											<a href="#">
+												<i class="icon-android-contacts"></i>
 												<span>Resident</span>
 											</a>
+											<ul class="menu-content">
+												<li id="resident-application-id">
+													<a href="/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
+														<i class="icon-user-tie"></i>
+														<span>Resident &amp; Family</span>
+													</a>
+												</li>
+
+												<li id="id-releasing-id">
+													<a href="/id-release" data-i18n="nav.navbars.nav_light" class="menu-item">
+														<i class="icon-card"></i>
+														<span>ID Releasing</span>
+													</a>
+												</li>
+											</ul>
 										</li>
 									@endif
 
-										<li>
-											<a href="#">
-												<i class="icon-cogs"></i>
-												<span>Document</span>
-											</a>
-											<ul class="menu-content">
-												@if(Auth::user()->request == 1)
-													<li id="document-request-id">
-														<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
-															<i class="icon-drawer"></i>
-															Document Request
-															@if($countOfRequest != 0)
-															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
-															@endif
-														</a>
-														
-													</li>
-												@endif
-												@if(Auth::user()->approval == 1)
-													<li id="document-approval-id">
-														<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
-															<i class="icon-aperture"></i>
-															Document Approval
-															@if($countOfApproval != 0)
-															<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
-															@endif
-														</a>
-													</li>
-												@endif
-											</ul>
-										</li>
-									@if(Auth::user()->reservation == 1)
-									<li id="facility-reservation-id">
-										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-android-calendar"></i>
-											<span>Facility Reservation  </span>
-											
-											@if($countOfReservation != 0)
-											<span class="tag tag tag-primary tag-pill mr-2">
-												<div id="countOfReservation">
-													{{ $countOfReservation }}
-												</div>	
-											</span>
-											@endif
-											
+									<li>
+										<a href="#">
+											<i class="icon-cogs"></i>
+											<span>Document</span>
 										</a>
+										<ul class="menu-content">
+											@if(Auth::user()->request == 1)
+												<li id="document-request-id">
+													<a href="/document-request" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-drawer"></i>
+														Document Request
+														@if($countOfRequest != 0)
+														<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfRequest }}</span>
+														@endif
+													</a>
+													
+												</li>
+											@endif
+											@if(Auth::user()->approval == 1)
+												<li id="document-approval-id">
+													<a href="/document-approval" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-aperture"></i>
+														Document Approval
+														@if($countOfApproval != 0)
+														<span class="tag tag tag-primary tag-pill mr-2">{{ $countOfApproval }}</span>
+														@endif
+													</a>
+												</li>
+											@endif
+										</ul>
+									</li>
+
+									@if(Auth::user()->reservation == 1)
+									<li>
+										<a href="#">
+											<i class="icon-android-calendar"></i>
+											<span>Reservation</span>
+										</a>
+										<ul class="menu-content">
+											<li id="item-reservation-id">
+												<a href="/item-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+													<i class="icon-briefcase4"></i>
+													<span>Item Reservation </span>
+												</a>
+											</li>
+											<li id="facility-reservation-id">
+												<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+													<i class="icon-house"></i>
+													<span>Facility Reservation </span>
+													
+													@if($countOfReservation != 0)
+													<span class="tag tag tag-primary tag-pill mr-2">
+														<div id="countOfReservation">
+															{{ $countOfReservation }}
+														</div>	
+													</span>
+													@endif
+													
+												</a>
+											</li>
+										</ul>
 									</li>
 									@endif
 									@if(Auth::user()->collection == 1)
@@ -464,12 +494,6 @@
 										</a>
 									</li>
 									@endif
-									<li id="id-releasing-id">
-										<a href="/id-release" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-card"></i>
-											<span>ID Releasing</span>
-										</a>
-									</li>
 								</ul>
 							</li>
 
@@ -526,7 +550,7 @@
 
 							<li class=" nav-item">
 								<a href="#">
-									<i class="icon-stack"></i>
+									<i class="icon-map6"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Query</span>
 								</a>
 								<ul class="menu-content">

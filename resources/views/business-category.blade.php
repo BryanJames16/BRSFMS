@@ -122,10 +122,8 @@
 					<input type='hidden' name='typeID' value='{{ $businessCategory -> categoryName }}' />
 					<input type='hidden' name='typeID' value='{{ $businessCategory -> categoryDesc }}' />
 					<input type='hidden' name='typeID' value='{{ $businessCategory -> status }}' />
-					<div class="btn-group" role="group" aria-label="Basic example">
-					<button class='btn btn-icon btn-round btn-success normal edit'  type='button' value='{{ $businessCategory -> categoryPrimeID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-round btn-danger delete' value='{{ $businessCategory -> categoryPrimeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
-					</div>
+					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $businessCategory -> categoryPrimeID }}'><i class="icon-android-create"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $businessCategory -> categoryPrimeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{!!Form::close()!!}
 			</td>
 		</tr>
