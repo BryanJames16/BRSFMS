@@ -186,11 +186,8 @@
                     <input type='hidden' name='status' value='{{ $item -> itemPrice }}' />
                     <input type='hidden' name='status' value='{{ $item -> status }}' />
 					<button class='btn btn-icon btn-square btn-success normal edit'  type='button' value='{{ $item -> itemID }}'><i class="icon-android-create"></i></button>
-					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $item -> typeID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
+					<button class='btn btn-icon btn-square btn-danger delete' value='{{ $item -> itemID }}' type='button' name='btnEdit'><i class="icon-android-delete"></i></button>
 				{{ Form::close() }}
-			</td>
-
-			<td>
 			</td>
 		</tr>
         
@@ -210,6 +207,7 @@
 @endsection
 
 @section('edit-modal-body')
+    <input type="hidden" id="edit-id" value="" />
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
 		<div class="col-md-9">
@@ -247,7 +245,7 @@
     <div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Price</label>
 		<div class="col-md-7">
-			{{ Form::number('price', null, ['id' => 'aPrice', 
+			{{ Form::number('price', null, ['id' => 'ePrice', 
                                             'class' => 'form-control', 
                                             'placeholder' => '100', 
                                             'maxlength' => '30', 
@@ -268,7 +266,7 @@
     <div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">Description</label>
 		<div class="col-md-9">
-			{{ Form::textarea('desccription', null, ['id' => 'aDescription', 
+			{{ Form::textarea('desccription', null, ['id' => 'eDescription', 
                                             'class' => 'form-control', 
                                             'placeholder' => 'Untouched monoblock chairs', 
                                             'maxlength' => '250', 
@@ -286,12 +284,12 @@
 		<div class="col-md-9">
 			<div class="input-group col-md-9">
 				<label class="inline custom-control custom-radio">
-					<input type="radio" value="active" name="estat" class="eStatus custom-control-input" >
+					<input type="radio" value="1" name="estat" class="eActive eStatus custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Active</span>
 				</label>
 				<label class="inline custom-control custom-radio">
-					<input type="radio" value="inactive" name="estat"  class="eStatus custom-control-input" >
+					<input type="radio" value="0" name="estat"  class="eInactive eStatus custom-control-input" >
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description ml-0">Inactive</span>
 				</label>
@@ -392,5 +390,117 @@
 				}
             });
         });
+
+        $(document).on('click', '.edit', function(e) {
+			var id = $(this).val();
+
+			$.ajax({
+				type: 'GET',
+				url: "{{ url('/item/getEdit') }}", 
+				data: {
+                    "itemID": id
+                }, 
+				success: function(data) {
+                    $('#frm-update').val(id);
+					$('#eItemName').val(data[0].itemName);
+                    $('#eDescription').val(data[0].itemDescription);
+                    $('#eQuantity').val(data[0].itemQuantity);
+                    $('#ePrice').val(data[0].itemPrice);
+
+					if(data[0].status == 1) {
+						$(".eActive").attr('checked', 'checked');
+					}
+					else {
+						$(".eInactive").attr('checked', 'checked');
+					}
+
+					$('#modalEdit').modal('show');
+				}, 
+				error: function(errors) {
+					var message = "Error: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch data!\n" + message, "error");
+				}
+			})
+
+		});
+
+        $("#frm-update").submit(function(event) {
+            event.preventDefault();
+
+			$.ajax({
+				url: "{{ url('/item/update') }}", 
+				method: "POST", 
+				data: {
+					"itemID": $("#frm-update").val(), 
+					"itemName": $("#eItemName").val(), 
+                    "itemDescription": $("#eDescription").val(), 
+                    "itemQuantity": $("#eQuantity").val(), 
+                    "itemPrice": $("#ePrice").val(), 
+					"stat": $(".eStatus:checked").val()
+				}, 
+				success: function(data) {
+					$("#modalEdit").modal("hide");
+					refreshTable();
+					$("#frm-update").trigger("reset");
+					swal("Success", "Successfully Added!", "success");
+				}, 
+				error: function(error) {
+					var message = "Errors: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+        });
+
+        $(document).on('click', '.delete', function(e) {
+			var id = $(this).val();
+			$.ajax({
+					type: 'GET',
+                    url: "{{ url('/item/getEdit') }}", 
+                    data: {
+                        "itemID": id
+                    }, 
+					success:function(data) {
+						swal({
+							title: "Are you sure you want to delete " + data[0].itemName + "?",
+							text: "",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "Delete",
+							closeOnConfirm: false
+							},
+							function() {
+								$.ajax({
+									type: "POST",
+									url: "{{ url('/item/delete') }}", 
+									data: {"itemID": id}, 
+									success: function(data) {
+										refreshTable();
+										swal("Successfull", "Entry is deleted!", "success");
+									}, 
+									error: function(errors) {
+										var message = "Error: ";
+										var data = errors.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+										
+										swal("Error", "Cannot fetch table data!\n" + message, "error");
+									}
+								});
+							});				
+					}
+			})
+		});
     </script>
 @endsection
