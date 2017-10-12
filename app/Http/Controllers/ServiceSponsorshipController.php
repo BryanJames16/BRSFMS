@@ -9,6 +9,7 @@ use \App\Models\Servicetransaction;
 use \App\Models\Utility;
 use \App\Models\Resident;
 use \App\Models\Participant;
+use \App\Models\Sponsor;
 use \App\Models\Recipient;
 use \App\Models\Partrecipient;
 use Carbon\Carbon;
@@ -54,5 +55,60 @@ class ServiceSponsorshipController extends Controller
 
         return view('service-sponsorship')->with('servicetransactions', $servicetransactions)
                                           ->with('services', $services);
+    }
+
+    public function getResidents(Request $r){
+        if ($r -> ajax()) {
+            
+            $residents = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('status','1')
+                                                    -> get();
+            return json_encode($residents);
+        }
+        else{
+            return view('errors.403');
+        }
+        
+
+    }
+
+    public function getResidentInfo(Request $r){
+        if ($r -> ajax()) {
+            
+            $residents = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    												-> where('status','1')
+                                                    -> where('residentPrimeID',$r->input('residentPrimeID'))
+                                                    -> get();
+            return json_encode($residents);
+        }
+        else{
+            return view('errors.403');
+        }
+        
+
+    }
+
+    public function sponsor(Request $r) {
+        if ($r->ajax()) {
+
+            $insertRet = Sponsor::insert(['resiID'=>trim($r -> input('resiID')),
+                                                'sID' => trim($r -> input('sID')),
+                                                'firstName' => trim($r -> input('firstName')),
+                                                'middleName' => trim($r -> input('middleName')),
+                                                'lastName' => $r -> input('lastName'),
+                                                'dateSponsored' => Carbon::now(),
+                                                'contactNumber' => $r -> input('contactNumber'),
+                                                'email' => $r -> input('email')]);
+
+            
+
+            return back();
+
+
+
+        }
+        else {
+            return view('errors.403');
+        }
     }
 }

@@ -266,6 +266,11 @@ Route::get('/id-release/getEdit', 'IDReleasingController@getEdit');
 Route::get('/id-release/refresh', 'IDReleasingController@refresh');
 Route::post('/id-release/release', 'IDReleasingController@release');
 
+/*Service Sponsorship*/
+Route::get('/service-sponsorship/getResidents', 'ServiceSponsorshipController@getResidents');
+Route::get('/service-sponsorship/getResidentInfo', 'ServiceSponsorshipController@getResidentInfo');
+Route::post('/service-sponsorship/sponsor', 'ServiceSponsorshipController@gsponsor');
+
 /* QUERY RESIDENT */
 Route::get('/query/resident/submit', 'QueryResidentController@getQuery');
 Route::get('/query/resident/getEdit', 'QueryResidentController@getEdit');

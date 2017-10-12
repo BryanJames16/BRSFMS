@@ -144,7 +144,7 @@
 
 
 	<!--Sponsor Modal -->
-		<div class="modal fade text-xs-left" id="sponsorModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal fade text-xs-left" id="sponsorModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -159,7 +159,7 @@
 						<input type="checkbox" id="switchResident" class="switchery" data-size="sm" />
 						<label for="switcherySize10" class="card-title ml-1">Resident</label>
 						<hr>
-
+						<input type="hidden" id="serviceID">
 						<div>
 							<h4 class="form-section">Credentials </h4>
 							<div id="residentLayout">	
@@ -322,10 +322,13 @@
 		$(document).on('click', '.sponsor', function(e) {
 			
 			var id = $(this).data('value');
+			$('#serviceID').val(id);
 
 			$('#sponsorModal').modal('show');
 
 		}); 
+
+		
 
 		$(document).on('click', '.addSponsor', function(e) {
 			
@@ -349,6 +352,41 @@
 
 		$(document).on('click', '.submit', function(e) {
 			
+
+			if(switchResident.checked)
+			{
+				
+			}
+			else{
+				
+			}
+
+			$.ajax({
+				type: "post",
+				url: "{{ url('/service-sponsorship/sponsor') }}", 
+				data: {"_token": "{{ csrf_token() }}",
+					resiID:$('#resiID').val(),
+					sID:$('#serviceID').val(),
+					firstName:$('#firstName').val(),
+					lastName:$('#lastName').val(),
+					email:$('#email').val(),
+					contactNumber:$('#contactNumber').val(),
+					middleName:$('#middleName').val()}, 
+				success: function(data) {
+					alert('Sponsored successfully!');
+				}, 
+				error: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+					
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+
 			var items = $('input[name="items[]"]').map(function(){
 				return this.value;
 			}).get();
@@ -363,7 +401,7 @@
 				{
 					if(x==i)
 					{
-						alert(items[x] + ': ' + quantities[x]);
+						
 					}
 				}
 			}
@@ -372,10 +410,94 @@
 
 		}); 
 
+		$(document).on('change', '#resiID', function(e) {
+			
+			$.ajax({
+						type: 'GET',
+						url: '/service-sponsorship/getResidentInfo',
+						data: {residentPrimeID:this.value},
+						success:function(data) {
+
+							data = $.parseJSON(data);
+
+							for(index in data)
+							{
+
+								var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+								var date = new Date(data[index].birthDate);
+								var month = date.getMonth();
+								var day = date.getDate();
+								var year = date.getFullYear();
+								var d = months[month] + ' ' + day + ', ' + year;
+
+								$('#bday').html(d);
+								$('#number').html(data[index].contactNumber);
+								$('#email').html(data[index].email);
+							}
+								
+									
+						}
+				})
+
+		}); 
+
 		$('#switchResident').change(function(){
 
 			if(this.checked){
-				$('#residentLayout').html('');
+
+				$('#residentLayout').html(
+					'<div  class="row">'+
+						'<div  class="form-group col-xs-6">'+
+							'<h6>Resident: </h6><span>'+
+							'<select class="select2 form-control" id="resiID" name="resiID" style="width: 100%">'+
+							
+								'<optgroup id="male" label="Male">'+
+								'</optgroup>'+
+								'<optgroup id="female" label="Female">'+
+								'</optgroup>'+
+							'</select></span>'+
+						'</div>'+
+						'<div style="border: 1px solid grey" class="form-group col-xs-5">'+
+							'<h6>Birthday: <i><span id="bday"></span></i></h6>'+
+							'<h6>Contact Number: <i><span id="number"></span></i></h6>'+
+							'<h6>Email: <i><span id="email"></span></i></h6>'+
+						'</div>'+
+					'</div>'
+				);
+
+				$('#resiID').select2();
+
+				$.ajax({
+						type: 'GET',
+						url: '/service-sponsorship/getResidents',
+						success:function(data) {
+
+							data = $.parseJSON(data);
+
+							for(index in data)
+							{
+								var male = '';
+								var female = '';
+
+								if(data[index].gender == 'M')
+								{
+									male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+						
+								}
+								else if(data[index].gender == 'F')
+								{
+									female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+								}
+
+								$('#male').append(male);
+								$('#female').append(female);
+							}
+								
+									
+						}
+				})
+
+				
 			}
 			else{
 				$('#residentLayout').html(
