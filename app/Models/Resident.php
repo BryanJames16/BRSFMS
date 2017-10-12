@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 09 Oct 2017 00:48:55 +0800.
+ * Date: Thu, 12 Oct 2017 11:54:07 +0800.
  */
 
 namespace App\Models;
@@ -28,6 +28,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $status
  * @property string $imagePath
  * @property string $address
+ * @property string $email
  * 
  * @property \Illuminate\Database\Eloquent\Collection $barangaycards
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
@@ -41,6 +42,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Illuminate\Database\Eloquent\Collection $residentaccounts
  * @property \Illuminate\Database\Eloquent\Collection $residentbackgrounds
  * @property \Illuminate\Database\Eloquent\Collection $residentregistrations
+ * @property \Illuminate\Database\Eloquent\Collection $sponsors
  * @property \Illuminate\Database\Eloquent\Collection $voters
  *
  * @package App\Models
@@ -73,7 +75,8 @@ class Resident extends Eloquent
 		'residentType',
 		'status',
 		'imagePath',
-		'address'
+		'address',
+		'email'
 	];
 
 	public function barangaycards()
@@ -134,6 +137,11 @@ class Resident extends Eloquent
 	public function residentregistrations()
 	{
 		return $this->hasMany(\App\Models\Residentregistration::class, 'peoplePrimeID');
+	}
+
+	public function sponsors()
+	{
+		return $this->hasMany(\App\Models\Sponsor::class, 'resiID');
 	}
 
 	public function voters()

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 09 Oct 2017 00:48:55 +0800.
+ * Date: Thu, 12 Oct 2017 11:54:07 +0800.
  */
 
 namespace App\Models;
@@ -26,6 +26,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \App\Models\Service $service
  * @property \Illuminate\Database\Eloquent\Collection $logs
  * @property \Illuminate\Database\Eloquent\Collection $participants
+ * @property \Illuminate\Database\Eloquent\Collection $sponsors
  *
  * @package App\Models
  */
@@ -71,5 +72,10 @@ class Servicetransaction extends Eloquent
 	public function participants()
 	{
 		return $this->hasMany(\App\Models\Participant::class, 'serviceTransactionPrimeID');
+	}
+
+	public function sponsors()
+	{
+		return $this->hasMany(\App\Models\Sponsor::class, 'sID');
 	}
 }
