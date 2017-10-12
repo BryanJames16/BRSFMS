@@ -118,6 +118,65 @@ class ServiceSponsorshipController extends Controller
 
     }
 
+    public function getSponsorsR(Request $r){
+        if ($r -> ajax()) {
+            
+            $residents = Sponsor::select('resiID','residentID', 'residents.firstName',
+                                        'residents.lastName','residents.middleName', 'residents.contactNumber',
+                                         'residents.birthDate','residents.email','dateSponsored',
+                                        'sponsors.sponsorID',\DB::raw('count(id) as number'))
+    												-> leftjoin('sponsoritems','sponsoritems.sponsorID','=','sponsors.sponsorID')
+                                                    -> join('residents','sponsors.resiID','=','residents.residentPrimeID')
+                                                    -> groupBy('resiID')
+                                                    -> groupBy('residentID')
+                                                    -> groupBy('residents.firstName')
+                                                    -> groupBy('residents.lastName')
+                                                    -> groupBy('residents.middleName')
+                                                    -> groupBy('residents.contactNumber')
+                                                    -> groupBy('residents.birthDate')
+                                                    -> groupBy('residents.email')
+                                                    -> groupBy('dateSponsored')
+                                                    -> groupBy('sponsors.sponsorID')
+                                                    -> where('status','1')
+                                                    -> where('sID',$r->input('sID'))
+                                                    -> get();
+            return json_encode($residents);
+        }
+        else{
+            return view('errors.403');
+        }
+        
+
+    }
+
+    public function getSponsorsN(Request $r){
+        if ($r -> ajax()) {
+            
+            $residents = Sponsor::select('resiID', 'firstName',
+                                        'lastName','middleName', 'contactNumber',
+                                         'email','dateSponsored',
+                                        'sponsors.sponsorID',\DB::raw('count(id) as number'))
+    												-> leftjoin('sponsoritems','sponsoritems.sponsorID','=','sponsors.sponsorID')
+                                                    -> groupBy('resiID')
+                                                    -> groupBy('firstName')
+                                                    -> groupBy('lastName')
+                                                    -> groupBy('middleName')
+                                                    -> groupBy('contactNumber')
+                                                    -> groupBy('email')
+                                                    -> groupBy('dateSponsored')
+                                                    -> groupBy('sponsors.sponsorID')
+                                                    -> where('sID',$r->input('sID'))
+                                                    -> where('resiID',null)
+                                                    -> get();
+            return json_encode($residents);
+        }
+        else{
+            return view('errors.403');
+        }
+        
+
+    }
+
     public function sponsor(Request $r) {
         if ($r->ajax()) {
 
@@ -154,5 +213,21 @@ class ServiceSponsorshipController extends Controller
         else {
             return view('errors.403');
         }
+    }
+
+    public function getItems(Request $r){
+        if ($r -> ajax()) {
+            
+            $items = Sponsoritem::select('itemName','quantity','sponsors.sponsorID')
+                                                    -> join('sponsors','sponsoritems.sponsorID','=','sponsors.sponsorID')
+                                                    -> where('sponsors.sponsorID',$r->input('sponsorID'))
+                                                    -> get();
+            return json_encode($items);
+        }
+        else{
+            return view('errors.403');
+        }
+        
+
     }
 }

@@ -16,7 +16,7 @@ class BusinessRegistrationController extends Controller
     public function index() {
 
         $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
-                                                'registrationDate','address', 'categoryID','categoryName','residents.lastName',
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
                                                 'residents.firstName', 'residents.middleName')
                                                     ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
                                                     ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
@@ -29,7 +29,7 @@ class BusinessRegistrationController extends Controller
     public function refresh(Request $r) {
         if ($r -> ajax()) {
             return json_encode(Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
-                                                'registrationDate','address', 'categoryID','categoryName','residents.lastName',
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
                                                 'residents.firstName', 'residents.middleName')
                                                     ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
                                                     ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
@@ -127,7 +127,7 @@ class BusinessRegistrationController extends Controller
     public function getDetails(Request $r) {
         if ($r -> ajax()) {
             return json_encode(Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
-                                                'registrationDate','address', 'categoryID','categoryName','residents.lastName',
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
                                                 'residents.firstName', 'residents.middleName','residents.contactNumber','residents.gender')
                                                     ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
                                                     ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')

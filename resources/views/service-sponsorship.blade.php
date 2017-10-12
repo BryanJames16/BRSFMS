@@ -7,6 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
@@ -86,8 +88,8 @@
 
 					<div class="card-block">
 						<!-- SERVICE TRANSACTIONS TABLE -->
-							<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-								<thead>
+							<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-service">
+								<thead class="thead-custom-bg-red">
 									<tr>
 										<th>Name</th>
 										<th>Service</th>
@@ -228,44 +230,78 @@
 										Submit  
 									</button>
 								</div>
-
-								<!--
-								<form class="row">
-									
-									<div id="col" class="form-group col-xs-12 contact-repeater">
-
-										<div data-repeater-list="repeater-group">
-											<div class="input-group mb-1" data-repeater-item="">
-												
-												<div class="form-group col-md-5 ">
-													<input type="text" class="form-control" placeholder="Item" name="" />
-												</div>
-													<input type="number" style="width:40%" class="form-control" placeholder="Quantity" name />
-													<span class="" id="button-addon2">
-														<button class="btn btn-danger" type="button" data-repeater-delete=""><i class="icon-cross2"></i></button>
-													</span>
-												
-
-											</div>
-										</div>
-										<div align="center">
-											<button type="button" data-repeater-create="" class="btn btn-info">
-												<i class="icon-plus4"></i> Add item
-											</button>
-											<button type="button" class="btn btn-success submit">
-												Submit  
-											</button>
-										</div>
-									</div>
-									
-									<p align="center">
-										
-									</p>	
-									
-								</form>
-								-->
 						</div>
 						</form>
+					</div>
+					<!-- End of Modal Body -->
+
+				</div>
+			</div>
+		</div> 
+	<!-- End of Modal -->
+
+	<!--View Modal -->
+		<div class="modal fade text-xs-left" id="viewModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Sponsors</h4>
+					</div>
+
+					<!-- START MODAL BODY -->
+					<div class="modal-body" width='100%'>
+						<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-sponsor">
+								<thead class="thead-custom-bg-red">
+									<tr>
+										<th>Name</th>
+										<th>Contact Number</th>
+										<th>Email</th>
+										<th>Date Sponsored</th>
+										<th>Items Sponsored</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									
+								</tbody>
+							</table>
+					</div>
+					<!-- End of Modal Body -->
+
+				</div>
+			</div>
+		</div> 
+	<!-- End of Modal -->
+
+	<!--Items Modal -->
+		<div class="modal fade text-xs-left" id="itemsModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Items</h4>
+					</div>
+
+					<!-- START MODAL BODY -->
+					<div class="modal-body" width='100%'>
+						<table class="table table-striped dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-item">
+								<thead class="thead-custom-bg-red">
+									<tr>
+										<th>Item Name</th>
+										<th>Quantity</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									
+								</tbody>
+							</table>
 					</div>
 					<!-- End of Modal Body -->
 
@@ -334,6 +370,122 @@
 			$('#serviceID').val(id);
 
 			$('#sponsorModal').modal('show');
+
+		}); 
+
+		$(document).on('click', '.viewItems', function(e) {
+			
+			var id = $(this).data('value');
+
+			$.ajax({
+					type: 'GET',
+					url: '/service-sponsorship/getItems',
+					data: {sponsorID:id},
+					success:function(data) {
+
+						$('#table-item').DataTable().clear().draw();
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+							
+							
+							$('#table-item').DataTable()
+									.row.add([
+										data[index].itemName,
+										data[index].quantity
+									]).draw(false);
+
+							
+						}
+							
+						$('#itemsModal').modal('show');		
+					}
+			})
+
+			
+
+		}); 
+
+		$(document).on('click', '.view', function(e) {
+			
+			var id = $(this).data('value');
+			
+			$.ajax({
+					type: 'GET',
+					url: '/service-sponsorship/getSponsorsR',
+					data: {sID:id},
+					success:function(data) {
+
+						var dt = $("#table-sponsor").DataTable();
+
+						$("#table-sponsor").DataTable().clear().draw();
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+							
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].dateSponsored);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+							
+									dt
+									.row.add([
+										data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+										data[index].contactNumber, 
+										data[index].email, 
+										d,
+										data[index].number,
+										'<a href="#" class="btn btn-info viewItems" data-value="'+ data[index].sponsorID +'">View Items</a>'
+									]).draw(false);
+
+							
+						}
+
+						
+
+						$.ajax({
+								type: 'GET',
+								url: '/service-sponsorship/getSponsorsN',
+								data: {sID:id},
+								success:function(data) {
+
+									data = $.parseJSON(data);
+
+									for(index in data)
+									{
+										
+										var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+										var date = new Date(data[index].dateSponsored);
+										var month = date.getMonth();
+										var day = date.getDate();
+										var year = date.getFullYear();
+										var d = months[month] + ' ' + day + ', ' + year;
+										
+										dt
+												.row.add([
+													data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+													data[index].contactNumber, 
+													data[index].email, 
+													d,
+													data[index].number,
+													'<a href="#" class="btn btn-info viewItems" data-value="'+ data[index].sponsorID +'">View Items</a>'
+												]).draw(false);
+
+										
+									}
+										
+											
+								}
+						})				
+								
+					}
+			})
+
+			$('#viewModal').modal('show');
 
 		}); 
 
@@ -445,31 +597,31 @@
 		$(document).on('change', '#resiID', function(e) {
 			
 			$.ajax({
-						type: 'GET',
-						url: '/service-sponsorship/getResidentInfo',
-						data: {residentPrimeID:this.value},
-						success:function(data) {
+					type: 'GET',
+					url: '/service-sponsorship/getResidentInfo',
+					data: {residentPrimeID:this.value},
+					success:function(data) {
 
-							data = $.parseJSON(data);
+						data = $.parseJSON(data);
 
-							for(index in data)
-							{
+						for(index in data)
+						{
 
-								var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-								var date = new Date(data[index].birthDate);
-								var month = date.getMonth();
-								var day = date.getDate();
-								var year = date.getFullYear();
-								var d = months[month] + ' ' + day + ', ' + year;
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].birthDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
 
-								$('#bday').html(d);
-								$('#number').html(data[index].contactNumber);
-								$('#email').html(data[index].email);
-							}
-								
-									
+							$('#bday').html(d);
+							$('#number').html(data[index].contactNumber);
+							$('#email').html(data[index].email);
 						}
-				})
+							
+								
+					}
+			})
 
 		}); 
 
@@ -570,7 +722,7 @@
 				method: "GET", 
 				datatype: "json", 
 				success: function(data) {
-					$("#table-container").DataTable().clear().draw();
+					$("#table-service").DataTable().clear().draw();
 					data = $.parseJSON(data);
 
 					for (index in data) {
@@ -625,7 +777,7 @@
 							date = fd  + ' - ' + td;
 						}
 
-						$("#table-container").DataTable()
+						$("#table-service").DataTable()
 								.row.add([
 									data[index].serviceTransactionName, 
 									data[index].serviceName, 
