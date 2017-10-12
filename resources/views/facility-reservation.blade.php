@@ -396,14 +396,14 @@
 				</div>
 				
 				<!-- Reschedule Modal -->
-				<div class="modal fade text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reschedule</h4>
 							</div>
 							<div class="modal-body">
 								{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id' => 'frm-reschedule'])!!}
@@ -427,14 +427,14 @@
 
 
 				<!-- Calendar Modal -->
-				<div class="modal fade text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-xl modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Calendar</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Calendar</h4>
 							</div>
 							<div class="modal-body">
 								<div class="card-block">
@@ -473,14 +473,14 @@
 
 
 				<!-- Extend Modal -->
-				<div class="modal fade text-xs-left" id="extendModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="extendModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reschedule</h4>
 							</div>
 							<div class="modal-body">
 								
@@ -494,14 +494,14 @@
 										<!--RESERVE FACILITY -->
 
 										<!--Add Modal -->
-				<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reserve Facility</h4>
 							</div>
 							<div class="modal-body">
 								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve'])!!}
@@ -534,14 +534,14 @@
 										<!-- VIEW MODAL -->
 
 							<!-- Modal -->
-				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Details</h4>
 							</div>
 							<div class="modal-body">
 								

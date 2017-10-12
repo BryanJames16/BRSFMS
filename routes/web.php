@@ -190,7 +190,10 @@ Route::get('/document-approval/getRemarks', 'DocumentApprovalController@getRemar
 Route::get('/logs/getLogs', 'LogsController@getLogs');
 Route::get('/logs/getUserLogs', 'LogsController@getUserLogs');
 
-// Reservation
+// Item Reservation
+Route::get('/item-reservation/store', 'ItemReservationController@store');
+
+// Facility Reservation
 Route::get('/facility-reservation/refresh', 'ReservationController@refresh');
 Route::get('/facility-reservation/refreshNonRes', 'ReservationController@refreshNonRes');
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
@@ -265,12 +268,12 @@ Route::get('/utilities/refresh', 'UtilitiesController@refresh');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
 
-/*ID RELEASE*/
+/* ID RELEASE */
 Route::get('/id-release/getEdit', 'IDReleasingController@getEdit');
 Route::get('/id-release/refresh', 'IDReleasingController@refresh');
 Route::post('/id-release/release', 'IDReleasingController@release');
 
-/*Service Sponsorship*/
+/* Service Sponsorship */
 Route::get('/service-sponsorship/getResidents', 'ServiceSponsorshipController@getResidents');
 Route::get('/service-sponsorship/getItems', 'ServiceSponsorshipController@getItems');
 Route::get('/service-sponsorship/getResidentInfo', 'ServiceSponsorshipController@getResidentInfo');
