@@ -33,7 +33,7 @@ Utilities
 			<div class="col-xs-14">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="card-title">Barangay Info</h4>
+						<h4 class="card-title">Utilities</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -50,131 +50,136 @@ Utilities
 									<i class="icon-edit2"></i> Edit Settings  
 								</button>
                     		</p>
-							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
-								<thead>
-									<tr>
-										<col width="240">
-										<th>Assets</th>
-										<th>Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach($utilities as $utility)
-										<tr>
-											<td>Barangay Name</td>
-											<td>{{ $utility -> barangayName }}</td>
-										</tr>
-										<tr>
-											<td>Chairman Name</td>
-											<td>
-												{{ $utility -> chairmanName }}<br>
-												<img src="{{ URL::asset('system-assets/images/sign/sign.png') }}" height="95px" width="185px">
-											</td>
-										</tr>
-										<tr>
-											<td>Address</td>
-											<td>{{ $utility -> address }}</td>
-										</tr>
-										<tr>
-											<td>Barangay Logo</td>
-											<td>
-												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px"><br>
-												{{ $utility -> brgyLogoPath }}
-											</td>
-										</tr>
-										<tr>
-											<td>Province Logo</td>
-											<td>
-												<img src="{{ URL::asset('system-assets/images/logo/prov_tl.png') }}" height="100px" width="100px"><br>
-												{{ $utility -> provLogoPath }}
-											</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
+
+							<div class="card-block">
+								<ul class="nav nav-tabs nav-linetriangle no-hover-bg nav-justified">
+									<li class="nav-item">
+										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#brgyinfo" aria-controls="active3" aria-expanded="true">Barangay Information</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#identifiers" aria-controls="link3" aria-expanded="false">Identifiers</a>
+									</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane fade active in" id="brgyinfo" aria-labelledby="active-tab3" aria-expanded="true">
+										<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-container">
+											<thead>
+												<tr>
+													<col width="240">
+													<th>Assets</th>
+													<th>Value</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach($utilities as $utility)
+													<tr>
+														<td>Barangay Name</td>
+														<td>{{ $utility -> barangayName }}</td>
+													</tr>
+													<tr>
+														<td>Chairman Name</td>
+														<td>
+															{{ $utility -> chairmanName }}<br>
+															<img src="{{ URL::asset('system-assets/images/sign/sign.png') }}" height="95px" width="185px">
+														</td>
+													</tr>
+													<tr>
+														<td>Address</td>
+														<td>{{ $utility -> address }}</td>
+													</tr>
+													<tr>
+														<td>Barangay Logo</td>
+														<td>
+															<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px"><br>
+															{{ $utility -> brgyLogoPath }}
+														</td>
+													</tr>
+													<tr>
+														<td>Province Logo</td>
+														<td>
+															<img src="{{ URL::asset('system-assets/images/logo/prov_tl.png') }}" height="100px" width="100px"><br>
+															{{ $utility -> provLogoPath }}
+														</td>
+													</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+									<div class="tab-pane fade" id="identifiers" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
+										<p align="right">
+											<!-- Button trigger modal -->
+											@foreach($utilities as $uuu)
+												@if($uuu->facilityPK ==null)
+													<button type="button" class="btn btn-outline-info btn-lg" id="btnUpdatePK"  style="width:130px; font-size:13px">
+														<i class="icon-edit2"></i> Edit Values  
+													</button>
+												@endif
+											@endforeach
+										</p>
+										<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-containers">
+											<thead>
+												<tr>
+													<col width="240">
+													<th>Identifier</th>
+													<th>Value</th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach($utilities as $utility)
+													<tr>
+														<td>Document Identifier</td>
+														<td>{{ $utility -> documentPK }}</td>
+													</tr>
+													<tr>
+														<td>Document Approval Identifier</td>
+														<td>{{ $utility -> docApprovalPK }}</td>
+													</tr>
+													<tr>
+														<td>Document Request Identifier</td>
+														<td>{{ $utility -> docRequestPK }}</td>
+													</tr>
+													<tr>
+														<td>Facility Identifier</td>
+														<td>{{ $utility -> facilityPK }}</td>
+													</tr>
+													<tr>
+														<td>Family Identifier</td>
+														<td>{{ $utility -> familyPK }}</td>
+													</tr>
+													<tr>
+														<td>Reservation Identifier</td>
+														<td>{{ $utility -> reservationPK }}</td>
+													</tr>
+													<tr>
+														<td>Resident Identifier</td>
+														<td>{{ $utility -> residentPK }}</td>
+													</tr>
+													<tr>
+														<td>Service Identifier</td>
+														<td>{{ $utility -> servicePK }}</td>
+													</tr>
+													<tr>
+														<td>Service Registration Identifier</td>
+														<td>{{ $utility -> serviceRegPK }}</td>
+													</tr>
+													<tr>
+														<td>Collection Identifier</td>
+														<td>{{ $utility -> collectionPK }}</td>
+													</tr>
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+
+							
 						</div>
 					</div>
 				</div>
 
-				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Unique Identifiers</h4>
-						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
-						<div class="heading-elements">
-							<ul class="list-inline mb-0">
-								<li><a data-action="reload"><i class="icon-reload"></i></a></li>
-								<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="card-body collapse in">
-						<div class="card-block card-dashboard">
-							<p align="right">
-								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" id="btnUpdatePK"  style="width:130px; font-size:13px">
-									<i class="icon-edit2"></i> Edit Values  
-								</button>
-                    		</p>
-							<table class="table table-striped table-bordered" style="font-size:14px;width:100%;" id="table-containers">
-								<thead>
-									<tr>
-										<col width="240">
-										<th>Identifier</th>
-										<th>Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach($utilities as $utility)
-										<tr>
-											<td>Document Identifier</td>
-											<td>{{ $utility -> documentPK }}</td>
-										</tr>
-										<tr>
-											<td>Document Approval Identifier</td>
-											<td>{{ $utility -> docApprovalPK }}</td>
-										</tr>
-										<tr>
-											<td>Document Request Identifier</td>
-											<td>{{ $utility -> docRequestPK }}</td>
-										</tr>
-										<tr>
-											<td>Facility Identifier</td>
-											<td>{{ $utility -> facilityPK }}</td>
-										</tr>
-										<tr>
-											<td>Family Identifier</td>
-											<td>{{ $utility -> familyPK }}</td>
-										</tr>
-										<tr>
-											<td>Reservation Identifier</td>
-											<td>{{ $utility -> reservationPK }}</td>
-										</tr>
-										<tr>
-											<td>Resident Identifier</td>
-											<td>{{ $utility -> residentPK }}</td>
-										</tr>
-										<tr>
-											<td>Service Identifier</td>
-											<td>{{ $utility -> servicePK }}</td>
-										</tr>
-										<tr>
-											<td>Service Registration Identifier</td>
-											<td>{{ $utility -> serviceRegPK }}</td>
-										</tr>
-										<tr>
-											<td>Sponsor Identifier</td>
-											<td>{{ $utility -> sponsorPK }}</td>
-										</tr>
-										<tr>
-											<td>Collection Identifier</td>
-											<td>{{ $utility -> collectionPK }}</td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+				
 
 				<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">

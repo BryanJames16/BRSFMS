@@ -253,22 +253,32 @@
 
 					<!-- START MODAL BODY -->
 					<div class="modal-body" width='100%'>
-						<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-sponsor">
-								<thead class="thead-custom-bg-red">
-									<tr>
-										<th>Name</th>
-										<th>Contact Number</th>
-										<th>Email</th>
-										<th>Date Sponsored</th>
-										<th>Items Sponsored</th>
-										<th>Actions</th>
-									</tr>
-								</thead>
 
-								<tbody>
-									
-								</tbody>
-							</table>
+						<div align="center">
+							<h2 id="serviceName"></h2>
+						</div>
+						<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-sponsor">
+							<thead class="thead-custom-bg-red">
+								<tr>
+									<th>Name</th>
+									<th>Contact Number</th>
+									<th>Email</th>
+									<th>Date Sponsored</th>
+									<th>Items Sponsored</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								
+							</tbody>
+						</table>
+
+						<div align="center">
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+								<i class="icon-cross2"></i> Close
+							</button>
+						</div>
 					</div>
 					<!-- End of Modal Body -->
 
@@ -291,17 +301,23 @@
 					<!-- START MODAL BODY -->
 					<div class="modal-body" width='100%'>
 						<table class="table table-striped dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-item">
-								<thead class="thead-custom-bg-red">
-									<tr>
-										<th>Item Name</th>
-										<th>Quantity</th>
-									</tr>
-								</thead>
+							<thead class="thead-custom-bg-red">
+								<tr>
+									<th>Item Name</th>
+									<th>Quantity</th>
+								</tr>
+							</thead>
 
-								<tbody>
-									
-								</tbody>
-							</table>
+							<tbody>
+								
+							</tbody>
+						</table>
+
+						<div align="center">
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+								<i class="icon-cross2"></i> Close
+							</button>
+						</div>
 					</div>
 					<!-- End of Modal Body -->
 
@@ -424,7 +440,7 @@
 
 						for(index in data)
 						{
-							
+							$('#serviceName').html(data[index].serviceName);
 							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 							var date = new Date(data[index].dateSponsored);
 							var month = date.getMonth();

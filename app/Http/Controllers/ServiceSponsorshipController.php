@@ -123,10 +123,12 @@ class ServiceSponsorshipController extends Controller
             
             $residents = Sponsor::select('resiID','residentID', 'residents.firstName',
                                         'residents.lastName','residents.middleName', 'residents.contactNumber',
-                                         'residents.birthDate','residents.email','dateSponsored',
+                                         'residents.birthDate','residents.email','dateSponsored', 'serviceName',
                                         'sponsors.sponsorID',\DB::raw('count(id) as number'))
     												-> leftjoin('sponsoritems','sponsoritems.sponsorID','=','sponsors.sponsorID')
                                                     -> join('residents','sponsors.resiID','=','residents.residentPrimeID')
+                                                    -> join('servicetransactions','sponsors.sID','=','servicetransactions.serviceTransactionPrimeID')
+                                                    -> groupBy('serviceName')
                                                     -> groupBy('resiID')
                                                     -> groupBy('residentID')
                                                     -> groupBy('residents.firstName')
@@ -137,7 +139,7 @@ class ServiceSponsorshipController extends Controller
                                                     -> groupBy('residents.email')
                                                     -> groupBy('dateSponsored')
                                                     -> groupBy('sponsors.sponsorID')
-                                                    -> where('status','1')
+                                                    -> where('residents.status','1')
                                                     -> where('sID',$r->input('sID'))
                                                     -> get();
             return json_encode($residents);
