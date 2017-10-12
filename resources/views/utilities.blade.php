@@ -193,7 +193,7 @@ Utilities
 							<div ng-app="maintenanceApp" class="modal-body">
 								<div class="card-block">
 									<div class="card-text">
-										{{ Form::open(['method' => 'POST', 'id' => 'frmMeta', 'files' => true]) }}
+										<form class="form" method="post" action="/utilities/saveInfo" enctype="multipart/form-data" />
 
 										<div class="form-group row">
 											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Name:</label>
@@ -244,12 +244,26 @@ Utilities
 														</ul>
 														<div class="sig sigWrapper">
 															<div class="typed"></div>
-															<canvas class="pad" width="398" height="100"></canvas>
+															<canvas id="chairSign" class="pad" width="398" height="100"></canvas>
 															<input type="hidden" name="output" class="output">
 														</div>
+														<a href="#" class="btn btn-info save">Save signature</a>
 													</div>
 												</form>
-											</div>	
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Upload Signature</label>
+											<div class="col-md-9">
+												<input type="file" class="form-control form-control-sm input-sm" id="imageSign" name="imagePath" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-md-3 label-control" for="eventRegInput1">Signature Preview</label>
+											<div class="col-md-9">
+												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
+											</div>
 										</div>
 
 										<div class="form-group row">
@@ -273,48 +287,30 @@ Utilities
 
 										<div class="form-group row">
 											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Logo</label>
-											<div class="col-md-3">
-												{{ Form::text('brgyLogo', 
-																null, 
-																['id' => 'brgyLogo', 
-																	'class' => 'form-control', 
-																	'placeholder' => 'Barangay Caguinto', 
-																	'maxlength' => '20', 
-																	'data-toggle' => 'tooltip', 
-																	'data-trigger' => 'focus', 
-																	'data-placement' => 'top', 
-																	'data-title' => 'Maximum of 20 characters', 
-																	'required', 
-																	'minlength'=>'5', 
-																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											<div class="col-md-6">
+												<input type="file" class="form-control form-control-sm input-sm" id="imageBrgy" name="imageBrgy" />
 											</div>	
+											<div class="col-md-3">
+												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
+											</div>
 										</div>
 
 										<div class="form-group row">
 											<label class="col-md-3 label-control" for="eventRegInput1">Province Logo</label>
-											<div class="col-md-3">
-												{{ Form::text('provLogo', 
-																null, 
-																['id' => 'provLogo', 
-																	'class' => 'form-control', 
-																	'placeholder' => 'Barangay Caguinto', 
-																	'maxlength' => '20', 
-																	'data-toggle' => 'tooltip', 
-																	'data-trigger' => 'focus', 
-																	'data-placement' => 'top', 
-																	'data-title' => 'Maximum of 20 characters', 
-																	'required', 
-																	'minlength'=>'5', 
-																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
+											<div class="col-md-6">
+												<input type="file" class="form-control form-control-sm input-sm" id="imageProvince" name="imageProvince" />
 											</div>	
+											<div class="col-md-3">
+												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
+											</div>
 										</div>
 									</div>
 
-									<div class="form-actions center">
-										<input type="submit" class="btn btn-success" value="Request Document" name="btnRequest">
+									<div align ="center" class="form-actions center">
+										<a href="#" class="btn btn-success update">Update</a>
 										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
-										{{ Form::close() }}
+										</form>
 									</div>					
 																
 								</div>
@@ -604,7 +600,37 @@ Utilities
 	<script type="text/javascript">
 
 		$("#btnAddModal").on('click', function() {
+
+			$.ajax({
+				url: "{{ url('/utilities/getCurrentPK') }}", 
+				method: "GET", 
+				success: function(data) {
+					$("#barangayName").val(data.barangayName);
+					$("#address").val(data.address);
+				}, 
+				failed: function(data) {
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+				}
+			});
+
 			$("#iconModal").modal('show');
+		});
+
+		$(document).on('click', '.save', function(e) {
+			
+			var canvas = document.getElementById("chairSign");
+			var img = canvas.toDataURL("image/png");
+			var w=window.open('about:blank','image from canvas');
+			w.document.write("<img src='"+img+"' alt='from canvas'/>");
+
+
+
 		});
 
 		$("#btnUpdatePK").on('click', function() {
