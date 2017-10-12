@@ -269,7 +269,9 @@ Route::post('/id-release/release', 'IDReleasingController@release');
 /*Service Sponsorship*/
 Route::get('/service-sponsorship/getResidents', 'ServiceSponsorshipController@getResidents');
 Route::get('/service-sponsorship/getResidentInfo', 'ServiceSponsorshipController@getResidentInfo');
+Route::get('/service-sponsorship/refresh', 'ServiceSponsorshipController@refresh');
 Route::post('/service-sponsorship/sponsor', 'ServiceSponsorshipController@sponsor');
+Route::post('/service-sponsorship/sponsorItem', 'ServiceSponsorshipController@sponsorItem');
 
 /* QUERY RESIDENT */
 Route::get('/query/resident/submit', 'QueryResidentController@getQuery');

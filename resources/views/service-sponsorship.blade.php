@@ -129,7 +129,13 @@
 												<td><span class="tag round tag-default tag-success">Finished</span></td>
 											@endif
 											<td>
-												<a href="#" class="btn btn-warning sponsor" data-value='{{ $st -> serviceTransactionPrimeID }}'>Sponsor</a>
+												<span class="dropdown">
+													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+													<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+														<a href="#" class="dropdown-item view" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}">View Sponsors</a>
+														<a href="#" class="dropdown-item sponsor" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}">Sponsor</a>
+													</span>
+												</span>
 											</td>
 										</tr>
 									@endforeach
@@ -159,7 +165,9 @@
 						<input type="checkbox" id="switchResident" class="switchery" data-size="sm" />
 						<label for="switcherySize10" class="card-title ml-1">Resident</label>
 						<hr>
+						<form id="frm-sponsor">
 						<input type="hidden" id="serviceID">
+						<input type="hidden" id="sponsorID">
 						<div>
 							<h4 class="form-section">Credentials </h4>
 							<div id="residentLayout">	
@@ -257,6 +265,7 @@
 								</form>
 								-->
 						</div>
+						</form>
 					</div>
 					<!-- End of Modal Body -->
 
@@ -353,14 +362,6 @@
 		$(document).on('click', '.submit', function(e) {
 			
 
-			if(switchResident.checked)
-			{
-				
-			}
-			else{
-				
-			}
-
 			$.ajax({
 				type: "post",
 				url: "{{ url('/service-sponsorship/sponsor') }}", 
@@ -373,7 +374,55 @@
 					contactNumber:$('#contactNumber').val(),
 					middleName:$('#middleName').val()}, 
 				success: function(data) {
-					alert('Sponsored successfully!');
+
+					
+					$('#sponsorID').val(data);
+
+					var items = $('input[name="items[]"]').map(function(){
+							return this.value;
+						}).get();
+
+						var quantities = $('input[name="quantities[]"]').map(function(){
+							return this.value;
+						}).get();
+
+						for(var i=0;i<items.length;i++)
+						{
+							for(var x=0;x<quantities.length;x++)
+							{
+								if(x==i)
+								{
+									$.ajax({
+										type: "post",
+										url: "{{ url('/service-sponsorship/sponsorItem') }}", 
+										data: {"_token": "{{ csrf_token() }}",
+											sponsorID:$('#sponsorID').val(),
+											itemName: items[x],
+											quantity: quantities[x]}, 
+										success: function(data) {	
+
+											$("#sponsorModal").modal("hide");
+											$("#frm-sponsor").trigger("reset");
+											swal("Success", "Successfully Sponsored!", "success");
+											refresh();
+
+										}, 
+										error: function(data) {
+											var message = "Error: ";
+											var data = error.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+											
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+											console.log("Error: Cannot refresh table!\n" + message);
+										}
+									});
+								}
+							}
+						}
+					
+
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -387,24 +436,7 @@
 				}
 			});
 
-			var items = $('input[name="items[]"]').map(function(){
-				return this.value;
-			}).get();
-
-			var quantities = $('input[name="quantities[]"]').map(function(){
-				return this.value;
-			}).get();
-
-			for(var i=0;i<items.length;i++)
-			{
-				for(var x=0;x<quantities.length;x++)
-				{
-					if(x==i)
-					{
-						
-					}
-				}
-			}
+			
 
 			
 
@@ -508,11 +540,11 @@
 						'</div>'+
 						'<div class="form-group col-xs-6 col-md-4">'+
 							'<label for="userinput2">Middle Name</label>'+
-							'{!!Form::text("name",null,["id"=>"rname","class"=>"form-control", "maxlength"=>"30","required"])!!}'+
+							'{!!Form::text("middleName",null,["id"=>"middleName","class"=>"form-control", "maxlength"=>"30","required"])!!}'+
 						'</div>'+
 						'<div class="form-group col-xs-6 col-md-4">'+
 							'<label for="userinput2">Last Name</label>'+
-							'{!!Form::text('name',null,['id'=>'rname','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+							'{!!Form::text('lastName',null,['id'=>'lastName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
 						'</div>'+
 					'</div>'+
 
@@ -532,6 +564,100 @@
 
 		}); 
 
+		var refresh = function() {
+			$.ajax({
+				url: "{{ url('/service-sponsorship/refresh') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-container").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+						
+						var status;
+						var age;
+						var date;
+						var s;
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var dat = new Date(data[index].fromDate);
+						var month = dat.getMonth();
+						var day = dat.getDate();
+						var year = dat.getFullYear();
+						var fd = months[month] + ' ' + day + ', ' + year;
+
+						var tmonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var tdat = new Date(data[index].toDate);
+						var tmonth = tdat.getMonth();
+						var tday = tdat.getDate();
+						var tyear = tdat.getFullYear();
+						var td = tmonths[tmonth] + ' ' + tday + ', ' + tyear;
+
+						if(data[index].status=='Pending')
+						{
+							s = '<span class="tag round tag-default tag-info">Pending</span>';
+						}
+						else if(data[index].status=='On-going')
+						{
+							s = '<span class="tag round tag-default tag-warning">On-going</span>';
+						}
+						else
+						{
+							s = '<span class="tag round tag-default tag-success">Finished</span>';
+						}
+
+						if(data[index].fromAge==null)
+						{
+							age = 'Open';
+						}
+						else
+						{
+							age = data[index].fromAge + ' - ' + data[index].toAge + ' yrs. old';
+						}
+
+						if(data[index].toDate==null)
+						{
+							date = fd;
+						}
+						else
+						{
+							date = fd  + ' - ' + td;
+						}
+
+						$("#table-container").DataTable()
+								.row.add([
+									data[index].serviceTransactionName, 
+									data[index].serviceName, 
+									date, 
+									age, 
+									data[index].number, 
+									s,
+
+											'<span class="dropdown">'+
+												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
+												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
+													'<a href="#" class="dropdown-item view" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'">View Sponsors</a>'+
+													'<a href="#" class="dropdown-item sponsor" name="btnView" data-value="'+ data[index].serviceTransactionPrimeID +'">Sponsor</a>'+
+												'</span>'+
+											'</span>'
+									
+								]).draw(false);
+					}
+				}, 
+				error: function(data) {
+
+					var message = "Error: ";
+					var data = error.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", "Cannot fetch table data!\n" + message, "error");
+					console.log("Error: Cannot refresh table!\n" + message);
+				}
+			});
+		};
 
 	</script>
 @endsection
