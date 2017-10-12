@@ -139,7 +139,6 @@
 	{{Form::open(['url'=>'facility-type/update', 'method' => 'POST', 'id'=>'frm-update'])}}
 @endsection
 
-
 @section('edit-modal-body')
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">ID</label>
@@ -148,7 +147,6 @@
 		</div>	
 
 	</div>
-
 
 	<div class="form-group row">
 		<label class="col-md-3 label-control" for="eventRegInput1">*Name</label>
@@ -370,10 +368,10 @@
 						$("#table-container").DataTable().column(4).visible(false)
 					}
 				}, 
-				error: function(data) {
+				error: function(errors) {
 
 					var message = "Error: ";
-					var data = error.responseJSON;
+					var data = errors.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}

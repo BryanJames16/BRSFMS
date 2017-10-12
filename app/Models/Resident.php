@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 12 Oct 2017 11:54:07 +0800.
+ * Date: Thu, 12 Oct 2017 18:00:10 +0800.
  */
 
 namespace App\Models;
@@ -36,6 +36,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Illuminate\Database\Eloquent\Collection $documentrequests
  * @property \Illuminate\Database\Eloquent\Collection $families
  * @property \Illuminate\Database\Eloquent\Collection $familymembers
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  * @property \Illuminate\Database\Eloquent\Collection $logs
  * @property \Illuminate\Database\Eloquent\Collection $participants
  * @property \Illuminate\Database\Eloquent\Collection $reservations
@@ -107,6 +108,11 @@ class Resident extends Eloquent
 	public function familymembers()
 	{
 		return $this->hasMany(\App\Models\Familymember::class, 'peoplePrimeID');
+	}
+
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'residentPrimeID');
 	}
 
 	public function logs()

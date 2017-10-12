@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 12 Oct 2017 11:54:07 +0800.
+ * Date: Thu, 12 Oct 2017 18:00:10 +0800.
  */
 
 namespace App\Models;
@@ -17,6 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property bool $status
  * @property bool $archive
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $generaladdresses
  * @property \Illuminate\Database\Eloquent\Collection $lots
  *
  * @package App\Models
@@ -36,6 +37,11 @@ class Street extends Eloquent
 		'status',
 		'archive'
 	];
+
+	public function generaladdresses()
+	{
+		return $this->hasMany(\App\Models\Generaladdress::class, 'streetID');
+	}
 
 	public function lots()
 	{

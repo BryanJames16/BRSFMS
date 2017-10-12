@@ -38,6 +38,12 @@ Route::post('/facility-type/delete', 'FacilityTypeController@delete');
 Route::post('/facility-type/store', 'FacilityTypeController@store');
 Route::post('/facility-type/update', 'FacilityTypeController@edit');
 
+// Items
+Route::get('/item/refresh', 'ItemController@refresh');
+Route::post('/item/delete', 'ItemController@delete');
+Route::post('/item/store', 'ItemController@store');
+Route::post('/item/update','ItemController@update');
+
 // Recipient
 Route::get('/recipient/getEdit', 'RecipientController@getEdit');
 Route::get('/recipient/refresh', 'RecipientController@refresh');
@@ -236,9 +242,6 @@ Route::post('/service-transaction/storeNo', 'ServiceTransactionController@storeN
 Route::post('/service-transaction/update', 'ServiceTransactionController@update');
 Route::post('/service-transaction/updateStatus', 'ServiceTransactionController@updateStatus');
 Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@FinishStatus');
-
-// Items
-Route::post('/item/fetch', 'ItemController@store');
 
 // Business Registration
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
