@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration {
 			$table->integer('itemQuantity');
 			$table->float('itemPrice', 10, 0);
 			$table->string('itemDescription', 250);
-			$table->boolean('quality');
+			$table->boolean('quality')->nullable();
 			$table->integer('status');
 			$table->boolean('archive');
 		});

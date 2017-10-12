@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 12 Oct 2017 18:00:10 +0800.
+ * Date: Thu, 12 Oct 2017 23:36:12 +0800.
  */
 
 namespace App\Models;
@@ -14,7 +14,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $utilityID
  * @property string $barangayName
- * @property string $chairmanName
  * @property string $address
  * @property string $brgyLogoPath
  * @property string $provLogoPath
@@ -32,6 +31,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property float $barangayIDAmount
  * @property int $expirationID
  * @property int $yearsOfExpiration
+ * @property string $signaturePath
  *
  * @package App\Models
  */
@@ -48,7 +48,6 @@ class Utility extends Eloquent
 
 	protected $fillable = [
 		'barangayName',
-		'chairmanName',
 		'address',
 		'brgyLogoPath',
 		'provLogoPath',
@@ -65,6 +64,7 @@ class Utility extends Eloquent
 		'collectionPK',
 		'barangayIDAmount',
 		'expirationID',
-		'yearsOfExpiration'
+		'yearsOfExpiration',
+		'signaturePath'
 	];
 }

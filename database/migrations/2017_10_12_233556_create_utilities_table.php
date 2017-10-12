@@ -16,7 +16,6 @@ class CreateUtilitiesTable extends Migration {
 		{
 			$table->integer('utilityID', true);
 			$table->string('barangayName', 50);
-			$table->string('chairmanName', 50);
 			$table->string('address', 100);
 			$table->string('brgyLogoPath', 250);
 			$table->string('provLogoPath', 250);
@@ -34,6 +33,7 @@ class CreateUtilitiesTable extends Migration {
 			$table->float('barangayIDAmount', 10, 0);
 			$table->boolean('expirationID')->default(1);
 			$table->integer('yearsOfExpiration')->nullable()->default(2);
+			$table->string('signaturePath', 250);
 		});
 	}
 
