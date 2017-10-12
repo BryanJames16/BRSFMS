@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.1.19-MariaDB, for Win32 (AMD64)
+-- MySQL dump 10.16  Distrib 10.1.26-MariaDB, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: 127.0.0.1
+-- Host: 127.0.0.1    Database: dbBarangay
 -- ------------------------------------------------------
--- Server version	10.1.19-MariaDB
+-- Server version	10.1.26-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -522,6 +522,77 @@ LOCK TABLES `familymembers` WRITE;
 /*!40000 ALTER TABLE `familymembers` DISABLE KEYS */;
 INSERT INTO `familymembers` VALUES (4,2,5,'Grandfather',0),(9,1,2,'Son',0),(18,1,3,'Daughter',0),(20,1,4,'Self',0),(22,4,6,'Self',0),(24,4,7,'Brother',0),(25,5,8,'Self',0),(26,2,6,'Self',0),(27,5,9,'Wife',0);
 /*!40000 ALTER TABLE `familymembers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `generaladdresses`
+--
+
+DROP TABLE IF EXISTS `generaladdresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `generaladdresses` (
+  `personAddressID` int(11) NOT NULL AUTO_INCREMENT,
+  `addressType` varchar(30) NOT NULL,
+  `residentPrimeID` int(11) DEFAULT NULL,
+  `facilitiesPrimeID` int(11) DEFAULT NULL,
+  `businessPrimeID` int(11) DEFAULT NULL,
+  `unitID` int(11) DEFAULT NULL,
+  `streetID` int(11) DEFAULT NULL,
+  `lotID` int(11) DEFAULT NULL,
+  `buildingID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`personAddressID`),
+  KEY `fk_GeneralAddresses_Facilities1_idx` (`facilitiesPrimeID`),
+  KEY `fk_GeneralAddresses_Residents1_idx` (`residentPrimeID`),
+  KEY `fk_generaladdresses_units1_idx` (`unitID`),
+  KEY `fk_generaladdresses_streets1_idx` (`streetID`),
+  KEY `lotID_idx` (`lotID`),
+  KEY `fk_generaladdresses_businessregistrations1_idx` (`businessPrimeID`),
+  CONSTRAINT `fk_GeneralAddresses_Facilities1` FOREIGN KEY (`facilitiesPrimeID`) REFERENCES `facilities` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_GeneralAddresses_Residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_generaladdresses_businessregistrations1` FOREIGN KEY (`businessPrimeID`) REFERENCES `businessregistrations` (`registrationPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_generaladdresses_streets1` FOREIGN KEY (`streetID`) REFERENCES `streets` (`streetID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_generaladdresses_units1` FOREIGN KEY (`unitID`) REFERENCES `units` (`unitID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `generaladdresses`
+--
+
+LOCK TABLES `generaladdresses` WRITE;
+/*!40000 ALTER TABLE `generaladdresses` DISABLE KEYS */;
+INSERT INTO `generaladdresses` VALUES (1,'Permanent Address',2,NULL,NULL,3,2,3,2),(2,'Permanent Address',3,NULL,NULL,3,2,3,2),(3,'Permanent Address',4,NULL,NULL,3,2,3,2),(4,'Permanent Address',5,NULL,NULL,5,3,5,3),(5,'Permanent Address',6,NULL,NULL,5,3,5,3),(6,'Current Address',7,NULL,NULL,1,1,1,1),(7,'Permanent Address',8,NULL,NULL,3,2,3,2);
+/*!40000 ALTER TABLE `generaladdresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `items`
+--
+
+DROP TABLE IF EXISTS `items`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `items` (
+  `itemID` int(11) NOT NULL AUTO_INCREMENT,
+  `itemName` varchar(30) NOT NULL,
+  `itemQuantity` int(11) NOT NULL,
+  `itemPrice` double NOT NULL,
+  `itemDescription` varchar(250) NOT NULL,
+  `quality` tinyint(1) NOT NULL,
+  `status` int(11) NOT NULL,
+  `archive` tinyint(1) NOT NULL,
+  PRIMARY KEY (`itemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `items`
+--
+
+LOCK TABLES `items` WRITE;
+/*!40000 ALTER TABLE `items` DISABLE KEYS */;
+/*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1427,4 +1498,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-12 11:58:43
+-- Dump completed on 2017-10-12 17:59:23

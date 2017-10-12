@@ -107,7 +107,7 @@
                                             'required', 
                                             'min' => '1', 
                                             'step' => '0.25', 
-                                            'pattern' => '^[0-9]+$']) }}
+                                            'pattern' => '^[0-9.]+$']) }}
 		</div>	
         <div class="col-md-2">
             per unit
