@@ -234,11 +234,11 @@
 	                    	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye"></i> View Document</h4>
 										</div>
 										<div ng-app="maintenanceApp" class="modal-body">
 
@@ -273,11 +273,11 @@
 							<div class="modal animated bounceInDown text-xs-left" id="rejectModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-xs " role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reject this document</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-trash-o"></i> Reject this document</h4>
 										</div>
 
 										<!-- START MODAL BODY -->
@@ -322,11 +322,11 @@
 							<div class="modal animated bounceInDown text-xs-left" id="remarkModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-xs " role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Remarks</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-quill"></i> Remarks</h4>
 										</div>
 
 										<!-- START MODAL BODY -->
