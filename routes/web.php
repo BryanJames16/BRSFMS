@@ -342,6 +342,7 @@ Route::resource('/query/business', 'QueryBusinessController')->middleware("auth"
 Route::resource('/users', 'UsersController')->middleware("auth");
 Route::resource('/brgy', 'BrgyController')->middleware("auth");
 Route::resource('/logs', 'LogsController')->middleware("auth");
+Route::resource('/service-sponsorship', 'ServiceSponsorshipController')->middleware("auth");
 //Route::resource('/items', 'Items');
 Route::resource('/reports/collection', 'ReportsCollectionController');
 

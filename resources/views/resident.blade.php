@@ -237,7 +237,7 @@
 						<!--Family -->
 
 						<!--Family Add Modal -->
-						<div class="modal fade text-xs-left" id="familyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal fade text-xs-left" id="familyModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog " role="document">
 								<div class="modal-content">
 									<div class="modal-header">
