@@ -526,7 +526,7 @@
 
 							<li class=" nav-item">
 								<a href="#">
-									<i class="icon-stack"></i>
+									<i class="icon-map6"></i>
 									<span data-i18n="nav.navbars.main" class="menu-title">Query</span>
 								</a>
 								<ul class="menu-content">
