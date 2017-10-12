@@ -36,6 +36,7 @@ class UtilitiesController extends Controller
         }
     }
 
+
     public function update(Request $r) {
         if ($r->ajax()) {
             $utilityRow = Utility::all()->last(); 
@@ -79,5 +80,38 @@ class UtilitiesController extends Controller
         else {
             return view('errors.403');
         }
+    }
+
+    public function saveInfo(Request $r){
+            
+            $ut = Utility::find('1');
+            $s = '';
+            $b = '';
+            $p = '';
+
+           if($r->imageSign!='')
+           {
+                $s = $sign = $r->imageSign->getClientOriginalName();
+                $r->imageSign->storeAs('public/upload', $sign);
+                $ut->signaturePath = $sign;
+           }
+           if($r->imageBrgy!='')
+           {
+                $brgy = $r->imageBrgy->getClientOriginalName();
+                $r->imageBrgy->storeAs('public/upload', $brgy);
+                $ut->brgyLogoPath = $brgy;
+           }
+           if($r->imageProvince!='')
+           {
+                $prov = $r->imageProvince->getClientOriginalName();
+                $r->imageProvince->storeAs('public/upload', $prov);
+                $ut->provLogoPath = $prov;
+           }
+
+            $ut->address = $r->input('address');
+            $ut->barangayName = $r->input('barangayName');
+            $ut->save();
+
+            return back();
     }
 }

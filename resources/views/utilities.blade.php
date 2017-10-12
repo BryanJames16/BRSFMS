@@ -77,10 +77,10 @@ Utilities
 														<td>{{ $utility -> barangayName }}</td>
 													</tr>
 													<tr>
-														<td>Chairman Name</td>
+														<td>Chairman Signature</td>
 														<td>
-															{{ $utility -> chairmanName }}<br>
-															<img src="{{ URL::asset('system-assets/images/sign/sign.png') }}" height="95px" width="185px">
+															<img src="/storage/upload/{{ $utility -> signaturePath }}" height="95px" width="398px"><br>
+															{{ $utility -> signaturePath }}<br>
 														</td>
 													</tr>
 													<tr>
@@ -90,14 +90,14 @@ Utilities
 													<tr>
 														<td>Barangay Logo</td>
 														<td>
-															<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px"><br>
+															<img src="/storage/upload/{{ $utility -> brgyLogoPath }}" height="100px" width="100px"><br>
 															{{ $utility -> brgyLogoPath }}
 														</td>
 													</tr>
 													<tr>
 														<td>Province Logo</td>
 														<td>
-															<img src="{{ URL::asset('system-assets/images/logo/prov_tl.png') }}" height="100px" width="100px"><br>
+															<img src="/storage/upload/{{ $utility -> provLogoPath }}" height="100px" width="100px"><br>
 															{{ $utility -> provLogoPath }}
 														</td>
 													</tr>
@@ -192,127 +192,85 @@ Utilities
 							</div>
 							<div ng-app="maintenanceApp" class="modal-body">
 								<div class="card-block">
-									<div class="card-text">
-										<form class="form" method="post" action="/utilities/saveInfo" enctype="multipart/form-data" />
+									<form class="form" method="post" action="/utilities/saveInfo" enctype="multipart/form-data" name="frm-save" id="frm-save" />
+										<div class="card-text">
+											
 
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Name:</label>
-											<div class="col-md-9">
-												{{ Form::text('barangayName', 
-																null, 
-																['id' => 'barangayName', 
-																	'class' => 'form-control', 
-																	'placeholder' => 'Barangay Caguinto', 
-																	'maxlength' => '20', 
-																	'data-toggle' => 'tooltip', 
-																	'data-trigger' => 'focus', 
-																	'data-placement' => 'top', 
-																	'data-title' => 'Maximum of 20 characters', 
-																	'required', 
-																	'minlength'=>'5', 
-																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
-											</div>	
-										</div>
+											{{ csrf_field() }}
 
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Chairman Name</label>
-											<div class="col-md-9">
-												{{ Form::text('chairmanName', 
-																null, 
-																['id' => 'chairmanName', 
-																	'class' => 'form-control', 
-																	'placeholder' => 'Barangay Caguinto', 
-																	'maxlength' => '20', 
-																	'data-toggle' => 'tooltip', 
-																	'data-trigger' => 'focus', 
-																	'data-placement' => 'top', 
-																	'data-title' => 'Maximum of 20 characters', 
-																	'required', 
-																	'minlength'=>'5', 
-																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
-											</div>	
-										</div>
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Barangay Name:</label>
+												<div class="col-md-9">
+													<input type="text" class="form-control" id="barangayName" name="barangayName" required/>
+												</div>	
+											</div>
 
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Chairman Signature</label>
-											<div class="col-md-9">
-												<form method="POST" action="">
-													<div class="sigPad">
-														<ul class="sigNav">
-															<li class="drawIt"><a href="#draw-it" >Sign</a></li>
-															<li class="clearButton"><a href="#clear">Clear</a></li>
-														</ul>
-														<div class="sig sigWrapper">
-															<div class="typed"></div>
-															<canvas id="chairSign" class="pad" width="398" height="100"></canvas>
-															<input type="hidden" name="output" class="output">
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Chairman Signature</label>
+												<div class="col-md-9">
+													
+														<div class="sigPad">
+															<ul class="sigNav">
+																<li class="drawIt"><a href="#draw-it" >Sign</a></li>
+																<li class="clearButton"><a href="#clear">Clear</a></li>
+															</ul>
+															<div class="sig sigWrapper">
+																<div class="typed"></div>
+																<canvas id="chairSign" class="pad" width="398" height="100"></canvas>
+																<input type="hidden" name="output" class="output">
+															</div>
+															<a href="#" class="btn btn-info save">Save signature</a>
 														</div>
-														<a href="#" class="btn btn-info save">Save signature</a>
-													</div>
-												</form>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Upload Signature</label>
+												<div class="col-md-9">
+													<input type="file" class="form-control form-control-sm input-sm" id="imageSign" name="imageSign" />
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Signature Preview</label>
+												<div class="col-md-9">
+													<img src="" id="signaturePreview" height="100px" width="398">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
+												<div class="col-md-9">
+													<input type="text" class="form-control" id="address" name="address" required/>
+												</div>	
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Barangay Logo</label>
+												<div class="col-md-6">
+													<input type="file" class="form-control form-control-sm input-sm" id="imageBrgy" name="imageBrgy" />
+												</div>	
+												<div class="col-md-3">
+													<img src="" id="barangayLogoPreview" height="100px" width="100px">
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Province Logo</label>
+												<div class="col-md-6">
+													<input type="file" class="form-control form-control-sm input-sm" id="imageProvince" name="imageProvince" />
+												</div>	
+												<div class="col-md-3">
+													<img src="" id ="provinceLogoPreview" height="100px" width="100px">
+												</div>
 											</div>
 										</div>
 
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Upload Signature</label>
-											<div class="col-md-9">
-												<input type="file" class="form-control form-control-sm input-sm" id="imageSign" name="imagePath" />
-											</div>
+										<div align ="center" class="form-actions center">
+											<button type="submit" class="btn btn-success">Update</button>
+											<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 										</div>
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Signature Preview</label>
-											<div class="col-md-9">
-												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
-											</div>
-										</div>
-
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Address</label>
-											<div class="col-md-9">
-												{{ Form::text('address', 
-																null, 
-																['id' => 'address', 
-																	'class' => 'form-control', 
-																	'placeholder' => 'Barangay Caguinto', 
-																	'maxlength' => '20', 
-																	'data-toggle' => 'tooltip', 
-																	'data-trigger' => 'focus', 
-																	'data-placement' => 'top', 
-																	'data-title' => 'Maximum of 20 characters', 
-																	'required', 
-																	'minlength'=>'5', 
-																	'pattern'=>'^[a-zA-Z0-9-_]+$']) }}
-											</div>	
-										</div>
-
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Barangay Logo</label>
-											<div class="col-md-6">
-												<input type="file" class="form-control form-control-sm input-sm" id="imageBrgy" name="imageBrgy" />
-											</div>	
-											<div class="col-md-3">
-												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
-											</div>
-										</div>
-
-										<div class="form-group row">
-											<label class="col-md-3 label-control" for="eventRegInput1">Province Logo</label>
-											<div class="col-md-6">
-												<input type="file" class="form-control form-control-sm input-sm" id="imageProvince" name="imageProvince" />
-											</div>	
-											<div class="col-md-3">
-												<img src="{{ URL::asset('system-assets/images/logo/brgy_tl.png') }}" height="100px" width="100px">
-											</div>
-										</div>
-									</div>
-
-									<div align ="center" class="form-actions center">
-										<a href="#" class="btn btn-success update">Update</a>
-										<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
-
-										</form>
-									</div>					
-																
+															
+									</form>						
 								</div>
 							</div>
 							<!-- End of Modal Body -->
@@ -607,6 +565,10 @@ Utilities
 				success: function(data) {
 					$("#barangayName").val(data.barangayName);
 					$("#address").val(data.address);
+
+					$('#signaturePreview').attr('src','/storage/upload/'+ data.signaturePath);
+					$('#provinceLogoPreview').attr('src','/storage/upload/'+ data.provLogoPath);
+					$('#barangayLogoPreview').attr('src','/storage/upload/'+ data.brgyLogoPath);
 				}, 
 				failed: function(data) {
 					var message = "Error: ";
@@ -632,6 +594,60 @@ Utilities
 
 
 		});
+
+		$(document).on('change', '#imageSign', function(e) {
+			
+			signURL(this);
+
+		});
+
+		function signURL(input){
+			
+			if(input.files && input.files[0]){
+				var reader = new FileReader();
+				reader.onload = function(e){
+					$('#signaturePreview').attr('src',e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$(document).on('change', '#imageBrgy', function(e) {
+			
+			brgyURL(this);
+
+		});
+
+		function brgyURL(input){
+			
+			if(input.files && input.files[0]){
+				var reader = new FileReader();
+				reader.onload = function(e){
+					$('#barangayLogoPreview').attr('src',e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$(document).on('change', '#imageProvince', function(e) {
+			
+			provURL(this);
+
+		});
+
+		function provURL(input){
+			
+			if(input.files && input.files[0]){
+				var reader = new FileReader();
+				reader.onload = function(e){
+					$('#provinceLogoPreview').attr('src',e.target.result);
+				}
+
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 
 		$("#btnUpdatePK").on('click', function() {
 			$.ajax({

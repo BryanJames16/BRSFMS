@@ -267,6 +267,7 @@ Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::get('/utilities/refresh', 'UtilitiesController@refresh');
 Route::post('/utilities/store', 'UtilitiesController@store');
 Route::post('/utilities/update', 'UtilitiesController@update');
+Route::post('/utilities/saveInfo','UtilitiesController@saveInfo');
 
 /* ID RELEASE */
 Route::get('/id-release/getEdit', 'IDReleasingController@getEdit');
@@ -321,6 +322,10 @@ Route::post('/users/collectionAllow', 'UsersController@collectionAllow');
 Route::post('/users/collectionRestrict', 'UsersController@collectionRestrict');
 Route::post('/users/sponsorshipAllow', 'UsersController@sponsorshipAllow');
 Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict');
+
+//PWD REPORT
+Route::resource('/report/pwd', 'ReportController')->middleware("auth");
+
 
 //////////////////////////////////////////////////////////////////////
 /* RESOURCE ROUTES */
