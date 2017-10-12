@@ -125,7 +125,7 @@
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Request a Document</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-circle-plus"></i> Request a Document</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
@@ -359,7 +359,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Requirements</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-folder-open"></i> Requirements</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
