@@ -238,7 +238,7 @@ Route::post('/service-transaction/updateStatus', 'ServiceTransactionController@u
 Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@FinishStatus');
 
 // Items
-//Route::get('/items/fetch', 'ItemController@fetch');
+Route::post('/item/fetch', 'ItemController@store');
 
 // Business Registration
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
@@ -319,7 +319,7 @@ Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict')
 /* RESOURCE ROUTES */
 //////////////////////////////////////////////////////////////////////
 
-Route::resource('/id-release', 'IDReleasingController')->middleware("auth");
+Route::resource('/brgy', 'BrgyController')->middleware("auth");
 Route::resource('/building', 'BuildingController')->middleware("auth");
 Route::resource('/building-type', 'BuildingTypeController')->middleware("auth");
 Route::resource('/business-category', 'BusinessCategoryController')->middleware("auth");
@@ -327,35 +327,36 @@ Route::resource('/business-registration', 'BusinessRegistrationController')->mid
 Route::resource('/collection', 'CollectionController')->middleware("auth");
 Route::resource('/dashboard', 'DashboardController')->middleware("auth");
 Route::resource('/document', 'DocumentController')->middleware("auth");
+Route::resource('/document-approval', 'DocumentApprovalController')->middleware("auth");
 Route::resource('/document-request', 'DocumentRequestController')->middleware("auth");
 Route::resource('/facility', 'FacilityController')->middleware("auth");
 Route::resource('/facility-reservation', 'ReservationController')->middleware("auth");
 Route::resource('/facility-type', 'FacilityTypeController')->middleware("auth");
 Route::resource('/house', 'HouseController')->middleware("auth");
+Route::resource('/id-release', 'IDReleasingController')->middleware("auth");
+Route::resource('/item', 'ItemController')->middleware("auth");
+Route::resource('/item-reservation', 'ItemReservationController')->middleware("auth");
+Route::resource('/logs', 'LogsController')->middleware("auth");
 Route::resource('/lot', 'LotController')->middleware("auth");
 Route::resource('/person', 'PeopleController')->middleware("auth");
-Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
-Route::resource('/resident', 'ResidentController')->middleware("auth");
-Route::resource('/requirement', 'RequirementController')->middleware("auth");
-Route::resource('/service', 'ServiceController')->middleware("auth");
-Route::resource('/service-type', 'ServiceTypeController')->middleware("auth");
-Route::resource('/service-transaction', 'ServiceTransactionController')->middleware("auth");
-Route::resource('/street', 'StreetController')->middleware("auth");
-Route::resource('/unit', 'UnitController')->middleware("auth");
-Route::resource('/utilities', 'UtilitiesController')->middleware("auth");
-Route::resource('/recipient', 'RecipientController')->middleware("auth");
-Route::resource('/document-approval', 'DocumentApprovalController')->middleware("auth");
 Route::resource('/query/resident', 'QueryResidentController');
 Route::resource('/query/reservation', 'QueryReservationController')->middleware("auth");
 Route::resource('/query/service', 'QueryServiceController')->middleware("auth");
 Route::resource('/query/document', 'QueryDocumentController')->middleware("auth");
 Route::resource('/query/business', 'QueryBusinessController')->middleware("auth");
-Route::resource('/users', 'UsersController')->middleware("auth");
-Route::resource('/brgy', 'BrgyController')->middleware("auth");
-Route::resource('/logs', 'LogsController')->middleware("auth");
-Route::resource('/service-sponsorship', 'ServiceSponsorshipController')->middleware("auth");
-//Route::resource('/items', 'Items');
+Route::resource('/recipient', 'RecipientController')->middleware("auth");
 Route::resource('/reports/collection', 'ReportsCollectionController');
+Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
+Route::resource('/resident', 'ResidentController')->middleware("auth");
+Route::resource('/requirement', 'RequirementController')->middleware("auth");
+Route::resource('/service', 'ServiceController')->middleware("auth");
+Route::resource('/service-sponsorship', 'ServiceSponsorshipController')->middleware("auth");
+Route::resource('/service-type', 'ServiceTypeController')->middleware("auth");
+Route::resource('/service-transaction', 'ServiceTransactionController')->middleware("auth");
+Route::resource('/street', 'StreetController')->middleware("auth");
+Route::resource('/unit', 'UnitController')->middleware("auth");
+Route::resource('/users', 'UsersController')->middleware("auth");
+Route::resource('/utilities', 'UtilitiesController')->middleware("auth");
 
 
 //////////////////////////////////////////////////////////////////////

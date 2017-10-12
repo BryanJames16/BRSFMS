@@ -312,6 +312,12 @@
 											<span>Facility</span>
 										</a>
 										<ul class="menu-content">
+											<li id="item-id">										
+												<a href="/item" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-box"></i>
+													Item
+												</a>
+											</li>
 											<li id="facility-type-id">										
 												<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
 													<i class="icon-drawer"></i>
