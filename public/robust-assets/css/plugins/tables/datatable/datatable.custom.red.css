@@ -1,0 +1,9 @@
+.thead-custom-bg-red {
+    background-color: #DF5E6A;
+    color: #ffffff;
+    text-align: left;
+}
+
+.table-custome-outline-red {
+    border: 1px solid #DF5E6A;
+}
