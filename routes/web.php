@@ -40,6 +40,7 @@ Route::post('/facility-type/update', 'FacilityTypeController@edit');
 
 // Items
 Route::get('/item/refresh', 'ItemController@refresh');
+Route::get('/item/getEdit', 'ItemController@getEdit');
 Route::post('/item/delete', 'ItemController@delete');
 Route::post('/item/store', 'ItemController@store');
 Route::post('/item/update','ItemController@update');

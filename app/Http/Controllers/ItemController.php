@@ -54,9 +54,12 @@ class ItemController extends Controller
         return redirect('item');
     }
 
-    public function delete() {
+    public function delete(Request $r) {
         if ($r -> ajax()) {
-            
+            $item = Item::find($r -> input('itemID'));
+            $item -> archive = 1;
+            $item -> save();
+            return redirect('item');
         }
         else {
             return redirect('errors.403');
@@ -65,9 +68,30 @@ class ItemController extends Controller
         return redirect('item');
     }
 
-    public function update() {
+    public function getEdit(Request $r) {
         if ($r -> ajax()) {
-            
+            return response(Item::where("itemID", "=", $r -> input('itemID')) 
+                                -> where("archive", "!=", "1") 
+                                -> get());
+        } 
+        else {
+            return redirect('errors.403');
+        }
+
+        return redirect('item');
+    }
+
+    public function update(Request $r) {
+        if ($r -> ajax()) {
+            $item = Item::find($r -> input('itemID'));
+            $item -> itemName = $r -> input('itemName');
+            $item -> itemDescription = $r -> input('itemDescription');
+            $item -> itemQuantity = $r -> input('itemQuantity');
+            $item -> itemPrice = $r -> input('itemPrice');
+            $item -> status = $r -> input('stat');
+            $item -> save();
+
+            return redirect('item');
         }
         else {
             return redirect('errors.403');
