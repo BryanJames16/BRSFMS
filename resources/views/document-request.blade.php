@@ -19,7 +19,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -96,7 +99,7 @@
 		<div class="row">
 			<div class="col-xs-14">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Document Requests</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -115,10 +118,10 @@
 								</button>
 
 								<!-- Request Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -200,10 +203,10 @@
                     		</p>
 
 							<!-- View Modal -->
-                    		<div class="modal fade text-xs-left" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+                    		<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -230,8 +233,8 @@
 							</div> 
 							<!-- End of Modal -->
 
-							<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-container">
-                    			<thead>
+							<table class="table table-striped table-custome-outline-red multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+                    			<thead class="thead-custom-bg-red">
                     				<tr>
 										<td>Requestor Name</td>
 										<td>Request Date</td>
@@ -272,10 +275,10 @@
 	                    		</tbody>
 	                    	</table>
 
-	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	                    	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -302,10 +305,10 @@
 								</div>
 							</div>
 
-							<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -349,14 +352,14 @@
 	</section>
 
 	<!--ADD REQUIREMENT  Modal -->
-		<div class="modal fade text-xs-left" id="requirementsModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="requirementsModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-xs" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Requirements</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Requirements</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -678,7 +681,7 @@
 												oo = oo +
 															'<div style="text-align:left">'+
 																
-																'<input type="checkbox" id="requirements_'+data[index].requirementID+'" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />'+
+																'<input type="checkbox" id="requirements_'+data[index].requirementID+'" name="requirements" class="requirements"  value="'+ data[index].requirementID + '" />  '+
 																'<label for="input-11">     ' + data[index].quantity + 'x ' +data[index].requirementName+'</label>'+
 															'</div>';
 										}

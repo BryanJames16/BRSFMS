@@ -278,10 +278,10 @@
 @endsection
 
 @section('ajax-modal')
-	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-info white">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -308,10 +308,10 @@
 
 	<!--Modal for document that does not have any requirements-->
 
-	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="requirementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="requirementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-info white">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -328,7 +328,7 @@
 									<div class="from-group">
 										@foreach($requirements as $r)
 											<div>
-												<div class="col-md-6" style="text-align:right">
+												<div class="col-md-6 " style="text-align:right">
 													<label for="input-11">{{ $r->requirementName }}</label>
 													<input type="checkbox" name="requirements" class="requirements"  value="{{ $r->requirementID }}" />
 												</div>
@@ -358,10 +358,10 @@
 
 	<!-- Modal for update requirements -->
 
-	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="updateReqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="updateReqModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header bg-info white">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>

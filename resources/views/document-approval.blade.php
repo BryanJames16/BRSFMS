@@ -7,7 +7,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('vendor-style')
@@ -98,7 +101,7 @@
 		<div class="row">
 			<div class="col-xs-14">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Document Approval</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -130,8 +133,8 @@
 
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="waiting" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered multi-ordering" style="font-size:14px;width:100%;" id="table-waiting">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering" style="font-size:14px;width:100%;" id="table-waiting">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<td>Requestor Name</td>
 													<td>Request Date</td>
@@ -154,8 +157,8 @@
 														<span class="dropdown">
 														<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 														<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-															<a href="#" class="dropdown-item view approve" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Sign and Approve</a>
-															<a href="#" class="dropdown-item view reject" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-eye6"></i> Reject</a>
+															<a href="#" class="dropdown-item view approve" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-pen2"></i> Sign and Approve</a>
+															<a href="#" class="dropdown-item view reject" name="btnView" data-value='{{ $request -> documentRequestPrimeID }}'><i class="icon-trash4"></i> Reject</a>
 														</span>
 													</span>
 													</td>  
@@ -165,8 +168,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-approved">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-approved">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<td>Requestor Name</td>
 													<td>Request Date</td>
@@ -190,8 +193,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rejected">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-rejected">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<td>Requestor Name</td>
 													<td>Request Date</td>
@@ -228,7 +231,7 @@
 							
 							
 
-	                    	<div class="modal animated bounceIn text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	                    	<div class="modal animated bounceInDown text-xs-left" style="overflow-y:scroll;" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -267,7 +270,7 @@
 							<!--Reject -->
 
 							<!--Reject Modal -->
-							<div class="modal fade text-xs-left" id="rejectModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="rejectModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-xs " role="document">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -316,7 +319,7 @@
 							<!--Remarks -->
 
 							<!--Remarks Modal -->
-							<div class="modal fade text-xs-left" id="remarkModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="remarkModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog modal-xs " role="document">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -463,8 +466,8 @@
 								'<span class="dropdown">'+
 									'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 									'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
-										'<a href="#" class="dropdown-item view approve" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-eye6"></i> Sign and Approve</a>'+
-										'<a href="#" class="dropdown-item view reject" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-eye6"></i> Reject</a>'+
+										'<a href="#" class="dropdown-item view approve" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-pen2"></i> Sign and Approve</a>'+
+										'<a href="#" class="dropdown-item view reject" name="btnView" data-value='+ data[index].documentRequestPrimeID +'><i class="icon-trash4"></i> Reject</a>'+
 									'</span>'+
 								'</span>'
 									
@@ -822,6 +825,7 @@
 			$("#imgPlaceholder").off('click');
 			$("#signContainer").html("");
 			$("#lookContainer").html("");
+			$("#lookContainer").height("0").width("0");
 		});
 	
 	</script>

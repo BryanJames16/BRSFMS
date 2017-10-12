@@ -1,3 +1,7 @@
 .card-head-custom {
     background-color: rgb(255, 228, 231);
 }
+
+.card-body-custom {
+    background-color: #f9f9f9;
+}

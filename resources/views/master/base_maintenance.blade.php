@@ -66,14 +66,14 @@
 
 								
 								<!-- Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('modal-card-title')</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-circle-plus"></i> @yield('modal-card-title')</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
@@ -99,14 +99,14 @@
 								</div> <!-- End of Modal -->
                     		</p>
 
-                    		<div class="modal fade text-xs-left" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+                    		<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> @yield('view-modal-card-title')</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-circle-plus"></i> @yield('view-modal-card-title')</h4>
 											</div>
 											<div class="modal-body">
 												<div class="card-block">
@@ -142,10 +142,10 @@
 
 	                    	@yield('ajax-modal')
 
-	                    	<div class="modal fade text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	                    	<div class="modal animated bounceInDown text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 								<div class="modal-dialog" id="modal-dialog" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
