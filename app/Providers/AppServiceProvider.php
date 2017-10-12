@@ -41,8 +41,8 @@ class AppServiceProvider extends ServiceProvider
                                         ->where('id','!=', $id)
                                         ->get();
 
-            $util= Utility::select('brgyLogoPath','provLogoPath','barangayName', 'chairmanName','address','barangayIDAmount',
-                                            'expirationID','yearsOfExpiration')        
+            $util= Utility::select('brgyLogoPath','provLogoPath','barangayName','address','barangayIDAmount',
+                                            'expirationID','yearsOfExpiration','signaturePath')        
                                         ->get();
         
 

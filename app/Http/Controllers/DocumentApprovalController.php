@@ -276,18 +276,10 @@ class DocumentApprovalController extends Controller
             if (stripos($documentContent, "{disabilities}") !== false) {
                 $documentContent = str_ireplace("{disabilities}", $resident -> disabilities, $documentContent);
             }
-            if (stripos($documentContent, "{unit}") !== false) {
-                $documentContent = str_ireplace("{unit}", $address -> unitID, $documentContent);
+            if (stripos($documentContent, "{address}") !== false) {
+                $documentContent = str_ireplace("{address}", $resident -> address, $documentContent);
             }
-            if (stripos($documentContent, "{street}") !== false) {
-                $documentContent = str_ireplace("{street}", $address -> streetID, $documentContent);
-            }
-            if (stripos($documentContent, "{lot}") !== false) {
-                $documentContent = str_ireplace("{lot}", $address -> lotID, $documentContent);
-            }
-            if (stripos($documentContent, "{buildingnumber}") !== false) {
-                $documentContent = str_ireplace("{buildingnumber}", $address -> buildingID, $documentContent);
-            }
+            
 
             $documentFormat -> documentID = $document -> documentID;
             $documentFormat -> documentName = $document -> documentName;
