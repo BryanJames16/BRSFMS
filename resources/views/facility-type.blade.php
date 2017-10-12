@@ -19,8 +19,6 @@
 @section('inside-content-header')
 	<h2 class="content-header-title">Facility Type</h2>
 @endsection
-
-
 	
 @section('inside-breadcrumb')
 	<li class="breadcrumb-item">Facility</li>
