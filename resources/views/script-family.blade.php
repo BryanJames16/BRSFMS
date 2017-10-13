@@ -539,7 +539,7 @@
 											'<option value="Grandfather">Grandfather</option>'+
 											'<option value="Grandson">Grandson</option>'+
 										'</select>',
-									'<button class="btn btn-icon btn-round btn-success normal addMem"  type="button" value="' + data[index].residentPrimeID + '">Add</button>'
+									'<button class="btn btn-icon btn-square btn-success normal addMem"  type="button" value="' + data[index].residentPrimeID + '">Add</button>'
 									
 								]).draw(false);
 					}
