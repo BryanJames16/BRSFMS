@@ -321,6 +321,7 @@ Route::post('/users/sponsorshipAllow', 'UsersController@sponsorshipAllow');
 Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict');
 
 //PWD REPORT
+Route::get('/report/pwd/generate', 'ReportController@generate');
 Route::resource('/report/pwd', 'ReportController')->middleware("auth");
 
 
