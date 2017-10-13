@@ -122,7 +122,7 @@
 											<tbody>
 												@foreach($reservations as $reservation)
 													<tr>
-														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ])!!}					
+														{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ]) }}					
 														{{ csrf_field() }}
 
 														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
@@ -159,13 +159,13 @@
 															<td></td>
 															<td>N/A</td>
 														@endif
-															{!!Form::close()!!}
+															{{ Form::close() }}
 													</tr>
 
 												@endforeach
 												@foreach($nonres as $reservation)
 													<tr>
-														{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ])!!}					
+														{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST', 'id' => $reservation -> primeID ]) }}					
 														{{ csrf_field() }}
 
 														<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
@@ -199,7 +199,7 @@
 															<td></td>
 															<td>N/A</td>
 														@endif
-															{!!Form::close()!!}
+															{{ Form::close() }}
 													</tr>
 
 												@endforeach
@@ -226,7 +226,7 @@
 
 													@if($reservation -> status  == 'Pending')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
@@ -247,7 +247,7 @@
 																	</span>
 																</span>
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
@@ -255,7 +255,7 @@
 
 													@if($reservation -> status  == 'Pending')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
@@ -276,7 +276,7 @@
 																	</span>
 																</span>
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
@@ -300,7 +300,7 @@
 												@foreach($reservations as $reservation)
 													@if($reservation -> status  == 'Rescheduled')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
 															<td>{{ $reservation -> reservationName }}</td>
@@ -311,14 +311,14 @@
 															<td><span class="tag round tag-default">Rescheduled</span></td>
 															<td>N/A
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
 												@foreach($nonres as $reservation)
 													@if($reservation -> status  == 'Rescheduled')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
 															<td>{{ $reservation -> reservationName }}</td>
@@ -329,7 +329,7 @@
 															<td><span class="tag round tag-default">Rescheduled</span></td>
 															<td>N/A
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
@@ -353,7 +353,7 @@
 												@foreach($reservations as $reservation)
 													@if($reservation -> status  == 'Cancelled')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
 															<td>{{ $reservation -> reservationName }}</td>
@@ -364,14 +364,14 @@
 															<td><span class="tag round tag-danger">Cancelled</span></td>
 															<td>N/A
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
 												@foreach($nonres as $reservation)
 													@if($reservation -> status  == 'Cancelled')
 														<tr>
-															{!!Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ])!!}					
+															{{ Form::open(['url'=>'facility-reservation/delete', 'method' => 'POST' ]) }}					
 															{{ csrf_field() }}
 															<input type='hidden' name='primeID' value='{{ $reservation -> primeID }}' />
 															<td>{{ $reservation -> reservationName }}</td>
@@ -382,7 +382,7 @@
 															<td><span class="tag round tag-danger">Cancelled</span></td>
 															<td>N/A
 															</td>
-															{!!Form::close()!!}
+															{{ Form::close() }}
 														</tr>
 													@endif
 												@endforeach
@@ -396,17 +396,17 @@
 				</div>
 				
 				<!-- Reschedule Modal -->
-				<div class="modal fade text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Reschedule</h4>
 							</div>
 							<div class="modal-body">
-								{!!Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id' => 'frm-reschedule'])!!}
+								{{ Form::open(['url'=>'/facility-reservation/update', 'method' => 'POST','id' => 'frm-reschedule']) }}
 				
 										<div id="echange">
 
@@ -415,9 +415,9 @@
 										</div>
 									
 									<div class="form-actions center">
-										{!!Form::submit('Reschedule',['class'=>'btn btn-success'])!!}
+										{{ Form::submit('Reschedule',['class'=>'btn btn-success']) }}
 									</div>	
-								{!!Form::close()!!}
+								{{ Form::close() }}
 							</div>
 							<!-- End of Modal Body -->
 						</div>
@@ -427,14 +427,14 @@
 
 
 				<!-- Calendar Modal -->
-				<div class="modal fade text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-xl modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Calendar</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Calendar</h4>
 							</div>
 							<div class="modal-body">
 								<div class="card-block">
@@ -473,14 +473,14 @@
 
 
 				<!-- Extend Modal -->
-				<div class="modal fade text-xs-left" id="extendModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="extendModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reschedule</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Reschedule</h4>
 							</div>
 							<div class="modal-body">
 								
@@ -491,20 +491,20 @@
 				</div> <!-- End of Modal -->
 
 
-										<!--RESERVE FACILITY -->
+				<!--RESERVE FACILITY -->
 
-										<!--Add Modal -->
-				<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<!--Add Modal -->
+				<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Reserve Facility</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-office"></i> Reserve Facility</h4>
 							</div>
 							<div class="modal-body">
-								{!!Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve'])!!}
+								{{ Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve']) }}
 									
 										<div class="form-group ">
 											<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
@@ -518,12 +518,12 @@
 										</div>
 									
 									<div class="form-actions center">
-										{!!Form::submit('Submit',['class'=>'btn btn-success'])!!}
+										{{ Form::submit('Submit',['class'=>'btn btn-success']) }}
 									</div>	
-								{!!Form::close()!!}
+								{{ Form::close() }}
 							</div>
 
-											<!-- End of Modal Body -->
+							<!-- End of Modal Body -->
 						</div>
 					</div>
 				</div> <!-- End of Modal -->
@@ -531,17 +531,17 @@
 
 
 
-										<!-- VIEW MODAL -->
+				<!-- VIEW MODAL -->
 
-							<!-- Modal -->
-				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<!-- Modal -->
+				<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye"></i> View Details</h4>
 							</div>
 							<div class="modal-body">
 								
@@ -552,7 +552,7 @@
 									</div>
 
 							</div>
-											<!-- End of Modal Body -->
+							<!-- End of Modal Body -->
 						</div>
 					</div>
 				</div> <!-- End of Modal -->
@@ -907,7 +907,7 @@
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Reservation Name</label>'+
 										
-										'{!!Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'minlength'=>'5', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+										'{{ Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'minlength'=>'5', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Resident</label>'+
@@ -919,7 +919,7 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Description</label>'+
-										'{!!Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+										'{{ Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Facility</label>'+
@@ -931,18 +931,18 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Date</label>'+
-										'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30'])!!}'+
+										'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30']) }}'+
 									'</div>'+
 								'</div>'+
 
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Start Time</label>'+
-										'{!!Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control'])!!}'+
+										'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">End Time</label>'+
-										'{!!Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control'])!!}'+
+										'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
 									'</div>'+
 								'</div>');
 
@@ -1012,27 +1012,27 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Reservation Name</label>'+
-											'{!!Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control'])!!}'+
-											'{!!Form::text('ereservationName',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control']) }}'+
+											'{{ Form::text('ereservationName',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">Name</label>'+
-											'{!!Form::text('ename',null,['id'=>'ername','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('ename',null,['id'=>'ername','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::number('eage',null,['id'=>'eage','class'=>'form-control', 'placeholder'=>'eg.Birthday Party','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::number('eage',null,['id'=>'eage','class'=>'form-control', 'placeholder'=>'eg.Birthday Party','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 									'</div>'+
 
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Email</label>'+
-											'{!!Form::text('eemail',null,['id'=>'eemail','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('eemail',null,['id'=>'eemail','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Contact Number</label>'+
-											'{!!Form::text('econtactNumber',null,['id'=>'econtactNumber','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('econtactNumber',null,['id'=>'econtactNumber','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 									'</div>'+
 
@@ -1040,7 +1040,7 @@
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Description</label>'+
-											'{!!Form::textarea('edesc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+											'{{ Form::textarea('edesc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Facility</label>'+
@@ -1052,15 +1052,15 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
-											'{!!Form::date('edate',null,['id'=>'erdate','class'=>'form-control'])!!}'+
+											'{{ Form::date('edate',null,['id'=>'erdate','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
-											'{!!Form::time('estartTime',null,['id'=>'erstartTime','class'=>'form-control'])!!}'+
+											'{{ Form::time('estartTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
-											'{!!Form::time('eendTime',null,['id'=>'erendTime','class'=>'form-control'])!!}'+
+											'{{ Form::time('eendTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
 										'</div>'+
 									'</div>');
 
@@ -1121,8 +1121,8 @@
 							$('#echange').html('<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Reservation Name</label>'+
-													'{!!Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control'])!!}'+
-													'{!!Form::text('name',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+													'{{ Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control']) }}'+
+													'{{ Form::text('name',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">Resident</label>'+
@@ -1134,7 +1134,7 @@
 											'<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Description</label>'+
-													'{!!Form::textarea('desc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+													'{{ Form::textarea('desc',null,['id'=>'erdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">Facility</label>'+
@@ -1146,18 +1146,18 @@
 											'<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Date</label>'+
-													'{!!Form::date('date',null,['id'=>'erdate','class'=>'form-control'])!!}'+
+													'{{ Form::date('date',null,['id'=>'erdate','class'=>'form-control']) }}'+
 												'</div>'+
 											'</div>'+
 
 											'<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Start Time</label>'+
-													'{!!Form::time('startTime',null,['id'=>'erstartTime','class'=>'form-control'])!!}'+
+													'{{ Form::time('startTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">End Time</label>'+
-													'{!!Form::time('endTime',null,['id'=>'erendTime','class'=>'form-control'])!!}'+
+													'{{ Form::time('endTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
 												'</div>'+
 											'</div>');
 
@@ -1556,26 +1556,26 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Reservation Name</label>'+
-											'{!!Form::text('reservationName',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('reservationName',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">Name</label>'+
-											'{!!Form::text('name',null,['id'=>'rname','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('name',null,['id'=>'rname','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
-											'{!!Form::number('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1'])!!}'+
+											'{{ Form::number('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1']) }}'+
 										'</div>'+
 									'</div>'+
 
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Email</label>'+
-											'{!!Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.junjun@yahoo.com', 'maxlength'=>'32','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 32 characters', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.junjun@yahoo.com', 'maxlength'=>'32','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 32 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Contact Number</label>'+
-											'{!!Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.09275223489', 'maxlength'=>'11','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 11 dugits', 'minlength'=>'5'])!!}'+
+											'{{ Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.09275223489', 'maxlength'=>'11','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 11 dugits', 'minlength'=>'5']) }}'+
 										'</div>'+
 									'</div>'+
 
@@ -1583,7 +1583,7 @@
 									'<div class="row">'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput1">Description</label>'+
-											'{!!Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters'])!!}'+
+											'{{ Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
 										'</div>'+
 										'<div class="form-group col-md-6 mb-2">'+
 											'<label for="userinput2">Facility</label>'+
@@ -1595,15 +1595,15 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
-											'{!!Form::date('date',null,['id'=>'rdate','class'=>'form-control'])!!}'+
+											'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
-											'{!!Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control'])!!}'+
+											'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
-											'{!!Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control'])!!}'+
+											'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
 										'</div>'+
 									'</div>');
 

@@ -25,6 +25,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -52,7 +55,7 @@
 		<div class="row">
 			<div class="col-xs-14">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Resident</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -68,10 +71,10 @@
 							<p align="center">
 								<!-- Button trigger modal -->
 								<button type="button" class="btn btn-outline-info btn-lg" id="btnAddModal" style="width:160px; font-size:13px">
-									<i class="icon-edit2"></i>Register Resident  
+									<i class="icon-edit2"></i> Register Resident  
 								</button>
-								<button type="button" class="btn btn-outline-success btn-lg" id="btnFamilyModal" style="width:160px; font-size:13px">
-									<i class="icon-edit2"></i>Add Family  
+								<button type="button" class="btn btn-outline-info btn-lg" id="btnFamilyModal" style="width:160px; font-size:13px">
+									<i class="icon-edit2"></i> Add Family  
 								</button>
 							</p>	
 						</div>
@@ -92,8 +95,8 @@
 							<div role="tabpanel" class="tab-pane fade active in" id="tab11" aria-labelledby="active-tab32" aria-expanded="true">
 
 								<!-- Resident Tab -->
-								<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-									<thead>
+								<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+									<thead class="thead-custom-bg-red">
 										<tr>
 											<th>Image</th>
 											<th>ID</th>
@@ -181,12 +184,10 @@
 							</div>
 							<div class="tab-pane fade" id="tab12" role="tabpanel" aria-labelledby="link-tab32" aria-expanded="false">
 
-								
-
 								<!-- Family Tab -->
 
-									<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-familyContainer">
-										<thead>
+									<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-familyContainer">
+										<thead class="thead-custom-bg-red">
 											<tr>
 												<th>ID</th>
 												<th>Name</th>
@@ -237,14 +238,14 @@
 						<!--Family -->
 
 						<!--Family Add Modal -->
-						<div class="modal fade text-xs-left" id="familyModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="familyModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Family</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contacts"></i> Add Family</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -318,14 +319,14 @@
 						<!-- End of Modal -->
 
 						<!--Work History Modal -->
-						<div class="modal fade text-xs-left" id="workHistoryModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="workHistoryModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Work History</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-shop"></i> Work History</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -333,8 +334,8 @@
 										<div>
 											<h3 align="center" id="rName"></h3>
 											<br>
-											<table class="table table-striped table-bordered dataTable no-footer" style="font-size:14px;width:100%;" id="table-wh">
-											<thead>
+											<table class="table table-striped table-custome-outline-red dataTable no-footer" style="font-size:14px;width:100%;" id="table-wh">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Date Updated</th>
 													<th>Work</th>
@@ -358,14 +359,14 @@
 						<!--Barangay ID -->
 
 						<!--Barangay ID Modal -->
-						<div class="modal fade text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog modal-xl" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Barangay ID</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-card"></i> Barangay ID</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -506,14 +507,14 @@
 						<!--ADD TO FAMILY -->
 
 						<!--ADD TO FAMILY Modal -->
-						<div class="modal fade text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="memberModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-xl modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add to family</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contacts"></i> Add to family</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -522,8 +523,8 @@
 										{{Form::open(['url'=>'resident/join', 'method' => 'POST', 'id' => 'frm-addToFam' ])}}
 												{{Form::hidden('resID',null,['id'=>'resID'])}}				
 
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addToFam">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addToFam">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>ID</th>
 													<th>Name</th>
@@ -552,7 +553,7 @@
 																							'class' => 'form-control border-primary',
 																							 ]) !!}</td>
 														<td>
-															<button class='btn btn-icon btn-round btn-success normal join'  type='button' value='{{ $family -> familyPrimeID }}'>Join here</button>
+															<button class='btn btn-icon btn-square btn-success normal join'  type='button' value='{{ $family -> familyPrimeID }}'>Join here</button>
 														</td>
 														
 													</tr>
@@ -572,14 +573,14 @@
 						<!--ADD IMAGE -->
 
 						<!--ADD IMAGE Modal -->
-						<div class="modal fade text-xs-left" id="addImageModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="addImageModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-xs modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Image</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-camera"></i> Add Image</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -618,14 +619,14 @@
 						<!--ADD/REMOVE MEMBER -->
 
 						<!--Add/Remove Member Modal -->
-						<div class="modal fade text-xs-left" id="editMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="editMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-lg modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add/Remove Members of the Family</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye6"></i> Add/Remove Members of the Family</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -648,8 +649,8 @@
 										{{Form::open(['url'=>'resident/editMember', 'method' => 'POST', 'id' => 'frm-editMember', 'class'=>'form'])}}
 											{{Form::hidden('familyID',null,['id'=>'ffID'])}}
 
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-MemberContainer">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-MemberContainer">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>Name</th>
 													<th>Gender</th>
@@ -676,27 +677,29 @@
 						<!--ADD MEMBERS -->
 
 						<!--Add Members Modal -->
-						<div class="modal fade text-xs-left" id="addMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="addMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-lg modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<p align="center"><h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Members</h4></p>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contacts"></i> Add Members</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
 											<p style="text-align:center;font-size:20px"><b>RESIDENTS</b></p>
-											<p align="center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 viewMem">View Members</button></p>
+											<p align="center">
+												<button type="button" class="btn btn-secondary btn-square mr-1 mb-1 viewMem">View Members</button>
+											</p>
 											<hr>
 											
 											{{Form::open(['url'=>'resident/addParticipant', 'method' => 'POST', 'id' => 'frm-addResident', 'class'=>'form'])}}
 													{{Form::hidden('familyID',null,['id'=>'fID'])}}
 
-											<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addResident">
-												<thead>
+											<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-addResident">
+												<thead class="thead-custom-bg-red">
 													<tr>
 														<th>Name</th>
 														<th>Birthdate</th>
@@ -708,10 +711,6 @@
 												</thead>
 
 												<tbody>
-												
-
-													
-
 												
 												</tbody>
 											</table>
@@ -728,28 +727,23 @@
 						<!--VIEW MEMBER -->
 
 						<!--VIEW Member Modal -->
-						<div class="modal fade text-xs-left" id="viewMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="viewMember" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-xl modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Family</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-earth"></i> View Family</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
 									<div class="modal-body" width='100%'>
+										<div class="card-block">
+											<div id="members">
 
-										<div id="members">
-
+											</div>
 										</div>
-
-
-										
-
-										
-
 									</div>
 									<!-- End of Modal Body -->
 
@@ -761,14 +755,14 @@
 						<!--UPDATE RELATION -->
 
 						<!--UPDATE RELATION Modal -->
-						<div class="modal fade text-xs-left" id="updateRel" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="updateRel" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-sm modal-dialog " role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Relation</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contact"></i> Update Relation</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -834,14 +828,14 @@
 						<!--REGISTER RESIDENT -->
 
 						<!--Add Modal -->
-						<div class="modal fade text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Register Resident</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contact"></i> Register Resident</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -979,14 +973,14 @@
 				<!--View RESIDENT -->
 
 				<!--Viiew Modal -->
-				<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog " role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Resident</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contact"></i> View Resident</h4>
 							</div>
 
 							<!-- START MODAL BODY -->
@@ -1037,14 +1031,14 @@
 				<!--UPDATE RESIDENT -->
 
 				<!--Update Modal -->
-				<div class="modal fade text-xs-left" id="editModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="editModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
-							<div class="modal-header">
+							<div class="modal-header bg-info white">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Update Resident</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-contact"></i> Update Resident</h4>
 							</div>
 
 							<!-- START MODAL BODY -->

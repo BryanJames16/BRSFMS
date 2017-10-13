@@ -36,7 +36,7 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Facility Reservation
+	Item Reservation
 @endsection
 
 @section('js-setting')
@@ -86,13 +86,113 @@
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnViewCal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> View Calendar  
 								</button>
+								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnReturn" style="width:160px; font-size:13px">
+									<i class="icon-edit2"></i> Item Return  
+								</button>
 							</p>	
 						</div>
                         
                         <div class="card-body">
+							<div class="card-block">
+								<table class="table table-striped multi-ordering dataTable no-footer table-custome-outline-red" style="font-size:14px;width:100%;" id="table-all">
+									<thead class="thead-custom-bg-red">
+										<tr>
+											<th>Name</th>
+											<th>Reserved Facility</th>
+											<th>Reserved By</th>
+											<th>Date and Time</th>
+											<th>Residency</th>
+											<th>Status</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
 
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>
                         </div>
                     </div>
+
+					<!-- MODAL AREA -->
+					
+					<!-- Reserve Modal -->
+					<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header bg-info white">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reserve Facility</h4>
+								</div>
+								<div class="modal-body">
+									{{ Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve']) }}
+											<div class="form-group ">
+												<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
+												<label for="switcheryColor" class="card-title ml-1"><p style="font-family:century gothic;font-size:16px">Resident</p></label>
+											</div>
+
+											<div id="change">
+
+												
+
+											</div>
+										<div class="form-actions center">
+											{{ Form::submit('Submit', ['class' => 'btn btn-success']) }}
+										</div>	
+									{{ Form::close() }}
+								</div>
+							</div>
+						</div>
+					</div> <!-- End of Modal -->
+
+					<!-- Calendar Modal -->
+					<div class="modal animated bounceInDown text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal-xl modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Calendar</h4>
+								</div>
+								<div class="modal-body">
+									<div class="card-block">
+										<div class="card-body collapse in">
+											<div class="card-block card-dashboard">
+											<section id="basic-examples">
+												<div class="row">
+													<div class="col-xs-12">
+														<div class="card">
+															<div class="card-header">
+																<h4 class="card-title">Reservations Events</h4>
+																<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+																<div class="heading-elements">
+																	<ul class="list-inline mb-0">
+																		<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+																		<li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+																	</ul>
+																</div>
+															</div>
+
+															<div class="card-body collapse in">
+																<div id='fc-external-drag'></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</section>
+											</div>
+										</div>			
+									</div>
+								</div>
+								<!-- End of Modal Body -->
+							</div>
+						</div>
+					</div> <!-- End of Modal -->
+
                 </div>
             </div>
         </div>
@@ -126,5 +226,12 @@
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
+@endsection
 
+@section('page-action')
+	<script type="text/javascript">
+		$("#btnViewCal").click(function(event) {
+			$("#calendarModal").modal("show");
+		});
+	</script>
 @endsection

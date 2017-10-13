@@ -17,7 +17,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
@@ -70,7 +73,7 @@
         <div class="row">
             <div class="col-xs-14">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header card-head-custom">
 						<h4 class="card-title">ID Releasing</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -98,8 +101,8 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="id" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-pending">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>ID</th>
 													<th>Resident</th>
@@ -131,8 +134,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="reservation" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-released">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-released">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>ID</th>
 													<th>Resident</th>
@@ -165,14 +168,14 @@
 							</div>
 
                             <!--Barangay ID Modal -->
-						<div class="modal fade text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="idModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog modal-xl" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Barangay ID</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-bankcard"></i> Barangay ID</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -305,14 +308,14 @@
 						<!-- End of Modal -->
 
                         <!--Barangay ID Modal -->
-						<div class="modal fade text-xs-left" id="viewIDModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+						<div class="modal animated bounceInDown text-xs-left" id="viewIDModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 							<div class="modal-dialog modal-xl" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
+									<div class="modal-header bg-info white">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
-										<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Barangay ID</h4>
+										<h4 class="modal-title" id="myModalLabel2"><i class="icon-bankcard"></i> Barangay ID</h4>
 									</div>
 
 									<!-- START MODAL BODY -->
@@ -443,11 +446,11 @@
 							<div class="modal animated bounceIn text-xs-left" id="idPayModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog modal-xs" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Barangay ID Payment</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-gold2"></i> Barangay ID Payment</h4>
 										</div>
 										<div class="modal-body dirty-white-card">
 											<form id="frm-IDPay">
