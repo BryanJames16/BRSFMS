@@ -226,7 +226,7 @@
 																	<i class="icon-android-contact white font-large-2 float-xs-left"></i>
 																</div>
 																<div class="media-body white text-xs-right">
-																	<h3 id="pending-services">0</h3>
+																	<h3 id="pending-services">{{ $countOfSponsor }}</h3>
 																	<span>Current Service Sponsors</span>
 																</div>
 															</div>
@@ -246,7 +246,7 @@
 																	<i class="icon-office white font-large-2 float-xs-left"></i>
 																</div>
 																<div class="media-body white text-xs-right">
-																	<h3 id="pending-services">0</h3>
+																	<h3 id="pending-services">{{ $countOfBusiness }}</h3>
 																	<span>Registered Businesses</span>
 																</div>
 															</div>

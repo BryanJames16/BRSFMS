@@ -534,7 +534,7 @@
 										</a>
 									</li>
 									<li id="house-number-id">
-										<a href="/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
+										<a href="/report/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-android-bicycle"></i>
 											PWD
 										</a>

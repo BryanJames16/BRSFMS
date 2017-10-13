@@ -8,6 +8,8 @@ use \App\Models\Documentrequest;
 use \App\Models\Reservation;
 use \App\Models\User;
 use \App\Models\Utility;
+use \App\Models\Sponsor;
+use \App\Models\Businessregistration;
 use \App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -50,10 +52,14 @@ class AppServiceProvider extends ServiceProvider
                             ->where('isRead', 0)
                             ->count();
 
+            $business = Businessregistration::where("archive", "=", 0)->count();
+            $sponsor = Sponsor::count();
             $request = Documentrequest::where("status", "=", "Pending")->count();
             $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
             $pendingres = Reservation::where("status", "=", "Pending")->count();
             $total = $request + $approval + $pendingres;
+            View::share('countOfBusiness',$business);
+            View::share('countOfSponsor',$sponsor);
             View::share('countOfRequest',$request);
             View::share('countOfApproval',$approval);
             View::share('countOfReservation',$pendingres);
