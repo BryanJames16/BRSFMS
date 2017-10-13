@@ -96,8 +96,18 @@
 
 @section('content-body')
 		
+		
+
 
 		<section id="multi-column">
+		
+		<input type="hidden" value="{{ $chairman->firstName }} {{ substr($chairman->middleName,0,1) }}. {{ $chairman->lastName }}" id="chairman"></input>
+		<input type="hidden" value="{{ $util->brgyLogoPath }}" id="brgyLogo"></input>
+		<input type="hidden" value="{{ $util->provLogoPath }}" id="provLogo"></input>
+		<input type="hidden" value="{{ $util->address }}" id="address"></input>
+		<input type="hidden" value="{{ $util->barangayName }}" id="barangayName"></input>
+		<input type="hidden" value="{{ $util->signaturePath }}" id="signaturePath"></input>
+
 		<div class="row">
 			<div class="col-xs-14">
 				<div class="card">
@@ -609,6 +619,7 @@
 		$(document).on('click', '.approve', function(event) {
 			event.preventDefault();
 
+
 			var documentRequestPrimeID = $(this).data("value");
 
 			var frm = $('#docReq');
@@ -650,20 +661,20 @@
 				"<div>" +
 					"<table>" +
 						"<tr>" + 
-						"<td width='192px'><center>" + "<img src='./system-assets/ico/brgy_logo.png' height='100' width='100'>" + "</center></td>" +  
+						"<td width='192px'><center>" + "<img src='/storage/upload/"+ $('#brgyLogo').val() +"' height='100' width='100'>" + "</center></td>" +  
 						"<td width='432px'>" + 
 							"<center>" + 
 								"<span width='20px'></span>" + 
 								"<p align='center'>" + 
 									"Republic of the Philippines<br>" + 
 									"District VI, City of Manila<br>" + 
-									"<b>BARANGAY 629 - ZONE 63</b><br>" + 
+									"<b>" + $('#barangayName').val() + "</b><br>" + 
 									"<i>OFFICE OF THE SANGUNIANG BARANGAY</i><br>" + 
-									"Hippodromo Street, Sta. Mesa, Manila<br>" + 
+									$('#address').val() +"<br>" + 
 								"</p>" + 
 							"</center>" + 
 						"</td>" + 
-						"<td width='192px'><center>" + "<img src='./system-assets/ico/ManilaSeal.png' height='100' width='100'>" + "</center></td>" +  
+						"<td width='192px'><center>" + "<img src='/storage/upload/"+ $('#provLogo').val() +"' height='100' width='100'>" + "</center></td>" +  
 						"</tr>" + 
 					"</table>" + 
 				"</div><br><br><br>" + 
@@ -703,7 +714,7 @@
 									"Respectfully Yours,<br><br>" + 
 								"</p>" + 
 								"<p align='center' class='signaturePane'>" + 
-									"Rolito A. Innocencio<br>" + 
+									 $('#chairman').val() + "<br>" + 
 									"Barangay Chairman<br>" +  
 								"</p>" + 
 							"</td>" + 
@@ -738,7 +749,7 @@
 					//pdfDoc.addImage(imgData, 'png', 0, 0);
 					var pdfUrl = pdfDoc.output('datauristring');
 					$("#signContainer").html(
-						'<img id="signPanel" src="{{ URL::asset("/system-assets/images/sign/samplesignature.png") }}" height="95px" width="185px">'
+						'<img id="signPanel" src="/storage/upload/'+ $('#signaturePath').val() +'") }}" height="95px" width="250px">'
 					);
 
 					$("#imgPlaceholder").click(function(e) {
@@ -756,6 +767,7 @@
 						
 						
 						$("#printReceipt").click(function () {
+							
 							
 
 							html2canvas($("#imgPlaceholder"), {

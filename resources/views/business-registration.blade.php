@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/buttons.bootstrap4.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
 @endsection
 
 @section('template-css')
@@ -73,7 +74,7 @@
 								</button>
 
 								<!-- Register Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceIn text-xs-left" id="regModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -147,8 +148,13 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Business Owner or Operator</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="residentPrimeID">
-
+																<select class ='form-control select2' name='type' id="residentPrimeID" style="width:100%">
+																	<optgroup id="male" label="Male">
+																			
+																	</optgroup>
+																	<optgroup id="female" label="Female">
+																	
+																	</optgroup>
 																</select>
 															</div>	
 														</div>
@@ -198,7 +204,7 @@
 								<!-- End of Modal -->
 
 								<!-- EDIT Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceIn text-xs-left" id="modalEdit" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
@@ -278,8 +284,13 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Business Owner or Operator</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="eresidentPrimeID">
-
+																<select class ='form-control select2' name='type' id="eresidentPrimeID" style="width:100%">
+																	<optgroup id="emale" label="Male">
+																			
+																	</optgroup>
+																	<optgroup id="efemale" label="Female">
+																	
+																	</optgroup>
 																</select>
 															</div>	
 														</div>
@@ -519,15 +530,24 @@
 				type: 'GET', 
 				success: function(data) {
 
-					$('#eresidentPrimeID').html('');
 
-					for (datum in data) {
-						$("#eresidentPrimeID").append(
-							'<option value="' + data[datum].residentPrimeID + '">' + 
-								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
-								" (" + data[datum].residentID + ")" + 
-							'</option>'
-						);
+					for(index in data)
+					{
+						var male = '';
+						var female = '';
+
+						if(data[index].gender == 'M')
+						{
+							male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+				
+						}
+						else if(data[index].gender == 'F')
+						{
+							female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+						}
+
+						$('#emale').append(male);
+						$('#efemale').append(female);
 					}
 				}, 
 				error: function(errors) {
@@ -722,22 +742,32 @@
 		};
 
 		$("#btnRegModal").click(function(event) {
-			$("#regModal").modal("show");
+			
 
 			$.ajax({
 				url: '/business-registration/owner', 
 				type: 'GET', 
 				success: function(data) {
 
-					$('#residentPrimeID').html('');
+					
 
-					for (datum in data) {
-						$("#residentPrimeID").append(
-							'<option value="' + data[datum].residentPrimeID + '">' + 
-								data[datum].firstName + " " + data[datum].middleName + " " + data[datum].lastName + 
-								" (" + data[datum].residentID + ")" + 
-							'</option>'
-						);
+					for(index in data)
+					{
+						var male = '';
+						var female = '';
+
+						if(data[index].gender == 'M')
+						{
+							male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+				
+						}
+						else if(data[index].gender == 'F')
+						{
+							female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+						}
+
+						$('#male').append(male);
+						$('#female').append(female);
 					}
 				}, 
 				error: function(errors) {
@@ -765,6 +795,8 @@
 							'</option>' 
 						);
 					}
+
+					$("#regModal").modal("show");
 				}, 
 				error: function(error) {
 
@@ -805,6 +837,8 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>

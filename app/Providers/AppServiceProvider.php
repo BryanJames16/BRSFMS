@@ -42,11 +42,15 @@ class AppServiceProvider extends ServiceProvider
             $us= User::select('id','firstName', 'middleName','lastName')                 
                                         ->where('id','!=', $id)
                                         ->get();
+            $chairman= User::select('id','firstName', 'middleName','lastName')                 
+                                        ->where('position','=', 'Chairman')
+                                        ->get()->last();
+
 
             $util= Utility::select('brgyLogoPath','provLogoPath','barangayName','address','barangayIDAmount',
                                             'expirationID','yearsOfExpiration','signaturePath')        
-                                        ->get();
-        
+                                        ->get()->last();
+
 
             $mess = Message::where("receiverID", "=", $id)
                             ->where('isRead', 0)
@@ -54,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
 
             $business = Businessregistration::where("archive", "=", 0)->count();
             $sponsor = Sponsor::count();
+            $ch = User::select('firstName','middleName','lastName')->where('position','=','Chairman')->limit(1)->get();
             $request = Documentrequest::where("status", "=", "Pending")->count();
             $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
             $pendingres = Reservation::where("status", "=", "Pending")->count();
@@ -68,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('mess',$mess);
             View::share('us',$us);
             View::share('util',$util);
+            View::share('chairman',$chairman);
             }
         }
         );

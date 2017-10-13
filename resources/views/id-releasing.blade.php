@@ -183,10 +183,9 @@
 											
 											
 											
-											@foreach($util as $utill)
-
-											<input type="hidden" id="amount" value="{{$utill->barangayIDAmount}}"></input>
-											<input type="hidden" id="yearsOfExpiration" value="{{$utill->yearsOfExpiration}}"></input>
+											
+											<input type="hidden" id="amount" value="{{$util->barangayIDAmount}}"></input>
+											<input type="hidden" id="yearsOfExpiration" value="{{$util->yearsOfExpiration}}"></input>
 											<input type="hidden" id="hehe"></input>
 
 											<h3 align="center">Preview:</h3>
@@ -199,12 +198,12 @@
 													
 													
 													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
-														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$utill->brgyLogoPath}}'></img>
+														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$util->brgyLogoPath}}'></img>
 														<h6 style="text-align:center;color:blue;padding-top:5px">
 															REPUBLIC OF THE PHILIPPINES<br>
 															CITY OF MANILA<br>
 															OFFICE OF THE BARANGAY CHAIRMAN<br>
-															{{$utill->barangayName}}<br>
+															{{$util->barangayName}}<br>
 														</h6>
 													</div>
 													
@@ -220,7 +219,7 @@
 															<p>
 															___________________________<br>
 															CARDHOLDER SIGNATURE<br>
-															@if($utill->expirationID==1)
+															@if($util->expirationID==1)
 															Valid until: <span id="validity"></span>
 															@endif
 															</p>
@@ -272,12 +271,12 @@
 															and services holder may require. <br> <br>
 
 															If found please return to the Barangay
-															Secretariat, Barangay 629, Sta Mesa, Manila.</i>
+															Secretariat, {{$util->barangayName}}, {{ $util->address }}.</i>
 														</p>
 														
 														<p align="center" style="color:black">
-															<img src="system-assets/images/sign/samplesignature.png" alt="sign" width="70%" height="30%"><br>
-															<span style="font-size:15px"><b>HON. JOSEPH N. BRIONES</b></span><br>
+															<img src="/storage/upload/{{ $util->signaturePath }}" alt="sign" width="70%" height="30%"><br>
+															<span style="font-size:15px"><b>Hon. {{ $chairman->firstName }} {{ substr($chairman->middleName,0,1) }}. {{ $chairman->lastName }}</b></span><br>
 															Barangay Chairman
 														</p>
 													</div>
@@ -299,7 +298,7 @@
 
 										
 
-									@endforeach
+
 									</div>
 									<!-- End of Modal Body -->
 								</div>
@@ -323,10 +322,10 @@
 											
 											
 											
-											@foreach($util as $utill)
+											
 
-											<input type="hidden" id="amount" value="{{$utill->barangayIDAmount}}"></input>
-											<input type="hidden" id="yearsOfExpiration" value="{{$utill->yearsOfExpiration}}"></input>
+											<input type="hidden" id="amount" value="{{$util->barangayIDAmount}}"></input>
+											<input type="hidden" id="yearsOfExpiration" value="{{$util->yearsOfExpiration}}"></input>
 											<input type="hidden" id="hehe"></input>
 
 											
@@ -338,12 +337,12 @@
 													
 													
 													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
-														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$utill->brgyLogoPath}}'></img>
+														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$util->brgyLogoPath}}'></img>
 														<h6 style="text-align:center;color:blue;padding-top:5px">
 															REPUBLIC OF THE PHILIPPINES<br>
 															CITY OF MANILA<br>
 															OFFICE OF THE BARANGAY CHAIRMAN<br>
-															{{$utill->barangayName}}<br>
+															{{$util->barangayName}}<br>
 														</h6>
 													</div>
 													
@@ -359,7 +358,7 @@
 															<p>
 															___________________________<br>
 															CARDHOLDER SIGNATURE<br>
-															@if($utill->expirationID==1)
+															@if($util->expirationID==1)
 															Valid until: <span id="vvalidity"></span>
 															@endif
 															</p>
@@ -411,12 +410,12 @@
 															and services holder may require. <br> <br>
 
 															If found please return to the Barangay
-															Secretariat, Barangay 629, Sta Mesa, Manila.</i>
+															Secretariat, {{$util->barangayName}}, {{ $util->address }}.</i>
 														</p>
 														
 														<p align="center" style="color:black">
-															<img src="system-assets/images/sign/samplesignature.png" alt="sign" width="70%" height="30%"><br>
-															<span style="font-size:15px"><b>HON. JOSEPH N. BRIONES</b></span><br>
+															<img src="/storage/upload/{{ $util -> signaturePath }}" alt="sign" width="70%" height="30%"><br>
+															<span style="font-size:15px"><b>Hon. {{ $chairman->firstName }} {{ substr($chairman->middleName,0,1) }}. {{ $chairman->lastName }}</b></span><br>
 															Barangay Chairman
 														</p>
 													</div>
@@ -434,7 +433,6 @@
 
 										
 
-									@endforeach
 									</div>
 									<!-- End of Modal Body -->
 								</div>
@@ -459,9 +457,9 @@
 											<h3 align="center">Amount To Pay:</h3> 
 											<br>
 											<h2 align="center">
-												@foreach($util as $ut)
-												₱<input style="width:40%" type="number" value="{{ $ut -> barangayIDAmount }}" id="idAmountToPay" disabled></input> 
-												@endforeach	
+												
+												₱<input style="width:40%" type="number" value="{{ $util -> barangayIDAmount }}" id="idAmountToPay" disabled></input> 
+												
 											</h2>
 											<br>
 											<h3 align="center">Cash: </h3>

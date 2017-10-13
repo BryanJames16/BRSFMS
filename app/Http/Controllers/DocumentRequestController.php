@@ -330,6 +330,7 @@ class DocumentRequestController extends Controller
                                                 'lastName', 
                                                 'middleName', 
                                                 'suffix', 
+                                                'gender',
                                                 'status')
                                             -> where('status','1')
                                             -> get();

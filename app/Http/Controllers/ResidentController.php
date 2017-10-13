@@ -29,6 +29,15 @@ class ResidentController extends Controller
     	$residents = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
     												-> where('status','1')
                                                     -> get();
+
+        $head = Family::select('familyHeadID')
+                            -> where('archive','=',0)
+                            ->get();
+
+        $notHead = Resident::select('residentPrimeID','imagePath','residentID', 'firstName','lastName','middleName','suffix', 'status', 'contactNumber', 'gender', 'birthDate', 'civilStatus','seniorCitizenID','disabilities', 'residentType')
+    									            -> where('status','1')
+                                                    -> whereNotIn('residentPrimeID',$head)
+                                                    -> get();
         
         
         $mem = Familymember::select('peoplePrimeID')->get();
@@ -57,7 +66,8 @@ class ResidentController extends Controller
     	return view('resident')
                                 -> with('residents', $residents)
                                 -> with('families',$families)
-                                -> with('memberss',$memberss);
+                                -> with('memberss',$memberss)
+                                -> with('notHead',$notHead);
     }
 
     public function refresh(Request $r) {

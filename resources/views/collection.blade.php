@@ -363,9 +363,9 @@
 											<h3 align="center">Amount To Pay:</h3> 
 											<br>
 											<h2 align="center">
-												@foreach($util as $ut)
-												₱<input style="width:40%" type="number" value="{{ $ut -> barangayIDAmount }}" id="idAmountToPay" disabled></input> 
-												@endforeach	
+												
+												₱<input style="width:40%" type="number" value="{{ $util -> barangayIDAmount }}" id="idAmountToPay" disabled></input> 
+												
 											</h2>
 											<br>
 											<h3 align="center">Cash: </h3>
@@ -396,13 +396,13 @@
 											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
 										</div>
 										<div class="modal-body">
-											@foreach($util as $u)
+											
 												<div style="padding:10px;border:1px solid black" id="mainReceipt">
 													<div align="center">
 														<h6>Republic of the Philippines<br>
 															District VI, City of Manila<br>
-															{{ $u -> barangayName }} <br>
-															{{ $u -> address }}
+															{{ $util -> barangayName }} <br>
+															{{ $util -> address }}
 														</h6>
 														<h6 align="left">No.: <u><span id="orID"></span></u></h6>
 														
@@ -425,7 +425,7 @@
 															<tbody>
 																<tr style="border:0.5px solid black">
 																	<td>Barangay I.D.</td>
-																	<td>₱{{$u -> barangayIDAmount}}</td>
+																	<td>₱{{$util -> barangayIDAmount}}</td>
 																</tr>
 																<tr>
 																	<th>Cash:</th>
@@ -445,7 +445,6 @@
 												</div>
 												<br>
 
-											@endforeach
 											<p align="center">
 												<button type="button" class="btn btn-info mr-1" id="idReceiptPrint">Print</button>
 											</p>

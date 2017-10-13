@@ -23,6 +23,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
 @endsection
 
 @section('template-css')
@@ -118,7 +119,7 @@
 								</button>
 
 								<!-- Request Modal -->
-								<div class="modal animated bounceInDown text-xs-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="iconModal"  role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header bg-info white">
@@ -155,8 +156,13 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Requestor Name</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="aRequestor">
-
+																<select class ='select2 form-control' name='type' id="aRequestor" style="width:100%">
+																	<optgroup id="male" label="Male">
+																			
+																	</optgroup>
+																	<optgroup id="female" label="Female">
+																	
+																	</optgroup>
 																</select>
 															</div>	
 														</div>
@@ -164,8 +170,8 @@
 														<div class="form-group row">
 															<label class="col-md-3 label-control" for="eventRegInput1">Document</label>
 															<div class="col-md-9">
-																<select class ='form-control border-info selectBox' name='type' id="aDocument">
-
+																<select class ='select2 form-control' name='type' id="aDocument" style="width:100%">
+																	
 																</select>
 															</div>	
 														</div>
@@ -186,7 +192,7 @@
 														</div>
 													</div>
 
-													<div class="form-actions center">
+													<div class="form-actions center" align="center">
 														<input type="submit" class="btn btn-success" value="Request Document" name="btnRequest">
 														<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 
@@ -220,7 +226,7 @@
 
 												
 
-												<div class="form-actions center">
+												<div class="form-actions center" align="center">
 													@yield('view-modal-form-action')
 												</div>													
 											</div>
@@ -296,7 +302,7 @@
 													</span>
 												</div>
 
-												<div class="form-actions center">
+												<div class="form-actions center" align="center">
 													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 cancel-view" id="cancel-view">Cancel</button>
 												</div>												
 											</div>
@@ -326,7 +332,7 @@
 													</span>
 												</div>
 
-												<div class="form-actions center">
+												<div class="form-actions center" align="center">
 													<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">Cancel</button>
 												</div>												
 											</div>
@@ -419,6 +425,7 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('template-js')
@@ -426,6 +433,9 @@
 @endsection
 
 @section('page-level-js')
+
+
+
 	<script type='text/javascript'>
 		$.ajaxSetup({
 		    headers: {
@@ -462,16 +472,25 @@
 				url: "{{ url('/document-request/getRequestor') }}", 
 				method: "GET", 
 				success: function(data) {
-					$("#aRequestor").html("");
+					
 
-					for (datum in data) {
-						$("#aRequestor").append(
-							"<option value=" + data[datum].residentPrimeID + ">" + 
-								data[datum].lastName + ", " + 
-								data[datum].firstName + " " + 
-								data[datum].middleName +  
-							"</option>"
-						);
+					for(index in data)
+					{
+						var male = '';
+						var female = '';
+
+						if(data[index].gender == 'M')
+						{
+							male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+				
+						}
+						else if(data[index].gender == 'F')
+						{
+							female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+						}
+
+						$('#male').append(male);
+						$('#female').append(female);
 					}
 				}, 
 				error: function(data) {
@@ -1133,4 +1152,5 @@
 	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/html2canvas.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/canvas2image.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 @endsection

@@ -25,7 +25,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/icomoon.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/fonts/flag-icon-css/css/flag-icon.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/sliders/slick/slick.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />
 @endsection
 
 @section('template-css')
@@ -396,7 +396,7 @@
 				</div>
 				
 				<!-- Reschedule Modal -->
-				<div class="modal animated bounceInDown text-xs-left" id="rescheduleModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="rescheduleModal"  role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-info white">
@@ -494,7 +494,7 @@
 				<!--RESERVE FACILITY -->
 
 				<!--Add Modal -->
-				<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+				<div class="modal animated bounceInDown text-xs-left" id="addModal"  role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header bg-info white">
@@ -510,6 +510,8 @@
 											<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
 											<label for="switcheryColor" class="card-title ml-1"><p style="font-family:century gothic;font-size:16px">Resident</p></label>
 										</div>
+
+										
 
 										<div id="change">
 
@@ -574,7 +576,7 @@
 @section('page-vendor-js')
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
@@ -582,9 +584,12 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+	
+	
 @endsection
 
 @section('page-level-js')
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
@@ -911,7 +916,11 @@
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Resident</label>'+
-										"<select class='form-control border-info selectBox' id='residentCbo'>"+
+										'<select class="select2 form-control" id="residentCbo" name="resiID" style="width: 100%">'+
+											'<optgroup id="male" label="Male">'+
+											'</optgroup>'+
+											'<optgroup id="female" label="Female">'+
+											'</optgroup>'+
 										'</select>'+	
 									'</div>'+
 								'</div>'+
@@ -946,6 +955,7 @@
 									'</div>'+
 								'</div>');
 
+						$('#residentCbo').select2();
 
 						$.ajax({
 							type: 'GET',
@@ -957,10 +967,21 @@
 
 								for (index in data) {
 
-								$('#residentCbo').append($('<option>',{
-									value: data[index].residentPrimeID,
-									text: data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + ': ' + data[index].residentID
-								}));
+									var male = '';
+									var female = '';
+
+									if(data[index].gender == 'M')
+									{
+										male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+							
+									}
+									else if(data[index].gender == 'F')
+									{
+										female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+									}
+
+									$('#male').append(male);
+									$('#female').append(female);
 
 								}
 							}
@@ -1126,7 +1147,11 @@
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">Resident</label>'+
-													"<select class='form-control border-info selectBox' id='eresidentCbo'>"+
+													"<select class='form-control select2' id='eresidentCbo'>"+
+														'<optgroup id="emale" label="Male">'+
+														'</optgroup>'+
+														'<optgroup id="efemale" label="Female">'+
+														'</optgroup>'+
 													'</select>'+	
 												'</div>'+
 											'</div>'+
@@ -1161,6 +1186,7 @@
 												'</div>'+
 											'</div>');
 
+									$('#eresidentCbo').select2();
 
 									$.ajax({
 										type: 'GET',
@@ -1172,10 +1198,21 @@
 
 											for (index in data) {
 
-											$('#eresidentCbo').append($('<option>',{
-												value: data[index].residentPrimeID,
-												text: data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + ': ' + data[index].residentID
-											}));
+												var male = '';
+												var female = '';
+
+												if(data[index].gender == 'M')
+												{
+													male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+										
+												}
+												else if(data[index].gender == 'F')
+												{
+													female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+												}
+
+												$('#emale').append(male);
+												$('#efemale').append(female);
 
 											}
 										}

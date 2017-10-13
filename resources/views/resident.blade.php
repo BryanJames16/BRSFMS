@@ -279,7 +279,7 @@
 													<select class="select2 form-control" id="familyHeadID" name="familyHeadID" style="width: 50%">
 													
 														<optgroup label="Male">
-														@foreach($residents as $resident)
+														@foreach($notHead as $resident)
 															@if($resident -> gender == 'M')
 															{
 																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
@@ -288,7 +288,7 @@
 														@endforeach
 														</optgroup>
 														<optgroup label="Female">
-														@foreach($residents as $resident)
+														@foreach($notHead as $resident)
 															@if($resident -> gender == 'F')
 															{
 																<option value= {{$resident -> residentPrimeID}}>{{ $resident -> lastName }}, {{ $resident -> firstName }}  {{ substr($resident -> middleName,0,1)  }}.</option>
@@ -374,13 +374,13 @@
 											
 											
 											
-											@foreach($util as $utill)
+											
 
-											<input type="hidden" id="amount" value="{{$utill->barangayIDAmount}}"></input>
-											<input type="hidden" id="yearsOfExpiration" value="{{$utill->yearsOfExpiration}}"></input>
+											<input type="hidden" id="amount" value="{{$util->barangayIDAmount}}"></input>
+											<input type="hidden" id="yearsOfExpiration" value="{{$util->yearsOfExpiration}}"></input>
 											<input type="hidden" id="hehe"></input>
 
-											<h4 align="center">AMOUNT: P{{$utill->barangayIDAmount}}</h4>
+											<h4 align="center">AMOUNT: P{{$util->barangayIDAmount}}</h4>
 											<h3 align="center">Preview:</h3>
 										
 											
@@ -391,12 +391,12 @@
 													
 													
 													<div style="background-color:lightgrey;width:500px;height:80px;border:1px solid;border-color:rgb(0, 0, 193);border-radius:10px 10px 0px 0px;">
-														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$utill->brgyLogoPath}}'></img>
+														<img style="float:left;padding-top:10px;padding-left:10px;width:80px;height:60px" src='/storage/upload/{{$util->brgyLogoPath}}'></img>
 														<h6 style="text-align:center;color:blue;padding-top:5px">
 															REPUBLIC OF THE PHILIPPINES<br>
 															CITY OF MANILA<br>
 															OFFICE OF THE BARANGAY CHAIRMAN<br>
-															{{$utill->barangayName}}<br>
+															{{$util->barangayName}}<br>
 														</h6>
 													</div>
 													
@@ -412,7 +412,7 @@
 															<p>
 															___________________________<br>
 															CARDHOLDER SIGNATURE<br>
-															@if($utill->expirationID==1)
+															@if($util->expirationID==1)
 															Valid until: <span id="validity"></span>
 															@endif
 															</p>
@@ -496,7 +496,7 @@
 
 										
 
-									@endforeach
+									
 									</div>
 									<!-- End of Modal Body -->
 								</div>

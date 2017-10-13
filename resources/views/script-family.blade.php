@@ -9,7 +9,7 @@
 		//  FAMILY NEXT PK
 
 		$("#btnFamilyModal").on('click', function() {
-			$("#familyModal").modal('show');
+			
 
 			$.ajax({
 				url: "{{ url('/family/nextPK') }}", 
@@ -21,6 +21,8 @@
 					else {
 						$("#familyID").val(data);
 					}
+
+					$("#familyModal").modal('show');
 				}, 
 				error: function(data) {
 					var message = "Error: ";
@@ -524,13 +526,14 @@
 									gen, 
 									data[index].contactNumber,
 									'<select class ="form-control border-info selectBox" name="type" id="relation'+data[index].residentPrimeID+'">' +
+											
+											'<option value="Son">Son</option>'+
+											'<option value="Daughter">Daughter</option>'+
 											'<option value="Self">Self</option>'+
 											'<option value="Wife">Wife</option>'+
 											'<option value="Husband">Husband</option>'+
 											'<option value="Mother">Mother</option>'+
 											'<option value="Father">Father</option>'+
-											'<option value="Son">Son</option>'+
-											'<option value="Daughter">Daughter</option>'+
 											'<option value="Sister">Sister</option>'+
 											'<option value="Brother">Brother</option>'+
 											'<option value="Uncle">Uncle</option>'+
@@ -623,14 +626,14 @@
 											gen, 
 											data[index].contactNumber,
 											'<select class ="form-control border-info selectBox" name="type" id="relation'+data[index].residentPrimeID+'">' +
+											'<option value="Son">Son</option>'+
+											'<option value="Daughter">Daughter</option>'+
+											'<option value="Sister">Sister</option>'+
 											'<option value="Self">Self</option>'+
 											'<option value="Wife">Wife</option>'+
 											'<option value="Husband">Husband</option>'+
 											'<option value="Mother">Mother</option>'+
 											'<option value="Father">Father</option>'+
-											'<option value="Son">Son</option>'+
-											'<option value="Daughter">Daughter</option>'+
-											'<option value="Sister">Sister</option>'+
 											'<option value="Brother">Brother</option>'+
 											'<option value="Uncle">Uncle</option>'+
 											'<option value="Auntie">Auntie</option>'+
