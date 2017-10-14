@@ -30,7 +30,7 @@ class SessionsController extends Controller
         {
             return redirect('dashboard');
         }
-        else{
+        else {
             return back();
         }
 
