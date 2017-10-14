@@ -193,6 +193,9 @@ Route::get('/logs/getUserLogs', 'LogsController@getUserLogs');
 // Item Reservation
 Route::get('/item-reservation/getResidents', 'ItemReservationController@getResidents');
 Route::get('/item-reservation/getItems', 'ItemReservationController@getItems');
+Route::get('/item-reservation/getRes', 'ItemReservationController@getRes');
+Route::get('/item-reservation/getEditNonRes', 'ItemReservationController@getEditNonRes');
+Route::get('/item-reservation/gReservation', 'ItemReservationController@gReservation');
 Route::post('/item-reservation/store', 'ItemReservationController@store');
 
 // Facility Reservation
@@ -408,6 +411,14 @@ Route::get('/404', function () {
 
 Route::get('/503', function () {
 	return view('errors.503');
+});
+
+
+//////////////////////////////////////////////////////////////////////
+/* REDIRECT ROUTES */
+//////////////////////////////////////////////////////////////////////
+Route::get('/home', function() {
+	return redirect('/dashboard');
 });
 
 

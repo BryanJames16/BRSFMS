@@ -262,7 +262,7 @@
 							$("#calendarModal").modal("hide");
 							swal({
 								title: "Save the Date!", 
-								text: "Do you want to reserve a facility on this date?",
+								text: "Do you want to reserve items on this date?",
 								icon: "info",
 								showCancelButton: true,
 								confirmButtonColor: "#00F704",
@@ -286,8 +286,8 @@
 
 						$.ajax({
 							type: 'get',
-							url: "{{ url('/facility-reservation/getRes') }}",
-							data: {"primeID": id},
+							url: "{{ url('/item-reservation/getRes') }}",
+							data: { "primeID": id },
 							success: function(data) {
 								data = $.parseJSON(data);
 
@@ -295,13 +295,18 @@
 									if(data[index].peoplePrimeID == null)	{
 										$.ajax({
 											type: 'get',
-											url: "{{ url('/facility-reservation/getEditNonRes') }}",
-											data: {primeID:id},
+											url: "{{ url('/item-reservation/getEditNonRes') }}",
+											data: { "primeID":id },
 											success:function(data) {
 												data = $.parseJSON(data);
 
 												for (index in data) {
-													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var months = ['January', 'February', 
+																	'March', 'April', 
+																	'May', 'June', 
+																	'July', 'August', 
+																	'September', 'October', 
+																	'November', 'December'];
 													var date = new Date(data[index].dateReserved);
 													var month = date.getMonth();
 													var day = date.getDate();
@@ -341,7 +346,7 @@
 																'<b>RESERVATION INFORMATION</b> <br><br>' +
 																'Reservation Name: ' + data[index].reservationName + '<br>' +
 																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
-																'Facility: ' + data[index].facilityName + '<br>' +
+																'Items: ' + data[index].facilityName + '<br>' +
 																'Date Reserved: ' + d + '<br>' +
 																'Start Time: ' + st + '<br>' +
 																'End Time: ' + en + '<br>' +
@@ -359,7 +364,7 @@
 										$.ajax({
 
 											type: 'get',
-											url: "{{ url('facility-reservation/getEdit') }}",
+											url: "{{ url('item-reservation/getEdit') }}",
 											data: {primeID:id},
 											success:function(data) {
 												data = $.parseJSON(data);
@@ -409,7 +414,7 @@
 																'<b>RESERVATION INFORMATION</b> <br><br>' +
 																'Reservation Name: ' + data[index].reservationName + '<br>' +
 																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
-																'Facility: ' + data[index].facilityName + '<br>' +
+																'Item: ' + data[index].facilityName + '<br>' +
 																'Date Reserved: ' + d + '<br>' +
 																'Start Time: ' + st + '<br>' +
 																'End Time: ' + en + '<br>' +
@@ -493,7 +498,7 @@
 						data = $.parseJSON(data);
 
 							for (index in data) {
-								$('#facilityCbo').append($('<option>',{
+								$('#itemCbo').append($('<option>',{
 									value: data[index].itemID,
 									text: data[index].itemName
 								}));
@@ -513,7 +518,7 @@
 
 							for (index in data) {
 
-							$('#facilityID').append($('<option>',{
+							$('#itemID').append($('<option>',{
 								value: data[index].itemID,
 								text: data[index].itemName
 							}));
@@ -530,7 +535,6 @@
 			$('#change').html('<div class="row">'+
 								'<div class="form-group col-md-6 mb-2">'+
 									'<label for="userinput1">Reservation Name</label>'+
-									
 									'{{ Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'minlength'=>'5', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 								'</div>'+
 								'<div class="form-group col-md-6 mb-2">'+
@@ -550,7 +554,12 @@
 								'</div>'+
 								'<div class="form-group col-md-6 mb-2">'+
 									'<label for="userinput2">Item</label>'+
-									"<select class='form-control border-info selectBox' id='facilityCbo'>"+
+									"<select class='form-control border-info selectBox' id='itemCbo'>"+
+									'</select>'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput2">Quantity</label>'+
+									'{{ Form::number('itemQuantity',null,['id'=>'itemQuantity','class'=>'form-control', 'placeholder'=>'150', 'min'=>'1', 'max'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 									'</select>'+
 								'</div>'+
 							'</div>'+
@@ -608,7 +617,12 @@
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">Item</label>'+
-										"<select class='form-control border-info selectBox' id='facilityID'>"+
+										"<select class='form-control border-info selectBox' id='itemID'>"+
+										'</select>'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">Quantity</label>'+
+										'{{ Form::number('itemQuantity',null,['id'=>'itemQuantity','class'=>'form-control', 'placeholder'=>'150', 'min'=>'1', 'max'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</select>'+
 									'</div>'+
 								'</div>'+
@@ -655,7 +669,6 @@
 			function(confirmRes2) {
 				if (confirmRes2) {
 					$("#addModal").modal('show');
-					
 				}
 				else {
 					$("#addModal").modal('show');
@@ -683,7 +696,7 @@
 
 		var checkFullCalendar = function (passedDate) {
 			$.ajax({
-				url: '{{ url("/facility-reservation/gReservations") }}',
+				url: '{{ url("/item-reservation/gReservation") }}',
 				type: 'GET', 
 				async: false, 
 				data: { "currentDateTime": passedDate }, 
@@ -717,6 +730,81 @@
 
 	<!-- Page Submissions -->
 	<script type="text/javascript">
+		$("#frm-reserve").submit(function(event) {
+			event.preventDefault();
+			var frm = $('#frm-reserve');
+			
+			frm.find('#startTime').val()
 
+			if(switchRes.checked == true)
+			{
+				$.ajax({
+					url: "{{ url('/facility-reservation/residentStore') }}", 
+					method: "POST", 
+					data: {
+						"_token": "{{ csrf_token() }}", 
+						"reservationName": $("#rreservationName").val(), 
+						"desc": $("#rdesc").val(), 
+						"startTime": $("#rstartTime").val(), 
+						"endTime": $("#rendTime").val(), 
+						"date": $("#rdate").val(),
+						"peoplePrimeID": $("#residentCbo").val(),
+						"facilityPrimeID": $("#facilityCbo").val()
+					}, 
+					success: function(data) {
+						refreshTable();
+						$("#addModal").modal("hide");
+						
+						$("#frm-reserve").trigger("reset");
+						swal("Success", "Successfully Added!", "success");
+					}, 
+					error: function(errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			}
+			else
+			{
+				$.ajax({
+					url: "{{ url('/facility-reservation/nonresidentStore') }}", 
+					method: "POST", 
+					data: {
+						"_token": "{{ csrf_token() }}", 
+						"reservationName": $("#rreservationName").val(), 
+						"desc": $("#rdesc").val(), 
+						"startTime": $("#rstartTime").val(), 
+						"endTime": $("#rendTime").val(), 
+						"date": $("#rdate").val(),
+						"name": $("#rname").val(),
+						"age": $("#age").val(),
+						"email": $("#email").val(),
+						"contactNumber": $("#contactNumber").val(),
+						"itemID": $("#itemID").val()
+					}, 
+					success: function(data) {
+						$("#addModal").modal("hide");
+						
+						$("#frm-reserve").trigger("reset");
+						swal("Success", "Successfully Added!", "success");
+					}, 
+					error: function(error) {
+						var message = "Errors: ";
+						var data = error.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+			}
+
+		});
 	</script>
 @endsection

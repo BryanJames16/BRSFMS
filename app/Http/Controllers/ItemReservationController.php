@@ -72,4 +72,64 @@ class ItemReservationController extends Controller {
             return view('errors.403');
         }
     }
+
+    public function getRes(Request $r) {
+        if($r -> ajax()) {
+            return json_encode(ItemReservation::select('peoplePrimeID') 
+                                                -> where('primeID', '=', $r -> input('primeID')) 
+                                                -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getEditNonRes(Request $r) {
+        if($r -> ajax()) {
+            return json_encode(ItemReservation::select('*') 
+                                        -> join('facilities', 'ItemReservation.facilityPrimeID', '=', 'facilities.primeID')
+                                        -> where('ItemReservation.peoplePrimeID', '=', null) 
+                                        -> where('ItemReservation.primeID', '=', $r -> input('primeID')) 
+                                        -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getEdit(Request $r) {
+        if($r -> ajax()) {
+            return json_encode(ItemReservation::select('ItemReservations.primeID', 'peoplePrimeID', 
+                                                        'ItemReservations.facilityPrimeID',  
+                                                        'ItemReservations.status', 'reservationName', 
+                                                        'reservationDescription', 'reservationStart', 
+                                                        'reservationEnd', 'dateReserved', 
+                                                        'facilities.facilityName',  
+                                                        'residents.contactNumber', 'residents.gender', 
+                                                        'residents.lastName', 'residents.firstName', 
+                                                        'residents.middleName') 
+                                        ->join('facilities', 'ItemReservations.facilityPrimeID', '=', 'facilities.primeID')
+                                        ->join('residents', 'ItemReservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
+                                        ->where('ItemReservations.primeID','=', $r->input('primeID'))
+                                        ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function gReservation(Request $r) {
+        if ($r -> ajax()) {
+            $cleanTime = $r->input('currentDateTime');
+            $cleanTime = substr($cleanTime, 0, strpos($cleanTime, '('));
+            $dateToday = date("Y-m-d", strtotime($cleanTime));
+            $resvn = ItemReservation::where('status', '=', 'Pending') 
+                                    -> get();
+            
+            return json_encode($resvn);
+        }
+        else {
+            return view('errors.403');
+        }
+    }
 }
