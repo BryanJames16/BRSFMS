@@ -152,11 +152,11 @@
 					<div class="modal animated bounceInDown text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 						<div class="modal-xl modal-dialog" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header bg-info white">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Calendar</h4>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-calendar"></i> Calendar</h4>
 								</div>
 								<div class="modal-body">
 									<div class="card-block">
@@ -208,7 +208,7 @@
 @endsection
 
 @section('page-vendor-js')
-		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
@@ -241,9 +241,208 @@
 
 	<!-- Dynamic Page Actions -->
 	<script type="text/javascript">
+		// Global Variable
+		var eventsFullCal = [];
+
 		// Action Event Functions
-		$("#btnViewCal").click(function(event) {
-			$("#calendarModal").modal("show");
+		$(document).ready(function () {
+			$("#btnViewCal").click(function () {
+				checkFullCalendar(getCurrentDateTime());
+				$("#fc-external-drag").fullCalendar({
+					header: {
+						left: 'prev,next today', 
+						center: 'title', 
+						right: "month,agendaWeek,agendaDay"
+					}, 
+					editable: 0, 
+					droppable: 0, 
+					events: eventsFullCal, 
+					dayClick: function(date, jsEvent, view) {
+						if (date >= $("#fc-external-drag").fullCalendar('getDate')) {
+							$("#calendarModal").modal("hide");
+							swal({
+								title: "Save the Date!", 
+								text: "Do you want to reserve a facility on this date?",
+								icon: "info",
+								showCancelButton: true,
+								confirmButtonColor: "#00F704",
+								confirmButtonText: "YES",
+								cancelButtonText: "NO"
+							}, 
+							function(confirmRes) {
+								if (confirmRes) {
+									window.setTimeout(function() {
+										updateConfirmation(date);	
+									}, 500);
+								}
+								else {
+									$("#calendarModal").modal("show");
+								}
+							});
+						}
+					},
+					eventClick: function(calEvent, jsEvent, view) {
+						var id = calEvent.data_id;
+
+						$.ajax({
+							type: 'get',
+							url: "{{ url('/facility-reservation/getRes') }}",
+							data: {"primeID": id},
+							success: function(data) {
+								data = $.parseJSON(data);
+
+								for (index in data)  {
+									if(data[index].peoplePrimeID == null)	{
+										$.ajax({
+											type: 'get',
+											url: "{{ url('/facility-reservation/getEditNonRes') }}",
+											data: {primeID:id},
+											success:function(data) {
+												data = $.parseJSON(data);
+
+												for (index in data) {
+													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var date = new Date(data[index].dateReserved);
+													var month = date.getMonth();
+													var day = date.getDate();
+													var year = date.getFullYear();
+													var d = months[month] + ' ' + day + ', ' + year;
+
+													var start = data[index].reservationStart;
+													var end = data[index].reservationEnd;
+
+													start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+													end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
+
+													if (start.length > 1) {
+														start = start.slice(1);
+														start[5] = +start[0] < 12 ? 'AM' : 'PM';
+														start[0] = +start[0] % 12 || 12;
+													}
+
+													if (end.length > 1) {
+														end = end.slice(1);
+														end[5] = +end[0] < 12 ? 'AM' : 'PM';
+														end[0] = +end[0] % 12 || 12;
+													}
+
+													var st = start.join('');
+													var en = end.join('');
+
+													$('#reservationDetails').html(
+														'<p style="font-size:18px" align="center">'+
+																
+																'<b>CREDENTIALS</b> <br><br>' +
+																'Reserved By: ' + data[index].name + '<br>' +
+																'Age: ' + data[index].age + '<br>' +
+																'E-mail: ' + data[index].email + '<br>' +
+																'Contact Number: ' + data[index].contactNumber + '<br>' +
+																'Residency: Non-resident <br><br>' +
+																'<b>RESERVATION INFORMATION</b> <br><br>' +
+																'Reservation Name: ' + data[index].reservationName + '<br>' +
+																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+																'Facility: ' + data[index].facilityName + '<br>' +
+																'Date Reserved: ' + d + '<br>' +
+																'Start Time: ' + st + '<br>' +
+																'End Time: ' + en + '<br>' +
+														'</p>'
+														);	
+													$('#calendarModal').modal('hide');
+													window.setTimeout(function() {
+														$('#viewModal').modal('show');
+													}, 500)
+												}		
+											}
+										});
+									}
+									else {
+										$.ajax({
+
+											type: 'get',
+											url: "{{ url('facility-reservation/getEdit') }}",
+											data: {primeID:id},
+											success:function(data) {
+												data = $.parseJSON(data);
+												var gender='Female';
+
+												for (index in data) {
+													var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+													var date = new Date(data[index].dateReserved);
+													var month = date.getMonth();
+													var day = date.getDate();
+													var year = date.getFullYear();
+													var d = months[month] + ' ' + day + ', ' + year;
+
+													var start = data[index].reservationStart;
+													var end = data[index].reservationEnd;
+
+													start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
+													end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
+
+													if (start.length > 1) {
+														start = start.slice(1);
+														start[5] = +start[0] < 12 ? 'AM' : 'PM';
+														start[0] = +start[0] % 12 || 12;
+													}
+
+													if (end.length > 1) {
+														end = end.slice(1);
+														end[5] = +end[0] < 12 ? 'AM' : 'PM';
+														end[0] = +end[0] % 12 || 12;
+													}
+
+													var st = start.join('');
+													var en = end.join('');
+
+													if(data[index].gender=='M') {
+														gender='Male';
+													}
+
+													$('#reservationDetails').html(
+														'<p style="font-size:18px" align="center">'+
+																
+																'<b>CREDENTIALS</b> <br><br>' +
+																'Reserved By: ' + data[index].lastName + ', ' + data[index].firstName + ' '+ data[index].middleName + '<br>' +
+																'Gender: ' + gender + '<br>' +
+																'Contact Number: ' + data[index].contactNumber + '<br>' +
+																'Residency: Resident <br><br>' +
+																'<b>RESERVATION INFORMATION</b> <br><br>' +
+																'Reservation Name: ' + data[index].reservationName + '<br>' +
+																'Reservation Description: ' + data[index].reservationDescription + '<br>' +
+																'Facility: ' + data[index].facilityName + '<br>' +
+																'Date Reserved: ' + d + '<br>' +
+																'Start Time: ' + st + '<br>' +
+																'End Time: ' + en + '<br>' +
+														'</p>'
+													);	
+													$('#calendarModal').modal('hide');
+													window.setTimeout(function() {
+														$('#viewModal').modal('show');
+													}, 500)
+												}		
+											}
+										});
+									}
+								}		
+							},
+							error: function(errors) {
+								var message = "Error: ";
+								var data = errors.responseJSON;
+								for (datum in data) {
+									message += data[datum];
+								}
+
+								swal("Error", "Cannot fetch table data!\n" + message, "error");
+							}
+						});
+					}
+				});
+				$("#calendarModal").modal("show");
+
+				window.setTimeout(clickToday, 1000);
+
+				$("#fc-external-drag").fullCalendar('rerenderEvents');
+			});
 		});
 
 		$("#btnItemRes").click(function(event) {
@@ -259,8 +458,7 @@
 
 					$.ajax({
 						type: 'GET',
-						url: "{{ url('/facility-reservation/getResidents') }}",
-						data: {"serviceTransactionPrimeID": 'asd'},
+						url: "{{ url('/item-reservation/getResidents') }}",
 						success: function(data) {
 
 						data = $.parseJSON(data);
@@ -289,16 +487,15 @@
 
 					$.ajax({
 						type: 'GET',
-						url: "{{ url('/facility-reservation/getFacilities') }}",
-						data: {"serviceTransactionPrimeID": 'asd'},
+						url: "{{ url('/item-reservation/getItems') }}",
 						success: function(data) {
 
 						data = $.parseJSON(data);
 
 							for (index in data) {
 								$('#facilityCbo').append($('<option>',{
-									value: data[index].primeID,
-									text: data[index].facilityName
+									value: data[index].itemID,
+									text: data[index].itemName
 								}));
 							}
 						}
@@ -309,8 +506,7 @@
 
 					$.ajax({
 						type: 'GET',
-						url: "{{ url('/facility-reservation/getFacilities') }}",
-						data: {"serviceTransactionPrimeID": 'asd'},
+						url: "{{ url('/item-reservation/getItems') }}",
 						success: function(data) {
 
 						data = $.parseJSON(data);
@@ -318,8 +514,8 @@
 							for (index in data) {
 
 							$('#facilityID').append($('<option>',{
-								value: data[index].primeID,
-								text: data[index].facilityName
+								value: data[index].itemID,
+								text: data[index].itemName
 							}));
 
 							}
@@ -430,6 +626,92 @@
 										'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
 									'</div>'+
 								'</div>');
+		}
+
+		var clickToday = function () {
+			$(".fc-today-button").click();
+
+			$(".fc-prev-button").on('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
+
+			$(".fc-next-button").click('click', function () {
+				var dateSelected = $("#fc-external-drag").fullCalendar('getDate')._d;
+				checkFullCalendar(dateSelected);
+			});
+		};
+
+		var updateConfirmation = function(curDat) {
+			swal({
+				title: "Confirmation", 
+				text: "Is this a reservation for residents?", 
+				icon: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#00F704",
+				confirmButtonText: "YES",
+				cancelButtonText: "NO"
+			}, 
+			function(confirmRes2) {
+				if (confirmRes2) {
+					$("#addModal").modal('show');
+					
+				}
+				else {
+					$("#addModal").modal('show');
+				}
+
+				window.setTimeout(function() {
+					updateDateOnModal(curDat);	
+				}, 500)
+			});
+		}
+
+		var updateDateOnModal = function(curDat, resRev) {
+			if (resRev) {
+				$("#switchRes").trigger('click');
+			}
+			else {
+				$("#switchRes").trigger('click');
+			}
+
+			$(document).ready(function() {
+				var formattingDate = new Date(curDat.format("YYYY-MM-DD"));
+				$("#rdate").val(curDat.format("YYYY-MM-DD"));
+			});
+		}
+
+		var checkFullCalendar = function (passedDate) {
+			$.ajax({
+				url: '{{ url("/facility-reservation/gReservations") }}',
+				type: 'GET', 
+				async: false, 
+				data: { "currentDateTime": passedDate }, 
+				success: function (data) {
+					var data = $.parseJSON(data);
+					var eventColor = "#37BC9B";
+					eventsFullCal = [];
+					for (datum in data) {
+						var eventObj = {
+							"title": data[datum].reservationName, 
+							"start": data[datum].dateReserved + "T" + data[datum].reservationStart, 
+							"end": data[datum].dateReserved + "T" + data[datum].reservationEnd, 
+							"color": eventColor,
+							"data_id": data[datum].primeID
+						};
+						eventsFullCal.push(eventObj);
+					}
+				}, 
+				error: function(errors) {
+						var message = "Error: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+			});
 		}
 	</script>
 

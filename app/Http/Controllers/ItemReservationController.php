@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Item;
+use \App\Models\Person;
+use \App\Models\Resident;
+use \App\Models\Itemreservation;
+use \App\Models\Collection;
+use \App\Models\Log;
 use Carbon\Carbon;
 
 class ItemReservationController extends Controller {
@@ -45,6 +50,26 @@ class ItemReservationController extends Controller {
         }
         else {
 
+        }
+    }
+
+    public function getResidents(Request $r) {
+        if($r -> ajax()) {
+            return json_encode( Resident::where('status', '=', 1)
+                                            ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function getItems(Request $r) {
+        if($r -> ajax()) {
+            return json_encode( Item::where('status', '=', 1) 
+                                        -> get());
+        }
+        else {
+            return view('errors.403');
         }
     }
 }

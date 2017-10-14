@@ -191,7 +191,9 @@ Route::get('/logs/getLogs', 'LogsController@getLogs');
 Route::get('/logs/getUserLogs', 'LogsController@getUserLogs');
 
 // Item Reservation
-Route::get('/item-reservation/store', 'ItemReservationController@store');
+Route::get('/item-reservation/getResidents', 'ItemReservationController@getResidents');
+Route::get('/item-reservation/getItems', 'ItemReservationController@getItems');
+Route::post('/item-reservation/store', 'ItemReservationController@store');
 
 // Facility Reservation
 Route::get('/facility-reservation/refresh', 'ReservationController@refresh');

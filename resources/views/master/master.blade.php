@@ -242,7 +242,6 @@
 									@endif
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-divider"></div>
 									<a href="/logout" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
 								</div>
 							</li>
