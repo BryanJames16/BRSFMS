@@ -892,7 +892,6 @@
 							"data_id": data[datum].primeID
 						};
 						eventsFullCal.push(eventObj);
-						console.log("Events pushed!");
 					}
 				}, 
 				error: function(errors) {

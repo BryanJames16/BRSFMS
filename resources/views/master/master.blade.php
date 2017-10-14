@@ -242,7 +242,6 @@
 									@endif
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
-									<div class="dropdown-divider"></div>
 									<a href="/logout" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
 								</div>
 							</li>
@@ -652,11 +651,11 @@
 					<div class="modal fade text-xs-left" id="replyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 						<div class="modal-dialog " role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header bg-info white">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Message</h4>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-drafts"></i> View Message</h4>
 								</div>
 
 								<!-- START MODAL BODY -->
@@ -717,11 +716,11 @@
 					<div class="modal fade text-xs-left" id="createModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 						<div class="modal-dialog modal-xs" role="document">
 							<div class="modal-content">
-								<div class="modal-header">
+								<div class="modal-header bg-info white">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Create Message</h4>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-mail"></i> Create Message</h4>
 								</div>
 
 								<!-- START MODAL BODY -->

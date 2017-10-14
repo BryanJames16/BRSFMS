@@ -207,7 +207,7 @@
 																</div>
 																<div class="media-body white text-xs-right">
 																	<h3 id="pending-services">{{ $pendingser }}</h3>
-																	<span>Current Pending Services</span>
+																	<span>Pending Services</span>
 																</div>
 															</div>
 														</div>

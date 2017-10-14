@@ -725,7 +725,7 @@
                         filename:     "BarangayID-" + getStringDateTime() + ".pdf", 
                         image:        { type: 'jpeg', quality: 1 },
                         html2canvas:  { dpi: 300, letterRendering: true },
-                        jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'portrait' }
+                        jsPDF:        { unit: 'in', format: [8.6459, 8.2438], orientation: 'landscape' }
                     });
                 });
 			
