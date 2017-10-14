@@ -80,7 +80,7 @@
 						<div class="card-block card-dashboard">
 							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnItemRes" data-target="#addModal" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> Item Reservation  
 								</button>
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnViewCal" style="width:160px; font-size:13px">
@@ -98,7 +98,7 @@
 									<thead class="thead-custom-bg-red">
 										<tr>
 											<th>Name</th>
-											<th>Reserved Facility</th>
+											<th>Reserved Item</th>
 											<th>Reserved By</th>
 											<th>Date and Time</th>
 											<th>Residency</th>
@@ -125,7 +125,7 @@
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reserve Item</h4>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-globe2"></i> Reserve Item</h4>
 								</div>
 								<div class="modal-body">
 									{{ Form::open(['url'=>'/item/store', 'method' => 'POST','id' => 'frm-reserve']) }}
@@ -136,7 +136,7 @@
 
 											<div id="change">
 
-												
+												<!-- Dynamic Content -->
 
 											</div>
 										<div class="form-actions center">
@@ -208,9 +208,9 @@
 @endsection
 
 @section('page-vendor-js')
-	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
+		<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
-
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-switch.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/bootstrap-checkbox.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
@@ -221,6 +221,7 @@
 @endsection
 
 @section('page-level-js')
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/timehandle.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
@@ -229,9 +230,211 @@
 @endsection
 
 @section('page-action')
+	<!-- AJAX Setup -->
 	<script type="text/javascript">
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+	</script>
+
+	<!-- Dynamic Page Actions -->
+	<script type="text/javascript">
+		// Action Event Functions
 		$("#btnViewCal").click(function(event) {
 			$("#calendarModal").modal("show");
 		});
+
+		$("#btnItemRes").click(function(event) {
+			$("#switchRes").trigger('click');
+			$("#switchRes").trigger('click');
+		});
+
+		$(document).ready(function(event) {
+			$('#switchRes').change(function () { 
+				if (this.checked) {
+					changeToResident();
+					$('#residentCbo').select2();
+
+					$.ajax({
+						type: 'GET',
+						url: "{{ url('/facility-reservation/getResidents') }}",
+						data: {"serviceTransactionPrimeID": 'asd'},
+						success: function(data) {
+
+						data = $.parseJSON(data);
+
+							for (index in data) {
+
+								var male = '';
+								var female = '';
+
+								if(data[index].gender == 'M'){
+									male = male + '<option value= '+ data[index].residentPrimeID + '>'+ data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+								}
+								else if(data[index].gender == 'F') {
+									female = female + '<option value= '+ data[index].residentPrimeID + '>' + data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName + '</option>';
+								}
+								else {
+									// Do Nothing
+								}
+
+								$('#male').append(male);
+								$('#female').append(female);
+
+							}
+						}
+					});
+
+					$.ajax({
+						type: 'GET',
+						url: "{{ url('/facility-reservation/getFacilities') }}",
+						data: {"serviceTransactionPrimeID": 'asd'},
+						success: function(data) {
+
+						data = $.parseJSON(data);
+
+							for (index in data) {
+								$('#facilityCbo').append($('<option>',{
+									value: data[index].primeID,
+									text: data[index].facilityName
+								}));
+							}
+						}
+					});
+				}
+				else {
+					changeToNonResident();
+
+					$.ajax({
+						type: 'GET',
+						url: "{{ url('/facility-reservation/getFacilities') }}",
+						data: {"serviceTransactionPrimeID": 'asd'},
+						success: function(data) {
+
+						data = $.parseJSON(data);
+
+							for (index in data) {
+
+							$('#facilityID').append($('<option>',{
+								value: data[index].primeID,
+								text: data[index].facilityName
+							}));
+
+							}
+						}
+					});
+				}
+			});
+		});
+
+		// Self-Defined Functions
+		var changeToResident = function() {
+			$('#change').html('<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput1">Reservation Name</label>'+
+									
+									'{{ Form::text('name',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'minlength'=>'5', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput2">Resident</label>'+
+									'<select class="select2 form-control" id="residentCbo" name="resiID" style="width: 100%">'+
+										'<optgroup id="male" label="Male">'+
+										'</optgroup>'+
+										'<optgroup id="female" label="Female">'+
+										'</optgroup>'+
+									'</select>'+	
+								'</div>'+
+							'</div>'+
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput1">Description</label>'+
+									'{{ Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput2">Item</label>'+
+									"<select class='form-control border-info selectBox' id='facilityCbo'>"+
+									'</select>'+
+								'</div>'+
+							'</div>'+
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput1">Date</label>'+
+									'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30']) }}'+
+								'</div>'+
+							'</div>'+
+							'<div class="row">'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput1">Start Time</label>'+
+									'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
+								'</div>'+
+								'<div class="form-group col-md-6 mb-2">'+
+									'<label for="userinput2">End Time</label>'+
+									'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
+								'</div>'+
+							'</div>');
+
+						$('#residentCbo').select2();
+		}
+
+		var changeToNonResident = function() {
+			$('#change').html('<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
+								'<div class="row">'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput1">Reservation Name</label>'+
+										'{{ Form::text('reservationName',null,['id'=>'rreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+									'</div>'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput2">Name</label>'+
+										'{{ Form::text('name',null,['id'=>'rname','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+									'</div>'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput1">Age</label>'+
+										'{{ Form::number('age',null,['id'=>'age','class'=>'form-control', 'placeholder'=>'eg.8', 'maxlength'=>'3','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 3 digits', 'minlength'=>'1']) }}'+
+									'</div>'+
+								'</div>'+
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">Email</label>'+
+										'{{ Form::text('email',null,['id'=>'email','class'=>'form-control', 'placeholder'=>'eg.junjun@yahoo.com', 'maxlength'=>'32','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 32 characters', 'minlength'=>'5']) }}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Contact Number</label>'+
+										'{{ Form::text('contactNumber',null,['id'=>'contactNumber','class'=>'form-control', 'placeholder'=>'eg.09275223489', 'maxlength'=>'11','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 11 dugits', 'minlength'=>'5']) }}'+
+									'</div>'+
+								'</div>'+
+								'<h4 class="form-section">Reservation</h4>'+
+								'<div class="row">'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput1">Description</label>'+
+										'{{ Form::textarea('desc',null,['id'=>'rdesc','class'=>'form-control', 'placeholder'=>'eg.Jun Jun 15th Birthday Party', 'maxlength'=>'500','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 500 characters']) }}'+
+									'</div>'+
+									'<div class="form-group col-md-6 mb-2">'+
+										'<label for="userinput2">Item</label>'+
+										"<select class='form-control border-info selectBox' id='facilityID'>"+
+										'</select>'+
+									'</div>'+
+								'</div>'+
+								'<div class="row">'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput1">Date</label>'+
+										'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control']) }}'+
+									'</div>'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput1">Start Time</label>'+
+										'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
+									'</div>'+
+									'<div class="form-group col-xs-6 col-md-4">'+
+										'<label for="userinput2">End Time</label>'+
+										'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
+									'</div>'+
+								'</div>');
+		}
+	</script>
+
+	<!-- Page Submissions -->
+	<script type="text/javascript">
+
 	</script>
 @endsection
