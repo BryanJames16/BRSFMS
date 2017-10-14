@@ -9,7 +9,7 @@
     
     <body onload="aveg()">
     
-    @foreach($util as $u)
+  
         <div style="width:900px;height:595px;margin:auto;">
             
             
@@ -24,8 +24,8 @@
             <div align="center" style="float:center;width:500px;margin:auto">
                 <h5>Republic of the Philippines<br>
                     District VI, City of Manila<br>
-                    {{ $u -> barangayName }} <br>
-                    {{ $u -> address }}
+                    {{ $util -> barangayName }} <br>
+                    {{ $util -> address }}
                 </h5>
                 <h3>
                     Persons With Disability Report
@@ -110,14 +110,14 @@
                         <td></td>
                         <td></td>
                         <td style="text-align:right">TOTAL AVERAGE: </td>
-                        <td>15</td>
+                        <td>{{ $totalAvg }}</td>
                     </tr>
                 </tbody>
 
             </table>
             
         </div>
-    @endforeach
+  
 
     <a href="#" id="btnGenerate">Generate</a>
 
