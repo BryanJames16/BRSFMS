@@ -125,10 +125,10 @@
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reserve Facility</h4>
+									<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Reserve Item</h4>
 								</div>
 								<div class="modal-body">
-									{{ Form::open(['url'=>'/facility-reservation/store', 'method' => 'POST','id' => 'frm-reserve']) }}
+									{{ Form::open(['url'=>'/item/store', 'method' => 'POST','id' => 'frm-reserve']) }}
 											<div class="form-group ">
 												<input type="checkbox" id="switchRes" class="switchery" data-size="sm" data-color="primary" checked/>
 												<label for="switcheryColor" class="card-title ml-1"><p style="font-family:century gothic;font-size:16px">Resident</p></label>

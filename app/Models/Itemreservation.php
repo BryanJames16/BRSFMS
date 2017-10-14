@@ -10,7 +10,7 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class Reservation
+ * Class Itemreservation
  * 
  * @property int $primeID
  * @property string $reservationName
@@ -19,28 +19,25 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $reservationEnd
  * @property \Carbon\Carbon $dateReserved
  * @property int $peoplePrimeID
- * @property int $facilityPrimeID
+ * @property int $itemID
+ * @property int $itemQuantity
  * @property string $status
  * @property string $name
  * @property int $age
  * @property string $email
  * @property string $contactNumber
- * 
- * @property \App\Models\Facility $facility
- * @property \App\Models\Resident $resident
- * @property \Illuminate\Database\Eloquent\Collection $collections
- * @property \Illuminate\Database\Eloquent\Collection $logs
  *
  * @package App\Models
  */
-class Reservation extends Eloquent
+class Itemreservation extends Eloquent
 {
 	protected $primaryKey = 'primeID';
 	public $timestamps = false;
 
 	protected $casts = [
 		'peoplePrimeID' => 'int',
-		'facilityPrimeID' => 'int',
+		'itemID' => 'int',
+		'itemQuantity' => 'int',
 		'age' => 'int'
 	];
 
@@ -57,31 +54,12 @@ class Reservation extends Eloquent
 		'reservationEnd',
 		'dateReserved',
 		'peoplePrimeID',
-		'facilityPrimeID',
+		'itemID',
+		'itemQuantity',
 		'status',
 		'name',
 		'age',
 		'email',
 		'contactNumber'
 	];
-
-	public function facility()
-	{
-		return $this->belongsTo(\App\Models\Facility::class, 'facilityPrimeID');
-	}
-
-	public function resident()
-	{
-		return $this->belongsTo(\App\Models\Resident::class, 'peoplePrimeID');
-	}
-
-	public function collections()
-	{
-		return $this->hasMany(\App\Models\Collection::class, 'reservationprimeID');
-	}
-
-	public function logs()
-	{
-		return $this->hasMany(\App\Models\Log::class, 'reservationID');
-	}
 }
