@@ -57,6 +57,7 @@
 
 @section('vendor-js')
 	<script src="{{ URL::asset('/robust-assets/js/vendors.min.js') }}"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/charts/chart.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('template-js')
@@ -69,11 +70,20 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
 	<!-- <script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script> -->
-
+	
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
 
     <script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
+@endsection
+
+@section('page-level-js')
+
+	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie-simple.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/doughnut.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/doughnut-simple.js') }}" type="text/javascript"></script>
+
 @endsection

@@ -54,10 +54,15 @@
             <div>
             <span>    
                 
-                    {{ Form::submit('Generate(Range Date)', ['class' => 'btn btn-success']) }}
+                    <a href="#" class="btn btn-info" id="printRange">Print(Ranged Date)</a>
               
                 
-                    <a href="#" class="btn btn-info" id="all">Generate(All)</a>
+                    <a href="#" class="btn btn-info" id="printAll">Print(All)</a><br><br>
+
+                    <a href="#" class="btn btn-warning" id="previewRange">Preview(Ranged Date)</a>
+              
+                
+                    <a href="#" class="btn btn-warning" id="previewAll">Preview(All)</a>
                 
             </span>
             </div>
@@ -68,7 +73,7 @@
         <br >
         <p >
             <h4 align="center">Preview:</h4>
-            <iframe style="width:100%;height:80%" frameborder="1" src="/report/pwd"></iframe>
+            <iframe id="iframe" style="width:100%;height:100%" frameborder="1" src="/report/pwd"></iframe>
         </p>
     </div>
 </div>
@@ -101,34 +106,126 @@
             });
         });
 
-        $(document).on('click', '#all', function(e) {
-            $.ajax({
-					url: '{{ url("/report/pwd/generate") }}', 
-					method: 'GET', 
-					async: false, 
-					success: function (data) {
+        $(document).on('click', '#printAll', function(e) {
 
-					}, 
-					error: function (errors) {
-						var message = "Errors: ";
-						var data = errors.responseJSON;
-						for (datum in data) {
-							message += data[datum];
-						}
-					}
-				});
+            swal({
+                    title: "Are you sure you want to print this report?",
+                    text: "Generate pdf",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "DOWNLOAD",
+                    closeOnConfirm: false
+                    },
+                    function() {
+
+                        $.ajax({
+                            url: '{{ url("/report/pwd/generate") }}', 
+                            method: 'GET', 
+                            async: false, 
+                            success: function (data) {
+                                swal("Successfull", "Download Successful!", "success");
+                            }, 
+                            error: function (errors) {
+                                var message = "Errors: ";
+                                var data = errors.responseJSON;
+                                for (datum in data) {
+                                    message += data[datum];
+                                }
+                            }
+                        });
+
+                    });	
+            
+            
+            
         });
 
-        $("#GenRep").submit(function(event) {
+        $(document).on('click', '#printRange', function(e) {
+
+            var splitter = $("#min-date-id").val().split("/");
+
+            var fDate = splitter[2] + '-' + splitter[0] + '-' + splitter[1]; 
+
+            splitter = $("#quota-date-id").val().split("/");
+
+            var tDate= splitter[2] + '-' + splitter[0] + '-' + splitter[1];
+
+            if($("#min-date-id").val()=='' || $("#quota-date-id").val()=='')
+            {
+                swal("Invalid", "You must set the dates first!", "error");
+            }
+            else
+            {
+                swal({
+                    title: "Are you sure you want to print this report?",
+                    text: "Generate pdf",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "DOWNLOAD",
+                    closeOnConfirm: false
+                    },
+                    function() {
+
+                        $.ajax({
+                            url: '{{ url("/report/pwd/printRange") }}', 
+                            method: 'GET', 
+                            data: {
+                                'fromDate': fDate,
+                                'toDate': tDate
+                            }, 
+                            success: function (data) {
+                                swal("Successfull", "Download Successful!", "success");
+                            }, 
+                            error: function (errors) {
+                                var message = "Errors: ";
+                                var data = errors.responseJSON;
+                                for (datum in data) {
+                                    message += data[datum];
+                                }
+                            }
+                        });
+
+                    });	
+            }
+
+            
+            
+            
+            
+        });
+
+        $(document).on('click', '#previewRange', function(e) {
             event.preventDefault();
 
             var splitter = $("#min-date-id").val().split("/");
-            var minDat = new Date(splitter[2], splitter[0], splitter[1]);
-            splitter = $("#quota-date-id").val().split("/");
-            var qotDate = new Date(splitter[2], splitter[0], splitter[1]);
 
-            alert(splitter);
+            var fDate = splitter[2] + '-' + splitter[0] + '-' + splitter[1]; 
+
+            splitter = $("#quota-date-id").val().split("/");
+
+            var tDate= splitter[2] + '-' + splitter[0] + '-' + splitter[1];
+
+            if($("#min-date-id").val()=='' || $("#quota-date-id").val()=='')
+            {
+                
+
+            }
+            else{
+                $('#iframe').attr('src','/reports/pwd/generateRange/'+ fDate +'/'+ tDate)
+            }
+
             
+          
+        });
+
+        $(document).on('click', '#previewAll', function(e) {
+            event.preventDefault();
+
+            
+            $('#iframe').attr('src','/report/pwd');
+          
         });
 
 

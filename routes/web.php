@@ -267,6 +267,11 @@ Route::post('/business-registration/update', 'BusinessRegistrationController@edi
 // Collection Report Routes
 Route::get('/reports/collection/fetch', 'ReportsCollectionController@fetch');
 
+// PWD Report Routes
+Route::get('/reports/pwd/generateRange/{fromDate}/{toDate}', 'ReportsPwdController@generateRange');
+Route::get('/report/pwd/generate', 'ReportController@generate');
+Route::get('/report/pwd/printRange', 'ReportController@printRange');
+
 /* UTILITIES ROUTES */
 Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::get('/utilities/refresh', 'UtilitiesController@refresh');
@@ -339,7 +344,7 @@ Route::post('/users/sponsorshipAllow', 'UsersController@sponsorshipAllow');
 Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict');
 
 //PWD REPORT
-Route::get('/report/pwd/generate', 'ReportController@generate');
+
 
 
 
