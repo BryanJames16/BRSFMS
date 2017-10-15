@@ -481,8 +481,9 @@ class ReservationController extends Controller
         $ongoing = Reservation::where('eventStatus', 'NYD')->get();
         
         foreach ($ongoing as $og) {
-            if ($og -> reservationStart <= Carbon::now() && 
-                $og -> reservationEnd > Carbon::now()) {
+            echo "ONGOING: " . $og->reservationName . "\n";
+            if (Carbon::now() >= $og -> reservationStart && 
+                Carbon::now() < $og -> reservationEnd) {
                 $og -> eventStatus = "OnGoing";
                 $og -> save();
                 echo "Updated to ongoing!" . "\n";
@@ -493,8 +494,7 @@ class ReservationController extends Controller
         $done = Reservation::where('eventStatus', 'OnGoing')->get();
 
         foreach ($done as $dn) {
-            if ($dn -> reservationStart > Carbon::now() && 
-                $dn -> reservationEnd >= Carbon::now()) {
+            if (Carbon::now() >= $dn -> reservationEnd) {
                 $dn -> eventStatus = "Done";
                 $dn -> save();
                 echo "Updated to Done!";
