@@ -23,6 +23,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 @endsection
@@ -67,21 +69,18 @@
                         <div class="card-block card-dashboard">
                             <div class="form-body">
                                 <div class="row">
-                                    <div class="form-group col-md-6 mb-2">
+                                    <div class="form-group col-md-12 mb-2">
                                         <label for="userinput2">Name</label>
-                                        {!! Form::text('firstName', null, ['id' => 'firstName','class' => 'form-control border-primary', 'placeholder'=> '']) !!}
+                                        {!! Form::text('serviceName', null, ['id' => 'serviceName','class' => 'form-control border-primary', 'placeholder'=> '']) !!}
                                     </div>
+                                    
                                     <div class="form-group col-md-6 mb-2">
-                                        <label for="userinput3">Service</label>
-                                        {!! Form::text('middleName', null, ['id' => 'middleName','class' => 'form-control border-primary', 'placeholder'=> '']) !!}
+                                        <label for="userinput3">From Date</label>
+                                        {!! Form::date('fromDate', null, ['id' => 'fromDate','class' => 'form-control border-primary']) !!}
                                     </div>
-                                    <div class="form-group col-md-6 mb-2">
-                                        <label for="userinput3">Date</label>
-                                        {!! Form::date('lastName', null, ['id' => 'lastName','class' => 'form-control border-primary']) !!}
-                                    </div>
-                                    <div class="form-group col-md-6 mb-2">
-                                        <label for="userinput4">Age Bracket</label>
-                                        {!! Form::text('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> '']) !!}
+									<div class="form-group col-md-6 mb-2">
+                                        <label for="userinput3">To Date</label>
+                                        {!! Form::date('toDate', null, ['id' => 'toDate','class' => 'form-control border-primary']) !!}
                                     </div>
                                 </div>
                                 
@@ -89,23 +88,30 @@
                                     
                                     <div class="form-group col-md-6 mb-2">
                                         <label for="userinput3">Status</label>
-                                        <select name="gender" id="gender" class="form-control">
+                                        <select name="status" id="status" class="form-control">
                                             <option value="All">All</option>
-                                            <option value="M">On-going</option>
-                                            <option value="F">Pending</option>
-											<option value="F">Finished</option>
+                                            <option value="On-going">On-going</option>
+                                            <option value="Pending">Pending</option>
+											<option value="Finished">Finished</option>
+                                        </select>
+                                    </div>
+									<div class="form-group col-md-6 mb-2">
+                                        <label for="userinput3">Service</label>
+                                        <select class="form-control select2" name="service" id="service">
+                                            <option value="All">All</option>
+                                            @foreach($service as $serv)
+												<option value="{{$serv->primeID}}">{{ $serv->serviceName }}</option>
+											@endforeach
+                                            
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-md-6 mb-2">
-                                        <label for="userinput2">Partiipants</label>
-                                        {!! Form::number('suffix', null, ['id' => 'suffix','class' => 'form-control border-primary', 'placeholder'=> '']) !!}
-                                    </div>
+                                    
                                 </div>
 
 
                                 <div style="text-align:center">	
-                                <p style="text-align:center"<button type="button" class="btn round btn-success">Query</button></p>
+                                <p style="text-align:center"<button type="button" class="btn round btn-success query">Query</button></p>
                                 </div>
 
                             </div>
@@ -129,87 +135,19 @@
 					<div class="card-body collapse in">
                         <div class="card-block card-dashboard">
                         <!-- Resident Tab -->
-                        <table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-                            <thead>
+                        <table class="table table-striped table-custome-outline-red dataex-html5-export" style="font-size:14px;width:100%;" id="table-container">
+                            <thead class="thead-custom-bg-red">
                                 <tr>
                                     <th>Name</th>
                                     <th>Service</th>
                                     <th>Date</th>
                                     <th>Age Bracket</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <!--
-                                @foreach($residents as $resident)
-                                    <tr>
-                                        @if($resident->imagePath == null)
-                                            <td><a href="#" class="btn btn-info addImage" data-value='{{ $resident -> residentPrimeID }}'>Add Image</a>
-                                            </td>
-                                        @else
-                                            <td style="width:10%"><a href="#" class="btn  addImage" data-value='{{ $resident -> residentPrimeID }}'><img style="width:100px;height:70px" src="/storage/upload/{{ $resident->imagePath}}" alt="No image yet"></a></td>
-                                        @endif
-                                        <td>{{ $resident -> residentID }}</td>
-                                        <td>{{ $resident -> firstName }} {{ substr($resident -> middleName,0,1)  }}. {{ $resident -> lastName }}</td>
-                                        <td>{{ date('F j, Y',strtotime($resident -> birthDate)) }}</td>
-
-                                        @if ($resident -> gender == 'M')
-                                            <td>Male</td>
-                                        @else
-                                            <td>Female</td>
-                                        @endif
-                                        
-                                        <td>{{ $resident -> residentType }} Resident</td>
-                                        
-                                        @if ($resident -> status == 1)
-                                            
-                                            <td><span class="tag tag-default tag-success">Active</span></td>
-                                        @else
-                                            <td><span class="tag tag-default tag-danger">Inactive</span></td>
-                                        @endif
-                                        
-                                        <td>
-                                            
-                                            {{Form::open(['url'=>'resident/delete', 'method' => 'POST', 'id' => $resident -> residentPrimeID ])}}
-
-                                                {{Form::hidden('residentPrimeID',$resident->residentPrimeID,['id'=>'residentPrimeID','class'=>'form-control', 'maxlength'=>'30', 'readonly'])}}
-                                                <input type='hidden' name='residentID' value='{{ $resident -> residentID }}' />
-                                                <input type='hidden' name='firstName' value='{{ $resident -> firstName }}' />
-                                                <input type='hidden' name='lastName' value='{{ $resident -> lastName }}' />
-                                                <input type='hidden' name='middleName' value='{{ $resident -> middleName }}' />
-                                                <input type='hidden' name='gender' value='{{ $resident -> gender }}' />
-                                                <input type='hidden' name='civilStatus' value='{{ $resident -> civilStatus }}' />
-                                                <input type='hidden' name='birthDate' value='{{ $resident -> birthDate }}' />
-                                                <input type='hidden' name='suffix' value='{{ $resident -> suffix }}' />
-                                                <input type='hidden' name='contactNumber' value='{{ $resident -> contactNumber }}' />
-                                                <input type='hidden' name='seniorCitizenID' value='{{ $resident -> seniorCitizenID }}' />
-                                                <input type='hidden' name='disabilities' value='{{ $resident -> disabilities }}' />
-                                                <input type='hidden' name='residentType' value='{{ $resident -> residentType }}' />
-                                                <input type='hidden' name='status' value='{{ $resident -> status }}' />
-                                                
-                                                <span class="dropdown">
-                                                    <button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-                                                    <span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item view" name="btnView" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-eye6"></i> View</a>
-                                                        
-                                                        @foreach($memberss as $member)
-
-                                                            @if($member -> residentPrimeID == $resident -> residentPrimeID)
-                                                                <a href="#" class="dropdown-item add" name="btnMember" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-outbox"></i> Add to Family</a>
-                                                            @endif
-                                                        @endforeach
-                                                        
-                                                        <a href="#" class="dropdown-item edit" name="btnEdit" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-pen3"></i> Edit</a>
-                                                        <a href="#" class="dropdown-item delete" name="btnDelete" data-value='{{ $resident -> residentPrimeID }}'><i class="icon-trash4"></i> Delete</a>
-                                                    </span>
-                                                </span>
-                                            {{Form::close()}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                -->
+                                
                             </tbody>
                         </table>
                         <!-- End of Resident Tab -->
@@ -233,7 +171,7 @@
 @endsection
 
 @section('page-vendor-js')
-	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
+<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/jquery.knob.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
@@ -249,8 +187,20 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/toggle/switchery.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/dateTime/moment-with-locales.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/pickers/daterange/daterangepicker.js') }}" type="text/javascript"></script>
+	
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/buttons.bootstrap4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.buttons.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jszip.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/pdfmake.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/vfs_fonts.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.html5.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.print.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/buttons.colVis.min.js') }}" type="text/javascript"></script>
+	
+	
+	
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/wizard-steps.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
@@ -260,6 +210,7 @@
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/long-press/plugins.js') }}" type="text/javascript"></script>
 
 	
+	
 	@include('script-resident');
 	
 	@include('script-family');
@@ -268,197 +219,123 @@
 
 	<script>
 		
+	$(document).on('click', '.query', function(e) {
+			
 
-		
+            var serviceName = $("#serviceName").val();
+			var service = $("#service").val();
+			var status = $("#status").val();
+			var fDate = $("#fromDate").val();
+			var tDate = $("#toDate").val();
 
-		
-		
-
-		
-
-		
-
-		
-
-
-		
-
-
-		
-
-		//  RESIDENT REFRESH TABLE
-
-		var refreshTable = function() {
+			if(service=='All')
+            {
+                service = '';
+            }
+			if(status=='All')
+            {
+                status = '';
+            }
+        
 			$.ajax({
-				url: "{{ url('/resident/refresh') }}", 
+				url: "{{ url('/query/service/submit') }}", 
 				method: "GET", 
-				datatype: "json", 
-				success: function(data) {
-					$("#table-container").DataTable().clear().draw();
-					data = $.parseJSON(data);
-
-					for (index in data) {
+				data: {
+					"_token": "{{ csrf_token() }}", 
+					"fromDate": fDate, 
+					"toDate": tDate, 
+					"status": status, 
+					"serviceName": serviceName, 
+					"service": service, 
 					
+				}, 
+				success: function(data) {
+
+                    $("#table-container").DataTable().clear().draw();
+                    data = $.parseJSON(data);
+                    
+					for (index in data)
+					{
+                        var status;
+						var age;
+						var date;
+						var s;
+
 						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-						var date = new Date(data[index].birthDate);
-						var month = date.getMonth();
-						var day = date.getDate();
-						var year = date.getFullYear();
-						var d = months[month] + ' ' + day + ', ' + year;
+						var dat = new Date(data[index].fromDate);
+						var month = dat.getMonth();
+						var day = dat.getDate();
+						var year = dat.getFullYear();
+						var fd = months[month] + ' ' + day + ', ' + year;
 
-						var statusText = "";
-						var genderText = "";
-						var image;
-						if (data[index].status == 1) {
-							statusText = '<span class="tag round tag-default tag-success">Active</span>';
-						}
-						else {
-							statusText = '<span class="tag round tag-default tag-danger">Inactive</span>';
-						}
+						var tmonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var tdat = new Date(data[index].toDate);
+						var tmonth = tdat.getMonth();
+						var tday = tdat.getDate();
+						var tyear = tdat.getFullYear();
+						var td = tmonths[tmonth] + ' ' + tday + ', ' + tyear;
 
-						if (data[index].gender == 'M')
+						if(data[index].status=='Pending')
 						{
-							genderText = "Male";
+							s = '<span class="tag round tag-default tag-info">Pending</span>';
+							
+									
+						}
+						else if(data[index].status=='On-going')
+						{
+							s = '<span class="tag round tag-default tag-warning">On-going</span>';
+							
 						}
 						else
 						{
-							genderText = "Female";
+							s = '<span class="tag round tag-default tag-success">Finished</span>';
+							
 						}
-						if(data[index].imagePath==null)
+
+						if(data[index].fromAge==null)
 						{
-							img='<td><a href="#" class="btn btn-info addImage" data-value='+data[index].residentPrimeID+'>Add Image</a></td>'
+							age = 'Open';
 						}
 						else
 						{
-							img='<td style="width:10%"><a href="#" class="btn  addImage" data-value="'+data[index].residentPrimeID+'">'+
-							'<img style="width:100px;height:70px" src=/storage/upload/'+data[index].imagePath+' alt="No image yet"></a></td>'
+							age = data[index].fromAge + ' - ' + data[index].toAge + ' yrs. old';
 						}
 
+						if(data[index].toDate==null)
+						{
+							date = fd;
+						}
+						else
+						{
+							date = fd  + ' - ' + td;
+						}
 
 						$("#table-container").DataTable()
 								.row.add([
-									img, 
-									data[index].residentID, 
-									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									months[month] + ' ' + day + ', ' + year, 
-									genderText, 
-									data[index].residentType + ' Resident', 
-									statusText,
-										'<form method="POST" id="' + data[index].residentPrimeID + '" action="/resident/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="residentPrimeID" value="' + data[index].residentPrimeID + '" />' +
-
-											'<span class="dropdown">' +
-												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
-												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-													'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>' +
-													'<a href="#" class="dropdown-item add" name="btnMember" data-value="' + data[index].residentPrimeID+ '"><i class="icon-outbox"></i> Add to Family</a>' +
-													'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].residentPrimeID + '"><i class="icon-pen3"></i> Edit</a>' +
-													'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].residentPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
-												'</span>' +
-											'</span>' + 
-											'</form>'
+									data[index].serviceTransactionName, 
+									data[index].serviceName, 
+									date, 
+									age, 
+									s
 									
 								]).draw(false);
-					}
+                    }
+					
 				}, 
-				error: function(data) {
-
-					var message = "Error: ";
+				error: function(error) {
+					var message = "Errors: ";
 					var data = error.responseJSON;
 					for (datum in data) {
 						message += data[datum];
 					}
 
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
+					swal("Error", message, "error");
 				}
 			});
-		};
 
-		//END OF RESIDENT REFRESH TABLE
+		});
 
-
-		//   FAMILY REFRESH TABLE
-
-		var familyRefreshTable = function() {
-			$.ajax({
-				url: "{{ url('/family/refresh') }}", 
-				method: "GET", 
-				datatype: "json", 
-				success: function(data) {
-					$("#table-familyContainer").DataTable().clear().draw();
-					data = $.parseJSON(data);
-
-					for (index in data) {
-
-						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-						var date = new Date(data[index].familyRegistrationDate);
-						var month = date.getMonth();
-						var day = date.getDate();
-						var year = date.getFullYear();
-						var d = months[month] + ' ' + day + ', ' + year;
-
-						var statusText = "";
-						var genderText = "";
-						if (data[index].status == 1) {
-							statusText = '<span class="tag round tag-default tag-success">Active</span>';
-						}
-						else {
-							statusText = '<span class="tag round tag-default tag-danger">Inactive</span>';
-						}
-
-						if (data[index].gender == 'M')
-						{
-							genderText = "Male";
-						}
-						else
-						{
-							genderText = "Female";
-						}
-
-
-						$("#table-familyContainer").DataTable()
-								.row.add([ 
-									data[index].familyID, 
-									data[index].familyName, 
-									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									data[index].number,
-									d,
-										'<form method="POST" id="' + data[index].familyPrimeID + '" action="/family/delete" accept-charset="UTF-8"])' + 
-											'<input type="hidden" name="residentPrimeID" value="' + data[index].familyPrimeID + '" />' +
-
-											'<span class="dropdown">' +
-												'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+ 
-												'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">' +
-													'<a href="#" class="dropdown-item viewMember" name="btnView" data-value="' + data[index].familyPrimeID + '"><i class="icon-eye6"></i> View</a>' +
-													'<a href="#" class="dropdown-item editMember" name="btnEdit" data-value="' + data[index].familyPrimeID + '"><i class="icon-pen3"></i> Add/Remove members</a>' +
-													'<a href="#" class="dropdown-item deleteFamily" name="btnDelete" data-value="' + data[index].familyPrimeID + '"><i class="icon-trash4"></i> Delete</a>' +
-												'</span>' +
-											'</span>' + 
-										'</form>'
-						]).draw(false);
-					}
-				}, 
-				error: function(data) {
-
-					var message = "Error: ";
-					var data = error.responseJSON;
-					for (datum in data) {
-						message += data[datum];
-					}
-
-					swal("Error", "Cannot fetch table data!\n" + message, "error");
-					console.log("Error: Cannot refresh table!\n" + message);
-				}
-			});
-		};
-
-		//  END OF FAMILY REFRESH TABLE
-
-		
-
-		
-		@include('resident-refresh');
+	
 
 	</script>
 @endsection
@@ -470,6 +347,5 @@
 @section('page-level-js')
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/nav-js.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/extensions/long-press.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/js/jspdf.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables-extensions/datatable-button/datatable-html5.js') }}" type="text/javascript"></script>
 @endsection

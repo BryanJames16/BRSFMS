@@ -39,6 +39,7 @@ var QUERY_BUSINESS = "query-business-id";
 var USERS = "users-id";
 var REGION = "region-id";
 var REPORT_COLLECTION = "report-collection-id";
+var REPORT_PWD = "report-pwd-id";
 var RESIDENT_APPLICATION = "resident-application-id";
 var REQUIREMENTS = "requirement-id";
 var SERVICE_REGISTRATION = "service-registration-id";

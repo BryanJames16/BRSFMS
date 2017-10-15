@@ -301,6 +301,16 @@ Route::get('/query/business/getEdit', 'QueryBusinessController@getEdit');
 Route::get('/query/document/submit', 'QueryDocumentController@getQuery');
 Route::get('/query/document/getEdit', 'QueryDocumentController@getEdit');
 
+/* QUERY SERVICE */
+Route::get('/query/service/submit', 'QueryServiceController@getQuery');
+Route::get('/query/service/getEdit', 'QueryServiceController@getEdit');
+
+/* QUERY RESERVATION */
+Route::get('/query/reservation/submit', 'QueryReservationController@getQuery');
+Route::get('/query/reservation/getEdit', 'QueryReservationController@getEdit');
+Route::get('/query/reservation/getRes', 'QueryReservationController@getRes');
+Route::get('/query/reservation/getNonRes', 'QueryReservationController@getEditNonRes');
+
 
 /* USERS */
 Route::get('/users/getMessage', 'UsersController@getMessage');
@@ -330,7 +340,7 @@ Route::post('/users/sponsorshipRestrict', 'UsersController@sponsorshipRestrict')
 
 //PWD REPORT
 Route::get('/report/pwd/generate', 'ReportController@generate');
-Route::resource('/report/pwd', 'ReportController')->middleware("auth");
+
 
 
 //////////////////////////////////////////////////////////////////////
@@ -364,6 +374,8 @@ Route::resource('/query/document', 'QueryDocumentController')->middleware("auth"
 Route::resource('/query/business', 'QueryBusinessController')->middleware("auth");
 Route::resource('/recipient', 'RecipientController')->middleware("auth");
 Route::resource('/reports/collection', 'ReportsCollectionController');
+Route::resource('/reports/pwd', 'ReportsPwdController')->middleware("auth");
+Route::resource('/report/pwd', 'ReportController')->middleware("auth");
 Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
 Route::resource('/resident', 'ResidentController')->middleware("auth");
 Route::resource('/requirement', 'RequirementController')->middleware("auth");

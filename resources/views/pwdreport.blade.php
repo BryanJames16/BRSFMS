@@ -14,7 +14,7 @@
             
             
             <div style="float:left;width:150px;height:150px">
-                <img src="{{ public_path('storage/upload/brgy_logo.png')}}" width="100%"></img>
+                <img id="brgy" src="{{ public_path('storage/upload/brgy_logo.png')}}" width="100%"></img>
             </div>
 
             <div style="float:right;width:150px;height:150px">
@@ -27,6 +27,8 @@
                     {{ $util -> barangayName }} <br>
                     {{ $util -> address }}
                 </h5>
+                <br>
+                <br>
                 <h3>
                     Persons With Disability Report
                 </h3>
@@ -109,17 +111,14 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="text-align:right">TOTAL AVERAGE: </td>
-                        <td>{{ $totalAvg }}</td>
+                        <td style="text-align:right">TOTAL AVERAGE OF AGE: </td>
+                        <td>13</td>
                     </tr>
                 </tbody>
 
             </table>
             
         </div>
-  
-
-    <a href="#" id="btnGenerate">Generate</a>
 
     <script src="{{ URL::asset('/js/jquery-3.1.1.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
@@ -131,6 +130,8 @@
 
         $("#btnGenerate").on('click', function () {
             
+            
+
             $.ajax({
 					url: '{{ url("/report/pwd/generate") }}', 
 					method: 'GET', 
@@ -150,7 +151,6 @@
 
         function aveg(){
 
-            alert('asd');
 
             
 

@@ -530,6 +530,8 @@
 			});
 		});
 
+		var now = new Date();
+
 		// Self-Defined Functions
 		var changeToResident = function() {
 			$('#change').html('<div class="row">'+
@@ -566,7 +568,7 @@
 							'<div class="row">'+
 								'<div class="form-group col-md-6 mb-2">'+
 									'<label for="userinput1">Date</label>'+
-									'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30']) }}'+
+									'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'+now+']) }}'+
 								'</div>'+
 							'</div>'+
 							'<div class="row">'+

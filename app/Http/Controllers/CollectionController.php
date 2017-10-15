@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class CollectionController extends Controller
 {
     public function index() {
-        $collections = Collection::select('collections.collectionPrimeID', 
+        $collectionsR = Collection::select('collections.collectionPrimeID', 
                                             'collections.collectionID', 
                                             'collections.collectionType', 
                                             'collections.amount', 
@@ -29,6 +29,23 @@ class CollectionController extends Controller
                                     'collections.reservationPrimeID', '=', 'reservations.primeID') 
                         -> join('residents', 
                                     'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> whereNotNull('collections.reservationPrimeID')
+                        -> where('collections.status','=','Pending')
+                        -> whereNotNull('collections.residentPrimeID')
+                        -> get();
+        
+        $collectionsN = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'reservations.name', 
+                                            'reservations.reservationName')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
                         -> where('reservations.status', '!=', 'Cancelled')
                         -> get();
 
@@ -51,7 +68,8 @@ class CollectionController extends Controller
 
 
         return view('collection')
-                                ->with('collections', $collections)
+                                ->with('collectionsR', $collectionsR)
+                                ->with('collectionsN', $collectionsN)
                                 ->with('collID', $collID);
     }
 
@@ -137,6 +155,7 @@ class CollectionController extends Controller
                                             'collections.amount', 
                                             'collections.status', 
                                             'reservations.name', 
+                                             'reservations.reservationName', 
                                             'reservations.age', 
                                             'reservations.email', 
                                             'reservations.contactNumber', 

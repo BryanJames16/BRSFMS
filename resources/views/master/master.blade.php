@@ -508,37 +508,37 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
 								</a>
 								<ul class="menu-content">
-									<li id="street-id">
+									<li id="report-services-id">
 										<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-lifebuoy"></i>
 											Rendered Services
 										</a>
 									</li>
-									<li id="lot-id">
+									<li id="report-reservation-id">
 										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-calendar3"></i>
 											Reservation of Facilities
 										</a>
 									</li>
-									<li id="unit-id">
+									<li id="report-residents-id">
 										<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-user-check"></i>
 											Registered Residents
 										</a>
 									</li>
-									<li id="house-number-id">
+									<li id="report-senior-id">
 										<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-android-contact"></i>
 											Senior Citizens
 										</a>
 									</li>
-									<li id="house-number-id">
+									<li id="report-pwd-id">
 										<a href="/report/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-android-bicycle"></i>
 											PWD
 										</a>
 									</li>
-									<li id="house-number-id">
+									<li id="report-employed-id">
 										<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-price-tags"></i>
 											Employed Residents

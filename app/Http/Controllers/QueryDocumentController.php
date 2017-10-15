@@ -40,9 +40,8 @@ class QueryDocumentController extends Controller
                                                     -> where('residents.middleName','like','%'.$r->input('middleName').'%')
                                                     -> where('documentsPrimeID','like','%'.$r->input('documentsPrimeID').'%')
                                                     -> where('residents.gender','like','%'.$r->input('gender').'%')
-                                                    -> where('quantity','like','%'.$r->input('quantity').'%')
                                                     -> where('documentrequests.status','like','%'.$r->input('status').'%')
-                                                    -> where('requestDate','like','%'.$r->input('requestDate').'%')
+                                                    -> whereBetween('requestDate',[$r->input('fromDate'),$r->input('toDate')])
                                                     -> get());
         }
         else {

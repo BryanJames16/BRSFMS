@@ -40,7 +40,7 @@ class QueryBusinessController extends Controller
         if ($r -> ajax()) {
             return json_encode(\DB::table('businessregistrations') ->select('registrationPrimeID','businessID','originalName', 
                                                                 'residents.firstName','residents.lastName','residents.middleName',
-                                                                'tradeName','registrationDate', 'address', 
+                                                                'tradeName','registrationDate', 'businessregistrations.address', 
                                                                 'residents.gender', 
                                                                 'businesscategories.categoryName')
     												->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
@@ -53,9 +53,9 @@ class QueryBusinessController extends Controller
                                                     -> where('residents.gender','like','%'.$r->input('gender').'%')
                                                     -> where('originalName','like','%'.$r->input('originalName').'%')
                                                     -> where('tradeName','like','%'.$r->input('tradeName').'%')
-                                                    -> where('address','like','%'.$r->input('address').'%')
-                                                    -> where('registrationDate','like','%'.$r->input('dateRegistered').'%')
+                                                    -> where('businessregistrations.address','like','%'.$r->input('address').'%')
                                                     -> where('businessregistrations.categoryID','like','%'.$r->input('categoryID').'%')
+                                                    -> whereBetween('registrationDate',[$r->input('fromDate'),$r->input('toDate')])
                                                     -> get());
         }
         else {
@@ -68,12 +68,11 @@ class QueryBusinessController extends Controller
         if($r->ajax()) {
             return json_encode(\DB::table('residents') ->select('registrationPrimeID','businessID','originalName', 
                                                                 'residents.firstName','residents.lastName','residents.middleName',
-                                                                'tradeName','registrationDate', 'address', 
+                                                                'tradeName','registrationDate', 'businessregistrations.address', 
                                                                 'residents.gender', 
                                                                 'businesscategories.categoryName') 
                                         ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
                                         ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
-                                        ->where('generaladdresses.residentPrimeID', '=', $r->input('registrationPrimeID'))
                                         ->get());
         }
         else {

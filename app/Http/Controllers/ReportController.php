@@ -42,8 +42,8 @@ class ReportController extends Controller
                             ->get();
 
         $total = Resident::where("disabilities", "!=", null)->count();
-        $totalAvg = Resident::where("disabilities", "!=", null)
-                        ->avg(Carbon::parse('birthDate')->diffInYears(Carbon::now()));
+        //$totalAvg = Resident::where("disabilities", "!=", null)
+          //              ->avg(Carbon::parse('birthDate')->diffInYears(Carbon::now()));
         $totalMale = Resident::where("disabilities", "!=", null)->where('gender','=','M')->count();
         $totalFemale = Resident::where("disabilities", "!=", null)->where('gender','=','F')->count();
 
@@ -52,7 +52,7 @@ class ReportController extends Controller
         return view('pwdreport')
                         ->with('residents',$res)
                         ->with('total',$total)
-                        ->with('totalAvg',$totalAvg)
+            //            ->with('totalAvg',$totalAvg)
                         ->with('totalFemale',$totalFemale)
                         ->with('totalMale',$totalMale);
 
@@ -77,7 +77,7 @@ class ReportController extends Controller
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('pwdreport.pdf');
+        return $pdf->stream('pwdreport.pdf');
 
         return back();
     }

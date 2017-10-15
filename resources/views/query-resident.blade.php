@@ -15,6 +15,8 @@
 <!-- CSS Styles -->
 @section('vendor-plugin')
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/dataTables.bootstrap4.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/responsive.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/fixedColumns.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/buttons.dataTables.min.css') }}" />
@@ -173,13 +175,13 @@
 					<div class="card-body collapse in">
                         <div class="card-block card-dashboard">
                         <!-- Resident Tab -->
-                        <table class="table table-striped table-bordered dataex-html5-export" style="font-size:14px;width:100%;" id="table-container">
-                            <thead>
+                        <table class="table table-striped table-custome-outline-red dataex-html5-export" style="font-size:14px;width:100%;" id="table-container">
+                            <thead class="thead-custom-bg-red">
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Birthdate</th>
                                     <th>Gender</th>
+									<th>Contact Number</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -485,10 +487,10 @@
 
 						$("#table-container").DataTable()
 								.row.add([
-									img, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									months[month] + ' ' + day + ', ' + year, 
 									genderText, 
+									data[index].contactNumber,
 										'<a href="#" class="btn btn-success view" name="btnView" data-value="' + data[index].residentPrimeID + '"><i class="icon-eye6"></i> View</a>'
 									
 								]).draw(false);

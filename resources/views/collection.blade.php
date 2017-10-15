@@ -164,41 +164,41 @@
 												</tr>
 											</thead>	
 											<tbody>
-												@foreach($collections as $collection)
+												@foreach($collectionsR as $collectionr)
 												<tr>
-													<td>{{ $collection -> collectionID }}</td>
+													<td>{{ $collectionr -> collectionID }}</td>
 													<td>
 														<p>
-														{{ $collection -> firstName }}
-														{{ $collection -> middleName }}
-														{{ $collection -> lastName }}
-														({{ $collection -> residentID }})
+														{{ $collectionr -> firstName }}
+														{{ $collectionr -> middleName }}
+														{{ $collectionr -> lastName }}
+														({{ $collectionr -> residentID }})
 														</p>
 													</td>
-													<td>{{ $collection -> reservationName }}</td>
+													<td>{{ $collectionr -> reservationName }}</td>
 													<td>
-														@if($collection -> collectionType == 1)
+														@if($collectionr -> collectionType == 1)
 															Barangay ID
-														@elseif($collection -> collectionType == 2) 
+														@elseif($collectionr -> collectionType == 2) 
 															Document Request
-														@elseif($collection -> collectionType == 3) 
+														@elseif($collectionr -> collectionType == 3) 
 															Facility Reservation
-														@elseif($collection -> collectionType == 4) 
+														@elseif($collectionr -> collectionType == 4) 
 															Services
 														@else
 															Business Registration
 														@endif 
 													</td>
-													<td>{{ $collection -> amount }}</td>
-													<td>{{ $collection -> status }}</td>
+													<td>{{ $collectionr -> amount }}</td>
+													<td>{{ $collectionr -> status }}</td>
 													<td>
 														<span class="dropdown">
 														<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 														<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-															@if($collection -> status == "Pending" || $collection -> status == "pending")
-																<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
+															@if($collectionr -> status == "Pending" || $collectionr -> status == "pending")
+																<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collectionr -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
 															@else 
-																<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collection -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
+																<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collectionr -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
 															@endif
 														</span>
 														</span>
@@ -851,6 +851,7 @@
 									data[datum].collectionID, 
 									data[datum].name + 
 									"(" + data[datum].primeID + ")", 
+									data[datum].reservationName,
 									collectionTypeString, 
 									data[datum].amount, 
 									data[datum].status, 
