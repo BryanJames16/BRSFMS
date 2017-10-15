@@ -24,6 +24,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -72,7 +76,7 @@
         <div class="row">
             <div class="col-xs-14">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header card-head-custom">
 						<h4 class="card-title">Collection</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -106,8 +110,8 @@
 								</ul>
 								<div class="tab-content px-1 pt-1">
 									<div role="tabpanel" class="tab-pane fade active in" id="id" aria-labelledby="active-tab3" aria-expanded="true">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-ID">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-ID">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<th>ID</th>
 													<th>Customer</th>
@@ -151,8 +155,8 @@
 										</table>
 									</div>
 									<div class="tab-pane fade" id="reservation" role="tabpanel" aria-labelledby="link-tab3" aria-expanded="false">
-										<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-											<thead>
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+											<thead class="thead-custom-bg-red">
 												<tr>
 													<td>Collection ID</td>
 													<td>Customer</td>
@@ -214,14 +218,14 @@
 
 
 							<!-- Modal Area -->
-							<div class="modal animated bounceIn text-xs-left" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Add New Collection</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Add New Collection</h4>
 										</div>
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">
@@ -279,60 +283,6 @@
 															</div>
 														</div>
 													</div>
-
-													<div class="col-xl-4 col-md-6 col-sm-12">
-														<div class="card">
-															<div class="card-body">
-																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/serviceheader.png') }}" alt="Card image cap" />
-																<div class="card-block">
-																	<h4 class="card-title" align="center">Services Engagement</h4>
-																	<p class="card-text" align="justify">
-																		Some services contains collections. These collections
-																		will be used for future programs and services.
-																	</p>
-																	<p align="center">
-																		<a href="{{ url('/service-transaction') }}" class="btn btn-outline-pink">Engage in a Service</a>
-																	</p>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-xl-4 col-md-6 col-sm-12">
-														<div class="card">
-															<div class="card-body">
-																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/sponsorheader.png') }}" alt="Card image cap" />
-																<div class="card-block">
-																	<h4 class="card-title" align="center">Service Sponsorships</h4>
-																	<p class="card-text" align="justify">
-																		Amount given by the sponsors when sponsoring 
-																		services are used in implementation of services.
-																	</p>
-																	<p align="center">
-																		<a href="{{ url('/service-sponsorship') }}" class="btn btn-outline-pink">Engage in a Service</a>
-																	</p>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<div class="col-xl-4 col-md-6 col-sm-12">
-														<div class="card">
-															<div class="card-body">
-																<img class="card-img-top img-fluid" src="{{ URL::asset('/system-assets/images/header/businessheader.png') }}" alt="Card image cap" />
-																<div class="card-block">
-																	<h4 class="card-title" align="center">Business Registrations</h4>
-																	<p class="card-text" align="justify">
-																		When someone registers a business in a Barangay, 
-																		funds collected can be considered as collection.
-																	</p>
-																	<p align="center">
-																		<a href="{{ url('/business-registration') }}" class="btn btn-outline-pink">Register a Business</a>
-																	</p>
-																</div>
-															</div>
-														</div>
-													</div>
 												</div>
 
 												<div class="form-actions center">
@@ -347,14 +297,14 @@
 							</div>
 
 							<!-- Modal Area -->
-							<div class="modal animated bounceIn text-xs-left" id="idPayModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="idPayModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog modal-xs" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Barangay ID Payment</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-hand"></i> Barangay ID Payment</h4>
 										</div>
 										<div class="modal-body dirty-white-card">
 											<form id="frm-IDPay">
@@ -386,14 +336,14 @@
 							</div>
 
 							<!-- Modal Area -->
-							<div class="modal animated bounceIn text-xs-left" id="idReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="idReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog " role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-document"></i> Receipt</h4>
 										</div>
 										<div class="modal-body">
 											
@@ -454,14 +404,14 @@
 								</div>
 							</div>
 
-							<div class="modal animated bounceIn text-xs-left" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog modal-md" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Collection</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-create"></i> Update Collection</h4>
 										</div>
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">
@@ -504,14 +454,14 @@
 								</div>
 							</div>
 
-							<div class="modal animated bounceIn text-xs-left" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+							<div class="modal animated bounceInDown text-xs-left" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
-										<div class="modal-header">
+										<div class="modal-header bg-info white">
 											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 												<span aria-hidden="true">&times;</span>
 											</button>
-											<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Receipt</h4>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-document"></i> Receipt</h4>
 										</div>
 										<div class="modal-body dirty-white-card">
 											<div class="card-block">

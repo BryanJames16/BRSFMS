@@ -83,7 +83,7 @@ class ReservationController extends Controller
 
     public function store(Request $r) {
 
-        
+        //$reservationStartView = ;
 
         $insertRet = Reservation::insert(['reservationName'=>trim($r->name),
                                                 'reservationDescription'=>trim($r->desc),
@@ -115,9 +115,9 @@ class ReservationController extends Controller
                 'reservationName' => 'required|unique:reservations|max:30|min:5',
                 'desc' => 'nullable|max:500|min:0',
                 'startTime' => 'required',
-                'endTime' => 'required',
-                'date' => 'required|date|after_or_equal:today',
-            ]);
+                'endTime' => 'required', 
+                'date' => 'required|date|after_or_equal:today'
+        ]);
 
         $insertRet = Reservation::insert(['reservationName'=>trim($r->input('reservationName')),
                                                 'reservationDescription'=>trim($r->input('desc')),
@@ -478,25 +478,27 @@ class ReservationController extends Controller
 
     public function realtime() {
         // Change to On Going
-        $ongoing = Reservation::select('*') 
-                                -> whereDate('eventStatus', 'NYD');
-        //dd($ongoing);
+        $ongoing = Reservation::where('eventStatus', 'NYD')->get();
+        
         foreach ($ongoing as $og) {
-            echo "Started For Each\n";
-            dd($og->dateReserved);
-            /*
-            if ($og -> reservationStart > Carbon::now() && 
-                $og -> reservationEnd < Carbon::now()) {
-                $og -> eventStatus = "On Going";
+            echo "ONGOING: " . $og->reservationName . "\n";
+            if (Carbon::now() >= $og -> reservationStart && 
+                Carbon::now() < $og -> reservationEnd) {
+                $og -> eventStatus = "OnGoing";
                 $og -> save();
-                echo "Updated to ongoing!";
+                echo "Updated to ongoing!" . "\n";
             }
-            else {
-                // echo $og -> reservationSTart;
-            }
-            */
         }
 
         // Change to Done
+        $done = Reservation::where('eventStatus', 'OnGoing')->get();
+
+        foreach ($done as $dn) {
+            if (Carbon::now() >= $dn -> reservationEnd) {
+                $dn -> eventStatus = "Done";
+                $dn -> save();
+                echo "Updated to Done!";
+            }
+        }
     }
 }

@@ -69,6 +69,15 @@ var getCurrentDateTime = function() {
     return (new Date());
 }
 
+var formatDate = function(passedDate) {
+    return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate();
+}
+
+var formatDateTime = function(passedDate) {
+    return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
+            " " + passedDate.getHours() + ":" + passedDate.getMinutes();
+}
+
 var getStringDateTime = function () {
     var dateTimeToday = new Date();
     return (dateTimeToday.getFullYear() + "" + 

@@ -191,7 +191,7 @@ Utilities
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Barangay Meta Info</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-create"></i> Update Barangay Meta Info</h4>
 							</div>
 							<div ng-app="maintenanceApp" class="modal-body">
 								<div class="card-block">
