@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 16 Oct 2017 10:06:22 +0800.
+ * Date: Sun, 15 Oct 2017 18:14:52 +0800.
  */
 
 namespace App\Models;
@@ -29,6 +29,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $imagePath
  * @property string $address
  * @property string $email
+ * @property \Carbon\Carbon $dateReg
  * 
  * @property \Illuminate\Database\Eloquent\Collection $barangaycards
  * @property \Illuminate\Database\Eloquent\Collection $businessregistrations
@@ -58,7 +59,8 @@ class Resident extends Eloquent
 	];
 
 	protected $dates = [
-		'birthDate'
+		'birthDate',
+		'dateReg'
 	];
 
 	protected $fillable = [
@@ -77,7 +79,8 @@ class Resident extends Eloquent
 		'status',
 		'imagePath',
 		'address',
-		'email'
+		'email',
+		'dateReg'
 	];
 
 	public function barangaycards()
