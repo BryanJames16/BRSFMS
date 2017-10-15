@@ -20,6 +20,7 @@ class CreateReservationsTable extends Migration {
 			$table->time('reservationStart');
 			$table->time('reservationEnd');
 			$table->date('dateReserved');
+			$table->string('eventStatus', 20);
 			$table->integer('peoplePrimeID')->nullable()->index('fk_Reservations_People1_idx');
 			$table->integer('facilityPrimeID')->index('fk_Reservations_Facilities1_idx');
 			$table->string('status', 15);

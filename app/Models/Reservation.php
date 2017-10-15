@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 14 Oct 2017 14:16:32 +0800.
+ * Date: Mon, 16 Oct 2017 10:06:22 +0800.
  */
 
 namespace App\Models;
@@ -18,6 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $reservationStart
  * @property \Carbon\Carbon $reservationEnd
  * @property \Carbon\Carbon $dateReserved
+ * @property string $eventStatus
  * @property int $peoplePrimeID
  * @property int $facilityPrimeID
  * @property string $status
@@ -56,6 +57,7 @@ class Reservation extends Eloquent
 		'reservationStart',
 		'reservationEnd',
 		'dateReserved',
+		'eventStatus',
 		'peoplePrimeID',
 		'facilityPrimeID',
 		'status',
