@@ -153,7 +153,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Service Registration</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Service Registration</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -251,7 +251,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Participants</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Add Participants</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -259,7 +259,7 @@
 						<p style="text-align:center;font-size:20px"><b>RESIDENTS</b></p>
 						<hr>
 						<div style="text-align:center">	
-						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 viewPart2">View Participants</button></p>
+						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 viewPart2"> View Participants</button></p>
 						</div>
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-addParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aserviceTransactionPrimeID'])}}
@@ -400,7 +400,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Participants</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-bar"></i> View Participants</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
