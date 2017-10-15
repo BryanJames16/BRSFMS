@@ -46,7 +46,7 @@ class ReservationController extends Controller
     }
 
    public function index() {
-        $reservations= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
+        $reservations= \DB::table('reservations') ->select('reservations.primeID', 'reservations.eventStatus', 'reservations.status', 'reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->get();
@@ -91,8 +91,10 @@ class ReservationController extends Controller
                                                 'reservationEnd'=>$r->endTime,
                                                 'dateReserved'=>$r->date,
                                                 'peoplePrimeID'=>$r->peoplePrimeID,
+                                                'eventStatus'=>'NYD', 
                                                 'facilityPrimeID'=>$r->facilityPrimeID,
-                                                'status'=>'Pending']);
+                                                'status'=>'Pending', 
+                                                'eventStatus'=>'NYD']);
 
         $res = Reservation::all() -> last();
 
@@ -124,7 +126,8 @@ class ReservationController extends Controller
                                                 'dateReserved'=>$r->input('date'),
                                                 'peoplePrimeID'=>$r->input('peoplePrimeID'),
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
-                                                'status'=>'Pending']);
+                                                'status'=>'Pending',
+                                                'eventStatus'=>'NYD']);
 
         $res = Reservation::all() -> last();
 
@@ -232,9 +235,11 @@ class ReservationController extends Controller
                                                 'name'=>$r->input('name'),
                                                 'age'=>$r->input('age'),
                                                 'email'=>$r->input('email'),
+                                                'eventStatus' => 'NYD', 
                                                 'contactNumber'=>$r->input('contactNumber'),
                                                 'facilityPrimeID'=>$r->input('facilityPrimeID'),
-                                                'status'=>'Pending']);
+                                                'status'=>'Pending', 
+                                                'eventStatus'=>'NYD']);
         
         $res = Reservation::all() -> last();
 
@@ -413,7 +418,8 @@ class ReservationController extends Controller
                                                 'age'=>$r->input('age'),
                                                 'email'=>$r->input('email'),
                                                 'contactNumber'=>$r->input('contactNumber'),
-                                                'status'=>'Pending']);
+                                                'status'=>'Pending', 
+                                                'eventStatus'=>'NYD']);
 
             $res = Reservation::all() -> last();
 
@@ -471,6 +477,26 @@ class ReservationController extends Controller
     }
 
     public function realtime() {
-        
+        // Change to On Going
+        $ongoing = Reservation::select('*') 
+                                -> whereDate('eventStatus', 'NYD');
+        //dd($ongoing);
+        foreach ($ongoing as $og) {
+            echo "Started For Each\n";
+            dd($og->dateReserved);
+            /*
+            if ($og -> reservationStart > Carbon::now() && 
+                $og -> reservationEnd < Carbon::now()) {
+                $og -> eventStatus = "On Going";
+                $og -> save();
+                echo "Updated to ongoing!";
+            }
+            else {
+                // echo $og -> reservationSTart;
+            }
+            */
+        }
+
+        // Change to Done
     }
 }

@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
 
         // Realtime System
         if (strtolower(env('SYS_REALTIME')) == "yes") {
-            $schedule->call('App\Http\Controllers\ReservationController@realtime')->everyMinute();
+            $schedule->call('App\Http\Controllers\ReservationController@realtime') -> everyMinute();
         }
     }
 

@@ -130,31 +130,56 @@
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-														<td><span class="tag border-success success tag-border">Resident</span></td>
+														<td><span class="tag  tag-pill  border-success tag-success">Resident</span></td>
 														@if($reservation -> status  == 'Pending')
-															<td><span class="tag round tag-info">Pending</span></td>
+															<td><span class="tag  tag-pill  border-info tag-info">Pending</span></td>
 															<td>
-																
+																<span class="dropdown">
+																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
+																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
+																		<a href="#" class="dropdown-item extend" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
+																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
+																	</span>
+																</span>
+															</td>
+														@elseif($reservation -> status  == 'Rescheduled')
+															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
+															<td>N/A</td>
+														@elseif($reservation -> status  == 'Cancelled')	
+															<td><span class="tag  tag-pill   round tag-danger">Cancelled</span></td>
+															<td>N/A</td>
+														@elseif($reservation -> status  == 'Paid')	
+															<td>
+																<span class="tag tag-pill tag-success">Paid</span>
+																<br />
+																<br />
+																@if($reservation -> eventStatus == 'NYD')
+																	<span class="tag tag-default tag-info">Not Yet Done</span>
+																@elseif($reservation -> eventStatus == 'OnGoing')
+																	<span class="tag tag-default tag-success">On-Going</span>
+																@elseif($reservation -> eventStatus == 'Extended')
+																	<span class="tag tag-default tag-warning">Extended</span>
+																@elseif($reservation -> eventStatus == 'Done')
+																	<span class="tag tag-default tag-default">Done</span>
+																@endif
+															</td>
+															<td>
+																@if($reservation -> eventStatus == 'NYD')
 																	<span class="dropdown">
 																		<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																			<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
+																			<a href="#" class="dropdown-item extend" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																		</span>
 																	</span>
-																
+																@else 
+																	N/A
+																@endif
 															</td>
-														@elseif($reservation -> status  == 'Rescheduled')
-															<td><span class="tag round tag-default">Rescheduled</span></td>
-															<td>N/A</td>
-														@elseif($reservation -> status  == 'Cancelled')	
-															<td><span class="tag round tag-danger">Cancelled</span></td>
-															<td>N/A</td>
-														@elseif($reservation -> status  == 'Paid')	
-															<td><span class="tag round tag-success">Paid</span></td>
-															<td>N/A</td>
 														@else
 															<td></td>
 															<td>N/A</td>
@@ -173,9 +198,9 @@
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> name }}</td>
 														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-														<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
+														<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
 														@if($reservation -> status  == 'Pending')
-															<td><span class="tag round tag-info">Pending</span></td>
+															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
 															<td>
 																
 																	<span class="dropdown">
@@ -190,10 +215,10 @@
 																
 															</td>
 														@elseif($reservation -> status  == 'Rescheduled')
-															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
 															<td>N/A</td>
 														@elseif($reservation -> status  == 'Cancelled')	
-															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A</td>
 														@else
 															<td></td>
@@ -234,8 +259,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-success success tag-border">Resident</span></td>
-															<td><span class="tag round tag-info">Pending</span></td>
+															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
+															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
 															<td>
 																<span class="dropdown">
 																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
@@ -263,8 +288,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
-															<td><span class="tag round tag-info">Pending</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
+															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
 															<td>
 																<span class="dropdown">
 																	<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
@@ -307,8 +332,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-success success tag-border">Resident</span></td>
-															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
+															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
 															<td>N/A
 															</td>
 															{{ Form::close() }}
@@ -325,8 +350,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
-															<td><span class="tag round tag-default">Rescheduled</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
+															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
 															<td>N/A
 															</td>
 															{{ Form::close() }}
@@ -360,8 +385,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-success success tag-border">Resident</span></td>
-															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A
 															</td>
 															{{ Form::close() }}
@@ -378,8 +403,8 @@
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
 															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
-															<td><span class="tag border-danger danger tag-border">Non-resident</span></td>
-															<td><span class="tag round tag-danger">Cancelled</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
+															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A
 															</td>
 															{{ Form::close() }}
@@ -584,8 +609,6 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
-	
-	
 @endsection
 
 @section('page-level-js')
@@ -1929,7 +1952,7 @@
 						var status;
 
 						if(data[index].status=="Pending") {
-							status = '<span class="tag round tag-default tag-info">Pending</span>';
+							status = '<span class="tag  tag-pill   tag-default tag-info">Pending</span>';
 							actions = 	'<span class="dropdown">'+
 											'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
@@ -1946,7 +1969,7 @@
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									d + ' ' + st + ' - ' + en, 
-									'<span class="tag border-success success tag-border">Resident</span>',
+									'<span class="tag  tag-pill   tag-success">Resident</span>',
 									status,
 									actions
 									
@@ -1954,7 +1977,7 @@
 						}
 						else if(data[index].status=="Rescheduled")
 						{
-							status = '<span class="tag round tag-default">Resceduled</span>';
+							status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
 							actions = 'N/A';
 
 							$("#table-rescheduled").DataTable()
@@ -1963,7 +1986,7 @@
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									d + ' ' + st + ' - ' + en, 
-									'<span class="tag border-success success tag-border">Resident</span>',
+									'<span class="tag  tag-pill   tag-success">Resident</span>',
 									status,
 									actions
 									
@@ -1971,7 +1994,7 @@
 						}
 						else if(data[index].status=="Cancelled")
 						{
-							status = '<span class="tag round tag-danger">Cancelled</span>';
+							status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
 							actions = 'N/A';
 
 							$("#table-cancelled").DataTable()
@@ -1980,7 +2003,7 @@
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									d + ' ' + st + ' - ' + en, 
-									'<span class="tag border-success success tag-border">Resident</span>',
+									'<span class="tag  tag-pill   tag-success">Resident</span>',
 									status,
 									actions
 									
@@ -1988,7 +2011,7 @@
 						}
 						else
 						{
-							status = '<span class="tag round tag-success">Finished</span>';
+							status = '<span class="tag  tag-pill   tag-success">Finished</span>';
 							actions = 'N/A';
 						}
 
@@ -1999,7 +2022,7 @@
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									d + ' ' + st + ' - ' + en, 
-									'<span class="tag border-success success tag-border">Resident</span>',
+									'<span class="tag  tag-pill   tag-success">Resident</span>',
 									status,
 									actions
 									
@@ -2050,7 +2073,7 @@
 
 									if(data[index].status=="Pending")
 									{
-										status = '<span class="tag round tag-default tag-info">Pending</span>';
+										status = '<span class="tag  tag-pill   tag-default tag-info">Pending</span>';
 										actions = 	'<span class="dropdown">'+
 														'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
 														'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
@@ -2066,7 +2089,7 @@
 												data[index].facilityName, 
 												data[index].name, 
 												d + ' ' + st + ' - ' + en, 
-												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
 												status,
 												actions
 												
@@ -2074,7 +2097,7 @@
 									}
 									else if(data[index].status=="Rescheduled")
 									{
-										status = '<span class="tag round tag-default">Resceduled</span>';
+										status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
 										actions = 'N/A';
 
 										$("#table-rescheduled").DataTable()
@@ -2083,7 +2106,7 @@
 												data[index].facilityName, 
 												data[index].name, 
 												d + ' ' + st + ' - ' + en, 
-												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
 												status,
 												actions
 												
@@ -2091,7 +2114,7 @@
 									}
 									else if(data[index].status=="Cancelled")
 									{
-										status = '<span class="tag round tag-danger">Cancelled</span>';
+										status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
 										actions = 'N/A';
 
 										$("#table-cancelled").DataTable()
@@ -2100,7 +2123,7 @@
 												data[index].facilityName, 
 												data[index].name, 
 												d + ' ' + st + ' - ' + en, 
-												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
 												status,
 												actions
 												
@@ -2108,7 +2131,7 @@
 									}
 									else
 									{
-										status = '<span class="tag round tag-success">Finished</span>';
+										status = '<span class="tag  tag-pill   tag-success">Finished</span>';
 										actions = 'N/A';
 									}
 
@@ -2119,7 +2142,7 @@
 												data[index].facilityName, 
 												data[index].name, 
 												d + ' ' + st + ' - ' + en, 
-												'<span class="tag border-danger danger tag-border">Non-resident</span>',
+												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
 												status,
 												actions
 												
