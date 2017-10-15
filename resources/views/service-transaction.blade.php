@@ -11,6 +11,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
 	
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('plugin')
@@ -45,7 +48,7 @@
 			<div class="col-xs-14">
 				<div class="card">
 					
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Service Transaction</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -65,8 +68,8 @@
 							</p>	
 						</div>
 							<!-- SERVICE TRANSACTIONS TABLE -->
-							<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
-								<thead>
+							<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-container">
+								<thead class="thead-custom-bg-red">
 									<tr>
 										<th>Name</th>
 										<th>Service</th>
@@ -143,10 +146,10 @@
 
 
 	<!--REGISTER SERVICE Modal -->
-		<div class="modal fade text-xs-left" id="register" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="register" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog " role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -241,10 +244,10 @@
 	<!-- End of Modal -->	
 
 	<!--ADD PARTICIPANTS Modal -->
-		<div class="modal fade text-xs-left" id="addParticipants" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="addParticipants" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -261,8 +264,8 @@
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-addParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aserviceTransactionPrimeID'])}}
 
-						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-resParticipants">
-							<thead>
+						<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-resParticipants">
+							<thead class="thead-custom-bg-red">
 								<tr>
 									<th>Name</th>
 									<th>Birthdate</th>
@@ -290,10 +293,10 @@
 	<!-- End of Modal -->		
 
 	<!--EDIT SERVICE Modal -->
-		<div class="modal fade text-xs-left" id="editService" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="editService" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog " role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -390,10 +393,10 @@
 	<!-- End of Modal -->
 
 	<!--VIEW PARTICIPANTS Modal -->
-		<div class="modal fade text-xs-left" id="viewParticipants" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="viewParticipants" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -413,8 +416,8 @@
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-viewParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
 
-						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewParticipants">
-							<thead>
+						<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewParticipants">
+							<thead class="thead-custom-bg-red">
 								<tr>
 									<th>Name</th>
 									<th>Birthdate</th>
@@ -443,10 +446,10 @@
 	<!-- End of Modal -->
 
 	<!--RECIPIENT  Modal -->
-		<div class="modal fade text-xs-left" id="recipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="recipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -475,8 +478,8 @@
 								{{Form::hidden('participantID',null,['id'=>'participantID'])}}
 								{{Form::hidden('resiID',null,['id'=>'resiID'])}}
 
-						<table class="table table-striped table-bordered multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewRecipients">
-							<thead>
+						<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-viewRecipients">
+							<thead class="thead-custom-bg-red">
 								<tr>
 									<th>ID</th>
 									<th>Recipient</th>
@@ -505,10 +508,10 @@
 	<!-- End of Modal -->	
 
 	<!--ADD RECIPIENT  Modal -->
-		<div class="modal fade text-xs-left" id="addRecipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="addRecipientModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-xs" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
