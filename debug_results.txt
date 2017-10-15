@@ -1,0 +1,101 @@
+Running scheduled command: App\Http\Controllers\ReservationController@realtime
+5
+App\Models\Reservation {#1303
+  #primaryKey: "primeID"
+  +timestamps: false
+  #casts: array:3 [
+    "peoplePrimeID" => "int"
+    "facilityPrimeID" => "int"
+    "age" => "int"
+  ]
+  #dates: array:3 [
+    0 => "reservationStart"
+    1 => "reservationEnd"
+    2 => "dateReserved"
+  ]
+  #fillable: array:13 [
+    0 => "reservationName"
+    1 => "reservationDescription"
+    2 => "reservationStart"
+    3 => "reservationEnd"
+    4 => "dateReserved"
+    5 => "eventStatus"
+    6 => "peoplePrimeID"
+    7 => "facilityPrimeID"
+    8 => "status"
+    9 => "name"
+    10 => "age"
+    11 => "email"
+    12 => "contactNumber"
+  ]
+  #connection: "mysql"
+  #table: null
+  #keyType: "int"
+  +incrementing: true
+  #with: []
+  #withCount: []
+  #perPage: 15
+  +exists: true
+  +wasRecentlyCreated: false
+  #attributes: array:14 [
+    "primeID" => 23
+    "reservationName" => "Basket ball league"
+    "reservationDescription" => ""
+    "reservationStart" => "10:00:00"
+    "reservationEnd" => "12:00:00"
+    "dateReserved" => "2017-10-31"
+    "eventStatus" => "NYD"
+    "peoplePrimeID" => 8
+    "facilityPrimeID" => 1
+    "status" => "Paid"
+    "name" => null
+    "age" => null
+    "email" => null
+    "contactNumber" => null
+  ]
+  #original: array:14 [
+    "primeID" => 23
+    "reservationName" => "Basket ball league"
+    "reservationDescription" => ""
+    "reservationStart" => "10:00:00"
+    "reservationEnd" => "12:00:00"
+    "dateReserved" => "2017-10-31"
+    "eventStatus" => "NYD"
+    "peoplePrimeID" => 8
+    "facilityPrimeID" => 1
+    "status" => "Paid"
+    "name" => null
+    "age" => null
+    "email" => null
+    "contactNumber" => null
+  ]
+  #changes: []
+  #dateFormat: null
+  #appends: []
+  #dispatchesEvents: []
+  #observables: []
+  #relations: []
+  #touches: []
+  #hidden: []
+  #visible: []
+  #guarded: array:1 [
+    0 => "*"
+  ]
+}
+Running scheduled command: App\Http\Controllers\ReservationController@realtime
+5
+
+
+=================
+
+
+=================
+
+
+=================
+
+
+=================
+
+
+=================

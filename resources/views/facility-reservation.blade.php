@@ -19,6 +19,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/calendars/fullcalendar.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/pickers/pickadate/pickadate.css') }}" />
 	<link rel="stylesheet" href="{{ URL::asset('/robust-assets/css/vendors.min.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/datedropper.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/timedropper.min.css') }}" />
 @endsection
 
 @section('plugin')
@@ -609,6 +612,8 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/tables/datatables/datatable-basic.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/datedropper.min.js') }}" type="text/javascript"></script>
+    <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/timedropper.min.js') }}" type="text/javascript"></script>
 @endsection
 
 @section('page-level-js')
@@ -618,6 +623,10 @@
 	<script src="{{ URL::asset('/robust-assets/js/components/forms/switch.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/extensions/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ URL::asset('/robust-assets/js/plugins/extensions/fullcalendar.min.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/reservationDates.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/date.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/time.js') }}" type="text/javascript"></script>
+	<script src="{{ URL::asset('/js/parser.js') }}" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		var clickToday = function () {
@@ -962,18 +971,18 @@
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Date</label>'+
-										'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30']) }}'+
+										'{{ Form::text('date',null,['id'=>'rdate','class'=>'form-control', 'min'=>'2017-08-30']) }}'+
 									'</div>'+
 								'</div>'+
 
 								'<div class="row">'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput1">Start Time</label>'+
-										'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
+										'{{ Form::text('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
 									'</div>'+
 									'<div class="form-group col-md-6 mb-2">'+
 										'<label for="userinput2">End Time</label>'+
-										'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
+										'{{ Form::text('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
 									'</div>'+
 								'</div>');
 
@@ -1099,11 +1108,11 @@
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
-											'{{ Form::time('estartTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
+											'{{ Form::text('estartTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
-											'{{ Form::time('eendTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
+											'{{ Form::text('eendTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
 										'</div>'+
 									'</div>');
 
@@ -1200,11 +1209,11 @@
 											'<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Start Time</label>'+
-													'{{ Form::time('startTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
+													'{{ Form::text('startTime',null,['id'=>'erstartTime','class'=>'form-control']) }}'+
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">End Time</label>'+
-													'{{ Form::time('endTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
+													'{{ Form::text('endTime',null,['id'=>'erendTime','class'=>'form-control']) }}'+
 												'</div>'+
 											'</div>');
 
@@ -1658,11 +1667,11 @@
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
-											'{{ Form::time('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
+											'{{ Form::text('startTime',null,['id'=>'rstartTime','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">End Time</label>'+
-											'{{ Form::time('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
+											'{{ Form::text('endTime',null,['id'=>'rendTime','class'=>'form-control']) }}'+
 										'</div>'+
 									'</div>');
 
@@ -1720,7 +1729,7 @@
 			desc = $('#erdesc').val();
 			facility = $('#efacilityID').val();
 			efacility = $('#efacilityCbo').val();
-			date = $('#erdate').val();
+			date = date('Y-m-d', $('#erdate').val());
 			start = $('#erstartTime').val();
 			end = $('#erendTime').val();
 			resname = $('#erreservationName').val();
@@ -1827,10 +1836,40 @@
 			event.preventDefault();
 			var frm = $('#frm-reserve');
 			
-			frm.find('#startTime').val()
+			frm.find('#startTime').val();
 
-			if(switchRes.checked == true)
-			{
+			if(switchRes.checked == true) {
+				
+				var aSetDet = $("#rdate").val().split("/");
+
+				var startTimeChop = $("#rstartTime").val().split(" ");
+				var snumTimeChop = startTimeChop[0].split(":");
+				var shour = parseInt(snumTimeChop[0]);
+				var sminute = parseInt(snumTimeChop[1]);
+
+				var endTimeChop = $("#rendTime").val().split(" ");
+				var enumTimeChop = endTimeChop[0].split(":");
+				var ehour = parseInt(enumTimeChop[0]);
+				var eminute = parseInt(enumTimeChop[1]);
+
+				if (startTimeChop[1].toLowerCase() == "pm") {
+					if (shour != 12) {
+						shour += 12;
+					}
+					console.log(shour + " <- SHOUR");
+				}
+
+				if (endTimeChop[1].toLowerCase() == "pm") {
+					if (ehour != 12) {
+						ehour += 12;
+					}
+					console.log("End is also PM");
+				}
+
+				var aDateReserved = new Date(aSetDet[2], aSetDet[0], aSetDet[1], 0, 0);
+				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
+				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
+				
 				$.ajax({
 					url: "{{ url('/facility-reservation/residentStore') }}", 
 					method: "POST", 
@@ -1838,9 +1877,9 @@
 						"_token": "{{ csrf_token() }}", 
 						"reservationName": $("#rreservationName").val(), 
 						"desc": $("#rdesc").val(), 
-						"startTime": $("#rstartTime").val(), 
-						"endTime": $("#rendTime").val(), 
-						"date": $("#rdate").val(),
+						"startTime": formatDateTime(aStartTime), 
+						"endTime": formatDateTime(aEndTime), 
+						"date": formatDate(aDateReserved),
 						"peoplePrimeID": $("#residentCbo").val(),
 						"facilityPrimeID": $("#facilityCbo").val(),
 						
@@ -1864,8 +1903,32 @@
 					}
 				});
 			}
-			else
-			{
+			else {
+
+				var aSetDet = $("#rdate").val().split("/");
+
+				var startTimeChop = $("#rstartTime").val().split(" ");
+				var snumTimeChop = startTimeChop[0].split(":");
+				var shour = parseInt(snumTimeChop[0]);
+				var sminute = parseInt(snumTimeChop[1]);
+
+				var endTimeChop = $("#rendTime").val().split(" ");
+				var enumTimeChop = endTimeChop[0].split(":");
+				var ehour = parseInt(enumTimeChop[0]);
+				var eminute = parseInt(enumTimeChop[1]);
+
+				if (startTimeChop[1].toLowerCase() == "pm") {
+					shour += 12;
+				}
+
+				if (endTimeChop[1].toLowerCase() == "pm") {
+					ehour += 12;
+				}
+
+				var aDateReserved = new Date(aSetDet[2], aSetDet[0], aSetDet[1], 0, 0);
+				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
+				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
+
 				$.ajax({
 					url: "{{ url('/facility-reservation/nonresidentStore') }}", 
 					method: "POST", 
@@ -1873,9 +1936,9 @@
 						"_token": "{{ csrf_token() }}", 
 						"reservationName": $("#rreservationName").val(), 
 						"desc": $("#rdesc").val(), 
-						"startTime": $("#rstartTime").val(), 
-						"endTime": $("#rendTime").val(), 
-						"date": $("#rdate").val(),
+						"startTime": formatDateTime(aStartTime), 
+						"endTime": formatDateTime(aEndTime), 
+						"date": formatDate(aDateReserved),
 						"name": $("#rname").val(),
 						"age": $("#age").val(),
 						"email": $("#email").val(),
