@@ -648,7 +648,7 @@
 					<!--Reply -->
 
 					<!--Reply Modal -->
-					<div class="modal fade text-xs-left" id="replyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal animated bounceInDown text-xs-left" id="replyModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 						<div class="modal-dialog " role="document">
 							<div class="modal-content">
 								<div class="modal-header bg-info white">
@@ -713,7 +713,7 @@
 					<!--Create Message -->
 
 					<!--Create Message Modal -->
-					<div class="modal fade text-xs-left" id="createModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+					<div class="modal animated bounceInDown text-xs-left" id="createModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 						<div class="modal-dialog modal-xs" role="document">
 							<div class="modal-content">
 								<div class="modal-header bg-info white">

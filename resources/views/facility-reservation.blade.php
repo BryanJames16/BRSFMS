@@ -169,15 +169,11 @@
 																@endif
 															</td>
 															<td>
-																@if($reservation -> eventStatus == 'NYD')
+																@if($reservation -> eventStatus == 'OnGoing')
 																	<span class="dropdown">
-																		<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
-																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
-																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																			<a href="#" class="dropdown-item extend" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
-																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
-																		</span>
+																		<button type="button" class="btn btn-info mr-1 btn-extension">
+																			<i class="icon-dribbble"></i> Extend
+																		</button>
 																	</span>
 																@else 
 																	N/A
@@ -452,8 +448,6 @@
 					</div>
 				</div> <!-- End of Modal -->
 
-
-
 				<!-- Calendar Modal -->
 				<div class="modal animated bounceInDown text-xs-left" id="calendarModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 					<div class="modal-xl modal-dialog" role="document">
@@ -508,7 +502,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
-								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Reschedule</h4>
+								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Extend</h4>
 							</div>
 							<div class="modal-body">
 								
@@ -646,6 +640,10 @@
 		var eventsFullCal = [];
 
 		$(document).ready(function () {
+			$(".btn-extension").click(function () {
+				$("#extendModal").modal("show");
+			});
+
 			$("#btnViewCal").click(function () {
 				checkFullCalendar(getCurrentDateTime());
 				$("#fc-external-drag").fullCalendar({
