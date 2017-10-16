@@ -23,4 +23,5 @@ $(document).ready(function(event) {
     $("#erstartTime").timeDropper(timeCluster);
     $("#rendTime").timeDropper(timeCluster);
     $("#erendTime").timeDropper(timeCluster);
+    $("#exdate").timeDropper(timeCluster);
 });

@@ -22,6 +22,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/datedropper.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/timedropper.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/fullcalendar-style.css') }}" />
 @endsection
 
 @section('plugin')
@@ -142,7 +143,6 @@
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																		<a href="#" class="dropdown-item extend" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
 																</span>
@@ -171,7 +171,7 @@
 															<td>
 																@if($reservation -> eventStatus == 'OnGoing')
 																	<span class="dropdown">
-																		<button type="button" class="btn btn-info mr-1 btn-extension">
+																		<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">
 																			<i class="icon-dribbble"></i> Extend
 																		</button>
 																	</span>
@@ -207,7 +207,6 @@
 																		<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																			<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																			<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																			<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																			<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																		</span>
 																	</span>
@@ -266,7 +265,6 @@
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																		<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
 																</span>
@@ -295,7 +293,6 @@
 																	<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 																		<a href="#" class="dropdown-item view" name="btnView" data-value="{{ $reservation -> primeID }}"><i class="icon-eye6"></i> View</a>
 																		<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Reschedule</a>
-																		<a href="#" class="dropdown-item edit" name="btnExtend" data-value="{{ $reservation -> primeID }}"><i class="icon-pen3"></i> Extend</a>
 																		<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{ $reservation -> primeID }}"><i class="icon-trash4"></i> Cancel</a>
 																	</span>
 																</span>
@@ -505,7 +502,22 @@
 								<h4 class="modal-title" id="myModalLabel2"><i class="icon-calendar3"></i> Extend</h4>
 							</div>
 							<div class="modal-body">
-								
+								{{ Form::open(['url'=>'facility-reservation/extend', 'method' => 'POST', 'id' => 'frm-extend', 'value' => '']) }}
+
+								<div class="card-block">
+									<div class="form-group row last">
+										<label class="col-md-3 label-control">Set new extended time: </label>
+										<div class="col-md-9">
+											{{ Form::text('date',null,['id'=>'exdate','class'=>'form-control']) }}
+										</div>
+									</div>
+
+									<div class="form-actions center">
+										{{ Form::submit('Extend Time', ['class' => 'btn btn-success', 'value' => '']) }}
+									</div>
+								</div>
+
+								{{ Form::close() }}
 							</div>
 							<!-- End of Modal Body -->
 						</div>
@@ -642,7 +654,39 @@
 		$(document).ready(function () {
 			$(".btn-extension").click(function () {
 				$("#extendModal").modal("show");
+				$("#frm-extend").val($(this).val());
 			});
+
+			$("#frm-extend").submit(function(event) {
+				event.preventDefault();
+
+				$.ajaxSetup({
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
+
+				$.ajax({
+					url: "{{ url('/facility-reservation/extend') }}", 
+					type: "GET", 
+					data: {
+						"primeID": $(this).val(), 
+						"time": ""
+					}, 
+					success: function(data) {
+						swal("Successfull", "Reservation is Extended!", "success");
+					}, 
+					error: function(errors) {
+						var message = "Error: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+				});
+			})
 
 			$("#btnViewCal").click(function () {
 				checkFullCalendar(getCurrentDateTime());
@@ -875,31 +919,37 @@
 				cancelButtonText: "NO"
 			}, 
 			function(confirmRes2) {
+				$("#addModal").modal('show');
+				var residentReg2 = false;
 				if (confirmRes2) {
 					$("#addModal").modal('show');
-					
-				}
-				else {
-					$("#addModal").modal('show');
+					residentReg2 = true;
 				}
 
 				window.setTimeout(function() {
-					updateDateOnModal(curDat);	
+					updateDateOnModal(curDat, residentReg2);	
 				}, 500)
 			});
 		}
 
 		var updateDateOnModal = function(curDat, resRev) {
 			if (resRev) {
-				$("#switchRes").trigger('click');
+				if (!$("#switchRes").is(":checked")) {
+					$("#switchRes").trigger('click');
+				}
 			}
 			else {
-				$("#switchRes").trigger('click');
+				if ($("#switchRes").is(":checked")) {
+					$("#switchRes").trigger('click');
+				}
 			}
+
+			$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
+			$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
 
 			$(document).ready(function() {
 				var formattingDate = new Date(curDat.format("YYYY-MM-DD"));
-				$("#rdate").val(curDat.format("YYYY-MM-DD"));
+				$("#rdate").val(curDat.format("MM/DD/YYYY"));
 			});
 		}
 
@@ -1034,6 +1084,9 @@
 								}
 							}
 						});
+
+			$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
+			$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
 		}
 		residentFunc();
 
@@ -1102,7 +1155,7 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
-											'{{ Form::date('edate',null,['id'=>'erdate','class'=>'form-control']) }}'+
+											'{{ Form::text('edate',null,['id'=>'erdate','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
@@ -1200,7 +1253,7 @@
 											'<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Date</label>'+
-													'{{ Form::date('date',null,['id'=>'erdate','class'=>'form-control']) }}'+
+													'{{ Form::text('date',null,['id'=>'erdate','class'=>'form-control']) }}'+
 												'</div>'+
 											'</div>'+
 
@@ -1610,13 +1663,11 @@
 
 		// RES SWITCH
 
-		$('#switchRes').change(function(){
-			if(this.checked)
-			{
+		$('#switchRes').change( function() {
+			if(this.checked) {
 				residentFunc();
 			}
-			else
-			{
+			else {
 				$('#change').html(
 									'<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
 									'<div class="row">'+
@@ -1661,7 +1712,7 @@
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Date</label>'+
-											'{{ Form::date('date',null,['id'=>'rdate','class'=>'form-control']) }}'+
+											'{{ Form::text('date',null,['id'=>'rdate','class'=>'form-control']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Start Time</label>'+
@@ -1691,6 +1742,9 @@
 											}
 										}
 									});
+
+				$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
+				$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
 			}
 
 
@@ -2019,7 +2073,6 @@
 											'<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">'+
 												'<a href="#" class="dropdown-item view" name="btnView" data-value="' + data[index].primeID + '"><i class="icon-eye6"></i> View</a>'+
 												'<a href="#" class="dropdown-item edit" name="btnEdit" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Reschedule</a>'+
-												'<a href="#" class="dropdown-item edit" name="btnExtend" data-value="' + data[index].primeID + '"><i class="icon-pen3"></i> Extend</a>' + 
 												'<a href="#" class="dropdown-item delete" name="btnDelete" data-value="' + data[index].primeID + '"><i class="icon-trash4"></i> Cancel</a>'+
 											'</span>'+
 										'</span>';
