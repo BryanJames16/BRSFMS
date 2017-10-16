@@ -1,0 +1,11 @@
+.fc-past {
+    cursor: not-allowed;
+}
+
+.fc-today {
+    cursor: hand;
+}
+
+.fc-future {
+    cursor: hand;
+}

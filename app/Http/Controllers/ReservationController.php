@@ -476,8 +476,17 @@ class ReservationController extends Controller
         }
     }
 
+    public function extendTime(Request $r) {
+        if($r -> ajax()) {
+
+        } 
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function realtime() {
-        // Change to On Going
+        // Change from NYD to OnGoing
         $ongoing = Reservation::where('eventStatus', 'NYD')->get();
         
         foreach ($ongoing as $og) {
@@ -490,10 +499,21 @@ class ReservationController extends Controller
             }
         }
 
-        // Change to Done
+        // Change from OnGoing to Done
         $done = Reservation::where('eventStatus', 'OnGoing')->get();
 
         foreach ($done as $dn) {
+            if (Carbon::now() >= $dn -> reservationEnd) {
+                $dn -> eventStatus = "Done";
+                $dn -> save();
+                echo "Updated to Done!";
+            }
+        }
+
+        // Change from Extended to Done
+        $extended = Reservation::where('eventStatus', 'Extended')->get();
+        
+        foreach ($extended as $dn) {
             if (Carbon::now() >= $dn -> reservationEnd) {
                 $dn -> eventStatus = "Done";
                 $dn -> save();
