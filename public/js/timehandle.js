@@ -78,6 +78,32 @@ var formatDateTime = function(passedDate) {
             " " + passedDate.getHours() + ":" + passedDate.getMinutes();
 }
 
+var formatJStoMySQL = function(passedDate) {
+    return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
+            " " + passedDate.getHours() + ":" + passedDate.getMinutes();
+}
+
+var formatJStoPHP = function(passedDate) {
+    return passedDate.toString().substr(0, passedDate.toString().indexOf("("));
+}
+
+var formatMySQLtoJS = function(passedDate) {
+    var pStruct = passedDate.split(" ");
+    var pDate = pStruct[0].split("-");
+    var pTime = pStruct[1].split(":");
+
+    return new Date(pDate[0], pDate[1], pDate[2], pTime[0], pTime[1]);
+}
+
+var formatPHPtoJS = function(passedDate) {
+    passedDate = JSON.parse(passedDate);
+    var pStruct = passedDate.date.split(" ");
+    var pDate = pStruct[0].split("-");
+    var pTime = pStruct[1].split(":");
+
+    return new Date(pDate[0], pDate[1], pDate[2], pTime[0], pTime[1], pTime[2].split(".")[0], pTime[2].split(".")[1]);
+}
+
 var getStringDateTime = function () {
     var dateTimeToday = new Date();
     return (dateTimeToday.getFullYear() + "" + 
