@@ -2,19 +2,19 @@
 
 <!-- Title of the Page -->
 @section('title')
-	Reports: Persons With Disability
+	Reports: Rendered Services
 @endsection
 
 <!-- Set All JavaScript Settings -->
 @section('js-setting')
 	<!-- Set the Selected Tab in Navbar -->
 	<script type="text/javascript">
-		setSelectedTab(REPORT_PWD);
+		setSelectedTab(REPORT_SERVICE);
 	</script>
 @endsection
 
 @section('report-name')
-    Reports: Persons With Disability
+    Reports: Rendered Services
 @endsection
 
 @section('card-body')
@@ -24,7 +24,7 @@
             {{ Form::open(['url' => '/reports/collection/fetch', 
                             'method' => 'GET', 
                             'id' => 'GenRep']) }}
-            <h4>From(Date Registered):</h4>
+            <h4>From(Date Rendered):</h4>
             <div style="padding-left:120px">
                 
                 <div  class="input-group">
@@ -73,7 +73,7 @@
         <br >
         <p >
             <h4 align="center">Preview:</h4>
-            <iframe id="iframe" style="width:100%;height:100%" frameborder="1" src="/report/pwd"></iframe>
+            <iframe id="iframe" style="width:100%;height:100%" frameborder="1" src="/reports/service/previewAll"></iframe>
         </p>
     </div>
 </div>
@@ -120,8 +120,9 @@
                     function() {
 
                         $.ajax({
-                            url: '{{ url("/report/pwd/generate") }}', 
+                            url: '{{ url("/reports/service/printAll") }}', 
                             method: 'GET', 
+                            async: false, 
                             success: function (data) {
                                 swal("Successfull", "Download Successful!", "success");
                             }, 
@@ -168,9 +169,8 @@
                     function() {
 
                         $.ajax({
-                            url: '{{ url("/report/pwd/printRange") }}', 
-                            method: 'GET',
-                            async: false, 
+                            url: '{{ url("/reports/service/printRange") }}', 
+                            method: 'GET', 
                             data: {
                                 'fromDate': fDate,
                                 'toDate': tDate
@@ -209,11 +209,11 @@
 
             if($("#min-date-id").val()=='' || $("#quota-date-id").val()=='')
             {
-                    swal("Invalid", "You must set the dates first!", "error");
+                   swal("Invalid", "You must set the dates first!", "error");             
 
             }
             else{
-                $('#iframe').attr('src','/reports/pwd/generateRange/'+ fDate +'/'+ tDate)
+                $('#iframe').attr('src','/reports/service/previewRange/'+ fDate +'/'+ tDate)
             }
 
             
@@ -224,7 +224,7 @@
             event.preventDefault();
 
             
-            $('#iframe').attr('src','/report/pwd');
+            $('#iframe').attr('src','/reports/service/previewAll');
           
         });
 

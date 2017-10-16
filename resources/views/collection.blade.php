@@ -209,6 +209,44 @@
 													</td>
 												</tr>
 												@endforeach
+												@foreach($collectionsN as $collectionn)
+												<tr>
+													<td>{{ $collectionn -> collectionID }}</td>
+													<td>
+														<p>
+														{{ $collectionn -> name }}
+														</p>
+													</td>
+													<td>{{ $collectionn -> reservationName }}</td>
+													<td>
+														@if($collectionn -> collectionType == 1)
+															Barangay ID
+														@elseif($collectionn -> collectionType == 2) 
+															Document Request
+														@elseif($collectionn -> collectionType == 3) 
+															Facility Reservation
+														@elseif($collectionn -> collectionType == 4) 
+															Services
+														@else
+															Business Registration
+														@endif 
+													</td>
+													<td>{{ $collectionn -> amount }}</td>
+													<td>{{ $collectionn -> status }}</td>
+													<td>
+														<span class="dropdown">
+														<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
+														<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
+															@if($collectionn -> status == "Pending" || $collectionn -> status == "pending")
+																<a href="#" class="dropdown-item btnUpdate" data-value="{{ $collectionn -> collectionPrimeID }}"><i class="icon-eye6"></i> Update</a>
+															@else 
+																<a href="#" class="dropdown-item btnReceipt" data-value="{{ $collectionn -> collectionPrimeID }}"><i class="icon-pen3"></i> Receipt</a>
+															@endif
+														</span>
+														</span>
+													</td>
+												</tr>
+												@endforeach
 												
 											</tbody>
 										</table>

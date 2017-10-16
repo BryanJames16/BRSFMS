@@ -508,8 +508,8 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
 								</a>
 								<ul class="menu-content">
-									<li id="report-services-id">
-										<a href="/rendered-services" data-i18n="nav.navbars.nav_dark" class="menu-item">
+									<li id="report-service-id">
+										<a href="/reports/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-lifebuoy"></i>
 											Rendered Services
 										</a>
@@ -520,20 +520,20 @@
 											Reservation of Facilities
 										</a>
 									</li>
-									<li id="report-residents-id">
-										<a href="/registered-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
+									<li id="report-resident-id">
+										<a href="/reports/resident" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-user-check"></i>
 											Registered Residents
 										</a>
 									</li>
 									<li id="report-senior-id">
-										<a href="/senior-citizen" data-i18n="nav.navbars.nav_dark" class="menu-item">
+										<a href="/reports/senior" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-android-contact"></i>
 											Senior Citizens
 										</a>
 									</li>
 									<li id="report-pwd-id">
-										<a href="/report/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
+										<a href="/reports/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-android-bicycle"></i>
 											PWD
 										</a>

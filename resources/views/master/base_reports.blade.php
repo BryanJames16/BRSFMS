@@ -83,7 +83,4 @@
 
 	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie-simple.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/doughnut.js') }}" type="text/javascript"></script>
-	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/doughnut-simple.js') }}" type="text/javascript"></script>
-
 @endsection

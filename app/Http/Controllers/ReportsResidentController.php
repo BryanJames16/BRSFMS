@@ -3,103 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Models\Collection;
+use \App\Models\Resident;
 use Carbon\Carbon;
 use PDF;
 
-class ReportsCollectionController extends Controller
+class ReportsResidentController extends Controller
 {
     public function index() {
-        return view('report-collection');
+        return view('report-resident');
     }
 
     public function previewAll() {
-        
+        $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
+                                'lastName','middleName','suffix', 'residents.status', 
+                                'contactNumber', 'gender', 'birthDate',
+                                'civilStatus','seniorCitizenID','disabilities', 'email',
+                                'residentType', 'address', 'dateReg') 
+                            ->where('residents.status', '=', 1) 
+                            ->orderBy('dateReg','desc')
+                            ->get();
+
+        $totall = Resident::count();
+        $totalMale = Resident::where('gender','=','M')->count();
+        $totalFemale = Resident::where('gender','=','F')->count();
+
+        $avg = Resident::select('birthDate') 
+                            ->where('residents.status', '=', 1) 
+                            ->get();
+        $sum = 0;
+        $total = 0;
+        $ave = 0;
+
+        foreach($avg as $a)
+        {
+            $sum = $sum + 1;
+            $total = $total + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+        }
+
+        $ave = $total/$sum;
         $fromDate = null;
         $toDate = null;
-        $total = 0;
-        $totalCollections = 0;
-        $totalCollectionID = 0;
-        $totalCollectionDocu = 0;
-        $totalCollectionReservation = 0;
 
-        $reserveRes = Collection::select('collections.collectionPrimeID', 
-                                            'collections.collectionID', 
-                                            'collections.collectionType', 
-                                            'collections.amount', 
-                                            'collections.status', 
-                                            'collections.paymentDate', 
-                                            'residents.firstName', 
-                                            'residents.middleName', 
-                                            'residents.lastName', 
-                                            'residents.residentID', 
-                                            'reservations.reservationName', 
-                                            'residents.residentPrimeID')
-                        -> join('reservations', 
-                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
-                        -> join('residents', 
-                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
-                        -> where('collections.status','=','Paid')
-                        -> get();
 
-        foreach($reserveRes as $rr)
-        {
-            $totalCollectionReservation += $rr->amount;
-        }
-        
-        $totalR = Collection::join('reservations', 
-                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
-                        -> join('residents', 
-                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
-                        -> where('collections.status','=','Paid')
-                        -> count();
-
-        $collectionID = Collection::select('collections.collectionPrimeID', 
-                                            'collections.collectionID', 
-                                            'collections.collectionType', 
-                                            'collections.collectionDate', 
-                                            'collections.amount', 
-                                            'collections.status', 
-                                            'residents.firstName', 
-                                            'residents.middleName', 
-                                            'residents.lastName', 
-                                            'residents.residentID', 
-                                            'residents.residentPrimeID')
-                        -> join('barangaycard', 
-                                    'collections.cardID', '=', 'barangaycard.cardID') 
-                        -> join('residents', 
-                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
-                        -> where('collections.status','Paid')
-                        -> get();
-
-        foreach($collectionID as $ci)
-        {
-            $totalCollectionID += $ci->amount;
-        }
-
-        
-        $totalI = Collection::join('barangaycard', 
-                                    'collections.cardID', '=', 'barangaycard.cardID') 
-                        -> join('residents', 
-                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
-                        -> where('collections.status','Paid')
-                        -> count();
-
-        $total = $totalI + $totalR;
-        $totalCollections = $totalCollectionID + $totalCollectionDocu + $totalCollectionReservation;
-
-        
-
-        return view('preview.collection')    
+        return view('preview.resident')
                         ->with('fromDate',$fromDate)
-                        ->with('toDate',$toDate)
-                        ->with('total',$total)
-                        ->with('totalCollections',$totalCollections)
-                        ->with('totalCollectionID',$totalCollectionID)
-                        ->with('totalCollectionDocu',$totalCollectionDocu)
-                        ->with('totalCollectionReservation',$totalCollectionReservation)
-                        ->with('reserveRes',$reserveRes)
-                        ->with('collectionID',$collectionID);
+                        ->with('toDate',$toDate)    
+                        ->with('residents',$res)
+                        ->with('total',$totall)
+                        ->with('ave',$ave)
+                        ->with('totalFemale',$totalFemale)
+                        ->with('totalMale',$totalMale);;
     }
 
     public function previewRange($fromDate,$toDate) {

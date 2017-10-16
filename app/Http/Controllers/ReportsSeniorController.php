@@ -4,50 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Resident;
-use \App\Models\Lot;
-use \App\Models\Businesscategory;
-use \App\Models\Unit;
-use \App\Models\Street;
-use \App\Models\Family;
-use \App\Models\Utility;
-use \App\Models\Generaladdress;
-use \App\Models\Familymember;
-use \App\Models\Residentbackground;
 use Carbon\Carbon;
 use PDF;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
-require_once(app_path() . '/Includes/pktool.php');
-
-use StaticCounter;
-use SmartMove;
-
-class ReportController extends Controller
+class ReportsSeniorController extends Controller
 {
-
-    
-
     public function index() {
-    	
-        
-    
+        return view('report-senior');
+    }
+
+    public function previewAll() {
         $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
                                 'lastName','middleName','suffix', 'residents.status', 
                                 'contactNumber', 'gender', 'birthDate',
                                 'civilStatus','seniorCitizenID','disabilities', 'email',
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
 
-        $totall = Resident::where("disabilities", "!=", null)->count();
-        $totalMale = Resident::where("disabilities", "!=", null)->where('gender','=','M')->count();
-        $totalFemale = Resident::where("disabilities", "!=", null)->where('gender','=','F')->count();
+        $totall = Resident::where("seniorCitizenID", "!=", null)->count();
+        $totalMale = Resident::where("seniorCitizenID", "!=", null)->where('gender','=','M')->count();
+        $totalFemale = Resident::where("seniorCitizenID", "!=", null)->where('gender','=','F')->count();
 
         $avg = Resident::select('birthDate') 
                             ->where('residents.status', '=', 1) 
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
         $sum = 0;
         $total = 0;
@@ -62,18 +44,92 @@ class ReportController extends Controller
         $fromDate = null;
         $toDate = null;
 
-        return view('preview.pwd')
+
+        return view('preview.senior')
                         ->with('fromDate',$fromDate)
-                        ->with('toDate',$toDate)
+                        ->with('toDate',$toDate)    
                         ->with('residents',$res)
                         ->with('total',$totall)
                         ->with('ave',$ave)
                         ->with('totalFemale',$totalFemale)
+                        ->with('totalMale',$totalMale);;
+    }
+
+    public function previewRange($fromDate,$toDate) {
+        
+        $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
+                                'lastName','middleName','suffix', 'residents.status', 
+                                'contactNumber', 'gender', 'birthDate',
+                                'civilStatus','seniorCitizenID','disabilities', 'email',
+                                'residentType', 'address') 
+                            ->where('residents.status', '=', 1) 
+                            ->whereBetween('dateReg',[$fromDate,$toDate])
+                            ->whereNotNull('seniorCitizenID')
+                            ->get();
+
+        $avg = Resident::select('birthDate') 
+                            ->where('residents.status', '=', 1) 
+                            ->whereBetween('dateReg',[$fromDate,$toDate])
+                            ->whereNotNull('seniorCitizenID')
+                            ->get();
+        $sum = 0;
+        $total = 0;
+        $ave = 0;
+        foreach($avg as $a)
+        {
+            $sum = $sum + 1;
+            $total = $total + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+        }
+
+        $ave = $total/$sum;
+
+
+
+        $totall = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
+                                'lastName','middleName','suffix', 'residents.status', 
+                                'contactNumber', 'gender', 'birthDate',
+                                'civilStatus','seniorCitizenID','disabilities', 'email',
+                                'residentType', 'address') 
+                            ->where('residents.status', '=', 1) 
+                            ->whereBetween('dateReg',[$fromDate,$toDate])
+                            ->whereNotNull('seniorCitizenID')->count();
+
+        $totalMale = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
+                                'lastName','middleName','suffix', 'residents.status', 
+                                'contactNumber', 'gender', 'birthDate',
+                                'civilStatus','seniorCitizenID','disabilities', 'email',
+                                'residentType', 'address') 
+                            ->where('residents.status', '=', 1) 
+                            ->whereBetween('dateReg',[$fromDate,$toDate])
+                            ->whereNotNull('seniorCitizenID')
+                            ->where('gender','=','M')
+                            ->count();
+        $totalFemale = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
+                                'lastName','middleName','suffix', 'residents.status', 
+                                'contactNumber', 'gender', 'birthDate',
+                                'civilStatus','seniorCitizenID','disabilities', 'email',
+                                'residentType', 'address') 
+                            ->where('residents.status', '=', 1) 
+                            ->whereBetween('dateReg',[$fromDate,$toDate])
+                            ->whereNotNull('seniorCitizenID')
+                            ->where('gender','=','F')->count();
+
+        
+
+        return view('preview.senior')
+                        ->with('fromDate',$fromDate)
+                        ->with('toDate',$toDate)    
+                        ->with('ave',$ave)
+                        ->with('residents',$res)
+                        ->with('total',$totall)
+                        ->with('totalFemale',$totalFemale)
                         ->with('totalMale',$totalMale);
+
+        
 
     }
 
-    public function generate(){
+    public function printAll(){
 
         $fromDate = null;
         $toDate = null;
@@ -84,7 +140,7 @@ class ReportController extends Controller
                                 'civilStatus','seniorCitizenID','disabilities', 'email',
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
 
 
@@ -94,7 +150,7 @@ class ReportController extends Controller
 
         $avg = Resident::select('birthDate') 
                             ->where('residents.status', '=', 1) 
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
         $sum = 0;
         $totals = 0;
@@ -107,12 +163,12 @@ class ReportController extends Controller
 
         $ave = $totals/$sum;
             
-        $pdf = PDF::loadView('pdfpwd',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        $pdf = PDF::loadView('pdfsenior',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report - PWD.pdf');
+        return $pdf->download('Report-SeniorCitizen.pdf');
 
         return back();
     }
@@ -127,13 +183,13 @@ class ReportController extends Controller
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
                             ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
 
         $avg = Resident::select('birthDate') 
                             ->where('residents.status', '=', 1) 
                             ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->get();
         $sum = 0;
         $totals = 0;
@@ -155,7 +211,7 @@ class ReportController extends Controller
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
                             ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->whereNotNull('disabilities')->count();
+                            ->whereNotNull('seniorCitizenID')->count();
 
         $totalMale = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
                                 'lastName','middleName','suffix', 'residents.status', 
@@ -164,7 +220,7 @@ class ReportController extends Controller
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
                             ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->where('gender','=','M')
                             ->count();
         $totalFemale = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
@@ -174,24 +230,24 @@ class ReportController extends Controller
                                 'residentType', 'address') 
                             ->where('residents.status', '=', 1) 
                             ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->whereNotNull('disabilities')
+                            ->whereNotNull('seniorCitizenID')
                             ->where('gender','=','F')->count();
 
         $fromDate =  $r->input('fromDate');
         $toDate =  $r->input('toDate');
 
 
-        $pdf = PDF::loadView('pdfpwd',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        $pdf = PDF::loadView('pdfsenior',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report - PWD.pdf');
+        return $pdf->download('Report-SeniorCitizen.pdf');
 
         return back();
     }
 
-    
-  
-}
 
+
+
+}

@@ -272,6 +272,32 @@ Route::get('/reports/pwd/generateRange/{fromDate}/{toDate}', 'ReportsPwdControll
 Route::get('/report/pwd/generate', 'ReportController@generate');
 Route::get('/report/pwd/printRange', 'ReportController@printRange');
 
+//SENIO-CITIZEN REPORT
+Route::get('/reports/senior/previewRange/{fromDate}/{toDate}', 'ReportsSeniorController@previewRange');
+Route::get('/reports/senior/previewAll', 'ReportsSeniorController@previewAll');
+Route::get('/reports/senior/printRange', 'ReportsSeniorController@printRange');
+Route::get('/reports/senior/printAll', 'ReportsSeniorController@printAll');
+
+//REGISTERED RESIDENTS REPORT
+Route::get('/reports/resident/previewRange/{fromDate}/{toDate}', 'ReportsResidentController@previewRange');
+Route::get('/reports/resident/previewAll', 'ReportsResidentController@previewAll');
+Route::get('/reports/resident/printRange', 'ReportsResidentController@printRange');
+Route::get('/reports/resident/printAll', 'ReportsResidentController@printAll');
+
+//RENDERED SERVICES REPORT
+Route::get('/reports/service/previewRange/{fromDate}/{toDate}', 'ReportsServiceController@previewRange');
+Route::get('/reports/service/previewAll', 'ReportsServiceController@previewAll');
+Route::get('/reports/service/printRange', 'ReportsServiceController@printRange');
+Route::get('/reports/service/printAll', 'ReportsServiceController@printAll');
+
+//COLLECTION REPORT
+Route::get('/reports/collection/previewRange/{fromDate}/{toDate}', 'ReportsCollectionController@previewRange');
+Route::get('/reports/collection/previewAll', 'ReportsCollectionController@previewAll');
+Route::get('/reports/collection/printRange', 'ReportsCollectionController@printRange');
+Route::get('/reports/collection/printAll', 'ReportsCollectionController@printAll');
+
+
+
 /* UTILITIES ROUTES */
 Route::get('/utilities/getCurrentPK', 'UtilitiesController@getCurrentPK');
 Route::get('/utilities/refresh', 'UtilitiesController@refresh');
@@ -378,9 +404,12 @@ Route::resource('/query/service', 'QueryServiceController')->middleware("auth");
 Route::resource('/query/document', 'QueryDocumentController')->middleware("auth");
 Route::resource('/query/business', 'QueryBusinessController')->middleware("auth");
 Route::resource('/recipient', 'RecipientController')->middleware("auth");
-Route::resource('/reports/collection', 'ReportsCollectionController');
+Route::resource('/reports/collection', 'ReportsCollectionController')->middleware("auth");
 Route::resource('/reports/pwd', 'ReportsPwdController')->middleware("auth");
 Route::resource('/report/pwd', 'ReportController')->middleware("auth");
+Route::resource('/reports/service', 'ReportsServiceController')->middleware("auth");
+Route::resource('/reports/senior', 'ReportsSeniorController')->middleware("auth");
+Route::resource('/reports/resident', 'ReportsResidentController')->middleware("auth");
 Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
 Route::resource('/resident', 'ResidentController')->middleware("auth");
 Route::resource('/requirement', 'RequirementController')->middleware("auth");

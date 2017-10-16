@@ -73,7 +73,9 @@ class ReportsPwdController extends Controller
 
         
 
-        return view('pwdreport')
+        return view('preview.pwd')
+                        ->with('fromDate',$fromDate)
+                        ->with('toDate',$toDate)
                         ->with('ave',$ave)
                         ->with('residents',$res)
                         ->with('total',$totall)
@@ -83,6 +85,8 @@ class ReportsPwdController extends Controller
         
 
     }
+
+    
 
 
 }
