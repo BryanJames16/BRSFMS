@@ -229,7 +229,7 @@
 																</div>
 																<div class="media-body white text-xs-right">
 																	<h3 id="pending-services">{{ $countOfSponsor }}</h3>
-																	<span>Current Service Sponsors</span>
+																	<span>Service Sponsors</span>
 																</div>
 															</div>
 														</div>
@@ -273,7 +273,55 @@
 											</thead>
 
 											<tbody>
-												
+												@foreach($listOfReservations as $reservation)
+													<tr>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>
+															{{ $reservation -> firstName}} {{ $reservation -> middleName }} {{ $reservation -> lastName }} {{ $reservation -> suffix }}
+														</td>
+														<td>
+															{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} 
+															{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - 
+															{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}
+														</td>
+														<td>
+															@if($reservation -> eventStatus == 'NYD')
+																<span class="tag tag-default tag-info">Not Yet Done</span>
+															@elseif($reservation -> eventStatus == 'OnGoing')
+																<span class="tag tag-default tag-success">On-Going</span>
+															@elseif($reservation -> eventStatus == 'Extended')
+																<span class="tag tag-default tag-warning">Extended</span>
+															@elseif($reservation -> eventStatus == 'Done')
+																<span class="tag tag-default tag-default">Done</span>
+															@endif
+														</td>
+													</tr>
+												@endforeach
+
+												@foreach($listOfNReservations as $reservation)
+													<tr>
+														<td>{{ $reservation -> facilityName }}</td>
+														<td>
+															{{ $reservation -> name }}
+														</td>
+														<td>
+															{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} 
+															{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - 
+															{{ date('g:i a',strtotime($reservation -> reservationEnd)) }}
+														</td>
+														<td>
+															@if($reservation -> eventStatus == 'NYD')
+																<span class="tag tag-default tag-info">Not Yet Done</span>
+															@elseif($reservation -> eventStatus == 'OnGoing')
+																<span class="tag tag-default tag-success">On-Going</span>
+															@elseif($reservation -> eventStatus == 'Extended')
+																<span class="tag tag-default tag-warning">Extended</span>
+															@elseif($reservation -> eventStatus == 'Done')
+																<span class="tag tag-default tag-default">Done</span>
+															@endif
+														</td>
+													</tr>
+												@endforeach
 											</tbody>
 										</table>
 									</div>
@@ -324,117 +372,6 @@
 
 @section('page-action')
 	<script>
-		var transCTX = $("#transaction-chart")[0].getContext("2d");
-		var liabCTX = $("#liability-chart")[0].getContext("2d");
-		$(document).ready(function() {
-			var frequencyChart = new Chart(transCTX, {
-				type: 'line', 
-				data: {
-					labels: getPrefixMonth(5),
-					lineTension: 0, 
-					datasets: [{
-						label: ['Resident Registration'],
-						data: [12, 19, 3, 5, 2],
-						backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-						borderColor: 'rgba(255, 99, 132,1)',
-						borderWidth: 1
-					}, 
-					{
-						label: ['Facility Reservation'], 
-						data: [8, 10, 18, 9, 22], 
-						backgroundColor: 'rgba(77, 162, 14, 0.2)', 
-						borderColor: 'rgba(77, 162, 14, 1)',
-						borderWidth: 1
-					},
-					{
-						label: ['Document Requests'], 
-						data: [15, 2, 22, 18, 7], 
-						backgroundColor: 'rgba(255, 162, 14, 0.2)', 
-						borderColor: 'rgba(255, 162, 14, 1)',
-						borderWidth: 1
-					}, 
-					{
-						label: ['Services Performed'], 
-						data: [20, 5, 25, 10, 15], 
-						backgroundColor: 'rgba(0, 87, 173, 0.2)', 
-						borderColor: 'rgba(0, 87, 173, 1)',
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero:true
-							}
-						}]
-					}, 
-					elements: {
-						line: {
-							tension: 0.000001
-						}
-					},
-					legend: {
-						labels: {
-							fontColor: 'black', 
-							fontFamily: 'Helvetica', 
-							fontStyle: 'bold'
-						}
-					}
-				}
-			});
-
-			var liabilityChart = new Chart(liabCTX, {
-				type: 'line', 
-				data: {
-					labels: getPrefixMonth(5),
-					lineTension: 0, 
-					datasets: [{
-						label: ['Sickness'],
-						data: [3, 14, 5, 9, 1],
-						backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-						borderColor: 'rgba(255, 99, 132,1)',
-						borderWidth: 1
-					}, 
-					{
-						label: ['Death'], 
-						data: [0, 1, 1, 0, 0], 
-						backgroundColor: 'rgba(77, 162, 14, 0.2)', 
-						borderColor: 'rgba(77, 162, 14, 1)',
-						borderWidth: 1
-					},
-					{
-						label: ['Resident Removal'], 
-						data: [10, 12, 2, 8, 7], 
-						backgroundColor: 'rgba(255, 162, 14, 0.2)', 
-						borderColor: 'rgba(255, 162, 14, 1)',
-						borderWidth: 1
-					}]
-				},
-				options: {
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero:true
-							}
-						}]
-					}, 
-					elements: {
-						line: {
-							tension: 0.000001
-						}
-					},
-					legend: {
-						labels: {
-							fontColor: 'black', 
-							fontFamily: 'Helvetica', 
-							fontStyle: 'bold'
-						}
-					}
-				}
-			});
-		});
-
 		$(document).ready(function() {
 			$.ajaxSetup({
 				headerheaders: {
