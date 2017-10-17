@@ -55,7 +55,7 @@
         <br >
         <p >
             <h4 align="center">Preview:</h4>
-            <iframe id="iframe" style="width:100%;height:100%" frameborder="1" src="/reports/participant/preview/1"></iframe>
+            <iframe id="iframe" style="width:100%;height:100%" frameborder="1" src=""></iframe>
         </p>
     </div>
 </div>
@@ -67,7 +67,7 @@
         $(document).ready(function () {
 
             $('#id').select2();
-
+            $('#iframe').attr('src','/reports/participant/preview/'+ $('#id').val());
             
         });
 
@@ -116,7 +116,6 @@
 
         $(document).on('click', '#preview', function(e) {
             event.preventDefault();
-            alert($('#id').val());
             $('#iframe').attr('src','/reports/participant/preview/'+ $('#id').val());
             
         });

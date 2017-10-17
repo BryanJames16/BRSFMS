@@ -20,17 +20,38 @@ class ReportsParticipantController extends Controller
     }
 
     public function preview($id) {
-        $services= \DB::table('servicetransactions')
-                                        ->join('participants',' servicetransactions.serviceTransactionPrimeID','=','participants.serviceTransactionPrimeID')
-                                        ->where('participants.serviceTransactionPrimeID','10')
+        $participants= \DB::table('participants')
+                                        ->join('residents', 'participants.residentID','=','residents.residentPrimeID')
+                                        ->where('participants.serviceTransactionPrimeID',$id)
                                         ->get();
-        $name= \DB::table('servicetransactions')->where('serviceTransactionPrimeID','10')
+        $recipients= \DB::table('participants')
+                                        ->join('partrecipients', 'participants.participantID','=','partrecipients.participantID')
+                                        ->join('recipients', 'partrecipients.recipientID','=','recipients.recipientID')
+                                        ->where('participants.serviceTransactionPrimeID',$id)
+                                        ->get();
+
+        $name= \DB::table('servicetransactions')->where('serviceTransactionPrimeID',$id)
                                         ->get()
                                         ->last();
+        $totalParticipants = 0;
+        $totalRecipients = 0;
 
-        return view('pdfparticipant')
-                        ->with('services',$services)
-                        ->with('name',$name);
+        foreach($participants as $asd){
+            $totalParticipants += 1;
+        }
+
+        foreach($recipients as $a){
+            $totalRecipients += $a->quantity;
+        }
+
+
+
+        return view('preview.participant')
+                        ->with('totalParticipants',$totalParticipants)
+                        ->with('participants',$participants)
+                        ->with('name',$name)
+                        ->with('recipients',$recipients)
+                        ->with('totalRecipients',$totalRecipients);
     }
 
     
@@ -38,70 +59,40 @@ class ReportsParticipantController extends Controller
 
     public function print(Request $r){
 
-        $fromDate =  $r->input('fromDate');
-        $toDate =  $r->input('toDate');
+        $id = $r->input('id');
 
-
-        $servicesNoRecipient= \DB::table('servicetransactions') ->select('servicetransactions.serviceTransactionPrimeID',
-                                                    'serviceTransactionID', 'servicetransactions.serviceName as serviceTransactionName',
-                                                     'servicetransactions.servicePrimeID',
-                                                    'fromAge', 'toAge','fromDate','toDate',
-                                                     'servicetransactions.status','services.serviceName',\DB::raw('count(participantID) as participant')) 
-                                        ->leftjoin('participants','participants.serviceTransactionPrimeID','=','servicetransactions.serviceTransactionPrimeID')
-                                        ->join('services', 'servicetransactions.servicePrimeID', '=', 'services.primeID')
-                                        ->groupBy('serviceTransactionPrimeID')
-                                        ->groupBy('serviceTransactionID')
-                                        ->groupBy('serviceTransactionName')
-                                        ->groupBy('servicetransactions.servicePrimeID')
-                                        ->groupBy('fromAge')
-                                        ->groupBy('toAge')
-                                        ->groupBy('fromDate')
-                                        ->groupBy('toDate')
-                                        ->groupBy('servicetransactions.status')
-                                        ->groupBy('services.serviceName')
-                                        ->where('servicetransactions.archive','0')
-                                        ->whereBetween('fromDate',[$fromDate,$toDate])
-                                        ->orWhereBetween('toDate',[$fromDate,$toDate])
-                                        ->orderBy('fromDate','desc')
+        $participants= \DB::table('participants')
+                                        ->join('residents', 'participants.residentID','=','residents.residentPrimeID')
+                                        ->where('participants.serviceTransactionPrimeID',$id)
                                         ->get();
-        
+        $recipients= \DB::table('participants')
+                                        ->join('partrecipients', 'participants.participantID','=','partrecipients.participantID')
+                                        ->join('recipients', 'partrecipients.recipientID','=','recipients.recipientID')
+                                        ->where('participants.serviceTransactionPrimeID',$id)
+                                        ->get();
 
-        $total = Servicetransaction::where('archive','0')
-                                    ->where('status','Finished')
-                                    ->whereBetween('fromDate',[$fromDate,$toDate])
-                                    ->orWhereBetween('toDate',[$fromDate,$toDate])
-                                    ->count();
+        $name= \DB::table('servicetransactions')->where('serviceTransactionPrimeID',$id)
+                                        ->get()
+                                        ->last();
+        $totalParticipants = 0;
+        $totalRecipients = 0;
 
-        $recipient = Servicetransaction::select('servicetransactions.serviceTransactionPrimeID',\DB::raw('count(partrecipientID) as recipient'))
-                                    ->leftjoin('participants','participants.serviceTransactionPrimeID','=','servicetransactions.serviceTransactionPrimeID')
-                                    ->join('partrecipients', 'participants.participantID', '=', 'partrecipients.participantID')
-                                    ->groupBy('serviceTransactionPrimeID')
-                                    ->where('servicetransactions.archive','0')
-                                    ->whereBetween('fromDate',[$r->input('fromDate'),$r->input('toDate')])
-                                    ->orWhereBetween('toDate',[$r->input('fromDate'),$r->input('toDate')])
-                                    ->where('status','Finished')
-                                    ->get();
-
-        
-        $totalPart = 0;
-        $totalRec = 0;
-
-        foreach($recipient as $rec){
-            $totalRec += $rec->recipient; 
+        foreach($participants as $asd){
+            $totalParticipants += 1;
         }
 
-        foreach($servicesNoRecipient as $ser){
-            $totalPart += $ser->participant;
+        foreach($recipients as $a){
+            $totalRecipients += $a->quantity;
         }
 
         
 
-        $pdf = PDF::loadView('pdfservice',compact('fromDate','toDate','totalPart','totalRec','servicesNoRecipient','total','recipient'))
+        $pdf = PDF::loadView('pdfparticipant',compact('participants','name','recipients','totalRecipients','totalParticipants'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report-RenderedServices.pdf');
+        return $pdf->download('ServiceParticipants.pdf');
 
         return back();
     }
