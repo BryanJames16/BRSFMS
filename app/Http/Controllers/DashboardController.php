@@ -9,6 +9,7 @@ use \App\Models\Servicetransaction;
 use \App\Models\Reservation;
 use \App\Models\Documentrequest;
 use \Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 require_once(app_path() . '/Includes/pktool.php');
 
@@ -18,24 +19,61 @@ use SmartMove;
 class DashboardController extends Controller
 {
     public function index() {
-
         
         $residents = Resident::where("status", "=", 1)->count();
         $family = Family::where("archive", "=", 0)->count();
         $pendingres = Reservation::where("status", "=", "Pending")->count();
         $pendingser = Servicetransaction::where("status", "=", "Pending")
-                                ->where('archive','=',0)
-                                ->count();
+                                        ->where('archive','=',0)
+                                        ->count();
         $request = Documentrequest::where("status", "=", "Pending")->count();
         $approval = Documentrequest::where("status", "=", "Waiting for approval")->count();
 
-        return view('dashboard')
-                                ->with('residents', $residents)
+        $dateToday = Carbon::now();
+
+        $listOfReservations = Reservation::select("reservations.dateReserved", 
+                                                    "reservations.reservationStart", 
+                                                    "reservations.reservationEnd", 
+                                                    "reservations.facilityPrimeID", 
+                                                    "reservations.peoplePrimeID", 
+                                                    "reservations.eventStatus",
+                                                    "residents.firstName", 
+                                                    "residents.middleName", 
+                                                    "residents.lastName", 
+                                                    "residents.suffix", 
+                                                    "facilities.facilityName")
+                                            -> join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
+                                            -> join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID')
+                                            -> where("eventStatus", "=", "NYD")
+                                            -> whereYear("dateReserved", "=", $dateToday -> year)
+                                            -> whereMonth("dateReserved", "=", $dateToday -> month)
+                                            -> whereDay("dateReserved", "=", $dateToday -> day)
+                                            -> get();
+        
+        $listOfNReservations = Reservation::select("reservations.dateReserved", 
+                                                    "reservations.reservationStart", 
+                                                    "reservations.reservationEnd", 
+                                                    "reservations.facilityPrimeID", 
+                                                    "reservations.peoplePrimeID", 
+                                                    "reservations.eventStatus",
+                                                    "reservations.name", 
+                                                    "facilities.facilityName")
+                                            -> join("facilities", "reservations.facilityPrimeID", "=", "facilities.primeID")
+                                            -> where("eventStatus", "=", "NYD")
+                                            -> whereNull("peoplePrimeID")
+                                            -> whereYear("dateReserved", "=", $dateToday -> year)
+                                            -> whereMonth("dateReserved", "=", $dateToday -> month)
+                                            -> whereDay("dateReserved", "=", $dateToday -> day)
+                                            -> get();
+
+        return view('dashboard')->with('residents', $residents)
                                 ->with('family', $family)
                                 ->with('pendingres', $pendingres)
                                 ->with('pendingser', $pendingser)
                                 ->with('request', $request)
-                                ->with('approval', $approval);
+                                ->with('approval', $approval)
+                                ->with('listOfReservations', $listOfReservations)
+                                ->with('listOfNReservations', $listOfNReservations);
     }
 
     public function getRawData() {
