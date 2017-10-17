@@ -84,7 +84,7 @@
 						<div class="card-block card-dashboard">
 							<p align="center">
 								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" data-target="#addModal" style="width:160px; font-size:13px">
+								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnResFac" style="width:160px; font-size:13px">
 									<i class="icon-edit2"></i> Facility Reservation  
 								</button>
 								<button type="button" class="btn btn-outline-info btn-lg" data-toggle="modal" id="btnViewCal" style="width:160px; font-size:13px">
@@ -169,7 +169,8 @@
 																@endif
 															</td>
 															<td>
-																@if($reservation -> eventStatus == 'OnGoing')
+																@if($reservation -> eventStatus == 'OnGoing' || 
+																	$reservation -> eventStatus == 'Extended')
 																	<span class="dropdown">
 																		<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">
 																			<i class="icon-dribbble"></i> Extend
@@ -651,7 +652,35 @@
 
 		var eventsFullCal = [];
 
+		$(document).ready(function() {
+			const timeCluster = {
+				meridians: false, 
+				mousewheel: true, 
+				dropWidth: 200,
+				dropPrimaryColor: "#2fb594",
+				dropBorder: "1px solid #2dad8d"
+			};
+
+			$("#exdate").timeDropper(timeCluster);
+		});
+
+		$(document).ready(function() {
+			$("#btnResFac").click(function() {
+				$("#addModal").modal("show");
+			});
+
+			$("#addModal").on("shown.bs.modal", function() {
+				doubleTrigger();
+			});
+		});
+
+		var doubleTrigger = function() {
+			$("#switchRes").trigger('click');
+			$("#switchRes").trigger('click');
+		}
+
 		$(document).ready(function () {
+			
 			$(".btn-extension").click(function () {
 				$("#extendModal").modal("show");
 				$("#frm-extend").val($(this).val());
@@ -659,7 +688,9 @@
 
 			$("#frm-extend").submit(function(event) {
 				event.preventDefault();
+				var primeID = $(this).val();
 
+				var startDate = new Date();
 				var oldDate = new Date();
 				var extendedDate = new Date();
 
@@ -674,7 +705,7 @@
 					type: "GET", 
 					async: false, 
 					data: {
-						"primeID": $(this).val()
+						"primeID": primeID
 					}, 
 					success: function(data){
 						data = $.parseJSON(data);
@@ -683,30 +714,36 @@
 						oldDate = formatMySQLtoJS(data[0].reservationEnd);
 						extendedDate = formatMySQLtoJS(data[0].reservationEnd);
 
-						var parseTime = $("#exdate").split(" ");
+						var parseTime = $("#exdate").val().split(" ");
 						var parseNumTime = parseTime[0].split(":");
 						var extendedHours = parseInt(parseNumTime[0]);
 						
 						if (parseInt(parseNumTime[0]) != 12 && 
-							toLowerCase(parseTime[1]) == "pm") {
+							parseTime[1].toLowerCase() == "pm") {
 							extendedHours += 12;
 						}
 
-						extendedDate.setHours(extendedHours);
+						extendedDate.setHours(extendedHours.toString());
+						extendedDate.setMinutes(parseNumTime[1].toString());
+
+						if (oldDate >= extendedDate) {
+							swal("Error", "Extended time must be greater than the old time!", "error");
+						}
 
 						$.ajax({
 							url: "{{ url('/facility-reservation/extend') }}", 
-							type: "GET", 
+							type: "POST", 
 							data: {
-								"primeID": $(this).val(), 
-								"time": formatDateTime(extendedDate)
+								"primeID": primeID, 
+								"mysqlTime": formatJStoMySQL(extendedDate), 
+								"phpTime": formatJStoPHP(extendedDate)
 							}, 
-							success: function(data) {
+							success: function(evaluation) {
 								swal("Successfull", "Reservation is Extended!", "success");
 							}, 
-							error: function(errors) {
+							error: function(evaluation) {
 								var message = "Error: ";
-								var data = errors.responseJSON;
+								var data = evaluation.responseJSON;
 								for (datum in data) {
 									message += data[datum];
 								}
@@ -959,6 +996,7 @@
 			}, 
 			function(confirmRes2) {
 				$("#addModal").modal('show');
+
 				var residentReg2 = false;
 				if (confirmRes2) {
 					$("#addModal").modal('show');
@@ -969,6 +1007,11 @@
 					updateDateOnModal(curDat, residentReg2);	
 				}, 500)
 			});
+		}
+
+		var updateDateStyle = function() {
+			$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
+			$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
 		}
 
 		var updateDateOnModal = function(curDat, resRev) {
@@ -982,9 +1025,6 @@
 					$("#switchRes").trigger('click');
 				}
 			}
-
-			$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
-			$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
 
 			$(document).ready(function() {
 				var formattingDate = new Date(curDat.format("YYYY-MM-DD"));
@@ -1124,8 +1164,7 @@
 							}
 						});
 
-			$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
-			$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
+			updateDateStyle();
 		}
 		residentFunc();
 
@@ -1782,8 +1821,7 @@
 										}
 									});
 
-				$('script[src="{{ URL::asset('/js/reservationDates.js') }}"]').remove();
-				$("<script>").attr("src", "{{ URL::asset('/js/reservationDates.js') }}").appendTo("head");
+				updateDateStyle();
 			}
 
 

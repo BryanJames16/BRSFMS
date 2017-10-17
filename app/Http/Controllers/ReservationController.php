@@ -478,7 +478,11 @@ class ReservationController extends Controller
 
     public function extendTime(Request $r) {
         if($r -> ajax()) {
-
+            $resDetails = Reservation::find($r -> input('primeID'));
+            $resDetails -> reservationEnd = $r -> input('mysqlTime');
+            $resDetails -> status = "Pending";
+            $resDetails -> eventStatus = "Extended";
+            $resDetails -> save();
         } 
         else {
             return view('errors.403');
@@ -505,7 +509,18 @@ class ReservationController extends Controller
                 Carbon::now() < $og -> reservationEnd) {
                 $og -> eventStatus = "OnGoing";
                 $og -> save();
-                echo "Updated to ongoing!" . "\n";
+            }
+        }
+
+        // Change from NYD to Done
+        $ongoing = Reservation::where('eventStatus', 'NYD')->get();
+        
+        foreach ($ongoing as $og) {
+            echo "ONGOING: " . $og->reservationName . "\n";
+            if (Carbon::now() >= $og -> reservationStart && 
+                Carbon::now() >= $og -> reservationEnd) {
+                $og -> eventStatus = "Done";
+                $og -> save();
             }
         }
 
@@ -516,7 +531,6 @@ class ReservationController extends Controller
             if (Carbon::now() >= $dn -> reservationEnd) {
                 $dn -> eventStatus = "Done";
                 $dn -> save();
-                echo "Updated to Done!";
             }
         }
 
@@ -527,7 +541,16 @@ class ReservationController extends Controller
             if (Carbon::now() >= $dn -> reservationEnd) {
                 $dn -> eventStatus = "Done";
                 $dn -> save();
-                echo "Updated to Done!";
+            }
+        }
+
+        // Changed unpaid reservation to Cancelled
+        $pending = Reservation::where('status', '=', 'Pending')->get();
+
+        foreach ($pending as $pd) {
+            if (Carbon::now() >= $dn -> reservationEnd) {
+                $dn -> status = "Cancelled";
+                $dn -> eventStatus = "Done";
             }
         }
     }
