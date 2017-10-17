@@ -411,7 +411,9 @@
 						</div>
 						<hr>
 						<div style="text-align:center">	
-						<p style="text-align:center"<button type="button" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addPart2">Add Participants</button></p>
+						<p style="text-align:center">
+							<button type="button" id="addPart2" class="btn btn-secondary btn-min-width btn-round mr-1 mb-1 addPart2">Add Participants</button>
+						</p>
 						</div>
 						{{Form::open(['url'=>'service-transaction/addParticipant', 'method' => 'POST', 'id' => 'frm-viewParticipant', 'class'=>'form'])}}
 								{{Form::hidden('serviceTransactionPrimeID',null,['id'=>'aaserviceTransactionPrimeID'])}}
@@ -866,8 +868,18 @@
 							}
 							else
 							{
+				
+								if(data[index].status == "Finished")
+								{
+									$("#addPart2").prop('disabled',true);
+								}
+								else
+								{
+									$("#addPart2").prop('disabled',false);
+								}
+
 								var frm = $('#frm-viewParticipant');
-			
+
 								frm.find('#aaserviceTransactionPrimeID').val(id);
 
 								$.ajax({
