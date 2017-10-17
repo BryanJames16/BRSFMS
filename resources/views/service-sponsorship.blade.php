@@ -213,9 +213,9 @@
 									<div>
 										<div class="input-group mb-1">
 											<div class="form-group col-md-5 ">
-												<input type="text" class="form-control" placeholder="Item" name="items[]" />
+												<input type="text" class="form-control" placeholder="Item" name="items[]" required/>
 											</div>
-											<input type="number" style="width:40%" class="form-control" placeholder="Quantity" name="quantities[]" />
+											<input type="number" style="width:40%" class="form-control" placeholder="Quantity" name="quantities[]" required/>
 											<span class="" id="button-addon2">
 												<button class="btn btn-danger remove" type="button" ><i class="icon-cross2"></i></button>
 											</span>
