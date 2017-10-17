@@ -27,6 +27,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -55,7 +58,7 @@
         <div class="row">
 			<div class="col-xs-4">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Query for Reservation</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -99,11 +102,11 @@
                                 <div class="row">
                                     <div class="form-group col-md-6 mb-2">
                                         <label for="userinput4">From Date</label>
-                                        <input type="date" id="fromDate" name="fromDate" style="width:100%"></input>
+                                        <input type="date" id="fromDate" name="fromDate" class="form-control"></input>
                                     </div>
 									<div class="form-group col-md-6 mb-2">
                                         <label for="userinput4">To Date</label>
-                                        <input type="date" id="toDate" name="toDate" style="width:100%"></input>
+                                        <input type="date" id="toDate" name="toDate" class="form-control"></input>
                                     </div>
                                     
 
@@ -121,8 +124,8 @@
 
             <div class="col-xs-8">
 				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Result</h4>
+					<div class="card-header card-head-custom">
+						<h4 class="card-title">Query Result</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -147,7 +150,6 @@
 
                             <tbody>
                                 
-                                -->
                             </tbody>
                         </table>
                         <!-- End of Resident Tab -->

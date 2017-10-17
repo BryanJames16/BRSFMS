@@ -19,6 +19,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/selects/select2.min.css') }}" />	
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -58,7 +61,7 @@
 		<div class="row">
 			<div class="col-xs-14">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Business Registration</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -78,14 +81,14 @@
 								</button>
 
 								<!-- Register Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="regModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="regModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Register Business</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Register Business</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
@@ -221,14 +224,14 @@
 								<!-- End of Modal -->
 
 								<!-- Permit Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="permitModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="permitModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog modal-xl" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Register Business</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-list"></i> Barangay Business Clearance</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<input type="hidden" id="hiddenID"></input>
@@ -246,14 +249,14 @@
 								<!-- End of Modal -->
 
 								<!-- EDIT Modal -->
-								<div class="modal animated bounceIn text-xs-left" id="modalEdit" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="modalEdit" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Edit Business</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-edit"></i> Edit Business Info</h4>
 											</div>
 											<div ng-app="maintenanceApp" class="modal-body">
 												<div class="card-block">
@@ -396,14 +399,14 @@
 											<!-- VIEW MODAL -->
 
 											<!-- Modal -->
-								<div class="modal fade text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+								<div class="modal animated bounceInDown text-xs-left" id="viewModal" tabindex="0" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
+											<div class="modal-header bg-info white">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
-												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Details</h4>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye6"></i> View Details</h4>
 											</div>
 											<div class="modal-body">
 												
