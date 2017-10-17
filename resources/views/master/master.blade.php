@@ -514,6 +514,12 @@
 											Rendered Services
 										</a>
 									</li>
+									<li id="report-participant-id">
+										<a href="/reports/participant" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-man"></i>
+											Service Participants
+										</a>
+									</li>
 									<li id="report-reservation-id">
 										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-calendar3"></i>

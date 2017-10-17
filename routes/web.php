@@ -308,6 +308,10 @@ Route::get('/reports/service/previewAll', 'ReportsServiceController@previewAll')
 Route::get('/reports/service/printRange', 'ReportsServiceController@printRange');
 Route::get('/reports/service/printAll', 'ReportsServiceController@printAll');
 
+//SERVICE PARTICIPANTS REPORT
+Route::get('/reports/participant/preview/{id}', 'ReportsParticipantController@preview');
+Route::get('/reports/participant/print', 'ReportsParticipantController@print');
+
 //COLLECTION REPORT
 Route::get('/reports/collection/previewRange/{fromDate}/{toDate}', 'ReportsCollectionController@previewRange');
 Route::get('/reports/collection/previewAll', 'ReportsCollectionController@previewAll');
@@ -430,6 +434,7 @@ Route::resource('/query/business', 'QueryBusinessController')->middleware("auth"
 Route::resource('/recipient', 'RecipientController')->middleware("auth");
 Route::resource('/reports/collection', 'ReportsCollectionController')->middleware("auth");
 Route::resource('/reports/pwd', 'ReportsPwdController')->middleware("auth");
+Route::resource('/reports/participant', 'ReportsParticipantController')->middleware("auth");
 Route::resource('/reports/business', 'ReportsBusinessController')->middleware("auth");
 Route::resource('/report/pwd', 'ReportController')->middleware("auth");
 Route::resource('/reports/service', 'ReportsServiceController')->middleware("auth");

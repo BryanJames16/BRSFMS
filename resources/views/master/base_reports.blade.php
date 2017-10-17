@@ -74,7 +74,7 @@
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/validation/jqBootstrapValidation.js') }}" type="text/javascript"></script>
 	<!-- <script src="{{ URL::asset('/robust-assets/js/components/forms/validation/form-validation.js') }}" type="text/javascript"></script> -->
-	
+	<script src="{{ URL::asset('/robust-assets/js/plugins/forms/select/select2.full.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/js/sweetalert.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/plugins/tables/datatable/dataTables.bootstrap4.min.js') }}" type="text/javascript"></script>
@@ -84,7 +84,7 @@
 @endsection
 
 @section('page-level-js')
-
+	<script src="{{ URL::asset('/robust-assets/js/components/forms/select/form-select2.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie.js') }}" type="text/javascript"></script>
 	<script src="{{ URL::asset('/robust-assets/js/components/charts/chartjs/pie-doughnut/pie-simple.js') }}" type="text/javascript"></script>
 @endsection
