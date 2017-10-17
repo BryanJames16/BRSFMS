@@ -729,59 +729,61 @@
 						if (oldDate >= extendedDate) {
 							swal("Error", "Extended time must be greater than the old time!", "error");
 						}
+						else {
+							$.ajax({
+								url: "{{ url('/facility-reservation/checkReservation') }}", 
+								type: "GET", 
+								data: {
+									"primeID": primeID, 
+									"mysqlTime": formatJStoMySQL(extendedDate), 
+									"phpTime": formatJStoPHP(extendedDate)
+								}, 
+								success: function(data) {
+									if (data == "true") {
+										//console.log("true");
+										
+										$.ajax({
+											url: "{{ url('/facility-reservation/extend') }}", 
+											type: "POST", 
+											data: {
+												"primeID": primeID, 
+												"mysqlTime": formatJStoMySQL(extendedDate), 
+												"phpTime": formatJStoPHP(extendedDate)
+											}, 
+											success: function(evaluation) {
+												swal("Successfull", "Reservation is Extended!", "success");
+												refreshTable();
+											}, 
+											error: function(evaluation) {
+												var message = "Error: ";
+												var data = evaluation.responseJSON;
+												for (datum in data) {
+													message += data[datum];
+												}
 
-						$.ajax({
-							url: "{{ url('/facility-reservation/checkReservation') }}", 
-							type: "GET", 
-							data: {
-								"primeID": primeID, 
-								"mysqlTime": formatJStoMySQL(extendedDate), 
-								"phpTime": formatJStoPHP(extendedDate)
-							}, 
-							success: function(data) {
-								if (data == "true") {
-									//console.log("true");
-									
-									$.ajax({
-										url: "{{ url('/facility-reservation/extend') }}", 
-										type: "POST", 
-										data: {
-											"primeID": primeID, 
-											"mysqlTime": formatJStoMySQL(extendedDate), 
-											"phpTime": formatJStoPHP(extendedDate)
-										}, 
-										success: function(evaluation) {
-											swal("Successfull", "Reservation is Extended!", "success");
-											refreshTable();
-											refreshNonRes();
-										}, 
-										error: function(evaluation) {
-											var message = "Error: ";
-											var data = evaluation.responseJSON;
-											for (datum in data) {
-												message += data[datum];
+												swal("Error", "Cannot fetch table data!\n" + message, "error");
 											}
+										});
+										
+									}
+									else {
+										console.log(primeID);
+										swal("Error", "There is reservation on this time", "error");
+									}
+								}, 
+								error: function(evaluation) {
+									var message = "Error: ";
+									var data = evaluation.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
 
-											swal("Error", "Cannot fetch table data!\n" + message, "error");
-										}
-									});
-									
+									swal("Error", "Cannot fetch table data!\n" + message, "error");
 								}
-								else {
-									console.log(primeID);
-									swal("Error", "There is reservation on this time", "error");
-								}
-							}, 
-							error: function(evaluation) {
-								var message = "Error: ";
-								var data = evaluation.responseJSON;
-								for (datum in data) {
-									message += data[datum];
-								}
+							});
+						}
 
-								swal("Error", "Cannot fetch table data!\n" + message, "error");
-							}
-						});
+						
 					}, 
 					error: function(errors) {
 						var message = "Error: ";
@@ -1215,21 +1217,19 @@
 
 					data = $.parseJSON(data);
 
-					for (index in data) 
-					{
-						if(data[index].peoplePrimeID==null)
-						{
+					for (index in data) {
+						if(data[index].peoplePrimeID == null) {
 							$('#echange').html(
 									'<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
 									'<div class="row">'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Reservation Name</label>'+
 											'{{ Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control']) }}'+
-											'{{ Form::text('ereservationName',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+											'{{ Form::text('ereservationName',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','style'=>'width:100%;','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput2">Name</label>'+
-											'{{ Form::text('ename',null,['id'=>'ername','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+											'{{ Form::text('ename',null,['id'=>'ername','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','style'=>'width:100%;','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 										'</div>'+
 										'<div class="form-group col-xs-6 col-md-4">'+
 											'<label for="userinput1">Age</label>'+
@@ -1306,6 +1306,8 @@
 
 										for (index in data) 
 										{
+											var drn = formatMySQLtoJS(data[index].dateReserved);
+
 											var frm = $('#frm-reschedule');
 											frm.find('#erreservationID').val(data[index].primeID);
 											frm.find('#erreservationName').val(data[index].reservationName);
@@ -1315,7 +1317,8 @@
 											frm.find('#econtactNumber').val(data[index].contactNumber);
 											frm.find('#erdesc').val(data[index].reservationDescription);
 											frm.find('#efacilityID').val(data[index].facilityPrimeID);
-											frm.find('#erdate').val(data[index].dateReserved);
+											frm.find('#erdate').val(drn.getMonth() + "/" + drn.getDate() + "/" + 
+																	drn.getFullYear());
 											frm.find('#erstartTime').val(data[index].reservationStart);
 											frm.find('#erendTime').val(data[index].reservationEnd);
 										}
@@ -1328,17 +1331,16 @@
 								})
 							
 						}	
-						else
-						{
+						else {
 							$('#echange').html('<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Reservation Name</label>'+
 													'{{ Form::hidden('ereservationID',null,['id'=>'erreservationID','class'=>'form-control']) }}'+
-													'{{ Form::text('name',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
+													'{{ Form::text('name',null,['id'=>'erreservationName','class'=>'form-control', 'placeholder'=>'eg.Birthday Party', 'style'=>'width:100%;', 'maxlength'=>'30','required','data-toggle'=>'tooltip','data-trigger'=>'focus','data-placement'=>'top','data-title'=>'Maximum of 30 characters', 'minlength'=>'5']) }}'+
 												'</div>'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput2">Resident</label>'+
-													"<select class='form-control select2' id='eresidentCbo'>"+
+													"<select class='form-control select2' style='width=100%;' id='eresidentCbo'>"+
 														'<optgroup id="emale" label="Male">'+
 														'</optgroup>'+
 														'<optgroup id="efemale" label="Female">'+
@@ -1439,13 +1441,16 @@
 
 											for (index in data) 
 											{
+												var drn = formatMySQLtoJS(data[index].dateReserved);
+
 												var frm = $('#frm-reschedule');
 												frm.find('#erreservationID').val(data[index].primeID);
 												frm.find('#erreservationName').val(data[index].reservationName);
 												frm.find('#eresidentCbo').val(data[index].peoplePrimeID);
 												frm.find('#erdesc').val(data[index].reservationDescription);
 												frm.find('#efacilityID').val(data[index].facilityPrimeID);
-												frm.find('#erdate').val(data[index].dateReserved);
+												frm.find('#erdate').val(drn.getMonth() + "/" + drn.getDate() + "/" + 
+																			drn.getFullYear());
 												frm.find('#erstartTime').val(data[index].reservationStart);
 												frm.find('#erendTime').val(data[index].reservationEnd);
 											}
@@ -1457,6 +1462,8 @@
 										}
 									})
 						}	
+
+						updateDateStyle();
 					}		
 				}
 			});
@@ -1880,115 +1887,171 @@
 
 			event.preventDefault();
 
-			id = $('#erreservationID').val();
-			rid = $('#eresidentCbo').val();
-			name = $('#ername').val();
-			age = $('#eage').val();
-			cn = $('#econtactNumber').val();
-			email = $('#eemail').val();
-			desc = $('#erdesc').val();
-			facility = $('#efacilityID').val();
-			efacility = $('#efacilityCbo').val();
-			date = date('Y-m-d', $('#erdate').val());
-			start = $('#erstartTime').val();
-			end = $('#erendTime').val();
-			resname = $('#erreservationName').val();
+			var aSetDet = $("#erdate").val().split("/");
 
-			$.ajax({
+			var startTimeChop = $("#erstartTime").val().split(" ");
+			var snumTimeChop = startTimeChop[0].split(":");
+			var shour = parseInt(snumTimeChop[0]);
+			var sminute = parseInt(snumTimeChop[1]);
 
-				type: 'get',
-				url: "{{ url('facility-reservation/getRes') }}",
-				data: {primeID:id},
-				success:function(data)
-				{
+			var endTimeChop = $("#erendTime").val().split(" ");
+			var enumTimeChop = endTimeChop[0].split(":");
+			var ehour = parseInt(enumTimeChop[0]);
+			var eminute = parseInt(enumTimeChop[1]);
 
-					data = $.parseJSON(data);
-
-					for (index in data) 
-					{
-						if(data[index].peoplePrimeID==null)
-						{
-							$.ajax({
-								url: "{{ url('/facility-reservation/update') }}", 
-								method: "POST", 
-								data: {
-									"_token": "{{ csrf_token() }}", 
-									"primeID": id,
-									"reservationName": resname, 
-									"reservationDescription": desc, 
-									"reservationStart": start, 
-									"reservationEnd": end, 
-									"dateReserved":date,
-									"peoplePrimeID": rid,
-									"facilityPrimeID": facility,
-									"name": name,
-									"age": age,
-									"email": email,
-									"contactNumber": cn,
-									
-								}, 
-								success: function(data) {
-
-									refreshTable();
-									$("#rescheduleModal").modal("hide");
-									
-									$("#frm-resched").trigger("reset");
-									swal("Success", "Successfully Rescheduled!", "success");
-								}, 
-								error: function(error) {
-									var message = "Errors: ";
-									var data = error.responseJSON;
-									for (datum in data) {
-										message += data[datum];
-									}
-
-									swal("Error", message, "error");
-								}
-							});
-						}
-						else
-						{
-							$.ajax({
-								url: "{{ url('/facility-reservation/update') }}", 
-								method: "POST", 
-								data: {
-									"_token": "{{ csrf_token() }}", 
-									"primeID": id,
-									"reservationName": resname, 
-									"reservationDescription": desc, 
-									"reservationStart": start, 
-									"reservationEnd": end, 
-									"dateReserved":date,
-									"peoplePrimeID": rid,
-									"facilityPrimeID": efacility,
-									"name": name,
-									"age": age,
-									"email": email,
-									"contactNumber": cn,
-									
-								}, 
-								success: function(data) {
-
-									refreshTable();
-									$("#rescheduleModal").modal("hide");
-									
-									$("#frm-resched").trigger("reset");
-									swal("Success", "Successfully Rescheduled!", "success");
-								}, 
-								error: function(error) {
-									var message = "Errors: ";
-									var data = error.responseJSON;
-									for (datum in data) {
-										message += data[datum];
-									}
-
-									swal("Error", message, "error");
-								}
-							});
-						}
-					}		
+			if (startTimeChop[1].toLowerCase() == "am") {
+				if (shour == 12) {
+					shour = 0;
 				}
-			});
+			}
+
+			if (startTimeChop[1].toLowerCase() == "pm") {
+				if (shour != 12) {
+					shour += 12;
+				}
+			}
+
+			if (endTimeChop[1].toLowerCase() == "am") {
+				if (ehour == 12) {
+					ehour = 0;
+				}
+			}
+
+			if (endTimeChop[1].toLowerCase() == "pm") {
+				if (ehour != 12) {
+					ehour += 12;
+				}
+			}
+
+			var aDateReserved = new Date(aSetDet[2], aSetDet[0], aSetDet[1], 0, 0);
+			var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
+			var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
+
+			if (aStartTime.getHours() > 22 || 
+				aStartTime.getHours() < 10) {
+				swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
+			}
+			else if (aEndTime.getHours() > 22 || 
+						aEndTime.getHours() < 10) {
+				swal("Error", "Ending time must start from 10 AM to 10 PM", "error");
+			}
+			else if (aStartTime.getHours() > aEndTime.getHours()) {
+				swal("Error", "Starting time must not exceed the ending time", "error");
+			}
+			else {
+				id = $('#erreservationID').val();
+				rid = $('#eresidentCbo').val();
+				name = $('#ername').val();
+				age = $('#eage').val();
+				cn = $('#econtactNumber').val();
+				email = $('#eemail').val();
+				desc = $('#erdesc').val();
+				facility = $('#efacilityID').val();
+				efacility = $('#efacilityCbo').val();
+				date = formatDate(aDateReserved);
+				start = formatDateTime(aStartTime);
+				end = formatDateTime(aEndTime);
+				resname = $('#erreservationName').val();
+
+				console.log("Date is: " + aDateReserved);
+				console.log("Start is: " + start);
+				console.log("End is: " + end);
+
+				$.ajax({
+					type: 'get',
+					url: "{{ url('facility-reservation/getRes') }}",
+					data: {primeID:id},
+					success:function(data)
+					{
+
+						data = $.parseJSON(data);
+
+						for (index in data) 
+						{
+							if(data[index].peoplePrimeID==null)
+							{
+								$.ajax({
+									url: "{{ url('/facility-reservation/update') }}", 
+									method: "POST", 
+									data: {
+										"_token": "{{ csrf_token() }}", 
+										"primeID": id,
+										"reservationName": resname, 
+										"reservationDescription": desc, 
+										"reservationStart": start, 
+										"reservationEnd": end, 
+										"dateReserved":date,
+										"peoplePrimeID": rid,
+										"facilityPrimeID": facility,
+										"name": name,
+										"age": age,
+										"email": email,
+										"contactNumber": cn,
+										
+									}, 
+									success: function(data) {
+
+										refreshTable();
+										$("#rescheduleModal").modal("hide");
+										
+										$("#frm-resched").trigger("reset");
+										swal("Success", "Successfully Rescheduled!", "success");
+									}, 
+									error: function(error) {
+										var message = "Errors: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", message, "error");
+									}
+								});
+							}
+							else
+							{
+								$.ajax({
+									url: "{{ url('/facility-reservation/update') }}", 
+									method: "POST", 
+									data: {
+										"_token": "{{ csrf_token() }}", 
+										"primeID": id,
+										"reservationName": resname, 
+										"reservationDescription": desc, 
+										"reservationStart": start, 
+										"reservationEnd": end, 
+										"dateReserved":date,
+										"peoplePrimeID": rid,
+										"facilityPrimeID": efacility,
+										"name": name,
+										"age": age,
+										"email": email,
+										"contactNumber": cn,
+										
+									}, 
+									success: function(data) {
+
+										refreshTable();
+										$("#rescheduleModal").modal("hide");
+										
+										$("#frm-resched").trigger("reset");
+										swal("Success", "Successfully Rescheduled!", "success");
+									}, 
+									error: function(error) {
+										var message = "Errors: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", message, "error");
+									}
+								});
+							}
+						}		
+					}
+				});
+			}
 
 		});
 
@@ -2246,8 +2309,7 @@
 									
 								]).draw(false);
 						}
-						else if(data[index].status=="Rescheduled")
-						{
+						else if(data[index].status=="Rescheduled") {
 							status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
 							actions = 'N/A';
 
@@ -2263,8 +2325,7 @@
 									
 								]).draw(false);
 						}
-						else if(data[index].status=="Cancelled")
-						{
+						else if(data[index].status=="Cancelled") {
 							status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
 							actions = 'N/A';
 
@@ -2280,9 +2341,24 @@
 									
 								]).draw(false);
 						}
-						else
-						{
-							status = '<span class="tag  tag-pill   tag-success">Finished</span>';
+						else if (data[index].status == "Paid") {
+							status = '<span class="tag tag-pill tag-success">Cancelled</span>' + 
+										'<br><br>';
+							if (data[index].eventStatus == "NYD") {
+								status += '<span class="tag tag-default tag-info">Not Yet Done</span>';
+							}
+							else if (data[index].eventStatus == "OnGoing") {
+								status += '<span class="tag tag-default tag-success">On-Going</span>';
+							}
+							else if (data[index].eventStatus == "Extended") {
+								status += '<span class="tag tag-default tag-warning">Extended</span>';
+							}
+							else {
+								status += '<span class="tag tag-default tag-default">Done</span>';
+							}
+						}
+						else {
+							status = '<span class="tag tag-pill tag-success">Finished</span>';
 							actions = 'N/A';
 						}
 
@@ -2293,7 +2369,7 @@
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
 									d + ' ' + st + ' - ' + en, 
-									'<span class="tag  tag-pill   tag-success">Resident</span>',
+									'<span class="tag tag-pill tag-success">Resident</span>',
 									status,
 									actions
 									
@@ -2342,8 +2418,7 @@
 									var actions;
 									var status;
 
-									if(data[index].status=="Pending")
-									{
+									if(data[index].status=="Pending") {
 										status = '<span class="tag  tag-pill   tag-default tag-info">Pending</span>';
 										actions = 	'<span class="dropdown">'+
 														'<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>'+
@@ -2366,8 +2441,7 @@
 												
 											]).draw(false);
 									}
-									else if(data[index].status=="Rescheduled")
-									{
+									else if(data[index].status=="Rescheduled") {
 										status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
 										actions = 'N/A';
 
@@ -2383,8 +2457,7 @@
 												
 											]).draw(false);
 									}
-									else if(data[index].status=="Cancelled")
-									{
+									else if(data[index].status=="Cancelled") {
 										status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
 										actions = 'N/A';
 
@@ -2400,8 +2473,23 @@
 												
 											]).draw(false);
 									}
-									else
-									{
+									else if (data[index].status == "Paid") {
+										status = '<span class="tag tag-pill tag-success">Cancelled</span>' + 
+													'<br><br>';
+										if (data[index].eventStatus == "NYD") {
+											status += '<span class="tag tag-default tag-info">Not Yet Done</span>';
+										}
+										else if (data[index].eventStatus == "OnGoing") {
+											status += '<span class="tag tag-default tag-success">On-Going</span>';
+										}
+										else if (data[index].eventStatus == "Extended") {
+											status += '<span class="tag tag-default tag-warning">Extended</span>';
+										}
+										else {
+											status += '<span class="tag tag-default tag-default">Done</span>';
+										}
+									}
+									else {
 										status = '<span class="tag  tag-pill   tag-success">Finished</span>';
 										actions = 'N/A';
 									}
@@ -2436,7 +2524,7 @@
 								swal("Error", "Cannot fetch table data!\n" + message, "error");
 								console.log("Error: Cannot refresh table!\n" + message);
 							}
-						});
+					});
 				}, 
 				error: function(data) {
 
