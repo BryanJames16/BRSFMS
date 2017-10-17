@@ -19,6 +19,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/datatable.custom.red.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/extensions/colReorder.dataTables.min.css') }}" />
 
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/jquery-jvectormap-2.0.3.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
@@ -260,10 +262,13 @@
 
 								<div class="tab-pane fade" role="tabpanel" id="tab2" aria-labelledby="base-tab2" aria-expanded="false">
 									<div class="card-block card-dashboard">
-										<table class="table table-striped table-custome-outline-red multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+										<table class="table table-striped table-custome-outline-red" id="table-container">
 											<thead class="thead-custom-bg-red">
 												<tr>
-													<th></th>
+													<th>Facility</th>
+													<th>Reservee</th>
+													<th>Time</th>
+													<th>Status</th>
 												</tr>
 											</thead>
 

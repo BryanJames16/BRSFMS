@@ -59,7 +59,7 @@ class ReservationController extends Controller
 
     public function refresh(Request $r) {
         if ($r -> ajax()) {
-            return json_encode(\DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
+            return json_encode(Reservation::select('*') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->get());
@@ -394,12 +394,12 @@ class ReservationController extends Controller
             $id = Auth::id();
             
             $log = Log::insert(['userID'=>$id,
-                                                'action' => 'Rescheduled a reservation',
-                                                'dateOfAction' => Carbon::now(),
-                                                'type' => 'Reservation',
-                                                'reservationID' => $r->input('primeID')]);
+                                'action' => 'Rescheduled a reservation',
+                                'dateOfAction' => Carbon::now(),
+                                'type' => 'Reservation',
+                                'reservationID' => $r->input('primeID')]);
 
-             $this->validate($r, [
+            $this->validate($r, [
                 'reservationName' => 'required|max:30|min:5',
                 'reservationDescription' => 'nullable|max:500|min:0',
                 'reservationStart' => 'required',

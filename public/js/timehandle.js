@@ -74,13 +74,21 @@ var formatDate = function(passedDate) {
 }
 
 var formatDateTime = function(passedDate) {
-    return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
-            " " + passedDate.getHours() + ":" + passedDate.getMinutes() + ":00";
+    return passedDate.getFullYear() + "-" + 
+            ("0" + passedDate.getMonth()).slice(-2) + "-" + 
+            ("0" + passedDate.getDate()).slice(-2) + " " + 
+            ("0" + passedDate.getHours()).slice(-2) + ":" + 
+            ("0" + passedDate.getMinutes()).slice(-2) + 
+            ":00";
 }
 
 var formatJStoMySQL = function(passedDate) {
-    return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
-            " " + passedDate.getHours() + ":" + passedDate.getMinutes() + ":00";
+    return passedDate.getFullYear() + "-" + 
+            ("0" + passedDate.getMonth()).slice(-2) + "-" + 
+            ("0" + passedDate.getDate()).slice(-2) + " " + 
+            ("0" + passedDate.getHours()).slice(-2) + ":" + 
+            ("0" + passedDate.getMinutes()).slice(-2) + 
+            ":00";
 }
 
 var formatJStoPHP = function(passedDate) {
