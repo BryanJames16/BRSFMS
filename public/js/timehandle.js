@@ -75,12 +75,12 @@ var formatDate = function(passedDate) {
 
 var formatDateTime = function(passedDate) {
     return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
-            " " + passedDate.getHours() + ":" + passedDate.getMinutes();
+            " " + passedDate.getHours() + ":" + passedDate.getMinutes() + ":00";
 }
 
 var formatJStoMySQL = function(passedDate) {
     return passedDate.getFullYear() + "-" + passedDate.getMonth() + "-" + passedDate.getDate() + 
-            " " + passedDate.getHours() + ":" + passedDate.getMinutes();
+            " " + passedDate.getHours() + ":" + passedDate.getMinutes() + ":00";
 }
 
 var formatJStoPHP = function(passedDate) {
@@ -92,7 +92,7 @@ var formatMySQLtoJS = function(passedDate) {
     var pDate = pStruct[0].split("-");
     var pTime = pStruct[1].split(":");
 
-    return new Date(pDate[0], pDate[1], pDate[2], pTime[0], pTime[1]);
+    return new Date(pDate[0], pDate[1], pDate[2], pTime[0], pTime[1], pTime[2]);
 }
 
 var formatPHPtoJS = function(passedDate) {
