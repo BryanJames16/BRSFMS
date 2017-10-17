@@ -10,6 +10,7 @@ use \Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use \App\Models\Log;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class BusinessRegistrationController extends Controller
 {
@@ -33,6 +34,72 @@ class BusinessRegistrationController extends Controller
 
         return view('business-registration')-> with('regs', $regs)
                                             -> with('regsN', $regsN);
+    }
+
+    public function permitRes($id){
+        $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
+                                                'residents.firstName', 'residents.middleName','removalDate')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
+                                                    -> where('businessregistrations.archive', '=', 0)
+                                                    ->where('registrationPrimeID',$id)
+                                                    -> get();  
+
+        return view('preview.permit')
+                        ->with('regs',$regs);
+    }
+
+    public function permitNonRes($id){
+        $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName',  
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','lastName',
+                                                'firstName', 'middleName','removalDate')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    -> where('businessregistrations.archive', '=', 0)
+                                                    ->where('registrationPrimeID',$id)
+                                                    -> get();  
+
+        return view('preview.permit')
+                        ->with('regs',$regs);
+    }
+
+    public function permitPrintRes(Request $r){
+        $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
+                                                'residents.firstName', 'residents.middleName','removalDate')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
+                                                    -> where('businessregistrations.archive', '=', 0)
+                                                    ->where('registrationPrimeID',$r->input('id'))
+                                                    -> get();  
+
+        $pdf = PDF::loadView('pdfpermit',compact('regs'))
+                        ->setPaper('a4','portrait')
+                        ->setOptions(['defaultFont' => 'sans-serif']);
+        
+        
+        return $pdf->download('BusinessClearance.pdf');
+
+        return back();
+    }
+
+    public function permitPrintNonRes(Request $r){
+        $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName',  
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','lastName',
+                                                'firstName', 'middleName','removalDate')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    -> where('businessregistrations.archive', '=', 0)
+                                                    ->where('registrationPrimeID',$r->input('id'))
+                                                    -> get();  
+
+        $pdf = PDF::loadView('pdfpermit',compact('regs'))
+                        ->setPaper('a4','portrait')
+                        ->setOptions(['defaultFont' => 'sans-serif']);
+        
+        
+        return $pdf->download('BusinessClearance.pdf');
+
+        return back();
     }
 
     public function refresh(Request $r) {

@@ -544,6 +544,12 @@
 											Employed Residents
 										</a>
 									</li>
+									<li id="report-business-id">
+										<a href="/reports/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
+											<i class="icon-house"></i>
+											Registered Businesses
+										</a>
+									</li>
 									<li id="report-collection-id">
 										<a href="/reports/collection" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-social-bitcoin"></i>

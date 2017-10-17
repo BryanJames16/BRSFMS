@@ -42,6 +42,7 @@ var REPORT_COLLECTION = "report-collection-id";
 var REPORT_PWD = "report-pwd-id";
 var REPORT_SENIOR = "report-senior-id";
 var REPORT_SERVICE = "report-service-id";
+var REPORT_BUSINESS = "report-business-id";
 var REPORT_RESIDENT = "report-resident-id";
 var REPORT_RESERVATION = "report-reservation-id";
 var REPORT_EMPLOYED = "report-employed-id";

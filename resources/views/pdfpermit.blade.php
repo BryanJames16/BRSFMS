@@ -12,29 +12,29 @@
     <body>
     
         @foreach($regs as $reg)
-        <div style="width:900px;height:595px;margin:auto;padding:20px">
+        <div style="width:700px;height:550px;margin:auto;padding:20px">
             
             
             <div style="float:left;width:100px;height:100px">
-                <img id="brgy" src="/storage/upload/{{$util->brgyLogoPath}}" width="100%"></img>
+                <img id="brgy" src="{{ public_path('storage/upload/brgy_logo.png')}}" width="100%"></img>
             </div>
 
             <div style="float:right;width:100px;height:100px">
-                <img src="/storage/upload/{{$util->provLogoPath}}" width="100%"></img>
+                <img src="{{ public_path('storage/upload/ManilaSeal.png')}}" width="100%"></img>
             </div>
 
             <div align="center" style="float:center;width:500px;margin:auto">
-                <h3>Republic of the Philippines<br>
+                <h4>Republic of the Philippines<br>
                     District VI, City of Manila<br>
                     {{ $util -> barangayName }} <br>
                     {{ $util -> address }}
-                </h3>
+                </h4>
                 <br>
                 <br>
                 <br>
-                <h1>
+                <h4>
                     BARANGAY BUSINESS CLEARANCE
-                </h1>
+                </h4>
             </div>
 
             
@@ -43,8 +43,19 @@
             <br>
             <br>
             <br>
-
-            <div style="font-size:20px;width:600px;text-align:justify;margin:auto">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            
+            <div style="font-size:15px;width:600px;text-align:justify;margin:auto">
                 <span style="float:left;width:250px;">
                     <label align="left">BBC ID: {{$reg->businessID}}</label>
                 </span>
