@@ -29,14 +29,16 @@ class UsersController extends Controller
     public function index() {
     	$us = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position',
                             'approval','resident','request','reservation','service','sponsorship','business',
-                            'collection','accept')
+                            'collection','accept','maintenance','report','query','utilities')
                             -> where('position','!=','Chairman')
+                            -> where('position','!=','sysadmin')
                             -> where('accept','=',1)
                             -> where('archive','=',0)
                             -> get();
 
         $pendings = User::select('id','name','email','imagePath', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
+                            -> where('position','!=','sysadmin')
                             -> where('accept','=',0)
                             -> where('archive','=',0)
                             -> get();
@@ -50,6 +52,7 @@ class UsersController extends Controller
         if ($r -> ajax()) {
             return json_encode(User::select('id','name','imagePath','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
+                            -> where('position','!=','sysadmin')
                             -> where('accept','=',1)
                             -> where('archive','=',0)
                             -> get());
@@ -113,6 +116,7 @@ class UsersController extends Controller
         if ($r -> ajax()) {
             return json_encode(User::select('id','name','email', 'firstName','middleName','lastName','position','approval','accept')
                             -> where('position','!=','Chairman')
+                            -> where('position','!=','sysadmin')
                             -> where('accept','=',0)
                             -> where('archive','=',0)
                             -> get());
@@ -347,6 +351,110 @@ class UsersController extends Controller
         if ($r->ajax()) {
             $type = User::find($r->input('id'));
             $type->sponsorship = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function maintenanceAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->maintenance = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function maintenanceRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->maintenance = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function reportAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->report = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function reportRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->report = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function queryAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->query = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function queryRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->query = 0;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function utilitiesAllow(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->utilities = 1;
+            $type->save();
+            
+            return back();
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function utilitiesRestrict(Request $r) {
+        if ($r->ajax()) {
+            $type = User::find($r->input('id'));
+            $type->utilities = 0;
             $type->save();
             
             return back();

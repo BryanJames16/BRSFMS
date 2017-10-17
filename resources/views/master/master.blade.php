@@ -276,96 +276,90 @@
 									<span data-i18n="nav.dash.main" class="menu-title">Dashboard</span>
 								</a>
 							</li>
-
-							<li class="nav-item">
-								<a href="#">
-									<i class="icon-book"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Maintenance</span>
-								</a>
-								<ul class="menu-content">
-									<li>
-										<a href="#">
-											<i class="icon-note"></i>
-											<span>Document</span>
-										</a>
-										<ul class="menu-content">
-											
-											<li id="requirement-id">
-												<a href="/requirement" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-paperplane"></i>
-													Requirement
-												</a>
-											</li>
-											<li id="document-id">										
-												<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Physical Document
-												</a>
-											</li>
-											
-										</ul>
-									</li>
-									<li>
-										<a href="#">
-											<i class="icon-office"></i>
-											<span>Facility</span>
-										</a>
-										<ul class="menu-content">
-											<li id="item-id">										
-												<a href="/item" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-box"></i>
-													Item
-												</a>
-											</li>
-											<li id="facility-type-id">										
-												<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Facility Type
-												</a>
-											</li>
-											<li id="facility-id">
-												<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-library"></i>
-													Facility
-												</a>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="#">
-											<i class="icon-cogs"></i>
-											<span>Service</span>
-										</a>
-										<ul class="menu-content">
-											<li id="service-type-id">
-												<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Service Type
-												</a>
-											</li>
-											<li id="services-id">
-												<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-aperture"></i>
-													Service
-												</a>
-											</li>
-											<li id="recipient-id">
-												<a href="/recipient" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-drawer"></i>
-													Recipient
-												</a>
-											</li>
-										</ul>
-									</li>
-									<li id="business-category-id">
-										<a href="/business-category" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-car"></i>
-											<span>Business Category</span>
-										</a>
-									</li>
-								</ul>
-							</li>
-
+							@if(Auth::user()->maintenance == 1)
+								<li class="nav-item">
+									<a href="#">
+										<i class="icon-book"></i>
+										<span data-i18n="nav.navbars.main" class="menu-title">Maintenance</span>
+									</a>
+									<ul class="menu-content">
+										<li>
+											<a href="#">
+												<i class="icon-note"></i>
+												<span>Document</span>
+											</a>
+											<ul class="menu-content">
+												
+												<li id="requirement-id">
+													<a href="/requirement" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-paperplane"></i>
+														Requirement
+													</a>
+												</li>
+												<li id="document-id">										
+													<a href="/document" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-drawer"></i>
+														Physical Document
+													</a>
+												</li>
+												
+											</ul>
+										</li>
+										<li>
+											<a href="#">
+												<i class="icon-office"></i>
+												<span>Facility</span>
+											</a>
+											<ul class="menu-content">
+												<li id="facility-type-id">										
+													<a href="/facility-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-drawer"></i>
+														Facility Type
+													</a>
+												</li>
+												<li id="facility-id">
+													<a href="/facility" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-library"></i>
+														Facility
+													</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<a href="#">
+												<i class="icon-cogs"></i>
+												<span>Service</span>
+											</a>
+											<ul class="menu-content">
+												<li id="service-type-id">
+													<a href="/service-type" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-drawer"></i>
+														Service Type
+													</a>
+												</li>
+												<li id="services-id">
+													<a href="/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-aperture"></i>
+														Service
+													</a>
+												</li>
+												<li id="recipient-id">
+													<a href="/recipient" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-drawer"></i>
+														Recipient
+													</a>
+												</li>
+											</ul>
+										</li>
+										<li id="business-category-id">
+											<a href="/business-category" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-car"></i>
+												<span>Business Category</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+							@endif
 							<li class=" nav-item">
 								<a href="#">
 									<i class="icon-stack"></i>
@@ -429,34 +423,21 @@
 									</li>
 
 									@if(Auth::user()->reservation == 1)
-									<li>
-										<a href="#">
-											<i class="icon-android-calendar"></i>
-											<span>Reservation</span>
+							
+									<li id="facility-reservation-id">
+										<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+											<i class="icon-house"></i>
+											<span>Facility Reservation </span>
+											
+											@if($countOfReservation != 0)
+											<span class="tag tag tag-primary tag-pill mr-2">
+												<div id="countOfReservation">
+													{{ $countOfReservation }}
+												</div>	
+											</span>
+											@endif
+											
 										</a>
-										<ul class="menu-content">
-											<li id="item-reservation-id">
-												<a href="/item-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
-													<i class="icon-briefcase4"></i>
-													<span>Item Reservation </span>
-												</a>
-											</li>
-											<li id="facility-reservation-id">
-												<a href="/facility-reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
-													<i class="icon-house"></i>
-													<span>Facility Reservation </span>
-													
-													@if($countOfReservation != 0)
-													<span class="tag tag tag-primary tag-pill mr-2">
-														<div id="countOfReservation">
-															{{ $countOfReservation }}
-														</div>	
-													</span>
-													@endif
-													
-												</a>
-											</li>
-										</ul>
 									</li>
 									@endif
 									@if(Auth::user()->collection == 1)
@@ -502,145 +483,149 @@
 								</ul>
 							</li>
 
-							<li class="nav-item">
-								<a href="#">
-									<i class="icon-podium"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
-								</a>
-								<ul class="menu-content">
-									<li>
-										<a href="#">
-											<i class="icon-android-contacts"></i>
-											<span>Resident</span>
-										</a>
-										<ul class="menu-content">
-											<li id="report-resident-id">
-												<a href="/reports/resident" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-user-check"></i>
-													Registered Residents
-												</a>
-											</li>
-											<li id="report-senior-id">
-												<a href="/reports/senior" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-android-contact"></i>
-													Senior Citizens
-												</a>
-											</li>
-											<li id="report-pwd-id">
-												<a href="/reports/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-android-bicycle"></i>
-													PWD
-												</a>
-											</li>
-											<li id="report-employed-id">
-												<a href="/reports/employed" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-price-tags"></i>
-													Employed Residents
-												</a>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="#">
-											<i class="icon-cogs"></i>
-											<span>Service</span>
-										</a>
-										<ul class="menu-content">
-											<li id="report-service-id">
-												<a href="/reports/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-lifebuoy"></i>
-													Rendered Services
-												</a>
-											</li>
-											<li id="report-participant-id">
-												<a href="/reports/participant" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-man"></i>
-													Service Participants
-												</a>
-											</li>
-											<li id="report-sponsor-id">
-												<a href="/reports/sponsor" data-i18n="nav.navbars.nav_dark" class="menu-item">
-													<i class="icon-user-tie"></i>
-													Service Sponsors
-												</a>
-											</li>
-										</ul>
-									</li>
-									
-									<li id="report-reservation-id">
-										<a href="/reports/reservation" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-calendar3"></i>
-											Reservation of Facilities
-										</a>
-									</li>
-									
-									
-									<li id="report-business-id">
-										<a href="/reports/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-house"></i>
-											Registered Businesses
-										</a>
-									</li>
-									<li id="report-collection-id">
-										<a href="/reports/collection" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-social-bitcoin"></i>
-											Collections Report
-										</a>
-									</li>
-								</ul>
-							</li>
-
-							<li class=" nav-item">
-								<a href="#">
-									<i class="icon-map6"></i>
-									<span data-i18n="nav.navbars.main" class="menu-title">Query</span>
-								</a>
-								<ul class="menu-content">
-									<li id="query-resident-id">
-										<a href="/query/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-search4"></i>
-											<span>Resident</span>
-										</a>
-									</li>
-									<li id="query-document-id">
-										<a href="/query/document" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-search4"></i>
-											<span>Document Request</span>
-										</a>
-									</li>
-									<li id="query-business-id">
-										<a href="/query/business" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-search4"></i>
-											<span>Business</span>
-										</a>
-									</li>
-									<li id="query-reservation-id">
-										<a href="/query/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-search4"></i>
-											<span>Facility Reservation</span>
-										</a>
-									</li>
-									<li id="query-service-id">
-										<a href="/query/service" data-i18n="nav.navbars.nav_light" class="menu-item">
-											<i class="icon-search4"></i>
-											<span>Service</span>
-										</a>
-									</li>
-									
-								</ul>
-							</li>
-
+							@if(Auth::user()->report == 1)
+								<li class="nav-item">
+									<a href="#">
+										<i class="icon-podium"></i>
+										<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
+									</a>
+									<ul class="menu-content">
+										<li>
+											<a href="#">
+												<i class="icon-android-contacts"></i>
+												<span>Resident</span>
+											</a>
+											<ul class="menu-content">
+												<li id="report-resident-id">
+													<a href="/reports/resident" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-user-check"></i>
+														Registered Residents
+													</a>
+												</li>
+												<li id="report-senior-id">
+													<a href="/reports/senior" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-android-contact"></i>
+														Senior Citizens
+													</a>
+												</li>
+												<li id="report-pwd-id">
+													<a href="/reports/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-android-bicycle"></i>
+														PWD
+													</a>
+												</li>
+												<li id="report-employed-id">
+													<a href="/reports/employed" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-price-tags"></i>
+														Employed Residents
+													</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<a href="#">
+												<i class="icon-cogs"></i>
+												<span>Service</span>
+											</a>
+											<ul class="menu-content">
+												<li id="report-service-id">
+													<a href="/reports/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-lifebuoy"></i>
+														Rendered Services
+													</a>
+												</li>
+												<li id="report-participant-id">
+													<a href="/reports/participant" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-man"></i>
+														Service Participants
+													</a>
+												</li>
+												<li id="report-sponsor-id">
+													<a href="/reports/sponsor" data-i18n="nav.navbars.nav_dark" class="menu-item">
+														<i class="icon-user-tie"></i>
+														Service Sponsors
+													</a>
+												</li>
+											</ul>
+										</li>
+										
+										<li id="report-reservation-id">
+											<a href="/reports/reservation" data-i18n="nav.navbars.nav_dark" class="menu-item">
+												<i class="icon-calendar3"></i>
+												Reservation of Facilities
+											</a>
+										</li>
+										
+										
+										<li id="report-business-id">
+											<a href="/reports/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
+												<i class="icon-house"></i>
+												Registered Businesses
+											</a>
+										</li>
+										<li id="report-collection-id">
+											<a href="/reports/collection" data-i18n="nav.navbars.nav_dark" class="menu-item">
+												<i class="icon-social-bitcoin"></i>
+												Collections Report
+											</a>
+										</li>
+									</ul>
+								</li>
+							@endif
+							@if(Auth::user()->query == 1)
+								<li class=" nav-item">
+									<a href="#">
+										<i class="icon-map6"></i>
+										<span data-i18n="nav.navbars.main" class="menu-title">Query</span>
+									</a>
+									<ul class="menu-content">
+										<li id="query-resident-id">
+											<a href="/query/resident" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-search4"></i>
+												<span>Resident</span>
+											</a>
+										</li>
+										<li id="query-document-id">
+											<a href="/query/document" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-search4"></i>
+												<span>Document Request</span>
+											</a>
+										</li>
+										<li id="query-business-id">
+											<a href="/query/business" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-search4"></i>
+												<span>Business</span>
+											</a>
+										</li>
+										<li id="query-reservation-id">
+											<a href="/query/reservation" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-search4"></i>
+												<span>Facility Reservation</span>
+											</a>
+										</li>
+										<li id="query-service-id">
+											<a href="/query/service" data-i18n="nav.navbars.nav_light" class="menu-item">
+												<i class="icon-search4"></i>
+												<span>Service</span>
+											</a>
+										</li>
+										
+									</ul>
+								</li>
+							@endif
 
 						
 
-							<li class="nav-item" id="utilities-id">
-								<a href="/utilities">
-									<i class="icon-wrench3"></i>
-									<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
-								</a>
-							</li>
+							@if(Auth::user()->utilities == 1)
+								<li class="nav-item" id="utilities-id">
+									<a href="/utilities">
+										<i class="icon-wrench3"></i>
+										<span data-i18n="nav.dash.main" class="menu-title">Utilities</span>
+									</a>
+								</li>
+							@endif
 
-							@if(Auth::user()->position == 'Chairman')
+							@if(Auth::user()->position == 'Chairman' || Auth::user()->position == 'sysadmin')
 								<li class="nav-item" id="users-id">
 									<a href="/users">
 										<i class="icon-person"></i>
@@ -649,7 +634,9 @@
 								</li>
 							@endif
 
-							@if(Auth::user()->position == 'Chairman')
+							
+
+							@if(Auth::user()->position == 'Chairman' || Auth::user()->position == 'sysadmin')
 								<li class="nav-item" id="logs-id">
 									<a href="/logs">
 										<i class="icon-book"></i>

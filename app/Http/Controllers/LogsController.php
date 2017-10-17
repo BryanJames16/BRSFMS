@@ -32,6 +32,7 @@ class LogsController extends Controller
 
         $usah= User::select('id','firstName', 'middleName','lastName')                 
                                         ->where('id','!=', $id)
+                                        ->where('position','!=','sysadmin')
                                         ->get();
         $all = \DB::table('logs') ->select('logID','action','dateOfAction','firstName','middleName','lastName','type') 
                                         ->join('users', 'users.id', '=', 'logs.userID')

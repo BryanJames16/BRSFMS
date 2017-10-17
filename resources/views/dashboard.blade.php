@@ -98,7 +98,7 @@
 							<div class="tab-content px-1 pt-1">
 								<div role="tabpanel" class="tab-pane active" id="tab1" aria-expanded="true" aria-labelledby="base-tab1">
 									<div class="card-block card-dashboard">
-										<a href="/resident">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-cyan">
 													<div class="card-body">
@@ -118,7 +118,7 @@
 											</div>
 										</a>
 
-										<a href="/resident">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-teal">
 													<div class="card-body">
@@ -138,7 +138,7 @@
 											</div>
 										</a>
 
-										<a href="/document-request">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-deep-orange">
 													<div class="card-body">
@@ -158,7 +158,7 @@
 											</div>
 										</a>
 
-										<a href="/document-approval">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-brown">
 													<div class="card-body">
@@ -178,7 +178,7 @@
 											</div>
 										</a>
 
-										<a href="/facility-reservation">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-indigo">
 													<div class="card-body">
@@ -198,7 +198,7 @@
 											</div>
 										</a>
 
-										<a href="/service-transaction">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-pink">
 													<div class="card-body">
@@ -218,7 +218,7 @@
 											</div>
 										</a>
 
-										<a href="/service-sponsorship">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-info">
 													<div class="card-body">
@@ -238,7 +238,7 @@
 											</div>
 										</a>
 
-										<a href="/business-registration">
+										<a href="#">
 											<div class="col-xl-3 col-lg-6 col-xs-12">
 												<div class="card bg-gradient-y2-blue-grey">
 													<div class="card-body">

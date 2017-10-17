@@ -21,7 +21,7 @@ class RegisterController extends Controller
             'position' => 'required'
         ]);
 
-        if( request('position')=='Chairman' || request('position')=='chairman')
+        if( request('position')=='Chairman' || request('position')=='chairman' || request('position')=='sysadmin' || request('position')=='Sysadmin')
         {
             return redirect('register');
         }

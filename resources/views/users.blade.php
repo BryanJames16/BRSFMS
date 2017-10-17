@@ -101,6 +101,14 @@
 													</div>
 													<div class="list-group list-group-flush">
 														<p href="" class="list-group-item"> 
+															Maintenance
+															@if($u->maintenance==0)
+																<input type="checkbox" id="switcheryMaintenance" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryMaintenance" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+                                                        <p href="" class="list-group-item"> 
 															Resident Registration
 															@if($u->resident==0)
 																<input type="checkbox" id="switcheryResident" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
@@ -162,6 +170,30 @@
 																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
 															@else
 																<input type="checkbox" id="switcheryCollection" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+                                                        <p href="" class="list-group-item"> 
+															Report
+															@if($u->report==0)
+																<input type="checkbox" id="switcheryReport" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryReport" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+                                                        <p href="" class="list-group-item"> 
+															Query
+															@if($u->query==0)
+																<input type="checkbox" id="switcheryQuery" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryQuery" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
+															@endif
+														</p>
+                                                        <p href="" class="list-group-item"> 
+															Utilities
+															@if($u->utilities==0)
+																<input type="checkbox" id="switcheryUtilities" name="sw" data-size="xs"  class="switchery" value="{{ $u->id }}"  />
+															@else
+																<input type="checkbox" id="switcheryUtilities" name="sw" data-size="xs" class="switchery" value="{{ $u->id }}" checked/="" />
 															@endif
 														</p>
 													</div>
@@ -745,6 +777,150 @@
                 type: "post", 
                 data: {id: id},
                 url: "{{ url('users/collectionRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+    $('#list').on('change','#switcheryUtilities',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/utilitiesAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/utilitiesRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+    $('#list').on('change','#switcheryQuery',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/queryAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/queryRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+    $('#list').on('change','#switcheryReport',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/reportAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/reportRestrict') }}", 
+                success: function(data) { 
+                    console.log('restricted');
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        
+        
+    })
+
+    $('#list').on('change','#switcheryMaintenance',function(e){
+        var id = $(this).val();
+
+        if(this.checked == true)
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/maintenanceAllow') }}", 
+                success: function(data) { 
+                    console.log('allowed');
+                    
+                }, 
+                error: function(data) {
+                    swal("Error", "Failed!", "error");
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: "post", 
+                data: {id: id},
+                url: "{{ url('users/maintenanceRestrict') }}", 
                 success: function(data) { 
                     console.log('restricted');
                 }, 
