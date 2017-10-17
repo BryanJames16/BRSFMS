@@ -42,9 +42,58 @@ class ReportsCollectionController extends Controller
                         -> where('collections.status','=','Paid')
                         -> get();
 
+        $reserveNonRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'reservations.name', 
+                                            'reservations.reservationName')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> get();
+
+        $collectionReq = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate',
+                                            'firstName','middleName','lastName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> get();
+        $totalReq = Collection::join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> count();
+
+        $totalN = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> count();
+
         foreach($reserveRes as $rr)
         {
             $totalCollectionReservation += $rr->amount;
+        }
+
+        foreach($reserveNonRes as $rrn)
+        {
+            $totalCollectionReservation += $rrn->amount;
         }
         
         $totalR = Collection::join('reservations', 
@@ -57,7 +106,8 @@ class ReportsCollectionController extends Controller
         $collectionID = Collection::select('collections.collectionPrimeID', 
                                             'collections.collectionID', 
                                             'collections.collectionType', 
-                                            'collections.collectionDate', 
+                                            'collections.collectionDate',
+                                            'collections.paymentDate', 
                                             'collections.amount', 
                                             'collections.status', 
                                             'residents.firstName', 
@@ -77,6 +127,10 @@ class ReportsCollectionController extends Controller
             $totalCollectionID += $ci->amount;
         }
 
+        foreach($collectionReq as $cr)
+        {
+            $totalCollectionDocu += $cr->amount;
+        }
         
         $totalI = Collection::join('barangaycard', 
                                     'collections.cardID', '=', 'barangaycard.cardID') 
@@ -85,7 +139,7 @@ class ReportsCollectionController extends Controller
                         -> where('collections.status','Paid')
                         -> count();
 
-        $total = $totalI + $totalR;
+        $total = $totalI + $totalR + $totalN + $totalReq;
         $totalCollections = $totalCollectionID + $totalCollectionDocu + $totalCollectionReservation;
 
         
@@ -99,60 +153,160 @@ class ReportsCollectionController extends Controller
                         ->with('totalCollectionDocu',$totalCollectionDocu)
                         ->with('totalCollectionReservation',$totalCollectionReservation)
                         ->with('reserveRes',$reserveRes)
-                        ->with('collectionID',$collectionID);
+                        ->with('reserveNonRes',$reserveNonRes)
+                        ->with('collectionID',$collectionID)
+                        ->with('collectionReq',$collectionReq);
     }
 
     public function previewRange($fromDate,$toDate) {
         
-        $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->orderBy('dateReg','desc')
-                            ->get();
-
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->get();
-        $sum = 0;
         $total = 0;
-        $ave = 0;
-        foreach($avg as $a)
+        $totalCollections = 0;
+        $totalCollectionID = 0;
+        $totalCollectionDocu = 0;
+        $totalCollectionReservation = 0;
+
+        $reserveRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'reservations.reservationName', 
+                                            'residents.residentPrimeID')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
+
+        $reserveNonRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'reservations.name', 
+                                            'reservations.reservationName')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> get();
+
+        $collectionReq = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate',
+                                            'firstName','middleName','lastName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
+        $totalReq = Collection::join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        $totalN = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        foreach($reserveRes as $rr)
         {
-            $sum = $sum + 1;
-            $total = $total + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $totalCollectionReservation += $rr->amount;
         }
 
-        $ave = $total/$sum;
+        foreach($reserveNonRes as $rrn)
+        {
+            $totalCollectionReservation += $rrn->amount;
+        }
+        
+        $totalR = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
 
+        $collectionID = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate',
+                                            'collections.paymentDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                        -> join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
 
+        foreach($collectionID as $ci)
+        {
+            $totalCollectionID += $ci->amount;
+        }
 
-        $totall = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])->count();
+        foreach($collectionReq as $cr)
+        {
+            $totalCollectionDocu += $cr->amount;
+        }
+        
+        $totalI = Collection::join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
 
-        $totalMale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->where('gender','=','M')
-                            ->count();
-        $totalFemale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->whereNotNull('seniorCitizenID')
-                            ->where('gender','=','F')->count();
+        $total = $totalI + $totalR + $totalN + $totalReq;
+        $totalCollections = $totalCollectionID + $totalCollectionDocu + $totalCollectionReservation;
 
         
 
-        return view('preview.resident')
+        return view('preview.collection')    
                         ->with('fromDate',$fromDate)
-                        ->with('toDate',$toDate)    
-                        ->with('ave',$ave)
-                        ->with('residents',$res)
-                        ->with('total',$totall)
-                        ->with('totalFemale',$totalFemale)
-                        ->with('totalMale',$totalMale);
+                        ->with('toDate',$toDate)
+                        ->with('total',$total)
+                        ->with('totalCollections',$totalCollections)
+                        ->with('totalCollectionID',$totalCollectionID)
+                        ->with('totalCollectionDocu',$totalCollectionDocu)
+                        ->with('totalCollectionReservation',$totalCollectionReservation)
+                        ->with('reserveRes',$reserveRes)
+                        ->with('reserveNonRes',$reserveNonRes)
+                        ->with('collectionID',$collectionID)
+                        ->with('collectionReq',$collectionReq);
 
         
 
@@ -162,42 +316,140 @@ class ReportsCollectionController extends Controller
 
         $fromDate = null;
         $toDate = null;
+        $total = 0;
+        $totalCollections = 0;
+        $totalCollectionID = 0;
+        $totalCollectionDocu = 0;
+        $totalCollectionReservation = 0;
 
-        $residents = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->orderBy('dateReg','desc')
-                            ->get();
+        $reserveRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'reservations.reservationName', 
+                                            'residents.residentPrimeID')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> get();
 
+        $reserveNonRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'reservations.name', 
+                                            'reservations.reservationName')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> get();
 
-        $total = Resident::count();
-        $totalMale = Resident::where('gender','=','M')->count();
-        $totalFemale = Resident::where('gender','=','F')->count();
+        $collectionReq = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate',
+                                            'firstName','middleName','lastName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> get();
+        $totalReq = Collection::join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> count();
 
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
-                            ->get();
-        $sum = 0;
-        $totals = 0;
-        $ave = 0;
+        $totalN = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> count();
 
-        foreach($avg as $a)
+        foreach($reserveRes as $rr)
         {
-            $sum = $sum + 1;
-            $totals = $totals + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $totalCollectionReservation += $rr->amount;
         }
 
-        $ave = $totals/$sum;
+        foreach($reserveNonRes as $rrn)
+        {
+            $totalCollectionReservation += $rrn->amount;
+        }
+        
+        $totalR = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> count();
+
+        $collectionID = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate',
+                                            'collections.paymentDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                        -> join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> get();
+
+        foreach($collectionID as $ci)
+        {
+            $totalCollectionID += $ci->amount;
+        }
+
+        foreach($collectionReq as $cr)
+        {
+            $totalCollectionDocu += $cr->amount;
+        }
+        
+        $totalI = Collection::join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> count();
+
+        $total = $totalI + $totalR + $totalN + $totalReq;
+        $totalCollections = $totalCollectionID + $totalCollectionDocu + $totalCollectionReservation;
             
-        $pdf = PDF::loadView('pdfresident',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        $pdf = PDF::loadView('pdfcollection',compact('fromDate','toDate','total','totalCollections',
+                                                        'totalCollectionID','totalCollectionDocu',
+                                                        'totalCollectionReservation','reserveRes',
+                                                        'reserveNonRes','collectionID','collectionReq'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report-RegisteredResidents.pdf');
+        return $pdf->download('Report-Collection.pdf');
 
         return back();
     }
@@ -205,54 +457,151 @@ class ReportsCollectionController extends Controller
 
     public function printRange(Request $r){
 
-        $residents = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->orderBy('dateReg','desc')
-                            ->get();
+        $fromDate = $r->input('fromDate');
+        $toDate = $r->input('toDate');
+        $total = 0;
+        $totalCollections = 0;
+        $totalCollectionID = 0;
+        $totalCollectionDocu = 0;
+        $totalCollectionReservation = 0;
 
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->get();
-        $sum = 0;
-        $totals = 0;
-        $ave = 0;
-        foreach($avg as $a)
+        $reserveRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'reservations.reservationName', 
+                                            'residents.residentPrimeID')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
+
+        $reserveNonRes = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate', 
+                                            'reservations.name', 
+                                            'reservations.reservationName')
+                        -> join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> get();
+
+        $collectionReq = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'collections.paymentDate',
+                                            'firstName','middleName','lastName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
+        $totalReq = Collection::join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        $totalN = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> where('reservationPrimeID','!=',null)
+                        -> where('residentPrimeID','=',null)
+                        -> where('collections.status','Paid')
+                        -> where('reservations.status', '!=', 'Cancelled')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        foreach($reserveRes as $rr)
         {
-            $sum = $sum + 1;
-            $totals = $totals + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $totalCollectionReservation += $rr->amount;
         }
 
-        $ave = $totals/$sum;
+        foreach($reserveNonRes as $rrn)
+        {
+            $totalCollectionReservation += $rrn->amount;
+        }
+        
+        $totalR = Collection::join('reservations', 
+                                    'collections.reservationPrimeID', '=', 'reservations.primeID') 
+                        -> join('residents', 
+                                    'collections.residentPrimeID', '=', 'residents.residentPrimeID') 
+                        -> where('collections.status','=','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        $collectionID = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate',
+                                            'collections.paymentDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID')
+                        -> join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> get();
+
+        foreach($collectionID as $ci)
+        {
+            $totalCollectionID += $ci->amount;
+        }
+
+        foreach($collectionReq as $cr)
+        {
+            $totalCollectionDocu += $cr->amount;
+        }
+        
+        $totalI = Collection::join('barangaycard', 
+                                    'collections.cardID', '=', 'barangaycard.cardID') 
+                        -> join('residents', 
+                                    'barangaycard.rID', '=', 'residents.residentPrimeID')             
+                        -> where('collections.status','Paid')
+                        -> whereBetween('paymentDAte',[$fromDate,$toDate])
+                        -> count();
+
+        $total = $totalI + $totalR + $totalN + $totalReq;
+        $totalCollections = $totalCollectionID + $totalCollectionDocu + $totalCollectionReservation;
 
 
-
-        $total = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])->count();
-
-        $totalMale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->where('gender','=','M')
-                            ->count();
-        $totalFemale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->where('gender','=','F')->count();
-
-        $fromDate =  $r->input('fromDate');
-        $toDate =  $r->input('toDate');
-
-
-        $pdf = PDF::loadView('pdfresident',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        $pdf = PDF::loadView('pdfcollection',compact('fromDate','toDate','total','totalCollections',
+                                                        'totalCollectionID','totalCollectionDocu',
+                                                        'totalCollectionReservation','reserveRes',
+                                                        'reserveNonRes','collectionID','collectionReq'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report-RegisteredResidents.pdf');
+        return $pdf->download('Report-Collection.pdf');
 
         return back();
     }

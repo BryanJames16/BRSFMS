@@ -144,6 +144,7 @@ class ResidentController extends Controller
                 'birthDate' => 'required|date|before:tomorrow',
                 'seniorCitizenID' => 'nullable|alpha_dash|min:0|max:20',
                 'disabilities' => 'nullable|alpha_dash|min:0|max:250',
+                'email' => 'nullable|email',
             ]);
 
             $insertRet = Resident::insert(['residentID'=>trim($r -> input('residentID')),
@@ -156,21 +157,25 @@ class ResidentController extends Controller
                                                 'birthDate' => $r -> input('birthDate'),
                                                 'civilStatus' => $r -> input('civilStatus'),
                                                 'seniorCitizenID' => $r -> input('seniorCitizenID'),
+                                                'email' => $r -> input('email'),
+                                                'dateReg' => Carbon::now(),
                                                 'address' => $r -> input('address'),
                                                 'disabilities' => $r -> input('disabilities'),
                                                 'residentType' => $r -> input('residentType'),
                                                 'status' => 1]);
 
             $findRet = Resident::all() -> last();
+            $sal = $r -> input('monthlyIncome');
+            if($r -> input('currentWork')=='None') {
+                $sal = '₱0-₱10,000';
+            }
 
-            if($r -> input('currentWork')!="") {
-                $resRet = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
-                                                'monthlyIncome' => $r -> input('monthlyIncome'),
+            $resRet = Residentbackground::insert(['currentWork' => $r -> input('currentWork'),
+                                                'monthlyIncome' => $sal,
                                                 'peoplePrimeID' => $findRet -> residentPrimeID,
                                                 'dateStarted' => Carbon::now(),
                                                 'status' => 1,
                                                 'archive' => 0]);
-            }
 
             $id = Auth::id();
            
@@ -287,7 +292,7 @@ class ResidentController extends Controller
         if($r->ajax()) {
             return json_encode(\DB::table('residents') ->select('residents.residentPrimeID','imagePath','residentID', 'firstName',
                                                                 'lastName','middleName','suffix', 'residents.status', 
-                                                                'contactNumber', 'gender', 'birthDate',
+                                                                'contactNumber','email', 'gender', 'birthDate',
                                                                 'civilStatus','seniorCitizenID','disabilities',
                                                                 'residentType','residentbackgrounds.currentWork', 
                                                                 'residentBackgrounds.monthlyIncome','address') 
@@ -491,20 +496,23 @@ class ResidentController extends Controller
             $type->residentType = $r->input('residentType');
             $type->contactNumber = $r->input('contactNumber');
             $type->address = $r->input('address');
+            $type->email = $r->input('email');
             $type->save();
             
+            $sal = $r -> input('monthlyIncome');
 
-
-            
-            if( ($r -> input('currentWork')!= $r -> input('hiddenWork')) || 
-                    ($r -> input('monthlyIncome')!=$r -> input('hiddenIncome')) ) {
-                $insertRet = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
-                                                'monthlyIncome' => $r -> input('monthlyIncome'),
-                                                'dateStarted' => Carbon::now(),
-                                                'peoplePrimeID' => $r -> input('residentPrimeID'),
-                                                'status' => 1,
-                                                'archive' => 0]);
+            if($r -> input('currentWork') == 'None')
+            {
+                $sal = "₱0-₱10,000";
             }
+            
+            $insertRet = ResidentBackground::insert(['currentWork' => $r -> input('currentWork'),
+                                            'monthlyIncome' => $sal,
+                                            'dateStarted' => Carbon::now(),
+                                            'peoplePrimeID' => $r -> input('residentPrimeID'),
+                                            'status' => 1,
+                                            'archive' => 0]);
+            
             
 
             $id = Auth::id();

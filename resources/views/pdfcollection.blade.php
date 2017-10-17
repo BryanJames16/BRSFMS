@@ -65,12 +65,12 @@
 
                 <thead style="border:1px solid black;text-align:center;width:100%">
                     <tr>
-                        <th style="width:25%;border:1px solid black">Name</th>
-                        <th style="width:25%;border:1px solid black">Collection From</th>
+                        <th style="width:20%;border:1px solid black">Name</th>
+                        <th style="width:20%;border:1px solid black">Collection From</th>
                         <th style="width:15%;border:1px solid black">Residency</th>
                         <th style="width:15%;border:1px solid black">Date of Payment</th>
-                        <th style="width:10%;border:1px solid black">OR No.</th>
-                        <th style="width:10%;border:1px solid black">Amount</th>
+                        <th style="width:15%;border:1px solid black">OR No.</th>
+                        <th style="width:15%;border:1px solid black">Amount</th>
                     </tr>
                 </thead>
                 <tbody id="body" style="text-align:center;width:100%">
@@ -87,7 +87,41 @@
                                 <td style="border:1px solid black">Resident</td>
                                 <td style="border:1px solid black">{{ date('F j, Y',strtotime($coll->paymentDate)) }}</td>
                                 <td style="border:1px solid black">{{ $coll->collectionID }}</td>
-                                <td style="border:1px solid black">₱{{ $coll->amount }}</td>
+                                <td style="border:1px solid black">{{ $coll->amount }}</td>
+                                
+                        </tr>
+                    @endforeach
+                    @foreach($reserveNonRes as $colln)
+                        <tr>
+                                <td style="border:1px solid black">{{ $colln->name }}</td>
+                            @if($colln->collectionType == '1')
+                                <td style="border:1px solid black">Issuance of Barangay ID</td>
+                            @elseif($colln->collectionType == '2')
+                                <td style="border:1px solid black">Document Request</td>
+                            @else
+                                <td style="border:1px solid black">Facility Reservation</td>
+                            @endif
+                                <td style="border:1px solid black">Non-Resident</td>
+                                <td style="border:1px solid black">{{ date('F j, Y',strtotime($colln->paymentDate)) }}</td>
+                                <td style="border:1px solid black">{{ $colln->collectionID }}</td>
+                                <td style="border:1px solid black">{{ $colln->amount }}</td>
+                                
+                        </tr>
+                    @endforeach
+                    @foreach($collectionReq as $collr)
+                        <tr>
+                                <td style="border:1px solid black">{{ $collr->firstName }} {{ $collr->middleName }} {{ $collr->lastName }}</td>
+                            @if($collr->collectionType == '1')
+                                <td style="border:1px solid black">Issuance of Barangay ID</td>
+                            @elseif($collr->collectionType == '2')
+                                <td style="border:1px solid black">Document Request</td>
+                            @else
+                                <td style="border:1px solid black">Facility Reservation</td>
+                            @endif
+                                <td style="border:1px solid black">Resident</td>
+                                <td style="border:1px solid black">{{ date('F j, Y',strtotime($collr->paymentDate)) }}</td>
+                                <td style="border:1px solid black">{{ $collr->collectionID }}</td>
+                                <td style="border:1px solid black">{{ $collr->amount }}</td>
                                 
                         </tr>
                     @endforeach
@@ -104,7 +138,7 @@
                                 <td style="border:1px solid black">Resident</td>
                                 <td style="border:1px solid black">{{ date('F j, Y',strtotime($co->paymentDate)) }}</td>
                                 <td style="border:1px solid black">{{ $co->collectionID }}</td>
-                                <td style="border:1px solid black">₱{{ $co->amount }}</td>
+                                <td style="border:1px solid black">{{ $co->amount }}</td>
                                 
                         </tr>
                     @endforeach
@@ -118,25 +152,25 @@
                         <td></td>
                         <td></td>
                         <td colspan="3" style="text-align:right">Total Collections: </td>
-                        <td style="border:1px solid black">₱{{$totalCollections}}</td>
+                        <td style="border:1px solid black">P{{$totalCollections}}</td>
                     </tr>
                     <tr style="border:1px solid black">
                         <td></td>
                         <td></td>
                         <td colspan="3" style="text-align:right">Total Collection From Barangay ID: </td>
-                        <td style="border:1px solid black">₱{{$totalCollectionID}}</td>
+                        <td style="border:1px solid black">P{{$totalCollectionID}}</td>
                     </tr>
                     <tr style="border:1px solid black">
                         <td></td>
                         <td></td>
                         <td colspan="3" style="text-align:right">Total Collection From Document Request:</td>
-                        <td style="border:1px solid black">₱{{$totalCollectionDocu}}</td>
+                        <td style="border:1px solid black">P{{$totalCollectionDocu}}</td>
                     </tr>
                     <tr style="border:1px solid black">
                         <td></td>
                         <td></td>
                         <td colspan="3" style="text-align:right">Total Collection From Reservation:</td>
-                        <td style="border:1px solid black">₱{{$totalCollectionReservation}}</td>
+                        <td style="border:1px solid black">P{{$totalCollectionReservation}}</td>
                     </tr>
                 </tbody>
 

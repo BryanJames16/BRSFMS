@@ -21,9 +21,18 @@ class BusinessRegistrationController extends Controller
                                                     ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
                                                     ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
                                                     -> where('businessregistrations.archive', '=', 0)
-                                                    -> get();
+                                                    -> get();   
 
-        return view('business-registration')-> with('regs', $regs);
+        $regsN = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName',  
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','lastName',
+                                                'firstName', 'middleName')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    ->where('businessregistrations.archive', '=', 0)
+                                                    ->where('residentPrimeID',null)
+                                                    ->get();
+
+        return view('business-registration')-> with('regs', $regs)
+                                            -> with('regsN', $regsN);
     }
 
     public function refresh(Request $r) {
@@ -41,14 +50,38 @@ class BusinessRegistrationController extends Controller
         }
     }
 
+    public function refreshNonres(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName',  
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','lastName',
+                                                'firstName', 'middleName')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    ->where('businessregistrations.archive', '=', 0)
+                                                    ->where('residentPrimeID',null)
+                                                    ->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function store(Request $r) {
         if ($r->ajax()) {
+
+            $d = Carbon::now()->addYears(1);
+
             $insertRet = Businessregistration::insert([
                 'businessID' => $r->input('businessID'),
                 'originalName' => $r->input('originalName'), 
                 'tradeName' => $r->input('tradeName'), 
                 'residentPrimeID' => $r->input('residentPrimeID'), 
                 'address' => $r->input('address'),
+                'firstName' => $r->input('firstName'),
+                'middleName' => $r->input('middleName'),
+                'lastName' => $r->input('lastName'),
+                'gender' => $r->input('gender'),
+                'removalDate' => $d,
+                'contactNumber' => $r->input('contactNumber'),
                 'categoryID' => $r->input('categoryID'),  
                 'registrationDate' => Carbon::now()
             ]);
@@ -88,6 +121,17 @@ class BusinessRegistrationController extends Controller
     public function getOwner(Request $r) {
         if ($r -> ajax()) {
             return (Resident::where("status", "=", "1")->get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function check(Request $r) {
+        if ($r -> ajax()) {
+            return (Businessregistration::where("archive", "=", "0")
+                                        ->where('registrationPrimeID',$r->input('registrationPrimeID'))
+                                        ->get());
         }
         else {
             return view('errors.403');
@@ -139,6 +183,20 @@ class BusinessRegistrationController extends Controller
             return view('errors.403');
         }   
     }
+
+    public function getDetailsN(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residentPrimeID', 
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','lastName',
+                                                'firstName', 'middleName','contactNumber','gender')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')-> where('businessregistrations.archive', '=', 0)
+                                                    -> where('businessregistrations.registrationPrimeID', '=', $r->input('registrationPrimeID'))
+                                                    -> get());
+        }
+        else {
+            return view('errors.403');
+        }   
+    }
         
     public function edit(Request $r) { 
         if ($r->ajax()) {
@@ -153,6 +211,11 @@ class BusinessRegistrationController extends Controller
             $type->residentPrimeID = $r->input('residentPrimeID');
             $type->address = $r->input('address');
             $type->categoryID = $r->input('categoryID');
+            $type->firstName = $r->input('firstName');
+            $type->middleName = $r->input('middleName');
+            $type->lastName = $r->input('lastName');
+            $type->gender = $r->input('gender');
+            $type->contactNumber = $r->input('contactNumber');
             $type->save();
 
             $id = Auth::id();

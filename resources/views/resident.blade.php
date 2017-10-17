@@ -468,7 +468,7 @@
 														</p>
 														
 														<p align="center" style="color:black">
-															<img src="system-assets/images/sign/samplesignature.png" alt="sign" width="70%" height="30%"><br>
+															<img src="/storage/upload/{{$util->signaturePath}}" alt="sign" width="70%" height="30%"><br>
 															<span style="font-size:15px"><b>HON. JOSEPH N. BRIONES</b></span><br>
 															Barangay Chairman
 														</p>
@@ -920,6 +920,13 @@
 													</div>
 												</div>
 
+												<div class="row">
+													<div class="form-group col-md-6 mb-2">
+														<label for="userinput3">Email Address</label>
+														{!! Form::text('email', null, ['id' => 'email','class' => 'form-control border-primary', 'placeholder'=> 'ex. example@yahoo.com']) !!}
+													</div>
+												</div>
+
 												<h4 class="form-section"><i class="icon-mail6"></i> Address </h4>
 												<div class="row">
 													<div class="form-group col-md-12 mb-2">
@@ -1124,6 +1131,13 @@
 												<option value="Transient">Transient Resident</option>
 												<option value="Official">Official Resident</option>
 											</select>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-md-6 mb-2">
+											<label for="userinput3">Email Address</label>
+											{!! Form::text('email', null, ['id' => 'eemail','class' => 'form-control border-primary']) !!}
 										</div>
 									</div>
 

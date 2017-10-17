@@ -110,6 +110,8 @@ class UtilitiesController extends Controller
 
             $ut->address = $r->input('address');
             $ut->barangayName = $r->input('barangayName');
+            $ut->yearsOfExpiration = $r->input('yearsOfExpiration');
+            $ut->barangayIDAmount = $r->input('idAmount');
             $ut->save();
 
             return back();

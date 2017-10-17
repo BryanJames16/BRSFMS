@@ -66,10 +66,32 @@ class CollectionController extends Controller
                                     'barangaycard.rID', '=', 'residents.residentPrimeID')             
                         -> get();
 
+        $collRequest = Collection::select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID',
+                                            'documents.documentName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')             
+                        -> join('documents', 
+                                    'documentrequests.documentsPrimeID', '=', 'documents.primeID')             
+                        -> where('collections.status', 'Pending')
+                        -> get();
+
 
         return view('collection')
                                 ->with('collectionsR', $collectionsR)
                                 ->with('collectionsN', $collectionsN)
+                                ->with('collRequest', $collRequest)
                                 ->with('collID', $collID);
     }
 
@@ -91,6 +113,35 @@ class CollectionController extends Controller
                                             -> join('residents', 
                                                         'barangaycard.rID', '=', 'residents.residentPrimeID')             
                                             -> get());
+        }
+        else {
+            return view('errors.403');
+        }
+    }
+
+    
+
+    public function refreshRequest(Request $r) {
+        if ($r -> ajax()) {
+            return json_encode(\DB::table('collections') ->select('collections.collectionPrimeID', 
+                                            'collections.collectionID', 
+                                            'collections.collectionType', 
+                                            'collections.collectionDate', 
+                                            'collections.amount', 
+                                            'collections.status', 
+                                            'residents.firstName', 
+                                            'residents.middleName', 
+                                            'residents.lastName', 
+                                            'residents.residentID', 
+                                            'residents.residentPrimeID',
+                                            'documents.documentName')
+                        -> join('documentrequests', 
+                                    'collections.documentHeaderPrimeID', '=', 'documentrequests.documentRequestPrimeID') 
+                        -> join('residents', 
+                                    'documentrequests.residentPrimeID', '=', 'residents.residentPrimeID')             
+                        -> join('documents', 
+                                    'documentrequests.documentsPrimeID', '=', 'documents.primeID')             
+                        -> get());
         }
         else {
             return view('errors.403');
@@ -183,6 +234,28 @@ class CollectionController extends Controller
                                                 'barangaycard.rID', 
                                                 '=', 
                                                 'residents.residentPrimeID')
+                                    ->where('collectionPrimeID','=',$r->input('collectionPrimeID'))
+                                    -> get();
+        
+        return json_encode($collections);
+    }
+
+    public function showReceiptRequest(Request $r) {
+        $collections = Collection::select('collectionID', 
+                                            'paymentDate', 
+                                            'recieved','amount','quantity','documentName','firstName','middleName','lastName')
+                                    -> join('documentrequests', 
+                                                'collections.documentHeaderPrimeiD', 
+                                                '=', 
+                                                'documentrequests.documentRequestPrimeID')
+                                    -> join('residents', 
+                                                'documentrequests.residentPrimeID', 
+                                                '=', 
+                                                'residents.residentPrimeID')
+                                    -> join('documents', 
+                                                'documentrequests.documentsPrimeID', 
+                                                '=', 
+                                                'documents.primeID')
                                     ->where('collectionPrimeID','=',$r->input('collectionPrimeID'))
                                     -> get();
         

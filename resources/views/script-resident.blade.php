@@ -45,7 +45,6 @@
 
 		$("#frm-add").submit(function(event) {
 			event.preventDefault();
-
 			$.ajax({
 				url: "{{ url('/resident/store') }}", 
 				method: "POST", 
@@ -56,7 +55,8 @@
 					"middleName": $("#middleName").val(), 
 					"firstName": $("#firstName").val(), 
 					"suffix": $("#suffix").val(),
-					"contactNumber": $("#contactNumber").val(),  
+					"contactNumber": $("#contactNumber").val(),
+					"email": $("#email").val(),    
 					"gender": $("#gender :selected").val(), 
 					"birthDate": $("#birthDate").val(), 
 					"civilStatus": $("#civilStatus").val(), 
@@ -332,6 +332,8 @@
 						frm.find('#hiddenIncome').val(data[index].monthlyIncome);
 						frm.find('#ework').val(data[index].currentWork);
 						frm.find('#esalary').val(data[index].monthlyIncome);
+
+						frm.find('#eemail').val(data[index].email);
 						
 						
 
@@ -387,6 +389,7 @@
 						"contactNumber": $("#econtactNumber").val(),
 						"address": $("#eaddress").val(),
 						"currentWork": $("#ework").val(),
+						"email": $("#eemail").val(),
 						"monthlyIncome": $("#esalary").val(),
 						"hiddenIncome": $("#hiddenIncome").val(),
 						"hiddenWork": $("#hiddenWork").val(),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\Resident;
+use \App\Models\Businessregistration;
 use Carbon\Carbon;
 use PDF;
 
@@ -14,6 +15,16 @@ class ReportsResidentController extends Controller
     }
 
     public function previewAll() {
+        
+        $regs = Businessregistration::select('registrationPrimeID', 'businessID','originalName','tradeName', 'residents.residentPrimeID', 
+                                                'registrationDate','businessregistrations.address', 'categoryID','categoryName','residents.lastName',
+                                                'residents.firstName', 'residents.middleName','removalDate')
+                                                    ->join('businesscategories', 'businessregistrations.categoryID', '=', 'businesscategories.categoryPrimeID')
+                                                    ->join('residents', 'businessregistrations.residentPrimeID', '=', 'residents.residentPrimeID')
+                                                    -> where('businessregistrations.archive', '=', 0)
+                                                    ->where('registrationPrimeID','13')
+                                                    -> get();  
+
         $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
                                 'lastName','middleName','suffix', 'residents.status', 
                                 'contactNumber', 'gender', 'birthDate',
@@ -45,12 +56,13 @@ class ReportsResidentController extends Controller
         $toDate = null;
 
 
-        return view('preview.resident')
+        return view('preview.permit')
                         ->with('fromDate',$fromDate)
                         ->with('toDate',$toDate)    
                         ->with('residents',$res)
                         ->with('total',$totall)
                         ->with('ave',$ave)
+                        ->with('regs',$regs)
                         ->with('totalFemale',$totalFemale)
                         ->with('totalMale',$totalMale);;
     }

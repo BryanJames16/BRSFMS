@@ -539,7 +539,7 @@
 										</a>
 									</li>
 									<li id="report-employed-id">
-										<a href="/employed-residents" data-i18n="nav.navbars.nav_dark" class="menu-item">
+										<a href="/reports/employed" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-price-tags"></i>
 											Employed Residents
 										</a>
