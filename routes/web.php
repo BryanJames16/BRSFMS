@@ -219,7 +219,9 @@ Route::post('/facility-reservation/update', 'ReservationController@update');
 // Collection
 Route::get('/collection/gCollect', 'CollectionController@getCollection');
 Route::get('/collection/showReceiptID', 'CollectionController@showReceiptID');
+Route::get('/collection/showReceiptRequest', 'CollectionController@showReceiptRequest');
 Route::get('/collection/refreshID', 'CollectionController@refreshID');
+Route::get('/collection/refreshRequest', 'CollectionController@refreshRequest');
 Route::get('/collection/gHeader', 'CollectionController@getHeader');
 Route::get('/collection/getResID', 'CollectionController@getResID');
 Route::get('/collection/gAmount', 'CollectionController@getAmount');
@@ -257,9 +259,12 @@ Route::post('/service-transaction/finishStatus', 'ServiceTransactionController@F
 Route::get('/business-registration/business', 'BusinessRegistrationController@getBusiness');
 Route::get('/business-registration/category', 'BusinessRegistrationController@getCategory');
 Route::get('/business-registration/owner', 'BusinessRegistrationController@getOwner');
+Route::get('/business-registration/check', 'BusinessRegistrationController@check');
 Route::get('/business-registration/refresh', 'BusinessRegistrationController@refresh');
+Route::get('/business-registration/refreshNonres', 'BusinessRegistrationController@refreshNonres');
 Route::get('/business-registration/getEdit', 'BusinessRegistrationController@getEdit');
 Route::get('/business-registration/getDetails', 'BusinessRegistrationController@getDetails');
+Route::get('/business-registration/getDetailsN', 'BusinessRegistrationController@getDetailsN');
 Route::post('/business-registration/store', 'BusinessRegistrationController@store');
 Route::post('/business-registration/delete', 'BusinessRegistrationController@delete');
 Route::post('/business-registration/update', 'BusinessRegistrationController@edit');
@@ -296,6 +301,12 @@ Route::get('/reports/collection/previewRange/{fromDate}/{toDate}', 'ReportsColle
 Route::get('/reports/collection/previewAll', 'ReportsCollectionController@previewAll');
 Route::get('/reports/collection/printRange', 'ReportsCollectionController@printRange');
 Route::get('/reports/collection/printAll', 'ReportsCollectionController@printAll');
+
+//EMPLOYED REPORT
+Route::get('/reports/employed/previewRange/{fromDate}/{toDate}', 'ReportsEmployedController@previewRange');
+Route::get('/reports/employed/previewAll', 'ReportsEmployedController@previewAll');
+Route::get('/reports/employed/printRange', 'ReportsEmployedController@printRange');
+Route::get('/reports/employed/printAll', 'ReportsEmployedController@printAll');
 
 
 
@@ -411,6 +422,7 @@ Route::resource('/report/pwd', 'ReportController')->middleware("auth");
 Route::resource('/reports/service', 'ReportsServiceController')->middleware("auth");
 Route::resource('/reports/senior', 'ReportsSeniorController')->middleware("auth");
 Route::resource('/reports/resident', 'ReportsResidentController')->middleware("auth");
+Route::resource('/reports/employed', 'ReportsEmployedController')->middleware("auth");
 Route::resource('/reservation', 'ReservationController@populate')->middleware("auth");
 Route::resource('/resident', 'ResidentController')->middleware("auth");
 Route::resource('/requirement', 'RequirementController')->middleware("auth");

@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
                                         ->get();
             $chairman= User::select('id','firstName', 'middleName','lastName')                 
                                         ->where('position','=', 'Chairman')
+                                        ->where('archive','=','0')
                                         ->get()->last();
 
 

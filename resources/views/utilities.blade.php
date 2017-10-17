@@ -80,15 +80,15 @@ Utilities
 														<td>{{ $utility -> barangayName }}</td>
 													</tr>
 													<tr>
+														<td>Address</td>
+														<td>{{ $utility -> address }}</td>
+													</tr>
+													<tr>
 														<td>Chairman Signature</td>
 														<td>
 															<img src="/storage/upload/{{ $utility -> signaturePath }}" height="95px" width="398px"><br>
 															{{ $utility -> signaturePath }}<br>
 														</td>
-													</tr>
-													<tr>
-														<td>Address</td>
-														<td>{{ $utility -> address }}</td>
 													</tr>
 													<tr>
 														<td>Barangay Logo</td>
@@ -103,6 +103,14 @@ Utilities
 															<img src="/storage/upload/{{ $utility -> provLogoPath }}" height="100px" width="100px"><br>
 															{{ $utility -> provLogoPath }}
 														</td>
+													</tr>
+													<tr>
+														<td>Barangay ID Amount</td>
+														<td>₱{{ $utility -> barangayIDAmount }}</td>
+													</tr>
+													<tr>
+														<td>Years of Expiration(ID)</td>
+														<td>{{ $utility -> yearsOfExpiration }} years</td>
 													</tr>
 												@endforeach
 											</tbody>
@@ -225,6 +233,20 @@ Utilities
 															<a href="#" class="btn btn-info save">Save signature</a>
 														</div>
 												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Barangay ID Amount:</label>
+												<div class="col-md-9">
+													<input type="number" class="form-control" id="idAmount" name="idAmount" required/>
+												</div>	
+											</div>
+
+											<div class="form-group row">
+												<label class="col-md-3 label-control" for="eventRegInput1">Years Of Expiration(ID):</label>
+												<div class="col-md-9">
+													<input type="number" class="form-control" id="yearsOfExpiration" name="yearsOfExpiration" required/>
+												</div>	
 											</div>
 
 											<div class="form-group row">
@@ -568,6 +590,8 @@ Utilities
 				success: function(data) {
 					$("#barangayName").val(data.barangayName);
 					$("#address").val(data.address);
+					$("#idAmount").val(data.barangayIDAmount);
+					$("#yearsOfExpiration").val(data.yearsOfExpiration);
 
 					$('#signaturePreview').attr('src','/storage/upload/'+ data.signaturePath);
 					$('#provinceLogoPreview').attr('src','/storage/upload/'+ data.provLogoPath);

@@ -6,6 +6,7 @@ require_once(app_path() . '/Includes/pktool.php');
 
 use Illuminate\Http\Request;
 use \App\Models\Document;
+use \App\Models\Collection;
 use \App\Models\Documentrequest;
 use \App\Models\Requestrequirement;
 use \App\Models\Resident;
@@ -429,6 +430,32 @@ class DocumentApprovalController extends Controller
             $documentRequest = Documentrequest::find($r -> input('documentRequestPrimeID'));
             $documentRequest -> status = "Approved";
             $documentRequest -> save();
+
+            $listOfCollection = Collection::select('collectionID') 
+                                        ->get()
+                                        ->last();
+
+            $nextKey = StaticCounter::smart_next($listOfCollection -> collectionID, SmartMove::$NUMBER);
+
+            $req = Documentrequest::select('quantity','documentsPrimeID')
+                                        ->where('documentRequestPrimeID',$r -> input('documentRequestPrimeID')) 
+                                        ->get()
+                                        ->last();
+
+            $price = Document::select('documentPrice')
+                                ->where('primeID',$req->documentsPrimeID)
+                                ->get()
+                                ->last();
+
+            $amount = $req->quantity * $price->documentPrice;
+
+
+            $col = Collection::insert(['collectionID'=>$nextKey,
+                                                'collectionDate' => Carbon::now(),
+                                                'collectionType' => 2,
+                                                'amount' => $amount,
+                                                'status' => 'Pending',
+                                                'documentHeaderPrimeID' => $r -> input('documentRequestPrimeID')]);
 
             $id = Auth::id();
            

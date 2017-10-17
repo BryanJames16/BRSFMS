@@ -105,6 +105,9 @@
 										<a class="nav-link active" id="active-tab3" data-toggle="tab" href="#id" aria-controls="active3" aria-expanded="true">Barangay ID</a>
 									</li>
 									<li class="nav-item">
+										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#request" aria-controls="link3" aria-expanded="false">Document Request</a>
+									</li>
+									<li class="nav-item">
 										<a class="nav-link" id="link-tab3" data-toggle="tab" href="#reservation" aria-controls="link3" aria-expanded="false">Reservation</a>
 									</li>
 								</ul>
@@ -145,6 +148,53 @@
 																	<a href="#" class="btn btn-info idPay" data-value="{{$cID->collectionPrimeID}}">Payment</a>
 																@else 
 																	<a href="#" class="btn btn-warning idReceipt" data-value="{{ $cID -> collectionPrimeID }}">Show Receipt</a>
+																@endif
+															
+														</td>
+													</tr>
+													@endif
+												@endforeach
+											</tbody>
+										</table>
+									</div>
+									<div role="tabpanel" class="tab-pane fade in" id="request" aria-labelledby="active-tab3" aria-expanded="true">
+										<table class="table table-striped table-custome-outline-red multi-ordering dataTable no-footer" style="font-size:14px;width:100%;" id="table-request">
+											<thead class="thead-custom-bg-red">
+												<tr>
+													<th>ID</th>
+													<th>Customer</th>
+													<th>Date</th>
+													<th>Collection From</th>
+													<th>Document</th>
+													<th>Amount</th>
+													<th>Status</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												@foreach($collRequest as $cReq)
+													@if($cReq -> status == "Pending" || $cReq -> status == "pending")
+													<tr>
+														<td>{{ $cReq -> collectionID }}</td>
+														<td>{{ $cReq -> lastName}}, {{$cReq -> firstName}} {{$cReq -> middleName}}</td>
+														<td>{{ date('F j, Y',strtotime($cReq -> collectionDate)) }}</td>
+														<td>Document Request</td>
+														<td>{{ $cReq -> documentName }}</td>
+														<td>{{ $cReq -> amount }}</td>
+														<td>
+															@if($cReq -> status == "Pending")
+																<span class="tag round tag-info">Pending</span>
+															@else
+																<span class="tag round tag-success">Paid</span>
+															@endif
+														</td>
+														<td>
+															
+																@if($cReq -> status == "Pending" || $cReq -> status == "pending")
+																	<a href="#" class="btn btn-info reqPay" data-value="{{$cReq->collectionPrimeID}}">Payment</a>
+																@else 
+																	<a href="#" class="btn btn-warning reqReceipt" data-value="{{ $cReq -> collectionPrimeID }}">Show Receipt</a>
 																@endif
 															
 														</td>
@@ -374,6 +424,45 @@
 							</div>
 
 							<!-- Modal Area -->
+							<div class="modal animated bounceInDown text-xs-left" id="requestPayModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog modal-xs" role="document">
+									<div class="modal-content">
+										<div class="modal-header bg-info white">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-hand"></i> Document Request Payment</h4>
+										</div>
+										<div class="modal-body dirty-white-card">
+											<form id="frm-requestPay">
+											<input type="hidden" id="requestCollID"></input>
+
+											<h3 align="center">Amount To Pay:</h3> 
+											<br>
+											<h2 align="center">
+												
+												₱<input style="width:40%" type="number" value="" id="requestAmountToPay" disabled></input> 
+												
+											</h2>
+											<br>
+											<h3 align="center">Cash: </h3>
+											<br>
+											<p align="center">
+												<input type="text" id="requestCash"></input>
+											</p> 
+											
+											<br>
+											<br>
+											<p align="center">
+												<button type="button" class="btn btn-warning mr-1" id="btnRequestPay">Pay</button>
+											</p>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal Area -->
 							<div class="modal animated bounceInDown text-xs-left" id="idReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
 								<div class="modal-dialog " role="document">
 									<div class="modal-content">
@@ -413,7 +502,7 @@
 															<tbody>
 																<tr style="border:0.5px solid black">
 																	<td>Barangay I.D.</td>
-																	<td>₱{{$util -> barangayIDAmount}}</td>
+																	<td>₱<span id="orIDAmount"></span></td>
 																</tr>
 																<tr>
 																	<th>Cash:</th>
@@ -435,6 +524,75 @@
 
 											<p align="center">
 												<button type="button" class="btn btn-info mr-1" id="idReceiptPrint">Print</button>
+											</p>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Modal Area -->
+							<div class="modal animated bounceInDown text-xs-left" id="requestReceiptModal" tabindex="-1" role="dialog" aria-labelledby="addModal" aria-hidden="true">
+								<div class="modal-dialog " role="document">
+									<div class="modal-content">
+										<div class="modal-header bg-info white">
+											<button type="button" class="close cancel-view" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-document"></i> Receipt</h4>
+										</div>
+										<div class="modal-body">
+											
+												<div style="padding:10px;border:1px solid black" id="mainReceiptRequest">
+													<div align="center">
+														<h6>Republic of the Philippines<br>
+															District VI, City of Manila<br>
+															{{ $util -> barangayName }} <br>
+															{{ $util -> address }}
+														</h6>
+														<h6 align="left">No.: <u><span id="orIDreq"></span></u></h6>
+														
+														<h4>
+															OFFICIAL RECEIPT
+														</h4>
+													</div>
+													<div align="right">
+														<h6>Date: <u><span id="orDatereq"></u></span></h6> 
+													</div>
+													<div style="">
+														
+														<table style="font-size:15px;height:20%;width:100%;border-collapse:collapse;border:1px solid black;">
+															<thead style="border:1px solid black">
+																<tr>
+																	<th>Document</th>
+																	<th>Amount Total</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr style="border:0.5px solid black">
+																	<td id="orDocumentName"></td>
+																	<td>₱<span id="orAmount"></span></td>
+																</tr>
+																<tr>
+																	<th>Cash:</th>
+																	<td>₱<span id="orCashreq"></span></td>
+																</tr>
+																<tr>
+																	<th>Change:</th>
+																	<td>₱<span id="orChangereq"></span></td>
+																</tr>
+															</tbody>
+														</table>
+														<br>
+														<div>
+															<h6>Receiver: <u><span id="orRecieverreq"></span></u></h4>
+														</div>		
+													</div>
+												</div>
+												<br>
+
+											<p align="center">
+												<button type="button" class="btn btn-info mr-1" id="requestReceiptPrint">Print</button>
 											</p>
 											</form>
 										</div>
@@ -582,7 +740,8 @@
 
 		$('#switchStatus').change(function(){
 			refreshID();
-			
+			refreshRequest();
+			fillTable();
 		});
 
 		$(document).on('click', '.idPay', function(e) {
@@ -594,6 +753,38 @@
 			$('#idCollID').val(id);
 
 			$("#idPayModal").modal('show');
+
+        });
+
+		$(document).on('click', '.reqPay', function(e) {
+            
+			var id = $(this).data('value');
+			
+			$('#requestCollID').val(id);
+
+			$.ajax({
+					url: '{{ url("/collection/gAmount") }}', 
+					method: 'GET', 
+					data: {'collectionPrimeID':id}, 
+					success: function (data) {
+
+						data = $.parseJSON(data);
+						$('#requestAmountToPay').val(data.amount);
+
+						
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+
+			$("#requestPayModal").modal('show');
 
         });
 
@@ -624,11 +815,69 @@
 							var d = months[month] + ' ' + day + ', ' + year;
 
 							$('#orDate').html(d);
+							$('#orIDAmount').html(data[index].amount);
+
 							$('#orReciever').html(data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName);
 							$('#orID').html(data[index].collectionID);
 							$('#orCash').html(data[index].recieved);
 							$('#orChange').html(change);	
 							$("#idReceiptModal").modal('show');
+
+						} 
+
+						
+						
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});
+
+				
+
+        });
+
+
+		$(document).on('click', '#reqReceipt', function(e) {
+            
+				var id = $(this).data('value');
+				
+				$.ajax({
+					url: '{{ url("/collection/showReceiptRequest") }}', 
+					method: 'GET', 
+					data: {'collectionPrimeID':id}, 
+					success: function (data) {
+
+						console.log(data);
+
+						data = $.parseJSON(data);
+
+						for(index in data)
+						{
+
+							var change = data[index].recieved - data[index].amount;
+
+							var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+							var date = new Date(data[index].paymentDate);
+							var month = date.getMonth();
+							var day = date.getDate();
+							var year = date.getFullYear();
+							var d = months[month] + ' ' + day + ', ' + year;
+
+							$('#orDocumentName').html(data[index].documentName + ' x' + data[index].quantity);
+							$('#orDatereq').html(d);
+							$('#orAmount').html(data[index].amount);
+							$('#orRecieverreq').html(data[index].firstName + ' ' + data[index].middleName + ' ' + data[index].lastName);
+							$('#orIDreq').html(data[index].collectionID);
+							$('#orCashreq').html(data[index].recieved);
+							$('#orChangereq').html(change);	
+							$("#requestReceiptModal").modal('show');
 
 						} 
 
@@ -683,6 +932,60 @@
 						}
 
 						refreshID();
+
+						swal("Successfully Paid!",
+								message, 
+								"success");
+					}, 
+					error: function (errors) {
+						var message = "Errors: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", message, "error");
+					}
+				});	
+			}
+			else{
+				
+			}
+        });
+
+		$(document).on('click', '#btnRequestPay', function(e) {
+
+			var cash = Number($('#requestCash').val());
+			var amount = Number($('#requestAmountToPay').val());
+			var id = $('#requestCollID').val();
+
+			if(cash < amount)
+			{
+				swal("Insufficient Cash", 
+					"Recieved Cash is not sufficient to pay the collection!" + 
+					"\nRecieved Cash is: PHP " + cash + 
+					"\nRequired amount is: PHP " + amount, 
+					"error");
+			}
+			else if( cash >= amount)
+			{
+				$.ajax({
+					url: '{{ url("/collection/pay") }}',
+					method: 'POST', 
+					data: {
+						"recieved": cash, 
+						"collectionPrimeID": id
+					}, 
+					success: function(data) {
+						$("#requestPayModal").modal('hide');
+						$("#frm-requestPay").trigger('reset');
+
+						var message = "";
+						if (Math.abs(cash - amount) > 0) {
+							message += "Change is: PHP " + Math.abs(cash - amount) + "\n";
+						}
+
+						refreshRequest();
 
 						swal("Successfully Paid!",
 								message, 
@@ -767,23 +1070,55 @@
 								buttonValues = "<a href='#' class='dropdown-item btnUpdate' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>";
 							}
 
-							$("#table-container").DataTable()
-								.row.add([
-									data[datum].collectionID, 
-									data[datum].firstName + " " + 
-									data[datum].middleName + " " + 
-									data[datum].lastName + " " + 
-									"(" + data[datum].residentID + ")", 
-									data[datum].reservationName,
-									collectionTypeString, 
-									data[datum].amount, 
-									data[datum].status, 
-									"<span class='dropdown'>" +
-									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
-									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-										buttonValues + 
-									"</span>"
-								]).draw(false);
+							if(switchStatus.checked == true)
+							{
+							
+								if(data[datum].status == "Paid")
+								{
+									$("#table-container").DataTable()
+										.row.add([
+											data[datum].collectionID, 
+											data[datum].firstName + " " + 
+											data[datum].middleName + " " + 
+											data[datum].lastName + " " + 
+											"(" + data[datum].residentID + ")", 
+											data[datum].reservationName,
+											collectionTypeString, 
+											data[datum].amount, 
+											data[datum].status, 
+											"<span class='dropdown'>" +
+											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+												buttonValues + 
+											"</span>"
+										]).draw(false);
+								}
+							}
+							else 
+							{
+								if(data[datum].status == "Pending")
+								{
+									$("#table-container").DataTable()
+										.row.add([
+											data[datum].collectionID, 
+											data[datum].firstName + " " + 
+											data[datum].middleName + " " + 
+											data[datum].lastName + " " + 
+											"(" + data[datum].residentID + ")", 
+											data[datum].reservationName,
+											collectionTypeString, 
+											data[datum].amount, 
+											data[datum].status, 
+											"<span class='dropdown'>" +
+											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+												buttonValues + 
+											"</span>"
+										]).draw(false);
+								}
+							}
+
+							
 						}
 					}, 
 					error: function (errors) {
@@ -834,20 +1169,49 @@
 								buttonValues = "<a href='#' class='dropdown-item btnUpdate' data-value='" + data[datum].collectionPrimeID + "'><i class='icon-eye6'></i> Update</a>";
 							}
 
-							$("#table-container").DataTable()
-								.row.add([
-									data[datum].collectionID, 
-									data[datum].name + 
-									"(" + data[datum].primeID + ")", 
-									data[datum].reservationName,
-									collectionTypeString, 
-									data[datum].amount, 
-									data[datum].status, 
-									"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
-									"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
-										buttonValues + 
-									"</span>"
-								]).draw(false);
+							if(switchStatus.checked == true)
+							{
+							
+								if(data[datum].status == "Paid")
+								{
+									$("#table-container").DataTable()
+										.row.add([
+											data[datum].collectionID, 
+											data[datum].name + 
+											"(" + data[datum].primeID + ")", 
+											data[datum].reservationName,
+											collectionTypeString, 
+											data[datum].amount, 
+											data[datum].status, 
+											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+												buttonValues + 
+											"</span>"
+										]).draw(false);		
+								}
+							}
+							else 
+							{
+								if(data[datum].status == "Pending")
+								{
+									$("#table-container").DataTable()
+										.row.add([
+											data[datum].collectionID, 
+											data[datum].name + 
+											"(" + data[datum].primeID + ")", 
+											data[datum].reservationName,
+											collectionTypeString, 
+											data[datum].amount, 
+											data[datum].status, 
+											"<button id='btnSearchDrop2' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true' class='btn btn-primary dropdown-toggle dropdown-menu-right'><i class='icon-cog3'></i></button>" + 
+											"<span aria-labelledby='btnSearchDrop2' class='dropdown-menu mt-1 dropdown-menu-right'>" + 
+												buttonValues + 
+											"</span>"
+										]).draw(false);
+								}
+							}
+
+							
 						}
 					}, 
 					error: function (errors) {
@@ -913,6 +1277,16 @@
 
 		$("#idReceiptPrint").click(function () {
 			html2pdf($("#mainReceipt")[0], {
+				margin: 	  0, 
+				filename:     "Receipt-" + getStringDateTime() + ".pdf", 
+				image:        { type: 'jpeg', quality: 1 },
+				html2canvas:  { dpi: 300, letterRendering: true },
+				jsPDF:        { unit: 'in', format: [8.6459, 5.2438], orientation: 'portrait' }
+			});
+		});
+
+		$("#requestReceiptPrint").click(function () {
+			html2pdf($("#mainReceiptRequest")[0], {
 				margin: 	  0, 
 				filename:     "Receipt-" + getStringDateTime() + ".pdf", 
 				image:        { type: 'jpeg', quality: 1 },
@@ -1120,6 +1494,84 @@
 									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
 									d,
 									'Barangay ID', 
+									"&#8369; " + data[index].amount,
+									statusText,
+									btn
+								]).draw(false);
+							}
+						}
+
+						
+					}
+				}, 
+				error: function(data) {
+					swal("Error", "Cannot fetch table data!\n" + errorReport(data), "error");
+				}
+			});
+		};
+
+		
+
+		var refreshRequest = function() {
+			$.ajax({
+				url: "{{ url('/collection/refreshRequest') }}", 
+				method: "GET", 
+				datatype: "json", 
+				success: function(data) {
+					$("#table-request").DataTable().clear().draw();
+					data = $.parseJSON(data);
+
+					for (index in data) {
+
+						
+						var statusText = "";
+						var btn ="";
+
+						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+						var date = new Date(data[index].collectionDate);
+						var month = date.getMonth();
+						var day = date.getDate();
+						var year = date.getFullYear();
+						var d = months[month] + ' ' + day + ', ' + year;
+
+						if (data[index].status == "Pending") {
+							statusText = '<span class="tag round tag-info">Pending</span>';
+							btn = '<a href="#" class="btn btn-info reqPay" data-value="'+ data[index].collectionPrimeID +'">Payment</a>';
+						}
+						else {
+							statusText = '<span class="tag round tag-success">Paid</span>';
+							btn = '<a href="#" id="reqReceipt" class="btn btn-warning reqReceipt" data-value="'+ data[index].collectionPrimeID +'">Show Receipt</a>';
+						}
+
+						if(switchStatus.checked == true)
+						{
+							
+							if(data[index].status == "Paid")
+							{
+								$("#table-request").DataTable()
+								.row.add([
+									data[index].collectionID, 
+									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+									d,
+									'Document Request',
+									data[index].documentName, 
+									"&#8369; " + data[index].amount,
+									statusText,
+									btn
+								]).draw(false);
+							}
+						}
+						else
+						{
+							if(data[index].status == "Pending")
+							{
+								$("#table-request").DataTable()
+								.row.add([
+									data[index].collectionID, 
+									data[index].lastName + ', ' + data[index].firstName + ' ' + data[index].middleName, 
+									d,
+									'Document Request', 
+									data[index].documentName, 
 									"&#8369; " + data[index].amount,
 									statusText,
 									btn
