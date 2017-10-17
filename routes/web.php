@@ -265,9 +265,13 @@ Route::get('/business-registration/check', 'BusinessRegistrationController@check
 Route::get('/business-registration/refresh', 'BusinessRegistrationController@refresh');
 Route::get('/business-registration/refreshNonres', 'BusinessRegistrationController@refreshNonres');
 Route::get('/business-registration/getEdit', 'BusinessRegistrationController@getEdit');
+Route::get('/business-registration/permitNonRes/{id}', 'BusinessRegistrationController@permitNonRes');
+Route::get('/business-registration/permitRes/{id}', 'BusinessRegistrationController@permitRes');
 Route::get('/business-registration/getDetails', 'BusinessRegistrationController@getDetails');
 Route::get('/business-registration/getDetailsN', 'BusinessRegistrationController@getDetailsN');
 Route::post('/business-registration/store', 'BusinessRegistrationController@store');
+Route::get('/business-registration/permitPrintRes', 'BusinessRegistrationController@permitPrintRes');
+Route::get('/business-registration/permitPrintNonRes', 'BusinessRegistrationController@permitPrintNonRes');
 Route::post('/business-registration/delete', 'BusinessRegistrationController@delete');
 Route::post('/business-registration/update', 'BusinessRegistrationController@edit');
 
@@ -291,6 +295,12 @@ Route::get('/reports/resident/previewRange/{fromDate}/{toDate}', 'ReportsResiden
 Route::get('/reports/resident/previewAll', 'ReportsResidentController@previewAll');
 Route::get('/reports/resident/printRange', 'ReportsResidentController@printRange');
 Route::get('/reports/resident/printAll', 'ReportsResidentController@printAll');
+
+//REGISTERED BUSINESSES REPORT
+Route::get('/reports/business/previewRange/{fromDate}/{toDate}', 'ReportsBusinessController@previewRange');
+Route::get('/reports/business/previewAll', 'ReportsBusinessController@previewAll');
+Route::get('/reports/business/printRange', 'ReportsBusinessController@printRange');
+Route::get('/reports/business/printAll', 'ReportsBusinessController@printAll');
 
 //RENDERED SERVICES REPORT
 Route::get('/reports/service/previewRange/{fromDate}/{toDate}', 'ReportsServiceController@previewRange');
@@ -420,6 +430,7 @@ Route::resource('/query/business', 'QueryBusinessController')->middleware("auth"
 Route::resource('/recipient', 'RecipientController')->middleware("auth");
 Route::resource('/reports/collection', 'ReportsCollectionController')->middleware("auth");
 Route::resource('/reports/pwd', 'ReportsPwdController')->middleware("auth");
+Route::resource('/reports/business', 'ReportsBusinessController')->middleware("auth");
 Route::resource('/report/pwd', 'ReportController')->middleware("auth");
 Route::resource('/reports/service', 'ReportsServiceController')->middleware("auth");
 Route::resource('/reports/senior', 'ReportsSeniorController')->middleware("auth");

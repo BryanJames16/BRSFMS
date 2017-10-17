@@ -220,6 +220,31 @@
 								</div> 
 								<!-- End of Modal -->
 
+								<!-- Permit Modal -->
+								<div class="modal animated bounceIn text-xs-left" id="permitModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+									<div class="modal-dialog modal-xl" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Register Business</h4>
+											</div>
+											<div ng-app="maintenanceApp" class="modal-body">
+												<input type="hidden" id="hiddenID"></input>
+												<p align="center">
+													<a href="#" class="btn btn-success" id="print">Print</a>
+												</p>
+												<p align="center">
+													<iframe id="iframe" style="width:80%;height:100%" frameborder="1" src="" ></iframe>
+												</p>
+											</div>
+											<!-- End of Modal Body -->
+										</div>
+									</div>
+								</div> 
+								<!-- End of Modal -->
+
 								<!-- EDIT Modal -->
 								<div class="modal animated bounceIn text-xs-left" id="modalEdit" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 									<div class="modal-dialog" role="document">
@@ -421,7 +446,7 @@
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 													<a href="#" class="dropdown-item view" name="btnView" data-value=" {{$reg ->registrationPrimeID}}"><i class="icon-eye3"></i> View</a>
-													<a href="#" class="dropdown-item permit" name="btnEdit" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-pen3"></i>Business Permit</a>
+													<a href="#" class="dropdown-item permit" name="btnEdit" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-pen3"></i>Business Clearance</a>
 													<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-pen3"></i> Edit</a>
 													<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-trash4"></i> Delete</a>
 												</span>
@@ -441,7 +466,7 @@
 												<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 												<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
 													<a href="#" class="dropdown-item view" name="btnView" data-value=" {{$regN ->registrationPrimeID}}"><i class="icon-eye3"></i> View</a>
-													<a href="#" class="dropdown-item permit" name="btnEdit" data-value="{{$reg ->registrationPrimeID}}"><i class="icon-pen3"></i>Business Permit</a>
+													<a href="#" class="dropdown-item permit" name="btnEdit" data-value="{{$regN ->registrationPrimeID}}"><i class="icon-pen3"></i>Business Clearance</a>
 													<a href="#" class="dropdown-item edit" name="btnEdit" data-value="{{$regN ->registrationPrimeID}}"><i class="icon-pen3"></i> Edit</a>
 													<a href="#" class="dropdown-item delete" name="btnDelete" data-value="{{$regN ->registrationPrimeID}}"><i class="icon-trash4"></i> Delete</a>
 												</span>
@@ -1065,6 +1090,118 @@
 
 			
 
+		});
+
+		$(document).on('click', '#print', function(e) {
+			var id = $('#hiddenID').val();
+
+
+			$.ajax({
+				url: '/business-registration/check', 
+				type: 'GET', 
+				data: {
+					'registrationPrimeID':id
+				},
+				success: function(data) {
+
+
+					for(index in data)
+					{
+						if(data[index].residentPrimeID==null)
+						{
+							$.ajax({
+								url: '{{ url("/business-registration/permitPrintNonRes") }}', 
+								method: 'GET', 
+								data: {
+									'id': id
+								}, 
+								success: function (data) {
+									swal("Successfull", "Download Successful!", "success");
+									$('#permitModal').modal('hide');
+								}, 
+								error: function (errors) {
+									var message = "Errors: ";
+									var data = errors.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
+								}
+							});
+						}
+						else
+						{
+							$.ajax({
+								url: '{{ url("/business-registration/permitPrintRes") }}', 
+								method: 'GET', 
+								data: {
+									'id': id
+								}, 
+								success: function (data) {
+									swal("Successfull", "Download Successful!", "success");
+									$('#permitModal').modal('hide');
+								}, 
+								error: function (errors) {
+									var message = "Errors: ";
+									var data = errors.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
+								}
+							});
+						}
+					}		
+				}, 
+				error: function (errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+				}
+			});
+
+			
+		});	
+
+		$(document).on('click', '.permit', function(e) {
+			
+			var id = $(this).data("value");
+			$('#hiddenID').val(id);
+
+			$.ajax({
+				url: '/business-registration/check', 
+				type: 'GET', 
+				data: {
+					'registrationPrimeID':id
+				},
+				success: function(data) {
+					for(index in data)
+					{
+						if(data[index].residentPrimeID == null)
+						{
+							$('#iframe').attr('src','/business-registration/permitNonRes/'+ id);
+						}
+						else
+						{
+							$('#iframe').attr('src','/business-registration/permitRes/'+ id);
+						}
+					}
+				}, 
+				error: function(errors) {
+					var message = "Errors: ";
+					var data = errors.responseJSON;
+					for (datum in data) {
+						message += data[datum];
+					}
+
+					swal("Error", message, "error");
+				}
+			});
+
+
+			
+
+			$('#permitModal').modal('show');
 		});
 
 		$(document).on('click', '.delete', function(e) {
