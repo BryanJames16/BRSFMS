@@ -568,7 +568,7 @@
 									</li>
 									
 									<li id="report-reservation-id">
-										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">
+										<a href="/reports/reservation" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-calendar3"></i>
 											Reservation of Facilities
 										</a>

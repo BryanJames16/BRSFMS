@@ -312,11 +312,21 @@ Route::get('/reports/service/printAll', 'ReportsServiceController@printAll');
 Route::get('/reports/participant/preview/{id}', 'ReportsParticipantController@preview');
 Route::get('/reports/participant/print', 'ReportsParticipantController@print');
 
+//SERVICE SPONSORS REPORT
+Route::get('/reports/sponsor/preview/{id}', 'ReportsSponsorController@preview');
+Route::get('/reports/sponsor/print', 'ReportsSponsorController@print');
+
 //COLLECTION REPORT
 Route::get('/reports/collection/previewRange/{fromDate}/{toDate}', 'ReportsCollectionController@previewRange');
 Route::get('/reports/collection/previewAll', 'ReportsCollectionController@previewAll');
 Route::get('/reports/collection/printRange', 'ReportsCollectionController@printRange');
 Route::get('/reports/collection/printAll', 'ReportsCollectionController@printAll');
+
+//RESERVATION REPORT
+Route::get('/reports/reservation/previewRange/{fromDate}/{toDate}', 'ReportsReservationController@previewRange');
+Route::get('/reports/reservation/previewAll', 'ReportsReservationController@previewAll');
+Route::get('/reports/reservation/printRange', 'ReportsReservationController@printRange');
+Route::get('/reports/reservation/printAll', 'ReportsReservationController@printAll');
 
 //EMPLOYED REPORT
 Route::get('/reports/employed/previewRange/{fromDate}/{toDate}', 'ReportsEmployedController@previewRange');
@@ -436,8 +446,10 @@ Route::resource('/reports/collection', 'ReportsCollectionController')->middlewar
 Route::resource('/reports/pwd', 'ReportsPwdController')->middleware("auth");
 Route::resource('/reports/participant', 'ReportsParticipantController')->middleware("auth");
 Route::resource('/reports/business', 'ReportsBusinessController')->middleware("auth");
-Route::resource('/report/pwd', 'ReportController')->middleware("auth");
+Route::resource('/reports/sponsor', 'ReportsSponsorController')->middleware("auth");
+Route::resource('/reports/sponsor', 'ReportsSponsorController')->middleware("auth");
 Route::resource('/reports/service', 'ReportsServiceController')->middleware("auth");
+Route::resource('/reports/reservation', 'ReportsReservationController')->middleware("auth");
 Route::resource('/reports/senior', 'ReportsSeniorController')->middleware("auth");
 Route::resource('/reports/resident', 'ReportsResidentController')->middleware("auth");
 Route::resource('/reports/employed', 'ReportsEmployedController')->middleware("auth");
