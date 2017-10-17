@@ -483,7 +483,119 @@ class ReservationController extends Controller
             $resDetails -> status = "Pending";
             $resDetails -> eventStatus = "Extended";
             $resDetails -> save();
+
+            $totalAmount = 0;
+            $hourDiff = 0;
+            if (date('H', strtotime($resDetails -> reservationStart)) >= 10 && 
+                date('H', strtotime($resDetails -> reservationStart)) < 18 && 
+                date('H', strtotime($resDetails -> reservationEnd)) >= 10 && 
+                date('H', strtotime($resDetails -> reservationEnd)) < 18) {
+                $hourDiff = abs(strtotime($resDetails -> reservationStart) - strtotime($resDetails -> reservationEnd));
+                $hourDiff /= 3600;
+                
+                $morningPrice = Facility::select('facilityDayPrice')
+                                        -> where('primeID', '=', $resDetails -> facilityPrimeID)
+                                        -> get();
+                
+                $totalAmount += $hourDiff * ($morningPrice[0] -> facilityDayPrice);
+                
+            } 
+            else if (date('H', strtotime($resDetails -> reservationStart)) >= 18 && 
+                        date('H', strtotime($resDetails -> reservationStart)) <= 22 && 
+                        date('H', strtotime($resDetails -> reservationEnd)) >= 18 && 
+                        date('H', strtotime($resDetails -> reservationEnd)) <= 22) {
+                $hourDiff = abs(strtotime($resDetails -> reservationStart) - strtotime($resDetails -> reservationEnd));
+                $hourDiff /= 3600;
+    
+                $eveningPrice = Facility::select('facilityNightPrice')
+                                    -> where('primeID', '=', $resDetails->facilityPrimeID)
+                                    -> get();
+                
+                $totalAmount += $hourDiff * ($eveningPrice[0] -> facilityNightPrice);
+            }
+            else {
+                $startHour = abs(date('H', strtotime($resDetails -> reservationStart)) - 18);
+                $endHour = abs(date('H', strtotime($resDetails -> reservationEnd)) - 17);
+    
+                $morningPrice = Facility::select('facilityDayPrice')
+                                            -> where('primeID', '=', $resDetails->facilityPrimeID)
+                                            -> get();
+    
+                $eveningPrice = Facility::select('facilityNightPrice')
+                                    -> where('primeID', '=', $resDetails->facilityPrimeID)
+                                    -> get();
+                $morningAmount = $startHour * ($morningPrice[0] -> facilityDayPrice);
+                $eveningAmount = $endHour * ($eveningPrice[0] -> facilityNightPrice);
+    
+                $totalAmount += $morningAmount + $eveningAmount;
+            }
+
+            $listOfCollection = Collection::select('collectionID') 
+                                            ->get()
+                                            ->last();
+            $nextKey = "";
+            if (is_null($listOfCollection)) {
+                $collectionPK = Utility::select('collectionPK')->get()->last();
+                $nextKey = StaticCounter::smart_next($collectionPK->collectionPK, SmartMove::$NUMBER);
+            }
+            else {
+                $nextKey = StaticCounter::smart_next($listOfCollection -> collectionID, SmartMove::$NUMBER);
+            }
+
+            if (is_null($resDetails -> peoplePrimeID)) {
+                $collectionRet = Collection::insert(['collectionID' => $nextKey,
+                                                        'collectionDate' => Carbon::now(), 
+                                                        'collectionType' => 3, 
+                                                        'amount' => $totalAmount, 
+                                                        'status' => 'Pending', 
+                                                        'reservationPrimeID' => $resDetails -> primeID, 
+                                                        'peoplePrimeID' => $resDetails -> peoplePrimeID]);
+            }
+            else {
+                $collectionRet = Collection::insert(['collectionID' => $nextKey,
+                                                        'collectionDate' => Carbon::now(), 
+                                                        'collectionType' => 3, 
+                                                        'amount' => $totalAmount, 
+                                                        'status' => 'Pending', 
+                                                        'reservationPrimeID' => $resDetails -> primeID, 
+                                                        'residentPrimeID' => $resDetails -> peoplePrimeID]);
+            }
         } 
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function checkReservation(Request $r) {
+        if($r -> ajax()) {
+            $resDetails = Reservation::find($r -> input('primeID'));
+
+            $possibleRes = Reservation::where("facilityPrimeID", "=", $resDetails -> facilityPrimeID)
+                                        -> whereDate("dateReserved", "=", $resDetails -> dateReserved)
+                                        -> where("reservationStart", "<", $r -> input("mysqlTime"))
+                                        -> where("reservationEnd", ">=", $r -> input("mysqlTime"))
+                                        -> where("status", "=", "Paid") 
+                                        -> where("primeID", "!=", $r -> input('primeID'))
+                                        -> get();
+
+            if ($possibleRes -> count()) {
+               return "false";
+            }
+            
+            $possibleRes = Reservation::where("facilityPrimeID", "=", $resDetails -> facilityPrimeID)
+                                        -> whereDate("dateReserved", "=", $resDetails -> dateReserved)
+                                        -> where("reservationStart", ">", $resDetails -> reservationStart)
+                                        -> where("reservationEnd", "<=", $r -> input("mysqlTime"))
+                                        -> where("status", "=", "Paid") 
+                                        -> where("primeID", "!=", $r -> input('primeID'))
+                                        -> get();
+
+            if ($possibleRes -> count()) {
+                return "false";
+            }
+
+            return "true";
+        }
         else {
             return view('errors.403');
         }
