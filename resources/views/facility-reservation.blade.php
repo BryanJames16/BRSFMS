@@ -731,15 +731,44 @@
 						}
 
 						$.ajax({
-							url: "{{ url('/facility-reservation/extend') }}", 
-							type: "POST", 
+							url: "{{ url('/facility-reservation/checkReservation') }}", 
+							type: "GET", 
 							data: {
 								"primeID": primeID, 
 								"mysqlTime": formatJStoMySQL(extendedDate), 
 								"phpTime": formatJStoPHP(extendedDate)
 							}, 
-							success: function(evaluation) {
-								swal("Successfull", "Reservation is Extended!", "success");
+							success: function(data) {
+								if (data == "true") {
+									//console.log("true");
+									
+									$.ajax({
+										url: "{{ url('/facility-reservation/extend') }}", 
+										type: "POST", 
+										data: {
+											"primeID": primeID, 
+											"mysqlTime": formatJStoMySQL(extendedDate), 
+											"phpTime": formatJStoPHP(extendedDate)
+										}, 
+										success: function(evaluation) {
+											swal("Successfull", "Reservation is Extended!", "success");
+										}, 
+										error: function(evaluation) {
+											var message = "Error: ";
+											var data = evaluation.responseJSON;
+											for (datum in data) {
+												message += data[datum];
+											}
+
+											swal("Error", "Cannot fetch table data!\n" + message, "error");
+										}
+									});
+									
+								}
+								else {
+									console.log(primeID);
+									swal("Error", "There is reservation on this time", "error");
+								}
 							}, 
 							error: function(evaluation) {
 								var message = "Error: ";

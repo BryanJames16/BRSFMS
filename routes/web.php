@@ -210,6 +210,7 @@ Route::get('/facility-reservation/updatecbo', 'ReservationController@updateCombo
 Route::get('/facility-reservation/gReservations', 'ReservationController@getReservation');
 Route::get('/facility-reservation/realtime', 'ReservationController@realtime');
 Route::get('/facility-reservation/getResDetails', 'ReservationController@getResDetails');
+Route::get('/facility-reservation/checkReservation', 'ReservationController@checkReservation');
 Route::post('/facility-reservation/extend', 'ReservationController@extendTime');
 Route::post('/facility-reservation/delete','ReservationController@delete');
 Route::post('/facility-reservation/store', 'ReservationController@store');
