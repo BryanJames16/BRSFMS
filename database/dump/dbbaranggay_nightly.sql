@@ -237,7 +237,7 @@ CREATE TABLE `collections` (
   CONSTRAINT `fk_collections_people1` FOREIGN KEY (`peoplePrimeID`) REFERENCES `people` (`peoplePrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_reservations1` FOREIGN KEY (`reservationprimeID`) REFERENCES `reservations` (`primeID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_collections_residents1` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +246,7 @@ CREATE TABLE `collections` (
 
 LOCK TABLES `collections` WRITE;
 /*!40000 ALTER TABLE `collections` DISABLE KEYS */;
-INSERT INTO `collections` VALUES (12,'COLLE_001','2017-08-30 01:41:17','2017-09-16 03:31:47',3,600,1000,'Paid',20,NULL,2,NULL,NULL),(13,'COLLE_002','2017-08-30 01:42:00','2017-10-08 11:34:27',3,200,200,'Paid',21,NULL,5,NULL,NULL),(14,'COLLE_003','2017-08-30 01:44:00','2017-10-08 11:35:02',3,1400,1400,'Paid',22,NULL,6,NULL,NULL),(15,'COLLE_004','2017-08-30 03:35:11','2017-08-30 03:37:06',3,200,300,'Paid',23,NULL,8,NULL,NULL),(16,'COLLE_005','2017-09-09 04:39:38','2017-10-08 11:35:15',3,1800,2000,'Paid',24,NULL,2,NULL,NULL),(17,'COLLE_006','2017-09-09 04:41:14','2017-09-09 04:41:48',3,100,1000,'Paid',25,NULL,2,NULL,NULL),(18,'COLLE_007','2017-09-16 03:23:05','2017-10-08 11:35:28',3,200,500,'Paid',26,NULL,5,NULL,NULL),(20,'COLLE_008','2017-10-08 19:26:46','2017-10-08 19:27:07',1,100,150,'Paid',NULL,NULL,NULL,NULL,4),(21,'COLLE_009','2017-10-08 23:01:26','2017-10-08 23:27:47',1,100,100,'Paid',NULL,NULL,NULL,NULL,5),(22,'COLLE_010','2017-10-08 23:38:55','2017-10-08 23:40:59',1,100,1000,'Paid',NULL,NULL,NULL,NULL,6),(23,'COLLE_011','2017-10-09 01:28:25','2017-10-16 10:18:56',1,100,200,'Paid',NULL,NULL,NULL,NULL,7),(24,'COLLE_012','2017-10-13 01:50:36','2017-10-13 01:50:48',1,100,500,'Paid',NULL,NULL,NULL,NULL,8),(25,'COLLE_013','2017-10-13 12:52:57','2017-10-13 12:53:12',1,100,500,'Paid',NULL,NULL,NULL,NULL,9),(26,'COLLE_014','2017-10-13 12:57:55','2017-10-14 20:40:04',3,700,1000,'Paid',28,NULL,2,NULL,NULL),(27,'COLLE_015','2017-10-14 15:50:43','2017-10-14 15:50:56',1,100,200,'Paid',NULL,NULL,NULL,NULL,10),(28,'COLLE_016','2017-10-14 15:53:41','2017-10-14 15:54:04',1,100,200,'Paid',NULL,NULL,NULL,NULL,11),(29,'COLLE_017','2017-10-16 10:18:08','2017-10-16 10:19:58',3,100,100,'Paid',32,NULL,4,NULL,NULL),(30,'COLLE_018','2017-10-16 21:49:29','2017-10-16 21:51:29',3,400,400,'Paid',33,NULL,NULL,NULL,NULL),(31,'COLLE_019','2017-10-16 22:35:37','2017-10-16 22:41:52',1,100,100,'Paid',NULL,NULL,NULL,NULL,12),(32,'COLLE_020','2017-10-16 23:47:29','2017-10-17 00:41:24',2,200,500,'Paid',NULL,23,NULL,NULL,NULL),(33,'COLLE_021','2017-10-17 00:39:55','2017-10-17 00:42:36',2,100,100,'Paid',NULL,24,NULL,NULL,NULL),(36,'COLLE_022','2017-10-17 23:47:56','2017-10-17 23:48:46',3,200,200,'Paid',34,NULL,9,NULL,NULL),(37,'COLLE_023','2017-10-18 00:05:44',NULL,3,0,NULL,'Pending',35,NULL,7,NULL,NULL),(38,'COLLE_024','2017-10-18 00:07:09',NULL,3,0,NULL,'Pending',36,NULL,4,NULL,NULL),(39,'COLLE_025','2017-10-18 00:09:16',NULL,3,0,NULL,'Pending',37,NULL,4,NULL,NULL),(40,'COLLE_026','2017-10-18 00:10:12',NULL,3,0,NULL,'Pending',38,NULL,7,NULL,NULL),(41,'COLLE_027','2017-10-18 01:15:52',NULL,3,425,NULL,'Pending',34,NULL,9,NULL,NULL),(42,'COLLE_028','2017-10-18 03:04:22',NULL,3,473.3333333333333,NULL,'Pending',32,NULL,4,NULL,NULL),(43,'COLLE_029','2017-10-18 03:22:49','2017-10-18 03:23:12',3,100,100,'Paid',39,NULL,NULL,NULL,NULL);
+INSERT INTO `collections` VALUES (12,'COLLE_001','2017-08-30 01:41:17','2017-09-16 03:31:47',3,600,1000,'Paid',20,NULL,2,NULL,NULL),(13,'COLLE_002','2017-08-30 01:42:00','2017-10-08 11:34:27',3,200,200,'Paid',21,NULL,5,NULL,NULL),(14,'COLLE_003','2017-08-30 01:44:00','2017-10-08 11:35:02',3,1400,1400,'Paid',22,NULL,6,NULL,NULL),(15,'COLLE_004','2017-08-30 03:35:11','2017-08-30 03:37:06',3,200,300,'Paid',23,NULL,8,NULL,NULL),(16,'COLLE_005','2017-09-09 04:39:38','2017-10-08 11:35:15',3,1800,2000,'Paid',24,NULL,2,NULL,NULL),(17,'COLLE_006','2017-09-09 04:41:14','2017-09-09 04:41:48',3,100,1000,'Paid',25,NULL,2,NULL,NULL),(18,'COLLE_007','2017-09-16 03:23:05','2017-10-08 11:35:28',3,200,500,'Paid',26,NULL,5,NULL,NULL),(20,'COLLE_008','2017-10-08 19:26:46','2017-10-08 19:27:07',1,100,150,'Paid',NULL,NULL,NULL,NULL,4),(21,'COLLE_009','2017-10-08 23:01:26','2017-10-08 23:27:47',1,100,100,'Paid',NULL,NULL,NULL,NULL,5),(22,'COLLE_010','2017-10-08 23:38:55','2017-10-08 23:40:59',1,100,1000,'Paid',NULL,NULL,NULL,NULL,6),(23,'COLLE_011','2017-10-09 01:28:25','2017-10-16 10:18:56',1,100,200,'Paid',NULL,NULL,NULL,NULL,7),(24,'COLLE_012','2017-10-13 01:50:36','2017-10-13 01:50:48',1,100,500,'Paid',NULL,NULL,NULL,NULL,8),(25,'COLLE_013','2017-10-13 12:52:57','2017-10-13 12:53:12',1,100,500,'Paid',NULL,NULL,NULL,NULL,9),(26,'COLLE_014','2017-10-13 12:57:55','2017-10-14 20:40:04',3,700,1000,'Paid',28,NULL,2,NULL,NULL),(27,'COLLE_015','2017-10-14 15:50:43','2017-10-14 15:50:56',1,100,200,'Paid',NULL,NULL,NULL,NULL,10),(28,'COLLE_016','2017-10-14 15:53:41','2017-10-14 15:54:04',1,100,200,'Paid',NULL,NULL,NULL,NULL,11),(29,'COLLE_017','2017-10-16 10:18:08','2017-10-16 10:19:58',3,100,100,'Paid',32,NULL,4,NULL,NULL),(30,'COLLE_018','2017-10-16 21:49:29','2017-10-16 21:51:29',3,400,400,'Paid',33,NULL,NULL,NULL,NULL),(31,'COLLE_019','2017-10-16 22:35:37','2017-10-16 22:41:52',1,100,100,'Paid',NULL,NULL,NULL,NULL,12),(32,'COLLE_020','2017-10-16 23:47:29','2017-10-17 00:41:24',2,200,500,'Paid',NULL,23,NULL,NULL,NULL),(33,'COLLE_021','2017-10-17 00:39:55','2017-10-17 00:42:36',2,100,100,'Paid',NULL,24,NULL,NULL,NULL),(36,'COLLE_022','2017-10-17 23:47:56','2017-10-17 23:48:46',3,200,200,'Paid',34,NULL,9,NULL,NULL),(37,'COLLE_023','2017-10-18 00:05:44',NULL,3,0,NULL,'Pending',35,NULL,7,NULL,NULL),(38,'COLLE_024','2017-10-18 00:07:09',NULL,3,0,NULL,'Pending',36,NULL,4,NULL,NULL),(39,'COLLE_025','2017-10-18 00:09:16',NULL,3,0,NULL,'Pending',37,NULL,4,NULL,NULL),(40,'COLLE_026','2017-10-18 00:10:12',NULL,3,0,NULL,'Pending',38,NULL,7,NULL,NULL),(41,'COLLE_027','2017-10-18 01:15:52',NULL,3,425,NULL,'Pending',34,NULL,9,NULL,NULL),(42,'COLLE_028','2017-10-18 03:04:22',NULL,3,473.3333333333333,NULL,'Pending',32,NULL,4,NULL,NULL),(43,'COLLE_029','2017-10-18 03:22:49','2017-10-18 03:23:12',3,100,100,'Paid',39,NULL,NULL,NULL,NULL),(44,'COLLE_030','2017-10-18 05:41:16',NULL,2,100,NULL,'Pending',NULL,25,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `collections` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +267,7 @@ CREATE TABLE `document_requirements` (
   KEY `requirementID_idx` (`requirementID`),
   CONSTRAINT `documentPrimeID` FOREIGN KEY (`documentPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `requirementID` FOREIGN KEY (`requirementID`) REFERENCES `requirements` (`requirementID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +276,7 @@ CREATE TABLE `document_requirements` (
 
 LOCK TABLES `document_requirements` WRITE;
 /*!40000 ALTER TABLE `document_requirements` DISABLE KEYS */;
-INSERT INTO `document_requirements` VALUES (2,2,1,2),(3,2,2,1),(9,3,1,1),(10,1,1,2),(11,1,2,1),(12,1,4,1);
+INSERT INTO `document_requirements` VALUES (2,2,1,2),(3,2,2,1),(9,3,1,1),(10,1,1,2),(11,1,2,1),(12,1,4,1),(13,4,1,2),(14,4,3,2);
 /*!40000 ALTER TABLE `document_requirements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +301,7 @@ CREATE TABLE `documentrequests` (
   KEY `documentPrimeID_idx` (`documentsPrimeID`),
   CONSTRAINT `documentsPrimeID` FOREIGN KEY (`documentsPrimeID`) REFERENCES `documents` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `residentPrimeID` FOREIGN KEY (`residentPrimeID`) REFERENCES `residents` (`residentPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +310,7 @@ CREATE TABLE `documentrequests` (
 
 LOCK TABLES `documentrequests` WRITE;
 /*!40000 ALTER TABLE `documentrequests` DISABLE KEYS */;
-INSERT INTO `documentrequests` VALUES (5,'REQ_001','2017-08-27','Approved',2,1,2,NULL),(6,'REQ_002','2017-08-27','Cancelled',4,2,1,NULL),(7,'REQ_003','2017-08-27','Rejected',3,2,1,'Rejected becuase there is no chuchu'),(8,'REQ_004','2017-08-27','Rejected',5,1,2,'Rejected because he is not saying the truth'),(9,'REQ_005','2017-08-29','Rejected',5,2,2,'Rejected because he doesn\'t have any proof'),(10,'REQ_006','2017-08-29','Approved',2,1,1,NULL),(11,'REQ_007','2017-08-29','Approved',7,3,1,NULL),(12,'REQ_008','2017-08-29','Approved',7,1,1,NULL),(13,'REQ_009','2017-08-29','Approved',6,1,2,NULL),(14,'REQ_010','2017-08-30','Approved',8,2,8,NULL),(15,'REQ_011','2017-09-09','Approved',2,1,1,NULL),(16,'REQ_012','2017-09-16','Rejected',2,1,1,'Rejected because she is so beautiful'),(17,'REQ_013','2017-09-16','Rejected',2,1,2,'hjgj'),(20,'REQ_014','2017-09-24','Rejected',5,3,1,'Rejected because Bryan is not qualified to get this document'),(21,'REQ_015','2017-09-30','Approved',2,1,1,NULL),(22,'REQ_016','2017-10-09','Approved',8,1,1,NULL),(23,'REQ_017','2017-10-13','Approved',2,1,2,NULL),(24,'REQ_018','2017-10-13','Approved',6,1,1,NULL);
+INSERT INTO `documentrequests` VALUES (5,'REQ_001','2017-08-27','Approved',2,1,2,NULL),(6,'REQ_002','2017-08-27','Cancelled',4,2,1,NULL),(7,'REQ_003','2017-08-27','Rejected',3,2,1,'Rejected becuase there is no chuchu'),(8,'REQ_004','2017-08-27','Rejected',5,1,2,'Rejected because he is not saying the truth'),(9,'REQ_005','2017-08-29','Rejected',5,2,2,'Rejected because he doesn\'t have any proof'),(10,'REQ_006','2017-08-29','Approved',2,1,1,NULL),(11,'REQ_007','2017-08-29','Approved',7,3,1,NULL),(12,'REQ_008','2017-08-29','Approved',7,1,1,NULL),(13,'REQ_009','2017-08-29','Approved',6,1,2,NULL),(14,'REQ_010','2017-08-30','Approved',8,2,8,NULL),(15,'REQ_011','2017-09-09','Approved',2,1,1,NULL),(16,'REQ_012','2017-09-16','Rejected',2,1,1,'Rejected because she is so beautiful'),(17,'REQ_013','2017-09-16','Rejected',2,1,2,'hjgj'),(20,'REQ_014','2017-09-24','Rejected',5,3,1,'Rejected because Bryan is not qualified to get this document'),(21,'REQ_015','2017-09-30','Approved',2,1,1,NULL),(22,'REQ_016','2017-10-09','Approved',8,1,1,NULL),(23,'REQ_017','2017-10-13','Approved',2,1,2,NULL),(24,'REQ_018','2017-10-13','Approved',6,1,1,NULL),(25,'REQ_019','2017-10-18','Approved',5,1,1,NULL);
 /*!40000 ALTER TABLE `documentrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +332,7 @@ CREATE TABLE `documents` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`primeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -341,7 +341,7 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-INSERT INTO `documents` VALUES (1,'DOC_001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {scivilstatus}, and whose signature appears below is presently residing in {address}.<br><br>This is to certify that {sgender:opt} has no dorigatory record filed and / or pending case against {sgender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {sgender:sopt} requirements.','Clearance',100,1,0),(2,'DOC_002','Certificate of Indigency','Indegency certification','This is to certify that..','Certification',100,1,0),(3,'DOC_003','Certificate of No Work','No work certification','This is to certify...','Certification',50,1,0);
+INSERT INTO `documents` VALUES (1,'DOC_001','Barangay Clearance','Clearance of Barangay','To whom it may concern:<br><br>This is to certify that {lastname}, {firstname} {middlename}, {scivilstatus}, and whose signature appears below is presently residing in {address}.<br><br>This is to certify that {sgender:opt} has no dorigatory record filed and / or pending case against {sgender:eopt} before this office.<br><br>This certification is being issued upon the request of the above named person with {sgender:sopt} requirements.','Clearance',100,1,0),(2,'DOC_002','Certificate of Indigency','Indegency certification','This is to certify that..','Certification',100,1,0),(3,'DOC_003','Certificate of No Work','No work certification','This is to certify...','Certification',50,1,0),(4,'DOC_004','Some Sort of Prank','Yeah','THIS IS TO INFORM THAT','Clearance',150,1,0);
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +423,7 @@ CREATE TABLE `facilities` (
   PRIMARY KEY (`primeID`),
   KEY `fk_Facilities_FacilityTypes1_idx` (`facilityTypeID`),
   CONSTRAINT `fk_Facilities_FacilityTypes1` FOREIGN KEY (`facilityTypeID`) REFERENCES `facilitytypes` (`typeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,7 +432,7 @@ CREATE TABLE `facilities` (
 
 LOCK TABLES `facilities` WRITE;
 /*!40000 ALTER TABLE `facilities` DISABLE KEYS */;
-INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Courts',NULL,1,0,2,100,200),(2,'FAC_002','Hipodromo Plaza',NULL,1,0,5,100,150),(4,'FAC_003','asdhakjsh','ajksdh',1,1,2,0.04,0.02);
+INSERT INTO `facilities` VALUES (1,'FAC_001','Hipodromo Courts',NULL,1,0,2,100,200),(2,'FAC_002','Hipodromo Plaza',NULL,1,0,5,100,150),(4,'FAC_003','asdhakjsh','ajksdh',1,1,2,0.04,0.02),(5,'FAC_004','Royal Gazebo','Hippodromo Royal Gazebo',1,0,5,500,750);
 /*!40000 ALTER TABLE `facilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,7 +458,7 @@ CREATE TABLE `facilitytypes` (
 
 LOCK TABLES `facilitytypes` WRITE;
 /*!40000 ALTER TABLE `facilitytypes` DISABLE KEYS */;
-INSERT INTO `facilitytypes` VALUES (2,'Covered Court',1,0),(3,'Parks',1,0),(4,'Chapel',1,0),(5,'Plaza',1,0),(6,'asdasd',1,1),(7,'Audio Visual Rooms',1,0);
+INSERT INTO `facilitytypes` VALUES (2,'Covered Courts',1,0),(3,'Parks',1,0),(4,'Chapel',1,0),(5,'Plaza',1,0),(6,'asdasd',1,1),(7,'Audio Visual Rooms',1,0);
 /*!40000 ALTER TABLE `facilitytypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -667,7 +667,7 @@ CREATE TABLE `logs` (
   CONSTRAINT `reservationID` FOREIGN KEY (`reservationID`) REFERENCES `reservations` (`primeID`) ON UPDATE CASCADE,
   CONSTRAINT `servTransactionPrimeID` FOREIGN KEY (`servTransactionPrimeID`) REFERENCES `servicetransactions` (`serviceTransactionPrimeID`) ON UPDATE CASCADE,
   CONSTRAINT `userID` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -676,7 +676,7 @@ CREATE TABLE `logs` (
 
 LOCK TABLES `logs` WRITE;
 /*!40000 ALTER TABLE `logs` DISABLE KEYS */;
-INSERT INTO `logs` VALUES (3,2,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-09-24 14:02:44','Resident'),(4,2,'Edited a resident',3,NULL,NULL,NULL,NULL,NULL,NULL,'2017-09-24 14:03:41','Resident'),(5,2,'Requested a document',NULL,NULL,20,NULL,NULL,NULL,NULL,'2017-09-24 14:59:29','Document'),(6,2,'Rejected a document request',NULL,NULL,16,NULL,NULL,NULL,NULL,'2017-09-24 15:20:42','Document'),(9,2,'Rescheduled a reservation',NULL,NULL,NULL,22,NULL,NULL,NULL,'2017-09-24 15:37:00','Reservation'),(10,2,'Reserved a facility',NULL,NULL,NULL,27,NULL,NULL,NULL,'2017-09-24 15:37:00','Reservation'),(11,2,'Cancelled a reservation',NULL,NULL,NULL,27,NULL,NULL,NULL,'2017-09-24 15:37:40','Reservation'),(12,2,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:45:50','Business'),(13,2,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:48:08','Business'),(14,2,'Deleted a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:48:27','Business'),(16,2,'Edited a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:03:58','Service'),(19,2,'Started a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:07:23','Service'),(20,2,'Finished a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:07:53','Service'),(21,2,'Deleted a service',NULL,NULL,NULL,NULL,NULL,7,NULL,'2017-09-24 16:08:10','Service'),(22,1,'Rejected a document request',NULL,NULL,20,NULL,NULL,NULL,NULL,'2017-09-24 17:15:08','Document'),(23,1,'Rejected a document request',NULL,NULL,17,NULL,NULL,NULL,NULL,'2017-09-24 17:44:25','Document'),(24,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-09-30 12:53:52','Business'),(25,1,'Requested a document',NULL,NULL,21,NULL,NULL,NULL,NULL,'2017-09-30 13:11:57','Document'),(26,1,'Approved a document request',NULL,NULL,21,NULL,NULL,NULL,NULL,'2017-09-30 13:12:48','Document'),(27,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-08 00:31:58','Resident'),(28,1,'Registered a resident',9,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-08 00:33:46','Resident'),(29,1,'Requested a document',NULL,NULL,22,NULL,NULL,NULL,NULL,'2017-10-09 17:43:37','Document'),(30,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:45:38','Resident'),(31,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:57:44','Resident'),(32,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:59:47','Resident'),(33,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:02:05','Resident'),(34,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:06:14','Resident'),(35,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:12:30','Resident'),(36,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:13:10','Resident'),(37,1,'Registered a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-11 00:38:52','Service'),(38,3,'Registered a family',NULL,7,NULL,NULL,NULL,NULL,NULL,'2017-10-13 01:39:43','Family'),(39,3,'Requested a document',NULL,NULL,23,NULL,NULL,NULL,NULL,'2017-10-13 01:51:33','Document'),(40,3,'Requested a document',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-13 01:53:27','Document'),(41,3,'Reserved a facility',NULL,NULL,NULL,28,NULL,NULL,NULL,'2017-10-13 12:57:54','Reservation'),(42,3,'Reserved a facility',NULL,NULL,NULL,29,NULL,NULL,NULL,'2017-10-16 10:05:25','Reservation'),(43,3,'Reserved a facility',NULL,NULL,NULL,30,NULL,NULL,NULL,'2017-10-16 10:09:40','Reservation'),(44,3,'Reserved a facility',NULL,NULL,NULL,31,NULL,NULL,NULL,'2017-10-16 10:16:43','Reservation'),(45,3,'Reserved a facility',NULL,NULL,NULL,32,NULL,NULL,NULL,'2017-10-16 10:18:08','Reservation'),(46,1,'Started a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-16 16:08:42','Service'),(47,1,'Finished a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-16 16:11:13','Service'),(48,1,'Reserved a facility',NULL,NULL,NULL,33,NULL,NULL,NULL,'2017-10-16 21:49:28','Reservation'),(49,1,'Approved a document request',NULL,NULL,23,NULL,NULL,NULL,NULL,'2017-10-16 23:47:29','Document'),(50,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(51,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(52,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(54,1,'Registered a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:27:07','Resident'),(55,1,'Edited a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:32:29','Resident'),(56,1,'Edited a resident',8,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:37:46','Resident'),(57,1,'Edited a resident',8,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:39:15','Resident'),(58,1,'Edited a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 04:21:46','Resident'),(59,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 15:45:18','Business'),(60,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,16,'2017-10-17 15:48:35','Business'),(61,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,17,'2017-10-17 16:11:40','Business'),(62,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-10-17 16:41:14','Business'),(63,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 16:56:23','Business'),(64,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 16:58:43','Business'),(65,1,'Deleted a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 17:13:25','Business'),(66,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-10-17 19:37:27','Business'),(67,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,16,'2017-10-17 19:37:40','Business'),(68,1,'Finished a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-17 21:54:49','Service'),(69,3,'Reserved a facility',NULL,NULL,NULL,34,NULL,NULL,NULL,'2017-10-17 23:47:56','Reservation'),(70,3,'Reserved a facility',NULL,NULL,NULL,35,NULL,NULL,NULL,'2017-10-18 00:05:44','Reservation'),(71,3,'Reserved a facility',NULL,NULL,NULL,36,NULL,NULL,NULL,'2017-10-18 00:07:09','Reservation'),(72,3,'Reserved a facility',NULL,NULL,NULL,37,NULL,NULL,NULL,'2017-10-18 00:09:16','Reservation'),(73,3,'Reserved a facility',NULL,NULL,NULL,38,NULL,NULL,NULL,'2017-10-18 00:10:12','Reservation'),(74,1,'Reserved a facility',NULL,NULL,NULL,39,NULL,NULL,NULL,'2017-10-18 03:22:49','Reservation');
+INSERT INTO `logs` VALUES (3,2,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-09-24 14:02:44','Resident'),(4,2,'Edited a resident',3,NULL,NULL,NULL,NULL,NULL,NULL,'2017-09-24 14:03:41','Resident'),(5,2,'Requested a document',NULL,NULL,20,NULL,NULL,NULL,NULL,'2017-09-24 14:59:29','Document'),(6,2,'Rejected a document request',NULL,NULL,16,NULL,NULL,NULL,NULL,'2017-09-24 15:20:42','Document'),(9,2,'Rescheduled a reservation',NULL,NULL,NULL,22,NULL,NULL,NULL,'2017-09-24 15:37:00','Reservation'),(10,2,'Reserved a facility',NULL,NULL,NULL,27,NULL,NULL,NULL,'2017-09-24 15:37:00','Reservation'),(11,2,'Cancelled a reservation',NULL,NULL,NULL,27,NULL,NULL,NULL,'2017-09-24 15:37:40','Reservation'),(12,2,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:45:50','Business'),(13,2,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:48:08','Business'),(14,2,'Deleted a business',NULL,NULL,NULL,NULL,NULL,NULL,13,'2017-09-24 15:48:27','Business'),(16,2,'Edited a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:03:58','Service'),(19,2,'Started a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:07:23','Service'),(20,2,'Finished a service',NULL,NULL,NULL,NULL,NULL,6,NULL,'2017-09-24 16:07:53','Service'),(21,2,'Deleted a service',NULL,NULL,NULL,NULL,NULL,7,NULL,'2017-09-24 16:08:10','Service'),(22,1,'Rejected a document request',NULL,NULL,20,NULL,NULL,NULL,NULL,'2017-09-24 17:15:08','Document'),(23,1,'Rejected a document request',NULL,NULL,17,NULL,NULL,NULL,NULL,'2017-09-24 17:44:25','Document'),(24,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-09-30 12:53:52','Business'),(25,1,'Requested a document',NULL,NULL,21,NULL,NULL,NULL,NULL,'2017-09-30 13:11:57','Document'),(26,1,'Approved a document request',NULL,NULL,21,NULL,NULL,NULL,NULL,'2017-09-30 13:12:48','Document'),(27,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-08 00:31:58','Resident'),(28,1,'Registered a resident',9,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-08 00:33:46','Resident'),(29,1,'Requested a document',NULL,NULL,22,NULL,NULL,NULL,NULL,'2017-10-09 17:43:37','Document'),(30,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:45:38','Resident'),(31,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:57:44','Resident'),(32,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 22:59:47','Resident'),(33,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:02:05','Resident'),(34,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:06:14','Resident'),(35,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:12:30','Resident'),(36,1,'Edited a resident',2,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-09 23:13:10','Resident'),(37,1,'Registered a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-11 00:38:52','Service'),(38,3,'Registered a family',NULL,7,NULL,NULL,NULL,NULL,NULL,'2017-10-13 01:39:43','Family'),(39,3,'Requested a document',NULL,NULL,23,NULL,NULL,NULL,NULL,'2017-10-13 01:51:33','Document'),(40,3,'Requested a document',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-13 01:53:27','Document'),(41,3,'Reserved a facility',NULL,NULL,NULL,28,NULL,NULL,NULL,'2017-10-13 12:57:54','Reservation'),(42,3,'Reserved a facility',NULL,NULL,NULL,29,NULL,NULL,NULL,'2017-10-16 10:05:25','Reservation'),(43,3,'Reserved a facility',NULL,NULL,NULL,30,NULL,NULL,NULL,'2017-10-16 10:09:40','Reservation'),(44,3,'Reserved a facility',NULL,NULL,NULL,31,NULL,NULL,NULL,'2017-10-16 10:16:43','Reservation'),(45,3,'Reserved a facility',NULL,NULL,NULL,32,NULL,NULL,NULL,'2017-10-16 10:18:08','Reservation'),(46,1,'Started a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-16 16:08:42','Service'),(47,1,'Finished a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-16 16:11:13','Service'),(48,1,'Reserved a facility',NULL,NULL,NULL,33,NULL,NULL,NULL,'2017-10-16 21:49:28','Reservation'),(49,1,'Approved a document request',NULL,NULL,23,NULL,NULL,NULL,NULL,'2017-10-16 23:47:29','Document'),(50,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(51,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(52,1,'Approved a document request',NULL,NULL,24,NULL,NULL,NULL,NULL,'2017-10-17 00:39:55','Document'),(54,1,'Registered a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:27:07','Resident'),(55,1,'Edited a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:32:29','Resident'),(56,1,'Edited a resident',8,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:37:46','Resident'),(57,1,'Edited a resident',8,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 02:39:15','Resident'),(58,1,'Edited a resident',11,NULL,NULL,NULL,NULL,NULL,NULL,'2017-10-17 04:21:46','Resident'),(59,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 15:45:18','Business'),(60,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,16,'2017-10-17 15:48:35','Business'),(61,1,'Registered a business',NULL,NULL,NULL,NULL,NULL,NULL,17,'2017-10-17 16:11:40','Business'),(62,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-10-17 16:41:14','Business'),(63,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 16:56:23','Business'),(64,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 16:58:43','Business'),(65,1,'Deleted a business',NULL,NULL,NULL,NULL,NULL,NULL,15,'2017-10-17 17:13:25','Business'),(66,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,14,'2017-10-17 19:37:27','Business'),(67,1,'Edited a business',NULL,NULL,NULL,NULL,NULL,NULL,16,'2017-10-17 19:37:40','Business'),(68,1,'Finished a service',NULL,NULL,NULL,NULL,NULL,10,NULL,'2017-10-17 21:54:49','Service'),(69,3,'Reserved a facility',NULL,NULL,NULL,34,NULL,NULL,NULL,'2017-10-17 23:47:56','Reservation'),(70,3,'Reserved a facility',NULL,NULL,NULL,35,NULL,NULL,NULL,'2017-10-18 00:05:44','Reservation'),(71,3,'Reserved a facility',NULL,NULL,NULL,36,NULL,NULL,NULL,'2017-10-18 00:07:09','Reservation'),(72,3,'Reserved a facility',NULL,NULL,NULL,37,NULL,NULL,NULL,'2017-10-18 00:09:16','Reservation'),(73,3,'Reserved a facility',NULL,NULL,NULL,38,NULL,NULL,NULL,'2017-10-18 00:10:12','Reservation'),(74,1,'Reserved a facility',NULL,NULL,NULL,39,NULL,NULL,NULL,'2017-10-18 03:22:49','Reservation'),(75,8,'Requested a document',NULL,NULL,25,NULL,NULL,NULL,NULL,'2017-10-18 05:40:20','Document'),(76,8,'Approved a document request',NULL,NULL,25,NULL,NULL,NULL,NULL,'2017-10-18 05:41:16','Document');
 /*!40000 ALTER TABLE `logs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -901,7 +901,7 @@ CREATE TABLE `requestrequirements` (
   KEY `documentRequestPrimeID_idx` (`documentRequestPrimeID`),
   KEY `requirementID_idx` (`requirementID`),
   CONSTRAINT `documentRequestPrimeID` FOREIGN KEY (`documentRequestPrimeID`) REFERENCES `documentrequests` (`documentRequestPrimeID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -910,7 +910,7 @@ CREATE TABLE `requestrequirements` (
 
 LOCK TABLES `requestrequirements` WRITE;
 /*!40000 ALTER TABLE `requestrequirements` DISABLE KEYS */;
-INSERT INTO `requestrequirements` VALUES (24,5,0,1),(25,5,0,3),(26,7,0,1),(27,7,0,2),(32,8,0,1),(33,8,0,3),(35,9,0,1),(36,9,0,2),(37,10,0,1),(38,11,0,1),(41,12,0,1),(42,12,0,2),(43,12,0,4),(45,14,0,1),(46,14,0,2),(47,15,0,1),(48,15,0,2),(49,15,0,4),(55,13,0,1),(56,13,0,4),(57,16,0,1),(58,16,0,2),(59,16,0,4),(60,20,0,1),(61,17,0,1),(62,17,0,2),(63,17,0,4),(64,21,0,1),(65,21,0,2),(66,21,0,4),(69,22,0,1),(70,22,0,2),(71,22,0,4),(74,23,0,1),(75,23,0,2),(76,23,0,4),(77,24,0,1),(78,24,0,2),(79,24,0,4);
+INSERT INTO `requestrequirements` VALUES (24,5,0,1),(25,5,0,3),(26,7,0,1),(27,7,0,2),(32,8,0,1),(33,8,0,3),(35,9,0,1),(36,9,0,2),(37,10,0,1),(38,11,0,1),(41,12,0,1),(42,12,0,2),(43,12,0,4),(45,14,0,1),(46,14,0,2),(47,15,0,1),(48,15,0,2),(49,15,0,4),(55,13,0,1),(56,13,0,4),(57,16,0,1),(58,16,0,2),(59,16,0,4),(60,20,0,1),(61,17,0,1),(62,17,0,2),(63,17,0,4),(64,21,0,1),(65,21,0,2),(66,21,0,4),(69,22,0,1),(70,22,0,2),(71,22,0,4),(74,23,0,1),(75,23,0,2),(76,23,0,4),(77,24,0,1),(78,24,0,2),(79,24,0,4),(81,25,0,2),(82,25,0,4);
 /*!40000 ALTER TABLE `requestrequirements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -937,7 +937,7 @@ CREATE TABLE `requirements` (
 
 LOCK TABLES `requirements` WRITE;
 /*!40000 ALTER TABLE `requirements` DISABLE KEYS */;
-INSERT INTO `requirements` VALUES (1,'Identity Card','ID',1,0),(2,'SSS','',1,0),(3,'BIR','',1,0),(4,'NBI CLEARANCE','',1,0),(5,'Office ID','Office ID',1,1),(6,'PhilHealth ID','',1,0);
+INSERT INTO `requirements` VALUES (1,'Identity Card','Any valid ID',1,0),(2,'SSS','',1,0),(3,'BIR','',1,0),(4,'NBI CLEARANCE','',1,0),(5,'Office ID','Office ID',1,1),(6,'PhilHealth ID','',1,0);
 /*!40000 ALTER TABLE `requirements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -954,7 +954,7 @@ CREATE TABLE `reservations` (
   `reservationDescription` varchar(500) DEFAULT NULL,
   `reservationStart` datetime NOT NULL,
   `reservationEnd` datetime NOT NULL,
-  `dateReserved` date NOT NULL,
+  `dateReserved` datetime NOT NULL,
   `eventStatus` varchar(20) NOT NULL,
   `peoplePrimeID` int(11) DEFAULT NULL,
   `facilityPrimeID` int(11) NOT NULL,
@@ -977,7 +977,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (20,'Debut','','2017-10-18 14:00:00','2017-10-18 18:00:00','2017-08-31','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(21,'League','','2017-10-18 12:00:00','2017-10-18 14:00:00','2017-09-01','Done',5,1,'Paid',NULL,NULL,NULL,NULL),(22,'Birthday Party','','2017-10-18 20:00:00','2017-10-18 23:00:00','2017-09-06','Done',6,1,'Paid',NULL,NULL,NULL,NULL),(23,'Basket ball league','','2017-10-18 10:00:00','2017-10-18 12:00:00','2017-10-31','NYD',8,1,'Paid',NULL,NULL,NULL,NULL),(24,'Meeting','','2017-10-18 20:00:00','2017-10-18 09:00:00','2017-09-16','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(25,'Dance Competition','','2017-10-18 10:00:00','2017-10-18 11:00:00','2017-09-16','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(26,'Birthday Party ni bry','debut','2017-10-18 10:00:00','2017-10-18 12:00:00','2017-09-17','Done',5,1,'Paid',NULL,NULL,NULL,NULL),(27,'Birthday Party','','2017-10-18 20:00:00','2017-10-18 12:00:00','2017-09-25','Done',6,1,'Cancelled','undefined',NULL,NULL,NULL),(28,'Talumpati','','2017-10-18 10:00:00','2017-10-18 17:00:00','2017-10-14','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(29,'Zumbaaaa','','2017-10-18 10:05:00','2017-10-18 11:05:00','2018-10-16','NYD',NULL,1,'Pending','Mang Kepweng',19,'kepweng@yahoo.com','09123456789'),(30,'Partyyy','Tugs tugs','2017-10-18 10:10:00','2017-10-18 11:10:00','2017-10-16','NYD',5,1,'Pending',NULL,NULL,NULL,NULL),(31,'Presentation','','2017-10-18 10:17:00','2017-10-18 11:17:00','2017-10-16','NYD',4,1,'Pending',NULL,NULL,NULL,NULL),(32,'Magic Show','','2017-10-18 10:19:00','2017-10-18 15:03:00','2017-10-19','Extended',4,1,'Pending',NULL,NULL,NULL,NULL),(33,'Singing Contest','','2017-10-18 18:00:00','2017-10-18 20:00:00','2017-10-29','NYD',NULL,1,'Paid','Chris Paul',22,'cp3@yahoo.com','09123456789'),(34,'HELLOWORLD2','HELLOWORLD2','2017-10-18 10:00:00','2017-10-18 14:15:00','2017-10-18','Extended',9,1,'Pending',NULL,NULL,NULL,NULL),(39,'Training','','2017-10-18 12:30:00','2017-10-18 13:30:00','2017-10-18','Done',NULL,2,'Paid','Skubariwa',19,'f.marcjoseph@yahoo.com','09123456789');
+INSERT INTO `reservations` VALUES (20,'Debut','','2017-10-18 14:00:00','2017-10-18 18:00:00','2017-08-31 00:00:00','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(21,'League','','2017-10-18 12:00:00','2017-10-18 14:00:00','2017-09-01 00:00:00','Done',5,1,'Paid',NULL,NULL,NULL,NULL),(22,'Birthday Party','','2017-10-18 20:00:00','2017-10-18 23:00:00','2017-09-06 00:00:00','Done',6,1,'Paid',NULL,NULL,NULL,NULL),(23,'Basket ball league','','2017-10-18 10:00:00','2017-10-18 12:00:00','2017-10-31 00:00:00','NYD',8,1,'Paid',NULL,NULL,NULL,NULL),(24,'Meeting','','2017-10-18 20:00:00','2017-10-18 09:00:00','2017-09-16 00:00:00','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(25,'Dance Competition','','2017-10-18 10:00:00','2017-10-18 11:00:00','2017-09-16 00:00:00','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(26,'Birthday Party ni bry','debut','2017-10-18 10:00:00','2017-10-18 12:00:00','2017-09-17 00:00:00','Done',5,1,'Paid',NULL,NULL,NULL,NULL),(27,'Birthday Party','','2017-10-18 20:00:00','2017-10-18 12:00:00','2017-09-25 00:00:00','Done',6,1,'Cancelled','undefined',NULL,NULL,NULL),(28,'Talumpati','','2017-10-18 10:00:00','2017-10-18 17:00:00','2017-10-14 00:00:00','Done',2,1,'Paid',NULL,NULL,NULL,NULL),(29,'Zumbaaaa','','2017-10-18 10:05:00','2017-10-18 11:05:00','2018-10-16 00:00:00','NYD',NULL,1,'Pending','Mang Kepweng',19,'kepweng@yahoo.com','09123456789'),(30,'Partyyy','Tugs tugs','2017-10-18 10:10:00','2017-10-18 11:10:00','2017-10-16 00:00:00','NYD',5,1,'Pending',NULL,NULL,NULL,NULL),(31,'Presentation','','2017-10-18 10:17:00','2017-10-18 11:17:00','2017-10-16 00:00:00','NYD',4,1,'Pending',NULL,NULL,NULL,NULL),(32,'Magic Show','','2017-10-18 10:19:00','2017-10-18 15:03:00','2017-10-19 00:00:00','Extended',4,1,'Pending',NULL,NULL,NULL,NULL),(33,'Singing Contest','','2017-10-18 18:00:00','2017-10-18 20:00:00','2017-10-29 00:00:00','NYD',NULL,1,'Paid','Chris Paul',22,'cp3@yahoo.com','09123456789'),(34,'HELLOWORLD2','HELLOWORLD2','2017-10-18 10:00:00','2017-10-18 14:15:00','2017-10-18 00:00:00','Extended',9,1,'Pending',NULL,NULL,NULL,NULL),(39,'Training','','2017-10-18 12:30:00','2017-10-18 13:30:00','2017-10-18 00:00:00','Done',NULL,2,'Paid','Skubariwa',19,'f.marcjoseph@yahoo.com','09123456789');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1249,7 +1249,7 @@ CREATE TABLE `servicetypes` (
   `status` tinyint(1) NOT NULL,
   `archive` tinyint(1) NOT NULL,
   PRIMARY KEY (`typeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1258,7 +1258,7 @@ CREATE TABLE `servicetypes` (
 
 LOCK TABLES `servicetypes` WRITE;
 /*!40000 ALTER TABLE `servicetypes` DISABLE KEYS */;
-INSERT INTO `servicetypes` VALUES (1,'Health',NULL,1,0),(2,'Animal Welfare',NULL,1,0);
+INSERT INTO `servicetypes` VALUES (1,'Health',NULL,1,0),(2,'Animal Welfare',NULL,1,0),(3,'Family','Family Services',1,0);
 /*!40000 ALTER TABLE `servicetypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1540,4 +1540,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-18  5:24:13
+-- Dump completed on 2017-10-18  5:52:34

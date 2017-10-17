@@ -285,7 +285,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> View Document</h4>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye6"></i> View Document</h4>
 				</div>
 				<div ng-app="maintenanceApp" class="modal-body">
 					<div class="card-block">
@@ -315,7 +315,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Add Requirements</h4>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Add Requirements</h4>
 				</div>
 				<div ng-app="maintenanceApp" class="modal-body">
 					{{Form::open(['url'=>'/document/requirementsStore', 'method' => 'POST', 'id'=>'frm-addReq'])}}
@@ -365,7 +365,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-dismis">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i> Update Requirements</h4>
+					<h4 class="modal-title" id="myModalLabel2"><i class="icon-android-add-circle"></i> Update Requirements</h4>
 				</div>
 				<div ng-app="maintenanceApp" class="modal-body">
 
@@ -391,7 +391,7 @@
 														<label>Quantity: </label>
 													</div>
 													<div class="col-md-3">
-														<input type="number" id="equantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:100%">
+														<input type="number" id="equantity{{ $r->requirementID }}" value="0" placeholder"Quantity" style="width:100%" min="1">
 													</div>
 												</div>
 											</div>	

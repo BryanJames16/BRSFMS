@@ -1441,6 +1441,7 @@
 
 											for (index in data) 
 											{
+												console.log(data[index].dateReserved);
 												var drn = formatMySQLtoJS(data[index].dateReserved);
 
 												var frm = $('#frm-reschedule');
