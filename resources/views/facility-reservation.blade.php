@@ -660,6 +660,9 @@
 			$("#frm-extend").submit(function(event) {
 				event.preventDefault();
 
+				var oldDate = new Date();
+				var extendedDate = new Date();
+
 				$.ajaxSetup({
 					headers: {
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -667,14 +670,50 @@
 				});
 
 				$.ajax({
-					url: "{{ url('/facility-reservation/extend') }}", 
+					url: "{{ url('/facility-reservation/getResDetails') }}", 
 					type: "GET", 
+					async: false, 
 					data: {
-						"primeID": $(this).val(), 
-						"time": ""
+						"primeID": $(this).val()
 					}, 
-					success: function(data) {
-						swal("Successfull", "Reservation is Extended!", "success");
+					success: function(data){
+						data = $.parseJSON(data);
+						
+						startDate = formatMySQLtoJS(data[0].reservationStart);
+						oldDate = formatMySQLtoJS(data[0].reservationEnd);
+						extendedDate = formatMySQLtoJS(data[0].reservationEnd);
+
+						var parseTime = $("#exdate").split(" ");
+						var parseNumTime = parseTime[0].split(":");
+						var extendedHours = parseInt(parseNumTime[0]);
+						
+						if (parseInt(parseNumTime[0]) != 12 && 
+							toLowerCase(parseTime[1]) == "pm") {
+							extendedHours += 12;
+						}
+
+						extendedDate.setHours(extendedHours);
+
+						$.ajax({
+							url: "{{ url('/facility-reservation/extend') }}", 
+							type: "GET", 
+							data: {
+								"primeID": $(this).val(), 
+								"time": formatDateTime(extendedDate)
+							}, 
+							success: function(data) {
+								swal("Successfull", "Reservation is Extended!", "success");
+							}, 
+							error: function(errors) {
+								var message = "Error: ";
+								var data = errors.responseJSON;
+								for (datum in data) {
+									message += data[datum];
+								}
+
+								swal("Error", "Cannot fetch table data!\n" + message, "error");
+							}
+						});
 					}, 
 					error: function(errors) {
 						var message = "Error: ";

@@ -485,6 +485,16 @@ class ReservationController extends Controller
         }
     }
 
+    public function getResDetails(Request $r) {
+        if($r -> ajax()) {
+            $resDetails = Reservation::where("primeID", "=", $r -> input('primeID')) -> get();
+            return json_encode($resDetails);
+        } 
+        else {
+            return view('errors.403');
+        }
+    }
+
     public function realtime() {
         // Change from NYD to OnGoing
         $ongoing = Reservation::where('eventStatus', 'NYD')->get();
