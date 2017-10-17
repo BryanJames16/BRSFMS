@@ -2,7 +2,7 @@
 
     <head>
     
-        <title>Reserved Facilities Report</title>
+        <title>Registered Residents Report</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 
@@ -39,6 +39,7 @@
             
             <br>
             <br>
+            <br>
 
             @if($fromDate != null)
            <div>
@@ -56,64 +57,55 @@
 
                 <thead style="border:1px solid black;text-align:center;width:100%">
                     <tr>
-                        <th style="width:25%;border:1px solid black">Name</th>
-                        <th style="width:25%;border:1px solid black">Address</th>
-                        <th style="width:15%;border:1px solid black">Contact</th>
-                        <th style="width:5%;border:1px solid black">Age</th>
-                        <th style="width:8%;border:1px solid black">Gender</th>
-                        <th style="width:25%;border:1px solid black">Email</th>
-                        <th style="width:20%;border:1px solid black">Date Registered</th>
+                        <th style="width:20%;border:1px solid black">Reservation Name</th>
+                        <th style="width:23%;border:1px solid black">Reservee</th>
+                        <th style="width:12%;border:1px solid black">Residency</th>
+                        <th style="width:15%;border:1px solid black">Date</th>
+                        <th style="width:15%;border:1px solid black">Time</th>
+                        <th style="width:20%;border:1px solid black">Facility</th>
                     </tr>
                 </thead>
                 <tbody id="body" style="text-align:center;width:100%">
-                    @foreach($residents as $rrr)
+                    @foreach($resR as $r)
                         <tr>
-                            
-                                <td style="border:1px solid black">{{ $rrr->firstName }} {{ $rrr->middleName }} {{ $rrr->lastName }}</td>
-                                <td style="border:1px solid black">{{ $rrr->address }}</td>
-                                <td style="border:1px solid black">{{ $rrr->contactNumber }}</td>
-                                <td style="border:1px solid black">{{ Carbon\Carbon::parse($rrr->birthDate)->diffInYears(Carbon\Carbon::now()) }}</td>
-                                @if($rrr->gender=='M')
-                                    <td style="border:1px solid black">Male</td>
-                                @else
-                                    <td style="border:1px solid black">Female</td>
-                                @endif
-                                <td style="border:1px solid black">{{ $rrr->email }}</td>
-                                <td style="border:1px solid black">{{ date('F j, Y',strtotime($rrr->dateReg)) }}</td>
-                            
+                            <td style="border:1px solid black">{{ $r->reservationName }}</td>
+                            <td style="border:1px solid black">{{ $r->firstName }} {{ substr($r->middleName,0,1) }}. {{ $r->lastName }}</td>
+                            <td style="border:1px solid black">Resident</td>
+                            <td style="border:1px solid black">{{ date('F j, Y',strtotime($r ->dateReserved)) }}</td>
+                            <td style="border:1px solid black">{{ date('g:i a',strtotime($r -> reservationStart)) }} - {{ date('g:i a',strtotime($r -> reservationEnd)) }}</td>
+                            <td style="border:1px solid black">{{ $r->facilityName }}</td>
                         </tr>
                     @endforeach
-                    <tr style="border:1px solid black">
+                    @foreach($resN as $r)
+                        <tr>
+                            <td style="border:1px solid black">{{ $r->reservationName }}</td>
+                            <td style="border:1px solid black">{{ $r->name }}</td>
+                            <td style="border:1px solid black">Non-Resident</td>
+                            <td style="border:1px solid black">{{ date('F j, Y',strtotime($r ->dateReserved)) }}</td>
+                            <td style="border:1px solid black">{{ date('g:i a',strtotime($r -> reservationStart)) }} - {{ date('g:i a',strtotime($r -> reservationEnd)) }}</td>
+                            <td style="border:1px solid black">{{ $r->facilityName }}</td>
+                        </tr>
+                    @endforeach
+                    <tr style="border:2px solid black">
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td colspan="2" style="text-align:right">TOTAL Residents: </td>
+                        <td colspan="2" style="text-align:right">Total Reservations: </td>
                         <td style="border:1px solid black">{{ $total }}</td>
                     </tr>
-                    <tr style="border:1px solid black">
+                    <tr style="border:2px solid black">
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td colspan="2" style="text-align:right">TOTAL MALE: </td>
-                        <td style="border:1px solid black">{{ $totalMale }}</td>
+                        <td colspan="2" style="text-align:right">Total Resident Reserved: </td>
+                        <td style="border:1px solid black">{{ $totalR }}</td>
                     </tr>
-                    <tr style="border:1px solid black">
+                    <tr style="border:2px solid black">
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td colspan="2" style="text-align:right">TOTAL FEMALE: </td>
-                        <td style="border:1px solid black">{{ $totalFemale }} </td>
-                    </tr>
-                    <tr style="border:1px solid black">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td colspan="2" style="text-align:right">AVERAGE AGE OF RESIDENTS: </td>
-                        <td style="border:1px solid black">{{ $ave }} yrs. old</td>
+                        <td colspan="2" style="text-align:right">Total Non-Resident Reserved: </td>
+                        <td style="border:1px solid black">{{ $totalN }}</td>
                     </tr>
                 </tbody>
 

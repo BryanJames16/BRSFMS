@@ -21,21 +21,29 @@ class RegisterController extends Controller
             'position' => 'required'
         ]);
 
-        $fileName = request('imagePath')->getClientOriginalName();
-        request('imagePath')->storeAs('public/upload', $fileName);
+        if( request('position')=='Chairman' || request('position')=='chairman')
+        {
+            return redirect('register');
+        }
+        else{
+            $fileName = request('imagePath')->getClientOriginalName();
+            request('imagePath')->storeAs('public/upload', $fileName);
 
-        $user = User::create([
-            'name' => request('name'), 
-            'email' => request('email'),
-            'firstName' => request('firstName'), 
-            'middleName' => request('middleName'), 
-            'lastName' => request('lastName'), 
-            'suffix' => request('suffix'), 
-            'position' => request('position'), 
-            'imagePath' => $fileName,  
-            'password' => bcrypt(request('password')) 
-            ]);
+            $user = User::create([
+                'name' => request('name'), 
+                'email' => request('email'),
+                'firstName' => request('firstName'), 
+                'middleName' => request('middleName'), 
+                'lastName' => request('lastName'), 
+                'suffix' => request('suffix'), 
+                'position' => request('position'), 
+                'imagePath' => $fileName,  
+                'password' => bcrypt(request('password')) 
+                ]);
 
-        return redirect('login');
+            return redirect('login');
+        }
+
+        
     }
 }

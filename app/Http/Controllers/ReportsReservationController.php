@@ -17,7 +17,11 @@ class ReportsReservationController extends Controller
 
     public function previewAll() {
         
-        
+        $total = 0;
+        $totalR = 0;
+        $totalN = 0;
+        $fromDate = null;
+        $toDate = null;
 
         $resR = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
                                     'residents.firstName','residents.middleName','residents.lastName','facilityName')
@@ -27,69 +31,88 @@ class ReportsReservationController extends Controller
                             ->where('reservations.eventStatus', '=', 'Done') 
                             ->orderBy('dateReserved','desc')
                             ->get();
-        $total = 0;
-        $fromDate = null;
-        $toDate = null;
+
+        $resN = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'name','facilityName')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->where('peoplePrimeID',null)
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
+                            ->get();
+
+        foreach($resR as $r)
+        {
+            $total += 1;
+            $totalR += 1;
+        }
+        foreach($resN as $r)
+        {
+            $total += 1;
+            $totalN += 1;
+        }
+
+        
 
 
-        return view('pdfreservation')
+        return view('preview.reservation')
                         ->with('fromDate',$fromDate)
                         ->with('toDate',$toDate)    
                         ->with('resR',$resR)
-                        ->with('total',$total);
+                        ->with('resN',$resN)
+                        ->with('total',$total)
+                        ->with('totalR',$totalR)
+                        ->with('totalN',$totalN);
     }
 
     public function previewRange($fromDate,$toDate) {
         
-        $res = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->orderBy('dateReg','desc')
-                            ->get();
-
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->get();
-        $sum = 0;
         $total = 0;
-        $ave = 0;
-        foreach($avg as $a)
+        $totalR = 0;
+        $totalN = 0;
+
+        $resR = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'residents.firstName','residents.middleName','residents.lastName','facilityName')
+                            ->join('residents','reservations.peoplePrimeId','=','residents.residentPrimeID')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->whereBetween('dateReserved',[$fromDate,$toDate])
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
+                            ->get();
+
+        $resN = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'name','facilityName')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->whereBetween('dateReserved',[$fromDate,$toDate])
+                            ->where('peoplePrimeID',null)
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
+                            ->get();
+
+        foreach($resR as $r)
         {
-            $sum = $sum + 1;
-            $total = $total + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $total += 1;
+            $totalR += 1;
         }
-
-        $ave = $total/$sum;
-
-
-
-        $totall = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])->count();
-
-        $totalMale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->where('gender','=','M')
-                            ->count();
-        $totalFemale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$fromDate,$toDate])
-                            ->whereNotNull('seniorCitizenID')
-                            ->where('gender','=','F')->count();
+        foreach($resN as $r)
+        {
+            $total += 1;
+            $totalN += 1;
+        }
 
         
 
-        return view('preview.resident')
+
+        return view('preview.reservation')
                         ->with('fromDate',$fromDate)
                         ->with('toDate',$toDate)    
-                        ->with('ave',$ave)
-                        ->with('residents',$res)
-                        ->with('total',$totall)
-                        ->with('totalFemale',$totalFemale)
-                        ->with('totalMale',$totalMale);
+                        ->with('resR',$resR)
+                        ->with('resN',$resN)
+                        ->with('total',$total)
+                        ->with('totalR',$totalR)
+                        ->with('totalN',$totalN);
 
         
 
@@ -97,44 +120,47 @@ class ReportsReservationController extends Controller
 
     public function printAll(){
 
+        $total = 0;
+        $totalR = 0;
+        $totalN = 0;
         $fromDate = null;
         $toDate = null;
 
-        $residents = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->orderBy('dateReg','desc')
+        $resR = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'residents.firstName','residents.middleName','residents.lastName','facilityName')
+                            ->join('residents','reservations.peoplePrimeId','=','residents.residentPrimeID')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
                             ->get();
 
-
-        $total = Resident::count();
-        $totalMale = Resident::where('gender','=','M')->count();
-        $totalFemale = Resident::where('gender','=','F')->count();
-
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
+        $resN = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'name','facilityName')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->where('peoplePrimeID',null)
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
                             ->get();
-        $sum = 0;
-        $totals = 0;
-        $ave = 0;
 
-        foreach($avg as $a)
+        foreach($resR as $r)
         {
-            $sum = $sum + 1;
-            $totals = $totals + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $total += 1;
+            $totalR += 1;
         }
-
-        $ave = $totals/$sum;
+        foreach($resN as $r)
+        {
+            $total += 1;
+            $totalN += 1;
+        }
             
-        $pdf = PDF::loadView('pdfresident',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        $pdf = PDF::loadView('pdfreservation',compact('fromDate','toDate','total','totalR','totalN','resR','resN'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report-RegisteredResidents.pdf');
+        return $pdf->download('Report-ReservedFacilities.pdf');
 
         return back();
     }
@@ -142,56 +168,52 @@ class ReportsReservationController extends Controller
 
     public function printRange(Request $r){
 
-        $residents = Resident::select('residents.residentPrimeID','imagePath','residentID', 'firstName',
-                                'lastName','middleName','suffix', 'residents.status', 
-                                'contactNumber', 'gender', 'birthDate',
-                                'civilStatus','seniorCitizenID','disabilities', 'email',
-                                'residentType', 'address','dateReg') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->orderBy('dateReg','desc')
+        $total = 0;
+        $totalR = 0;
+        $totalN = 0;
+        $fromDate = $r->input('fromDate');
+        $toDate = $r->input('toDate');
+
+        $resR = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'residents.firstName','residents.middleName','residents.lastName','facilityName')
+                            ->join('residents','reservations.peoplePrimeId','=','residents.residentPrimeID')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->whereBetween('dateReserved',[$fromDate,$toDate])
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
                             ->get();
 
-        $avg = Resident::select('birthDate') 
-                            ->where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
+        $resN = Reservation::select('dateReserved','reservationStart','reservationEnd','reservationName',
+                                    'name','facilityName')
+                            ->join('facilities','reservations.facilityPrimeId','=','facilities.primeID')
+                            ->where('reservations.status', '=', 'Paid') 
+                            ->whereBetween('dateReserved',[$fromDate,$toDate])
+                            ->where('peoplePrimeID',null)
+                            ->where('reservations.eventStatus', '=', 'Done') 
+                            ->orderBy('dateReserved','desc')
                             ->get();
-        $sum = 0;
-        $totals = 0;
-        $ave = 0;
-        foreach($avg as $a)
+
+        foreach($resR as $r)
         {
-            $sum = $sum + 1;
-            $totals = $totals + Carbon::parse($a->birthDate)->diffInYears(Carbon::now());     
+            $total += 1;
+            $totalR += 1;
         }
-
-        $ave = $totals/$sum;
-
-
-
-        $total = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])->count();
-
-        $totalMale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->where('gender','=','M')
-                            ->count();
-        $totalFemale = Resident::where('residents.status', '=', 1) 
-                            ->whereBetween('dateReg',[$r->input('fromDate'),$r->input('toDate')])
-                            ->where('gender','=','F')->count();
-
-        $fromDate =  $r->input('fromDate');
-        $toDate =  $r->input('toDate');
-
-
-        $pdf = PDF::loadView('pdfresident',compact('fromDate','toDate','ave','total','residents','totalMale','totalFemale'))
+        foreach($resN as $r)
+        {
+            $total += 1;
+            $totalN += 1;
+        }
+            
+        $pdf = PDF::loadView('pdfreservation',compact('fromDate','toDate','total','totalR','totalN','resR','resN'))
                         ->setPaper('a4','landscape')
                         ->setOptions(['defaultFont' => 'sans-serif']);
         
         
-        return $pdf->download('Report-RegisteredResidents.pdf');
+        return $pdf->download('Report-ReservedFacilities.pdf');
 
         return back();
+
     }
 
 
