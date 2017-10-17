@@ -1319,8 +1319,8 @@
 											frm.find('#efacilityID').val(data[index].facilityPrimeID);
 											frm.find('#erdate').val(drn.getMonth() + "/" + drn.getDate() + "/" + 
 																	drn.getFullYear());
-											frm.find('#erstartTime').val(data[index].reservationStart);
-											frm.find('#erendTime').val(data[index].reservationEnd);
+											frm.find('#erstartTime').val(pullNaturalTimefromMySQL(data[index].reservationStart));
+											frm.find('#erendTime').val(pullNaturalTimefromMySQL(data[index].reservationEnd));
 										}
 										
 										
@@ -1451,8 +1451,8 @@
 												frm.find('#efacilityID').val(data[index].facilityPrimeID);
 												frm.find('#erdate').val(drn.getMonth() + "/" + drn.getDate() + "/" + 
 																			drn.getFullYear());
-												frm.find('#erstartTime').val(data[index].reservationStart);
-												frm.find('#erendTime').val(data[index].reservationEnd);
+												frm.find('#erstartTime').val(pullNaturalTimefromMySQL(data[index].reservationStart));
+												frm.find('#erendTime').val(pullNaturalTimefromMySQL(data[index].reservationEnd));
 											}
 											
 											

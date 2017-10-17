@@ -112,6 +112,27 @@ var formatPHPtoJS = function(passedDate) {
     return new Date(pDate[0], pDate[1], pDate[2], pTime[0], pTime[1], pTime[2].split(".")[0], pTime[2].split(".")[1]);
 }
 
+var pullNaturalTimefromMySQL = function(passedDate) {
+    var JSDate = formatMySQLtoJS(passedDate);
+    var meridian = "";
+    var hours = 0;
+
+    if (JSDate.getHours() > 12) {
+        hours = JSDate.getHours() - 12;
+        meridian = "pm"
+    }
+    else if (JSDate.getHours() < 12) {
+        hours = JSDate.getHours();
+        meridian = "am"
+    }
+    else {
+        hours = JSDate.getHours();
+        meridian = "pm"
+    }
+
+    return ("0" + hours).slice(-2) + ":" + ("0" + JSDate.getHours()).slice(-2) + " " + meridian;
+}
+
 var getStringDateTime = function () {
     var dateTimeToday = new Date();
     return (dateTimeToday.getFullYear() + "" + 
