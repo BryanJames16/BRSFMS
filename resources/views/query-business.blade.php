@@ -27,6 +27,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/charts/morris.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/unslider.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/extensions/long-press.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('template-css')
@@ -55,7 +58,7 @@
         <div class="row">
 			<div class="col-xs-4">
 				<div class="card">
-					<div class="card-header">
+					<div class="card-header card-head-custom">
 						<h4 class="card-title">Query for Business</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
@@ -124,7 +127,7 @@
                                         </div>
 										<div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="firstName1">To Date :</label>
+                                                <label for="firstName1">Registered To Date :</label>
                                                 <input type="date" class="form-control" id="toDate" />
                                             </div>
                                         </div>
@@ -186,8 +189,8 @@
 
             <div class="col-xs-8">
 				<div class="card">
-					<div class="card-header">
-						<h4 class="card-title">Result</h4>
+					<div class="card-header card-head-custom">
+						<h4 class="card-title">Query Result</h4>
 						<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 						<div class="heading-elements">
 							<ul class="list-inline mb-0">
@@ -212,7 +215,7 @@
 
                             <tbody>
                                 
-                                -->
+	
                             </tbody>
                         </table>
                         <!-- End of Resident Tab -->

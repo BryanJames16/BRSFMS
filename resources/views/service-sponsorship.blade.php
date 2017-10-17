@@ -12,6 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/sweetalert.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/bootstrap-switch.min.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/forms/toggle/switchery.min.css') }}" />
+
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/robust-assets/css/plugins/tables/datatable/redBuilder.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ URL::asset('/css/main-card.css') }}" />
 @endsection
 
 @section('plugin')
@@ -65,15 +68,13 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header card-head-custom">
 					<h4 class="card-title">Service Sponsorhip</h4>
 					<a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
 					<div class="heading-elements">
 						<ul class="list-inline mb-0">
-							<li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
 							<li><a data-action="reload"><i class="icon-reload"></i></a></li>
 							<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-							<li><a data-action="close"><i class="icon-cross2"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -134,8 +135,8 @@
 												<span class="dropdown">
 													<button id="btnSearchDrop2" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="btn btn-primary dropdown-toggle dropdown-menu-right"><i class="icon-cog3"></i></button>
 													<span aria-labelledby="btnSearchDrop2" class="dropdown-menu mt-1 dropdown-menu-right">
-														<a href="#" class="dropdown-item view" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}">View Sponsors</a>
-														<a href="#" class="dropdown-item sponsor" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}">Sponsor</a>
+														<a href="#" class="dropdown-item view" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}"><i class="icon-eye6"></i> View Sponsors</a>
+														<a href="#" class="dropdown-item sponsor" name="btnView" data-value="{{$st->serviceTransactionPrimeID}}"><i class="icon-earth"></i> Sponsor</a>
 													</span>
 												</span>
 											</td>
@@ -152,14 +153,14 @@
 
 
 	<!--Sponsor Modal -->
-		<div class="modal fade text-xs-left" id="sponsorModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="sponsorModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Sponsor a Service</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-coffee"></i> Sponsor a Service</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -241,14 +242,14 @@
 	<!-- End of Modal -->
 
 	<!--View Modal -->
-		<div class="modal fade text-xs-left" id="viewModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="viewModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Sponsors</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-erlenmeyer-flask"></i> Sponsors</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -288,14 +289,14 @@
 	<!-- End of Modal -->
 
 	<!--Items Modal -->
-		<div class="modal fade text-xs-left" id="itemsModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal animated bounceInDown text-xs-left" id="itemsModal" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header bg-info white">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Items</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-box"></i> Items</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -314,7 +315,7 @@
 						</table>
 
 						<div align="center">
-							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1">
+							<button type="button" data-dismiss="modal" class="btn btn-warning mr-1 modalClose">
 								<i class="icon-cross2"></i> Close
 							</button>
 						</div>
@@ -415,7 +416,8 @@
 							
 						}
 							
-						$('#itemsModal').modal('show');		
+						$('#itemsModal').modal('show');
+						$("#viewModal").modal('hide');		
 					}
 			})
 
@@ -731,6 +733,10 @@
 			
 
 		}); 
+
+		$(".modalClose").click(function() {
+			$("#viewModal").modal("show");
+		});
 
 		var refresh = function() {
 			$.ajax({

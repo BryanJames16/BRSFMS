@@ -300,7 +300,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Edit Service</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-edit"></i> Edit Service</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -455,7 +455,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>View Recipient</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye"></i> View Recipient</h4>
 					</div>
 
 					<!-- START MODAL BODY -->
@@ -517,7 +517,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="myModalLabel2"><i class="icon-road2"></i>Add Recipient</h4>
+						<h4 class="modal-title" id="myModalLabel2"><i class="icon-eye"></i> Add Recipient</h4>
 					</div>
 
 					<!-- START MODAL BODY -->

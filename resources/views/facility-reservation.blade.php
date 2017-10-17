@@ -752,6 +752,8 @@
 										}, 
 										success: function(evaluation) {
 											swal("Successfull", "Reservation is Extended!", "success");
+											refreshTable();
+											refreshNonRes();
 										}, 
 										error: function(evaluation) {
 											var message = "Error: ";
@@ -1993,8 +1995,6 @@
 		$("#frm-reserve").submit(function(event) {
 			event.preventDefault();
 			var frm = $('#frm-reserve');
-			
-			frm.find('#startTime').val();
 
 			if(switchRes.checked == true) {
 				
@@ -2010,56 +2010,79 @@
 				var ehour = parseInt(enumTimeChop[0]);
 				var eminute = parseInt(enumTimeChop[1]);
 
+				if (startTimeChop[1].toLowerCase() == "am") {
+					if (shour == 12) {
+						shour = 0;
+					}
+				}
+
 				if (startTimeChop[1].toLowerCase() == "pm") {
 					if (shour != 12) {
 						shour += 12;
 					}
-					console.log(shour + " <- SHOUR");
+				}
+
+				if (endTimeChop[1].toLowerCase() == "am") {
+					if (ehour == 12) {
+						ehour = 0;
+					}
 				}
 
 				if (endTimeChop[1].toLowerCase() == "pm") {
 					if (ehour != 12) {
 						ehour += 12;
 					}
-					console.log("End is also PM");
 				}
 
 				var aDateReserved = new Date(aSetDet[2], aSetDet[0], aSetDet[1], 0, 0);
 				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
-				
-				$.ajax({
-					url: "{{ url('/facility-reservation/residentStore') }}", 
-					method: "POST", 
-					data: {
-						"_token": "{{ csrf_token() }}", 
-						"reservationName": $("#rreservationName").val(), 
-						"desc": $("#rdesc").val(), 
-						"startTime": formatDateTime(aStartTime), 
-						"endTime": formatDateTime(aEndTime), 
-						"date": formatDate(aDateReserved),
-						"peoplePrimeID": $("#residentCbo").val(),
-						"facilityPrimeID": $("#facilityCbo").val(),
-						
-					}, 
-					success: function(data) {
 
-						refreshTable();
-						$("#addModal").modal("hide");
-						
-						$("#frm-reserve").trigger("reset");
-						swal("Success", "Successfully Added!", "success");
-					}, 
-					error: function(error) {
-						var message = "Errors: ";
-						var data = error.responseJSON;
-						for (datum in data) {
-							message += data[datum];
+				if (aStartTime.getHours() > 22 || 
+					aStartTime.getHours() < 10) {
+					swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
+				}
+				else if (aEndTime.getHours() > 22 || 
+							aEndTime.getHours() < 10) {
+					swal("Error", "Ending time must start from 10 AM to 10 PM", "error");
+				}
+				else if (aStartTime.getHours() > aEndTime.getHours()) {
+					swal("Error", "Starting time must not exceed the ending time", "error");
+				}
+				else {
+					$.ajax({
+						url: "{{ url('/facility-reservation/residentStore') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"reservationName": $("#rreservationName").val(), 
+							"desc": $("#rdesc").val(), 
+							"startTime": formatDateTime(aStartTime), 
+							"endTime": formatDateTime(aEndTime), 
+							"date": formatDate(aDateReserved),
+							"peoplePrimeID": $("#residentCbo").val(),
+							"facilityPrimeID": $("#facilityCbo").val(),
+							
+						}, 
+						success: function(data) {
+
+							refreshTable();
+							$("#addModal").modal("hide");
+							
+							$("#frm-reserve").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
 						}
-
-						swal("Error", message, "error");
-					}
-				});
+					});
+				}
 			}
 			else {
 
@@ -2075,53 +2098,81 @@
 				var ehour = parseInt(enumTimeChop[0]);
 				var eminute = parseInt(enumTimeChop[1]);
 
+				if (startTimeChop[1].toLowerCase() == "am") {
+					if (shour == 12) {
+						shour = 0;
+					}
+				}
+
 				if (startTimeChop[1].toLowerCase() == "pm") {
-					shour += 12;
+					if (shour != 12) {
+						shour += 12;
+					}
+				}
+
+				if (endTimeChop[1].toLowerCase() == "am") {
+					if (ehour == 12) {
+						ehour = 0;
+					}
 				}
 
 				if (endTimeChop[1].toLowerCase() == "pm") {
-					ehour += 12;
+					if (ehour != 12) {
+						ehour += 12;
+					}
 				}
 
 				var aDateReserved = new Date(aSetDet[2], aSetDet[0], aSetDet[1], 0, 0);
 				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
 
-				$.ajax({
-					url: "{{ url('/facility-reservation/nonresidentStore') }}", 
-					method: "POST", 
-					data: {
-						"_token": "{{ csrf_token() }}", 
-						"reservationName": $("#rreservationName").val(), 
-						"desc": $("#rdesc").val(), 
-						"startTime": formatDateTime(aStartTime), 
-						"endTime": formatDateTime(aEndTime), 
-						"date": formatDate(aDateReserved),
-						"name": $("#rname").val(),
-						"age": $("#age").val(),
-						"email": $("#email").val(),
-						"contactNumber": $("#contactNumber").val(),
-						"facilityPrimeID": $("#facilityID").val(),
-						
-					}, 
-					success: function(data) {
-						$("#addModal").modal("hide");
-						
-						$("#frm-reserve").trigger("reset");
-						swal("Success", "Successfully Added!", "success");
-					}, 
-					error: function(error) {
-						var message = "Errors: ";
-						var data = error.responseJSON;
-						for (datum in data) {
-							message += data[datum];
+				if (aStartTime.getHours() > 22 || 
+					aStartTime.getHours() < 10) {
+					swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
+				}
+				else if (aEndTime.getHours() > 22 || 
+							aEndTime.getHours() < 10) {
+					swal("Error", "Ending time must start from 10 AM to 10 PM", "error");
+				}
+				else if (aStartTime.getHours() > aEndTime.getHours()) {
+					swal("Error", "Starting time must not exceed the ending time", "error");
+				}
+				else {
+					$.ajax({
+						url: "{{ url('/facility-reservation/nonresidentStore') }}", 
+						method: "POST", 
+						data: {
+							"_token": "{{ csrf_token() }}", 
+							"reservationName": $("#rreservationName").val(), 
+							"desc": $("#rdesc").val(), 
+							"startTime": formatDateTime(aStartTime), 
+							"endTime": formatDateTime(aEndTime), 
+							"date": formatDate(aDateReserved),
+							"name": $("#rname").val(),
+							"age": $("#age").val(),
+							"email": $("#email").val(),
+							"contactNumber": $("#contactNumber").val(),
+							"facilityPrimeID": $("#facilityID").val(),
+							
+						}, 
+						success: function(data) {
+							$("#addModal").modal("hide");
+							
+							$("#frm-reserve").trigger("reset");
+							swal("Success", "Successfully Added!", "success");
+						}, 
+						error: function(error) {
+							var message = "Errors: ";
+							var data = error.responseJSON;
+							for (datum in data) {
+								message += data[datum];
+							}
+
+							swal("Error", message, "error");
 						}
-
-						swal("Error", message, "error");
-					}
-				});
+					});
+				}
 			}
-
 		});
 
 		//  ALL REFRESH TABLE
