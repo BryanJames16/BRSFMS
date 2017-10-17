@@ -729,59 +729,61 @@
 						if (oldDate >= extendedDate) {
 							swal("Error", "Extended time must be greater than the old time!", "error");
 						}
+						else {
+							$.ajax({
+								url: "{{ url('/facility-reservation/checkReservation') }}", 
+								type: "GET", 
+								data: {
+									"primeID": primeID, 
+									"mysqlTime": formatJStoMySQL(extendedDate), 
+									"phpTime": formatJStoPHP(extendedDate)
+								}, 
+								success: function(data) {
+									if (data == "true") {
+										//console.log("true");
+										
+										$.ajax({
+											url: "{{ url('/facility-reservation/extend') }}", 
+											type: "POST", 
+											data: {
+												"primeID": primeID, 
+												"mysqlTime": formatJStoMySQL(extendedDate), 
+												"phpTime": formatJStoPHP(extendedDate)
+											}, 
+											success: function(evaluation) {
+												swal("Successfull", "Reservation is Extended!", "success");
+												refreshTable();
+											}, 
+											error: function(evaluation) {
+												var message = "Error: ";
+												var data = evaluation.responseJSON;
+												for (datum in data) {
+													message += data[datum];
+												}
 
-						$.ajax({
-							url: "{{ url('/facility-reservation/checkReservation') }}", 
-							type: "GET", 
-							data: {
-								"primeID": primeID, 
-								"mysqlTime": formatJStoMySQL(extendedDate), 
-								"phpTime": formatJStoPHP(extendedDate)
-							}, 
-							success: function(data) {
-								if (data == "true") {
-									//console.log("true");
-									
-									$.ajax({
-										url: "{{ url('/facility-reservation/extend') }}", 
-										type: "POST", 
-										data: {
-											"primeID": primeID, 
-											"mysqlTime": formatJStoMySQL(extendedDate), 
-											"phpTime": formatJStoPHP(extendedDate)
-										}, 
-										success: function(evaluation) {
-											swal("Successfull", "Reservation is Extended!", "success");
-											refreshTable();
-											refreshNonRes();
-										}, 
-										error: function(evaluation) {
-											var message = "Error: ";
-											var data = evaluation.responseJSON;
-											for (datum in data) {
-												message += data[datum];
+												swal("Error", "Cannot fetch table data!\n" + message, "error");
 											}
+										});
+										
+									}
+									else {
+										console.log(primeID);
+										swal("Error", "There is reservation on this time", "error");
+									}
+								}, 
+								error: function(evaluation) {
+									var message = "Error: ";
+									var data = evaluation.responseJSON;
+									for (datum in data) {
+										message += data[datum];
+									}
 
-											swal("Error", "Cannot fetch table data!\n" + message, "error");
-										}
-									});
-									
+									swal("Error", "Cannot fetch table data!\n" + message, "error");
 								}
-								else {
-									console.log(primeID);
-									swal("Error", "There is reservation on this time", "error");
-								}
-							}, 
-							error: function(evaluation) {
-								var message = "Error: ";
-								var data = evaluation.responseJSON;
-								for (datum in data) {
-									message += data[datum];
-								}
+							});
+						}
 
-								swal("Error", "Cannot fetch table data!\n" + message, "error");
-							}
-						});
+						
 					}, 
 					error: function(errors) {
 						var message = "Error: ";
@@ -1215,10 +1217,8 @@
 
 					data = $.parseJSON(data);
 
-					for (index in data) 
-					{
-						if(data[index].peoplePrimeID==null)
-						{
+					for (index in data) {
+						if(data[index].peoplePrimeID == null) {
 							$('#echange').html(
 									'<h4 class="form-section"><i class="icon-eye6"></i>Credentials </h4>'+
 									'<div class="row">'+
@@ -1328,8 +1328,7 @@
 								})
 							
 						}	
-						else
-						{
+						else {
 							$('#echange').html('<div class="row">'+
 												'<div class="form-group col-md-6 mb-2">'+
 													'<label for="userinput1">Reservation Name</label>'+
@@ -1457,6 +1456,8 @@
 										}
 									})
 						}	
+
+						updateDateStyle();
 					}		
 				}
 			});

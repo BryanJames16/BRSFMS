@@ -18,9 +18,12 @@ $(document).ready(function(event) {
 
     $("#rdate").dateDropper(dateCluster);
     $("#erdate").dateDropper(dateCluster);
+    $("#edate").dateDropper(dateCluster);
 
     $("#rstartTime").timeDropper(timeCluster);
     $("#erstartTime").timeDropper(timeCluster);
+    $("#estartTime").timeDropper(timeCluster);
     $("#rendTime").timeDropper(timeCluster);
     $("#erendTime").timeDropper(timeCluster);
+    $("#eendTime").timeDropper(timeCluster);
 });

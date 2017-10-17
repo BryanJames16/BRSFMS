@@ -89,7 +89,7 @@
 								</li>
 
 								<li class="nav-item">
-									<a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2" href="#tab2" aria-expanded="false">Chart</a>
+									<a class="nav-link" id="base-tab2" data-toggle="tab" aria-controls="tab2" href="#tab2" aria-expanded="false">Reservations</a>
 								</li>
 							</ul>
 
@@ -258,19 +258,19 @@
 									</div>
 								</div>
 
-								<div class="tab-pane" id="tab2" aria-labelledby="base-tab2">
+								<div class="tab-pane fade" role="tabpanel" id="tab2" aria-labelledby="base-tab2" aria-expanded="false">
 									<div class="card-block card-dashboard">
-										<h3>Transaction Rate</h3>
-										<div class="chartjs" style="height: 80px;">
-											<canvas id="transaction-chart" style="display: block; height: 80px;" height="80px"></canvas>
-										</div>
-									</div>
+										<table class="table table-striped table-custome-outline-red multi-ordering" style="font-size:14px;width:100%;" id="table-container">
+											<thead class="thead-custom-bg-red">
+												<tr>
+													<th></th>
+												</tr>
+											</thead>
 
-									<div class="card-block card-dashboard">
-										<h3>Liability Rate</h3>
-										<div class="chartjs" style="height: 80px;">
-											<canvas id="liability-chart" style="display: block; height: 80px;" height="80px"></canvas>
-										</div>
+											<tbody>
+												
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -278,11 +278,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<!-- Chart -->
-		<div class="row">
-			
 		</div>
 	</section>
 @endsection
