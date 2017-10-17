@@ -508,48 +508,73 @@
 									<span data-i18n="nav.navbars.main" class="menu-title">Reports</span>
 								</a>
 								<ul class="menu-content">
-									<li id="report-service-id">
-										<a href="/reports/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-lifebuoy"></i>
-											Rendered Services
+									<li>
+										<a href="#">
+											<i class="icon-android-contacts"></i>
+											<span>Resident</span>
 										</a>
+										<ul class="menu-content">
+											<li id="report-resident-id">
+												<a href="/reports/resident" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-user-check"></i>
+													Registered Residents
+												</a>
+											</li>
+											<li id="report-senior-id">
+												<a href="/reports/senior" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-android-contact"></i>
+													Senior Citizens
+												</a>
+											</li>
+											<li id="report-pwd-id">
+												<a href="/reports/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-android-bicycle"></i>
+													PWD
+												</a>
+											</li>
+											<li id="report-employed-id">
+												<a href="/reports/employed" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-price-tags"></i>
+													Employed Residents
+												</a>
+											</li>
+										</ul>
 									</li>
-									<li id="report-participant-id">
-										<a href="/reports/participant" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-man"></i>
-											Service Participants
+									<li>
+										<a href="#">
+											<i class="icon-cogs"></i>
+											<span>Service</span>
 										</a>
+										<ul class="menu-content">
+											<li id="report-service-id">
+												<a href="/reports/service" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-lifebuoy"></i>
+													Rendered Services
+												</a>
+											</li>
+											<li id="report-participant-id">
+												<a href="/reports/participant" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-man"></i>
+													Service Participants
+												</a>
+											</li>
+											<li id="report-sponsor-id">
+												<a href="/reports/sponsor" data-i18n="nav.navbars.nav_dark" class="menu-item">
+													<i class="icon-user-tie"></i>
+													Service Sponsors
+												</a>
+											</li>
+										</ul>
 									</li>
+									
 									<li id="report-reservation-id">
 										<a href="/reservation-of-facilities" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-calendar3"></i>
 											Reservation of Facilities
 										</a>
 									</li>
-									<li id="report-resident-id">
-										<a href="/reports/resident" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-user-check"></i>
-											Registered Residents
-										</a>
-									</li>
-									<li id="report-senior-id">
-										<a href="/reports/senior" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-android-contact"></i>
-											Senior Citizens
-										</a>
-									</li>
-									<li id="report-pwd-id">
-										<a href="/reports/pwd" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-android-bicycle"></i>
-											PWD
-										</a>
-									</li>
-									<li id="report-employed-id">
-										<a href="/reports/employed" data-i18n="nav.navbars.nav_dark" class="menu-item">
-											<i class="icon-price-tags"></i>
-											Employed Residents
-										</a>
-									</li>
+									
+									
 									<li id="report-business-id">
 										<a href="/reports/business" data-i18n="nav.navbars.nav_dark" class="menu-item">
 											<i class="icon-house"></i>

@@ -44,14 +44,35 @@
             <br>
             <br>
             <br>
+            
+            <br>
             <br>
             <br>
             <br>
             <br>
 
-           <div>
-                <h2>Service: {{ $name }}</h2>
-           </div>
+           
+            <h4>Service: {{ $name->serviceName }}</h4>
+           
+           
+            <h4>Date: 
+                @if($name -> toDate==null)
+                    {{ date('F j, Y',strtotime($name -> fromDate)) }}
+                @else
+                    {{ date('F j, Y',strtotime($name -> fromDate)) }} - {{ date('F j, Y',strtotime($name -> toDate)) }}
+                @endif
+            </h4>
+           
+           
+                
+            <h4>Age Bracket: 
+            @if($name->fromAge==null)
+                Open
+            @else
+                {{$name->fromAge}} - {{$name->toAge}} yrs. old
+            @endif
+            </h4>
+           
            
 
            
@@ -61,62 +82,65 @@
                 <thead style="border:1px solid black;text-align:center;width:100%">
                     <tr>
                         <th style="width:25%;border:1px solid black">Name</th>
-                        <th style="width:15%;border:1px solid black">Service</th>
-                        <th style="width:20%;border:1px solid black">Date</th>
-                        <th style="width:15%;border:1px solid black">Age Bracket</th>
-                        <th style="width:10%;border:1px solid black">Participant</th>
-                        <th style="width:10%;border:1px solid black">Recipient</th>
+                        <th style="width:10%;border:1px solid black">Gender</th>
+                        <th style="width:10%;border:1px solid black">Age</th>
+                        <th style="width:20%;border:1px solid black">Address</th>
+                        <th style="width:10%;border:1px solid black">Contact Number</th>
+                        <th style="width:10%;border:1px solid black">Disabilities</th>
+                    </tr>
+                    <tr>
+                        
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th style="border:1px solid black">Recipient</th>
+                        <th style="border:1px solid black">Quantity</th>
+
                     </tr>
                 </thead>
                 <tbody id="body" style="text-align:center;width:100%">
                     
-                    @foreach($services as $sss)
-                        <tr>
-                            
-                                <td style="border:1px solid black">{{ $sss->serviceTransactionName }}</td>
-                                <td style="border:1px solid black">{{ $sss->serviceName }}</td>
-                                @if($sss -> toDate==null)
-                                    <td style="border:1px solid black">{{ date('F j, Y',strtotime($sss -> fromDate)) }}</td>
-                                @else
-                                    <td style="border:1px solid black">{{ date('F j, Y',strtotime($sss -> fromDate)) }} - {{ date('F j, Y',strtotime($sss -> toDate)) }}</td>
-                                @endif
-
-                                @if($sss->fromAge==null)
-                                    <td style="border:1px solid black">Open</td>
-                                @else
-                                    <td style="border:1px solid black">{{$sss->fromAge}} - {{$sss->toAge}} yrs. old</td>
-                                @endif
-                                <td style="border:1px solid black">{{ $sss->participant }}</td>
-                                
-                                @foreach($recipient as $rec)
-                                    @if($rec->serviceTransactionPrimeID == $sss->serviceTransactionPrimeID)
-                                        <td style="border:1px solid black">{{$rec-> recipient}}</td>
-                                    
-                                    @endif
-                                @endforeach
-                            
+                    @foreach($participants as $p)
+                        <tr style="border:1px solid black">
+                            <td>{{ $p->firstName }} {{ substr($p->middleName,0,1) }}. {{ $p->lastName }}</td>
+                            @if($p->gender=='M')
+                                <td>Male</td>
+                            @else
+                                <td>Female</td>
+                            @endif
+                            <td>{{ Carbon\Carbon::parse($p->birthDate)->diffInYears(Carbon\Carbon::now()) }} yrs. old</td>
+                            <td>{{$p->address}}</td>
+                            <td>{{$p->contactNumber}}</td>
+                            <td>{{$p->disabilities}}</td>
                         </tr>
+                        @foreach($recipients as $r)
+                        @if($r->participantID == $p->participantID)
+                            <tr style="width:10%;border:1px solid black">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $r->recipientName }}</td>
+                                <td>{{$r->quantity}}</td>
+                            </tr>
+                        @endif
                     @endforeach
-                    <tr style="width:10%;border:1px solid black">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td colspan="2" style="text-align:right">Total Services: </td>
-                        <td style="width:10%;border:1px solid black">{{$total}}</td>
-                    </tr>
+                    @endforeach
+                    
                     <tr style="width:10%;border:1px solid black">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td colspan="2" style="text-align:right">Total Participants: </td>
-                        <td style="width:10%;border:1px solid black">{{$totalPart}}</td>
+                        <td style="width:10%;border:1px solid black">{{$totalParticipants}}</td>
                     </tr>
                     <tr style="width:10%;border:1px solid black">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td colspan="2" style="text-align:right">Total Recipients: </td>
-                        <td style="width:10%;border:1px solid black"> {{$totalRec}}</td>
+                        <td style="width:10%;border:1px solid black">{{$totalRecipients}}</td>
                     </tr>
 
                    
