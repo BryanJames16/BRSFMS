@@ -200,11 +200,7 @@ IF %1==sys (
 
     IF %2==SSCHED (
         ECHO Registering Task Scheduler...
-<<<<<<< HEAD
-        %SUDO% cmd /k "%placedir%\ks" sys sTCci
-=======
         %SUDO% cmd /k %placedir%ks.bat sys sTCci
->>>>>>> d35117884760c6b432edfcf40fe9a90280e082eb
         ECHO Registered Successfully!
         GOTO COMOK
     )
