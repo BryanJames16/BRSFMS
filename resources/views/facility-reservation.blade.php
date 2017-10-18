@@ -2133,6 +2133,34 @@
 				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
 
+				$.ajax({
+					url: "{{ url('/facility-reservation/check') }}", 
+					type: "GET", 
+					async: false, 
+					data: {
+						"date": aDateReserved,
+						"startTime": aStartTime,
+						"endTime": aEndTime
+					}, 
+					success: function(data){
+						data = $.parseJSON(data);
+						
+						console.log(data);
+
+						
+					}, 
+					error: function(errors) {
+						var message = "Error: ";
+						var data = errors.responseJSON;
+						for (datum in data) {
+							message += data[datum];
+						}
+
+						swal("Error", "Cannot fetch table data!\n" + message, "error");
+					}
+				});
+
+				/*
 				if (aStartTime.getHours() > 22 || 
 					aStartTime.getHours() < 10) {
 					swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
@@ -2145,8 +2173,8 @@
 					swal("Error", "Starting time must not exceed the ending time", "error");
 				}
 				else if (aStartTime.getHours() == aEndTime.getHours()) {
-				swal("Error", "Ending time must exceed the starting time", "error");
-			}
+					swal("Error", "Ending time must exceed the starting time", "error");
+				}
 				else {
 					$.ajax({
 						url: "{{ url('/facility-reservation/residentStore') }}", 
@@ -2180,7 +2208,7 @@
 							swal("Error", message, "error");
 						}
 					});
-				}
+				}*/
 			}
 			else {
 

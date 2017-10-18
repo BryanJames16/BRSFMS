@@ -480,6 +480,8 @@ class ReservationController extends Controller
         }
     }
 
+     
+
     public function extendTime(Request $r) {
         if($r -> ajax()) {
             $resDetails = Reservation::find($r -> input('primeID'));
@@ -620,6 +622,20 @@ class ReservationController extends Controller
         if($r -> ajax()) {
             $resDetails = Reservation::where("primeID", "=", $r -> input('primeID')) -> get();
             return json_encode($resDetails);
+        } 
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function check(Request $r) {
+        if($r -> ajax()) {
+            $check = \DB::table('reservations') ->select('primeID','reservationName')
+    			        ->where('dateReserved','=',$r->input('date'))
+                         ->where('reservationStart','<=',$r->input('startTime'))
+                         ->where('reservationEnd','>=',$r->input('endTime'))
+                         -> get();
+            return json_encode($check);
         } 
         else {
             return view('errors.403');

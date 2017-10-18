@@ -200,6 +200,7 @@ Route::post('/item-reservation/store', 'ItemReservationController@store');
 
 // Facility Reservation
 Route::get('/facility-reservation/refresh', 'ReservationController@refresh');
+Route::get('/facility-reservation/check', 'ReservationController@check');
 Route::get('/facility-reservation/refreshNonRes', 'ReservationController@refreshNonRes');
 Route::get('/facility-reservation/getEdit', 'ReservationController@getEdit');
 Route::get('/facility-reservation/getRes', 'ReservationController@getRes');
