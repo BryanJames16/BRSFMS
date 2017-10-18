@@ -149,7 +149,6 @@ class DocumentApprovalController extends Controller
 
             $document = Document::find($transDetail -> documentsPrimeID);
             $resident = Resident::find($transHead -> residentPrimeID);
-            $address = Generaladdress::find($gen -> personAddressID);
 
             $documentContent = $document -> documentContent;
             
