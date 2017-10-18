@@ -133,7 +133,7 @@
 														<td>{{ $reservation -> reservationName }}</td>
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 														<td><span class="tag  tag-pill  border-success tag-success">Resident</span></td>
 														@if($reservation -> status  == 'Pending')
 															<td><span class="tag  tag-pill  border-info tag-info">Pending</span></td>
@@ -197,7 +197,7 @@
 														<td>{{ $reservation -> reservationName }}</td>
 														<td>{{ $reservation -> facilityName }}</td>
 														<td>{{ $reservation -> name }}</td>
-														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+														<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 														<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
 														@if($reservation -> status  == 'Pending')
 															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
@@ -257,7 +257,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
 															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
 															<td>
@@ -285,7 +285,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
 															<td><span class="tag  tag-pill   tag-info">Pending</span></td>
 															<td>
@@ -328,7 +328,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
 															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
 															<td>N/A
@@ -346,7 +346,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
 															<td><span class="tag  tag-pill   tag-default">Rescheduled</span></td>
 															<td>N/A
@@ -381,7 +381,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> lastName }}, {{ $reservation -> firstName }} {{ $reservation -> middleName }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-success">Resident</span></td>
 															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A
@@ -399,7 +399,7 @@
 															<td>{{ $reservation -> reservationName }}</td>
 															<td>{{ $reservation -> facilityName }}</td>
 															<td>{{ $reservation -> name }}</td>
-															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }} {{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
+															<td>{{ date('F j, Y',strtotime($reservation -> dateReserved)) }}<br>{{ date('g:i a',strtotime($reservation -> reservationStart)) }} - {{ date('g:i a',strtotime($reservation -> reservationEnd)) }}</td>
 															<td><span class="tag  tag-pill   tag-danger">Non-resident</span></td>
 															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A
@@ -2262,33 +2262,9 @@
 
 					for (index in data) {
 						
-						var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-						var date = new Date(data[index].dateReserved);
-						var month = date.getMonth();
-						var day = date.getDate();
-						var year = date.getFullYear();
-						var d = months[month] + ' ' + day + ', ' + year;
-
-						var start = data[index].reservationStart;
-						var end = data[index].reservationEnd;
-
-						start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
-						end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
-
-						if(start.length > 1){
-							start = start.slice(1);
-							start[5] = +start[0] < 12 ? 'AM' : 'PM';
-							start[0] = +start[0] % 12 || 12;
-						}
-
-						if(end.length > 1){
-							end = end.slice(1);
-							end[5] = +end[0] < 12 ? 'AM' : 'PM';
-							end[0] = +end[0] % 12 || 12;
-						}
-
-						var st = start.join('');
-						var en = end.join('');
+						var passedDate = formatMySQLtoJS(data[index].dateReserved);
+						var passedStart = formatMySQLtoJS(data[index].reservationStart);
+						var passedEnd = formatMySQLtoJS(data[index].reservationEnd);
 
 						var actions;
 						var status;
@@ -2309,15 +2285,15 @@
 									data[index].reservationName, 
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									d + ' ' + st + ' - ' + en, 
-									'<span class="tag  tag-pill   tag-success">Resident</span>',
+									getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+									'<span class="tag tag-pill tag-success">Resident</span>',
 									status,
 									actions
 									
 								]).draw(false);
 						}
 						else if(data[index].status=="Rescheduled") {
-							status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
+							status = '<span class="tag tag-pill tag-default">Resceduled</span>';
 							actions = 'N/A';
 
 							$("#table-rescheduled").DataTable()
@@ -2325,15 +2301,15 @@
 									data[index].reservationName, 
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									d + ' ' + st + ' - ' + en, 
-									'<span class="tag  tag-pill   tag-success">Resident</span>',
+									getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+									'<span class="tag tag-pill tag-success">Resident</span>',
 									status,
 									actions
 									
 								]).draw(false);
 						}
 						else if(data[index].status=="Cancelled") {
-							status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
+							status = '<span class="tag tag-pill tag-danger">Cancelled</span>';
 							actions = 'N/A';
 
 							$("#table-cancelled").DataTable()
@@ -2341,49 +2317,60 @@
 									data[index].reservationName, 
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									d + ' ' + st + ' - ' + en, 
-									'<span class="tag  tag-pill   tag-success">Resident</span>',
+									getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+									'<span class="tag tag-pill tag-success">Resident</span>',
 									status,
 									actions
 									
 								]).draw(false);
 						}
 						else if (data[index].status == "Paid") {
-							status = '<span class="tag tag-pill tag-success">Cancelled</span>' + 
+							status = '<span class="tag tag-pill tag-success">Paid</span>' + 
 										'<br><br>';
 							if (data[index].eventStatus == "NYD") {
 								status += '<span class="tag tag-default tag-info">Not Yet Done</span>';
+								actions = "N/A";
 							}
 							else if (data[index].eventStatus == "OnGoing") {
 								status += '<span class="tag tag-default tag-success">On-Going</span>';
+								actions = '<span class="dropdown">' + 
+										   		'<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">' + 
+													'<i class="icon-dribbble"></i> Extend' + 
+												'</button>' + 
+											'</span>";';
 							}
 							else if (data[index].eventStatus == "Extended") {
 								status += '<span class="tag tag-default tag-warning">Extended</span>';
+								actions = '<span class="dropdown">' + 
+										   		'<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">' + 
+													'<i class="icon-dribbble"></i> Extend' + 
+												'</button>' + 
+											'</span>";';
 							}
 							else {
 								status += '<span class="tag tag-default tag-default">Done</span>';
+								actions = "N/A";
 							}
 						}
 						else {
 							status = '<span class="tag tag-pill tag-success">Finished</span>';
 							actions = 'N/A';
+							console.log("Status is: " + data[index].status);
 						}
-
 
 						$("#table-all").DataTable()
 								.row.add([
 									data[index].reservationName, 
 									data[index].facilityName, 
 									data[index].firstName + ' ' + data[index].middleName.substring(0,1) + '. ' + data[index].lastName, 
-									d + ' ' + st + ' - ' + en, 
+									getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
 									'<span class="tag tag-pill tag-success">Resident</span>',
 									status,
 									actions
-									
 								]).draw(false);
 							
 					}
-
+					
 					$.ajax({
 							url: "{{ url('/facility-reservation/refreshNonRes') }}", 
 							method: "GET", 
@@ -2394,33 +2381,9 @@
 
 								for (index in data) {
 									
-									var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-									var date = new Date(data[index].dateReserved);
-									var month = date.getMonth();
-									var day = date.getDate();
-									var year = date.getFullYear();
-									var d = months[month] + ' ' + day + ', ' + year;
-
-									var start = data[index].reservationStart;
-									var end = data[index].reservationEnd;
-
-									start = start.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [start];
-									end = end.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [end];
-
-									if(start.length > 1){
-										start = start.slice(1);
-										start[5] = +start[0] < 12 ? 'AM' : 'PM';
-										start[0] = +start[0] % 12 || 12;
-									}
-
-									if(end.length > 1){
-										end = end.slice(1);
-										end[5] = +end[0] < 12 ? 'AM' : 'PM';
-										end[0] = +end[0] % 12 || 12;
-									}
-
-									var st = start.join('');
-									var en = end.join('');
+									var passedDate = formatMySQLtoJS(data[index].dateReserved);
+									var passedStart = formatMySQLtoJS(data[index].reservationStart);
+									var passedEnd = formatMySQLtoJS(data[index].reservationEnd);
 
 									var actions;
 									var status;
@@ -2441,15 +2404,15 @@
 												data[index].reservationName, 
 												data[index].facilityName, 
 												data[index].name, 
-												d + ' ' + st + ' - ' + en, 
-												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
+												getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+												'<span class="tag tag-pill tag-danger">Non-resident</span>',
 												status,
 												actions
 												
 											]).draw(false);
 									}
 									else if(data[index].status=="Rescheduled") {
-										status = '<span class="tag  tag-pill   tag-default">Resceduled</span>';
+										status = '<span class="tag tag-pill tag-default">Resceduled</span>';
 										actions = 'N/A';
 
 										$("#table-rescheduled").DataTable()
@@ -2457,15 +2420,15 @@
 												data[index].reservationName, 
 												data[index].facilityName, 
 												data[index].name, 
-												d + ' ' + st + ' - ' + en, 
-												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
+												getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+												'<span class="tag tag-pill tag-danger">Non-resident</span>',
 												status,
 												actions
 												
 											]).draw(false);
 									}
 									else if(data[index].status=="Cancelled") {
-										status = '<span class="tag  tag-pill   tag-danger">Cancelled</span>';
+										status = '<span class="tag tag-pill tag-danger">Cancelled</span>';
 										actions = 'N/A';
 
 										$("#table-cancelled").DataTable()
@@ -2473,27 +2436,39 @@
 												data[index].reservationName, 
 												data[index].facilityName, 
 												data[index].name, 
-												d + ' ' + st + ' - ' + en, 
-												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
+												getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
+												'<span class="tag tag-pill tag-danger">Non-resident</span>',
 												status,
 												actions
 												
 											]).draw(false);
 									}
 									else if (data[index].status == "Paid") {
-										status = '<span class="tag tag-pill tag-success">Cancelled</span>' + 
+										status = '<span class="tag tag-pill tag-danger">Cancelled</span>' + 
 													'<br><br>';
 										if (data[index].eventStatus == "NYD") {
 											status += '<span class="tag tag-default tag-info">Not Yet Done</span>';
+											actions = "N/A";
 										}
 										else if (data[index].eventStatus == "OnGoing") {
 											status += '<span class="tag tag-default tag-success">On-Going</span>';
+											actions = '<span class="dropdown">' + 
+															'<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">' + 
+																'<i class="icon-dribbble"></i> Extend' + 
+															'</button>' + 
+														'</span>";';
 										}
 										else if (data[index].eventStatus == "Extended") {
 											status += '<span class="tag tag-default tag-warning">Extended</span>';
+											actions = '<span class="dropdown">' + 
+															'<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">' + 
+																'<i class="icon-dribbble"></i> Extend' + 
+															'</button>' + 
+														'</span>";';
 										}
 										else {
 											status += '<span class="tag tag-default tag-default">Done</span>';
+											actions = "N/A";
 										}
 									}
 									else {
@@ -2507,16 +2482,12 @@
 												data[index].reservationName, 
 												data[index].facilityName, 
 												data[index].name, 
-												d + ' ' + st + ' - ' + en, 
+												getReadableDate(passedDate) + '<br>' + getReadableTime(passedStart) + ' - ' + getReadableTime(passedEnd), 
 												'<span class="tag  tag-pill   tag-danger">Non-resident</span>',
 												status,
 												actions
 												
 											]).draw(false);
-									
-
-									
-										
 									
 								}
 							}, 
@@ -2532,6 +2503,7 @@
 								console.log("Error: Cannot refresh table!\n" + message);
 							}
 					});
+					
 				}, 
 				error: function(data) {
 

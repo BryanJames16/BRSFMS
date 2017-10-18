@@ -133,6 +133,35 @@ var pullNaturalTimefromMySQL = function(passedDate) {
     return ("0" + hours).slice(-2) + ":" + ("0" + JSDate.getHours()).slice(-2) + " " + meridian;
 }
 
+var getReadableDate = function(passedDate) {
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"];
+
+    return (monthNames[passedDate.getMonth()] + " " + 
+            passedDate.getDate() + ", " + 
+            passedDate.getFullYear());
+}
+
+var getReadableTime = function(passedDate) {
+    var meridian = "";
+    var hours = 0;
+
+    if (passedDate.getHours() > 12) {
+        hours = passedDate.getHours() - 12;
+        meridian = "pm"
+    }
+    else if (passedDate.getHours() < 12) {
+        hours = passedDate.getHours();
+        meridian = "am"
+    }
+    else {
+        hours = passedDate.getHours();
+        meridian = "pm"
+    }
+
+    return ("0" + hours).slice(-2) + ":" + ("0" + passedDate.getHours()).slice(-2) + " " + meridian;
+}
+
 var getStringDateTime = function () {
     var dateTimeToday = new Date();
     return (dateTimeToday.getFullYear() + "" + 
