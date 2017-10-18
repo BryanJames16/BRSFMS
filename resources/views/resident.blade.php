@@ -263,7 +263,7 @@
 
 											<div class="row">
 												<div class="form-group col-xs-12 mb-2">
-													<label for="eventInput2">Family Name</label>
+													<label for="eventInput2">*Family Name</label>
 													<input type="text" id="familyName" class="form-control" placeholder="Fuellas Family" name="familyName" />
 												</div>
 											</div>
