@@ -219,6 +219,33 @@
 														@elseif($reservation -> status  == 'Cancelled')	
 															<td><span class="tag  tag-pill   tag-danger">Cancelled</span></td>
 															<td>N/A</td>
+														@elseif($reservation -> status  == 'Paid')	
+															<td>
+																<span class="tag tag-pill tag-success">Paid</span>
+																<br />
+																<br />
+																@if($reservation -> eventStatus == 'NYD')
+																	<span class="tag tag-default tag-info">Not Yet Done</span>
+																@elseif($reservation -> eventStatus == 'OnGoing')
+																	<span class="tag tag-default tag-success">On-Going</span>
+																@elseif($reservation -> eventStatus == 'Extended')
+																	<span class="tag tag-default tag-warning">Extended</span>
+																@elseif($reservation -> eventStatus == 'Done')
+																	<span class="tag tag-default tag-default">Done</span>
+																@endif
+															</td>
+															<td>
+																@if($reservation -> eventStatus == 'OnGoing' || 
+																	$reservation -> eventStatus == 'Extended')
+																	<span class="dropdown">
+																		<button type="button" class="btn btn-info mr-1 btn-extension" value="{{ $reservation -> primeID }}">
+																			<i class="icon-dribbble"></i> Extend
+																		</button>
+																	</span>
+																@else 
+																	N/A
+																@endif
+															</td>
 														@else
 															<td></td>
 															<td>N/A</td>
