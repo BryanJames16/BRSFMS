@@ -630,10 +630,71 @@ class ReservationController extends Controller
 
     public function check(Request $r) {
         if($r -> ajax()) {
-            $check = \DB::table('reservations') ->select('primeID','reservationName')
+            $check = \DB::table('reservations') 
+                        ->select('primeID','reservationName')
     			        ->where('dateReserved','=',$r->input('date'))
-                         ->where('reservationStart','<=',$r->input('startTime'))
-                         ->where('reservationEnd','>=',$r->input('endTime'))
+                        ->where('facilityPrimeID','=',$r->input('facilityPrimeID'))
+                        ->where('status','!=','Rescheduled')
+                        ->where('status','!=','Cancelled')
+                        ->where(function($q)use($r){
+                                $q->where('reservationStart', '<',$r->input('startTime'))
+                                  ->where('reservationEnd', '>',$r->input('endTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '>',$r->input('startTime'))
+                                  ->where('reservationEnd', '>',$r->input('endTime'))
+                                  ->where('reservationStart', '<',$r->input('endTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '<',$r->input('startTime'))
+                                  ->where('reservationEnd', '<',$r->input('endTime'))
+                                  ->where('reservationEnd', '>',$r->input('startTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '>',$r->input('startTime'))
+                                  ->where('reservationEnd', '<',$r->input('endTime'));
+                            })
+                        
+                            
+                        
+                         -> get();
+            return json_encode($check);
+        } 
+        else {
+            return view('errors.403');
+        }
+    }
+
+    public function checkR(Request $r) {
+        if($r -> ajax()) {
+            $check = \DB::table('reservations') 
+                        ->select('primeID','reservationName')
+    			        ->where('dateReserved','=',$r->input('date'))
+                        ->where('facilityPrimeID','=',$r->input('facilityPrimeID'))
+                        ->where('primeID','!=',$r->input('primeID'))
+                        ->where('status','!=','Rescheduled')
+                        ->where('status','!=','Cancelled')
+                        ->where(function($q)use($r){
+                                $q->where('reservationStart', '<',$r->input('startTime'))
+                                  ->where('reservationEnd', '>',$r->input('endTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '>',$r->input('startTime'))
+                                  ->where('reservationEnd', '>',$r->input('endTime'))
+                                  ->where('reservationStart', '<',$r->input('endTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '<',$r->input('startTime'))
+                                  ->where('reservationEnd', '<',$r->input('endTime'))
+                                  ->where('reservationEnd', '>',$r->input('startTime'));
+                            })
+                        ->orWhere(function($q)use($r){
+                                $q->where('reservationStart', '>',$r->input('startTime'))
+                                  ->where('reservationEnd', '<',$r->input('endTime'));
+                            })
+                        
+                            
+                        
                          -> get();
             return json_encode($check);
         } 

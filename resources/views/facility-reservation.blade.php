@@ -1956,6 +1956,10 @@
 			var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 			var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
 
+			var d = aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1];
+			var s =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + shour + ':' + sminute + ':00';
+			var e =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + ehour + ':' + eminute + ':00';
+			
 			if (aStartTime.getHours() > 22 || 
 				aStartTime.getHours() < 10) {
 				swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
@@ -1990,99 +1994,145 @@
 				console.log("End is: " + end);
 
 				$.ajax({
-					type: 'get',
-					url: "{{ url('facility-reservation/getRes') }}",
-					data: {primeID:id},
-					success:function(data)
-					{
+						url: "{{ url('/facility-reservation/checkR') }}", 
+						type: "GET", 
+						async: false, 
+						data: {
+							"date": d,
+							"facilityPrimeID": $("#facilityCbo").val(),
+							"startTime": s,
+							"endTime": e,
+							"reservationPrimeID":id
+						}, 
+						success: function(data){
+							data = $.parseJSON(data);
+							
+							var check = false
+							for(index in data){
+								console.log(data[index].reservationName)
+								check = true;
 
-						data = $.parseJSON(data);
+							}
 
-						for (index in data) 
-						{
-							if(data[index].peoplePrimeID==null)
-							{
+							if(check){
+								swal("Error", "The date and time of reservation is already reserved!",'error');
+							}
+							else{
 								$.ajax({
-									url: "{{ url('/facility-reservation/update') }}", 
-									method: "POST", 
-									data: {
-										"_token": "{{ csrf_token() }}", 
-										"primeID": id,
-										"reservationName": resname, 
-										"reservationDescription": desc, 
-										"reservationStart": start, 
-										"reservationEnd": end, 
-										"dateReserved":date,
-										"peoplePrimeID": rid,
-										"facilityPrimeID": facility,
-										"name": name,
-										"age": age,
-										"email": email,
-										"contactNumber": cn,
-										
-									}, 
-									success: function(data) {
+									type: 'get',
+									url: "{{ url('facility-reservation/getRes') }}",
+									data: {primeID:id},
+									success:function(data)
+									{
 
-										refreshTable();
-										$("#rescheduleModal").modal("hide");
-										
-										$("#frm-resched").trigger("reset");
-										swal("Success", "Successfully Rescheduled!", "success");
-									}, 
-									error: function(error) {
-										var message = "Errors: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
-										}
+										data = $.parseJSON(data);
 
-										swal("Error", message, "error");
+										for (index in data) 
+										{
+											if(data[index].peoplePrimeID==null)
+											{
+												$.ajax({
+													url: "{{ url('/facility-reservation/update') }}", 
+													method: "POST", 
+													data: {
+														"_token": "{{ csrf_token() }}", 
+														"primeID": id,
+														"reservationName": resname, 
+														"reservationDescription": desc, 
+														"reservationStart": start, 
+														"reservationEnd": end, 
+														"dateReserved":date,
+														"peoplePrimeID": rid,
+														"facilityPrimeID": facility,
+														"name": name,
+														"age": age,
+														"email": email,
+														"contactNumber": cn,
+														
+													}, 
+													success: function(data) {
+
+														refreshTable();
+														$("#rescheduleModal").modal("hide");
+														
+														$("#frm-resched").trigger("reset");
+														swal("Success", "Successfully Rescheduled!", "success");
+													}, 
+													error: function(error) {
+														var message = "Errors: ";
+														var data = error.responseJSON;
+														for (datum in data) {
+															message += data[datum];
+														}
+
+														swal("Error", message, "error");
+													}
+												});
+											}
+											else
+											{
+												$.ajax({
+													url: "{{ url('/facility-reservation/update') }}", 
+													method: "POST", 
+													data: {
+														"_token": "{{ csrf_token() }}", 
+														"primeID": id,
+														"reservationName": resname, 
+														"reservationDescription": desc, 
+														"reservationStart": start, 
+														"reservationEnd": end, 
+														"dateReserved":date,
+														"peoplePrimeID": rid,
+														"facilityPrimeID": efacility,
+														"name": name,
+														"age": age,
+														"email": email,
+														"contactNumber": cn,
+														
+													}, 
+													success: function(data) {
+
+														refreshTable();
+														$("#rescheduleModal").modal("hide");
+														
+														$("#frm-resched").trigger("reset");
+														swal("Success", "Successfully Rescheduled!", "success");
+													}, 
+													error: function(error) {
+														var message = "Errors: ";
+														var data = error.responseJSON;
+														for (datum in data) {
+															message += data[datum];
+														}
+
+														swal("Error", message, "error");
+													}
+												});
+											}
+										}		
 									}
 								});
 							}
-							else
-							{
-								$.ajax({
-									url: "{{ url('/facility-reservation/update') }}", 
-									method: "POST", 
-									data: {
-										"_token": "{{ csrf_token() }}", 
-										"primeID": id,
-										"reservationName": resname, 
-										"reservationDescription": desc, 
-										"reservationStart": start, 
-										"reservationEnd": end, 
-										"dateReserved":date,
-										"peoplePrimeID": rid,
-										"facilityPrimeID": efacility,
-										"name": name,
-										"age": age,
-										"email": email,
-										"contactNumber": cn,
-										
-									}, 
-									success: function(data) {
 
-										refreshTable();
-										$("#rescheduleModal").modal("hide");
-										
-										$("#frm-resched").trigger("reset");
-										swal("Success", "Successfully Rescheduled!", "success");
-									}, 
-									error: function(error) {
-										var message = "Errors: ";
-										var data = error.responseJSON;
-										for (datum in data) {
-											message += data[datum];
-										}
 
-										swal("Error", message, "error");
-									}
-								});
+							
+						}, 
+						error: function(errors) {
+							var message = "Error: ";
+							var data = errors.responseJSON;
+							for (datum in data) {
+								message += data[datum];
 							}
-						}		
-					}
-				});
+
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
+						}
+					});				
+
+
+
+
+
+				
 			}
 
 		});
@@ -2133,34 +2183,14 @@
 				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
 
-				$.ajax({
-					url: "{{ url('/facility-reservation/check') }}", 
-					type: "GET", 
-					async: false, 
-					data: {
-						"date": aDateReserved,
-						"startTime": aStartTime,
-						"endTime": aEndTime
-					}, 
-					success: function(data){
-						data = $.parseJSON(data);
-						
-						console.log(data);
+				var d = aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1];
+				var s =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + shour + ':' + sminute + ':00';
+				var e =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + ehour + ':' + eminute + ':00';
 
-						
-					}, 
-					error: function(errors) {
-						var message = "Error: ";
-						var data = errors.responseJSON;
-						for (datum in data) {
-							message += data[datum];
-						}
+				
+				
 
-						swal("Error", "Cannot fetch table data!\n" + message, "error");
-					}
-				});
-
-				/*
+				
 				if (aStartTime.getHours() > 22 || 
 					aStartTime.getHours() < 10) {
 					swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
@@ -2176,39 +2206,82 @@
 					swal("Error", "Ending time must exceed the starting time", "error");
 				}
 				else {
+					
 					$.ajax({
-						url: "{{ url('/facility-reservation/residentStore') }}", 
-						method: "POST", 
+						url: "{{ url('/facility-reservation/check') }}", 
+						type: "GET", 
+						async: false, 
 						data: {
-							"_token": "{{ csrf_token() }}", 
-							"reservationName": $("#rreservationName").val(), 
-							"desc": $("#rdesc").val(), 
-							"startTime": formatDateTime(aStartTime), 
-							"endTime": formatDateTime(aEndTime), 
-							"date": formatDate(aDateReserved),
-							"peoplePrimeID": $("#residentCbo").val(),
+							"date": d,
 							"facilityPrimeID": $("#facilityCbo").val(),
-							
+							"startTime": s,
+							"endTime": e
 						}, 
-						success: function(data) {
+						success: function(data){
+							data = $.parseJSON(data);
+							
+							var check = false
+							for(index in data){
+								console.log(data[index].reservationName)
+								check = true;
 
-							refreshTable();
-							$("#addModal").modal("hide");
+							}
+
+							if(check){
+								swal("Error", "The date and time of reservation is already reserved!",'error');
+							}
+							else{
+								$.ajax({
+									url: "{{ url('/facility-reservation/residentStore') }}", 
+									method: "POST", 
+									data: {
+										"_token": "{{ csrf_token() }}", 
+										"reservationName": $("#rreservationName").val(), 
+										"desc": $("#rdesc").val(), 
+										"startTime": formatDateTime(aStartTime), 
+										"endTime": formatDateTime(aEndTime), 
+										"date": formatDate(aDateReserved),
+										"peoplePrimeID": $("#residentCbo").val(),
+										"facilityPrimeID": $("#facilityCbo").val(),
+										
+									}, 
+									success: function(data) {
+
+										refreshTable();
+										$("#addModal").modal("hide");
+										
+										$("#frm-reserve").trigger("reset");
+										swal("Success", "Successfully Added!", "success");
+									}, 
+									error: function(error) {
+										var message = "Errors: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", message, "error");
+									}
+								});
+							}
+
+
 							
-							$("#frm-reserve").trigger("reset");
-							swal("Success", "Successfully Added!", "success");
 						}, 
-						error: function(error) {
-							var message = "Errors: ";
-							var data = error.responseJSON;
+						error: function(errors) {
+							var message = "Error: ";
+							var data = errors.responseJSON;
 							for (datum in data) {
 								message += data[datum];
 							}
 
-							swal("Error", message, "error");
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
 						}
 					});
-				}*/
+					
+					
+					
+				}
 			}
 			else {
 
@@ -2252,6 +2325,10 @@
 				var aStartTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], shour, sminute);
 				var aEndTime = new Date(aSetDet[2], aSetDet[0], aSetDet[1], ehour, eminute);
 
+				var d = aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1];
+				var s =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + shour + ':' + sminute + ':00';
+				var e =	aSetDet[2]+'-'+aSetDet[0]+'-'+aSetDet[1] + ' ' + ehour + ':' + eminute + ':00';
+
 				if (aStartTime.getHours() > 22 || 
 					aStartTime.getHours() < 10) {
 					swal("Error", "Starting time must start from 10 AM to 10 PM", "error");
@@ -2264,39 +2341,82 @@
 					swal("Error", "Starting time must not exceed the ending time", "error");
 				}
 				else {
+					
 					$.ajax({
-						url: "{{ url('/facility-reservation/nonresidentStore') }}", 
-						method: "POST", 
+						url: "{{ url('/facility-reservation/check') }}", 
+						type: "GET", 
+						async: false, 
 						data: {
-							"_token": "{{ csrf_token() }}", 
-							"reservationName": $("#rreservationName").val(), 
-							"desc": $("#rdesc").val(), 
-							"startTime": formatDateTime(aStartTime), 
-							"endTime": formatDateTime(aEndTime), 
-							"date": formatDate(aDateReserved),
-							"name": $("#rname").val(),
-							"age": $("#age").val(),
-							"email": $("#email").val(),
-							"contactNumber": $("#contactNumber").val(),
+							"date": d,
 							"facilityPrimeID": $("#facilityID").val(),
+							"startTime": s,
+							"endTime": e
+						}, 
+						success: function(data){
+							data = $.parseJSON(data);
+							
+							var check = false
+							for(index in data){
+								console.log(data[index].reservationName)
+								check = true;
+
+							}
+
+							if(check){
+								swal("Error", "The date and time of reservation is already reserved!",'error');
+							}
+							else{
+								$.ajax({
+									url: "{{ url('/facility-reservation/nonresidentStore') }}", 
+									method: "POST", 
+									data: {
+										"_token": "{{ csrf_token() }}", 
+										"reservationName": $("#rreservationName").val(), 
+										"desc": $("#rdesc").val(), 
+										"startTime": formatDateTime(aStartTime), 
+										"endTime": formatDateTime(aEndTime), 
+										"date": formatDate(aDateReserved),
+										"name": $("#rname").val(),
+										"age": $("#age").val(),
+										"email": $("#email").val(),
+										"contactNumber": $("#contactNumber").val(),
+										"facilityPrimeID": $("#facilityID").val(),
+										
+									}, 
+									success: function(data) {
+										$("#addModal").modal("hide");
+										
+										$("#frm-reserve").trigger("reset");
+										swal("Success", "Successfully Added!", "success");
+									}, 
+									error: function(error) {
+										var message = "Errors: ";
+										var data = error.responseJSON;
+										for (datum in data) {
+											message += data[datum];
+										}
+
+										swal("Error", message, "error");
+									}
+								});
+							}
+
+
 							
 						}, 
-						success: function(data) {
-							$("#addModal").modal("hide");
-							
-							$("#frm-reserve").trigger("reset");
-							swal("Success", "Successfully Added!", "success");
-						}, 
-						error: function(error) {
-							var message = "Errors: ";
-							var data = error.responseJSON;
+						error: function(errors) {
+							var message = "Error: ";
+							var data = errors.responseJSON;
 							for (datum in data) {
 								message += data[datum];
 							}
 
-							swal("Error", message, "error");
+							swal("Error", "Cannot fetch table data!\n" + message, "error");
 						}
 					});
+					
+					
+					
 				}
 			}
 		});
