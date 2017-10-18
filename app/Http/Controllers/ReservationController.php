@@ -484,7 +484,9 @@ class ReservationController extends Controller
         if($r -> ajax()) {
             $resDetails = Reservation::find($r -> input('primeID'));
             
-            $collectOld = Collection::where("reservationPrimeID", $r -> input('primeID'))->get();
+            $collectOld = Collection::select('amount')
+                            ->where("reservationPrimeID", $r->input('primeID'))
+                            ->get();
 
             $resDetails -> reservationEnd = $r -> input('mysqlTime');
             $resDetails -> status = "Pending";
@@ -537,7 +539,6 @@ class ReservationController extends Controller
                 $totalAmount += $morningAmount + $eveningAmount;
             }
 
-            $totalAmount = abs($totalAmount - $collectOld -> amount);
 
             $listOfCollection = Collection::select('collectionID') 
                                             ->get()
@@ -549,6 +550,11 @@ class ReservationController extends Controller
             }
             else {
                 $nextKey = StaticCounter::smart_next($listOfCollection -> collectionID, SmartMove::$NUMBER);
+            }
+
+            foreach($collectOld as $c)
+            {
+                $totalAmount = $totalAmount = $c-> amount;
             }
 
             if (is_null($resDetails -> peoplePrimeID)) {
