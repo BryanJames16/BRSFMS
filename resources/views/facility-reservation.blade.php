@@ -1106,8 +1106,8 @@
 					for (datum in data) {
 						var eventObj = {
 							"title": data[datum].reservationName, 
-							"start": data[datum].dateReserved + "T" + data[datum].reservationStart, 
-							"end": data[datum].dateReserved + "T" + data[datum].reservationEnd, 
+							"start": data[datum].dateReserved.split(" ")[0] + "T" + data[datum].reservationStart.split(" ")[1], 
+							"end": data[datum].dateReserved.split(" ")[0] + "T" + data[datum].reservationEnd.split(" ")[1], 
 							"color": eventColor,
 							"data_id": data[datum].primeID
 						};
