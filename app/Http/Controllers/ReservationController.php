@@ -50,7 +50,7 @@ class ReservationController extends Controller
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
                                         ->get();
-        $nonres= \DB::table('reservations') ->select('reservations.primeID','reservations.status','reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'name','age','email','contactNumber') 
+        $nonres= \DB::table('reservations') ->select('reservations.primeID','reservations.status', 'reservations.eventStatus', 'reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'name','age','email','contactNumber') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->where('reservations.peoplePrimeID', '=', null) 
                                         ->get();
@@ -483,6 +483,7 @@ class ReservationController extends Controller
     public function extendTime(Request $r) {
         if($r -> ajax()) {
             $resDetails = Reservation::find($r -> input('primeID'));
+            $oldTime = $resDetails -> reservationEnd;
             $resDetails -> reservationEnd = $r -> input('mysqlTime');
             $resDetails -> status = "Pending";
             $resDetails -> eventStatus = "Extended";
@@ -533,6 +534,8 @@ class ReservationController extends Controller
     
                 $totalAmount += $morningAmount + $eveningAmount;
             }
+
+            $totalAmount = abs($totalAmount - $oldTime);
 
             $listOfCollection = Collection::select('collectionID') 
                                             ->get()
@@ -617,7 +620,9 @@ class ReservationController extends Controller
 
     public function realtime() {
         // Change from NYD to OnGoing
-        $ongoing = Reservation::where('eventStatus', 'NYD')->get();
+        $ongoing = Reservation::where('eventStatus', 'NYD')
+                                ->where('status', 'Paid')
+                                ->get();
         
         foreach ($ongoing as $og) {
             echo "ONGOING: " . $og->reservationName . "\n";
@@ -629,7 +634,9 @@ class ReservationController extends Controller
         }
 
         // Change from NYD to Done
-        $ongoing = Reservation::where('eventStatus', 'NYD')->get();
+        $ongoing = Reservation::where('eventStatus', 'NYD')
+                                ->where('status', 'Paid')
+                                ->get();
         
         foreach ($ongoing as $og) {
             echo "ONGOING: " . $og->reservationName . "\n";
@@ -641,7 +648,9 @@ class ReservationController extends Controller
         }
 
         // Change from OnGoing to Done
-        $done = Reservation::where('eventStatus', 'OnGoing')->get();
+        $done = Reservation::where('eventStatus', 'OnGoing')
+                            ->where('status', 'Paid')
+                            ->get();
 
         foreach ($done as $dn) {
             if (Carbon::now() >= $dn -> reservationEnd) {
@@ -651,7 +660,9 @@ class ReservationController extends Controller
         }
 
         // Change from Extended to Done
-        $extended = Reservation::where('eventStatus', 'Extended')->get();
+        $extended = Reservation::where('eventStatus', 'Extended')
+                                ->where('status', 'Paid')
+                                ->get();
         
         foreach ($extended as $dn) {
             if (Carbon::now() >= $dn -> reservationEnd) {
@@ -661,7 +672,9 @@ class ReservationController extends Controller
         }
 
         // Changed unpaid reservation to Cancelled
-        $pending = Reservation::where('status', '=', 'Pending')->get();
+        $pending = Reservation::where('status', '=', 'Pending')
+                                ->where('status', 'Paid')
+                                ->get();
 
         foreach ($pending as $pd) {
             if (Carbon::now() >= $dn -> reservationEnd) {

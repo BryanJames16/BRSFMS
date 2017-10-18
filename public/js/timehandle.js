@@ -137,7 +137,7 @@ var getReadableDate = function(passedDate) {
     var monthNames = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"];
 
-    return (monthNames[passedDate.getMonth()] + " " + 
+    return (monthNames[passedDate.getMonth() - 1] + " " + 
             passedDate.getDate() + ", " + 
             passedDate.getFullYear());
 }
@@ -184,7 +184,7 @@ var getCurrentDate = function() {
     var monthNames = ["January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"];
     var rawDate = new Date();
-    var currentDate = monthNames[rawDate.getMonth()] + " " + 
+    var currentDate = monthNames[rawDate.getMonth() - 1] + " " + 
                         rawDate.getDate() + ", " + 
                         rawDate.getFullYear();
     return (currentDate);
