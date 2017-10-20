@@ -283,6 +283,7 @@ Route::get('/reports/collection/fetch', 'ReportsCollectionController@fetch');
 
 // PWD Report Routes
 Route::get('/reports/pwd/generateRange/{fromDate}/{toDate}', 'ReportsPwdController@generateRange');
+Route::get('/report/pwd', 'ReportController@index');
 Route::get('/report/pwd/generate', 'ReportController@generate');
 Route::get('/report/pwd/printRange', 'ReportController@printRange');
 

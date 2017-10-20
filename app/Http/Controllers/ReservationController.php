@@ -46,6 +46,7 @@ class ReservationController extends Controller
     }
 
    public function index() {
+        $this->realtime();
         $reservations= \DB::table('reservations') ->select('reservations.primeID', 'reservations.eventStatus', 'reservations.status', 'reservationName', 'reservationDescription', 'reservationStart','reservationEnd', 'dateReserved', 'facilities.facilityName', 'residents.lastName','residents.firstName','residents.middleName') 
                                         ->join('facilities', 'reservations.facilityPrimeID', '=', 'facilities.primeID')
                                         ->join('residents', 'reservations.peoplePrimeID', '=', 'residents.residentPrimeID') 
@@ -761,9 +762,9 @@ class ReservationController extends Controller
                                 ->get();
 
         foreach ($pending as $pd) {
-            if (Carbon::now() >= $dn -> reservationEnd) {
-                $dn -> status = "Cancelled";
-                $dn -> eventStatus = "Done";
+            if (Carbon::now() >= $pd -> reservationEnd) {
+                $pd -> status = "Cancelled";
+                $pd -> eventStatus = "Done";
             }
         }
     }
