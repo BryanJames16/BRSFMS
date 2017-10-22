@@ -24,7 +24,7 @@ SET gitx="%gitdir%\git.exe"
 
 SET PHPX=C:\xampp\php\php.exe
 SET SCHED=SCHTASKS.EXE
-SET SUDO=%placedir%sudo.cmd
+SET SUDO="%placedir%sudo.cmd"
 
 set /a LCOUNT=1
 
@@ -200,7 +200,7 @@ IF %1==sys (
 
     IF %2==SSCHED (
         ECHO Registering Task Scheduler...
-        %SUDO% cmd /k %placedir%\ks sys sTCci
+        %SUDO% cmd /k "%placedir%\ks" sys sTCci
         ECHO Registered Successfully!
         GOTO COMOK
     )
