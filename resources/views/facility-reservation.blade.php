@@ -780,6 +780,7 @@
 											success: function(evaluation) {
 												swal("Successfull", "Reservation is Extended!", "success");
 												refreshTable();
+												$("#extendModal").modal("hide");
 											}, 
 											error: function(evaluation) {
 												var message = "Error: ";

@@ -483,7 +483,9 @@ class ReservationController extends Controller
     public function extendTime(Request $r) {
         if($r -> ajax()) {
             $resDetails = Reservation::find($r -> input('primeID'));
-            $oldTime = $resDetails -> reservationEnd;
+            
+            $collectOld = Collection::where("reservationPrimeID", $r -> input('primeID'))->get();
+
             $resDetails -> reservationEnd = $r -> input('mysqlTime');
             $resDetails -> status = "Pending";
             $resDetails -> eventStatus = "Extended";
@@ -535,7 +537,7 @@ class ReservationController extends Controller
                 $totalAmount += $morningAmount + $eveningAmount;
             }
 
-            $totalAmount = abs($totalAmount - $oldTime);
+            $totalAmount = abs($totalAmount - $collectOld -> amount);
 
             $listOfCollection = Collection::select('collectionID') 
                                             ->get()
@@ -673,7 +675,6 @@ class ReservationController extends Controller
 
         // Changed unpaid reservation to Cancelled
         $pending = Reservation::where('status', '=', 'Pending')
-                                ->where('status', 'Paid')
                                 ->get();
 
         foreach ($pending as $pd) {
