@@ -6,6 +6,10 @@
 
 Barangay Resident, Services, and Facilities Management System is created to help the client achieve innovation in their process through information technology. This system is a partial fullfilment for the requirement in the team's Capstone Project.
 
+Base Username: admin
+Base Email: admin@admin.com
+Base Password: skubariwa
+
 ## BRSFMS Team
 
 - Buenavides, Bryan Philip (Quality Assurance, System Tester, Technical Document Analyst / Writer)
