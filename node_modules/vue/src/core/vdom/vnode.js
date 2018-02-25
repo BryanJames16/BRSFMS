@@ -8,11 +8,12 @@ export default class VNode {
   elm: Node | void;
   ns: string | void;
   context: Component | void; // rendered in this component's scope
-  functionalContext: Component | void; // only for functional component root nodes
   key: string | number | void;
   componentOptions: VNodeComponentOptions | void;
   componentInstance: Component | void; // component instance
   parent: VNode | void; // component placeholder node
+
+  // strictly internal
   raw: boolean; // contains raw HTML? (server only)
   isStatic: boolean; // hoisted static node
   isRootInsert: boolean; // necessary for enter transition check
@@ -23,6 +24,9 @@ export default class VNode {
   asyncMeta: Object | void;
   isAsyncPlaceholder: boolean;
   ssrContext: Object | void;
+  fnContext: Component | void; // real context vm for functional nodes
+  fnOptions: ?ComponentOptions; // for SSR caching
+  fnScopeId: ?string; // functioanl scope id support
 
   constructor (
     tag?: string,
@@ -41,7 +45,9 @@ export default class VNode {
     this.elm = elm
     this.ns = undefined
     this.context = context
-    this.functionalContext = undefined
+    this.fnContext = undefined
+    this.fnOptions = undefined
+    this.fnScopeId = undefined
     this.key = data && data.key
     this.componentOptions = componentOptions
     this.componentInstance = undefined
@@ -80,6 +86,7 @@ export function createTextVNode (val: string | number) {
 // multiple renders, cloning them avoids errors when DOM manipulations rely
 // on their elm reference.
 export function cloneVNode (vnode: VNode, deep?: boolean): VNode {
+  const componentOptions = vnode.componentOptions
   const cloned = new VNode(
     vnode.tag,
     vnode.data,
@@ -87,16 +94,24 @@ export function cloneVNode (vnode: VNode, deep?: boolean): VNode {
     vnode.text,
     vnode.elm,
     vnode.context,
-    vnode.componentOptions,
+    componentOptions,
     vnode.asyncFactory
   )
   cloned.ns = vnode.ns
   cloned.isStatic = vnode.isStatic
   cloned.key = vnode.key
   cloned.isComment = vnode.isComment
+  cloned.fnContext = vnode.fnContext
+  cloned.fnOptions = vnode.fnOptions
+  cloned.fnScopeId = vnode.fnScopeId
   cloned.isCloned = true
-  if (deep && vnode.children) {
-    cloned.children = cloneVNodes(vnode.children)
+  if (deep) {
+    if (vnode.children) {
+      cloned.children = cloneVNodes(vnode.children, true)
+    }
+    if (componentOptions && componentOptions.children) {
+      componentOptions.children = cloneVNodes(componentOptions.children, true)
+    }
   }
   return cloned
 }
