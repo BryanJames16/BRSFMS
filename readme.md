@@ -16,7 +16,7 @@ Barangay Resident, Services, and Facilities Management System is created to help
 
 ## Contributing
 
-Thank you for considering contributing to our system! Please email the [project manager](mailto: bryan_james.ilaga_lds@yahoo.com) for more info about contributions. Thank You!
+Thank you for considering contributing to our system! Please email the project manager (bryan_james.ilaga_lds@yahoo.com) for more info about contributions. Thank You!
 
 ## License
 
