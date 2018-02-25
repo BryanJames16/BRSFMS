@@ -113,7 +113,12 @@ class Phone
                 throw InvalidParameterException::ambiguous($inputField);
             }
 
-            $parameters[] = $inputCountry;
+            // Invalid country field values should just validate to false, and this is exactly what
+            // we're getting when simply excluding invalid values.
+            // This will also prevent parameter hijacking through the country field.
+            if (static::isValidCountryCode($inputCountry)) {
+                $parameters[] = $inputCountry;
+            }
         }
 
         $countries = static::parseCountries($parameters);
